@@ -1,0 +1,8 @@
+Options Path ../../src
+Options Colors {"W+/BG","N/BG","R/BG","N+/BG","W+/B","GR+/B","W/B","N/W","R/W","N/BG","R/BG"}
+Window Size 32 136
+Window Move 1 0
+Window Next
+Window Size 5 136
+Window Move 33 0
+Window Next
