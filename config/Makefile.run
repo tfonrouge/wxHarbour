@@ -1,0 +1,21 @@
+##
+##
+## Run
+## (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+##
+##
+
+WXOBJ=../../obj/gcc/wxlib.a
+
+all: $(WXOBJ) MOD_$(MODULE) $(EXENAME)
+
+wxlib:
+	$(MAKE) -C ../../src
+
+$(WXOBJ): wxlib
+
+$(EXENAME): $(ALLOBJS) $(WXOBJ)
+	xhblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/*.o `wx-config --libs`
+
+run: all
+	./$(EXENAME)
