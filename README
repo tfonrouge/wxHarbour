@@ -1,0 +1,9 @@
+
+wxHarbour: Is xHarbour bindings for wxWidgets
+           a portable GUI for xHarbour
+           
+
+1-sep-2006 This pre-alpha is build on Linux FC5, so the makefiles aren't (yet)
+           ready to make Windows binaries.
+
+9-sep-2006 Continuing
