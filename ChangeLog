@@ -1,71 +1,32 @@
-2006-09-19 06:27  tfonrouge
+2006-09-19 06:54  tfonrouge
 
-	* COPYING, config/Makefile.bat, config/Makefile.inc,
-	  config/Makefile.run, include/property.ch, include/wx/defs.ch,
-	  include/wx/event.ch, include/wx/wx.ch, include/wxh.h,
-	  include/wxharbour.ch, samples/Makefile,
-	  samples/dbbrowser/Makefile, samples/dbbrowser/dbbrowser.prg,
-	  samples/helloworld/Makefile, samples/helloworld/helloworld.prg,
-	  src/Makefile, src/wx_app.cpp, src/wx_app.h, src/wx_boxsizer.cpp,
-	  src/wx_boxsizer.h, src/wx_browse.cpp, src/wx_browse.h,
-	  src/wx_button.cpp, src/wx_button.h, src/wx_dialog.cpp,
-	  src/wx_dialog.h, src/wx_evthandler.cpp, src/wx_frame.cpp,
-	  src/wx_frame.h, src/wx_grid.cpp, src/wx_grid.h,
-	  src/wx_gridtablebase.cpp, src/wx_gridtablebase.h,
-	  src/wx_menu.cpp, src/wx_menu.h, src/wx_menubar.cpp,
-	  src/wx_menubar.h, src/wx_menuitem.cpp, src/wx_menuitem.h,
-	  src/wx_object.cpp, src/wx_object.h, src/wx_sizer.cpp,
-	  src/wx_sizer.h, src/wx_statusbar.cpp, src/wx_statusbar.h,
-	  src/wx_toplevelwindow.cpp, src/wx_validator.cpp,
-	  src/wx_validator.h, src/wx_window.cpp, src/wxhapp.prg,
-	  src/wxharbour.cpp, src/wxhboxsizer.prg, src/wxhbrowse.prg,
-	  src/wxhbutton.prg, src/wxhcolumn.prg, src/wxhcontrol.prg,
-	  src/wxhdialog.prg, src/wxhevthandler.prg, src/wxhframe.prg,
-	  src/wxhgrid.prg, src/wxhgridtablebase.prg, src/wxhmenu.prg,
-	  src/wxhmenubar.prg, src/wxhmenuitem.prg, src/wxhobject.prg,
-	  src/wxhsizer.prg, src/wxhstatusbar.prg,
-	  src/wxhtoplevelwindow.prg, src/wxhvalidator.prg,
-	  src/wxhwindow.prg: Added copyright info
+	* README, README: Reordering repository
 
-2006-09-19 06:23  tfonrouge
+2006-09-19 06:53  tfonrouge
 
-	* README: Added copyright info
+	* ChangeLog, ChangeLog: Reordering repository
 
-2006-09-09 10:08  tfonrouge
+2006-09-19 06:53  tfonrouge
 
-	* ChangeLog, README: Cleaning
+	* COPYING, COPYING: Reordering repository
 
-2006-09-09 05:28  tfonrouge
+2006-09-19 06:51  tfonrouge
 
-	* ChangeLog, README, config, config/Makefile.bat,
-	  config/Makefile.inc, config/Makefile.run, include,
-	  include/defs.h, include/property.ch, include/wx,
-	  include/wx/defs.ch, include/wx/event.ch, include/wx/wx.ch,
-	  include/wxh.h, include/wxharbour.ch, samples, samples/Makefile,
-	  samples/dbbrowser, samples/dbbrowser/Makefile,
-	  samples/dbbrowser/dbbrowser.prg, samples/dbbrowser/init.cld,
-	  samples/dbbrowser/main.cdx, samples/dbbrowser/main.dbf,
-	  samples/helloworld, samples/helloworld/Makefile,
-	  samples/helloworld/helloworld.prg, samples/helloworld/init.cld,
-	  samples/helloworld/oper.cdx, samples/helloworld/oper.dbf,
-	  samples/helloworld/oper.fpt, src, src/Makefile, src/wx_app.cpp,
-	  src/wx_app.h, src/wx_boxsizer.cpp, src/wx_boxsizer.h,
-	  src/wx_browse.cpp, src/wx_browse.h, src/wx_button.cpp,
-	  src/wx_button.h, src/wx_dialog.cpp, src/wx_dialog.h,
-	  src/wx_evthandler.cpp, src/wx_frame.cpp, src/wx_frame.h,
-	  src/wx_grid.cpp, src/wx_grid.h, src/wx_gridtablebase.cpp,
-	  src/wx_gridtablebase.h, src/wx_menu.cpp, src/wx_menu.h,
-	  src/wx_menubar.cpp, src/wx_menubar.h, src/wx_menuitem.cpp,
-	  src/wx_menuitem.h, src/wx_object.cpp, src/wx_object.h,
-	  src/wx_sizer.cpp, src/wx_sizer.h, src/wx_statusbar.cpp,
-	  src/wx_statusbar.h, src/wx_toplevelwindow.cpp,
-	  src/wx_validator.cpp, src/wx_validator.h, src/wx_window.cpp,
-	  src/wxhapp.prg, src/wxharbour.cpp, src/wxhboxsizer.prg,
-	  src/wxhbrowse.prg, src/wxhbutton.prg, src/wxhcolumn.prg,
-	  src/wxhcontrol.prg, src/wxhdialog.prg, src/wxhevthandler.prg,
-	  src/wxhframe.prg, src/wxhgrid.prg, src/wxhgridtablebase.prg,
-	  src/wxhmenu.prg, src/wxhmenubar.prg, src/wxhmenuitem.prg,
-	  src/wxhobject.prg, src/wxhsizer.prg, src/wxhstatusbar.prg,
-	  src/wxhtoplevelwindow.prg, src/wxhvalidator.prg,
-	  src/wxhwindow.prg: First SVN Import
+	* src, src: Reordering repository
+
+2006-09-19 06:51  tfonrouge
+
+	* samples, samples: Reordering repository
+
+2006-09-19 06:50  tfonrouge
+
+	* include, include: Reordering repository
+
+2006-09-19 06:49  tfonrouge
+
+	* config, config: Reordering repository
+
+2006-09-19 06:47  tfonrouge
+
+	* .: Reordering repository
 
