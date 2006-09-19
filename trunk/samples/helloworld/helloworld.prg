@@ -46,13 +46,13 @@ FUNCTION OnInit() CLASS MyApp
   //LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, button, grid, gtable
 
-  CREATE WINDOW oWnd ;
+  CREATE FRAME oWnd ;
          FROM 10,10 SIZE 200,400 ;
          ID 999 ;
          TITLE "Arel v8.0 Linux"
 
-  DEFINE MENUBAR //menuBar
-    DEFINE MENU "&Programa"
+  CREATE MENUBAR //menuBar
+    CREATE MENU "&Programa"
       ADD MENUITEM "Configuracion del Programa"+Chr(9)+"Ctrl+P" ACTION WndLogin( oWnd )
       ADD MENUITEM "Seguridad del Programa"
       ADD SEPARATOR
@@ -62,7 +62,7 @@ FUNCTION OnInit() CLASS MyApp
       ADD MENUITEM "Salir..."+Chr(9)+"Ctrl+X" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Sale del Arel..."
     ENDMENU
-    DEFINE MENU "Help"
+    CREATE MENU "Help"
       ADD MENUITEM "About..."
     ENDMENU
   ENDMENUBAR
@@ -95,7 +95,7 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
 
-  DEFINE STATUSBAR ON oWnd
+  CREATE STATUSBAR ON oWnd
 
   oWnd:Show()
 
@@ -113,12 +113,12 @@ PROCEDURE WndLogin( wndParent )
     RETURN
   ENDIF
 
-  CREATE WINDOW oW ;
+  CREATE DIALOG oW ;
          FROM 0,0 SIZE 100,200 ;
          TITLE "Acceso" ;
          PARENT wndParent
 
-  oW:Show()
+  oW:Show( .T. )
 
 RETURN
 
