@@ -18,19 +18,15 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-extern "C"
+HB_FUNC( WXTOPLEVELWINDOW_CENTER )
 {
-
-  HB_FUNC( WXTOPLEVELWINDOW_CENTER )
+  if ( PHB_ITEM p = hb_stackSelfItem() )
   {
-    if ( PHB_ITEM p = hb_stackSelfItem() )
-    {
-      if ( wxTopLevelWindow* topLW = (wxTopLevelWindow *) wx_ObjList_wxGet( p ) )
-        topLW->Center( hb_parnl( 1 ) );
-    }
+    if ( wxTopLevelWindow* topLW = (wxTopLevelWindow *) wx_ObjList_wxGet( p ) )
+      topLW->Center( hb_parnl( 1 ) );
   }
-
 }
+
 
 
 

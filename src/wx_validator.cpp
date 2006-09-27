@@ -29,18 +29,16 @@ wx_Validator::~wx_Validator()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+HB_FUNC( WXVALIDATOR_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
 
-  HB_FUNC( WXVALIDATOR_NEW ) {
-    PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Validator* validator = new wx_Validator;
 
-    wx_Validator* validator = new wx_Validator;
-
-    // Add object's to hash list
-    wx_ObjList_New( validator, pSelf );
+  // Add object's to hash list
+  wx_ObjList_New( validator, pSelf );
 
 
-    hb_itemReturn( pSelf );
-  }
-
+  hb_itemReturn( pSelf );
 }
+

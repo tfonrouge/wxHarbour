@@ -29,24 +29,21 @@ wx_Button::~wx_Button()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+HB_FUNC( WXBUTTON_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  wxWindowID id = hb_parnl( 2 );
+  const wxString& label = wxString( hb_parcx(3), wxConvLocal );
+  const wxPoint& pos = hb_par_wxPoint(4);
+  const wxSize& size = hb_par_wxSize(5);
+  long style = hb_parnl(6);
+  const wxValidator& validator = ISNIL(7) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX(7))) ;
+  const wxString& name = wxString( hb_parcx(8), wxConvLocal );
+  wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
 
-  HB_FUNC( WXBUTTON_NEW ) {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-    wxWindowID id = hb_parnl( 2 );
-    const wxString& label = wxString( hb_parcx(3), wxConvLocal );
-    const wxPoint& pos = hb_par_wxPoint(4);
-    const wxSize& size = hb_par_wxSize(5);
-    long style = hb_parnl(6);
-    const wxValidator& validator = ISNIL(7) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX(7))) ;
-    const wxString& name = wxString( hb_parcx(8), wxConvLocal );
-    wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
+  // Add object's to hash list
+  wx_ObjList_New( button, pSelf );
 
-    // Add object's to hash list
-    wx_ObjList_New( button, pSelf );
-
-    hb_itemReturn( pSelf );
-  }
-
+  hb_itemReturn( pSelf );
 }

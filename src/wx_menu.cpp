@@ -29,47 +29,44 @@ wx_Menu::~wx_Menu()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+/*
+  Constructor: wxMenu Object
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXMENU_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Menu* menu = new wx_Menu();
 
-  /*
-    Constructor: wxMenu Object
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXMENU_NEW )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Menu* menu = new wx_Menu();
+  // Add object's to hash list
+  wx_ObjList_New( menu, pSelf );
 
-    // Add object's to hash list
-    wx_ObjList_New( menu, pSelf );
+  hb_itemReturn( pSelf );
+}
 
-    hb_itemReturn( pSelf );
-  };
+HB_FUNC( WX_MENU_APPEND1 )
+{
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
+  menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), wxString( hb_parcx(4), wxConvLocal ), hb_parnl(5) );
+}
 
-  HB_FUNC( WX_MENU_APPEND1 )
-  {
-    wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
-    menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), wxString( hb_parcx(4), wxConvLocal ), hb_parnl(5) );
-  };
+HB_FUNC( WX_MENU_APPEND2 )
+{
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
+  menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), (wx_Menu *) hb_par_WX( 4 ), wxString( hb_parcx(5), wxConvLocal ) );  };
 
-  HB_FUNC( WX_MENU_APPEND2 )
-  {
-    wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
-    menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), (wx_Menu *) hb_par_WX( 4 ), wxString( hb_parcx(5), wxConvLocal ) );  };
+HB_FUNC( WX_MENU_APPEND3 )
+{
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
+  menu->Append( (wxMenuItem *) hb_par_WX( 2 ) );
+}
 
-  HB_FUNC( WX_MENU_APPEND3 )
-  {
-    wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
-    menu->Append( (wxMenuItem *) hb_par_WX( 2 ) );
-  };
-
-  HB_FUNC( WXMENU_APPENDSEPARATOR )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Menu* menu;
-    if ( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
-      menu->AppendSeparator();
-  };
+HB_FUNC( WXMENU_APPENDSEPARATOR )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Menu* menu;
+  if ( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
+    menu->AppendSeparator();
 }
 
 

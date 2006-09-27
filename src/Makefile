@@ -25,6 +25,7 @@ wx_menu.cpp \
 wx_menuitem.cpp \
 wx_sizer.cpp \
 wx_statusbar.cpp \
+wx_textctrl.cpp \
 wx_toplevelwindow.cpp \
 wx_object.cpp \
 wx_validator.cpp \
@@ -46,6 +47,7 @@ wxhmenu.prg \
 wxhobject.prg \
 wxhsizer.prg \
 wxhstatusbar.prg \
+wxhtextctrl.prg \
 wxhtoplevelwindow.prg \
 wxhvalidator.prg \
 wxhwindow.prg

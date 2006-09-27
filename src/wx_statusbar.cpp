@@ -29,59 +29,56 @@ wx_StatusBar::~wx_StatusBar()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+/*
+  Constructor: wxStatusBar Object
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXSTATUSBAR_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* parent = (wxWindow *) hb_par_WX(1);
+  wxWindowID id = (wxWindowID) hb_parni(2);
+  long style = ISNIL(3) ? wxST_SIZEGRIP : hb_parnl(3);
+  const wxString& name = wxString( hb_parcx(4), wxConvLocal );
 
-  /*
-    Constructor: wxStatusBar Object
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXSTATUSBAR_NEW )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wxWindow* parent = (wxWindow *) hb_par_WX(1);
-    wxWindowID id = (wxWindowID) hb_parni(2);
-    long style = ISNIL(3) ? wxST_SIZEGRIP : hb_parnl(3);
-    const wxString& name = wxString( hb_parcx(4), wxConvLocal );
+  wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
-    wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
-
-    // Add object's to hash list
-    wx_ObjList_New( statusBar, pSelf );
+  // Add object's to hash list
+  wx_ObjList_New( statusBar, pSelf );
 
 
-    hb_itemReturn( pSelf );
-
-  }
-
-  /*
-    SetFieldsCount: message
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_StatusBar* statusBar = (wx_StatusBar *) wx_ObjList_wxGet( pSelf );
-    int number = hb_parni(1);
-    int* widths = NULL;
-    if (ISARRAY(2) && hb_arrayLen( hb_param( 2, HB_IT_ARRAY ) ))
-    {
-      PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY );
-      int* aInt = new int[ hb_arrayLen( pArray ) ];
-      for( unsigned int i=0; i < hb_arrayLen( pArray ); i++ )
-        aInt[i] = hb_arrayGetItemPtr( pArray, i+1 )->item.asInteger.value;
-      widths = aInt;
-      //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
-    }
-    //else
-      //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
-    if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
-
-    /* TODO: Check if this frees correctly the array */
-    delete[] widths;
-
-  }
+  hb_itemReturn( pSelf );
 
 }
+
+/*
+  SetFieldsCount: message
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_StatusBar* statusBar = (wx_StatusBar *) wx_ObjList_wxGet( pSelf );
+  int number = hb_parni(1);
+  int* widths = NULL;
+  if (ISARRAY(2) && hb_arrayLen( hb_param( 2, HB_IT_ARRAY ) ))
+  {
+    PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY );
+    int* aInt = new int[ hb_arrayLen( pArray ) ];
+    for( unsigned int i=0; i < hb_arrayLen( pArray ); i++ )
+      aInt[i] = hb_arrayGetItemPtr( pArray, i+1 )->item.asInteger.value;
+    widths = aInt;
+    //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+  }
+  //else
+    //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+  if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+
+  /* TODO: Check if this frees correctly the array */
+  delete[] widths;
+
+}
+
 
 
 
