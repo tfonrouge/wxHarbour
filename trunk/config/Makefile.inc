@@ -7,6 +7,9 @@
 
 XHFLAGS = -n -a -v -m -es2 -w2 $(XHF_DEBUG)
 
+XHLANG=xharbour
+XHLANGC=xHarbour
+
 ifeq ($(OSTYPE),Win32)
 OBJDIR=Win32
 OBJEXT=.obj
@@ -14,7 +17,7 @@ XHDEFINES = -D__EXPORT__ -DHB_OS_WIN_32
 PATHOBJ = ../../obj/Win32
 PATHCXXPRG = ../../cxxprg/Win32
 CCOUT=-Fo
-XHINCLUDES = -I/usr/include/xharbour -I../../include
+XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include
 ALLCFLAGS = $(XHINCLUDES) -c -TP -W3 -nologo
 ALLCXXFLAGS = -c -TP -W3 -nologo `wx-config --cxxflags` $(XHINCLUDES)
 $(info Using Windows environment...)
@@ -29,7 +32,7 @@ XHDEFINES = -D__EXPORT__ -DHB_OS_LINUX
     PATHCXXPRG = ../../cxxprg/gcc
   endif
 CCOUT=-o
-XHINCLUDES = -I/usr/include/xharbour -I../../include -I../include
+XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
 ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing `wx-config --cxxflags` $(XHINCLUDES)
 #ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)
@@ -106,7 +109,7 @@ ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
 	@echo $(SEPARATOR)
-	@echo 1. Compiling xHarbour source $<
+	@echo 1. Compiling $(XHLANGC) source $<
 	harbour $(ALLXHFLAGS) -o$@ $<
 
 # Compile prg compiled sources
@@ -114,7 +117,7 @@ $(PATHOBJ)/%$(OBJEXT): $(PATHCXXPRG)/%.$(CXX_PRG)
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
-	@echo 2. Compiling C source created from xHarbour source $<
+	@echo 2. Compiling C source created from $(XHLANGC) source $<
 	$(CXX_PRG_COMPILER) $(CXX_PRG_COMPILER_FLAGS) $(CCOUT)$@ $<
 endif
 
@@ -125,7 +128,7 @@ ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
 	@echo $(SEPARATOR)
-	@echo Direct Compiling xHarbour source $<
+	@echo Direct Compiling $(XHLANGC) source $<
 	harbour $(ALLXHFLAGS) -o$@ $<
 endif
 
