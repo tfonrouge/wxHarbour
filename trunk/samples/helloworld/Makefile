@@ -4,7 +4,7 @@
 ##
 ##
 
-XHF_DEBUG=-b
+XHF_DEBUG=-b -p
 
 MODULE = helloworld
 
