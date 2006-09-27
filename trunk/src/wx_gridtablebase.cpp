@@ -93,25 +93,22 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
   //hb_objSendSymbol( xHObj, pSymb, 3, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ), value );
 }
 
-extern "C"
+HB_FUNC( WXGRIDTABLEBASE_NEW )
 {
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = new wx_GridTableBase;
 
-  HB_FUNC( WXGRIDTABLEBASE_NEW ) {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = new wx_GridTableBase;
+  // Add object's to hash list
+  wx_ObjList_New( gridTable, pSelf );
 
-    // Add object's to hash list
-    wx_ObjList_New( gridTable, pSelf );
-
-    hb_itemReturn( pSelf );
-  }
-
-  HB_FUNC( WXGRIDTABLEBASE_SETCOLLABELVALUE )
-  {
-    ((wx_GridTableBase *) hb_stackSelfItem())->SetColLabelValue( hb_parnl(1), wxString( hb_parcx(2), wxConvLocal ) );
-  }
-
+  hb_itemReturn( pSelf );
 }
+
+HB_FUNC( WXGRIDTABLEBASE_SETCOLLABELVALUE )
+{
+  ((wx_GridTableBase *) hb_stackSelfItem())->SetColLabelValue( hb_parnl(1), wxString( hb_parcx(2), wxConvLocal ) );
+}
+
 
 
 

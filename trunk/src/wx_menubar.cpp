@@ -30,49 +30,46 @@ wx_MenuBar::~wx_MenuBar()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+static PHB_ITEM oLastMenuBar;
 
-  static PHB_ITEM oLastMenuBar;
+/*
+  Constructor: wxMenuBar Object
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXMENUBAR_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl(1) );
 
-  /*
-    Constructor: wxMenuBar Object
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXMENUBAR_NEW )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl(1) );
-
-    // Add object's to hash list
-    wx_ObjList_New( menuBar, pSelf );
+  // Add object's to hash list
+  wx_ObjList_New( menuBar, pSelf );
 
 
-    oLastMenuBar = wx_ObjList_hbGet( menuBar );
+  oLastMenuBar = wx_ObjList_hbGet( menuBar );
 
-    hb_itemReturn( pSelf );
-  }
-
-  HB_FUNC( WXMENUBAR_APPEND )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MenuBar* menuBar;
-    wx_Menu* menu;
-    if ( pSelf &&
-         ( menuBar = (wx_MenuBar *) wx_ObjList_wxGet( pSelf ) ) &&
-         ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
-      menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );
-  }
-
-  /*
-    GetLastMenuBar()
-    Teo. Mexico 2006
-  */
-  HB_FUNC( GETLASTMENUBAR )
-  {
-    hb_itemReturn( oLastMenuBar );
-  }
-
+  hb_itemReturn( pSelf );
 }
+
+HB_FUNC( WXMENUBAR_APPEND )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_MenuBar* menuBar;
+  wx_Menu* menu;
+  if ( pSelf &&
+        ( menuBar = (wx_MenuBar *) wx_ObjList_wxGet( pSelf ) ) &&
+        ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
+    menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );
+}
+
+/*
+  GetLastMenuBar()
+  Teo. Mexico 2006
+*/
+HB_FUNC( GETLASTMENUBAR )
+{
+  hb_itemReturn( oLastMenuBar );
+}
+
 
 
 

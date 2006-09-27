@@ -130,34 +130,31 @@ wxSize hb_par_wxSize( int param )
     return wxSize( -1, -1 );
 }
 
-extern "C"
+/*
+  wxObject:ClassP Read Method
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXOBJECT_GETCLASSP )
 {
-  /*
-    wxObject:ClassP Read Method
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXOBJECT_GETCLASSP )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wxObject* wxObj = wx_ObjList_wxGet( pSelf );
-    if (wxObj)
-      hb_retptr( wxObj );
-    else
-      hb_ret();
-  }
-
-  /*
-    TBaseClass::OnDestruct
-  */
-  HB_FUNC( TBASECLASS_ONDESTRUCT )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wxObject* wxObj = wx_ObjList_wxGet( pSelf );
-    if (wxObj)
-      wx_ObjList_wxDelete( wxObj );
-  }
-
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxObject* wxObj = wx_ObjList_wxGet( pSelf );
+  if (wxObj)
+    hb_retptr( wxObj );
+  else
+    hb_ret();
 }
+
+/*
+  TBaseClass::OnDestruct
+*/
+HB_FUNC( TBASECLASS_ONDESTRUCT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxObject* wxObj = wx_ObjList_wxGet( pSelf );
+  if (wxObj)
+    wx_ObjList_wxDelete( wxObj );
+}
+
 
 
 

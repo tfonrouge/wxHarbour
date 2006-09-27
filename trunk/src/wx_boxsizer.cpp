@@ -29,18 +29,15 @@ wx_BoxSizer::~wx_BoxSizer()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+HB_FUNC( WXBOXSIZER_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
-  HB_FUNC( WXBOXSIZER_NEW )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
+  // Add object's to hash list
+  wx_ObjList_New( boxSizer, pSelf );
 
-    // Add object's to hash list
-    wx_ObjList_New( boxSizer, pSelf );
-
-    hb_itemReturn( pSelf );
-
-  }
+  hb_itemReturn( pSelf );
 
 }
+

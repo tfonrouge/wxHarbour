@@ -79,85 +79,83 @@ BEGIN_EVENT_TABLE( wx_Frame, wxFrame )
   EVT_BUTTON( wxID_ANY, wx_Frame::ProcessEvents )
 END_EVENT_TABLE()
 
-extern "C" {
+static PHB_ITEM oLastFrame;
 
-  static PHB_ITEM oLastFrame;
-
-  /*
-    Constructor: Object
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXFRAME_NEW ) {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-
-    wx_Frame* frame;
-
-    if (hb_pcount())
-    {
-      wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
-      wxWindowID id = wxWindowID( hb_parnl(2) );
-      wxString title = wxString( hb_parcx(3), wxConvLocal );
-      wxPoint point = hb_par_wxPoint(4);
-      wxSize size = hb_par_wxSize(5);
-      long style;
-      if ( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
-      wxString name = wxString( hb_parcx(7), wxConvLocal );
-      frame = new wx_Frame( parent, id, title, point, size, style, name );
-    }
-    else
-      frame = new wx_Frame;
-
-    // Add object's to hash list
-    wx_ObjList_New( frame, pSelf );
-
-    // OnCreate...
-    hb_objSendMsg( pSelf, "OnCreate", 0 );
-
-    oLastFrame = wx_ObjList_hbGet( frame );
-
-    if (!oLastFrame)
-      wxLogError(_T("Trouble..."));
-
-    hb_itemReturn( pSelf );
-
-  }
-
-  /*
-    SetMenuBar: message
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXFRAME_SETMENUBAR )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Frame* frame;
-    wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-    if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
-      frame->SetMenuBar( menuBar );
-  }
-
-  /*
-    SetStatusBar: message
-    Teo. Mexico 2006
-  */
-  HB_FUNC( WXFRAME_SETSTATUSBAR )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Frame* frame;
-    wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-    if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
-      frame->SetStatusBar( statusBar );
-  }
-  
 /*
-    GetLastFrame()
-    Teo. Mexico 2006
-  */
-  HB_FUNC( GETLASTFRAME)
-  {
-    hb_itemReturn( oLastFrame );
-  }
+  Constructor: Object
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXFRAME_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
 
-};
+  wx_Frame* frame;
+
+  if (hb_pcount())
+  {
+    wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
+    wxWindowID id = wxWindowID( hb_parnl(2) );
+    wxString title = wxString( hb_parcx(3), wxConvLocal );
+    wxPoint point = hb_par_wxPoint(4);
+    wxSize size = hb_par_wxSize(5);
+    long style;
+    if ( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
+    wxString name = wxString( hb_parcx(7), wxConvLocal );
+    frame = new wx_Frame( parent, id, title, point, size, style, name );
+  }
+  else
+    frame = new wx_Frame;
+
+  // Add object's to hash list
+  wx_ObjList_New( frame, pSelf );
+
+  // OnCreate...
+  hb_objSendMsg( pSelf, "OnCreate", 0 );
+
+  oLastFrame = wx_ObjList_hbGet( frame );
+
+  if (!oLastFrame)
+    wxLogError(_T("Trouble..."));
+
+  hb_itemReturn( pSelf );
+
+}
+
+/*
+  SetMenuBar: message
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXFRAME_SETMENUBAR )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Frame* frame;
+  wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
+  if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+    frame->SetMenuBar( menuBar );
+}
+
+/*
+  SetStatusBar: message
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXFRAME_SETSTATUSBAR )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Frame* frame;
+  wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
+  if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+    frame->SetStatusBar( statusBar );
+}
+
+/*
+  GetLastFrame()
+  Teo. Mexico 2006
+*/
+HB_FUNC( GETLASTFRAME)
+{
+  hb_itemReturn( oLastFrame );
+}
+
 
 
 

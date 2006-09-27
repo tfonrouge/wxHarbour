@@ -31,10 +31,7 @@ wx_Browse::~wx_Browse()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C"
+HB_FUNC( WXBROWSE_GETCOLCOUNT )
 {
-  HB_FUNC( WXBROWSE_GETCOLCOUNT )
-  {
-    hb_retnl(0);
-  }
+  hb_retnl(0);
 }

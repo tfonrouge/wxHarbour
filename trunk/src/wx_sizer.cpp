@@ -23,18 +23,15 @@
 
 #include "wx_sizer.h"
 
-extern "C" {
-
-  HB_FUNC( WX_SIZER_ADD2 )
-  {
-    wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-    sizer->Add( (wxWindow *) hb_par_WX( 2 ), hb_parnl(3), hb_parnl(4), hb_parnl(5), (wxObject *) hb_par_WX( 6 ) );
-  }
-
-  HB_FUNC( WX_SIZER_ADD5 )
-  {
-    wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-    sizer->Add( hb_parnl( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), hb_parnl( 6 ), (wxObject *) hb_par_WX( 7 ) );
-  }
-
+HB_FUNC( WX_SIZER_ADD2 )
+{
+  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
+  sizer->Add( (wxWindow *) hb_par_WX( 2 ), hb_parnl(3), hb_parnl(4), hb_parnl(5), (wxObject *) hb_par_WX( 6 ) );
 }
+
+HB_FUNC( WX_SIZER_ADD5 )
+{
+  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
+  sizer->Add( hb_parnl( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), hb_parnl( 6 ), (wxObject *) hb_par_WX( 7 ) );
+}
+

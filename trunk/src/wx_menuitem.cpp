@@ -29,26 +29,22 @@ wx_MenuItem::~wx_MenuItem()
   wx_ObjList_wxDelete( this );
 }
 
-extern "C" {
+HB_FUNC( WXMENUITEM_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxMenu* parentMenu = (wxMenu *) hb_par_WX(1);
+  int id = hb_parni(2);
+  const wxString& text = wxString( hb_parcx(3), wxConvLocal );
+  const wxString& helpString = wxString( hb_parcx(4), wxConvLocal );
+  wxItemKind kind = (wxItemKind) hb_parni(5);
+  wxMenu* subMenu = (wxMenu *) hb_par_WX(6);
 
-  HB_FUNC( WXMENUITEM_NEW )
-  {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wxMenu* parentMenu = (wxMenu *) hb_par_WX(1);
-    int id = hb_parni(2);
-    const wxString& text = wxString( hb_parcx(3), wxConvLocal );
-    const wxString& helpString = wxString( hb_parcx(4), wxConvLocal );
-    wxItemKind kind = (wxItemKind) hb_parni(5);
-    wxMenu* subMenu = (wxMenu *) hb_par_WX(6);
+  wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
 
-    wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
+  // Add object's to hash list
+  wx_ObjList_New( menuItem, pSelf );
 
-    // Add object's to hash list
-    wx_ObjList_New( menuItem, pSelf );
-
-    hb_itemReturn( pSelf );
-  };
-
+  hb_itemReturn( pSelf );
 }
 
 
