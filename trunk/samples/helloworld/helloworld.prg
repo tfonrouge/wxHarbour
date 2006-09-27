@@ -44,23 +44,24 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL Success := .T.
   LOCAL oWnd := Self
   //LOCAL menuBar,menu1,menu2
-  LOCAL boxSizer, button, grid, gtable
+  LOCAL boxSizer, button
+  LOCAL s
 
   CREATE FRAME oWnd ;
-         FROM 10,10 SIZE 200,400 ;
+         FROM 10,10 SIZE 400,200 ;
          ID 999 ;
-         TITLE "Arel v8.0 Linux"
+         TITLE "Hello World Sample"
 
-  CREATE MENUBAR //menuBar
-    CREATE MENU "&Programa"
-      ADD MENUITEM "Configuracion del Programa"+Chr(9)+"Ctrl+P" ACTION WndLogin( oWnd )
-      ADD MENUITEM "Seguridad del Programa"
+  CREATE MENUBAR
+    CREATE MENU "&Program"
+      ADD MENUITEM E"Configuration \tCtrl+C" ACTION WndLogin( oWnd )
+      ADD MENUITEM "Security"
       ADD SEPARATOR
-      ADD MENUITEM "Impresoras Disponibles Ctrl+P"
-      ADD MENUITEM "Ventanas Activas"
+      ADD MENUITEM E"Printers \tCtrl+P"
+      ADD MENUITEM "Available tasks"
       ADD SEPARATOR
-      ADD MENUITEM "Salir..."+Chr(9)+"Ctrl+X" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Sale del Arel..."
+      ADD MENUITEM "Exit \tCtrl+X" ID wxID_EXIT ACTION oWnd:Close() ;
+          HELPLINE "Quits the program..."
     ENDMENU
     CREATE MENU "Help"
       ADD MENUITEM "About..."
@@ -93,7 +94,9 @@ FUNCTION OnInit() CLASS MyApp
 
   boxSizer:Add( button, 0, wxALIGN_RIGHT | wxALL, 5 )
 
-  oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
+  oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
+
+  wxTextCtrl():New( oWnd, -1, "Any Value" )
 
   CREATE STATUSBAR ON oWnd
 
