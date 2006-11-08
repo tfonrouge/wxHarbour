@@ -20,7 +20,7 @@ CCOUT=-Fo
 XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include
 ALLCFLAGS = $(XHINCLUDES) -c -TP -W3 -nologo
 ALLCXXFLAGS = -c -TP -W3 -nologo `wx-config --cxxflags` $(XHINCLUDES)
-$(info Using Windows environment...)
+#$(info Using Windows environment...)
 else
 OBJDIR=gcc
 OBJEXT=.o
@@ -34,9 +34,9 @@ XHDEFINES = -D__EXPORT__ -DHB_OS_LINUX
 CCOUT=-o
 XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
-ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing `wx-config --cxxflags` $(XHINCLUDES)
+ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `wx-config --cxxflags`
 #ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)
-$(info Using Linux environment...)
+#$(info Using Linux environment...)
 endif
 
 SEPARATOR = "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
