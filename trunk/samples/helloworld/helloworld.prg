@@ -96,7 +96,7 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
-  wxTextCtrl():New( oWnd, -1, "Any Value" )
+  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "Any Value" ), 0, wxALIGN_RIGHT | wxALL, 5 )
 
   CREATE STATUSBAR ON oWnd
 
