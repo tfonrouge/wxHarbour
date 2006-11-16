@@ -4,7 +4,7 @@
 ## (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 ##
 ##
-
+DEFLIBS= -ldebug -lvm -lrtl -lpcrepos -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhsx -lhbsix -lcommon -lcodepage -lgtwin
 WXOBJ=../../obj/gcc/wxlib.a
 
 all: $(WXOBJ) MOD_$(MODULE) $(EXENAME)
@@ -15,7 +15,11 @@ wxlib:
 $(WXOBJ): wxlib
 
 $(EXENAME): $(ALLOBJS) $(WXOBJ)
+ifeq ($(OSTYPE),Win32)
+	g++ -o$(EXENAME) $(ALLOBJS) -L/xhb/lib -L/mingw/lib $(WXOBJ) $(DEFLIBS)  $(shell wx-config --libs )
+else
 	xhblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/*.o `wx-config --libs`
+endif
 
 run: all
 	./$(EXENAME)

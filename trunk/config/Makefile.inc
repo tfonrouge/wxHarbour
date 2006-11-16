@@ -4,22 +4,27 @@
 ## (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 ##
 ##
-
+OSTYPE = Win32
+MD = /GnuWin32/bin/mkdir -p
 XHFLAGS = -n -a -v -m -es2 -w2 $(XHF_DEBUG)
-
+XHBDIR=/xhb
 XHLANG=xharbour
 XHLANGC=xHarbour
 
 ifeq ($(OSTYPE),Win32)
 OBJDIR=Win32
 OBJEXT=.obj
-XHDEFINES = -D__EXPORT__ -DHB_OS_WIN_32
+XHDEFINES = -D__EXPORT__ -DHB_OS_WIN_32 -DHB_FUNC_NO_DECORATION
+ifndef PATHOBJ
 PATHOBJ = ../../obj/Win32
+endif
+ifndef PATHCXXPRG
 PATHCXXPRG = ../../cxxprg/Win32
-CCOUT=-Fo
-XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include
-ALLCFLAGS = $(XHINCLUDES) -c -TP -W3 -nologo
-ALLCXXFLAGS = -c -TP -W3 -nologo `wx-config --cxxflags` $(XHINCLUDES)
+endif
+CCOUT=-o
+XHINCLUDES = -I$(XHBDIR)/include -I/mingw/bin -I../include -I../../include
+ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
+ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing -DHB_FUNC_NO_DECORATION $(shell wx-config --cxxflags ) $(XHINCLUDES)
 #$(info Using Windows environment...)
 else
 OBJDIR=gcc
@@ -55,10 +60,10 @@ CXXPRG_LIST = $(addprefix $(PATHCXXPRG)/, $(subst .prg,.$(CXX_PRG), $(filter %.p
 
 #Can be "OBJ" to let the harbour compiler create the object
 #    or "SRC" to let the harbour compiler just create the c source code to be compiled
-XHCOMPLEVEL = OBJ
+XHCOMPLEVEL = SRC
 
 ifeq ($(OSTYPE),Win32)
-  CXX_COMPILER = cl
+  CXX_COMPILER = gcc
 else
   CXX_COMPILER = gcc
 endif
@@ -66,7 +71,7 @@ endif
 ifeq ($(XHCOMPLEVEL),SRC)
   ifeq ($(CXX_PRG),c)
     ifeq ($(OSTYPE),Win32)
-      CXX_PRG_COMPILER = cl
+      CXX_PRG_COMPILER = gcc
     else
       CXX_PRG_COMPILER = gcc
     endif
@@ -74,7 +79,7 @@ ifeq ($(XHCOMPLEVEL),SRC)
   endif
   ifeq ($(CXX_PRG),cpp)
     ifeq ($(OSTYPE),Win32)
-      CXX_PRG_COMPILER = cl
+      CXX_PRG_COMPILER = g++
     else
       CXX_PRG_COMPILER = g++
     endif
@@ -86,7 +91,7 @@ else
 endif
 
 ifeq ($(OSTYPE),Win32)
-  ARCHOBJ = $(PATHOBJ)/$(MODULE).lib
+  ARCHOBJ = $(PATHOBJ)/$(MODULE).a
 else
   ARCHOBJ = $(PATHOBJ)/$(MODULE).a
 endif
@@ -97,7 +102,7 @@ MOD_$(MODULE) : $(ARCHOBJ) $(EXENAME)
 
 $(ARCHOBJ): $(OBJS_PRG_LIST) $(OBJS_CXX_LIST) $(OBJS_C_LIST)
 ifeq ($(OSTYPE),Win32)
-	lib /out:$(ARCHOBJ) $?
+	ar -crs $(ARCHOBJ) $?
 else
 	ar -crs $(ARCHOBJ) $?
 endif
@@ -108,15 +113,17 @@ $(PATHCXXPRG)/%.$(CXX_PRG): %.prg
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
+	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
 	@echo $(SEPARATOR)
 	@echo 1. Compiling $(XHLANGC) source $<
-	harbour $(ALLXHFLAGS) -o$@ $<
+	$(XHBDIR)/bin/harbour $(ALLXHFLAGS) -o$@ $<
 
 # Compile prg compiled sources
 $(PATHOBJ)/%$(OBJEXT): $(PATHCXXPRG)/%.$(CXX_PRG)
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
+	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
 	@echo 2. Compiling C source created from $(XHLANGC) source $<
 	$(CXX_PRG_COMPILER) $(CXX_PRG_COMPILER_FLAGS) $(CCOUT)$@ $<
 endif
@@ -127,9 +134,10 @@ $(PATHOBJ)/%$(OBJEXT): %.prg
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
+	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
 	@echo $(SEPARATOR)
 	@echo Direct Compiling $(XHLANGC) source $<
-	harbour $(ALLXHFLAGS) -o$@ $<
+	$(XHBDIR)/bin/harbour $(ALLXHFLAGS) -o$@ $<
 endif
 
 #Compile C sources
@@ -137,6 +145,7 @@ $(PATHOBJ)/%$(OBJEXT): %.c
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
+	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
 	@echo $(SEPARATOR)
 	@echo Compiling C source $<
 	$(CXX_COMPILER) $(ALLCFLAGS) $(CCOUT)$@ $<
@@ -148,7 +157,7 @@ ifneq ($(OSTYPE),Win32)
 endif
 	@echo $(SEPARATOR)
 	@echo Compiling C++ source $<
-	$(CXX_COMPILER) $(ALLCXXFLAGS) $(CCOUT)$@ $<
+	$(CXX) $(ALLCXXFLAGS) $(CCOUT)$@ $<
 
 .PHONY: clean
 clean:
