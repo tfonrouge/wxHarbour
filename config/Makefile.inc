@@ -4,14 +4,14 @@
 ## (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 ##
 ##
-OSTYPE = Win32
+#OSTYPE = Win32
 MD = /GnuWin32/bin/mkdir -p
 XHFLAGS = -n -a -v -m -es2 -w2 $(XHF_DEBUG)
-XHBDIR=/xhb
 XHLANG=xharbour
 XHLANGC=xHarbour
 
 ifeq ($(OSTYPE),Win32)
+XHBDIR=/xhb
 OBJDIR=Win32
 OBJEXT=.obj
 XHDEFINES = -D__EXPORT__ -DHB_OS_WIN_32 -DHB_FUNC_NO_DECORATION
@@ -25,8 +25,9 @@ CCOUT=-o
 XHINCLUDES = -I$(XHBDIR)/include -I/mingw/bin -I../include -I../../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
 ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing -DHB_FUNC_NO_DECORATION $(shell wx-config --cxxflags ) $(XHINCLUDES)
-#$(info Using Windows environment...)
+$(info Using Windows environment...)
 else
+XHBDIR=/usr
 OBJDIR=gcc
 OBJEXT=.o
 XHDEFINES = -D__EXPORT__ -DHB_OS_LINUX
@@ -41,7 +42,7 @@ XHINCLUDES = -I/usr/include/$(XHLANG) -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
 ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `wx-config --cxxflags`
 #ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)
-#$(info Using Linux environment...)
+$(info Using Linux environment...)
 endif
 
 SEPARATOR = "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -69,6 +70,7 @@ else
 endif
 
 ifeq ($(XHCOMPLEVEL),SRC)
+$(info Using SRC mode compiling...)
   ifeq ($(CXX_PRG),c)
     ifeq ($(OSTYPE),Win32)
       CXX_PRG_COMPILER = gcc
@@ -87,6 +89,7 @@ ifeq ($(XHCOMPLEVEL),SRC)
   endif
   ALLXHFLAGS = -gc $(XHINCLUDES) $(XHDEFINES) $(XHFLAGS)
 else
+$(info Using OBJ mode compiling...)
   ALLXHFLAGS = -go3 $(XHINCLUDES) $(XHDEFINES) $(XHFLAGS)
 endif
 
@@ -110,10 +113,12 @@ endif
 ifeq ($(XHCOMPLEVEL),SRC)
 # Compile prg sources to CXX source
 $(PATHCXXPRG)/%.$(CXX_PRG): %.prg
+	@echo Compiling [x]Harbour sources to C[PP] sources...
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-endif
+else
 	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
+endif
 	@echo $(SEPARATOR)
 	@echo 1. Compiling $(XHLANGC) source $<
 	$(XHBDIR)/bin/harbour $(ALLXHFLAGS) -o$@ $<
@@ -122,8 +127,9 @@ endif
 $(PATHOBJ)/%$(OBJEXT): $(PATHCXXPRG)/%.$(CXX_PRG)
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-endif
+else
 	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
+endif
 	@echo 2. Compiling C source created from $(XHLANGC) source $<
 	$(CXX_PRG_COMPILER) $(CXX_PRG_COMPILER_FLAGS) $(CCOUT)$@ $<
 endif
@@ -131,10 +137,12 @@ endif
 ifeq ($(XHCOMPLEVEL),OBJ)
 #Compile PRG sources to obj
 $(PATHOBJ)/%$(OBJEXT): %.prg
+	@echo Compiling [x]Harbour sources to PRG's...
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-endif
+else
 	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
+endif
 	@echo $(SEPARATOR)
 	@echo Direct Compiling $(XHLANGC) source $<
 	$(XHBDIR)/bin/harbour $(ALLXHFLAGS) -o$@ $<
@@ -142,16 +150,19 @@ endif
 
 #Compile C sources
 $(PATHOBJ)/%$(OBJEXT): %.c
+	@echo Compiling C sources...
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-endif
+else
 	@if not exist $(dir $@)\.  $(MD) $(dir $@)| @echo Se creo el Directorio.. $(dir $@)
+endif
 	@echo $(SEPARATOR)
 	@echo Compiling C source $<
 	$(CXX_COMPILER) $(ALLCFLAGS) $(CCOUT)$@ $<
 
 #Compile C++ sources
 $(PATHOBJ)/%$(OBJEXT): %.cpp
+	@echo Compiling C++ sources...
 ifneq ($(OSTYPE),Win32)
 	+@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 endif
