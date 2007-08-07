@@ -32,14 +32,3 @@ ENDCLASS
 /*
   End Class wxApp
 */
-
-
-
-
-
-
-
-
-
-
-

@@ -12,7 +12,6 @@
 #include "wx/wx.ch"
 #include "wxharbour.ch"
 
-
 FUNCTION Main()
   LOCAL MyApp
 
@@ -37,8 +36,6 @@ ENDCLASS
   EndClass MyApp
 */
 
-REQUEST DBFCDX
-
 /*
   OnInit
   Teo. Mexico 2006
@@ -54,17 +51,16 @@ FUNCTION OnInit() CLASS MyApp
          TITLE "Simple Dbf Browser"
 
   CREATE MENUBAR STYLE 1
-    CREATE MENU "&Program"
-      ADD MENUITEM "Open Another window"+Chr(9)+"Ctrl+O" ACTION WndLogin( oWnd )
+    CREATE MENU "&File"
+      ADD MENUITEM E"Open \tCtrl+O"
       ADD SEPARATOR
-      ADD MENUITEM "Printers"+Chr(9)+"Ctrl+P"
-      ADD SEPARATOR
-      ADD MENUITEM "Exit..."+Chr(9)+"Ctrl+X" ID wxID_EXIT ACTION oWnd:Close() ;
+      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits this sample..."
     ENDMENU
     CREATE MENU "Help"
-      ADD MENUITEM "About..."
       ADD MENUITEM "Fit Grid" ACTION grid:Fit()
+      ADD SEPARATOR
+      ADD MENUITEM "About..."
     ENDMENU
   ENDMENUBAR
 
@@ -76,8 +72,8 @@ FUNCTION OnInit() CLASS MyApp
   grid:SetColLabelSize(25)
   grid:SetRowLabelSize(50)
 
-  USE "main" VIA "DBFCDX"
-  OrdSetFocus("X01")
+  USE "main" //VIA "DBFCDX"
+  //OrdSetFocus("X01")
 
   gtable := wxGridTableBaseDb():New()
   grid:SetTable( gtable )
@@ -99,29 +95,3 @@ FUNCTION OnInit() CLASS MyApp
   oWnd:Show()
 
 RETURN .T.
-
-/*
-  WndLogin: A simple dialog
-  Teo. Mexico 2006
-*/
-PROCEDURE WndLogin( wndParent )
-  LOCAL oW
-  STATIC n := 0
-
-  IF oW != NIL
-    IF oW:IsShown()
-      oW:Hide()
-    ELSE
-      oW:Show()
-    ENDIF
-    RETURN
-  ENDIF
-
-  CREATE DIALOG oW ;
-         FROM -1,-1 SIZE 200,100 ;
-         TITLE "Acceso: " + LTrim(Str( ++ n )) ;
-         PARENT wndParent
-
-  oW:Show(.T.)
-
-RETURN

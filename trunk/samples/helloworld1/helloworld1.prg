@@ -1,5 +1,6 @@
 /*
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  helloworld1 : OOP approach.
 */
 
 /*
@@ -47,29 +48,25 @@ ENDCLASS
 */
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
+  LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, button
+  LOCAL sb
 
-  CREATE FRAME oWnd ;
-         FROM 10,10 SIZE 400,200 ;
-         ID 999 ;
-         TITLE "Hello World Sample"
+  oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,200} )
 
-  CREATE MENUBAR
-    CREATE MENU "&File"
-      CREATE MENU "New"
-        ADD MENUITEM "From A"
-        ADD MENUITEM "From B"
-      ENDMENU
-      ADD SEPARATOR
-      ADD MENUITEM E"Open \tCtrl+O"
-      ADD SEPARATOR
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Quits the program..."
-    ENDMENU
-    CREATE MENU "Help"
-      ADD MENUITEM "About..."
-    ENDMENU
-  ENDMENUBAR
+  menuBar := wxMenubar():New()
+  menu1 := wxMenu():New()
+  menu1:Append( 10, "New" )
+  menu1:AppendSeparator()
+  menu1:Append( 11, E"Open \tCtrl+O" )
+  menu1:AppendSeparator()
+  menu1:Append( wxID_EXIT, E"Quit \tCtrl-Q" )
+  menu2 := wxMenu():New()
+  menu2:Append( 20, "About..." )
+  menuBar:Append( menu1, "&File" )
+  menuBar:Append( menu2, "Help" )
+  oWnd:Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, {|| oWnd:Close } )
+  oWnd:SetMenuBar( menuBar )
 
   oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
 
@@ -83,7 +80,8 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
-  CREATE STATUSBAR ON oWnd
+  sb := wxStatusBar():New( oWnd )
+  oWnd:SetStatusBar( sb )
 
   oWnd:Show()
 

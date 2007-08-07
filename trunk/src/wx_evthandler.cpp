@@ -16,4 +16,3 @@
 */
 
 #include "wx/wx.h"
-
