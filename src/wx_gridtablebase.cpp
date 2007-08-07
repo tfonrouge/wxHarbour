@@ -89,7 +89,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
 */
 void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 {
-  static PHB_SYMB pSymb = hb_dynsymFindName("SetValue")->pSymbol;
+  static PHB_DYNS pDyns = hb_dynsymFindName("SetValue");
   //hb_objSendSymbol( xHObj, pSymb, 3, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ), value );
 }
 
