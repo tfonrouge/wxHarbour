@@ -1,30 +1,132 @@
+2007-08-07 07:14  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run, include/property.ch,
+	  include/wx/defs.ch, include/wxh.h,
+	  samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg, src/Makefile, src/wx_app.cpp,
+	  src/wx_gridtablebase.cpp, src/wxhbrowse.prg, src/wxhmenu.prg,
+	  src/wxhmenubar.prg, src/wxhmenuitem.prg: : Modified to use the
+	  Harbour compiler
+
+2006-11-17 22:55  tfonrouge
+
+	* config/Makefile.inc: * Minor changes for correct working on Linux
+
+2006-11-16 23:08  shadday
+
+	* README: Modificando Makefiles para poder compilar bajo windows.
+
+2006-11-16 22:50  shadday
+
+	* config/Makefile.inc, config/Makefile.run: Para compilar bajo
+	  windows con MinGw:
+	  
+	  Se necesita ademas de wxwidgets y xHarbour, los siguientes
+	  Prerequisitos:
+	  
+	  Bajar e instalar MinGW 5.0.3 gcc 3.4.5 (candidate) installer:
+	  http://prdownloads.sourceforge.net/mingw/MinGW-5.0.3.exe?download
+	  
+	  Bajar e instalar GDB v6.3-2 debugger:
+	  http://prdownloads.sourceforge.net/mingw/gdb-6.3-2.exe?download
+	  
+	  Bajar e instalar 7-Zip:
+	  http://www.7-zip.org/es/
+	  
+	  Bajar e instalar los ports de GNU tools:
+	  http://gnuwin32.sourceforge.net/
+	  
+	  También necesita el port de wxconfig para windows,lo puedes bajar
+	  de:
+	  http://wxconfig.googlepages.com/
+	  
+	  Modificar los archivos Makefile.inc del directorio trunk/config y
+	  setear las variables correspondientes,
+	  entrar al directorio trunk/src y ejecutar mingw32-make, luego
+	  entrar en cada directorio de los ejemplos
+	  que estan el directorio trunk/samples y ejecutar mingw32-make. Es
+	  todo.
+	  
+	  suerte!.
+
+2006-11-09 03:10  tfonrouge
+
+	* samples/helloworld/helloworld.prg:
+
+2006-11-08 19:24  tfonrouge
+
+	* config/Makefile.inc: * Cleaning make file
+
+2006-09-27 22:20  tfonrouge
+
+	* src/wx_textctrl.cpp, src/wx_textctrl.h, src/wxhtextctrl.prg:
+	  Added wxTextCtrl
+
+2006-09-27 22:19  tfonrouge
+
+	* ., samples/helloworld/Makefile: Minor changes
+
+2006-09-27 22:16  tfonrouge
+
+	* samples/helloworld/helloworld.prg: Added wxTextCtrl control in
+	  the test
+
+2006-09-27 22:14  tfonrouge
+
+	* src/Makefile, src/wx_app.cpp, src/wx_boxsizer.cpp,
+	  src/wx_browse.cpp, src/wx_button.cpp, src/wx_dialog.cpp,
+	  src/wx_frame.cpp, src/wx_grid.cpp, src/wx_gridtablebase.cpp,
+	  src/wx_menu.cpp, src/wx_menubar.cpp, src/wx_menuitem.cpp,
+	  src/wx_sizer.cpp, src/wx_statusbar.cpp,
+	  src/wx_toplevelwindow.cpp, src/wx_validator.cpp,
+	  src/wx_window.cpp, src/wxharbour.cpp: Eliminated declaration of
+	  'external "C"'
+
+2006-09-27 14:58  tfonrouge
+
+	* config/Makefile.inc: ! Attempt to make the make scripts
+	  [x]Harbour compatibles
+
+2006-09-27 04:41  tfonrouge
+
+	* wxharbour.spec: First attemp to have rpm files for distribution
+
+2006-09-19 13:28  tfonrouge
+
+	* samples/helloworld/helloworld.prg: Corrected source for new
+	  preprocessor commands
+
+2006-09-19 07:08  tfonrouge
+
+	* ChangeLog: Reordering repository
+
 2006-09-19 06:54  tfonrouge
 
-	* README, README: Reordering repository
+	* README: Reordering repository
 
 2006-09-19 06:53  tfonrouge
 
-	* ChangeLog, ChangeLog: Reordering repository
+	* ChangeLog: Reordering repository
 
 2006-09-19 06:53  tfonrouge
 
-	* COPYING, COPYING: Reordering repository
+	* COPYING: Reordering repository
 
 2006-09-19 06:51  tfonrouge
 
-	* src, src: Reordering repository
+	* src: Reordering repository
 
 2006-09-19 06:51  tfonrouge
 
-	* samples, samples: Reordering repository
+	* samples: Reordering repository
 
 2006-09-19 06:50  tfonrouge
 
-	* include, include: Reordering repository
+	* include: Reordering repository
 
 2006-09-19 06:49  tfonrouge
 
-	* config, config: Reordering repository
+	* config: Reordering repository
 
 2006-09-19 06:47  tfonrouge
 
