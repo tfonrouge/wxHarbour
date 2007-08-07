@@ -45,7 +45,6 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd := Self
   //LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, button
-  LOCAL s
 
   CREATE FRAME oWnd ;
          FROM 10,10 SIZE 400,200 ;
@@ -88,15 +87,15 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
 
-  boxSizer:Add(5, 5, 1, wxALIGN_RIGHT | wxALL, 5)
+  boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
 
   button := wxButton():New( oWnd, wxID_OK )
 
-  boxSizer:Add( button, 0, wxALIGN_RIGHT | wxALL, 5 )
+  boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
-  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "Any Value" ), 0, wxALIGN_RIGHT | wxALL, 5 )
+  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "Any Value" ), 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 
   CREATE STATUSBAR ON oWnd
 

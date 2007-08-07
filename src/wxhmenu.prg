@@ -20,9 +20,6 @@
 
 #include "wx/wx.ch"
 
-GLOBAL g_menuList
-GLOBAL EXTERNAL g_menuID
-
 /*
   DefineMenu: Wrapper for wxMenu
   Teo. Mexico 2006
@@ -30,14 +27,14 @@ GLOBAL EXTERNAL g_menuID
 PROCEDURE DefineMenu( title )
   LOCAL hData
 
-  IF g_menuList = NIL
-    g_menuList := {}
+  IF Global():g_menuList = NIL
+    Global():g_menuList := {}
   ENDIF
 
   hData := HSetCaseMatch( Hash(), .F. )
   hData["menu"] := wxMenu():New()
   hData["title"] := title
-  AAdd( g_menuList, hData )
+  AAdd( Global():g_menuList, hData )
 
 RETURN
 
@@ -50,22 +47,22 @@ PROCEDURE EndMenu
   LOCAL menuListSize
   LOCAL menuItem
 
-  IF Empty( g_menuList )
+  IF Empty( Global():g_menuList )
     RETURN
   ENDIF
 
-  hData := g_menuList[-1]
+  hData := Global():g_menuList[-1]
 
-  menuListSize := Len( g_menuList )
+  menuListSize := Len( Global():g_menuList )
 
   IF menuListSize = 1 /* Append to menuBar */
-    GetLastMenuBar():Append( hData:menu, hData:title )
+    GetLastMenuBar():Append( hData["menu"], hData["title"] )
   ELSE                /* Append SubMenu */
-    menuItem := wxMenuItem():New( g_menuList[-2]:menu, g_menuID++, hData:title, "", wxITEM_NORMAL, hData:menu )
-    g_menuList[-2]:menu:Append( menuItem )
+    menuItem := wxMenuItem():New( Global():g_menuList[-2]["menu"], Global():g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
+    Global():g_menuList[-2]["menu"]:Append( menuItem )
   ENDIF
 
-  ASize( g_menuList, menuListSize - 1)
+  ASize( Global():g_menuList, menuListSize - 1)
 
 RETURN
 

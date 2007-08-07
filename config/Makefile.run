@@ -18,7 +18,7 @@ $(EXENAME): $(ALLOBJS) $(WXOBJ)
 ifeq ($(OSTYPE),Win32)
 	g++ -o$(EXENAME) $(ALLOBJS) -L/xhb/lib -L/mingw/lib $(WXOBJ) $(DEFLIBS)  $(shell wx-config --libs )
 else
-	xhblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/*.o `wx-config --libs`
+	hblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/*.o `wx-config --libs`
 endif
 
 run: all

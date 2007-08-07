@@ -37,7 +37,7 @@
 // Orientation
 #define wxHORIZONTAL    0x0004
 #define wxVERTICAL      0x0008
-#define wxBOTH          wxVERTICAL | wxHORIZONTAL
+#define wxBOTH          HB_BITOR( wxVERTICAL, wxHORIZONTAL )
 
 /* Standard button and menu IDs */
 #define wxID_OK         5100
@@ -57,7 +57,7 @@
 #define wxWEST    wxLEFT
 #define wxEAST    wxRIGHT
 
-#define wxALL     ( wxUP | wxDOWN | wxRIGHT | wxLEFT )
+#define wxALL     HB_BITOR( wxUP, wxDOWN, wxRIGHT, wxLEFT )
 
 // wxAlignment
 #define wxALIGN_NOT                 0x0000
@@ -70,7 +70,7 @@
 #define wxALIGN_CENTER_VERTICAL     0x0800
 #define wxALIGN_CENTRE_VERTICAL     wxALIGN_CENTER_VERTICAL
 
-#define wxALIGN_CENTER              (wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL)
+#define wxALIGN_CENTER              HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
 #define wxALIGN_CENTRE              wxALIGN_CENTER
 
 #define wxALIGN_MASK                0x0f00
@@ -108,22 +108,3 @@
 #define wxSIMPLE_BORDER   wxBORDER_SIMPLE
 #define wxSTATIC_BORDER   wxBORDER_STATIC
 #define wxNO_BORDER       wxBORDER_NONE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

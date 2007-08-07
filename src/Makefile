@@ -56,9 +56,3 @@ PATHOBJ = ../obj/gcc
 PATHCXXPRG = ../cxxprg/gcc
 
 include ../config/Makefile.inc
-
-
-
-
-
-
