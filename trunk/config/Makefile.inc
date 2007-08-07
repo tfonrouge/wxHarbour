@@ -7,8 +7,8 @@
 #OSTYPE = Win32
 MD = /GnuWin32/bin/mkdir -p
 XHFLAGS = -n -a -v -m -es2 -w2 $(XHF_DEBUG)
-XHLANG=xharbour
-XHLANGC=xHarbour
+XHLANG=harbour
+XHLANGC=Harbour
 
 ifeq ($(OSTYPE),Win32)
 XHBDIR=/xhb

@@ -18,14 +18,40 @@
 #include "hbclass.ch"
 #include "property.ch"
 
-GLOBAL g_menuID
+/*
+  TGlobal class to hold global vars...
+  Teo. Mexico 2007
+*/
+CLASS TGlobal
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  DATA g_menuID INIT 1
+  DATA g_menuList
+PUBLISHED:
+ENDCLASS
+
+/*
+  EndClass TGlobal
+*/
+
+/*
+  Global function
+  Teo. Mexico 2007
+*/
+FUNCTION Global
+  STATIC Global
+  IF Global = NIL
+    Global := TGlobal():New()
+  ENDIF
+RETURN Global
 
 /*
   DefineMenu: Wrapper for wxMenuBar
   Teo. Mexico 2006
 */
 FUNCTION DefineMenuBar( style )
-  g_menuID := 1
+  Global():g_menuID := 1
 RETURN wxMenuBar():New( style )
 
 /*

@@ -20,8 +20,6 @@
 
 #include "wx/wx.ch"
 
-GLOBAL EXTERNAL g_menuList
-GLOBAL EXTERNAL g_menuID
 /*
   AddMenuItem: Wrapper for wxMenuItem
   Teo. Mexico 2006
@@ -30,12 +28,12 @@ FUNCTION AddMenuItem( text, id, helpString, kind, bAction )
   LOCAL menuItem
 
   IF id=NIL
-    id := g_menuID++
+    id := Global():g_menuID++
   ENDIF
 
-  menuItem := wxMenuItem():New( g_menuList[-1]:menu, id, text, helpString, kind )
+  menuItem := wxMenuItem():New( Global():g_menuList[-1]["menu"], id, text, helpString, kind )
 
-  g_menuList[-1]:menu:Append( menuItem )
+  Global():g_menuList[-1]["menu"]:Append( menuItem )
 
   IF bAction != NIL
     GetLastFrame():Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
@@ -58,15 +56,3 @@ ENDCLASS
 /*
   End Class wxMenuItem
 */
-
-
-
-
-
-
-
-
-
-
-
-

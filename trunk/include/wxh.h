@@ -17,10 +17,12 @@
 
 extern "C"
 {
+#include "hbvmopt.h"
 #include "hbapi.h"
-#include "hbstack.h"
-#include "hbvm.h"
 #include "hbapiitm.h"
+#include "hbapicls.h"
+#include "hbvm.h"
+#include "hbstack.h"
 }
 
 wxObject*     hb_par_WX( int param );

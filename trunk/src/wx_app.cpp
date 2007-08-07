@@ -37,7 +37,7 @@ bool wx_App::OnInit()
   HB_FUN_WX_APP_ONINIT();
 
   p = hb_itemNew( NULL );
-  hb_itemCopy( p, &(HB_VM_STACK.Return) );
+  hb_itemCopy( p, &(hb_stack.Return) );
 
   return p->item.asLogical.value;
 };

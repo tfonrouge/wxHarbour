@@ -25,8 +25,8 @@ PUBLIC:
   DATA GetNumberCols INIT 0
   DATA GetNumberRows INIT 0
   METHOD GetColLabelValue( nCol ) INLINE ::FColumnList[ nCol ]:Heading
-  METHOD GetRowLabelValue( nRow ) INLINE ""
-  METHOD GetValue( nRow, nCol ) INLINE NIL
+  METHOD GetRowLabelValue( nRow ) BLOCK {|| "" }
+  METHOD GetValue( nRow, nCol ) BLOCK {|| NIL }
 PUBLISHED:
 ENDCLASS
 /*

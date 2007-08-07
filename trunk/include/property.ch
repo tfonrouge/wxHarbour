@@ -1,19 +1,13 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
-
-  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
-*/
-
-/*
   PROPERTY
   Teo Mexico 2006
 */
+
+#ifndef __XHARBOUR__
+#xcommand PRIVATE: => HIDDEN:
+#xcommand PUBLIC: => EXPORTED:
+#xcommand PUBLISHED: => nScope := HB_OO_CLSTP_PERSIST
+#endif
 
 // With INDEX
 // With READ
@@ -59,6 +53,7 @@
 #xcommand PROPERTY <name> [AS <astype>] [WRITE <wm>] ;
           => ;
           METHOD _<name>( xNewVal ) INLINE ::<wm>( xNewVal )
+          //MESSAGE _<name>( xNewVal ) METHOD <wm>( xNewVal )
 
 // Without INDEX
 // Without READ
@@ -104,17 +99,11 @@
 //
 #xcommand ENDWITH => END WITH
 
-#xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Message> INLINE <code,...> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
-  __clsAddMsg( <Obj>:ClassH, <Message>, {|Self| <code> }, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent>, <.Case.> )
+#xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg> INLINE <code,...> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
+  __clsAddMsg( <Obj>:ClassH, <Msg>, {|Self| <code> }, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )
 
-#xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Message>( <params,...> ) INLINE <code,...> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
-  __clsAddMsg( <Obj>:ClassH , "_"+<Message>, {|Self, <params>| <code> }, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent>, <.Case.> )
+#xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg>( <params,...> ) INLINE <code,...> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
+  __clsAddMsg( <Obj>:ClassH , "_"+<Msg>, {|Self, <params>| <code> }, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )
 
-
-
-
-
-
-
-
-
+#xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg> BLOCK <codeBlock> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
+  __clsAddMsg( <Obj>:ClassH, <Msg>, <codeBlock>, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )

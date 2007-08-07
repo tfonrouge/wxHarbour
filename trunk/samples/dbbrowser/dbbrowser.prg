@@ -70,7 +70,7 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
 
-  grid := wxGrid():New( oWnd, wxID_ANY, {-1,-1}, {200,150}, wxSUNKEN_BORDER|wxHSCROLL|wxVSCROLL  )
+  grid := wxGrid():New( oWnd, wxID_ANY, {-1,-1}, {200,150}, HB_BITOR(wxSUNKEN_BORDER,wxHSCROLL,wxVSCROLL) )
   grid:SetDefaultColSize( 50 )
   grid:SetDefaultRowSize( 25 )
   grid:SetColLabelSize(25)
@@ -82,13 +82,13 @@ FUNCTION OnInit() CLASS MyApp
   gtable := wxGridTableBaseDb():New()
   grid:SetTable( gtable )
 
-  boxSizer:Add(grid, 1, wxGROW|wxALL, 5)
+  boxSizer:Add(grid, 1, HB_BITOR( wxGROW, wxALL ), 5)
 
   //boxSizer:Add(5, 5, 1, wxALIGN_RIGHT | wxALL, 5)
 
   button := wxButton():New( oWnd, wxID_OK )
 
-  boxSizer:Add( button, 0, wxALIGN_RIGHT | wxALL, 5 )
+  boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
 
@@ -125,8 +125,3 @@ PROCEDURE WndLogin( wndParent )
   oW:Show(.T.)
 
 RETURN
-
-
-
-
-
