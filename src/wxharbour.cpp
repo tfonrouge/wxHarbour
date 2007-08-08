@@ -154,20 +154,3 @@ HB_FUNC( TBASECLASS_ONDESTRUCT )
   if (wxObj)
     wx_ObjList_wxDelete( wxObj );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
