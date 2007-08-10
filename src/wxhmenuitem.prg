@@ -26,14 +26,17 @@
 */
 FUNCTION AddMenuItem( text, id, helpString, kind, bAction )
   LOCAL menuItem
+  LOCAL nLast
 
   IF id=NIL
     id := Global():g_menuID++
   ENDIF
 
-  menuItem := wxMenuItem():New( Global():g_menuList[-1]["menu"], id, text, helpString, kind )
+  nLast := Global():lenMenuList
 
-  Global():g_menuList[-1]["menu"]:Append( menuItem )
+  menuItem := wxMenuItem():New( Global():g_menuList[ nLast ]["menu"], id, text, helpString, kind )
+
+  Global():g_menuList[ nLast ]["menu"]:Append( menuItem )
 
   IF bAction != NIL
     GetLastFrame():Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )

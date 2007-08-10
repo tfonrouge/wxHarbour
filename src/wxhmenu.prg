@@ -31,7 +31,7 @@ PROCEDURE DefineMenu( title )
     Global():g_menuList := {}
   ENDIF
 
-  hData := HSetCaseMatch( Hash(), .F. )
+  hData := {=>}
   hData["menu"] := wxMenu():New()
   hData["title"] := title
   AAdd( Global():g_menuList, hData )
@@ -46,20 +46,23 @@ PROCEDURE EndMenu
   LOCAL hData
   LOCAL menuListSize
   LOCAL menuItem
+  LOCAL nLast
 
   IF Empty( Global():g_menuList )
     RETURN
   ENDIF
 
-  hData := Global():g_menuList[-1]
+  nLast := Global():lenMenuList
+
+  hData := Global():g_menuList[ nLast ]
 
   menuListSize := Len( Global():g_menuList )
 
   IF menuListSize = 1 /* Append to menuBar */
     GetLastMenuBar():Append( hData["menu"], hData["title"] )
   ELSE                /* Append SubMenu */
-    menuItem := wxMenuItem():New( Global():g_menuList[-2]["menu"], Global():g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
-    Global():g_menuList[-2]["menu"]:Append( menuItem )
+    menuItem := wxMenuItem():New( Global():g_menuList[ nLast -1 ]["menu"], Global():g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
+    Global():g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )
   ENDIF
 
   ASize( Global():g_menuList, menuListSize - 1)

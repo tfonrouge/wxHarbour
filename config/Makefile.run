@@ -5,7 +5,12 @@
 ##
 ##
 DEFLIBS= -ldebug -lvm -lrtl -lpcrepos -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhsx -lhbsix -lcommon -lcodepage -lgtwin
+
+ifeq ($(OSTYPE),msys)
+WXOBJ=../../obj/msys/wxlib.a
+else
 WXOBJ=../../obj/gcc/wxlib.a
+endif
 
 all: $(WXOBJ) MOD_$(MODULE) $(EXENAME)
 
@@ -15,10 +20,10 @@ wxlib:
 $(WXOBJ): wxlib
 
 $(EXENAME): $(ALLOBJS) $(WXOBJ)
-ifeq ($(OSTYPE),Win32)
-	g++ -o$(EXENAME) $(ALLOBJS) -L/xhb/lib -L/mingw/lib $(WXOBJ) $(DEFLIBS)  $(shell wx-config --libs )
+ifeq ($(OSTYPE),msys)
+	hblnk -nostrip -static $(ALLOBJS) ../../obj/msys/wxlib.a `wx-config --libs`
 else
-	hblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/*.o `wx-config --libs`
+	hblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/wxlib.a `wx-config --libs`
 endif
 
 run: all

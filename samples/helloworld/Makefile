@@ -4,7 +4,7 @@
 ##
 ##
 
-XHF_DEBUG=-b -p
+XHF_DEBUG=
 
 MODULE = helloworld
 
@@ -13,7 +13,7 @@ PRGS = \
 
 PATHOBJ = obj/gcc
 PATHCXXPRG = cxxprg/gcc
-EXENAME = helloworld
+EXENAME = helloworld.exe
 
 include ../../config/Makefile.inc
 

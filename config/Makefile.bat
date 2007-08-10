@@ -17,14 +17,3 @@ $(_all_list):
 
 $(_clean_list):
 	$(MAKE) -C $(subst clean_,,$@ ) clean
-
-
-
-
-
-
-
-
-
-
-
