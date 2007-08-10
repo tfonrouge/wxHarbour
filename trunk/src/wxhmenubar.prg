@@ -28,6 +28,7 @@ PROTECTED:
 PUBLIC:
   DATA g_menuID INIT 1
   DATA g_menuList
+  METHOD lenMenuList INLINE Len( ::g_menuList )
 PUBLISHED:
 ENDCLASS
 

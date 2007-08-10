@@ -5,7 +5,7 @@
 ##
 ##
 
-XHF_DEBUG=-b
+XHF_DEBUG=
 
 MODULE=wxlib
 
@@ -52,7 +52,7 @@ wxhtoplevelwindow.prg \
 wxhvalidator.prg \
 wxhwindow.prg
 
-PATHOBJ = ../obj/gcc
-PATHCXXPRG = ../cxxprg/gcc
+#PATHOBJ = ../obj/gcc
+#PATHCXXPRG = ../cxxprg/gcc
 
 include ../config/Makefile.inc

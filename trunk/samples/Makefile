@@ -11,11 +11,3 @@ helloworld \
 helloworld1
 
 include ../config/Makefile.bat
-
-
-
-
-
-
-
-
