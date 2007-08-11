@@ -1,3 +1,61 @@
+2007-08-11 07:54  tfonrouge
+
+	* samples/helloworld/Makefile, samples/helloworld/helloworld.prg: :
+	  Why is HB_HAUTOADD needed here in helloworld.prg sample ?.
+
+2007-08-11 07:52  tfonrouge
+
+	* src/wxhmenu.prg: :
+	  * Specifically setting HB_HAUTOADD to TRUE to hash in wxhmenu.prg
+	  (Harbour specs).
+
+2007-08-11 07:49  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run: : Temporary hack to
+	  linking under MinGW32
+	  ! Seems that hblnk doesn't parse correctly additional parameters
+	  under MinGW32
+	  For now, we are doing a 'brute' linking with g++
+	  TODO: Check why hblnk is not working under MinGW32.
+
+2007-08-10 14:58  tfonrouge
+
+	* config/Makefile.bat, config/Makefile.inc, config/Makefile.run,
+	  samples/Makefile, samples/helloworld/Makefile, src/Makefile,
+	  src/wxhmenu.prg, src/wxhmenubar.prg, src/wxhmenuitem.prg: :
+	  Changes to cross plattform compiling on windows using MinGw
+	  * TODO: hblnk linking is not working when using the `wx-config
+	  --libs`
+
+2007-08-08 18:35  tfonrouge
+
+	* .:
+
+2007-08-08 18:34  tfonrouge
+
+	* src/wxharbour.cpp:
+
+2007-08-07 18:39  tfonrouge
+
+	* samples/helloworld/init.cld, samples/helloworld/oper.cdx,
+	  samples/helloworld/oper.dbf, samples/helloworld/oper.fpt:
+
+2007-08-07 18:38  tfonrouge
+
+	* samples/dbbrowser/main.cdx:
+
+2007-08-07 18:37  tfonrouge
+
+	* samples/Makefile, samples/dbbrowser/dbbrowser.prg,
+	  samples/dbbrowser/main.dbf, samples/helloworld/helloworld.prg,
+	  samples/helloworld1, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.prg, src/wx_evthandler.cpp,
+	  src/wx_gridtablebase.cpp, src/wxhapp.prg: : Cleanup samples
+
+2007-08-07 07:19  tfonrouge
+
+	* ChangeLog:
+
 2007-08-07 07:14  tfonrouge
 
 	* config/Makefile.inc, config/Makefile.run, include/property.ch,
