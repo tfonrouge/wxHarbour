@@ -25,13 +25,13 @@
   Teo. Mexico 2006
 */
 PROCEDURE DefineMenu( title )
-  LOCAL hData
+  LOCAL hData := {=>}
 
   IF Global():g_menuList = NIL
     Global():g_menuList := {}
   ENDIF
 
-  hData := {=>}
+  HB_HAUTOADD( hData, .T. )
   hData["menu"] := wxMenu():New()
   hData["title"] := title
   AAdd( Global():g_menuList, hData )
