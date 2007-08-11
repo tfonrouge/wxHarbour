@@ -49,6 +49,8 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL boxSizer, button
 
+  HB_HAUTOADD( {=>}, .T. )
+
   CREATE FRAME oWnd ;
          FROM 10,10 SIZE 400,200 ;
          ID 999 ;

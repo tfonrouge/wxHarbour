@@ -13,7 +13,7 @@ PRGS = \
 
 PATHOBJ = obj/gcc
 PATHCXXPRG = cxxprg/gcc
-EXENAME = helloworld.exe
+EXENAME = helloworld
 
 include ../../config/Makefile.inc
 
