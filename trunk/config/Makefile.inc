@@ -20,7 +20,7 @@ ifndef PATHCXXPRG
 PATHCXXPRG = ../cxxprg/msys
 endif
 CCOUT=-o
-XHINCLUDES = -I$(XHBDIR)/include/$(XHLANG) -I../../include -I../include
+XHINCLUDES = -I$(XHBDIR)/include -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
 ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `wx-config --cxxflags`
 #ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)

@@ -4,10 +4,10 @@
 ## (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 ##
 ##
-DEFLIBS= -ldebug -lvm -lrtl -lpcrepos -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhsx -lhbsix -lcommon -lcodepage -lgtwin
 
 ifeq ($(OSTYPE),msys)
 WXOBJ=../../obj/msys/wxlib.a
+HBLIBS=-I/usr/local/include -L/usr/local/lib -Wl,--start-group -lvm -lpp -lrtl -lrdd -ldbffpt -ldbfcdx -ldbfntx -lhsx -lhbsix -lusrrdd -lmacro -lcommon -llang -lcodepage -lgtgui -lgtcgi -lgtstd -lgtpca -lgtwin -lgtwvt -ldebug -lcompiler -lhbpcre -lrddads -lct -lnf -lhbodbc -lhbole -Wl,--end-group -lfm -lm -luser32 -lwinspool -lgdi32 -lcomctl32 -lcomdlg32 -lole32 -loleaut32 -luuid -lwsock32 -lws2_32
 else
 WXOBJ=../../obj/gcc/wxlib.a
 endif
@@ -21,9 +21,9 @@ $(WXOBJ): wxlib
 
 $(EXENAME): $(ALLOBJS) $(WXOBJ)
 ifeq ($(OSTYPE),msys)
-	hblnk -nostrip -static $(ALLOBJS) ../../obj/msys/wxlib.a `wx-config --libs`
+	g++ -o$(EXENAME).exe $(ALLOBJS) -$(HBLIBS) $(WXOBJ) `wx-config --libs`
 else
-	hblnk -nostrip -static $(ALLOBJS) ../../obj/gcc/wxlib.a `wx-config --libs`
+	hblnk -nostrip -static $(ALLOBJS) $(WXOBJ) `wx-config --libs`
 endif
 
 run: all
