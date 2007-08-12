@@ -49,14 +49,12 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL boxSizer, button
 
-  HB_HAUTOADD( {=>}, .T. )
-
   CREATE FRAME oWnd ;
          FROM 10,10 SIZE 400,200 ;
          ID 999 ;
          TITLE "Hello World Sample"
 
-  CREATE MENUBAR
+  CREATE MENUBAR STYLE 1
     CREATE MENU "&File"
       CREATE MENU "New"
         ADD MENUITEM "From A"

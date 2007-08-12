@@ -41,8 +41,7 @@ ENDCLASS
   Teo. Mexico 2006
 */
 FUNCTION OnInit() CLASS MyApp
-  LOCAL Success := .T.
-  LOCAL oWnd := Self
+  LOCAL oWnd
   LOCAL grid, boxSizer, gtable, button
 
   CREATE FRAME oWnd ;
