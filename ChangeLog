@@ -1,3 +1,17 @@
+2007-08-13 04:30  tfonrouge
+
+	* ChangeLog, INSTALL, config/Makefile.run: [SOLVED] hblnk under
+	  MinGW fails.
+	  * Linking is different in gcc & g++, hblnk is forcing (via a
+	  HB_COMPILER="mingw32" in the hblnk script) linking with gcc, when
+	  compiling using g++ the linking process is ok and the binary
+	  executable is builded ok.
+	  Currently using gcc/g++ version: 3.4.2 (mingw-special)
+	  TODO: Check with Harbour developers if the hblnk script can be
+	  changed to no hardcode the HB_COMPILER="mingw32" env var. Anyway
+	  I think we can override this by issuing a parameter when linking
+	  via gcc.
+
 2007-08-12 18:28  tfonrouge
 
 	* samples/dbbrowser/init.cld:
