@@ -21,7 +21,7 @@ $(WXOBJ): wxlib
 
 $(EXENAME): $(ALLOBJS) $(WXOBJ)
 ifeq ($(OSTYPE),msys)
-	g++ -o$(EXENAME).exe $(ALLOBJS) -$(HBLIBS) $(WXOBJ) `wx-config --libs`
+	export HB_COMPILER=gpp ; hblnk -nostrip -static $(ALLOBJS) $(WXOBJ) `wx-config --libs`
 else
 	hblnk -nostrip -static $(ALLOBJS) $(WXOBJ) `wx-config --libs`
 endif
