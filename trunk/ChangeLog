@@ -1,3 +1,17 @@
+2007-08-12 18:28  tfonrouge
+
+	* samples/dbbrowser/init.cld:
+
+2007-08-12 17:35  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg: : Cleaning source code
+	  + Adding STYLE 1 parameter to helloworld.prg sample.
+
+2007-08-11 07:55  tfonrouge
+
+	* ChangeLog: Updated Changelog
+
 2007-08-11 07:54  tfonrouge
 
 	* samples/helloworld/Makefile, samples/helloworld/helloworld.prg: :
