@@ -10,7 +10,7 @@ XHF_DEBUG=
 MODULE=wxlib
 
 PRGS = \
-wxharbour.cpp \
+wx_harbour.cpp \
 wx_app.cpp \
 wx_boxsizer.cpp \
 wx_browse.cpp \
@@ -23,6 +23,7 @@ wx_gridtablebase.cpp \
 wx_menubar.cpp \
 wx_menu.cpp \
 wx_menuitem.cpp \
+wx_panel.cpp \
 wx_sizer.cpp \
 wx_statusbar.cpp \
 wx_textctrl.cpp \
@@ -45,6 +46,7 @@ wxhmenubar.prg \
 wxhmenuitem.prg \
 wxhmenu.prg \
 wxhobject.prg \
+wxhpanel.prg \
 wxhsizer.prg \
 wxhstatusbar.prg \
 wxhtextctrl.prg \
