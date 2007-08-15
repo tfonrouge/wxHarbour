@@ -1,3 +1,22 @@
+2007-08-15 05:00  tfonrouge
+
+	* samples/helloworld/helloworld.prg,
+	  samples/helloworld1/helloworld1.prg, src/Makefile,
+	  src/wx_harbour.cpp, src/wx_panel.cpp, src/wx_panel.h,
+	  src/wxharbour.cpp, src/wxhpanel.prg, src/wxhstatusbar.prg: :
+	  Added wxPanel
+	  + Added C++ wx_panel.cpp, wx_panel.h
+	  + Added Harbour class wxhpanel.prg
+	  ! Renamed wxharbour.cpp to wx_harbour.cpp and changed Makefile
+	  * Changed Makefile to include wxPanel classes
+	  * helloworld.prg: Added wxPanel
+	  * Changed wxTextCtrl sample in samples
+	  helloworld.prg/helloworld1.prg to wxGROW
+
+2007-08-13 04:31  tfonrouge
+
+	* ChangeLog:
+
 2007-08-13 04:30  tfonrouge
 
 	* ChangeLog, INSTALL, config/Makefile.run: [SOLVED] hblnk under
