@@ -11,50 +11,18 @@
 */
 
 /*
-  wxStatusBar
+  wx_Panel: Interface
   Teo. Mexico 2006
 */
 
-#include "hbclass.ch"
-#include "property.ch"
+class wx_Panel : public wxPanel
+{
+private:
+protected:
+public:
+  wx_Panel() : wxPanel() {}
 
-/*
-  DefineStatusBar
-  Teo. Mexico 2006
-*/
-FUNCTION DefineStatusBar( parent, id, style, name, fields, widths )
-  LOCAL sb
-  LOCAL oW
+  wx_Panel(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxPanelNameStr) : wxPanel( parent, id, pos, size, style, name ) {}
 
-  oW := iif( parent = NIL, GetLastFrame(), parent )
-
-  sb := wxStatusBar():New( oW, id, style, name )
-
-  IF widths!=NIL .AND. fields=NIL
-    fields := Len( widths )
-  ENDIF
-
-  IF fields != NIL
-    sb:SetFieldsCount( fields, widths )
-  ENDIF
-
-  oW:SetStatusBar( sb )
-
-RETURN sb
-
-/*
-  wxStatusBar
-  Teo. Mexico 2006
-*/
-CLASS wxStatusBar FROM wxWindow
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  CONSTRUCTOR New( parent, id, style, name )
-  METHOD SetFieldsCount( number, widths )
-PUBLISHED:
-ENDCLASS
-
-/*
-  EndClass wxStatusBar
-*/
+  ~wx_Panel();
+};

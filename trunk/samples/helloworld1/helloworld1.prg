@@ -50,6 +50,7 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, button
+  LOCAL panel
   LOCAL sb
 
   oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,200} )
@@ -68,13 +69,16 @@ FUNCTION OnInit() CLASS MyApp
   oWnd:Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, {|| oWnd:Close } )
   oWnd:SetMenuBar( menuBar )
 
-  oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+  panel := wxPanel():New( oWnd )
 
+  panel:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+
+  /* spacer */
   boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
 
-  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "Any Value" ), 0, HB_BITOR( wxALIGN_CENTER, wxALL ), 5 )
+  boxSizer:Add( wxTextCtrl():New( panel, -1, "Any Value" ), 0, HB_BITOR( wxGROW, wxALL ), 5 )
 
-  button := wxButton():New( oWnd, wxID_OK )
+  button := wxButton():New( panel, wxID_OK )
 
   boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 

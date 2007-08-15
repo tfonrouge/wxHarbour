@@ -11,50 +11,27 @@
 */
 
 /*
-  wxStatusBar
-  Teo. Mexico 2006
+  wxPanel
+  Teo. Mexico 2007
 */
 
 #include "hbclass.ch"
 #include "property.ch"
 
-/*
-  DefineStatusBar
-  Teo. Mexico 2006
-*/
-FUNCTION DefineStatusBar( parent, id, style, name, fields, widths )
-  LOCAL sb
-  LOCAL oW
-
-  oW := iif( parent = NIL, GetLastFrame(), parent )
-
-  sb := wxStatusBar():New( oW, id, style, name )
-
-  IF widths!=NIL .AND. fields=NIL
-    fields := Len( widths )
-  ENDIF
-
-  IF fields != NIL
-    sb:SetFieldsCount( fields, widths )
-  ENDIF
-
-  oW:SetStatusBar( sb )
-
-RETURN sb
+#include "wx/wx.ch"
 
 /*
-  wxStatusBar
+  wxPanel
   Teo. Mexico 2006
 */
-CLASS wxStatusBar FROM wxWindow
+CLASS wxPanel FROM wxWindow
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New( parent, id, style, name )
-  METHOD SetFieldsCount( number, widths )
+  CONSTRUCTOR New( parent, id, pos, size, style, name )
 PUBLISHED:
 ENDCLASS
 
 /*
-  EndClass wxStatusBar
+  EndClass wxPanel
 */
