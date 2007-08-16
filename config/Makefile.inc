@@ -7,6 +7,9 @@
 XHFLAGS = -n -a -v -m -es2 -w2 $(XHF_DEBUG)
 XHLANG=harbour
 XHLANGC=Harbour
+ifndef WXCONFIG
+WXCONFIG=wx-config
+endif
 
 ifeq ($(OSTYPE),msys)
 XHBDIR=/usr/local
@@ -22,8 +25,8 @@ endif
 CCOUT=-o
 XHINCLUDES = -I$(XHBDIR)/include -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
-ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `wx-config --cxxflags`
-#ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)
+ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `$(WXCONFIG) --cxxflags`
+#ALLCXXFLAGS = -c -g -O3 -Wall `$(WXCONFIG) --cxxflags` $(XHINCLUDES)
 $(info Using msys environment...)
 else
 XHBDIR=/usr
@@ -39,8 +42,8 @@ endif
 CCOUT=-o
 XHINCLUDES = -I$(XHBDIR)/include/$(XHLANG) -I../../include -I../include
 ALLCFLAGS = $(XHINCLUDES) -c -g -O3 -Wall
-ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `wx-config --cxxflags`
-#ALLCXXFLAGS = -c -g -O3 -Wall `wx-config --cxxflags` $(XHINCLUDES)
+ALLCXXFLAGS = -c -g -O3 -Wall -fno-strict-aliasing $(XHINCLUDES) `$(WXCONFIG) --cxxflags`
+#ALLCXXFLAGS = -c -g -O3 -Wall `$(WXCONFIG) --cxxflags` $(XHINCLUDES)
 $(info Using Linux environment...)
 endif
 
