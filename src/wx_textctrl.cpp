@@ -51,4 +51,3 @@ HB_FUNC( WXTEXTCTRL_NEW )
 
   hb_itemReturn( pSelf );
 }
-

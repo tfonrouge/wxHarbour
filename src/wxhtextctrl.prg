@@ -34,7 +34,3 @@ ENDCLASS
 /*
   EndClass wxTextCtrl
 */
-
-
-
-

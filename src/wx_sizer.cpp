@@ -29,6 +29,12 @@ HB_FUNC( WX_SIZER_ADD2 )
   sizer->Add( (wxWindow *) hb_par_WX( 2 ), hb_parnl(3), hb_parnl(4), hb_parnl(5), (wxObject *) hb_par_WX( 6 ) );
 }
 
+HB_FUNC( WX_SIZER_ADD4 )
+{
+  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
+  sizer->Add( (wxSizer *) hb_par_WX( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), (wxObject *) hb_par_WX( 6 ) );
+}
+
 HB_FUNC( WX_SIZER_ADD5 )
 {
   wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
