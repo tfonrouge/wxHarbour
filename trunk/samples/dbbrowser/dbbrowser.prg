@@ -43,6 +43,7 @@ ENDCLASS
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL grid, boxSizer, gtable, button
+  LOCAL panel
 
   CREATE FRAME oWnd ;
          FROM 10,10 SIZE 600,400 ;
@@ -63,9 +64,11 @@ FUNCTION OnInit() CLASS MyApp
     ENDMENU
   ENDMENUBAR
 
-  oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+  panel := wxPanel():New( oWnd )
 
-  grid := wxGrid():New( oWnd, wxID_ANY, {-1,-1}, {200,150}, HB_BITOR(wxSUNKEN_BORDER,wxHSCROLL,wxVSCROLL) )
+  panel:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+
+  grid := wxGrid():New( panel, wxID_ANY, {-1,-1}, {200,150}, HB_BITOR(wxSUNKEN_BORDER,wxHSCROLL,wxVSCROLL) )
   grid:SetDefaultColSize( 50 )
   grid:SetDefaultRowSize( 25 )
   grid:SetColLabelSize(25)
@@ -81,7 +84,7 @@ FUNCTION OnInit() CLASS MyApp
 
   //boxSizer:Add(5, 5, 1, wxALIGN_RIGHT | wxALL, 5)
 
-  button := wxButton():New( oWnd, wxID_OK )
+  button := wxButton():New( panel, wxID_OK )
 
   boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 

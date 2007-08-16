@@ -73,9 +73,10 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
 
-  boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
+  boxSizer:Add( 5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
 
-  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "Any Value" ), 0, HB_BITOR( wxGROW, wxALL ), 5 )
+  boxSizer:Add( wxStaticText():New( oWnd, , "Enter Your Name:"), 0, HB_BITOR( wxGROW, wxALL ), 5 )
+  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "" ), 0, HB_BITOR( wxGROW, wxALL ), 5 )
 
   button := wxButton():New( oWnd, wxID_OK )
 
