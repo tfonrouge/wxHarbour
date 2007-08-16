@@ -23,21 +23,37 @@
 
 #include "wx_sizer.h"
 
-HB_FUNC( WX_SIZER_ADD2 )
+/*
+  wxSizer:Add Emulates Overload on Harbour method.
+  Teo. Mexico 2007
+  Compat: wxWidgets 2.4.8
+*/
+HB_FUNC( WXSIZER_ADD )
 {
-  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-  sizer->Add( (wxWindow *) hb_par_WX( 2 ), hb_parnl(3), hb_parnl(4), hb_parnl(5), (wxObject *) hb_par_WX( 6 ) );
-}
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxSizer* sizer = (wxSizer *) wx_ObjList_wxGet( pSelf );
 
-HB_FUNC( WX_SIZER_ADD4 )
-{
-  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-  sizer->Add( (wxSizer *) hb_par_WX( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), (wxObject *) hb_par_WX( 6 ) );
+  if( ISOBJECT( 1 ) )
+  {
+    wxObject* obj = (wxObject *) hb_par_WX( 1 );
+    if( obj->IsKindOf( CLASSINFO( wxWindow ) ) )
+      if( hb_pcount() == 2 )
+        /*wxSizerItem* Add(wxWindow* window, const wxSizerFlags& flags)*/
+        sizer->Add( (wxWindow *) obj, hb_parnl( 2 ) ) ;
+      else
+        /*wxSizerItem* Add(wxWindow* window, int proportion = 0,int flag = 0, int border = 0, wxObject* userData = NULL)*/
+        sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
+    else
+      if( obj->IsKindOf( CLASSINFO( wxSizer ) ) )
+        if( hb_pcount() == 2 )
+          /*wxSizerItem* Add(wxSizer* sizer, const wxSizerFlags& flags)*/
+          sizer->Add( (wxSizer *) obj, hb_parnl( 2 ) ) ;
+        else
+          /*wxSizerItem* Add(wxSizer* sizer, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
+          sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
+  }
+  else
+    if( ISNUM( 1 ) )
+      /*wxSizerItem* Add(int width, int height, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
+      sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) hb_par_WX( 6 ) );
 }
-
-HB_FUNC( WX_SIZER_ADD5 )
-{
-  wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-  sizer->Add( hb_parnl( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), hb_parnl( 6 ), (wxObject *) hb_par_WX( 7 ) );
-}
-
