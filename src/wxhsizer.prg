@@ -29,36 +29,9 @@ CLASS wxSizer FROM wxObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD Add( p1, p2, p3, p4, p5, p6 )
+  METHOD Add
 PUBLISHED:
 ENDCLASS
-
-/*
-  Add: Overloaded
-  Teo. Mexico 2006
-*/
-FUNCTION Add( p1, p2, p3, p4, p5, p6 ) CLASS wxSizer
-  LOCAL Result
-
-  DO CASE
-  CASE ValType( p1 ) = "O" .AND. p1:IsDerivedFrom("wxWindow")
-    IF PCount() = 2
-    ELSE
-      ? "Adding wxWindow..."
-      wx_Sizer_Add2( Self, p1, p2, p3, p4, p5 )
-    ENDIF
-  CASE ValType( p1 ) = "O" .AND. p1:IsDerivedFrom("wxSizer")
-    IF PCount() = 2
-    ELSE
-      ? "Adding wxSizer..."
-      wx_Sizer_Add4( Self, p1, p2, p3, p4, p5 )
-    ENDIF
-  CASE ValType( p1 ) = "N"
-    ? "Adding SPACER..."
-    Result := wx_Sizer_Add5( Self, p1, p2, p3, p4, p5, p6 )
-  ENDCASE
-
-RETURN Result
 
 /*
   EndClass wxSizer
