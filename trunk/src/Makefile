@@ -5,7 +5,7 @@
 ##
 ##
 
-XHF_DEBUG=
+XHF_DEBUG=-b
 
 MODULE=wxlib
 
@@ -25,6 +25,7 @@ wx_menu.cpp \
 wx_menuitem.cpp \
 wx_panel.cpp \
 wx_sizer.cpp \
+wx_statictext.cpp \
 wx_statusbar.cpp \
 wx_textctrl.cpp \
 wx_toplevelwindow.cpp \
@@ -48,6 +49,7 @@ wxhmenu.prg \
 wxhobject.prg \
 wxhpanel.prg \
 wxhsizer.prg \
+wxhstatictext.prg \
 wxhstatusbar.prg \
 wxhtextctrl.prg \
 wxhtoplevelwindow.prg \
