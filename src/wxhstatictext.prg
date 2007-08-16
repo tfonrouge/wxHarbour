@@ -28,6 +28,9 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
+
+  METHOD Wrap( width )
+
 PUBLISHED:
 ENDCLASS
 
