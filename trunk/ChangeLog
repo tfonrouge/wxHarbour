@@ -1,3 +1,47 @@
+2007-08-16 10:47  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.prg: Added wxPanel and enhancing
+	  the samples.
+
+2007-08-16 10:46  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run: Added WXCONFIG var to
+	  hold the wx-config variant to use in compiling/linking
+
+2007-08-16 10:44  tfonrouge
+
+	* include/wx/defs.ch: Added wxTAB_TRAVERSAL
+
+2007-08-16 10:44  tfonrouge
+
+	* src/wx_statictext.cpp, src/wxhstatictext.prg: Added the Wrap
+	  member to wxStaticText
+	  ! wxWidgets v 2.6.. does not call to Wrap correctly, even if is
+	  set to -1, 2.8.4 does ok.
+
+2007-08-16 10:42  tfonrouge
+
+	* src/wx_sizer.cpp, src/wxhsizer.prg: Moved the overloaded variants
+	  for the member Add from .prg to .cpp
+
+2007-08-16 04:02  tfonrouge
+
+	* src/wx_sizer.cpp, src/wx_textctrl.cpp, src/wxhsizer.prg,
+	  src/wxhtextctrl.prg: : Adding the version 4 of overloading ::Add
+	  * Maybe is time to do this overloading emulation enterily on the
+	  wx_Sizer class
+
+2007-08-16 03:55  tfonrouge
+
+	* src/Makefile, src/wx_statictext.cpp, src/wx_statictext.h,
+	  src/wxhstatictext.prg: : Added wxStaticText
+
+2007-08-15 05:02  tfonrouge
+
+	* ChangeLog:
+
 2007-08-15 05:00  tfonrouge
 
 	* samples/helloworld/helloworld.prg,
