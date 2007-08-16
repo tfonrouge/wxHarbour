@@ -49,9 +49,10 @@ ENDCLASS
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL menuBar,menu1,menu2
-  LOCAL boxSizer, button
+  LOCAL boxSizer, boxSizer1, button
   LOCAL panel
-  LOCAL sb
+  LOCAL itemStaticText6
+  LOCAL statusBar
 
   oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,200} )
 
@@ -69,14 +70,23 @@ FUNCTION OnInit() CLASS MyApp
   oWnd:Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, {|| oWnd:Close } )
   oWnd:SetMenuBar( menuBar )
 
-  panel := wxPanel():New( oWnd )
+  panel := wxPanel():New( oWnd, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) )
 
-  panel:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+  boxSizer := wxBoxSizer():New( wxVERTICAL )
+  panel:SetSizer( boxSizer )
 
   /* spacer */
-  boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
+  boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL ), 5)
 
-  boxSizer:Add( wxTextCtrl():New( panel, -1, "Any Value" ), 0, HB_BITOR( wxGROW, wxALL ), 5 )
+  boxSizer1 := wxBoxSizer():New( wxHORIZONTAL )
+
+  boxSizer:Add( boxSizer1, 0, HB_BITOR( wxGROW, wxALL ), 5 )
+
+  itemStaticText6 := wxStaticText():New( panel, -1, "Enter Your Name:" )
+
+  boxSizer1:Add( itemStaticText6, 0, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
+
+  boxSizer1:Add( wxTextCtrl():New( panel, -1, "<your name here>" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
   button := wxButton():New( panel, wxID_OK )
 
@@ -84,8 +94,9 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
-  sb := wxStatusBar():New( oWnd )
-  oWnd:SetStatusBar( sb )
+  statusBar := wxStatusBar():New( oWnd )
+  statusBar:SetFieldsCount( 5 )
+  oWnd:SetStatusBar( statusBar )
 
   oWnd:Show()
 
