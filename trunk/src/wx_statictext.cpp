@@ -33,6 +33,11 @@ wx_StaticText::~wx_StaticText()
 wxStaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = "staticText")
 */
 
+/*
+  wxStaticText:New
+  Teo. Mexico 2007
+  wx-Compat: 2.4.8
+*/
 HB_FUNC( WXSTATICTEXT_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -49,4 +54,16 @@ HB_FUNC( WXSTATICTEXT_NEW )
   wx_ObjList_New( staticText, pSelf );
 
   hb_itemReturn( pSelf );
+}
+
+/*
+  wxStaticText:Wrap
+  Teo. Mexico 2007
+  wx-Compat: 2.4.8
+*/
+HB_FUNC( WXSTATICTEXT_WRAP )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxStaticText* staticText = (wxStaticText *) wx_ObjList_wxGet( pSelf );
+  staticText->Wrap( hb_parnl( 1 ) );
 }
