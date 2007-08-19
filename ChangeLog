@@ -1,3 +1,20 @@
+2007-08-19 11:16  tfonrouge
+
+	* GNUmakefile, makefile.gcc, makefile.vc,
+	  samples/dbbrowser/GNUmakefile, samples/dbbrowser/makefile.gcc,
+	  samples/dbbrowser/makefile.vc, samples/helloworld/GNUmakefile,
+	  samples/helloworld/makefile.gcc, samples/helloworld/makefile.vc,
+	  samples/helloworld1/GNUmakefile,
+	  samples/helloworld1/makefile.gcc,
+	  samples/helloworld1/makefile.vc, samples/makefile.gcc,
+	  samples/makefile.vc, wxharbour.bkl: Bakefiles for: GNUmake,
+	  MinGW, MSVC
+	  TODO: Fix and Symplify linking process under Windows with MSVC
+
+2007-08-19 01:41  tfonrouge
+
+	* ChangeLog:
+
 2007-08-19 01:40  tfonrouge
 
 	* GNUmakefile, config/Makefile.bat, config/Makefile.inc,
