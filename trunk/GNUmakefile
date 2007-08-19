@@ -19,9 +19,6 @@ RANLIB := ranlib
 # C++ compiler 
 CXX := g++
 
-# Standard preprocessor flags (common for CC and CXX) 
-CPPFLAGS := 
-
 
 
 # -------------------------------------------------------------------------
@@ -32,10 +29,11 @@ CPPFLAGS :=
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
 HRBFLAGS = -go -n -a -v -m -es2 -w2
-HRBINCLUDES = -Iinclude/ -I/usr/include/harbour/
-BUILDDIR = obj/gcc
-WXHARBOUR_CXXFLAGS = -Iinclude -I/usr/include/harbour -W -Wall -O2 $(CPPFLAGS) \
-	-fno-strict-aliasing `wx-config --cxxflags`
+HRBINCLUDES = -Iinclude -I/usr/include/harbour -I/usr/local/include
+BUILDDIR = obj/unix/gcc
+CPPFLAGS = -Iinclude -I/usr/include/harbour -I/usr/local/include
+WXHARBOUR_CXXFLAGS = -W -Wall -O2 $(CPPFLAGS) -fno-strict-aliasing `wx-config \
+	--cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wx_menu.o \
 	$(BUILDDIR)/wxharbour_wx_toplevelwindow.o \

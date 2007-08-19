@@ -19,10 +19,10 @@
 ### Variables: ###
 
 HRBFLAGS = -go -n -a -v -m -es2 -w2
-HRBINCLUDES = -I../../include/ -I/usr/include/harbour/
+HRBINCLUDES = -I../../include -I/usr/include/harbour -I/usr/local/include
 CC = hblnk
-BUILDDIR = obj/gcc
-LDFLAGS = -L../../obj/gcc/
+BUILDDIR = obj/unix/gcc
+LDFLAGS = -lwxharbour `wx-config --libs`
 HELLOWORLD1_OBJECTS =  \
 	$(BUILDDIR)/helloworld1_helloworld1.o
 
@@ -48,7 +48,7 @@ clean:
 	rm -f ./helloworld1
 
 ./helloworld1: $(HELLOWORLD1_OBJECTS)
-	$(CC) -o $@ $(HELLOWORLD1_OBJECTS) $(LDFLAGS)  -lwxharbour `wx-config --libs`
+	$(CC) -o $@ $(HELLOWORLD1_OBJECTS) $(LDFLAGS)  -L../../obj/unix/gcc
 
 $(BUILDDIR)/helloworld1_helloworld1.o: ./helloworld1.prg
 	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $<
