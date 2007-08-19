@@ -18,43 +18,35 @@
 
 ### Variables: ###
 
-HRBFLAGS = -go -n -a -v -m -es2 -w2
-HRBINCLUDES = -I../../include -I/usr/include/harbour -I/usr/local/include
-CC = hblnk
-BUILDDIR = obj/unix/gcc
-LDFLAGS = -lwxharbour `wx-config --libs`
-HELLOWORLD_OBJECTS =  \
-	$(BUILDDIR)/helloworld_helloworld.o
+MAKEARGS = CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)"
 
 ### Conditionally set variables: ###
 
 
 
-all: $(BUILDDIR)
-$(BUILDDIR):
-	@mkdir -p $(BUILDDIR)
-
 ### Targets: ###
 
-all: ./helloworld
-
-install: all
-
-uninstall: 
+all: dbbrowser helloworld helloworld1
 
 clean: 
-	rm -f $(BUILDDIR)/*.o
-	rm -f $(BUILDDIR)/*.d
-	rm -f ./helloworld
+	-if exist .\*.o del .\*.o
+	-if exist .\*.d del .\*.d
+	$(MAKE) -C dbbrowser -f makefile.gcc $(MAKEARGS) clean
+	$(MAKE) -C helloworld -f makefile.gcc $(MAKEARGS) clean
+	$(MAKE) -C helloworld1 -f makefile.gcc $(MAKEARGS) clean
 
-./helloworld: $(HELLOWORLD_OBJECTS)
-	$(CC) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L../../obj/unix/gcc
+dbbrowser: 
+	$(MAKE) -C dbbrowser -f makefile.gcc $(MAKEARGS) all
 
-$(BUILDDIR)/helloworld_helloworld.o: ./helloworld.prg
-	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $<
+helloworld: 
+	$(MAKE) -C helloworld -f makefile.gcc $(MAKEARGS) all
 
-.PHONY: all install uninstall clean
+helloworld1: 
+	$(MAKE) -C helloworld1 -f makefile.gcc $(MAKEARGS) all
+
+.PHONY: all clean dbbrowser helloworld helloworld1
 
 
 # Dependencies tracking:
--include $(BUILDDIR)/*.d
+-include ./*.d

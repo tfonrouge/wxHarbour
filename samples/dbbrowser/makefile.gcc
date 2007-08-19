@@ -21,10 +21,10 @@
 HRBFLAGS = -go -n -a -v -m -es2 -w2
 HRBINCLUDES = -I../../include -I/usr/include/harbour -I/usr/local/include
 CC = hblnk
-BUILDDIR = obj/unix/gcc
+BUILDDIR = obj/win32/gcc
 LDFLAGS = -lwxharbour `wx-config --libs`
-HELLOWORLD_OBJECTS =  \
-	$(BUILDDIR)/helloworld_helloworld.o
+DBBROWSER_OBJECTS =  \
+	$(BUILDDIR)\dbbrowser_dbbrowser.o
 
 ### Conditionally set variables: ###
 
@@ -32,28 +32,24 @@ HELLOWORLD_OBJECTS =  \
 
 all: $(BUILDDIR)
 $(BUILDDIR):
-	@mkdir -p $(BUILDDIR)
+	-if not exist $(BUILDDIR) mkdir $(BUILDDIR)
 
 ### Targets: ###
 
-all: ./helloworld
-
-install: all
-
-uninstall: 
+all: .\dbbrowser.exe
 
 clean: 
-	rm -f $(BUILDDIR)/*.o
-	rm -f $(BUILDDIR)/*.d
-	rm -f ./helloworld
+	-if exist $(BUILDDIR)\*.o del $(BUILDDIR)\*.o
+	-if exist $(BUILDDIR)\*.d del $(BUILDDIR)\*.d
+	-if exist .\dbbrowser.exe del .\dbbrowser.exe
 
-./helloworld: $(HELLOWORLD_OBJECTS)
-	$(CC) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L../../obj/unix/gcc
+.\dbbrowser.exe: $(DBBROWSER_OBJECTS)
+	$(CC) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L..\..\obj\win32\gcc
 
-$(BUILDDIR)/helloworld_helloworld.o: ./helloworld.prg
+$(BUILDDIR)\dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $<
 
-.PHONY: all install uninstall clean
+.PHONY: all clean
 
 
 # Dependencies tracking:

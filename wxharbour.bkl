@@ -11,8 +11,6 @@
       $(fileList("*.cpp"))
       $(fileList("*.prg"))
     </sources>
-    <include>include</include>
-    <include>/usr/include/harbour</include>
     <warnings>max</warnings>
     <precomp-headers>on</precomp-headers>
     <optimize>

@@ -19,10 +19,10 @@
 ### Variables: ###
 
 HRBFLAGS = -go -n -a -v -m -es2 -w2
-HRBINCLUDES = -I../../include/ -I/usr/include/harbour/
+HRBINCLUDES = -I../../include -I/usr/local/include
 CC = hblnk
-BUILDDIR = obj/gcc
-LDFLAGS = -L../../obj/gcc/
+BUILDDIR = obj/unix/gcc
+LDFLAGS = -lwxharbour `wx-config --libs`
 DBBROWSER_OBJECTS =  \
 	$(BUILDDIR)/dbbrowser_dbbrowser.o
 
@@ -48,7 +48,7 @@ clean:
 	rm -f ./dbbrowser
 
 ./dbbrowser: $(DBBROWSER_OBJECTS)
-	$(CC) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)  -lwxharbour `wx-config --libs`
+	$(CC) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)  -L../../obj/unix/gcc
 
 $(BUILDDIR)/dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $<
