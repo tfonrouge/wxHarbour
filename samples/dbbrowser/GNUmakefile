@@ -19,7 +19,7 @@
 ### Variables: ###
 
 HRBFLAGS = -go -n -a -v -m -es2 -w2
-HRBINCLUDES = -I../../include -I/usr/local/include
+HRBINCLUDES = -I../../include -I/usr/include/harbour -I/usr/local/include
 CC = hblnk
 BUILDDIR = obj/unix/gcc
 LDFLAGS = -lwxharbour `wx-config --libs`
