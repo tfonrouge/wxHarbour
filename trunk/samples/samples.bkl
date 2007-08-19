@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <template id="sub">
+    <dir>$(id)</dir>
+    <dependency-of>all</dependency-of>
+  </template>
+
+  <subproject id="dbbrowser" template="sub"/>
+  <subproject id="helloworld" template="sub"/>
+  <subproject id="helloworld1" template="sub"/>
+
+</makefile>

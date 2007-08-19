@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="config/template_prg.bkl"/>
+
+  <set-srcdir>src</set-srcdir>
+
+  <lib id="wxharbour">
+    <sources>
+      $(fileList("*.c"))
+      $(fileList("*.cpp"))
+      $(fileList("*.prg"))
+    </sources>
+    <include>include</include>
+    <include>/usr/include/harbour</include>
+    <warnings>max</warnings>
+    <precomp-headers>on</precomp-headers>
+    <optimize>
+      speed
+    </optimize>
+  </lib>
+
+  <subproject id="samples">
+    <dir>samples</dir>
+    <depends>wxharbour</depends>
+    <installable>no</installable>
+  </subproject>
+
+</makefile>
