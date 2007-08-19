@@ -1,3 +1,21 @@
+2007-08-19 01:40  tfonrouge
+
+	* GNUmakefile, config/Makefile.bat, config/Makefile.inc,
+	  config/Makefile.run, samples/GNUmakefile, samples/Makefile,
+	  samples/dbbrowser/GNUmakefile, samples/dbbrowser/Makefile,
+	  samples/dbbrowser/dbbrowser.bkl, samples/helloworld/GNUmakefile,
+	  samples/helloworld/Makefile, samples/helloworld/helloworld.bkl,
+	  samples/helloworld1/GNUmakefile, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.bkl, samples/samples.bkl,
+	  src/Makefile, wxharbour.bkl: Now using Bakefiles to allow cross
+	  compiling:
+	  + Added GNUmakefile's to build libs & samples
+	  TODO: Create makefiles for the other platforms.
+
+2007-08-16 10:49  tfonrouge
+
+	* ChangeLog:
+
 2007-08-16 10:47  tfonrouge
 
 	* samples/dbbrowser/dbbrowser.prg,
