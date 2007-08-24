@@ -1,3 +1,20 @@
+2007-08-24 06:17  tfonrouge
+
+	* samples/helloworld1/helloworld1.prg: * Added wxNotebook control
+	  sample.
+
+2007-08-24 06:16  tfonrouge
+
+	* GNUmakefile, makefile.gcc, makefile.vc, src/wx_notebook.cpp,
+	  src/wx_notebook.h, src/wx_statusbar.cpp, src/wxhnotebook.prg:
+	  Added wxNotebook
+	  + Added wxNotebook class
+	  + Added ::AddPage
+
+2007-08-19 11:27  tfonrouge
+
+	* ChangeLog, samples/dbbrowser/GNUmakefile: Minor Fix to makefile
+
 2007-08-19 11:17  tfonrouge
 
 	* ChangeLog:
