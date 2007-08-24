@@ -51,10 +51,11 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, boxSizer1, button
   LOCAL panel
+  LOCAL noteBook
   LOCAL itemStaticText6
   LOCAL statusBar
 
-  oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,200} )
+  oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,400} )
 
   menuBar := wxMenubar():New()
   menu1 := wxMenu():New()
@@ -75,8 +76,15 @@ FUNCTION OnInit() CLASS MyApp
   boxSizer := wxBoxSizer():New( wxVERTICAL )
   panel:SetSizer( boxSizer )
 
+  noteBook := wxNoteBook():New( panel )
+  noteBook:AddPage( wxPanel():New( noteBook, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) ), "Tab1" )
+  noteBook:AddPage( wxPanel():New( noteBook, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) ), "Tab2" )
+  noteBook:AddPage( wxPanel():New( noteBook, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) ), "Tab3" )
+
+  boxSizer:Add( noteBook, 1, HB_BITOR( wxGROW, wxALL ) )
+
   /* spacer */
-  boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL ), 5)
+  //boxSizer:Add(5, 5, 1, HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL ), 5)
 
   boxSizer1 := wxBoxSizer():New( wxHORIZONTAL )
 
