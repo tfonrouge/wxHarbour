@@ -78,22 +78,3 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
   delete[] widths;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
