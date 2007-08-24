@@ -36,6 +36,7 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)\wxharbour_wx_menu.obj \
 	$(BUILDDIR)\wxharbour_wx_toplevelwindow.obj \
 	$(BUILDDIR)\wxharbour_wx_boxsizer.obj \
+	$(BUILDDIR)\wxharbour_wx_notebook.obj \
 	$(BUILDDIR)\wxharbour_wx_statictext.obj \
 	$(BUILDDIR)\wxharbour_wx_window.obj \
 	$(BUILDDIR)\wxharbour_wx_textctrl.obj \
@@ -64,6 +65,7 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)\wxharbour_wxhwindow.obj \
 	$(BUILDDIR)\wxharbour_wxhvalidator.obj \
 	$(BUILDDIR)\wxharbour_wxhapp.obj \
+	$(BUILDDIR)\wxharbour_wxhnotebook.obj \
 	$(BUILDDIR)\wxharbour_wxhevthandler.obj \
 	$(BUILDDIR)\wxharbour_wxhmenu.obj \
 	$(BUILDDIR)\wxharbour_wxhgridtablebase.obj \
@@ -118,6 +120,9 @@ $(BUILDDIR)\wxharbour_wx_toplevelwindow.obj: src\wx_toplevelwindow.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) $**
 
 $(BUILDDIR)\wxharbour_wx_boxsizer.obj: src\wx_boxsizer.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) $**
+
+$(BUILDDIR)\wxharbour_wx_notebook.obj: src\wx_notebook.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) $**
 
 $(BUILDDIR)\wxharbour_wx_statictext.obj: src\wx_statictext.cpp
@@ -202,6 +207,9 @@ $(BUILDDIR)\wxharbour_wxhvalidator.obj: src\wxhvalidator.prg
 	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $**
 
 $(BUILDDIR)\wxharbour_wxhapp.obj: src\wxhapp.prg
+	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $**
+
+$(BUILDDIR)\wxharbour_wxhnotebook.obj: src\wxhnotebook.prg
 	harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $**
 
 $(BUILDDIR)\wxharbour_wxhevthandler.obj: src\wxhevthandler.prg
