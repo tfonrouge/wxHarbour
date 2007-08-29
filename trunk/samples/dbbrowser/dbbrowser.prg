@@ -92,7 +92,7 @@ FUNCTION OnInit() CLASS MyApp
 
   CREATE STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  //ON oWnd
 
-  oWnd:Center( wxBOTH )
+  oWnd:Centre( wxBOTH )
 
   oWnd:Show()
 
