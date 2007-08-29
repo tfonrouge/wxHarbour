@@ -27,5 +27,5 @@ public:
 
   ~wx_Dialog();
 
-  void ProcessEvents(wxCommandEvent& event);
+  void ProcessEvent(wxCommandEvent& event);
 };

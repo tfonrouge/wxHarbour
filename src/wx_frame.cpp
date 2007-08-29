@@ -60,7 +60,7 @@ wx_Frame::~wx_Frame()
   wx_ObjList_wxDelete( this );
 }
 
-void wx_Frame::ProcessEvents(wxCommandEvent& event)
+void wx_Frame::ProcessEvent(wxCommandEvent& event)
 {
   PHB_ITEM pId,pEventType;
   pId = hb_itemNew( NULL );
@@ -71,12 +71,12 @@ void wx_Frame::ProcessEvents(wxCommandEvent& event)
   pEventType->type = HB_IT_INTEGER;
   pEventType->item.asInteger.length = 10;
   pEventType->item.asInteger.value = event.GetEventType();
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvents", 2, pId, pEventType );
+  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvent", 2, pId, pEventType );
 }
 
 BEGIN_EVENT_TABLE( wx_Frame, wxFrame )
-  EVT_MENU( wxID_ANY, wx_Frame::ProcessEvents )
-  EVT_BUTTON( wxID_ANY, wx_Frame::ProcessEvents )
+  EVT_MENU( wxID_ANY, wx_Frame::ProcessEvent )
+  EVT_BUTTON( wxID_ANY, wx_Frame::ProcessEvent )
 END_EVENT_TABLE()
 
 static PHB_ITEM oLastFrame;
@@ -122,6 +122,19 @@ HB_FUNC( WXFRAME_NEW )
 }
 
 /*
+  wxFrame::Centre( int direction = wxBOTH )
+  RETURN void
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXFRAME_CENTRE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Frame* frame;
+  if ( pSelf && (frame = (wx_Frame*) wx_ObjList_wxGet( pSelf ) ) )
+    frame->Centre( hb_parni(1) );
+}
+
+/*
   SetMenuBar: message
   Teo. Mexico 2006
 */
@@ -155,14 +168,3 @@ HB_FUNC( GETLASTFRAME)
 {
   hb_itemReturn( oLastFrame );
 }
-
-
-
-
-
-
-
-
-
-
-

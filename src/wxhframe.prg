@@ -27,6 +27,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, title, pos, size, style, name )
+  METHOD Centre( direction )
   METHOD SetMenuBar( menuBar )
   METHOD SetStatusBar( statusBar )
   METHOD OnCreate
@@ -55,9 +56,3 @@ RETURN
 /*
   End Class wxFrame
 */
-
-
-
-
-
-

@@ -29,7 +29,7 @@ wx_Dialog::~wx_Dialog()
   wx_ObjList_wxDelete( this );
 }
 
-void wx_Dialog::ProcessEvents(wxCommandEvent& event)
+void wx_Dialog::ProcessEvent(wxCommandEvent& event)
 {
   PHB_ITEM pId,pEventType;
   pId = hb_itemNew( NULL );
@@ -40,12 +40,12 @@ void wx_Dialog::ProcessEvents(wxCommandEvent& event)
   pEventType->type = HB_IT_INTEGER;
   pEventType->item.asInteger.length = 10;
   pEventType->item.asInteger.value = event.GetEventType();
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvents", 2, pId, pEventType );
+  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvent", 2, pId, pEventType );
 }
 
 BEGIN_EVENT_TABLE( wx_Dialog, wxDialog )
-  EVT_MENU( wxID_ANY, wx_Dialog::ProcessEvents )
-  EVT_BUTTON( wxID_ANY, wx_Dialog::ProcessEvents )
+  EVT_MENU( wxID_ANY, wx_Dialog::ProcessEvent )
+  EVT_BUTTON( wxID_ANY, wx_Dialog::ProcessEvent )
 END_EVENT_TABLE()
 
 static PHB_ITEM oLastDialog;

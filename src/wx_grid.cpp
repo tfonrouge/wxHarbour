@@ -141,12 +141,3 @@ HB_FUNC( WXGRID_SETTABLE )
   if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetTable( gridTable, takeOwnership, selmode );
 }
-
-
-
-
-
-
-
-
-

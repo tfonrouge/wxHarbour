@@ -36,13 +36,19 @@ wx_Notebook::~wx_Notebook()
 HB_FUNC( WXNOTEBOOK_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-  wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parnl( 2 );
-  const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
-  const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
-  long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-  const wxString& name = ISNIL( 6 ) ? wxNotebookNameStr : wxString( hb_parcx( 6 ), wxConvLocal );
-  wx_Notebook* Notebook = new wx_Notebook( parent, id, pos, size, style, name );
+  wx_Notebook* Notebook;
+  if( hb_pcount() )
+  {
+    wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parnl( 2 );
+    const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
+    const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
+    long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
+    const wxString& name = ISNIL( 6 ) ? wxNotebookNameStr : wxString( hb_parcx( 6 ), wxConvLocal );
+    Notebook = new wx_Notebook( parent, id, pos, size, style, name );
+  }
+  else
+    Notebook = new wx_Notebook();
 
   // Add object's to hash list
   wx_ObjList_New( Notebook, pSelf );

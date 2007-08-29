@@ -21,15 +21,8 @@ CLASS wxTopLevelWindow FROM wxWindow
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD Center( direction )
 PUBLISHED:
 ENDCLASS
 /*
   End Class wxTopLevelWindow
 */
-
-
-
-
-
-
