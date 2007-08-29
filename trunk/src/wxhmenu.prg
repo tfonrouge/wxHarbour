@@ -104,13 +104,3 @@ RETURN NIL
 /*
   EndClass wxMenu
 */
-
-
-
-
-
-
-
-
-
-

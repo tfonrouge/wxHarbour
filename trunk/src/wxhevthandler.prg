@@ -24,7 +24,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   METHOD Connect( id, eventType, bAction )
-  METHOD ProcessEvents( event )
+  METHOD ProcessEvent( event )
 PUBLISHED:
 ENDCLASS
 
@@ -37,10 +37,10 @@ PROCEDURE Connect( id, eventType, bAction ) CLASS wxEvtHandler
 RETURN
 
 /*
-  ProcessEvents
+  ProcessEvent
   Teo. Mexico 2006
 */
-PROCEDURE ProcessEvents( id, eventType ) CLASS wxEvtHandler
+PROCEDURE ProcessEvent( id, eventType ) CLASS wxEvtHandler
   LOCAL evt
   LOCAL bAct
 

@@ -21,6 +21,7 @@ CLASS wxWindow FROM wxEvtHandler
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  METHOD Centre( direction )
   METHOD Close( force )
   METHOD GetId
   METHOD Hide( Value )

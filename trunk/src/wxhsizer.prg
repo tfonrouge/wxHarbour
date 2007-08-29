@@ -36,5 +36,3 @@ ENDCLASS
 /*
   EndClass wxSizer
 */
-
-

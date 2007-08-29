@@ -68,23 +68,3 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
   if ( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
     menu->AppendSeparator();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

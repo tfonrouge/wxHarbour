@@ -69,13 +69,3 @@ HB_FUNC( GETLASTMENUBAR )
 {
   hb_itemReturn( oLastMenuBar );
 }
-
-
-
-
-
-
-
-
-
-

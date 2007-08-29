@@ -23,6 +23,15 @@
 
 using namespace std;
 
+HB_FUNC( WXWINDOW_CENTRE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->Centre( hb_parni( 1 ) );
+  hb_ret();
+}
+
 HB_FUNC( WXWINDOW_CLOSE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -87,14 +96,3 @@ HB_FUNC( WXWINDOW_SHOW )
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-

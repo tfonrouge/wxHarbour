@@ -74,13 +74,3 @@ HB_FUNC( WXEVT_FIRST )
 {
   hb_retnl( wxEVT_COMMAND_BUTTON_CLICKED + hb_parnl(1) - 1 );
 }
-
-
-
-
-
-
-
-
-
-

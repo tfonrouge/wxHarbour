@@ -34,5 +34,3 @@ ENDCLASS
 /*
   EndClass wxValidator
 */
-
-
