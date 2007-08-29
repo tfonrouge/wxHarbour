@@ -49,11 +49,13 @@ ENDCLASS
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL menuBar,menu1,menu2
-  LOCAL boxSizer, boxSizer1, button
+  LOCAL boxSizer, boxSizer1
+  LOCAL buttonOk, button1
   LOCAL panel
   LOCAL noteBook
   LOCAL itemStaticText6
   LOCAL statusBar
+  LOCAL textCtrl
 
   oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,400} )
 
@@ -94,12 +96,15 @@ FUNCTION OnInit() CLASS MyApp
 
   boxSizer1:Add( itemStaticText6, 0, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
-  boxSizer1:Add( wxTextCtrl():New( panel, -1, "<your name here>" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
+  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> áéíóúñÑ" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
-  button := wxButton():New( panel, wxID_OK )
+  button1 := wxButton():New( panel , 100 )
+  buttonOk := wxButton():New( panel, wxID_OK )
 
-  boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
+  boxSizer:Add( button1, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
+  boxSizer:Add( buttonOk, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 
+  oWnd:Connect( 100, wxEVT_COMMAND_BUTTON_CLICKED, {|| PrintValue( textCtrl ) } )
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
   statusBar := wxStatusBar():New( oWnd )
@@ -109,3 +114,11 @@ FUNCTION OnInit() CLASS MyApp
   oWnd:Show()
 
 RETURN .T.
+
+/*
+  PrintValue
+  Teo. Mexico 2007
+*/
+PROCEDURE PrintValue( textCtrl )
+  ? textCtrl:GetValue()
+RETURN
