@@ -28,6 +28,8 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
+
+  METHOD GetValue AS STRING
 PUBLISHED:
 ENDCLASS
 
