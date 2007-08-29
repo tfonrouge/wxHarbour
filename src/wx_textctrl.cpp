@@ -51,3 +51,17 @@ HB_FUNC( WXTEXTCTRL_NEW )
 
   hb_itemReturn( pSelf );
 }
+
+/*
+  wxTextCtrl:GetValue
+  Teo. Mexico 2007
+*/
+HB_FUNC( WXTEXTCTRL_GETVALUE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTextCtrl* textCtrl;
+  if ( pSelf && (textCtrl = (wxTextCtrl *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retc( textCtrl->GetValue().mb_str() );
+  else
+    hb_ret();
+}
