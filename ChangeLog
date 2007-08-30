@@ -1,3 +1,46 @@
+2007-08-30 08:26  tfonrouge
+
+	* doc, doc/wxharbour.chm, doc/wxharbour.htm: Added Documentarion
+	  based on wxWidgets document archives.
+	  * Documentation should have the available wxHarbour Classes.
+
+2007-08-29 19:36  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg: Renamed :Center to :Center
+
+2007-08-29 19:36  tfonrouge
+
+	* samples/helloworld1/helloworld1.prg: Added GetValue to retrieve
+	  buffer of wxTextCtrl
+
+2007-08-29 19:35  tfonrouge
+
+	* src/wx_app.cpp, src/wx_dialog.cpp, src/wx_dialog.h,
+	  src/wx_frame.cpp, src/wx_frame.h, src/wx_grid.cpp,
+	  src/wx_menu.cpp, src/wx_menubar.cpp, src/wx_notebook.cpp,
+	  src/wx_panel.cpp, src/wx_toplevelwindow.cpp, src/wx_window.cpp,
+	  src/wxhevthandler.prg, src/wxhframe.prg, src/wxhgrid.prg,
+	  src/wxhmenu.prg, src/wxhsizer.prg, src/wxhtoplevelwindow.prg,
+	  src/wxhvalidator.prg, src/wxhwindow.prg: Minor fixes.
+	  * Renamed ::ProcessEvents to ::ProcessEvent
+	  + Added ::Centre to wxFrame
+	  TODO: need to check all the other ::Centre methods in the other
+	  classes
+
+2007-08-29 19:31  tfonrouge
+
+	* src/wxhtextctrl.prg: Added :GetValue method to retrieve edit
+	  buffer.
+
+2007-08-29 19:30  tfonrouge
+
+	* src/wx_textctrl.cpp: Added :GetValue method to retrieve edit
+	  buffer.
+
+2007-08-24 06:19  tfonrouge
+
+	* ChangeLog:
+
 2007-08-24 06:17  tfonrouge
 
 	* samples/helloworld1/helloworld1.prg: * Added wxNotebook control
