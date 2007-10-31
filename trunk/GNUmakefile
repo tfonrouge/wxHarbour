@@ -41,6 +41,7 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wx_notebook.o \
 	$(BUILDDIR)/wxharbour_wx_statictext.o \
 	$(BUILDDIR)/wxharbour_wx_window.o \
+	$(BUILDDIR)/wxharbour_wx_functions.o \
 	$(BUILDDIR)/wxharbour_wx_textctrl.o \
 	$(BUILDDIR)/wxharbour_wx_app.o \
 	$(BUILDDIR)/wxharbour_wx_statusbar.o \
@@ -129,6 +130,9 @@ $(BUILDDIR)/wxharbour_wx_statictext.o: src/wx_statictext.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(BUILDDIR)/wxharbour_wx_window.o: src/wx_window.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(BUILDDIR)/wxharbour_wx_functions.o: src/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(BUILDDIR)/wxharbour_wx_textctrl.o: src/wx_textctrl.cpp

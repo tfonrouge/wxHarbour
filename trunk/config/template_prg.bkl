@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <set var="HRBFLAGS" make_var="1">
+    -go -n -a -v -m -es2 -w2
+  </set>
+
+  <set var="HRBINCLUDES" make_var="1">
+    <!-- Seems that gcc under mingw has trouble with -Ipath/ (the last"/") -->
+    <if cond="FORMAT=='gnu'">
+      -Iinclude -I/usr/include/harbour -I/usr/local/include
+    </if>
+    <if cond="FORMAT=='mingw'">
+      -Iinclude -I/usr/local/include
+    </if>
+    <if cond="FORMAT=='msvc'">
+      -IInclude -IC:\Harbour\Include
+    </if>
+  </set>
+
+  <set var="CC" make_var="1">
+    hblnk
+  </set>
+
+  <set var="BUILDDIR" make_var="1">
+    <if cond="FORMAT=='gnu'">
+      obj/$(TOOLSET)/$(COMPILER)
+    </if>
+    <if cond="FORMAT=='mingw'">
+      obj/$(TOOLSET)/$(COMPILER)
+    </if>
+    <if cond="FORMAT=='msvc'">
+      obj\$(TOOLSET)\$(COMPILER)
+    </if>
+  </set>
+
+  <!-- Defines how to call the Harbour compiler in the makefiles -->
+  <template id="__commands_templ_PRG">
+    <!-- gnu Makefiles -->
+    <if cond="FORMAT=='gnu'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $&lt;
+      </set>
+    </if>
+    <!-- mingw Makefiles -->
+    <if cond="FORMAT=='mingw'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $&lt;
+      </set>
+    </if>
+    <if cond="FORMAT=='msvc'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        harbour $(HRBFLAGS) $(HRBINCLUDES) -o$@ $**
+      </set>
+    </if>
+  </template>
+
+  <define-rule name ="__prg-to-$(OBJEXT[1:])" extends="__any,compilation_rule">
+    <template template="__commands_templ_PRG">
+      <set var="__command">$(__COMPILE_PRG_CMD)</set>
+    </template>
+  </define-rule>
+
+  <echo>compiler: $(COMPILER)</echo>
+  <echo>platform: $(PLATFORM_UNIX)</echo>
+
+  <set var="CPPFLAGS" make_var="1">
+    <if cond="COMPILER=='gcc'">
+      -Iinclude -I/usr/include/harbour -I/usr/local/include
+    </if>
+    <if cond="COMPILER=='vc'">
+      -IInclude -IC:\Harbour\Include
+    </if>
+  </set>
+
+  <set var="CXXFLAGS">
+    <if cond="COMPILER=='gcc'">
+      -fno-strict-aliasing `wx-config --cxxflags`
+    </if>
+    <if cond="COMPILER=='vc'">
+      /DNOPCH /D__WXMSW__ /D_WINDOWS /D_UNICODE /I"C:\wxWidgets-2.8.6/include" /I"C:\wxWidgets-2.8.6/contrib/include" /I"C:\wxWidgets-2.8.6/lib/vc_lib/mswu" /I"C:\Archivos de programa\Microsoft Visual Studio 8\vc\include" /I"C:\Archivos de programa\Microsoft Platform SDK for Windows Server 2003 R2\include"
+    </if>
+  </set>
+
+</makefile>

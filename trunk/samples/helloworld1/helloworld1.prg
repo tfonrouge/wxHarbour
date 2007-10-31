@@ -96,7 +96,7 @@ FUNCTION OnInit() CLASS MyApp
 
   boxSizer1:Add( itemStaticText6, 0, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
-  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> Γ΅Γ©Γ­Γ³ΓΊΓ±Γ‘" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
+  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> αινσϊρ" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
   button1 := wxButton():New( panel , 100 )
   buttonOk := wxButton():New( panel, wxID_OK )
