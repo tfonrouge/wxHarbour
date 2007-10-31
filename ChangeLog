@@ -2,6 +2,20 @@
 
 	* doc, doc/wxharbour.chm, doc/wxharbour.htm: Added Documentarion
 	  based on wxWidgets document archives.
+
+2007-10-31 01:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+==> ChangeLog.new <==
+  * samples/helloworld1/helloworld1.prg
+    * minor cleanup
+
+  * makefile.vc
+  * GNUmakefile
+    * changed to use the wxWidgets 2.8.6 version
+
+  * src/wx_notebook.cpp
+    * minor cleanup
+
+	  based on wxWidgets document archives.
 	  * Documentation should have the available wxHarbour Classes.
 
 2007-08-29 19:36  tfonrouge
