@@ -2,6 +2,12 @@
  *
  */
 
+
+2007-11-05 09:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+==> ChangeLog.new <==
+2007-11-05 09:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/template_prg.bkl
+
 2007-10-31 01:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + config/common_samples.bkl
   + config/template_prg.bkl
