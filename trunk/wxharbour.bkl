@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <makefile>
 
-  <include file="config/template_prg.bkl"/>
+  <include file="config/tmpl_hrb.bkl"/>
 
   <set-srcdir>src</set-srcdir>
 

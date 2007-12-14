@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <makefile>
 
-  <include file="template_prg.bkl"/>
+  <include file="tmpl_hrb.bkl"/>
 
   <set var="HRBINCLUDES" make_var="1">
     <if cond="COMPILER=='gcc'">
@@ -9,15 +9,6 @@
     </if>
     <if cond="COMPILER=='vc'">
       -IInclude -I..\..\Include -IC:\Harbour\Include
-    </if>
-  </set>
-
-  <set var="LDFLAGS" make_var="1">
-    <if cond="COMPILER=='gcc'">
-      -lwxharbour `wx-config --libs`
-    </if>
-    <if cond="COMPILER=='vc'">
-      vm.lib pp.lib rtl.lib rdd.lib dbffpt.lib dbfcdx.lib dbfntx.lib hsx.lib hbsix.lib usrrdd.lib macro.lib common.lib lang.lib codepage.lib gtcgi.lib gtstd.lib gtpca.lib gtwin.lib gtwvt.lib debug.lib compiler.lib hbpcre.lib wxharbour.lib wxmsw28u_richtext.lib wxmsw28u_aui.lib wxmsw28u_core.lib wxbase28u.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregexu.lib wxmsw28u_adv.lib wxmsw28u_html.lib wxmsw28u_xrc.lib wxbase28u_net.lib wxbase28u_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
     </if>
   </set>
 

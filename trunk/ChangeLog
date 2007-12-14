@@ -3,6 +3,19 @@
  */
 
 
+2007-12-14 11:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+==> ChangeLog.new <==
+2007-12-14 11:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+    * changed bkl files to not use hblnk in linux builds
+
+
 2007-11-05 09:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 ==> ChangeLog.new <==
 2007-11-05 09:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)

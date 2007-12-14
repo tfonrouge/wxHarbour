@@ -1,4 +1,9 @@
 <?xml version="1.0" ?>
+
+<!-- Common Harbour template for Bakefiles  -->
+<!-- 2007 Teo Fonrouge                      -->
+<!-- v0.2                                   -->
+
 <makefile>
 
   <option name="BUILD">
@@ -45,10 +50,10 @@
   </set>
 
   <set var="HBDEFP">
-    <if cond="FORMAT=='msvc'">
+    <if cond="TOOLSET=='win32'">
       -dHB_OS_WIN_32
     </if>
-    <if cond="FORMAT!='msvc'">
+    <if cond="TOOLSET=='unix'">
       -dHB_OS_LINUX
     </if>
   </set>
@@ -63,7 +68,7 @@
       -IInclude -IC:\Harbour\include
     </if>
     <if cond="TOOLSET!='win32' or FORMAT=='mingw'">
-      -Iinclude -I/usr/include/harbour -I/usr/local/include
+      -Iinclude -I/usr/include/harbour -I/usr/local/include -I../../include
     </if>
   </set>
 
@@ -99,7 +104,7 @@
       vm.lib pp.lib rtl.lib libct.lib nf.lib hbwin32.lib rdd.lib dbffpt.lib dbfcdx.lib dbfntx.lib hsx.lib hbsix.lib usrrdd.lib macro.lib common.lib lang.lib codepage.lib gtcgi.lib gtstd.lib gtpca.lib gtgui.lib gtwin.lib gtwvt.lib debug.lib compiler.lib hbpcre.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:MSVCRT
     </if>
     <if cond="FORMAT!='msvc'">
-      -I/usr/include/harbour -L/usr/lib/harbour -Wl,--start-group -lharbour -lgtalleg -lhbodbc -ldebug -lrddads -lct -lnf -ltip -lxhb -lhbgd -lhbodbc -lhbmysql -Wl,--end-group -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm
+      -I/usr/include/harbour -L/usr/lib/harbour -Wl,--start-group -lvm -lpp -lrtl -lrdd -ldbffpt -ldbfcdx -ldbfntx -lhsx -lhbsix -lusrrdd -lmacro -lcommon -llang -lcodepage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -ldebug -lcompiler -lhbpcre -lct -lnf -ltip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm -lwxharbour `wx-config --libs`
     </if>
   </set>
 
