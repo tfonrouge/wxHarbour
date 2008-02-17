@@ -6,6 +6,9 @@
   <set-srcdir>src</set-srcdir>
 
   <lib id="wxharbour">
+    <dirname>
+      lib
+    </dirname>
     <sources>
       $(fileList("*.c"))
       $(fileList("*.cpp"))

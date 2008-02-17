@@ -2,6 +2,24 @@
  *
  */
 
+
+2008-02-17 10:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * GNUmakefile
+    * changed from the main bakefiles
+
+  * config/common_samples.bkl
+    * changed library path of wxH to root/lib
+
+  * config/tmpl_hrb.bkl
+    * renamed libs to the new Harbour lib name convention (prior to release 1)
+
+  * wxharbour.bkl
+    * added root/lib as target to build the libraries
+
+
 2007-12-14 11:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/GNUmakefile
   * samples/helloworld/GNUmakefile
