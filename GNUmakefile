@@ -111,7 +111,7 @@ $(BUILDDIR):
 
 ### Targets: ###
 
-all: $(BUILDDIR)/libwxharbour.a
+all: lib/libwxharbour.a
 
 install: all
 
@@ -120,15 +120,15 @@ uninstall:
 clean: 
 	rm -f $(BUILDDIR)/*.o
 	rm -f $(BUILDDIR)/*.d
-	rm -f $(BUILDDIR)/libwxharbour.a
+	rm -f lib/libwxharbour.a
 	(cd samples && $(MAKE) clean)
 
-$(BUILDDIR)/libwxharbour.a: $(WXHARBOUR_OBJECTS)
+lib/libwxharbour.a: $(WXHARBOUR_OBJECTS)
 	rm -f $@
 	$(AR) rcu $@ $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
-samples: $(BUILDDIR)/libwxharbour.a
+samples: lib/libwxharbour.a
 	(cd samples && $(MAKE) all)
 
 $(BUILDDIR)/wxharbour_wx_menu.o: src/wx_menu.cpp

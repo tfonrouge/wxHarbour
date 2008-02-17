@@ -66,7 +66,7 @@ clean:
 	rm -f ./dbbrowser
 
 ./dbbrowser: $(DBBROWSER_OBJECTS)
-	$(CC) -o $@ $(DBBROWSER_OBJECTS) -I/usr/include/harbour -L/usr/lib/harbour -Wl,--start-group -lvm -lpp -lrtl -lrdd -ldbffpt -ldbfcdx -ldbfntx -lhsx -lhbsix -lusrrdd -lmacro -lcommon -llang -lcodepage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -ldebug -lcompiler -lhbpcre -lct -lnf -ltip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm -lwxharbour `wx-config --libs`  -L../../obj/unix/gcc
+	$(CC) -o $@ $(DBBROWSER_OBJECTS) -I/usr/include/harbour -L/usr/lib/harbour -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lwxharbour -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm `wx-config --libs`  -L../../lib
 
 $(BUILDDIR)/dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<

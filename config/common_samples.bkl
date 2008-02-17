@@ -15,7 +15,7 @@
   <template id="wxh_sample">
     <app-type>gui</app-type>
     <if cond="COMPILER=='gcc'">
-      <lib-path>../../obj/$(TOOLSET)/$(COMPILER)</lib-path>
+      <lib-path>../../lib</lib-path>
     </if>
     <if cond="COMPILER=='vc'">
       <lib-path>"C:\wxWidgets-2.8.6/lib/vc_lib"</lib-path>
