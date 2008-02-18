@@ -48,8 +48,6 @@ BEGIN_EVENT_TABLE( wx_Dialog, wxDialog )
   EVT_BUTTON( wxID_ANY, wx_Dialog::ProcessEvent )
 END_EVENT_TABLE()
 
-static PHB_ITEM oLastDialog;
-
 /*
   Constructor: Object
   Teo. Mexico 2006
@@ -77,8 +75,6 @@ HB_FUNC( WXDIALOG_NEW )
 
   // Add object's to hash list
   wx_ObjList_New( dialog, pSelf );
-
-  oLastDialog = wx_ObjList_hbGet( dialog );
 
   hb_itemReturn( pSelf );
 }
@@ -155,23 +151,3 @@ HB_FUNC( WXDIALOG_SHOWMODAL )
   else
     hb_ret();
 }
-
-/*
-  GetLastDialog()
-  Teo. Mexico 2006
-*/
-HB_FUNC( GETLASTDIALOG )
-{
-  hb_itemReturn( oLastDialog );
-}
-
-
-
-
-
-
-
-
-
-
-

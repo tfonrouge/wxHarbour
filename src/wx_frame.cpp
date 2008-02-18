@@ -79,8 +79,6 @@ BEGIN_EVENT_TABLE( wx_Frame, wxFrame )
   EVT_BUTTON( wxID_ANY, wx_Frame::ProcessEvent )
 END_EVENT_TABLE()
 
-static PHB_ITEM oLastFrame;
-
 /*
   Constructor: Object
   Teo. Mexico 2006
@@ -111,11 +109,6 @@ HB_FUNC( WXFRAME_NEW )
 
   // OnCreate...
   hb_objSendMsg( pSelf, "OnCreate", 0 );
-
-  oLastFrame = wx_ObjList_hbGet( frame );
-
-  if (!oLastFrame)
-    wxLogError(_T("Trouble..."));
 
   hb_itemReturn( pSelf );
 
@@ -158,13 +151,4 @@ HB_FUNC( WXFRAME_SETSTATUSBAR )
   wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
   if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
     frame->SetStatusBar( statusBar );
-}
-
-/*
-  GetLastFrame()
-  Teo. Mexico 2006
-*/
-HB_FUNC( GETLASTFRAME)
-{
-  hb_itemReturn( oLastFrame );
 }

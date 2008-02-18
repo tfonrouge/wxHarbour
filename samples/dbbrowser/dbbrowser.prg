@@ -50,14 +50,14 @@ FUNCTION OnInit() CLASS MyApp
          ID 999 ;
          TITLE "Simple Dbf Browser"
 
-  CREATE MENUBAR STYLE 1
-    CREATE MENU "&File"
+  DEFINE MENUBAR STYLE 1 ON oWnd
+    DEFINE MENU "&File"
       ADD MENUITEM E"Open \tCtrl+O"
       ADD SEPARATOR
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits this sample..."
     ENDMENU
-    CREATE MENU "Help"
+    DEFINE MENU "Help"
       ADD MENUITEM "Fit Grid" ACTION grid:Fit()
       ADD SEPARATOR
       ADD MENUITEM "About..."
@@ -90,7 +90,7 @@ FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
 
-  CREATE STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  //ON oWnd
+  CREATE STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  ON oWnd
 
   oWnd:Centre( wxBOTH )
 

@@ -39,7 +39,7 @@ FUNCTION AddMenuItem( text, id, helpString, kind, bAction )
   Global():g_menuList[ nLast ]["menu"]:Append( menuItem )
 
   IF bAction != NIL
-    GetLastFrame():Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
+    Global():g_window:Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
 RETURN menuItem
