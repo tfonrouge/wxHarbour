@@ -59,7 +59,7 @@ PROCEDURE EndMenu
   menuListSize := Len( Global():g_menuList )
 
   IF menuListSize = 1 /* Append to menuBar */
-    GetLastMenuBar():Append( hData["menu"], hData["title"] )
+    Global():g_menuBar:Append( hData["menu"], hData["title"] )
   ELSE                /* Append SubMenu */
     menuItem := wxMenuItem():New( Global():g_menuList[ nLast -1 ]["menu"], Global():g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
     Global():g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )

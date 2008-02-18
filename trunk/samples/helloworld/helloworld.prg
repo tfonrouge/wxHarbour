@@ -54,9 +54,9 @@ FUNCTION OnInit() CLASS MyApp
          ID 999 ;
          TITLE "Hello World Sample"
 
-  CREATE MENUBAR STYLE 1
-    CREATE MENU "&File"
-      CREATE MENU "New"
+  DEFINE MENUBAR STYLE 1 ON oWnd
+    DEFINE MENU "&File"
+      DEFINE MENU "New"
         ADD MENUITEM "From A"
         ADD MENUITEM "From B"
       ENDMENU
@@ -66,7 +66,7 @@ FUNCTION OnInit() CLASS MyApp
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits the program..."
     ENDMENU
-    CREATE MENU "Help"
+    DEFINE MENU "Help"
       ADD MENUITEM "About..."
     ENDMENU
   ENDMENUBAR

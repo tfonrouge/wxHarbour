@@ -30,8 +30,6 @@ wx_MenuBar::~wx_MenuBar()
   wx_ObjList_wxDelete( this );
 }
 
-static PHB_ITEM oLastMenuBar;
-
 /*
   Constructor: wxMenuBar Object
   Teo. Mexico 2006
@@ -43,9 +41,6 @@ HB_FUNC( WXMENUBAR_NEW )
 
   // Add object's to hash list
   wx_ObjList_New( menuBar, pSelf );
-
-
-  oLastMenuBar = wx_ObjList_hbGet( menuBar );
 
   hb_itemReturn( pSelf );
 }
@@ -59,13 +54,4 @@ HB_FUNC( WXMENUBAR_APPEND )
         ( menuBar = (wx_MenuBar *) wx_ObjList_wxGet( pSelf ) ) &&
         ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
     menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );
-}
-
-/*
-  GetLastMenuBar()
-  Teo. Mexico 2006
-*/
-HB_FUNC( GETLASTMENUBAR )
-{
-  hb_itemReturn( oLastMenuBar );
 }

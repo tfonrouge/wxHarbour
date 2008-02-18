@@ -3,6 +3,39 @@
  */
 
 
+2008-02-18 01:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld/helloworld.prg
+    * minor ordering of commands in CREATE FRAME, CREATE DIALOG,
+      CREATE STATUSBAR
+    * changed CREATE MENU[BAR] TO DEFINE MENU [BAR] and added window param
+
+  * samples/helloworld1/GNUmakefile
+  * config/tmpl_hrb.bkl
+    + added -Llib to search on ROOT/lib
+
+  * src/wx_dialog.cpp
+    - removed oLastDialog static var and GetLastDialog() function to
+      avoid to keep a active and unreleased reference of the Harbour object
+
+  * src/wxhstatusbar.prg
+  * src/wx_frame.cpp
+    - removed oLastFrame static var and GetLastFrame() function to
+      avoid to keep a and unreleased active reference of the Harbour object
+
+  * src/wx_menubar.cpp
+    - removed oLastMenuBar static var and GetLastMenuBar() function to
+      avoid to keep a and unreleased active reference of the Harbour object
+
+  * src/wxhmenuitem.prg
+  * src/wxhmenu.prg
+  * src/wxhmenubar.prg
+    + added data to the TGLobal class to hold more info about the menu
+      created
+
+
+
 2008-02-17 10:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/GNUmakefile
   * samples/helloworld/GNUmakefile

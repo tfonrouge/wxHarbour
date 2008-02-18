@@ -104,7 +104,7 @@
       hbvm.lib hbpp.lib hbrtl.lib libct.lib nf.lib hbwin32.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib gtgui.lib gtwin.lib gtwvt.lib hbdebug.lib hbcplr.lib hbpcre.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:MSVCRT
     </if>
     <if cond="FORMAT!='msvc'">
-      -I/usr/include/harbour -L/usr/lib/harbour -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lwxharbour -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm `wx-config --libs`
+      -I/usr/include/harbour -L/usr/lib/harbour -Llib -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lwxharbour -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm `wx-config --libs`
     </if>
   </set>
 

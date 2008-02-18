@@ -22,11 +22,8 @@
   DefineStatusBar
   Teo. Mexico 2006
 */
-FUNCTION DefineStatusBar( parent, id, style, name, fields, widths )
+FUNCTION DefineStatusBar( oW, id, style, name, fields, widths )
   LOCAL sb
-  LOCAL oW
-
-  oW := iif( parent = NIL, GetLastFrame(), parent )
 
   sb := wxStatusBar():New( oW, id, style, name )
 

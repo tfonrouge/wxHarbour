@@ -16,41 +16,41 @@
 */
 
 #xcommand CREATE FRAME <oFrame> ;
+          [ PARENT <oParent> ] ;
+          [ ID <nID> ] ;
+          [ TITLE <cTitle> ] ;
           [ FROM <nTop>, <nLeft> SIZE <nHeight>, <nWidth> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
-          [ TITLE <cTitle> ] ;
-          [ ID <nID> ] ;
-          [ PARENT <oParent> ] ;
           => ;
           <oFrame> := wxFrame():New( [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
+          [ PARENT <oParent> ] ;
+          [ ID <nID> ] ;
+          [ TITLE <cTitle> ] ;
           [ FROM <nTop>, <nLeft> SIZE <nHeight>, <nWidth> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
-          [ TITLE <cTitle> ] ;
-          [ ID <nID> ] ;
-          [ PARENT <oParent> ] ;
           => ;
           <oDlg> := wxDialog():New( [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 
 #xcommand CREATE STATUSBAR [<oSB>] ;
-          [ON <oFrame>] ;
           [ ID <nID> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           [ FIELDS <nFields> ] ;
           [ WIDTHS <aWidths,...> ] ;
+          ON <oFrame> ;
           => ;
           [<oSB> := ] DefineStatusBar( <oFrame>, [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
 
-#xcommand CREATE MENUBAR [<oMB>] [STYLE <nStyle>] ;
+#xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] ON <oWindow> ;
           => ;
-          [<oMB> := ] DefineMenuBar( [<nStyle>] )
+          [<oMB> := ] DefineMenuBar( <oWindow>, [<nStyle>] )
 
-#xcommand CREATE MENU <cLabel> ;
+#xcommand DEFINE MENU <cLabel> ;
           => ;
           DefineMenu( <cLabel> )
 
