@@ -42,13 +42,13 @@
           [ NAME <cName> ] ;
           [ FIELDS <nFields> ] ;
           [ WIDTHS <aWidths,...> ] ;
-          ON <oFrame> ;
+          [ ON <oFrame> ] ;
           => ;
-          [<oSB> := ] DefineStatusBar( <oFrame>, [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
+          [<oSB> := ] DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
 
-#xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] ON <oWindow> ;
+#xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
-          [<oMB> := ] DefineMenuBar( <oWindow>, [<nStyle>] )
+          [<oMB> := ] DefineMenuBar( [<oWindow>], [<nStyle>] )
 
 #xcommand DEFINE MENU <cLabel> ;
           => ;

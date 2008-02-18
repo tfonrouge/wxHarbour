@@ -3,6 +3,23 @@
  */
 
 
+2008-02-18 13:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * set as optional the ON <window> param in CREATE STATUS BAR,
+      DEFINE MENUBAR
+
+  * src/wx_harbour.cpp
+    + added wxh_LastTopLevelWindow
+
+  * src/wxhmenubar.prg
+    + added code to accept wxTopLevelWindow optional parameter or get it from
+      wxh_LastTopLevelWindow()
+
+  * ChangeLog
+    * minot formatting
+
+
+
 2008-02-18 01:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * samples/dbbrowser/dbbrowser.prg
@@ -33,7 +50,6 @@
   * src/wxhmenubar.prg
     + added data to the TGLobal class to hold more info about the menu
       created
-
 
 
 2008-02-17 10:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)

@@ -28,6 +28,7 @@ WX_DECLARE_HASH_MAP( wxObject*, PHB_ITEM, wxPointerHash, wxPointerEqual, WXOBJLI
 
 static HBOBJLIST hbObjList;
 static WXOBJLIST wxObjList;
+static PHB_ITEM lastTopLevelWindow;
 
 /*
   wx_ObjList_New: Add wxObject & PHB_ITEM objects to hash list
@@ -39,6 +40,11 @@ void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
   PHB_ITEM p = hb_itemNew( NULL );
 
   hb_itemCopy( p, pSelf );
+
+  if (hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW") )
+  {
+    lastTopLevelWindow = p;
+  }
 
   hbObjList[ p->item.asArray.value ] = wxObj;
   wxObjList[ wxObj ] = p;
@@ -153,4 +159,13 @@ HB_FUNC( TBASECLASS_ONDESTRUCT )
   wxObject* wxObj = wx_ObjList_wxGet( pSelf );
   if (wxObj)
     wx_ObjList_wxDelete( wxObj );
+}
+
+/*
+ * wxh_LastTopLevelWindow
+ * Teo. Mexico 2008
+ */
+HB_FUNC( WXH_LASTTOPLEVELWINDOW )
+{
+  hb_itemReturn( lastTopLevelWindow );
 }

@@ -55,7 +55,11 @@ FUNCTION DefineMenuBar( window, style )
   oGlobal := TGlobal():New()
   oGlobal:g_menuID := 1
   oGlobal:g_menuBar := wxMenuBar():New( style )
-  oGlobal:g_window := window
+  IF window = NIL
+    oGlobal:g_window := wxh_LastTopLevelWindow()
+  ELSE
+    oGlobal:g_window := window
+  ENDIF
 RETURN oGlobal:g_menuBar
 
 /*
