@@ -24,7 +24,7 @@
   DefineMenu: Wrapper for wxMenu
   Teo. Mexico 2006
 */
-PROCEDURE DefineMenu( title )
+PROCEDURE wxh_DefineMenu( title )
   LOCAL hData := {=>}
 
   IF Global():g_menuList = NIL
@@ -42,7 +42,7 @@ RETURN
   EndMenu
   Teo. Mexico 2006
 */
-PROCEDURE EndMenu
+PROCEDURE wxh_EndMenu
   LOCAL hData
   LOCAL menuListSize
   LOCAL menuItem
