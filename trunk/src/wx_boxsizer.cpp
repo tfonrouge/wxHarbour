@@ -41,3 +41,16 @@ HB_FUNC( WXBOXSIZER_NEW )
 
 }
 
+/*
+  wxTextCtrl:GetValue
+  Teo. Mexico 2007
+*/
+HB_FUNC( WXBOXSIZER_GETORIENTATION )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxBoxSizer* boxSizer;
+  if ( pSelf && (boxSizer = (wxBoxSizer *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retni( boxSizer->GetOrientation() );
+  else
+    hb_retni( 0 );
+}

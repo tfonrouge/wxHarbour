@@ -51,7 +51,7 @@ RETURN oGlobal
   DefineMenu: Wrapper for wxMenuBar
   Teo. Mexico 2006
 */
-FUNCTION DefineMenuBar( window, style )
+FUNCTION wxh_DefineMenuBar( window, style )
   oGlobal := TGlobal():New()
   oGlobal:g_menuID := 1
   oGlobal:g_menuBar := wxMenuBar():New( style )
@@ -66,7 +66,7 @@ RETURN oGlobal:g_menuBar
   EndMenuBar
   Teo. Mexico 2006
 */
-PROCEDURE EndMenuBar
+PROCEDURE wxh_EndMenuBar
   oGlobal:g_window:SetMenuBar( oGlobal:g_menuBar )
   oGlobal := NIL
 RETURN

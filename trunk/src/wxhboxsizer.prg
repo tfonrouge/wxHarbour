@@ -27,7 +27,11 @@ CLASS wxBoxSizer FROM wxSizer
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
   CONSTRUCTOR New( orient )
+
+  METHOD GetOrientation
+
 PUBLISHED:
 ENDCLASS
 

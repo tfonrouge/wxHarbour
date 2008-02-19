@@ -24,7 +24,7 @@
   AddMenuItem: Wrapper for wxMenuItem
   Teo. Mexico 2006
 */
-FUNCTION AddMenuItem( text, id, helpString, kind, bAction )
+FUNCTION wxh_AddMenuItem( text, id, helpString, kind, bAction )
   LOCAL menuItem
   LOCAL nLast
 

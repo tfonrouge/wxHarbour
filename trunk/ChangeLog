@@ -3,6 +3,37 @@
  */
 
 
+2008-02-19 01:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * src/wxhmenubar.prg
+  * src/wxhmenuitem.prg
+  * src/wxhmenu.prg
+  * src/wxhstatusbar.prg
+    + added wxh_* prefix to Harbour functions
+    + added commands to help to construct complex sizers, spacers
+
+  * src/wxhbutton.prg
+    + added wxh_Button function
+
+  * GNUmakefile
+  + src/wxhfuncs.prg
+    * place of helper functions to help on preprocessor commands
+
+  * src/wx_sizer.cpp
+    + added ChkFlagInArray to build flag params from a array of values
+    * using ChkFlagInArray on ::Add method
+
+  * src/wx_harbour.cpp
+    + added lastSizer static var and wxh_lastSizer()
+    ! Fixed wxPos, wxSize to set default values (-1) on invalid array of params
+
+  * src/wxhboxsizer.prg
+  * src/wx_boxsizer.cpp
+    + added ::GetOrientation() method
+
+  * wxharbour.bkl
+    + added debug-info
+
 2008-02-18 13:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * set as optional the ON <window> param in CREATE STATUS BAR,

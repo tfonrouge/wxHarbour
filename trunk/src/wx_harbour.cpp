@@ -29,6 +29,7 @@ WX_DECLARE_HASH_MAP( wxObject*, PHB_ITEM, wxPointerHash, wxPointerEqual, WXOBJLI
 static HBOBJLIST hbObjList;
 static WXOBJLIST wxObjList;
 static PHB_ITEM lastTopLevelWindow;
+static PHB_ITEM lastSizer;
 
 /*
   wx_ObjList_New: Add wxObject & PHB_ITEM objects to hash list
@@ -44,6 +45,11 @@ void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
   if (hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW") )
   {
     lastTopLevelWindow = p;
+  }
+
+  if (hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER") )
+  {
+    lastSizer = p;
   }
 
   hbObjList[ p->item.asArray.value ] = wxObj;
@@ -111,8 +117,11 @@ wxPoint hb_par_wxPoint( int param )
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
   if ( pStruct && hb_arrayLen( pStruct ) == 2 )
   {
-    int x = hb_arrayGetItemPtr( pStruct, 1 )->item.asInteger.value;
-    int y = hb_arrayGetItemPtr( pStruct, 2 )->item.asInteger.value;
+    PHB_ITEM p1,p2;
+    p1 = hb_arrayGetItemPtr( pStruct, 1 );
+    p2 = hb_arrayGetItemPtr( pStruct, 2 );
+    int x = HB_IS_NUMERIC( p1 ) ? p1->item.asInteger.value : -1;
+    int y = HB_IS_NUMERIC( p2 ) ? p2->item.asInteger.value : -1;
     return wxPoint( x, y );
   }
   else
@@ -128,8 +137,11 @@ wxSize hb_par_wxSize( int param )
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
   if ( pStruct && hb_arrayLen( pStruct ) == 2 )
   {
-    int x = hb_arrayGetItemPtr( pStruct, 1 )->item.asInteger.value;
-    int y = hb_arrayGetItemPtr( pStruct, 2 )->item.asInteger.value;
+    PHB_ITEM p1,p2;
+    p1 = hb_arrayGetItemPtr( pStruct, 1 );
+    p2 = hb_arrayGetItemPtr( pStruct, 2 );
+    int x = HB_IS_NUMERIC( p1 ) ? p1->item.asInteger.value : -1;
+    int y = HB_IS_NUMERIC( p2 ) ? p2->item.asInteger.value : -1;
     return wxSize( x, y );
   }
   else
@@ -168,4 +180,13 @@ HB_FUNC( TBASECLASS_ONDESTRUCT )
 HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 {
   hb_itemReturn( lastTopLevelWindow );
+}
+
+/*
+ * wxh_LastSizer
+ * Teo. Mexico 2008
+ */
+HB_FUNC( WXH_LASTSIZER )
+{
+  hb_itemReturn( lastSizer );
 }

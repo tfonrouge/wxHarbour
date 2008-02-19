@@ -46,7 +46,7 @@ HBINCLUDES = -Iinclude -I/usr/include/harbour -I/usr/local/include \
 	-I../../include
 BUILDDIR = obj/unix/gcc
 CPPFLAGS = -Iinclude -I/usr/include/harbour -I/usr/local/include
-WXHARBOUR_CXXFLAGS = -W -Wall -O2 $(CPPFLAGS) -fno-strict-aliasing `wx-config \
+WXHARBOUR_CXXFLAGS = -W -Wall -O2 -g $(CPPFLAGS) -fno-strict-aliasing `wx-config \
 	--cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wx_menu.o \
@@ -96,7 +96,8 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wxhtoplevelwindow.o \
 	$(BUILDDIR)/wxharbour_wxhtextctrl.o \
 	$(BUILDDIR)/wxharbour_wxhbutton.o \
-	$(BUILDDIR)/wxharbour_wxhboxsizer.o
+	$(BUILDDIR)/wxharbour_wxhboxsizer.o \
+	$(BUILDDIR)/wxharbour_wxhfuncs.o
 
 ### Conditionally set variables: ###
 
@@ -273,6 +274,9 @@ $(BUILDDIR)/wxharbour_wxhbutton.o: src/wxhbutton.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 $(BUILDDIR)/wxharbour_wxhboxsizer.o: src/wxhboxsizer.prg
+	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
+
+$(BUILDDIR)/wxharbour_wxhfuncs.o: src/wxhfuncs.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 .PHONY: all install uninstall clean samples

@@ -35,13 +35,19 @@ ENDCLASS
   EndClass wxButton
 */
 
+/*
+ * wxh_Button
+ * Teo. Mexico 2008
+ */
+FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, proportion, flag, border )
+  LOCAL Result
 
+  IF window = NIL
+    window := wxh_LastTopLevelWindow()
+  ENDIF
 
+  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
 
+  wxh_SizerAdd( , Result, proportion, flag, border )
 
-
-
-
-
-
-
+RETURN Result

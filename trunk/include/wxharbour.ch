@@ -44,15 +44,15 @@
           [ WIDTHS <aWidths,...> ] ;
           [ ON <oFrame> ] ;
           => ;
-          [<oSB> := ] DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
+          [<oSB> := ] wxh_DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
 
 #xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
-          [<oMB> := ] DefineMenuBar( [<oWindow>], [<nStyle>] )
+          [<oMB> := ] wxh_DefineMenuBar( [<oWindow>], [<nStyle>] )
 
 #xcommand DEFINE MENU <cLabel> ;
           => ;
-          DefineMenu( <cLabel> )
+          wxh_DefineMenu( <cLabel> )
 
 #xcommand ADD MENUITEM <cLabel> ;
               [ID <nID>] ;
@@ -60,34 +60,110 @@
               [<kind: CHECK,RADIO>] ;
               [ACTION <bAction> ] ;
           => ;
-          AddMenuItem( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>] )
+          wxh_AddMenuItem( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>] )
 
 #xcommand ADD SEPARATOR ;
           => ;
-          AddMenuItem( NIL, wxID_SEPARATOR )
+          wxh_AddMenuItem( NIL, wxID_SEPARATOR )
 
 #xcommand ENDMENU ;
           => ;
-          EndMenu()
+          wxh_EndMenu()
 
 #xcommand ENDMENUBAR ;
           => ;
-          EndMenuBar()
+          wxh_EndMenuBar()
 
 /*
   Button
   Teo. Mexico 2006
 */
+#define wxALIGN_EXPAND  wxGROW
+#define wxALIGN_        0
 
-#xcommand BUTTON => ;
-          wxButton():New( )
+#xcommand @ BUTTON [<label>] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ PROPORTION <proportion> ] ;
+            [ ALIGN <align: LEFT, RIGHT, TOP, BOTTOM, CENTRE, EXPAND> ] ;
+            [ FLAG <flag> ] ;
+            [ BORDER <border> ] ;
+          => ;
+          wxh_Button( ;
+            [<window>], ;
+            [<id>],;
+            [<label>],;
+            ,;
+            {<nWidth>,<nHeight>},;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<proportion>],;
+            [{wxALL, wxALIGN_<align>, <flag> }],;
+            [<border>] )
 
+/*
+ * SAY ... GET
+ */
 
+#xcommand @ SAY <label> ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+            [ PROPORTION <proportion> ] ;
+            [ FLAG <flag> ] ;
+            [ BORDER <border> ] ;
+          => ;
+          wxh_Say( [<window>], ;
+                   [<id>],;
+                   [<label>],;
+                   ,;
+                   {<nWidth>,<nHeight>},;
+                   [<style>],;
+                   [<name>],;
+                   [<proportion>],;
+                   [<flag>],;
+                   [<border>] )
 
+#xcommand @ GET <text> ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+          wxh_Get( [<window>], ;
+                   [<id>],[<text>],;
+                   ,;
+                   [{<nWidth>,<nHeight>}],;
+                   [<style>],;
+                   [<name>])
 
+/*
+ * SIZERS
+ */
+#xcommand BEGIN BOXSIZER <type: VERTICAL, HORIZONTAL > ;
+          [ PROPORTION <proportion> ] ;
+          [ FLAG <flag> ] ;
+          [ BORDER <border> ] ;
+          => ;
+          wxh_DefineBoxSizer( wx<type>, <proportion>, <flag>, <border> )
 
+#xcommand END BOXSIZER ;
+          => ;
+          wxh_EndDefineBoxSizer()
 
-
-
-
-
+#xcommand SPACER ;
+          [ WIDTH <width> ] ;
+          [ HEIGHT <height> ] ;
+          [ PROPORTION <proportion> ] ;
+          [ FLAG <flag> ] ;
+          [ BORDER <border> ] ;
+          => ;
+          wxh_DefineSpacer( [<width>], [<height>], [<proportion>], [<flag>], [<border>] )

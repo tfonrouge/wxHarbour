@@ -22,8 +22,12 @@
   DefineStatusBar
   Teo. Mexico 2006
 */
-FUNCTION DefineStatusBar( oW, id, style, name, fields, widths )
+FUNCTION wxh_DefineStatusBar( oW, id, style, name, fields, widths )
   LOCAL sb
+
+  IF oW = NIL
+    oW := wxh_LastTopLevelWindow()
+  ENDIF
 
   sb := wxStatusBar():New( oW, id, style, name )
 

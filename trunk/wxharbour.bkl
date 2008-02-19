@@ -19,6 +19,9 @@
     <optimize>
       speed
     </optimize>
+    <debug-info>
+      on
+    </debug-info>
   </lib>
 
   <subproject id="samples">
