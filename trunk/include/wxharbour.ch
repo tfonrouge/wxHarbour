@@ -35,7 +35,6 @@
           => ;
           <oDlg> := wxDialog():New( [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
-
 #xcommand CREATE STATUSBAR [<oSB>] ;
           [ ID <nID> ] ;
           [ STYLE <nStyle> ] ;
@@ -75,11 +74,12 @@
           wxh_EndMenuBar()
 
 /*
-  Button
-  Teo. Mexico 2006
-*/
+ * Button
+ * Teo. Mexico 2006
+ */
+
 #define wxALIGN_EXPAND  wxGROW
-#define wxALIGN_        0
+#define wxSTRECH        1
 
 #xcommand @ BUTTON [<label>] ;
             [ ON <window> ] ;
@@ -88,82 +88,128 @@
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
-            [ PROPORTION <proportion> ] ;
-            [ ALIGN <align: LEFT, RIGHT, TOP, BOTTOM, CENTRE, EXPAND> ] ;
-            [ FLAG <flag> ] ;
+            [ <strech: STRECH> ] ;
+            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
             [ BORDER <border> ] ;
+            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_Button( ;
-            [<window>], ;
-            [<id>],;
-            [<label>],;
-            ,;
-            {<nWidth>,<nHeight>},;
-            [<style>],;
-            [<validator>],;
-            [<name>],;
-            [<proportion>],;
-            [{wxALL, wxALIGN_<align>, <flag> }],;
-            [<border>] )
+          wxh_SizerAdd( NIL,;
+            wxh_Button( ;
+              [<window>],;
+              [<id>],;
+              [<label>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<validator>],;
+              [<name>];
+            ),;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
 
 /*
  * SAY ... GET
  */
-
 #xcommand @ SAY <label> ;
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
-            [ STYLE <style> ] ;
+            [ STYLE <style: LEFT, RIGHT, CENTRE, CENTER> ] ;
             [ NAME <name> ] ;
-            [ PROPORTION <proportion> ] ;
-            [ FLAG <flag> ] ;
+            [ <strech: STRECH> ] ;
+            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
             [ BORDER <border> ] ;
+            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_Say( [<window>], ;
-                   [<id>],;
-                   [<label>],;
-                   ,;
-                   {<nWidth>,<nHeight>},;
-                   [<style>],;
-                   [<name>],;
-                   [<proportion>],;
-                   [<flag>],;
-                   [<border>] )
+          wxh_SizerAdd( NIL,;
+            wxh_Say( ;
+              [<window>],;
+              [<id>],;
+              <label>,;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [wxALIGN_<style>],;
+              [<name>];
+            ),;
+            [ wx<strech> ],;
+            [wxALIGN_<align>],;
+            [<border>],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
 
-#xcommand @ GET <text> ;
+#xcommand @ GET <var> ;
             [ ON <window> ] ;
             [ ID <id> ] ;
+            [ VALUE <value> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
+            [ <strech: STRECH> ] ;
+            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+            [ BORDER <border> ] ;
+            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_Get( [<window>], ;
-                   [<id>],[<text>],;
-                   ,;
-                   [{<nWidth>,<nHeight>}],;
-                   [<style>],;
-                   [<name>])
+          wxh_SizerAdd( NIL,;
+            wxh_Get(;
+              [<var>],;
+              [<window>],;
+              [<id>],;
+              [<value>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<validator>],;
+              [<name>];
+            ),;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+#xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
+          => ;
+          BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
+          @ SAY [<sayclauses>] ;;
+          @ GET [<getclauses>] STRECH ;;
+          END BOXSIZER
 
 /*
  * SIZERS
  */
 #xcommand BEGIN BOXSIZER <type: VERTICAL, HORIZONTAL > ;
-          [ PROPORTION <proportion> ] ;
-          [ FLAG <flag> ] ;
+          [ <strech: STRECH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
           [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_DefineBoxSizer( wx<type>, <proportion>, <flag>, <border> )
+          wxh_DefineBoxSizer( ;
+            wx<type>,;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
 
 #xcommand END BOXSIZER ;
           => ;
           wxh_EndDefineBoxSizer()
 
-#xcommand SPACER ;
+#xcommand @ SPACER ;
           [ WIDTH <width> ] ;
           [ HEIGHT <height> ] ;
-          [ PROPORTION <proportion> ] ;
+          [ <strech: STRECH> ] ;
           [ FLAG <flag> ] ;
           [ BORDER <border> ] ;
           => ;
-          wxh_DefineSpacer( [<width>], [<height>], [<proportion>], [<flag>], [<border>] )
+          wxh_DefineSpacer( ;
+            [<width>],;
+            [<height>],;
+            [ wx<strech> ],;
+            [<flag>],;
+            [<border>] ;
+          )

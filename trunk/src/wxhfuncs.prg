@@ -32,31 +32,33 @@ RETURN NIL
  * wxh_SAY
  * Teo. Mexico 2008
  */
-FUNCTION wxh_SAY( window, id, label, pos, size, style, name, proportion, flag, border )
-  LOCAL Result
+FUNCTION wxh_SAY( window, id, label, pos, size, style, name )
 
   IF window = NIL
     window := wxh_LastTopLevelWindow()
   ENDIF
 
-  Result := wxStaticText():New( window, id, label, pos, size, style, name )
-
-  wxh_SizerAdd( , Result, proportion, flag, border )
-
-RETURN NIL
+RETURN wxStaticText():New( window, id, label, pos, size, style, name )
 
 /*
  * wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION wxh_GET
-RETURN NIL
+FUNCTION wxh_GET( var, window, id, value, pos, size, style, validator, name )
+
+  IF window = NIL
+    window := wxh_LastTopLevelWindow()
+  ENDIF
+
+  ? var
+
+RETURN wxTextCtrl():New( window, id, value, pos, size, style, validator, name )
 
 /*
  * wxh_DefineBoxSizer
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_DefineBoxSizer( orientation, proportion, flag, border )
+PROCEDURE wxh_DefineBoxSizer( orientation, proportion, flag, border, sideBorders )
   LOCAL setSizer
   LOCAL sizer
 
@@ -67,7 +69,7 @@ PROCEDURE wxh_DefineBoxSizer( orientation, proportion, flag, border )
   IF setSizer
     wxh_LastTopLevelWindow():SetSizer( sizer )
   ELSE
-    wxh_SizerAdd( sizerList[ Len( sizerList ) - 1 ], sizer, proportion, flag, border )
+    wxh_SizerAdd( sizerList[ Len( sizerList ) - 1 ], sizer, proportion, flag, border, sideBorders )
   ENDIF
 
 RETURN
@@ -76,7 +78,7 @@ RETURN
  * wxh_SizerAdd
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_SizerAdd( parent, child, proportion, flag, border )
+PROCEDURE wxh_SizerAdd( parent, child, proportion, flag, border, sideBorders )
 
   IF parent = NIL
     parent := sizerList[ Len( sizerList ) ]
@@ -92,6 +94,12 @@ PROCEDURE wxh_SizerAdd( parent, child, proportion, flag, border )
     ELSE
       flag := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
     ENDIF
+  ENDIF
+
+  IF sideBorders = NIL
+    flag := HB_BITOR( flag, wxALL )
+  ELSE
+    flag := HB_BITOR( flag, sideBorders )
   ENDIF
 
   IF border = NIL
@@ -129,7 +137,7 @@ PROCEDURE wxh_DefineSpacer( width, height, proportion, flag, border )
   ENDIF
 
   IF flag = NIL
-    IF ATail( sizerList ):GetOrientation() = wxHORIZONTAL
+    IF !ATail( sizerList ):GetOrientation() = wxHORIZONTAL
       flag := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
     ELSE
       flag := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
