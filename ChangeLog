@@ -3,6 +3,22 @@
  */
 
 
+2008-02-20 03:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * changes in xcommands to create controls, including:
+      @ BUTTON ...
+      @ SAY ...
+      @ GET ...
+      @ SAY ... GET ...
+      BEGIN/END BOXSIZER scopes
+      @ SPACER ...
+
+  * src/wxhbutton.prg
+    + added proportion (strech), flag & border params
+
+  * src/wxhfuncs.prg
+    * several fixes and changes in control creation functions
+
 2008-02-19 01:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * src/wxhmenubar.prg

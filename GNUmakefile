@@ -10,13 +10,13 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-#  
+#
 AR := ar
 
-#  
+#
 RANLIB := ranlib
 
-# C++ compiler 
+# C++ compiler
 CXX := g++
 
 # Type of compiled binaries [debug,release]
@@ -116,9 +116,9 @@ all: lib/libwxharbour.a
 
 install: all
 
-uninstall: 
+uninstall:
 
-clean: 
+clean:
 	rm -f $(BUILDDIR)/*.o
 	rm -f $(BUILDDIR)/*.d
 	rm -f lib/libwxharbour.a
