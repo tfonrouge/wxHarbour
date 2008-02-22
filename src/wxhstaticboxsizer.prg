@@ -10,28 +10,31 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-
 /*
-  wxDialog
+  wxStaticBoxSizer
   Teo. Mexico 2006
 */
-CLASS wxDialog FROM wxTopLevelWindow
+
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx/wx.ch"
+
+/*
+  wxStaticBoxSizer
+  Teo. Mexico 2006
+*/
+CLASS wxStaticBoxSizer FROM wxBoxSizer
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New( parent, id, title, pos, size, style, name )
-  METHOD Centre( direction )
-  METHOD CreateButtonSizer( flags )
-  METHOD CreateStdDialogButtonSizer( flags )
-  METHOD EndModal( retCode )
-  METHOD Show( show )
-  METHOD ShowModal
+
+  CONSTRUCTOR New( boxSizer, orient )
+
+  METHOD GetStaticBox
+
 PUBLISHED:
-  PROPERTY ColCount READ GetColCount
 ENDCLASS
 
 /*
-  EndClass wxDialog
+  EndClass wxStaticBoxSizer
 */

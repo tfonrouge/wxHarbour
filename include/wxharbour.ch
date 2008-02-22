@@ -43,7 +43,7 @@
           [ WIDTHS <aWidths,...> ] ;
           [ ON <oFrame> ] ;
           => ;
-          [<oSB> := ] wxh_DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
+          [<oSB> := ] wxh_StatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
 
 #xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
@@ -176,28 +176,56 @@
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
           @ SAY [<sayclauses>] ;;
           @ GET [<getclauses>] STRECH ;;
-          END BOXSIZER
+          END SIZER
 
 /*
  * SIZERS
+ *
+ * TODO: On ALIGN CENTER we need to create a wxALIGN_CENTER_[HORIZONTAL|VERTICAL]
+ *       in sync with the parent sizer, currently we do just wxALIGN_CENTER
+ *
  */
-#xcommand BEGIN BOXSIZER <type: VERTICAL, HORIZONTAL > ;
+#xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
+          [ [LABEL] <label> ] ;
           [ <strech: STRECH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
           [ BORDER <border> ] ;
           [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_DefineBoxSizer( ;
-            wx<type>,;
+          wxh_BeginBoxSizer( ;
+            [wxStaticBox():New( ;
+              wxh_LastTopLevelWindow(),;
+              wxID_ANY,;
+              <label> ;
+            )],;
+            wx<orient>,;
             [ wx<strech> ],;
             [ wxALIGN_<align> ],;
             [ <border> ],;
             [ HB_BITOR(0,<sideborders>) ] ;
           )
 
-#xcommand END BOXSIZER ;
+#xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
+          [ <strech: STRECH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+          [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_EndDefineBoxSizer()
+          wxh_BeginGridSizer( ;
+            [ <rows> ],;
+            [ <cols> ],;
+            [ <vgap> ],;
+            [ <hgap> ],;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+#xcommand END SIZER ;
+          => ;
+          wxh_EndSizer()
+
 
 #xcommand @ SPACER ;
           [ WIDTH <width> ] ;
@@ -206,7 +234,7 @@
           [ FLAG <flag> ] ;
           [ BORDER <border> ] ;
           => ;
-          wxh_DefineSpacer( ;
+          wxh_Spacer( ;
             [<width>],;
             [<height>],;
             [ wx<strech> ],;

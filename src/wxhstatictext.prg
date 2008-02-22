@@ -27,7 +27,8 @@ CLASS wxStaticText FROM wxControl
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
+
+  CONSTRUCTOR New( parent, id, label, pos, size, style, name )
 
   METHOD Wrap( width )
 
