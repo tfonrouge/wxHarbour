@@ -40,7 +40,7 @@ HB_FUNC( WXPANEL_NEW )
   if( hb_pcount() )
   {
     wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parnl( 2 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? wxTAB_TRAVERSAL : hb_parnl( 5 );

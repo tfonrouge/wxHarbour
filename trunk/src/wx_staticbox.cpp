@@ -7,34 +7,33 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wx_StaticText: Implementation
-  Teo. Mexico 2006
+  wx_StaticBox: Implementation
+  Teo. Mexico 2008
 */
 
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_statictext.h"
+#include "wx_staticbox.h"
 
 /*
-  ~wx_StaticText
+  ~wx_StaticBox
   Teo. Mexico 2006
 */
-wx_StaticText::~wx_StaticText()
+wx_StaticBox::~wx_StaticBox()
 {
   wx_ObjList_wxDelete( this );
 }
 
 /*
-  wxStaticText:New
+  wxStaticBox:New
   Teo. Mexico 2007
-  wx-Compat: 2.4.8
 */
-HB_FUNC( WXSTATICTEXT_NEW )
+HB_FUNC( WXSTATICBOX_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
@@ -44,22 +43,10 @@ HB_FUNC( WXSTATICTEXT_NEW )
   const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : hb_par_wxSize( 5 );
   long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
   const wxString& name = wxString( hb_parcx( 7 ), wxConvLocal );
-  wx_StaticText* staticText = new wx_StaticText( parent, id, label, pos, size, style, name );
+  wx_StaticBox* staticBox = new wx_StaticBox( parent, id, label, pos, size, style, name );
 
   // Add object's to hash list
-  wx_ObjList_New( staticText, pSelf );
+  wx_ObjList_New( staticBox, pSelf );
 
   hb_itemReturn( pSelf );
-}
-
-/*
-  wxStaticText:Wrap
-  Teo. Mexico 2007
-  wx-Compat: 2.4.8
-*/
-HB_FUNC( WXSTATICTEXT_WRAP )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticText* staticText = (wxStaticText *) wx_ObjList_wxGet( pSelf );
-  staticText->Wrap( hb_parnl( 1 ) );
 }

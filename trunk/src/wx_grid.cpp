@@ -69,7 +69,7 @@ HB_FUNC( WXGRID_FIT )
 
 HB_FUNC( WXGRID_GETTABLE )
 {
-  PHB_ITEM pReturn, pSelf = hb_stackSelfItem();
+  PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
   wx_Grid* grid;
   wx_GridTableBase* gridTable;
   if ( pSelf &&

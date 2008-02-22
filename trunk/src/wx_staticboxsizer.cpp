@@ -11,30 +11,52 @@
 */
 
 /*
-  wxBoxSizer
+  wx_StaticBoxSizer: Implementation
   Teo. Mexico 2006
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "wx/wx.ch"
+#include "wx/wx.h"
+#include "wxh.h"
+
+#include "wx_staticboxsizer.h"
 
 /*
-  wxBoxSizer
+  ~wx_StaticBoxSizer
   Teo. Mexico 2006
 */
-CLASS wxBoxSizer FROM wxSizer
-PRIVATE:
-PROTECTED:
-PUBLIC:
+wx_StaticBoxSizer::~wx_StaticBoxSizer()
+{
+  wx_ObjList_wxDelete( this );
+}
 
-  CONSTRUCTOR New( orient )
+HB_FUNC( WXSTATICBOXSIZER_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxStaticBox* staticBox = (wxStaticBox *) hb_par_WX( 1 );
+  wx_StaticBoxSizer* boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );
 
-  METHOD GetOrientation
+  // Add object's to hash list
+  wx_ObjList_New( boxSizer, pSelf );
 
-PUBLISHED:
-ENDCLASS
+  hb_itemReturn( pSelf );
+
+}
 
 /*
-  EndClass wxBoxSizer
+  wxStaticBox:GetStaticBox
+  Teo. Mexico 2007
 */
+HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  PHB_ITEM pResult = NULL;
+  wxStaticBox* staticBox;
+
+  if( pSelf && (staticBox = (wxStaticBox *) wx_ObjList_wxGet( pSelf ) ) )
+    pResult = wx_ObjList_hbGet( staticBox );
+
+  if(pResult)
+    hb_itemReturn( pResult );
+  else
+    hb_ret();
+}

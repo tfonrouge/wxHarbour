@@ -10,28 +10,22 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-
 /*
-  wxDialog
+  wx_StaticBox: Interface
   Teo. Mexico 2006
 */
-CLASS wxDialog FROM wxTopLevelWindow
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  CONSTRUCTOR New( parent, id, title, pos, size, style, name )
-  METHOD Centre( direction )
-  METHOD CreateButtonSizer( flags )
-  METHOD CreateStdDialogButtonSizer( flags )
-  METHOD EndModal( retCode )
-  METHOD Show( show )
-  METHOD ShowModal
-PUBLISHED:
-  PROPERTY ColCount READ GetColCount
-ENDCLASS
 
-/*
-  EndClass wxDialog
-*/
+
+class wx_StaticBox : public wxStaticBox
+{
+private:
+protected:
+public:
+
+  wx_StaticBox() : wxStaticBox() {}
+
+  wx_StaticBox(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("staticBox") ) : wxStaticBox( parent, id, label, pos, size, style, name ) {}
+
+  ~wx_StaticBox();
+
+};

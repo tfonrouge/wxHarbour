@@ -10,13 +10,13 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-#
+#  
 AR := ar
 
-#
+#  
 RANLIB := ranlib
 
-# C++ compiler
+# C++ compiler 
 CXX := g++
 
 # Type of compiled binaries [debug,release]
@@ -54,12 +54,14 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wx_boxsizer.o \
 	$(BUILDDIR)/wxharbour_wx_notebook.o \
 	$(BUILDDIR)/wxharbour_wx_statictext.o \
+	$(BUILDDIR)/wxharbour_wx_staticboxsizer.o \
 	$(BUILDDIR)/wxharbour_wx_window.o \
 	$(BUILDDIR)/wxharbour_wx_functions.o \
 	$(BUILDDIR)/wxharbour_wx_textctrl.o \
 	$(BUILDDIR)/wxharbour_wx_app.o \
 	$(BUILDDIR)/wxharbour_wx_statusbar.o \
 	$(BUILDDIR)/wxharbour_wx_gridtablebase.o \
+	$(BUILDDIR)/wxharbour_wx_gridsizer.o \
 	$(BUILDDIR)/wxharbour_wx_dialog.o \
 	$(BUILDDIR)/wxharbour_wx_frame.o \
 	$(BUILDDIR)/wxharbour_wx_panel.o \
@@ -68,6 +70,7 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wx_evthandler.o \
 	$(BUILDDIR)/wxharbour_wx_object.o \
 	$(BUILDDIR)/wxharbour_wx_menuitem.o \
+	$(BUILDDIR)/wxharbour_wx_staticbox.o \
 	$(BUILDDIR)/wxharbour_wx_validator.o \
 	$(BUILDDIR)/wxharbour_wx_grid.o \
 	$(BUILDDIR)/wxharbour_wx_sizer.o \
@@ -76,12 +79,14 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wxhstatictext.o \
 	$(BUILDDIR)/wxharbour_wxhframe.o \
 	$(BUILDDIR)/wxharbour_wxhcontrol.o \
+	$(BUILDDIR)/wxharbour_wxhstaticboxsizer.o \
 	$(BUILDDIR)/wxharbour_wxhstatusbar.o \
 	$(BUILDDIR)/wxharbour_wxhpanel.o \
 	$(BUILDDIR)/wxharbour_wxhmenuitem.o \
 	$(BUILDDIR)/wxharbour_wxhwindow.o \
 	$(BUILDDIR)/wxharbour_wxhvalidator.o \
 	$(BUILDDIR)/wxharbour_wxhapp.o \
+	$(BUILDDIR)/wxharbour_wxhstaticbox.o \
 	$(BUILDDIR)/wxharbour_wxhnotebook.o \
 	$(BUILDDIR)/wxharbour_wxhevthandler.o \
 	$(BUILDDIR)/wxharbour_wxhmenu.o \
@@ -95,6 +100,7 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wxhcolumn.o \
 	$(BUILDDIR)/wxharbour_wxhtoplevelwindow.o \
 	$(BUILDDIR)/wxharbour_wxhtextctrl.o \
+	$(BUILDDIR)/wxharbour_wxhgridsizer.o \
 	$(BUILDDIR)/wxharbour_wxhbutton.o \
 	$(BUILDDIR)/wxharbour_wxhboxsizer.o \
 	$(BUILDDIR)/wxharbour_wxhfuncs.o
@@ -116,9 +122,9 @@ all: lib/libwxharbour.a
 
 install: all
 
-uninstall:
+uninstall: 
 
-clean:
+clean: 
 	rm -f $(BUILDDIR)/*.o
 	rm -f $(BUILDDIR)/*.d
 	rm -f lib/libwxharbour.a
@@ -147,6 +153,9 @@ $(BUILDDIR)/wxharbour_wx_notebook.o: src/wx_notebook.cpp
 $(BUILDDIR)/wxharbour_wx_statictext.o: src/wx_statictext.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(BUILDDIR)/wxharbour_wx_staticboxsizer.o: src/wx_staticboxsizer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(BUILDDIR)/wxharbour_wx_window.o: src/wx_window.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -163,6 +172,9 @@ $(BUILDDIR)/wxharbour_wx_statusbar.o: src/wx_statusbar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(BUILDDIR)/wxharbour_wx_gridtablebase.o: src/wx_gridtablebase.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(BUILDDIR)/wxharbour_wx_gridsizer.o: src/wx_gridsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(BUILDDIR)/wxharbour_wx_dialog.o: src/wx_dialog.cpp
@@ -189,6 +201,9 @@ $(BUILDDIR)/wxharbour_wx_object.o: src/wx_object.cpp
 $(BUILDDIR)/wxharbour_wx_menuitem.o: src/wx_menuitem.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(BUILDDIR)/wxharbour_wx_staticbox.o: src/wx_staticbox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(BUILDDIR)/wxharbour_wx_validator.o: src/wx_validator.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -213,6 +228,9 @@ $(BUILDDIR)/wxharbour_wxhframe.o: src/wxhframe.prg
 $(BUILDDIR)/wxharbour_wxhcontrol.o: src/wxhcontrol.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
+$(BUILDDIR)/wxharbour_wxhstaticboxsizer.o: src/wxhstaticboxsizer.prg
+	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
+
 $(BUILDDIR)/wxharbour_wxhstatusbar.o: src/wxhstatusbar.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
@@ -229,6 +247,9 @@ $(BUILDDIR)/wxharbour_wxhvalidator.o: src/wxhvalidator.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 $(BUILDDIR)/wxharbour_wxhapp.o: src/wxhapp.prg
+	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
+
+$(BUILDDIR)/wxharbour_wxhstaticbox.o: src/wxhstaticbox.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 $(BUILDDIR)/wxharbour_wxhnotebook.o: src/wxhnotebook.prg
@@ -268,6 +289,9 @@ $(BUILDDIR)/wxharbour_wxhtoplevelwindow.o: src/wxhtoplevelwindow.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 $(BUILDDIR)/wxharbour_wxhtextctrl.o: src/wxhtextctrl.prg
+	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
+
+$(BUILDDIR)/wxharbour_wxhgridsizer.o: src/wxhgridsizer.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
 
 $(BUILDDIR)/wxharbour_wxhbutton.o: src/wxhbutton.prg

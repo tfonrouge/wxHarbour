@@ -151,3 +151,15 @@ HB_FUNC( WXDIALOG_SHOWMODAL )
   else
     hb_ret();
 }
+
+/*
+ * wxDialog::EndModal()
+ * Teo. Mexico 2008
+ */
+HB_FUNC( WXDIALOG_ENDMODAL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Dialog* dialog;
+  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+    dialog->EndModal( hb_parni( 1 ) );
+}

@@ -3,6 +3,45 @@
  */
 
 
+2008-02-22 00:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * changes to hold the new classes added
+
+  + src/wx_gridsizer.cpp
+  + src/wxhstaticboxsizer.prg
+  + src/wx_gridsizer.h
+  + src/wxhgridsizer.prg
+  + src/wx_staticboxsizer.h
+  + src/wx_staticbox.cpp
+  + src/wx_staticboxsizer.cpp
+  + src/wx_staticbox.h
+  + src/wxhstaticbox.prg
+    + added new *sizer classes: wxStaticBoxSizer, wxGridSizer
+    + added wxStaticBox
+
+
+  * src/wxhdialog.prg
+  * src/wx_dialog.cpp
+    + added ::EndModal
+
+  * src/wxhstatictext.prg
+  * src/wxhfuncs.prg
+    * changed wxh_Define* to wxh_Begin
+    * added support for wxStaticBoxSizer, wxGridSizer
+    * minor changes in param names
+
+  * src/wx_statictext.cpp
+  * src/wx_notebook.cpp
+  * src/wx_panel.cpp
+  * src/wx_grid.cpp
+    ! fixed warning due to wrong cast
+    * corrected minor naming of params
+
+  * GNUmakefile
+    * changes for the new classes added
+
+
+
 2008-02-20 03:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * changes in xcommands to create controls, including:

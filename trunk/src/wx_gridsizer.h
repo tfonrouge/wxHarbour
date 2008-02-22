@@ -10,28 +10,17 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-
 /*
-  wxDialog
+  wx_GridSizer: Interface
   Teo. Mexico 2006
 */
-CLASS wxDialog FROM wxTopLevelWindow
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  CONSTRUCTOR New( parent, id, title, pos, size, style, name )
-  METHOD Centre( direction )
-  METHOD CreateButtonSizer( flags )
-  METHOD CreateStdDialogButtonSizer( flags )
-  METHOD EndModal( retCode )
-  METHOD Show( show )
-  METHOD ShowModal
-PUBLISHED:
-  PROPERTY ColCount READ GetColCount
-ENDCLASS
 
-/*
-  EndClass wxDialog
-*/
+class wx_GridSizer : public wxGridSizer
+{
+private:
+protected:
+public:
+  wx_GridSizer( int rows, int cols, int vgap, int hgap ) : wxGridSizer( rows, cols, vgap, hgap ) {}
+
+  ~wx_GridSizer();
+};

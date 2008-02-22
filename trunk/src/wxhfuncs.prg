@@ -55,21 +55,49 @@ FUNCTION wxh_GET( var, window, id, value, pos, size, style, validator, name )
 RETURN wxTextCtrl():New( window, id, value, pos, size, style, validator, name )
 
 /*
- * wxh_DefineBoxSizer
+ * wxh_BeginBoxSizer
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_DefineBoxSizer( orientation, proportion, flag, border, sideBorders )
+PROCEDURE wxh_BeginBoxSizer( staticBox, orient, strech, align, border, sideBorders )
   LOCAL setSizer
   LOCAL sizer
 
   setSizer := Len( sizerList ) = 0
 
-  AAdd( sizerList, sizer := wxBoxSizer():New( orientation ) )
+  IF staticBox = NIL
+    sizer := wxBoxSizer():New( orient )
+  ELSE
+    sizer := wxStaticBoxSizer():New( staticBox, orient )
+  ENDIF
+
+  AAdd( sizerList, sizer )
 
   IF setSizer
     wxh_LastTopLevelWindow():SetSizer( sizer )
   ELSE
-    wxh_SizerAdd( sizerList[ Len( sizerList ) - 1 ], sizer, proportion, flag, border, sideBorders )
+    wxh_SizerAdd( sizerList[ Len( sizerList ) - 1 ], sizer, strech, align, border, sideBorders )
+  ENDIF
+
+RETURN
+
+/*
+ * wxh_BeginGridSizer
+ * Teo. Mexico 2008
+ */
+PROCEDURE wxh_BeginGridSizer( rows, cols, vgap, hgap, strech, align, border, sideBorders )
+  LOCAL setSizer
+  LOCAL sizer
+
+  setSizer := Len( sizerList ) = 0
+
+  sizer := wxGridSizer():New( rows, cols, vgap, hgap )
+
+  AAdd( sizerList, sizer )
+
+  IF setSizer
+    wxh_LastTopLevelWindow():SetSizer( sizer )
+  ELSE
+    wxh_SizerAdd( sizerList[ Len( sizerList ) - 1 ], sizer, strech, align, border, sideBorders )
   ENDIF
 
 RETURN
@@ -78,35 +106,41 @@ RETURN
  * wxh_SizerAdd
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_SizerAdd( parent, child, proportion, flag, border, sideBorders )
+PROCEDURE wxh_SizerAdd( parent, child, strech, align, border, sideBorders, flag )
 
   IF parent = NIL
     parent := sizerList[ Len( sizerList ) ]
   ENDIF
 
-  IF proportion = NIL
-    proportion := 0
+  IF strech = NIL
+    strech := 0
   ENDIF
 
-  IF flag = NIL
-    IF parent:GetOrientation() = wxVERTICAL
-      flag := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
+  IF align = NIL
+    IF parent:IsDerivedFrom("wxGridSizer")
+      align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
     ELSE
-      flag := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
+      IF parent:GetOrientation() = wxVERTICAL
+        align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
+      ELSE
+        align := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
+      ENDIF
     ENDIF
   ENDIF
 
   IF sideBorders = NIL
-    flag := HB_BITOR( flag, wxALL )
-  ELSE
-    flag := HB_BITOR( flag, sideBorders )
+    sideBorders := wxALL
   ENDIF
 
   IF border = NIL
     border := 5
   ENDIF
 
-  parent:Add( child, proportion, flag, border )
+  IF flag = NIL
+    flag := 0
+  ENDIF
+
+  parent:Add( child, strech, HB_BITOR( align, sideBorders, flag ), border )
 
 RETURN
 
@@ -114,15 +148,15 @@ RETURN
  * wxh_EndDefineBoxSizer
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_EndDefineBoxSizer
+PROCEDURE wxh_EndSizer
   ASize( sizerList, Len( sizerList ) - 1 )
 RETURN
 
 /*
- * wxh_DefineSpacer
+ * wxh_Spacer
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_DefineSpacer( width, height, proportion, flag, border )
+PROCEDURE wxh_Spacer( width, height, strech, align, border )
 
   IF width = NIL
     width := 5
@@ -132,15 +166,15 @@ PROCEDURE wxh_DefineSpacer( width, height, proportion, flag, border )
     height := 5
   ENDIF
 
-  IF proportion = NIL
-    proportion := 1
+  IF strech = NIL
+    strech := 1
   ENDIF
 
-  IF flag = NIL
+  IF align = NIL
     IF !ATail( sizerList ):GetOrientation() = wxHORIZONTAL
-      flag := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
+      align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
     ELSE
-      flag := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
+      align := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
     ENDIF
   ENDIF
 
@@ -148,7 +182,7 @@ PROCEDURE wxh_DefineSpacer( width, height, proportion, flag, border )
     border := 5
   ENDIF
 
-  ATail( sizerList ):Add( width, height, proportion, flag, border )
+  ATail( sizerList ):Add( width, height, strech, align, border )
 
 RETURN
 
