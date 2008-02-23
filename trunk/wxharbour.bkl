@@ -3,16 +3,19 @@
 
   <include file="config/tmpl_hrb.bkl"/>
 
-  <set-srcdir>src</set-srcdir>
-
   <lib id="wxharbour">
-    <dirname>
-      lib
-    </dirname>
+    <libname>$(WXHLIBNAME)</libname>
+    <headers>
+      include/property.ch
+      include/wxharbour.ch
+      include/wxh/defs.ch
+      include/wxh/event.ch
+      include/wxh/wx.ch
+    </headers>
     <sources>
-      $(fileList("*.c"))
-      $(fileList("*.cpp"))
-      $(fileList("*.prg"))
+      $(fileList("src/*.c"))
+      $(fileList("src/*.cpp"))
+      $(fileList("src/*.prg"))
     </sources>
     <warnings>max</warnings>
     <precomp-headers>on</precomp-headers>
@@ -22,6 +25,8 @@
     <debug-info>
       on
     </debug-info>
+    <install-to>$(LIBDIR)</install-to>
+    <install-headers-to>$(PREFIX)</install-headers-to>
   </lib>
 
   <subproject id="samples">
