@@ -3,6 +3,26 @@
  */
 
 
+2008-02-23 15:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   include/wxh
+  * include/wxharbour.ch
+  - include/wx
+  - include/wx/wx.ch
+  - include/wx/defs.ch
+  - include/wx/event.ch
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * ChangeLog
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * major re-arrangement of makefiles
+
+
 2008-02-22 00:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * changes to hold the new classes added
@@ -18,7 +38,6 @@
   + src/wxhstaticbox.prg
     + added new *sizer classes: wxStaticBoxSizer, wxGridSizer
     + added wxStaticBox
-
 
   * src/wxhdialog.prg
   * src/wx_dialog.cpp
@@ -39,7 +58,6 @@
 
   * GNUmakefile
     * changes for the new classes added
-
 
 
 2008-02-20 03:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)

@@ -43,7 +43,7 @@
           [ WIDTHS <aWidths,...> ] ;
           [ ON <oFrame> ] ;
           => ;
-          [<oSB> := ] wxh_StatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
+          [<oSB> := ] wxh_DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
 
 #xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;

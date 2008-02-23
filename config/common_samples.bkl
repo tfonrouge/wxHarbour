@@ -3,14 +3,11 @@
 
   <include file="tmpl_hrb.bkl"/>
 
-  <set var="HRBINCLUDES" make_var="1">
-    <if cond="COMPILER=='gcc'">
-      -I../../include -I/usr/include/harbour -I/usr/local/include
-    </if>
-    <if cond="COMPILER=='vc'">
-      -IInclude -I..\..\Include -IC:\Harbour\Include
-    </if>
+  <!--
+  <set var="CC" make_var="1">
+    g++
   </set>
+  -->
 
   <template id="wxh_sample">
     <app-type>gui</app-type>
