@@ -3,6 +3,18 @@
  */
 
 
+2008-02-24 03:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/GNUmakefile
+  * samples/makefile.gcc
+  * samples/samples.bkl
+    * forgot to add this files needed for the last sample added
+      Seems that I need to automate this with the bakefile* tools
+
+  **
+     Now you need to INSTALL the wxHarbour lib in your system, currently
+     only at linux and win32-mingw, later I'll do in MSVC and other compilers
+  **
+
 2008-02-24 03:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + samples/sizers
   + samples/sizers/login.prg
