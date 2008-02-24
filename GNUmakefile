@@ -52,10 +52,11 @@ HBOUTTYP := o
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
+WXHPATH = /usr/local/wxH
 HBFLAGS = -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) \
 	-dHB_OS_LINUX
 HBINCLUDES = -Iinclude -I/usr/include/harbour -I/usr/local/include \
-	-I../../include
+	-I$(WXHPATH)/include
 BUILDDIR = obj/gcc-unix
 PREFIX = /usr/local/wxH
 WXHARBOUR_CXXFLAGS = -W -Wall -O2 -g $(CPPFLAGS) -fno-strict-aliasing \

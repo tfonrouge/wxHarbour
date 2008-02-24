@@ -70,36 +70,6 @@
     </if>
   </set>
 
-  <set var="LDFLAGS">
-  </set>
-
-  <set var="HBDEBUG">
-    <if cond="BUILD=='debug'" >-b</if>
-  </set>
-
-  <set var="HBDEFP">
-    <if cond="TOOLSET=='win32'">
-      -dHB_OS_WIN_32
-    </if>
-    <if cond="TOOLSET=='unix'">
-      -dHB_OS_LINUX
-    </if>
-  </set>
-
-  <set var="HBFLAGS" make_var="1">
-    -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) $(HBDEFP)
-  </set>
-
-  <set var="HBINCLUDES" make_var="1">
-    <!-- Seems that bkl-gcc under mingw has trouble with -Ipath/ (the last"/") -->
-    <if cond="TOOLSET=='win32'">
-      -IInclude -IC:\Harbour\include -I../../include
-    </if>
-    <if cond="TOOLSET=='unix'">
-      -Iinclude -I/usr/include/harbour -I/usr/local/include -I../../include
-    </if>
-  </set>
-
   <set var="BUILDDIR" make_var="1">
     <if cond="TOOLSET=='unix'">
       obj/$(COMPILER)-$(TOOLSET)
@@ -109,15 +79,39 @@
     </if>
   </set>
 
-  <set var="OSLIBS" make_var="1">
-    <if cond="COMPILER=='vc'">
-      kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:MSVCRT
-    </if>
+  <set var="HBDEBUG">
+    <if cond="BUILD=='debug'" >-b</if>
+  </set>
+
+  <set var="HBDEFINES">
     <if cond="TOOLSET=='win32'">
-      -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+      -dHB_OS_WIN_32
     </if>
     <if cond="TOOLSET=='unix'">
-      -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm
+      -dHB_OS_LINUX
+    </if>
+  </set>
+
+  <set var="HBFLAGS" make_var="1">
+    -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) $(HBDEFINES)
+  </set>
+
+  <set var="HBINCLUDES" make_var="1">
+    <!-- Seems that bkl-gcc under mingw has trouble with -Ipath/ (the last"/") -->
+    <if cond="TOOLSET=='win32'">
+      -IInclude -IC:\Harbour\Include -I$(WXHPATH)\Include
+    </if>
+    <if cond="TOOLSET=='unix'">
+      -Iinclude -I/usr/include/harbour -I/usr/local/include -I$(WXHPATH)/include
+    </if>
+  </set>
+
+  <set var="WXFLAGS">
+    <if cond="TOOLSET=='unix' and WXHAPP=='yes'">
+      `wx-config --cxxflags`
+    </if>
+    <if cond="TOOLSET=='win32' and WXHAPP=='yes'">
+      -I"$(WXPATH)/include" -I"$(WXPATH)/contrib/include" -I"$(WXPATH)/lib/gcc_lib/msw"
     </if>
   </set>
 
@@ -145,12 +139,15 @@
     </if>
   </set>
 
-  <set var="WXFLAGS">
-    <if cond="TOOLSET=='unix' and WXHAPP=='yes'">
-      `wx-config --cxxflags`
+  <set var="OSLIBS" make_var="1">
+    <if cond="COMPILER=='vc'">
+      kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:MSVCRT
     </if>
-    <if cond="TOOLSET=='win32' and WXHAPP=='yes'">
-      -I"$(WXPATH)/include" -I"$(WXPATH)/contrib/include" -I"$(WXPATH)/lib/gcc_lib/msw"
+    <if cond="TOOLSET=='win32'">
+      -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+    </if>
+    <if cond="TOOLSET=='unix'">
+      -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm
     </if>
   </set>
 
@@ -163,6 +160,16 @@
     </if>
     <if cond="WXHAPP=='yes'">
       $(HBLIBS) $(WXLIBS) $(OSLIBS)
+    </if>
+  </set>
+
+  <set var="CXXFLAGS">
+    $(HBINCLUDES) $(WXFLAGS)
+  </set>
+
+  <set var="CXXFLAGS" prepend="1">
+    <if cond="COMPILER=='gcc'">
+      -fno-strict-aliasing
     </if>
   </set>
 
@@ -192,28 +199,14 @@
     </if>
   </template>
 
-  <define-rule name ="__prg-to-$(OBJEXT[1:])" extends="__any,compilation_rule">
+  <define-rule name="__prg-to-$(OBJEXT[1:])" extends="__any,compilation_rule">
     <template template="__commands_templ_PRG">
       <set var="__command">$(__COMPILE_PRG_CMD)</set>
     </template>
+    <define-tag name="parent-target">
+      <set var="__uses_cxx" scope="$(__parent)">1</set>
+      <set var="__cxxflags">$(targets[__parent].__cxxflags_var)</set>
+    </define-tag>
   </define-rule>
 
-  <set var="CFLAGS" make_var="1">
-    <if cond="COMPILER=='vc'">
-      -Ot2b1 -EHs-c- -FD -Gs -D_CRT_SECURE_NO_DEPRECATE
-    </if>
-  </set>
-
-  <set var="CXXFLAGS">
-    $(HBINCLUDES) $(WXFLAGS)
-  </set>
-
-  <set var="CXXFLAGS" prepend="1">
-    <if cond="COMPILER=='gcc'">
-      -fno-strict-aliasing
-    </if>
-    <if cond="COMPILER=='vc'">
-      /DNOPCH /D__WXMSW__ /D_WINDOWS /D_UNICODE /I"C:\wxWidgets-2.8.6/include" /I"C:\wxWidgets-2.8.6/contrib/include" /I"C:\wxWidgets-2.8.6/lib/vc_lib/mswu" /I"C:\Archivos de programa\Microsoft Visual Studio 8\vc\include" /I"C:\Archivos de programa\Microsoft Platform SDK for Windows Server 2003 R2\include"
-    </if>
-  </set>
 </makefile>

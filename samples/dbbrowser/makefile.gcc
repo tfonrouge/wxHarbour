@@ -10,14 +10,14 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for header, data and library files
+# The common installation prefix for header, data and library files 
 PREFIX := C:\opt
 
-# The common installation prefix for binary and DLL files
+# The common installation prefix for binary and DLL files 
 EXEC_PREFIX := C:\opt\bin
 
-# C compiler
-CC := g++
+# C++ compiler 
+CXX := g++
 
 # Type of Application [yes,no]
 WXHAPP := yes
@@ -44,12 +44,10 @@ HBOUTTYP := o
 
 WXPATH = C:/wxWidgets-2.8.7
 WXHPATH = C:/wxH
+BUILDDIR = obj\gcc-win32
 HBFLAGS = -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) \
 	-dHB_OS_WIN_32
-HBINCLUDES = -IInclude -IC:\Harbour\include -I../../include
-BUILDDIR = obj\gcc-win32
-OSLIBS = -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 \
-	-lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+HBINCLUDES = -IInclude -IC:\Harbour\Include -I$(WXHPATH)\Include
 HBLIBS = -LC:/Harbour/lib -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt \
 	-lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang \
 	-lhbcpage -lgtwin -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct \
@@ -58,6 +56,8 @@ WXLIBS = -L$(WXHPATH)/lib -lwxharbour-gcc-win32 -L"$(WXPATH)/lib/gcc_lib" \
 	-lwxmsw28_xrc -lwxmsw28_richtext -lwxmsw28_aui -lwxmsw28_adv -lwxmsw28_html \
 	-lwxmsw28_core -lwxbase28 -lwxbase28_net -lwxbase28_xml -lwxtiff -lwxjpeg \
 	-lwxpng -lwxzlib -lwxregex -lwxexpat
+OSLIBS = -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 \
+	-lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 DBBROWSER_OBJECTS =  \
 	$(BUILDDIR)\dbbrowser_dbbrowser.o
 
@@ -84,15 +84,15 @@ all: .\dbbrowser.exe
 
 install: all
 
-uninstall:
+uninstall: 
 
-clean:
+clean: 
 	-if exist $(BUILDDIR)\*.o del $(BUILDDIR)\*.o
 	-if exist $(BUILDDIR)\*.d del $(BUILDDIR)\*.d
 	-if exist .\dbbrowser.exe del .\dbbrowser.exe
 
 .\dbbrowser.exe: $(DBBROWSER_OBJECTS)
-	$(CC) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows
 
 $(BUILDDIR)\dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<
