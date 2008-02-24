@@ -11,15 +11,6 @@
   <echo> toolset: $(TOOLSET)</echo>
   <echo>  format: $(FORMAT)</echo>
 
-  <if cond="TOOLSET=='win32'">
-    <set var="PREFIX_DEFAULT">
-      C:\wxH
-    </set>
-    <set var="EXEC_PREFIX_DEFAULT">
-      C:\wxH\bin
-    </set>
-  </if>
-
   <option name="WXHAPP">
     <values>yes,no</values>
     <values-description>Is a wxHarbour App,Is a simple Harbour App</values-description>
@@ -68,6 +59,15 @@
 
   <set var="WXPATH" make_var="1">
     C:/wxWidgets-2.8.7
+  </set>
+
+  <set var="WXHPATH" make_var="1">
+    <if cond="TOOLSET=='win32'">
+      C:/wxH
+    </if>
+    <if cond="TOOLSET=='unix'">
+      /usr/local/wxH
+    </if>
   </set>
 
   <set var="LDFLAGS">
@@ -135,13 +135,13 @@
 
   <set var="WXLIBS" make_var="1">
     <if cond="FORMAT=='vc'">
-      $(WXHLIBNAME) "PLEASE SET HERE THE VC LDFLAGS VALUES"
+      -L$(WXHPATH)/lib $(WXHLIBNAME) "PLEASE SET HERE THE VC LDFLAGS VALUES"
     </if>
     <if cond="TOOLSET=='unix'">
-      -l$(WXHLIBNAME) `wx-config --libs`
+      -L$(WXHPATH)/lib -l$(WXHLIBNAME) `wx-config --libs`
     </if>
     <if cond="TOOLSET=='win32'">
-      -l$(WXHLIBNAME) -L"$(WXPATH)/lib/gcc_lib" -lwxmsw28_xrc -lwxmsw28_richtext -lwxmsw28_aui -lwxmsw28_adv -lwxmsw28_html -lwxmsw28_core -lwxbase28 -lwxbase28_net -lwxbase28_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat
+      -L$(WXHPATH)/lib -l$(WXHLIBNAME) -L"$(WXPATH)/lib/gcc_lib" -lwxmsw28_xrc -lwxmsw28_richtext -lwxmsw28_aui -lwxmsw28_adv -lwxmsw28_html -lwxmsw28_core -lwxbase28 -lwxbase28_net -lwxbase28_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex -lwxexpat
     </if>
   </set>
 

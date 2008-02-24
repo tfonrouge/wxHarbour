@@ -3,7 +3,7 @@
 
   <include file="../../config/common_samples.bkl"/>
 
-  <exe id="dbbrowser">
+  <exe id="dbbrowser" template="wxh_bin">
     <sources>
       $(id).prg
     </sources>

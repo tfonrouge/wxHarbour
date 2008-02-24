@@ -13,9 +13,6 @@
 # 'install' program location 
 INSTALL := install
 
-# Location where the package is installed by 'make install' 
-prefix := /usr/local
-
 # Destination root (/ is used if empty) 
 DESTDIR := 
 
@@ -60,6 +57,7 @@ HBFLAGS = -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) \
 HBINCLUDES = -Iinclude -I/usr/include/harbour -I/usr/local/include \
 	-I../../include
 BUILDDIR = obj/gcc-unix
+PREFIX = /usr/local/wxH
 WXHARBOUR_CXXFLAGS = -W -Wall -O2 -g $(CPPFLAGS) -fno-strict-aliasing \
 	$(HBINCLUDES) $(WXFLAGS)
 WXHARBOUR_OBJECTS =  \
@@ -119,11 +117,11 @@ WXHARBOUR_OBJECTS =  \
 	$(BUILDDIR)/wxharbour_wxhvalidator.o \
 	$(BUILDDIR)/wxharbour_wxhwindow.o
 WXHARBOUR_HEADERS =  \
+	include/defs.ch \
+	include/event.ch \
 	include/property.ch \
-	include/wxharbour.ch \
-	include/wxh/defs.ch \
-	include/wxh/event.ch \
-	include/wxh/wx.ch
+	include/wx.ch \
+	include/wxharbour.ch
 
 ### Conditionally set variables: ###
 
@@ -159,24 +157,24 @@ $(BUILDDIR)/libwxharbour-gcc-unix.a: $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxharbour: 
-	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
-	$(INSTALL) -m 644 $(BUILDDIR)/libwxharbour-gcc-unix.a $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib
+	$(INSTALL) -m 644 $(BUILDDIR)/libwxharbour-gcc-unix.a $(DESTDIR)$(PREFIX)/lib
 
 uninstall_wxharbour: 
-	rm -f $(DESTDIR)$(prefix)/lib/libwxharbour-gcc-unix.a
+	rm -f $(DESTDIR)$(PREFIX)/lib/libwxharbour-gcc-unix.a
 
 install_wxharbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(prefix)
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(prefix)/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(prefix)/`dirname $$f`; \
+	if test ! -d $(DESTDIR)$(PREFIX)/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(prefix)/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(PREFIX)/$$f; \
 	done
 
 uninstall_wxharbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(prefix)/$$f; \
+	rm -f $(DESTDIR)$(PREFIX)/$$f; \
 	done
 
 samples: $(BUILDDIR)/libwxharbour-gcc-unix.a

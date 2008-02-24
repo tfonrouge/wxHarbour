@@ -159,19 +159,18 @@ uninstall_wxharbour:
 install_wxharbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
 	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
-	if not exist $(PREFIX)\include/wxh mkdir $(PREFIX)\include/wxh
+	copy include\defs.ch $(PREFIX)\include
+	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
+	copy include\wx.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
-	copy include\wxh\defs.ch $(PREFIX)\include\wxh
-	copy include\wxh\event.ch $(PREFIX)\include\wxh
-	copy include\wxh\wx.ch $(PREFIX)\include\wxh
 
 uninstall_wxharbour_headers: 
+	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
-	-if exist $(PREFIX)\include\wxh\defs.ch -del $(PREFIX)\include\wxh\defs.ch
-	-if exist $(PREFIX)\include\wxh\event.ch -del $(PREFIX)\include\wxh\event.ch
-	-if exist $(PREFIX)\include\wxh\wx.ch -del $(PREFIX)\include\wxh\wx.ch
 
 samples: $(BUILDDIR)\libwxharbour-gcc-win32.a
 	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all

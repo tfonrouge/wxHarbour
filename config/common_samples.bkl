@@ -9,19 +9,11 @@
   </set>
   -->
 
-  <template id="wxh_sample">
+  <template id="wxh_bin">
     <app-type>gui</app-type>
-    <if cond="COMPILER=='gcc'">
-      <lib-path>../../lib</lib-path>
-    </if>
-    <if cond="COMPILER=='vc'">
-      <lib-path>"C:\wxWidgets-2.8.6/lib/vc_lib"</lib-path>
-      <lib-path>"C:\Archivos de programa\Microsoft Visual Studio 8\vc\lib"</lib-path>
-      <lib-path>"C:\Archivos de programa\Microsoft Platform SDK for Windows Server 2003 R2\lib"</lib-path>
-      <lib-path>C:\Harbour\lib</lib-path>
-      <lib-path>..\..\obj\$(TOOLSET)\$(COMPILER)</lib-path>
-    </if>
-    <dirname>.</dirname>
+    <dirname>
+      .
+    </dirname>
   </template>
 
 </makefile>
