@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="../../config/common_samples.bkl"/>
+
+  <exe id="sizers" template="wxh_bin">
+    <sources>
+      $(fileList("*.prg"))
+    </sources>
+  </exe>
+
+</makefile>

@@ -3,6 +3,17 @@
  */
 
 
+2008-02-24 03:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/sizers
+  + samples/sizers/login.prg
+  + samples/sizers/sizers.bkl
+  + samples/sizers/GNUmakefile
+  + samples/sizers/makefile.gcc
+  + samples/sizers/main.prg
+    + Added sample showing automatic command sizers
+      linux, mingw32 for the moment
+
+
 2008-02-24 02:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/GNUmakefile
   * samples/dbbrowser/makefile.gcc
