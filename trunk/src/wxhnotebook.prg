@@ -18,7 +18,7 @@
 #include "hbclass.ch"
 #include "property.ch"
 
-#include "wx/wx.ch"
+#include "wx.ch"
 
 /*
   wxNotebook

@@ -15,5 +15,5 @@
   Teo. Mexico 2006
 */
 
-#include "wx/defs.ch"
-#include "wx/event.ch"
+#include "defs.ch"
+#include "event.ch"

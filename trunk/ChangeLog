@@ -3,6 +3,43 @@
  */
 
 
+2008-02-23 18:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - include/wxh
+  - include/wxh/wx.ch
+  - include/wxh/defs.ch
+  - include/wxh/event.ch
+A  +   include/wx.ch
+A  +   include/defs.ch
+A  +   include/event.ch
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.prg
+  * samples/helloworld1/helloworld1.prg
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * src/wxhboxsizer.prg
+  * src/wxhbutton.prg
+  * src/wxhsizer.prg
+  * src/wxhmenu.prg
+  * src/wxhtextctrl.prg
+  * src/wxhstaticboxsizer.prg
+  * src/wxhstatictext.prg
+  * src/wxhgridsizer.prg
+  * src/wxhfuncs.prg
+  * src/wxhnotebook.prg
+  * src/wxhmenuitem.prg
+  * src/wxhvalidator.prg
+  * src/wxhpanel.prg
+  * src/wxhstaticbox.prg
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * more changes on removing the include/wxh dir
+
+
+
 2008-02-23 15:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   include/wxh
   * include/wxharbour.ch

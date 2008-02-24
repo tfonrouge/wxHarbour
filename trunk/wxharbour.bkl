@@ -3,14 +3,25 @@
 
   <include file="config/tmpl_hrb.bkl"/>
 
+  <if cond="TOOLSET=='win32'">
+    <set var="PREFIX_DEFAULT">
+      C:\wxH
+    </set>
+    <set var="EXEC_PREFIX_DEFAULT">
+      C:\wxH\bin
+    </set>
+  </if>
+
+  <if cond="TOOLSET=='unix'">
+    <set var="PREFIX" make_var="1">
+      /usr/local/wxH
+    </set>
+  </if>
+
   <lib id="wxharbour">
     <libname>$(WXHLIBNAME)</libname>
     <headers>
-      include/property.ch
-      include/wxharbour.ch
-      include/wxh/defs.ch
-      include/wxh/event.ch
-      include/wxh/wx.ch
+      $(fileList("include/*.ch"))
     </headers>
     <sources>
       $(fileList("src/*.c"))
