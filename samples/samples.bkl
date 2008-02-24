@@ -9,5 +9,6 @@
   <subproject id="dbbrowser" template="sub"/>
   <subproject id="helloworld" template="sub"/>
   <subproject id="helloworld1" template="sub"/>
+  <subproject id="sizers" template="sub"/>
 
 </makefile>
