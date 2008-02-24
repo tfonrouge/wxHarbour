@@ -10,8 +10,8 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# C compiler 
-CC := gcc
+# C++ compiler 
+CXX := g++
 
 # Type of Application [yes,no]
 WXHAPP := yes
@@ -37,17 +37,17 @@ HBOUTTYP := o
 ### Variables: ###
 
 WXHPATH = /usr/local/wxH
+BUILDDIR = obj/gcc-unix
 HBFLAGS = -n -a -v -m -g$(HBOUTTYP) $(HBDEBUG) -w$(HBWARNL) -es$(HBEXITS) \
 	-dHB_OS_LINUX
 HBINCLUDES = -Iinclude -I/usr/include/harbour -I/usr/local/include \
-	-I../../include
-BUILDDIR = obj/gcc-unix
-OSLIBS = -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm
+	-I$(WXHPATH)/include
 HBLIBS = -L/usr/lib/harbour -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd \
 	-lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon \
 	-lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm \
 	-lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group
 WXLIBS = -L$(WXHPATH)/lib -lwxharbour-gcc-unix `wx-config --libs`
+OSLIBS = -lfm -lm -ldl -lslang -lncurses -L/usr/X11R6/lib -lX11 -lgpm
 DBBROWSER_OBJECTS =  \
 	$(BUILDDIR)/dbbrowser_dbbrowser.o
 
@@ -82,7 +82,7 @@ clean:
 	rm -f ./dbbrowser
 
 ./dbbrowser: $(DBBROWSER_OBJECTS)
-	$(CC) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)
 
 $(BUILDDIR)/dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	harbour $(HBFLAGS) $(HBINCLUDES) -o$@ $<

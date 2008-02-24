@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="tmpl_hrb.bkl"/>
+
+  <template id="wxh_bin">
+    <app-type>gui</app-type>
+    <warnings>max</warnings>
+    <optimize>speed</optimize>
+    <dirname>.</dirname>
+    <precomp-headers>on</precomp-headers>
+  </template>
+
+</makefile>
