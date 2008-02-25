@@ -163,6 +163,16 @@
     </if>
   </set>
 
+  <set var="CFLAGS">
+    $(HBINCLUDES) $(WXFLAGS)
+  </set>
+
+  <set var="CFLAGS" prepend="1">
+    <if cond="COMPILER=='gcc'">
+      -fno-strict-aliasing
+    </if>
+  </set>
+
   <set var="CXXFLAGS">
     $(HBINCLUDES) $(WXFLAGS)
   </set>
@@ -208,5 +218,13 @@
       <set var="__cxxflags">$(targets[__parent].__cxxflags_var)</set>
     </define-tag>
   </define-rule>
+
+  <define-tag name="prgs-at" rules="exe,lib,dll">
+    <sources>
+      $(fileList(safeSplit(addSufixToList('/'+'*.prg',value))))
+      $(fileList(safeSplit(addSufixToList('/'+'*.c',value))))
+      $(fileList(safeSplit(addSufixToList('/'+'*.cpp',value))))
+    </sources>
+  </define-tag>
 
 </makefile>

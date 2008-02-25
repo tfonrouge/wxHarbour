@@ -3,6 +3,18 @@
  */
 
 
+2008-02-25 17:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/login.prg
+    * minor change (setting a fixed width to buttons)
+
+  * GNUmakefile
+  * makefile.gcc
+  * wxharbour.bkl
+  * config/tmpl_hrb.bkl
+    ! Fixed adding CFLAGS values (when compiling .c sources)
+    + added tag <prgs-at> to simply indicate dirs when source files are
+
+
 2008-02-24 03:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/GNUmakefile
   * samples/makefile.gcc
@@ -35,7 +47,7 @@
   + config/common_wxh_bin.bkl
   * config/tmpl_hrb.bkl
   * GNUmakefile
-    * finishes the changes in the bakefiles, for now, only linux-gcc
+    * finished the changes in the bakefiles, for now, only linux-gcc
       and windows-mingw are working, later I'll check MSVC & BCC
 
 
