@@ -42,20 +42,20 @@ FUNCTION Login()
   BEGIN BOXSIZER VERTICAL
     @ SAY "Simple Text Label"
     @ SPACER
-    BEGIN GRIDSIZER COLS 3 ALIGN EXPAND
-      @ BUTTON "1"
-      @ BUTTON "2"
-      @ BUTTON "3"
-      @ BUTTON "4"
-      @ BUTTON "5"
-      @ BUTTON "6"
-      @ BUTTON "7"
-      @ BUTTON "8"
-      @ BUTTON "9"
+    BEGIN GRIDSIZER COLS 3 ALIGN LEFT
+      @ BUTTON "1" WIDTH 30
+      @ BUTTON "2" WIDTH 30
+      @ BUTTON "3" WIDTH 30
+      @ BUTTON "4" WIDTH 30
+      @ BUTTON "5" WIDTH 30
+      @ BUTTON "6" WIDTH 30
+      @ BUTTON "7" WIDTH 30
+      @ BUTTON "8" WIDTH 30
+      @ BUTTON "9" WIDTH 30
     END SIZER
     BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
-      @ SAY "Name:" WIDTH 80 STYLE RIGHT GET edtNombre
-      @ SAY "Password:" WIDTH 80 STYLE RIGHT GET edtPassword
+      @ SAY "Name:" WIDTH 50 STYLE RIGHT GET edtNombre
+      @ SAY "Password:" WIDTH 50 STYLE RIGHT GET edtPassword SIDEBORDERS 0x0800
     END SIZER
     @ SAY "More Text"
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT

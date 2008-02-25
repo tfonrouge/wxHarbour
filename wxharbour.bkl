@@ -23,11 +23,9 @@
     <headers>
       $(fileList("include/*.ch"))
     </headers>
-    <sources>
-      $(fileList("src/*.c"))
-      $(fileList("src/*.cpp"))
-      $(fileList("src/*.prg"))
-    </sources>
+    <prgs-at>
+      src
+    </prgs-at>
     <warnings>max</warnings>
     <precomp-headers>on</precomp-headers>
     <optimize>
