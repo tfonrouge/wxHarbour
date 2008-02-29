@@ -3,40 +3,25 @@
 
   <include file="config/tmpl_hrb.bkl"/>
 
-  <if cond="TOOLSET=='win32'">
-    <set var="PREFIX_DEFAULT">
-      C:\wxH
-    </set>
-    <set var="EXEC_PREFIX_DEFAULT">
-      C:\wxH\bin
-    </set>
-  </if>
-
-  <if cond="TOOLSET=='unix'">
-    <set var="PREFIX" make_var="1">
-      /usr/local/wxH
-    </set>
-  </if>
-
-  <lib id="wxharbour">
+  <wxharbour-lib id="wxharbour">
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/*.ch"))
     </headers>
-    <prgs-at>
+    <sources-at>
       src
-    </prgs-at>
+    </sources-at>
     <warnings>max</warnings>
     <precomp-headers>on</precomp-headers>
     <optimize>
       speed
     </optimize>
     <debug-info>
-      on
+      off
     </debug-info>
-    <install-to>$(LIBDIR)</install-to>
-    <install-headers-to>$(PREFIX)</install-headers-to>
-  </lib>
+    <install-to>$(HB_LIB_PATH)</install-to>
+    <install-headers-to>$(HB_INC_PATH)</install-headers-to>
+  </wxharbour-lib>
 
   <subproject id="samples">
     <dir>samples</dir>
