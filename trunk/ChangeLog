@@ -2,6 +2,28 @@
  *
  */
 
+2008-02-29 05:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/makefile.vc
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * makefile.vc
+  - config/common_samples.bkl
+  * config/common_wxh_bin.bkl
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    ! Major changes in bkl core (tmpl_hrb.bkl) in order to use more correctly
+      the targets
+    + added new rules to deal with [wx]harbour-[exe|lib|] objetives.
+    ! Several fixes and enhancements
+    * Now the dbbrowser sample compiles ok with MSVC Express 8
+    TODO: more cleanup in win32 formats and tests.
+
 
 2008-02-25 17:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/sizers/login.prg
