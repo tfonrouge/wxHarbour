@@ -2,6 +2,31 @@
  *
  */
 
+2008-03-01 15:01 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.bkl
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/helloworld1.bkl
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * makefile.vc
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * more fixes and enhancements to build the library and binaries
+    * Now can be setted the flags for the wxWidgets build used
+    * detects compiler (win32)
+
 2008-03-01 14:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/sizers/sizers.bkl
   * samples/sizers/GNUmakefile
