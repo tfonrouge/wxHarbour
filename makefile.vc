@@ -23,7 +23,7 @@ CXX = cl
 CPPFLAGS = 
 
 # Standard flags for Harbour compiler 
-HBFLAGS = -n -a -v -m -go -w3 -es2
+HBFLAGS = -n -a -v -m -go
 
 # [x]Harbour compiler 
 HCC = harbour
@@ -32,8 +32,14 @@ HCC = harbour
 # Harbour compiler flags
 # ---------------------------------------------------------------
 # 
-# Type of compiled binaries [debug,release]
+# Type of Harbour compiled binaries [debug,release]
 BUILD = debug
+
+# Warning level for the Harbour Compiler [0,1,2,3]
+HBWARNL = 3
+
+# Exit severity level for the Harbour Compiler [0,1,2]
+HBEXITSL = 2
 
 # ---------------------------------------------------------------
 # Harbour paths
@@ -48,8 +54,21 @@ HB_INC_PATH = $(HB_INC_INSTALL)
 # Where to search for Harbour libs 
 HB_LIB_PATH = $(HB_LIB_INSTALL)
 
+# Where the object and lib files are built 
+__BUILDDIR__ = obj\vc-win32
+
+# ---------------------------------------------------------------
+# wxWidgets flags (version 2.8 required)
+# ---------------------------------------------------------------
+# 
 # Where is wxWidgets installed 
 WX_PATH = C:\wxWidgets-2.8.7
+
+#  [ansi,unicode]
+WX_ENCODING = unicode
+
+#  [release,debug]
+WX_BUILD = release
 
 
 
@@ -61,101 +80,142 @@ WX_PATH = C:\wxWidgets-2.8.7
 
 MAKEARGS = PREFIX="$(PREFIX)" EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" \
 	CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBFLAGS="$(HBFLAGS)" HCC="$(HCC)" WXHAPP="$(WXHAPP)" BUILD="$(BUILD)" \
-	HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" HBOUTTYP="$(HBOUTTYP)" \
-	HB_BIN_PATH="$(HB_BIN_PATH)" HB_INC_PATH="$(HB_INC_PATH)" \
-	HB_LIB_PATH="$(HB_LIB_PATH)" WX_PATH="$(WX_PATH)"
-WXHARBOUR_CXXFLAGS = /MD /DWIN32 /Iinclude /I$(HB_INC_PATH) /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\mswu /W4 /O2 /Fdobj\vc-win32\wxHarbour-vc-win32.pdb \
-	/GR /EHsc /YX $(CPPFLAGS)
+	HBFLAGS="$(HBFLAGS)" HCC="$(HCC)" BUILD="$(BUILD)" HBWARNL="$(HBWARNL)" \
+	HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
+	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" \
+	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
+	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
+WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
+	/W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_5) \
+	$(____WX_DEBUG_INFO_7_p) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ \
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
+	/DNEWDEFINE /GR /EHsc /YX $(CPPFLAGS)
 WXHARBOUR_OBJECTS =  \
-	obj\vc-win32\wxharbour_wxhapp.obj \
-	obj\vc-win32\wxharbour_wxhboxsizer.obj \
-	obj\vc-win32\wxharbour_wxhbrowse.obj \
-	obj\vc-win32\wxharbour_wxhbutton.obj \
-	obj\vc-win32\wxharbour_wxhcolumn.obj \
-	obj\vc-win32\wxharbour_wxhcontrol.obj \
-	obj\vc-win32\wxharbour_wxhdialog.obj \
-	obj\vc-win32\wxharbour_wxhevthandler.obj \
-	obj\vc-win32\wxharbour_wxhframe.obj \
-	obj\vc-win32\wxharbour_wxhfuncs.obj \
-	obj\vc-win32\wxharbour_wxhgrid.obj \
-	obj\vc-win32\wxharbour_wxhgridsizer.obj \
-	obj\vc-win32\wxharbour_wxhgridtablebase.obj \
-	obj\vc-win32\wxharbour_wxhmenu.obj \
-	obj\vc-win32\wxharbour_wxhmenubar.obj \
-	obj\vc-win32\wxharbour_wxhmenuitem.obj \
-	obj\vc-win32\wxharbour_wxhnotebook.obj \
-	obj\vc-win32\wxharbour_wxhobject.obj \
-	obj\vc-win32\wxharbour_wxhpanel.obj \
-	obj\vc-win32\wxharbour_wxhsizer.obj \
-	obj\vc-win32\wxharbour_wxhstaticbox.obj \
-	obj\vc-win32\wxharbour_wxhstaticboxsizer.obj \
-	obj\vc-win32\wxharbour_wxhstatictext.obj \
-	obj\vc-win32\wxharbour_wxhstatusbar.obj \
-	obj\vc-win32\wxharbour_wxhtextctrl.obj \
-	obj\vc-win32\wxharbour_wxhtoplevelwindow.obj \
-	obj\vc-win32\wxharbour_wxhvalidator.obj \
-	obj\vc-win32\wxharbour_wxhwindow.obj \
-	obj\vc-win32\wxharbour_wx_app.obj \
-	obj\vc-win32\wxharbour_wx_boxsizer.obj \
-	obj\vc-win32\wxharbour_wx_browse.obj \
-	obj\vc-win32\wxharbour_wx_button.obj \
-	obj\vc-win32\wxharbour_wx_dialog.obj \
-	obj\vc-win32\wxharbour_wx_evthandler.obj \
-	obj\vc-win32\wxharbour_wx_frame.obj \
-	obj\vc-win32\wxharbour_wx_functions.obj \
-	obj\vc-win32\wxharbour_wx_grid.obj \
-	obj\vc-win32\wxharbour_wx_gridsizer.obj \
-	obj\vc-win32\wxharbour_wx_gridtablebase.obj \
-	obj\vc-win32\wxharbour_wx_harbour.obj \
-	obj\vc-win32\wxharbour_wx_menu.obj \
-	obj\vc-win32\wxharbour_wx_menubar.obj \
-	obj\vc-win32\wxharbour_wx_menuitem.obj \
-	obj\vc-win32\wxharbour_wx_notebook.obj \
-	obj\vc-win32\wxharbour_wx_object.obj \
-	obj\vc-win32\wxharbour_wx_panel.obj \
-	obj\vc-win32\wxharbour_wx_sizer.obj \
-	obj\vc-win32\wxharbour_wx_staticbox.obj \
-	obj\vc-win32\wxharbour_wx_staticboxsizer.obj \
-	obj\vc-win32\wxharbour_wx_statictext.obj \
-	obj\vc-win32\wxharbour_wx_statusbar.obj \
-	obj\vc-win32\wxharbour_wx_textctrl.obj \
-	obj\vc-win32\wxharbour_wx_toplevelwindow.obj \
-	obj\vc-win32\wxharbour_wx_validator.obj \
-	obj\vc-win32\wxharbour_wx_window.obj
-WXHARBOUR_HBFLAGS = $(HBFLAGS) $(__HBDEBUG__) /Iinclude /I$(HB_INC_PATH) \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\mswu
+	$(__BUILDDIR__)\wxharbour_wxhapp.obj \
+	$(__BUILDDIR__)\wxharbour_wxhboxsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wxhbrowse.obj \
+	$(__BUILDDIR__)\wxharbour_wxhbutton.obj \
+	$(__BUILDDIR__)\wxharbour_wxhcolumn.obj \
+	$(__BUILDDIR__)\wxharbour_wxhcontrol.obj \
+	$(__BUILDDIR__)\wxharbour_wxhdialog.obj \
+	$(__BUILDDIR__)\wxharbour_wxhevthandler.obj \
+	$(__BUILDDIR__)\wxharbour_wxhframe.obj \
+	$(__BUILDDIR__)\wxharbour_wxhfuncs.obj \
+	$(__BUILDDIR__)\wxharbour_wxhgrid.obj \
+	$(__BUILDDIR__)\wxharbour_wxhgridsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj \
+	$(__BUILDDIR__)\wxharbour_wxhmenu.obj \
+	$(__BUILDDIR__)\wxharbour_wxhmenubar.obj \
+	$(__BUILDDIR__)\wxharbour_wxhmenuitem.obj \
+	$(__BUILDDIR__)\wxharbour_wxhnotebook.obj \
+	$(__BUILDDIR__)\wxharbour_wxhobject.obj \
+	$(__BUILDDIR__)\wxharbour_wxhpanel.obj \
+	$(__BUILDDIR__)\wxharbour_wxhsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wxhstaticbox.obj \
+	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wxhstatictext.obj \
+	$(__BUILDDIR__)\wxharbour_wxhstatusbar.obj \
+	$(__BUILDDIR__)\wxharbour_wxhtextctrl.obj \
+	$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.obj \
+	$(__BUILDDIR__)\wxharbour_wxhvalidator.obj \
+	$(__BUILDDIR__)\wxharbour_wxhwindow.obj \
+	$(__BUILDDIR__)\wxharbour_wx_app.obj \
+	$(__BUILDDIR__)\wxharbour_wx_boxsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wx_browse.obj \
+	$(__BUILDDIR__)\wxharbour_wx_button.obj \
+	$(__BUILDDIR__)\wxharbour_wx_dialog.obj \
+	$(__BUILDDIR__)\wxharbour_wx_evthandler.obj \
+	$(__BUILDDIR__)\wxharbour_wx_frame.obj \
+	$(__BUILDDIR__)\wxharbour_wx_functions.obj \
+	$(__BUILDDIR__)\wxharbour_wx_grid.obj \
+	$(__BUILDDIR__)\wxharbour_wx_gridsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj \
+	$(__BUILDDIR__)\wxharbour_wx_harbour.obj \
+	$(__BUILDDIR__)\wxharbour_wx_menu.obj \
+	$(__BUILDDIR__)\wxharbour_wx_menubar.obj \
+	$(__BUILDDIR__)\wxharbour_wx_menuitem.obj \
+	$(__BUILDDIR__)\wxharbour_wx_notebook.obj \
+	$(__BUILDDIR__)\wxharbour_wx_object.obj \
+	$(__BUILDDIR__)\wxharbour_wx_panel.obj \
+	$(__BUILDDIR__)\wxharbour_wx_sizer.obj \
+	$(__BUILDDIR__)\wxharbour_wx_staticbox.obj \
+	$(__BUILDDIR__)\wxharbour_wx_staticboxsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wx_statictext.obj \
+	$(__BUILDDIR__)\wxharbour_wx_statusbar.obj \
+	$(__BUILDDIR__)\wxharbour_wx_textctrl.obj \
+	$(__BUILDDIR__)\wxharbour_wx_toplevelwindow.obj \
+	$(__BUILDDIR__)\wxharbour_wx_validator.obj \
+	$(__BUILDDIR__)\wxharbour_wx_window.obj
+WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(____WX_DEBUG_INFO_7_p) /D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /DNEWDEFINE
 
 ### Conditionally set variables: ###
 
 !if "$(BUILD)" == "debug"
 __HBDEBUG__ = -b
 !endif
+!if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
+WXHLIBNAME = wxHarbour
+!endif
+!if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
+WXHLIBNAME = wxHarbour-$(WX_BUILD)
+!endif
+!if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "unicode"
+WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+!endif
+!if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
+WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+!endif
+!if "$(WX_BUILD)" == "debug"
+__WX_DEBUG_INFO_5 = /Zi
+!endif
+!if "$(WX_BUILD)" == "debug"
+__WX_DEBUG_INFO_8 = d
+!endif
+!if "$(WX_ENCODING)" == "unicode"
+__D_WX_UNICODE_p = /D_UNICODE
+!endif
+!if "$(WX_BUILD)" == "debug"
+__D_WX_DEBUG_p = /D__WXDEBUG__
+!endif
+!if "$(WX_BUILD)" == "debug"
+____WX_DEBUG_INFO_7_p = /D_DEBUG
+!endif
+!if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
+__WX_LIBID_FILENAMES = d
+!endif
+!if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
+__WX_LIBID_FILENAMES = ud
+!endif
+!if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "unicode"
+__WX_LIBID_FILENAMES = u
+!endif
 
 
-all: obj\vc-win32
-obj\vc-win32:
-	-if not exist obj\vc-win32 mkdir obj\vc-win32
+all: $(__BUILDDIR__)
+$(__BUILDDIR__):
+	-if not exist $(__BUILDDIR__) mkdir $(__BUILDDIR__)
 
 ### Targets: ###
 
-all: obj\vc-win32\wxHarbour-vc-win32.lib
+all: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 
 install: all install_wxharbour install_wxharbour_headers
 
 uninstall: uninstall_wxharbour uninstall_wxharbour_headers
 
 clean: 
-	-if exist obj\vc-win32\*.obj del obj\vc-win32\*.obj
-	-if exist obj\vc-win32\*.res del obj\vc-win32\*.res
-	-if exist obj\vc-win32\*.pch del obj\vc-win32\*.pch
-	-if exist obj\vc-win32\wxHarbour-vc-win32.lib del obj\vc-win32\wxHarbour-vc-win32.lib
+	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
+	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
+	-if exist $(__BUILDDIR__)\*.pch del $(__BUILDDIR__)\*.pch
+	-if exist $(__BUILDDIR__)\$(WXHLIBNAME).lib del $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
 
-obj\vc-win32\wxHarbour-vc-win32.lib: $(WXHARBOUR_OBJECTS)
+$(__BUILDDIR__)\$(WXHLIBNAME).lib: $(WXHARBOUR_OBJECTS)
 	if exist $@ del $@
 	link /LIB /NOLOGO /OUT:$@ @<<
 	$(WXHARBOUR_OBJECTS)
@@ -163,10 +223,10 @@ obj\vc-win32\wxHarbour-vc-win32.lib: $(WXHARBOUR_OBJECTS)
 
 install_wxharbour: 
 	-mkdir $(HB_LIB_PATH)
-	copy /Y obj\vc-win32\wxHarbour-vc-win32.lib $(HB_LIB_PATH)
+	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(HB_LIB_PATH)
 
 uninstall_wxharbour: 
-	-del $(HB_LIB_PATH)\wxHarbour-vc-win32.lib
+	-del $(HB_LIB_PATH)\$(WXHLIBNAME).lib
 
 install_wxharbour_headers: 
 	if not exist $(HB_INC_PATH) mkdir $(HB_INC_PATH)
@@ -184,173 +244,173 @@ uninstall_wxharbour_headers:
 	-if exist $(HB_INC_PATH)\include\wx.ch -del $(HB_INC_PATH)\include\wx.ch
 	-if exist $(HB_INC_PATH)\include\wxharbour.ch -del $(HB_INC_PATH)\include\wxharbour.ch
 
-sub_samples: obj\vc-win32\wxHarbour-vc-win32.lib
+sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
 	cd "$(MAKEDIR)"
 
-obj\vc-win32\wxharbour_wxhapp.obj: .\src\wxhapp.prg
+$(__BUILDDIR__)\wxharbour_wxhapp.obj: .\src\wxhapp.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhboxsizer.obj: .\src\wxhboxsizer.prg
+$(__BUILDDIR__)\wxharbour_wxhboxsizer.obj: .\src\wxhboxsizer.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhbrowse.obj: .\src\wxhbrowse.prg
+$(__BUILDDIR__)\wxharbour_wxhbrowse.obj: .\src\wxhbrowse.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhbutton.obj: .\src\wxhbutton.prg
+$(__BUILDDIR__)\wxharbour_wxhbutton.obj: .\src\wxhbutton.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhcolumn.obj: .\src\wxhcolumn.prg
+$(__BUILDDIR__)\wxharbour_wxhcolumn.obj: .\src\wxhcolumn.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhcontrol.obj: .\src\wxhcontrol.prg
+$(__BUILDDIR__)\wxharbour_wxhcontrol.obj: .\src\wxhcontrol.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhdialog.obj: .\src\wxhdialog.prg
+$(__BUILDDIR__)\wxharbour_wxhdialog.obj: .\src\wxhdialog.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhevthandler.obj: .\src\wxhevthandler.prg
+$(__BUILDDIR__)\wxharbour_wxhevthandler.obj: .\src\wxhevthandler.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhframe.obj: .\src\wxhframe.prg
+$(__BUILDDIR__)\wxharbour_wxhframe.obj: .\src\wxhframe.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhfuncs.obj: .\src\wxhfuncs.prg
+$(__BUILDDIR__)\wxharbour_wxhfuncs.obj: .\src\wxhfuncs.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhgrid.obj: .\src\wxhgrid.prg
+$(__BUILDDIR__)\wxharbour_wxhgrid.obj: .\src\wxhgrid.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhgridsizer.obj: .\src\wxhgridsizer.prg
+$(__BUILDDIR__)\wxharbour_wxhgridsizer.obj: .\src\wxhgridsizer.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhgridtablebase.obj: .\src\wxhgridtablebase.prg
+$(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj: .\src\wxhgridtablebase.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhmenu.obj: .\src\wxhmenu.prg
+$(__BUILDDIR__)\wxharbour_wxhmenu.obj: .\src\wxhmenu.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhmenubar.obj: .\src\wxhmenubar.prg
+$(__BUILDDIR__)\wxharbour_wxhmenubar.obj: .\src\wxhmenubar.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhmenuitem.obj: .\src\wxhmenuitem.prg
+$(__BUILDDIR__)\wxharbour_wxhmenuitem.obj: .\src\wxhmenuitem.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhnotebook.obj: .\src\wxhnotebook.prg
+$(__BUILDDIR__)\wxharbour_wxhnotebook.obj: .\src\wxhnotebook.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhobject.obj: .\src\wxhobject.prg
+$(__BUILDDIR__)\wxharbour_wxhobject.obj: .\src\wxhobject.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhpanel.obj: .\src\wxhpanel.prg
+$(__BUILDDIR__)\wxharbour_wxhpanel.obj: .\src\wxhpanel.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhsizer.obj: .\src\wxhsizer.prg
+$(__BUILDDIR__)\wxharbour_wxhsizer.obj: .\src\wxhsizer.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhstaticbox.obj: .\src\wxhstaticbox.prg
+$(__BUILDDIR__)\wxharbour_wxhstaticbox.obj: .\src\wxhstaticbox.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhstaticboxsizer.obj: .\src\wxhstaticboxsizer.prg
+$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj: .\src\wxhstaticboxsizer.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhstatictext.obj: .\src\wxhstatictext.prg
+$(__BUILDDIR__)\wxharbour_wxhstatictext.obj: .\src\wxhstatictext.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhstatusbar.obj: .\src\wxhstatusbar.prg
+$(__BUILDDIR__)\wxharbour_wxhstatusbar.obj: .\src\wxhstatusbar.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhtextctrl.obj: .\src\wxhtextctrl.prg
+$(__BUILDDIR__)\wxharbour_wxhtextctrl.obj: .\src\wxhtextctrl.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhtoplevelwindow.obj: .\src\wxhtoplevelwindow.prg
+$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.obj: .\src\wxhtoplevelwindow.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhvalidator.obj: .\src\wxhvalidator.prg
+$(__BUILDDIR__)\wxharbour_wxhvalidator.obj: .\src\wxhvalidator.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wxhwindow.obj: .\src\wxhwindow.prg
+$(__BUILDDIR__)\wxharbour_wxhwindow.obj: .\src\wxhwindow.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-obj\vc-win32\wxharbour_wx_app.obj: .\src\wx_app.cpp
+$(__BUILDDIR__)\wxharbour_wx_app.obj: .\src\wx_app.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_app.cpp
 
-obj\vc-win32\wxharbour_wx_boxsizer.obj: .\src\wx_boxsizer.cpp
+$(__BUILDDIR__)\wxharbour_wx_boxsizer.obj: .\src\wx_boxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_boxsizer.cpp
 
-obj\vc-win32\wxharbour_wx_browse.obj: .\src\wx_browse.cpp
+$(__BUILDDIR__)\wxharbour_wx_browse.obj: .\src\wx_browse.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_browse.cpp
 
-obj\vc-win32\wxharbour_wx_button.obj: .\src\wx_button.cpp
+$(__BUILDDIR__)\wxharbour_wx_button.obj: .\src\wx_button.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_button.cpp
 
-obj\vc-win32\wxharbour_wx_dialog.obj: .\src\wx_dialog.cpp
+$(__BUILDDIR__)\wxharbour_wx_dialog.obj: .\src\wx_dialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_dialog.cpp
 
-obj\vc-win32\wxharbour_wx_evthandler.obj: .\src\wx_evthandler.cpp
+$(__BUILDDIR__)\wxharbour_wx_evthandler.obj: .\src\wx_evthandler.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_evthandler.cpp
 
-obj\vc-win32\wxharbour_wx_frame.obj: .\src\wx_frame.cpp
+$(__BUILDDIR__)\wxharbour_wx_frame.obj: .\src\wx_frame.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_frame.cpp
 
-obj\vc-win32\wxharbour_wx_functions.obj: .\src\wx_functions.cpp
+$(__BUILDDIR__)\wxharbour_wx_functions.obj: .\src\wx_functions.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_functions.cpp
 
-obj\vc-win32\wxharbour_wx_grid.obj: .\src\wx_grid.cpp
+$(__BUILDDIR__)\wxharbour_wx_grid.obj: .\src\wx_grid.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_grid.cpp
 
-obj\vc-win32\wxharbour_wx_gridsizer.obj: .\src\wx_gridsizer.cpp
+$(__BUILDDIR__)\wxharbour_wx_gridsizer.obj: .\src\wx_gridsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_gridsizer.cpp
 
-obj\vc-win32\wxharbour_wx_gridtablebase.obj: .\src\wx_gridtablebase.cpp
+$(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj: .\src\wx_gridtablebase.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_gridtablebase.cpp
 
-obj\vc-win32\wxharbour_wx_harbour.obj: .\src\wx_harbour.cpp
+$(__BUILDDIR__)\wxharbour_wx_harbour.obj: .\src\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_harbour.cpp
 
-obj\vc-win32\wxharbour_wx_menu.obj: .\src\wx_menu.cpp
+$(__BUILDDIR__)\wxharbour_wx_menu.obj: .\src\wx_menu.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_menu.cpp
 
-obj\vc-win32\wxharbour_wx_menubar.obj: .\src\wx_menubar.cpp
+$(__BUILDDIR__)\wxharbour_wx_menubar.obj: .\src\wx_menubar.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_menubar.cpp
 
-obj\vc-win32\wxharbour_wx_menuitem.obj: .\src\wx_menuitem.cpp
+$(__BUILDDIR__)\wxharbour_wx_menuitem.obj: .\src\wx_menuitem.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_menuitem.cpp
 
-obj\vc-win32\wxharbour_wx_notebook.obj: .\src\wx_notebook.cpp
+$(__BUILDDIR__)\wxharbour_wx_notebook.obj: .\src\wx_notebook.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_notebook.cpp
 
-obj\vc-win32\wxharbour_wx_object.obj: .\src\wx_object.cpp
+$(__BUILDDIR__)\wxharbour_wx_object.obj: .\src\wx_object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_object.cpp
 
-obj\vc-win32\wxharbour_wx_panel.obj: .\src\wx_panel.cpp
+$(__BUILDDIR__)\wxharbour_wx_panel.obj: .\src\wx_panel.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_panel.cpp
 
-obj\vc-win32\wxharbour_wx_sizer.obj: .\src\wx_sizer.cpp
+$(__BUILDDIR__)\wxharbour_wx_sizer.obj: .\src\wx_sizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_sizer.cpp
 
-obj\vc-win32\wxharbour_wx_staticbox.obj: .\src\wx_staticbox.cpp
+$(__BUILDDIR__)\wxharbour_wx_staticbox.obj: .\src\wx_staticbox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_staticbox.cpp
 
-obj\vc-win32\wxharbour_wx_staticboxsizer.obj: .\src\wx_staticboxsizer.cpp
+$(__BUILDDIR__)\wxharbour_wx_staticboxsizer.obj: .\src\wx_staticboxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_staticboxsizer.cpp
 
-obj\vc-win32\wxharbour_wx_statictext.obj: .\src\wx_statictext.cpp
+$(__BUILDDIR__)\wxharbour_wx_statictext.obj: .\src\wx_statictext.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_statictext.cpp
 
-obj\vc-win32\wxharbour_wx_statusbar.obj: .\src\wx_statusbar.cpp
+$(__BUILDDIR__)\wxharbour_wx_statusbar.obj: .\src\wx_statusbar.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_statusbar.cpp
 
-obj\vc-win32\wxharbour_wx_textctrl.obj: .\src\wx_textctrl.cpp
+$(__BUILDDIR__)\wxharbour_wx_textctrl.obj: .\src\wx_textctrl.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_textctrl.cpp
 
-obj\vc-win32\wxharbour_wx_toplevelwindow.obj: .\src\wx_toplevelwindow.cpp
+$(__BUILDDIR__)\wxharbour_wx_toplevelwindow.obj: .\src\wx_toplevelwindow.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_toplevelwindow.cpp
 
-obj\vc-win32\wxharbour_wx_validator.obj: .\src\wx_validator.cpp
+$(__BUILDDIR__)\wxharbour_wx_validator.obj: .\src\wx_validator.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_validator.cpp
 
-obj\vc-win32\wxharbour_wx_window.obj: .\src\wx_window.cpp
+$(__BUILDDIR__)\wxharbour_wx_window.obj: .\src\wx_window.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_window.cpp
 

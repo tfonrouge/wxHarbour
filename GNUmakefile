@@ -29,7 +29,7 @@ CXX := g++
 CPPFLAGS := 
 
 # Standard flags for Harbour compiler 
-HBFLAGS := -n -a -v -m -go -w3 -es2
+HBFLAGS := -n -a -v -m -go
 
 # [x]Harbour compiler 
 HCC := harbour
@@ -38,8 +38,14 @@ HCC := harbour
 # Harbour compiler flags
 # ---------------------------------------------------------------
 # 
-# Type of compiled binaries [debug,release]
+# Type of Harbour compiled binaries [debug,release]
 BUILD := debug
+
+# Warning level for the Harbour Compiler [0,1,2,3]
+HBWARNL := 3
+
+# Exit severity level for the Harbour Compiler [0,1,2]
+HBEXITSL := 2
 
 # ---------------------------------------------------------------
 # Harbour paths
@@ -54,6 +60,15 @@ HB_INC_PATH := /usr/include/harbour
 # Where to search for Harbour libs 
 HB_LIB_PATH := /usr/lib/harbour
 
+# Where the object and lib files are built 
+__BUILDDIR__ := obj/gcc-unix
+
+#  [ansi,unicode]
+WX_ENCODING := unicode
+
+#  [release,debug]
+WX_BUILD := release
+
 
 
 # -------------------------------------------------------------------------
@@ -63,108 +78,140 @@ HB_LIB_PATH := /usr/lib/harbour
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
-WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -W -Wall -O2 $(CPPFLAGS) \
+WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -DNEWDEFINE $(CPPFLAGS) \
 	-fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
-	obj/gcc-unix/wxharbour_wxhapp.o \
-	obj/gcc-unix/wxharbour_wxhboxsizer.o \
-	obj/gcc-unix/wxharbour_wxhbrowse.o \
-	obj/gcc-unix/wxharbour_wxhbutton.o \
-	obj/gcc-unix/wxharbour_wxhcolumn.o \
-	obj/gcc-unix/wxharbour_wxhcontrol.o \
-	obj/gcc-unix/wxharbour_wxhdialog.o \
-	obj/gcc-unix/wxharbour_wxhevthandler.o \
-	obj/gcc-unix/wxharbour_wxhframe.o \
-	obj/gcc-unix/wxharbour_wxhfuncs.o \
-	obj/gcc-unix/wxharbour_wxhgrid.o \
-	obj/gcc-unix/wxharbour_wxhgridsizer.o \
-	obj/gcc-unix/wxharbour_wxhgridtablebase.o \
-	obj/gcc-unix/wxharbour_wxhmenu.o \
-	obj/gcc-unix/wxharbour_wxhmenubar.o \
-	obj/gcc-unix/wxharbour_wxhmenuitem.o \
-	obj/gcc-unix/wxharbour_wxhnotebook.o \
-	obj/gcc-unix/wxharbour_wxhobject.o \
-	obj/gcc-unix/wxharbour_wxhpanel.o \
-	obj/gcc-unix/wxharbour_wxhsizer.o \
-	obj/gcc-unix/wxharbour_wxhstaticbox.o \
-	obj/gcc-unix/wxharbour_wxhstaticboxsizer.o \
-	obj/gcc-unix/wxharbour_wxhstatictext.o \
-	obj/gcc-unix/wxharbour_wxhstatusbar.o \
-	obj/gcc-unix/wxharbour_wxhtextctrl.o \
-	obj/gcc-unix/wxharbour_wxhtoplevelwindow.o \
-	obj/gcc-unix/wxharbour_wxhvalidator.o \
-	obj/gcc-unix/wxharbour_wxhwindow.o \
-	obj/gcc-unix/wxharbour_wx_app.o \
-	obj/gcc-unix/wxharbour_wx_boxsizer.o \
-	obj/gcc-unix/wxharbour_wx_browse.o \
-	obj/gcc-unix/wxharbour_wx_button.o \
-	obj/gcc-unix/wxharbour_wx_dialog.o \
-	obj/gcc-unix/wxharbour_wx_evthandler.o \
-	obj/gcc-unix/wxharbour_wx_frame.o \
-	obj/gcc-unix/wxharbour_wx_functions.o \
-	obj/gcc-unix/wxharbour_wx_grid.o \
-	obj/gcc-unix/wxharbour_wx_gridsizer.o \
-	obj/gcc-unix/wxharbour_wx_gridtablebase.o \
-	obj/gcc-unix/wxharbour_wx_harbour.o \
-	obj/gcc-unix/wxharbour_wx_menu.o \
-	obj/gcc-unix/wxharbour_wx_menubar.o \
-	obj/gcc-unix/wxharbour_wx_menuitem.o \
-	obj/gcc-unix/wxharbour_wx_notebook.o \
-	obj/gcc-unix/wxharbour_wx_object.o \
-	obj/gcc-unix/wxharbour_wx_panel.o \
-	obj/gcc-unix/wxharbour_wx_sizer.o \
-	obj/gcc-unix/wxharbour_wx_staticbox.o \
-	obj/gcc-unix/wxharbour_wx_staticboxsizer.o \
-	obj/gcc-unix/wxharbour_wx_statictext.o \
-	obj/gcc-unix/wxharbour_wx_statusbar.o \
-	obj/gcc-unix/wxharbour_wx_textctrl.o \
-	obj/gcc-unix/wxharbour_wx_toplevelwindow.o \
-	obj/gcc-unix/wxharbour_wx_validator.o \
-	obj/gcc-unix/wxharbour_wx_window.o
+	$(__BUILDDIR__)/wxharbour_wxhapp.o \
+	$(__BUILDDIR__)/wxharbour_wxhboxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhbrowse.o \
+	$(__BUILDDIR__)/wxharbour_wxhbutton.o \
+	$(__BUILDDIR__)/wxharbour_wxhcolumn.o \
+	$(__BUILDDIR__)/wxharbour_wxhcontrol.o \
+	$(__BUILDDIR__)/wxharbour_wxhdialog.o \
+	$(__BUILDDIR__)/wxharbour_wxhevthandler.o \
+	$(__BUILDDIR__)/wxharbour_wxhframe.o \
+	$(__BUILDDIR__)/wxharbour_wxhfuncs.o \
+	$(__BUILDDIR__)/wxharbour_wxhgrid.o \
+	$(__BUILDDIR__)/wxharbour_wxhgridsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhgridtablebase.o \
+	$(__BUILDDIR__)/wxharbour_wxhmenu.o \
+	$(__BUILDDIR__)/wxharbour_wxhmenubar.o \
+	$(__BUILDDIR__)/wxharbour_wxhmenuitem.o \
+	$(__BUILDDIR__)/wxharbour_wxhnotebook.o \
+	$(__BUILDDIR__)/wxharbour_wxhobject.o \
+	$(__BUILDDIR__)/wxharbour_wxhpanel.o \
+	$(__BUILDDIR__)/wxharbour_wxhsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhstaticbox.o \
+	$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhstatictext.o \
+	$(__BUILDDIR__)/wxharbour_wxhstatusbar.o \
+	$(__BUILDDIR__)/wxharbour_wxhtextctrl.o \
+	$(__BUILDDIR__)/wxharbour_wxhtoplevelwindow.o \
+	$(__BUILDDIR__)/wxharbour_wxhvalidator.o \
+	$(__BUILDDIR__)/wxharbour_wxhwindow.o \
+	$(__BUILDDIR__)/wxharbour_wx_app.o \
+	$(__BUILDDIR__)/wxharbour_wx_boxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_browse.o \
+	$(__BUILDDIR__)/wxharbour_wx_button.o \
+	$(__BUILDDIR__)/wxharbour_wx_dialog.o \
+	$(__BUILDDIR__)/wxharbour_wx_evthandler.o \
+	$(__BUILDDIR__)/wxharbour_wx_frame.o \
+	$(__BUILDDIR__)/wxharbour_wx_functions.o \
+	$(__BUILDDIR__)/wxharbour_wx_grid.o \
+	$(__BUILDDIR__)/wxharbour_wx_gridsizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_gridtablebase.o \
+	$(__BUILDDIR__)/wxharbour_wx_harbour.o \
+	$(__BUILDDIR__)/wxharbour_wx_menu.o \
+	$(__BUILDDIR__)/wxharbour_wx_menubar.o \
+	$(__BUILDDIR__)/wxharbour_wx_menuitem.o \
+	$(__BUILDDIR__)/wxharbour_wx_notebook.o \
+	$(__BUILDDIR__)/wxharbour_wx_object.o \
+	$(__BUILDDIR__)/wxharbour_wx_panel.o \
+	$(__BUILDDIR__)/wxharbour_wx_sizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_staticbox.o \
+	$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_statictext.o \
+	$(__BUILDDIR__)/wxharbour_wx_statusbar.o \
+	$(__BUILDDIR__)/wxharbour_wx_textctrl.o \
+	$(__BUILDDIR__)/wxharbour_wx_toplevelwindow.o \
+	$(__BUILDDIR__)/wxharbour_wx_validator.o \
+	$(__BUILDDIR__)/wxharbour_wx_window.o
 WXHARBOUR_HEADERS =  \
 	include/defs.ch \
 	include/event.ch \
 	include/property.ch \
 	include/wx.ch \
 	include/wxharbour.ch
-WXHARBOUR_HBFLAGS = $(HBFLAGS) $(__HBDEBUG__)  -Iinclude -I$(HB_INC_PATH)
+WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) -DNEWDEFINE
 
 ### Conditionally set variables: ###
 
 ifeq ($(BUILD),debug)
 __HBDEBUG__ = -b
 endif
+ifeq ($(WX_BUILD),release)
+ifeq ($(WX_ENCODING),ansi)
+WXHLIBNAME = wxHarbour
+endif
+endif
+ifeq ($(WX_BUILD),debug)
+ifeq ($(WX_ENCODING),ansi)
+WXHLIBNAME = wxHarbour-$(WX_BUILD)
+endif
+endif
+ifeq ($(WX_BUILD),release)
+ifeq ($(WX_ENCODING),unicode)
+WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+endif
+endif
+ifeq ($(WX_BUILD),debug)
+ifeq ($(WX_ENCODING),unicode)
+WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+endif
+endif
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO_2 = -g
+endif
+ifeq ($(WX_ENCODING),unicode)
+__D_WX_UNICODE_p = -D_UNICODE
+endif
+ifeq ($(WX_BUILD),debug)
+__D_WX_DEBUG_p = -D__WXDEBUG__
+endif
 
 
-all: obj/gcc-unix
-obj/gcc-unix:
-	@mkdir -p obj/gcc-unix
+all: $(__BUILDDIR__)
+$(__BUILDDIR__):
+	@mkdir -p $(__BUILDDIR__)
 
 ### Targets: ###
 
-all: obj/gcc-unix/libwxHarbour-gcc-unix.a
+all: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 
 install: all install_wxharbour install_wxharbour_headers
 
 uninstall: uninstall_wxharbour uninstall_wxharbour_headers
 
 clean: 
-	rm -f obj/gcc-unix/*.o
-	rm -f obj/gcc-unix/*.d
-	rm -f obj/gcc-unix/libwxHarbour-gcc-unix.a
+	rm -f $(__BUILDDIR__)/*.o
+	rm -f $(__BUILDDIR__)/*.d
+	rm -f $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	-(cd samples && $(MAKE) clean)
 
-obj/gcc-unix/libwxHarbour-gcc-unix.a: $(WXHARBOUR_OBJECTS)
+$(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	rm -f $@
 	$(AR) rcu $@ $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxharbour: 
 	$(INSTALL) -d $(DESTDIR)$(HB_LIB_PATH)
-	$(INSTALL) -m 644 obj/gcc-unix/libwxHarbour-gcc-unix.a $(DESTDIR)$(HB_LIB_PATH)
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(HB_LIB_PATH)
 
 uninstall_wxharbour: 
-	rm -f $(DESTDIR)$(HB_LIB_PATH)/libwxHarbour-gcc-unix.a
+	rm -f $(DESTDIR)$(HB_LIB_PATH)/lib$(WXHLIBNAME).a
 
 install_wxharbour_headers: 
 	$(INSTALL) -d $(DESTDIR)$(HB_INC_PATH)
@@ -180,176 +227,176 @@ uninstall_wxharbour_headers:
 	rm -f $(DESTDIR)$(HB_INC_PATH)/$$f; \
 	done
 
-samples: obj/gcc-unix/libwxHarbour-gcc-unix.a
+samples: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	(cd samples && $(MAKE) all)
 
-obj/gcc-unix/wxharbour_wxhapp.o: ./src/wxhapp.prg
+$(__BUILDDIR__)/wxharbour_wxhapp.o: ./src/wxhapp.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhboxsizer.o: ./src/wxhboxsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhboxsizer.o: ./src/wxhboxsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhbrowse.o: ./src/wxhbrowse.prg
+$(__BUILDDIR__)/wxharbour_wxhbrowse.o: ./src/wxhbrowse.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhbutton.o: ./src/wxhbutton.prg
+$(__BUILDDIR__)/wxharbour_wxhbutton.o: ./src/wxhbutton.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhcolumn.o: ./src/wxhcolumn.prg
+$(__BUILDDIR__)/wxharbour_wxhcolumn.o: ./src/wxhcolumn.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhcontrol.o: ./src/wxhcontrol.prg
+$(__BUILDDIR__)/wxharbour_wxhcontrol.o: ./src/wxhcontrol.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhdialog.o: ./src/wxhdialog.prg
+$(__BUILDDIR__)/wxharbour_wxhdialog.o: ./src/wxhdialog.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhevthandler.o: ./src/wxhevthandler.prg
+$(__BUILDDIR__)/wxharbour_wxhevthandler.o: ./src/wxhevthandler.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhframe.o: ./src/wxhframe.prg
+$(__BUILDDIR__)/wxharbour_wxhframe.o: ./src/wxhframe.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhfuncs.o: ./src/wxhfuncs.prg
+$(__BUILDDIR__)/wxharbour_wxhfuncs.o: ./src/wxhfuncs.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhgrid.o: ./src/wxhgrid.prg
+$(__BUILDDIR__)/wxharbour_wxhgrid.o: ./src/wxhgrid.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhgridsizer.o: ./src/wxhgridsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhgridsizer.o: ./src/wxhgridsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhgridtablebase.o: ./src/wxhgridtablebase.prg
+$(__BUILDDIR__)/wxharbour_wxhgridtablebase.o: ./src/wxhgridtablebase.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhmenu.o: ./src/wxhmenu.prg
+$(__BUILDDIR__)/wxharbour_wxhmenu.o: ./src/wxhmenu.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhmenubar.o: ./src/wxhmenubar.prg
+$(__BUILDDIR__)/wxharbour_wxhmenubar.o: ./src/wxhmenubar.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhmenuitem.o: ./src/wxhmenuitem.prg
+$(__BUILDDIR__)/wxharbour_wxhmenuitem.o: ./src/wxhmenuitem.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhnotebook.o: ./src/wxhnotebook.prg
+$(__BUILDDIR__)/wxharbour_wxhnotebook.o: ./src/wxhnotebook.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhobject.o: ./src/wxhobject.prg
+$(__BUILDDIR__)/wxharbour_wxhobject.o: ./src/wxhobject.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhpanel.o: ./src/wxhpanel.prg
+$(__BUILDDIR__)/wxharbour_wxhpanel.o: ./src/wxhpanel.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhsizer.o: ./src/wxhsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxhsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhstaticbox.o: ./src/wxhstaticbox.prg
+$(__BUILDDIR__)/wxharbour_wxhstaticbox.o: ./src/wxhstaticbox.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhstaticboxsizer.o: ./src/wxhstaticboxsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxhstaticboxsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhstatictext.o: ./src/wxhstatictext.prg
+$(__BUILDDIR__)/wxharbour_wxhstatictext.o: ./src/wxhstatictext.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhstatusbar.o: ./src/wxhstatusbar.prg
+$(__BUILDDIR__)/wxharbour_wxhstatusbar.o: ./src/wxhstatusbar.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhtextctrl.o: ./src/wxhtextctrl.prg
+$(__BUILDDIR__)/wxharbour_wxhtextctrl.o: ./src/wxhtextctrl.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhtoplevelwindow.o: ./src/wxhtoplevelwindow.prg
+$(__BUILDDIR__)/wxharbour_wxhtoplevelwindow.o: ./src/wxhtoplevelwindow.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhvalidator.o: ./src/wxhvalidator.prg
+$(__BUILDDIR__)/wxharbour_wxhvalidator.o: ./src/wxhvalidator.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wxhwindow.o: ./src/wxhwindow.prg
+$(__BUILDDIR__)/wxharbour_wxhwindow.o: ./src/wxhwindow.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-obj/gcc-unix/wxharbour_wx_app.o: ./src/wx_app.cpp
+$(__BUILDDIR__)/wxharbour_wx_app.o: ./src/wx_app.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_boxsizer.o: ./src/wx_boxsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_boxsizer.o: ./src/wx_boxsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_browse.o: ./src/wx_browse.cpp
+$(__BUILDDIR__)/wxharbour_wx_browse.o: ./src/wx_browse.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_button.o: ./src/wx_button.cpp
+$(__BUILDDIR__)/wxharbour_wx_button.o: ./src/wx_button.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_dialog.o: ./src/wx_dialog.cpp
+$(__BUILDDIR__)/wxharbour_wx_dialog.o: ./src/wx_dialog.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_evthandler.o: ./src/wx_evthandler.cpp
+$(__BUILDDIR__)/wxharbour_wx_evthandler.o: ./src/wx_evthandler.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_frame.o: ./src/wx_frame.cpp
+$(__BUILDDIR__)/wxharbour_wx_frame.o: ./src/wx_frame.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_functions.o: ./src/wx_functions.cpp
+$(__BUILDDIR__)/wxharbour_wx_functions.o: ./src/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_grid.o: ./src/wx_grid.cpp
+$(__BUILDDIR__)/wxharbour_wx_grid.o: ./src/wx_grid.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_gridsizer.o: ./src/wx_gridsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_gridsizer.o: ./src/wx_gridsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_gridtablebase.o: ./src/wx_gridtablebase.cpp
+$(__BUILDDIR__)/wxharbour_wx_gridtablebase.o: ./src/wx_gridtablebase.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_harbour.o: ./src/wx_harbour.cpp
+$(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_menu.o: ./src/wx_menu.cpp
+$(__BUILDDIR__)/wxharbour_wx_menu.o: ./src/wx_menu.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_menubar.o: ./src/wx_menubar.cpp
+$(__BUILDDIR__)/wxharbour_wx_menubar.o: ./src/wx_menubar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_menuitem.o: ./src/wx_menuitem.cpp
+$(__BUILDDIR__)/wxharbour_wx_menuitem.o: ./src/wx_menuitem.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_notebook.o: ./src/wx_notebook.cpp
+$(__BUILDDIR__)/wxharbour_wx_notebook.o: ./src/wx_notebook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_object.o: ./src/wx_object.cpp
+$(__BUILDDIR__)/wxharbour_wx_object.o: ./src/wx_object.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_panel.o: ./src/wx_panel.cpp
+$(__BUILDDIR__)/wxharbour_wx_panel.o: ./src/wx_panel.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_sizer.o: ./src/wx_sizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_sizer.o: ./src/wx_sizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_staticbox.o: ./src/wx_staticbox.cpp
+$(__BUILDDIR__)/wxharbour_wx_staticbox.o: ./src/wx_staticbox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_staticboxsizer.o: ./src/wx_staticboxsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o: ./src/wx_staticboxsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_statictext.o: ./src/wx_statictext.cpp
+$(__BUILDDIR__)/wxharbour_wx_statictext.o: ./src/wx_statictext.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_statusbar.o: ./src/wx_statusbar.cpp
+$(__BUILDDIR__)/wxharbour_wx_statusbar.o: ./src/wx_statusbar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_textctrl.o: ./src/wx_textctrl.cpp
+$(__BUILDDIR__)/wxharbour_wx_textctrl.o: ./src/wx_textctrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_toplevelwindow.o: ./src/wx_toplevelwindow.cpp
+$(__BUILDDIR__)/wxharbour_wx_toplevelwindow.o: ./src/wx_toplevelwindow.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_validator.o: ./src/wx_validator.cpp
+$(__BUILDDIR__)/wxharbour_wx_validator.o: ./src/wx_validator.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-obj/gcc-unix/wxharbour_wx_window.o: ./src/wx_window.cpp
+$(__BUILDDIR__)/wxharbour_wx_window.o: ./src/wx_window.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour install_wxharbour_headers uninstall_wxharbour_headers samples
 
 
 # Dependencies tracking:
--include obj/gcc-unix/*.d
+-include $(__BUILDDIR__)/*.d
