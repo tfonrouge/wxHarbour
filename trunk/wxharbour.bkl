@@ -4,6 +4,7 @@
   <include file="config/tmpl_hrb.bkl"/>
 
   <wxharbour-lib id="wxharbour">
+    <define>NEWDEFINE</define>
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/*.ch"))
@@ -11,14 +12,6 @@
     <sources-at>
       src
     </sources-at>
-    <warnings>max</warnings>
-    <precomp-headers>on</precomp-headers>
-    <optimize>
-      speed
-    </optimize>
-    <debug-info>
-      off
-    </debug-info>
     <install-to>$(HB_LIB_PATH)</install-to>
     <install-headers-to>$(HB_INC_PATH)</install-headers-to>
   </wxharbour-lib>

@@ -8,7 +8,7 @@
       .
     </sources-at>
     <include>../../include</include>
-    <lib-path>../../$(BUILDDIR)</lib-path>
+    <lib-path>../../$(__BUILDDIR__)</lib-path>
   </wxharbour-exe>
 
 </makefile>

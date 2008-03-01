@@ -17,7 +17,7 @@ CXX := g++
 LDFLAGS := 
 
 # Standard flags for Harbour compiler 
-HBFLAGS := -n -a -v -m -go -w3 -es2
+HBFLAGS := -n -a -v -m -go
 
 # [x]Harbour compiler 
 HCC := harbour
@@ -26,8 +26,14 @@ HCC := harbour
 # Harbour compiler flags
 # ---------------------------------------------------------------
 # 
-# Type of compiled binaries [debug,release]
+# Type of Harbour compiled binaries [debug,release]
 BUILD := debug
+
+# Warning level for the Harbour Compiler [0,1,2,3]
+HBWARNL := 3
+
+# Exit severity level for the Harbour Compiler [0,1,2]
+HBEXITSL := 2
 
 # ---------------------------------------------------------------
 # Harbour paths
@@ -42,6 +48,15 @@ HB_INC_PATH := /usr/include/harbour
 # Where to search for Harbour libs 
 HB_LIB_PATH := /usr/lib/harbour
 
+# Where the object and lib files are built 
+__BUILDDIR__ := obj/gcc-unix
+
+#  [ansi,unicode]
+WX_ENCODING := unicode
+
+#  [release,debug]
+WX_BUILD := release
+
 
 
 # -------------------------------------------------------------------------
@@ -51,20 +66,50 @@ HB_LIB_PATH := /usr/lib/harbour
 ### Variables: ###
 
 DBBROWSER_OBJECTS =  \
-	obj/gcc-unix/dbbrowser_dbbrowser.o
-DBBROWSER_HBFLAGS = $(HBFLAGS) $(__HBDEBUG__) -Iinclude -I$(HB_INC_PATH) \
-	-I../../include
+	$(__BUILDDIR__)/dbbrowser_dbbrowser.o
+DBBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) $(__D_WX_UNICODE_p_1) \
+	$(__D_WX_DEBUG_p_1) -I../../include
 
 ### Conditionally set variables: ###
 
 ifeq ($(BUILD),debug)
 __HBDEBUG__ = -b
 endif
+ifeq ($(WX_ENCODING),unicode)
+__D_WX_UNICODE_p_1 = -D_UNICODE
+endif
+ifeq ($(WX_BUILD),debug)
+__D_WX_DEBUG_p_1 = -D__WXDEBUG__
+endif
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO_4 = -g
+endif
+ifeq ($(WX_BUILD),release)
+ifeq ($(WX_ENCODING),ansi)
+__WXHLIBNAME_p = -lwxHarbour
+endif
+endif
+ifeq ($(WX_BUILD),debug)
+ifeq ($(WX_ENCODING),ansi)
+__WXHLIBNAME_p = -lwxHarbour-$(WX_BUILD)
+endif
+endif
+ifeq ($(WX_BUILD),release)
+ifeq ($(WX_ENCODING),unicode)
+__WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)
+endif
+endif
+ifeq ($(WX_BUILD),debug)
+ifeq ($(WX_ENCODING),unicode)
+__WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+endif
+endif
 
 
-all: obj/gcc-unix
-obj/gcc-unix:
-	@mkdir -p obj/gcc-unix
+all: $(__BUILDDIR__)
+$(__BUILDDIR__):
+	@mkdir -p $(__BUILDDIR__)
 
 ### Targets: ###
 
@@ -75,18 +120,18 @@ install: all
 uninstall: 
 
 clean: 
-	rm -f obj/gcc-unix/*.o
-	rm -f obj/gcc-unix/*.d
+	rm -f $(__BUILDDIR__)/*.o
+	rm -f $(__BUILDDIR__)/*.d
 	rm -f ./dbbrowser
 
 ./dbbrowser: $(DBBROWSER_OBJECTS)
-	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -L$(HB_LIB_PATH) -L/usr/X11R6/lib  -L../../obj/gcc-unix  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm -lwxHarbour-gcc-unix `wx-config --libs`
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm $(__WXHLIBNAME_p) `wx-config --libs`
 
-obj/gcc-unix/dbbrowser_dbbrowser.o: ./dbbrowser.prg
+$(__BUILDDIR__)/dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	$(HB_BIN_PATH)/$(HCC) $(DBBROWSER_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 
 
 # Dependencies tracking:
--include obj/gcc-unix/*.d
+-include $(__BUILDDIR__)/*.d

@@ -1,12 +1,14 @@
 <?xml version="1.0" ?>
 <makefile>
 
-  <include file="../../config/common_samples.bkl"/>
+  <include file="../../config/tmpl_hrb.bkl"/>
 
-  <exe id="helloworld1" template="wxh_sample">
-    <sources>
-      $(id).prg
-    </sources>
-  </exe>
+  <wxharbour-exe id="helloworld1">
+    <sources-at>
+      .
+    </sources-at>
+    <include>../../include</include>
+    <lib-path>../../$(__BUILDDIR__)</lib-path>
+  </wxharbour-exe>
 
 </makefile>
