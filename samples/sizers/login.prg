@@ -13,7 +13,7 @@ FUNCTION Login()
   LOCAL edtNombre
   LOCAL edtPassword
 
-  CREATE DIALOG oWnd ;
+  CREATE FRAME oWnd ;
          FROM 10,10 SIZE 400,500 ;
          ID 999 ;
          TITLE "System Login"
