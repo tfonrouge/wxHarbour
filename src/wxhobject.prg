@@ -44,9 +44,3 @@ ENDCLASS
 /*
   End Class wxObject
 */
-
-
-
-
-
-

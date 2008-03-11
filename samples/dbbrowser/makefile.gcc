@@ -146,6 +146,9 @@ clean:
 .\dbbrowser.exe: $(DBBROWSER_OBJECTS)
 	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lgtwin -Wl,--end-group $(__WXHLIBNAME_p) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
+run: all
+	.\dbbrowser.exe
+
 $(__BUILDDIR__)\dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	$(HB_BIN_PATH)/$(HCC) $(DBBROWSER_HBFLAGS) -o$@ $<
 

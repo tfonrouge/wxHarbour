@@ -146,6 +146,9 @@ clean:
 .\helloworld.exe: $(HELLOWORLD_OBJECTS)
 	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lgtwin -Wl,--end-group $(__WXHLIBNAME_p) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
+run: all
+	.\helloworld.exe
+
 $(__BUILDDIR__)\helloworld_helloworld.o: ./helloworld.prg
 	$(HB_BIN_PATH)/$(HCC) $(HELLOWORLD_HBFLAGS) -o$@ $<
 

@@ -138,6 +138,9 @@ clean:
 	$(HELLOWORLD_OBJECTS)  hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib xhb.lib gtwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
 <<
 
+run: all
+	.\helloworld.exe
+
 $(__BUILDDIR__)\helloworld_helloworld.obj: .\helloworld.prg
 	$(HB_BIN_PATH)\$(HCC) $(HELLOWORLD_HBFLAGS) -o$@ $**
 

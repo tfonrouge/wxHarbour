@@ -3,7 +3,7 @@
 
   <include file="../../config/tmpl_hrb.bkl"/>
 
-  <wxharbour-exe id="helloworld1">
+  <wxharbour-exe id="__SAMPLE_NAME__">
     <sources-at>
       .
     </sources-at>
@@ -14,12 +14,12 @@
   <action id="run">
     <if cond="TOOLSET=='win32'">
       <command>
-        .\helloworld1.exe
+        .\__SAMPLE_NAME__.exe
       </command>
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./helloworld1
+        ./__SAMPLE_NAME__
       </command>
     </if>
     <depends>
