@@ -45,12 +45,14 @@ ENDCLASS
   OnInit
   Teo. Mexico 2006
 */
+REQUEST HB_BITOR
+
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL boxSizer, button
+  LOCAL edtNombre,edtPassword
 
   CREATE FRAME oWnd ;
-         FROM 10,10 SIZE 400,200 ;
+         FROM 10,10 SIZE 400,400 ;
          ID 999 ;
          TITLE "Hello World Sample"
 
@@ -71,16 +73,30 @@ FUNCTION OnInit() CLASS MyApp
     ENDMENU
   ENDMENUBAR
 
-  oWnd:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
-
-  boxSizer:Add( 5, 5, 1, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5)
-
-  boxSizer:Add( wxStaticText():New( oWnd, , "Enter Your Name:"), 0, HB_BITOR( wxGROW, wxALL ), 5 )
-  boxSizer:Add( wxTextCtrl():New( oWnd, -1, "" ), 0, HB_BITOR( wxGROW, wxALL ), 5 )
-
-  button := wxButton():New( oWnd, wxID_OK )
-
-  boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
+  BEGIN BOXSIZER VERTICAL
+    @ SAY "Simple Text Label"
+    @ SPACER
+    BEGIN GRIDSIZER COLS 3 ALIGN LEFT
+      @ BUTTON "1" WIDTH 30
+      @ BUTTON "2" WIDTH 30
+      @ BUTTON "3" WIDTH 30
+      @ BUTTON "4" WIDTH 30
+      @ BUTTON "5" WIDTH 30
+      @ BUTTON "6" WIDTH 30
+      @ BUTTON "7" WIDTH 30
+      @ BUTTON "8" WIDTH 30
+      @ BUTTON "9" WIDTH 30
+    END SIZER
+    BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
+      @ SAY "Name:" WIDTH 50 STYLE RIGHT GET edtNombre
+      @ SAY "Password:" WIDTH 50 STYLE RIGHT GET edtPassword SIDEBORDERS 0x0800
+    END SIZER
+    @ SAY "More Text"
+    BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
+      @ BUTTON ID wxID_CANCEL
+      @ BUTTON ID wxID_OK
+    END SIZER
+  END SIZER
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 

@@ -82,6 +82,7 @@
 #define wxSTRECH        1
 
 #xcommand @ BUTTON [<label>] ;
+            [ VAR <btn> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -94,7 +95,7 @@
             [ SIDEBORDERS <sideborders,...> ] ;
           => ;
           wxh_SizerAdd( NIL,;
-            wxh_Button( ;
+            [<btn>:=]wxh_Button( ;
               [<window>],;
               [<id>],;
               [<label>],;

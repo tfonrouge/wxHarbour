@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+
+adirs=$(find samples -maxdepth 1 -mindepth 1 -type d \! -name .svn)
+formats='gnu msvc mingw borland'
+
+for fmt in $formats ; do
+  bakefile -f $fmt -D FORMAT_HAS_MAKE_INSTALL=1 wxharbour.bkl
+done
+
+for DIR in $adirs ; do
+  ndir=${DIR/samples\//}
+  cp samples/template.bkl samples/$ndir/$ndir.bkl
+  SEDCMD=s/__SAMPLE_NAME__/$ndir/
+  sed -i $SEDCMD samples/$ndir/$ndir.bkl
+  for fmt in $formats ; do
+    bakefile -f $fmt samples/$ndir/$ndir.bkl
+  done
+done

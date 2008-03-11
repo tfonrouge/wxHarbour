@@ -127,6 +127,9 @@ clean:
 ./helloworld1: $(HELLOWORLD1_OBJECTS)
 	$(CXX) -o $@ $(HELLOWORLD1_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm $(__WXHLIBNAME_p) `wx-config --libs`
 
+run: all
+	./helloworld1
+
 $(__BUILDDIR__)/helloworld1_helloworld1.o: ./helloworld1.prg
 	$(HB_BIN_PATH)/$(HCC) $(HELLOWORLD1_HBFLAGS) -o$@ $<
 

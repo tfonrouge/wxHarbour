@@ -128,6 +128,9 @@ clean:
 ./sizers: $(SIZERS_OBJECTS)
 	$(CXX) -o $@ $(SIZERS_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm $(__WXHLIBNAME_p) `wx-config --libs`
 
+run: all
+	./sizers
+
 $(__BUILDDIR__)/sizers_login.o: ./login.prg
 	$(HB_BIN_PATH)/$(HCC) $(SIZERS_HBFLAGS) -o$@ $<
 
