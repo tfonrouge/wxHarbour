@@ -247,7 +247,7 @@ Where is wxWidgets installed
   </set>
 
   <set var="CXXFLAGS">
-    <if cond="COMPILER=='gcc'">
+    <if cond="TOOLSET=='unix'">
       -fno-strict-aliasing `wx-config --cxxflags`
     </if>
   </set>
@@ -295,6 +295,7 @@ Where is wxWidgets installed
       <set var="__uses_cxx" scope="$(__parent)">1</set>
       <set var="__hbflags">$(targets[__parent].__hbflags_var)</set>
     </define-tag>
+
   </define-rule>
 
   <template id="__commands_harbour" template="__commands_templ">
@@ -432,7 +433,7 @@ Where is wxWidgets installed
         <include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
         <lib-path>$(WX_PATH)/lib/$(COMPILER)_lib</lib-path>
       </if>
-      <if cond="COMPILER=='vc'">
+      <if cond="TOOLSET=='win32'">
         <sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>
         <sys-lib>wxmsw28$(WX_LIBID)_aui</sys-lib>
         <sys-lib>wxmsw28$(WX_LIBID)_core</sys-lib>

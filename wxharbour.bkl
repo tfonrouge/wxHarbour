@@ -4,7 +4,6 @@
   <include file="config/tmpl_hrb.bkl"/>
 
   <wxharbour-lib id="wxharbour">
-    <define>NEWDEFINE</define>
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/*.ch"))
