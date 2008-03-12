@@ -77,7 +77,7 @@ DBBROWSER_OBJECTS =  \
 DBBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) $(__D_WX_UNICODE_p_2) \
 	$(__D_WX_DEBUG_p_2) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES_1) -I..\..\include
+	-I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) -I..\..\include
 
 ### Conditionally set variables: ###
 
@@ -115,17 +115,17 @@ endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),ansi)
-__WX_LIBID_FILENAMES_1 = d
-endif
-endif
-ifeq ($(WX_BUILD),release)
-ifeq ($(WX_ENCODING),unicode)
-__WX_LIBID_FILENAMES_1 = u
+WX_LIBID = d
 endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
-__WX_LIBID_FILENAMES_1 = ud
+WX_LIBID = ud
+endif
+endif
+ifeq ($(WX_BUILD),release)
+ifeq ($(WX_ENCODING),unicode)
+WX_LIBID = u
 endif
 endif
 
@@ -144,7 +144,7 @@ clean:
 	-if exist .\dbbrowser.exe del .\dbbrowser.exe
 
 .\dbbrowser.exe: $(DBBROWSER_OBJECTS)
-	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lgtwin -Wl,--end-group $(__WXHLIBNAME_p) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -lgtwin -Wl,--end-group $(__WXHLIBNAME_p) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 run: all
 	.\dbbrowser.exe

@@ -2,6 +2,26 @@
  *
  */
 
+2008-03-12 12:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+  * GNUmakefile
+  * wxharbour.bkl
+    * removed unnecesary <define>NEWDEFINE</define>
+
+  * samples/sizers/makefile.gcc
+  * samples/dbbrowser/makefile.gcc
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/makefile.gcc
+  * config/harbour-mingw.cfg
+  * config/tmpl_hrb.bkl
+  * makefile.gcc
+    ! Fixed bakefile template that was not creating a correct .gcc (mingw)
+
+  - config/common_wxh_bin.bkl
+    * not needed anymore
+
 2008-03-12 05:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + samples/simple
     * simple sample ...

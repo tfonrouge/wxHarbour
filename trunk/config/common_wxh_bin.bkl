@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<makefile>
-
-  <include file="tmpl_hrb.bkl"/>
-
-</makefile>

@@ -89,7 +89,7 @@ WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) 
 	/W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_5) \
 	$(____WX_DEBUG_INFO_7_p) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ \
 	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	/DNEWDEFINE /GR /EHsc /YX $(CPPFLAGS)
+	/GR /EHsc /YX $(CPPFLAGS)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhapp.obj \
 	$(__BUILDDIR__)\wxharbour_wxhboxsizer.obj \
@@ -157,7 +157,7 @@ WXHARBOUR_OBJECTS =  \
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
 	$(__D_WX_DEBUG_p) $(____WX_DEBUG_INFO_7_p) /D__WXMSW__ /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /DNEWDEFINE
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 
