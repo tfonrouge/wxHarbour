@@ -47,8 +47,7 @@ wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 */
 bool wx_Frame::Create( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
-  wxFrame::Create( parent, id, title, pos, size, style, name );
-  return TRUE;
+  return wxFrame::Create( parent, id, title, pos, size, style, name );
 }
 
 /*
