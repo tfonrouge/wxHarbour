@@ -23,6 +23,7 @@ extern "C"
 #include "hbapicls.h"
 #include "hbvm.h"
 #include "hbstack.h"
+#include "hbapierr.h"
 }
 
 wxObject*     hb_par_WX( int param );

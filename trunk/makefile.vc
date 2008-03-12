@@ -104,6 +104,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhgrid.obj \
 	$(__BUILDDIR__)\wxharbour_wxhgridsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj \
+	$(__BUILDDIR__)\wxharbour_wxhipv4address.obj \
 	$(__BUILDDIR__)\wxharbour_wxhmenu.obj \
 	$(__BUILDDIR__)\wxharbour_wxhmenubar.obj \
 	$(__BUILDDIR__)\wxharbour_wxhmenuitem.obj \
@@ -111,6 +112,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhobject.obj \
 	$(__BUILDDIR__)\wxharbour_wxhpanel.obj \
 	$(__BUILDDIR__)\wxharbour_wxhsizer.obj \
+	$(__BUILDDIR__)\wxharbour_wxhsocketbase.obj \
+	$(__BUILDDIR__)\wxharbour_wxhsocketclient.obj \
+	$(__BUILDDIR__)\wxharbour_wxhsocketserver.obj \
 	$(__BUILDDIR__)\wxharbour_wxhstaticbox.obj \
 	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wxhstatictext.obj \
@@ -131,6 +135,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wx_gridsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj \
 	$(__BUILDDIR__)\wxharbour_wx_harbour.obj \
+	$(__BUILDDIR__)\wxharbour_wx_ipv4address.obj \
 	$(__BUILDDIR__)\wxharbour_wx_menu.obj \
 	$(__BUILDDIR__)\wxharbour_wx_menubar.obj \
 	$(__BUILDDIR__)\wxharbour_wx_menuitem.obj \
@@ -138,6 +143,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wx_object.obj \
 	$(__BUILDDIR__)\wxharbour_wx_panel.obj \
 	$(__BUILDDIR__)\wxharbour_wx_sizer.obj \
+	$(__BUILDDIR__)\wxharbour_wx_socketbase.obj \
+	$(__BUILDDIR__)\wxharbour_wx_socketclient.obj \
+	$(__BUILDDIR__)\wxharbour_wx_socketserver.obj \
 	$(__BUILDDIR__)\wxharbour_wx_staticbox.obj \
 	$(__BUILDDIR__)\wxharbour_wx_staticboxsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wx_statictext.obj \
@@ -288,6 +296,9 @@ $(__BUILDDIR__)\wxharbour_wxhgridsizer.obj: .\src\wxhgridsizer.prg
 $(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj: .\src\wxhgridtablebase.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxharbour_wxhipv4address.obj: .\src\wxhipv4address.prg
+	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxharbour_wxhmenu.obj: .\src\wxhmenu.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -307,6 +318,15 @@ $(__BUILDDIR__)\wxharbour_wxhpanel.obj: .\src\wxhpanel.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxharbour_wxhsizer.obj: .\src\wxhsizer.prg
+	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_wxhsocketbase.obj: .\src\wxhsocketbase.prg
+	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_wxhsocketclient.obj: .\src\wxhsocketclient.prg
+	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_wxhsocketserver.obj: .\src\wxhsocketserver.prg
 	$(HB_BIN_PATH)\$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxharbour_wxhstaticbox.obj: .\src\wxhstaticbox.prg
@@ -369,6 +389,9 @@ $(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj: .\src\wx_gridtablebase.cpp
 $(__BUILDDIR__)\wxharbour_wx_harbour.obj: .\src\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_harbour.cpp
 
+$(__BUILDDIR__)\wxharbour_wx_ipv4address.obj: .\src\wx_ipv4address.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_ipv4address.cpp
+
 $(__BUILDDIR__)\wxharbour_wx_menu.obj: .\src\wx_menu.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_menu.cpp
 
@@ -389,6 +412,15 @@ $(__BUILDDIR__)\wxharbour_wx_panel.obj: .\src\wx_panel.cpp
 
 $(__BUILDDIR__)\wxharbour_wx_sizer.obj: .\src\wx_sizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_sizer.cpp
+
+$(__BUILDDIR__)\wxharbour_wx_socketbase.obj: .\src\wx_socketbase.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_socketbase.cpp
+
+$(__BUILDDIR__)\wxharbour_wx_socketclient.obj: .\src\wx_socketclient.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_socketclient.cpp
+
+$(__BUILDDIR__)\wxharbour_wx_socketserver.obj: .\src\wx_socketserver.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_socketserver.cpp
 
 $(__BUILDDIR__)\wxharbour_wx_staticbox.obj: .\src\wx_staticbox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wx_staticbox.cpp

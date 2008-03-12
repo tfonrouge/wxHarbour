@@ -2,6 +2,35 @@
  *
  */
 
+2008-03-12 05:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/simple
+    * simple sample ...
+
+  * include/wxh.h
+    * added "hbapierr.h" include
+
+  + src/wx_ipv4address.cpp
+  + src/wxhsocketserver.prg
+  + src/wx_ipv4address.h
+  + src/wxhsocketbase.prg
+  + src/wx_socketbase.h
+  + src/wx_socketclient.h
+  + src/wx_socketbase.cpp
+  + src/wx_socketserver.h
+  + src/wx_socketclient.cpp
+  + src/wxhsocketclient.prg
+  + src/wxhipv4address.prg
+  + src/wx_socketserver.cpp
+  * makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+    + added new classes: wxIPV4address, wxSocketBase, wxSocketClient,
+      wxSocketServer
+    * simple test for this clases on "simple" sample.
+
+  * src/wx_frame.cpp
+    ! Fixed small typo on returned value when creating a wxFrame
+
 2008-03-11 16:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * added VAR to return a wxButton object

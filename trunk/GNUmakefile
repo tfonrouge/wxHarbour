@@ -95,6 +95,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhgrid.o \
 	$(__BUILDDIR__)/wxharbour_wxhgridsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhgridtablebase.o \
+	$(__BUILDDIR__)/wxharbour_wxhipv4address.o \
 	$(__BUILDDIR__)/wxharbour_wxhmenu.o \
 	$(__BUILDDIR__)/wxharbour_wxhmenubar.o \
 	$(__BUILDDIR__)/wxharbour_wxhmenuitem.o \
@@ -102,6 +103,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhobject.o \
 	$(__BUILDDIR__)/wxharbour_wxhpanel.o \
 	$(__BUILDDIR__)/wxharbour_wxhsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhsocketbase.o \
+	$(__BUILDDIR__)/wxharbour_wxhsocketclient.o \
+	$(__BUILDDIR__)/wxharbour_wxhsocketserver.o \
 	$(__BUILDDIR__)/wxharbour_wxhstaticbox.o \
 	$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhstatictext.o \
@@ -122,6 +126,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wx_gridsizer.o \
 	$(__BUILDDIR__)/wxharbour_wx_gridtablebase.o \
 	$(__BUILDDIR__)/wxharbour_wx_harbour.o \
+	$(__BUILDDIR__)/wxharbour_wx_ipv4address.o \
 	$(__BUILDDIR__)/wxharbour_wx_menu.o \
 	$(__BUILDDIR__)/wxharbour_wx_menubar.o \
 	$(__BUILDDIR__)/wxharbour_wx_menuitem.o \
@@ -129,6 +134,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wx_object.o \
 	$(__BUILDDIR__)/wxharbour_wx_panel.o \
 	$(__BUILDDIR__)/wxharbour_wx_sizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_socketbase.o \
+	$(__BUILDDIR__)/wxharbour_wx_socketclient.o \
+	$(__BUILDDIR__)/wxharbour_wx_socketserver.o \
 	$(__BUILDDIR__)/wxharbour_wx_staticbox.o \
 	$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o \
 	$(__BUILDDIR__)/wxharbour_wx_statictext.o \
@@ -269,6 +277,9 @@ $(__BUILDDIR__)/wxharbour_wxhgridsizer.o: ./src/wxhgridsizer.prg
 $(__BUILDDIR__)/wxharbour_wxhgridtablebase.o: ./src/wxhgridtablebase.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxharbour_wxhipv4address.o: ./src/wxhipv4address.prg
+	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxharbour_wxhmenu.o: ./src/wxhmenu.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -288,6 +299,15 @@ $(__BUILDDIR__)/wxharbour_wxhpanel.o: ./src/wxhpanel.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxhsizer.prg
+	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_wxhsocketbase.o: ./src/wxhsocketbase.prg
+	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_wxhsocketclient.o: ./src/wxhsocketclient.prg
+	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_wxhsocketserver.o: ./src/wxhsocketserver.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhstaticbox.o: ./src/wxhstaticbox.prg
@@ -350,6 +370,9 @@ $(__BUILDDIR__)/wxharbour_wx_gridtablebase.o: ./src/wx_gridtablebase.cpp
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)/wxharbour_wx_ipv4address.o: ./src/wx_ipv4address.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)/wxharbour_wx_menu.o: ./src/wx_menu.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -369,6 +392,15 @@ $(__BUILDDIR__)/wxharbour_wx_panel.o: ./src/wx_panel.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxharbour_wx_sizer.o: ./src/wx_sizer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxharbour_wx_socketbase.o: ./src/wx_socketbase.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxharbour_wx_socketclient.o: ./src/wx_socketclient.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxharbour_wx_socketserver.o: ./src/wx_socketserver.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxharbour_wx_staticbox.o: ./src/wx_staticbox.cpp
