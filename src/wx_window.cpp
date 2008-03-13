@@ -27,7 +27,7 @@ HB_FUNC( WXWINDOW_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     wnd->Centre( hb_parni( 1 ) );
   hb_ret();
 }
@@ -36,7 +36,7 @@ HB_FUNC( WXWINDOW_CLOSE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     wnd->Close( hb_parl( 1 ) );
   hb_ret();
 }
@@ -45,7 +45,7 @@ HB_FUNC( WXWINDOW_GETID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retnl( wnd->GetId() );
   else
     hb_ret();
@@ -55,7 +55,7 @@ HB_FUNC( WXWINDOW_HIDE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( wnd->Hide() );
   else
     hb_ret();
@@ -65,7 +65,7 @@ HB_FUNC( WXWINDOW_ISSHOWN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( wnd->IsShown() );
   else
     hb_ret();
@@ -76,7 +76,7 @@ HB_FUNC( WXWINDOW_SETSIZER )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
   wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && sizer )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && sizer )
     wnd->SetSizer( sizer, hb_parl(2) );
 }
 
@@ -85,11 +85,11 @@ HB_FUNC( WXWINDOW_SHOW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
   bool show;
-  if ( hb_pcount() == 0 )
+  if( hb_pcount() == 0 )
     show = TRUE;
   else
     show = hb_parl(1);
-  if ( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
   {
     //hb_objSendMsg( pSelf, "OnShow", 0 );
     hb_retl( wnd->Show( show ) );

@@ -88,7 +88,7 @@ HB_FUNC( WXFRAME_NEW )
 
   wx_Frame* frame;
 
-  if (hb_pcount())
+  if(hb_pcount())
   {
     wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
     wxWindowID id = wxWindowID( hb_parnl(2) );
@@ -96,7 +96,7 @@ HB_FUNC( WXFRAME_NEW )
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
     long style;
-    if ( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
+    if( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
     wxString name = wxString( hb_parcx(7), wxConvLocal );
     frame = new wx_Frame( parent, id, title, point, size, style, name );
   }
@@ -122,7 +122,7 @@ HB_FUNC( WXFRAME_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame;
-  if ( pSelf && (frame = (wx_Frame*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame*) wx_ObjList_wxGet( pSelf ) ) )
     frame->Centre( hb_parni(1) );
 }
 
@@ -135,7 +135,7 @@ HB_FUNC( WXFRAME_SETMENUBAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame;
   wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-  if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
     frame->SetMenuBar( menuBar );
 }
 
@@ -148,6 +148,6 @@ HB_FUNC( WXFRAME_SETSTATUSBAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame;
   wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-  if ( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
     frame->SetStatusBar( statusBar );
 }

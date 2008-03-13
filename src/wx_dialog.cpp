@@ -58,7 +58,7 @@ HB_FUNC( WXDIALOG_NEW )
 
   wx_Dialog* dialog;
 
-  if (hb_pcount())
+  if(hb_pcount())
   {
     wxWindow* parent = (wxDialog *) hb_par_WX( 1 );
     wxWindowID id = wxWindowID( hb_parnl(2) );
@@ -66,7 +66,7 @@ HB_FUNC( WXDIALOG_NEW )
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
     long style;
-    if ( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
+    if( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
     wxString name = wxString( hb_parcx(7), wxConvLocal );
     dialog = new wx_Dialog( parent, id, title, point, size, style, name );
   }
@@ -88,7 +88,7 @@ HB_FUNC( WXDIALOG_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     dialog->Centre( hb_parni(1) );
 }
 
@@ -102,7 +102,7 @@ HB_FUNC( WXDIALOG_CREATEBUTTONSIZER )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
   wxSizer* sizer;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     sizer = dialog->CreateButtonSizer( hb_parnl(1) );
   hb_ret();
 }
@@ -117,7 +117,7 @@ HB_FUNC( WXDIALOG_CREATESTDDIALOGBUTTONSIZER )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
   wxSizer* sizer;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     sizer = dialog->CreateStdDialogButtonSizer( hb_parnl(1) );
   hb_ret();
 }
@@ -131,7 +131,7 @@ HB_FUNC( WXDIALOG_SHOW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( dialog->Show( hb_parl(1) ) );
   else
     hb_ret();
@@ -146,7 +146,7 @@ HB_FUNC( WXDIALOG_SHOWMODAL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retni( dialog->ShowModal() );
   else
     hb_ret();
@@ -160,6 +160,6 @@ HB_FUNC( WXDIALOG_ENDMODAL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
-  if ( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     dialog->EndModal( hb_parni( 1 ) );
 }

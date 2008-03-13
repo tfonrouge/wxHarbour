@@ -71,6 +71,6 @@ HB_FUNC( WXNOTEBOOK_ADDPAGE )
   wxNotebookPage* page = (wxNotebookPage *) hb_par_WX( 1 );
   bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
   int imageld = ISNIL( 4 ) ? -1 : hb_parni( 4 );
-  if ( pSelf && Notebook && page )
+  if( pSelf && Notebook && page )
     Notebook->AddPage( page, wxString( hb_parcx( 2 ), wxConvLocal), select, imageld );
 }

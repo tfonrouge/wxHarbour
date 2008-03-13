@@ -64,6 +64,7 @@ FUNCTION OnInit() CLASS MyApp
   newConn := socketServer:Accept( .T. )
 
   IF newConn != NIL
+
     ipv4_a := wxIPV4Address():New()
 
     ? "New Conn Accepted."
@@ -73,7 +74,15 @@ FUNCTION OnInit() CLASS MyApp
 
     s := "Welcome to this Server..."
 
+    ? "Sending message to the client..."
     newConn:Write( @s, Len( s ) )
+
+    s := Space( 10 )
+    ? "Waiting for 10 bytes from the client..."
+    newConn:Read( @s, 10 )
+
+    ? "Client answer is: " + s
+
   ELSE
     ? "Accept connection failed..."
   ENDIF

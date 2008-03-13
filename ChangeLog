@@ -2,6 +2,29 @@
  *
  */
 
+2008-03-12 22:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wx_ipv4address.cpp
+  * src/wx_menubar.cpp
+  * src/wx_gridsizer.cpp
+  * src/wx_menu.cpp
+  * src/wx_window.cpp
+  * src/wx_statusbar.cpp
+  * src/wx_textctrl.cpp
+  * src/wx_dialog.cpp
+  * src/wx_notebook.cpp
+  * src/wx_socketbase.cpp
+  * src/wx_grid.cpp
+  * src/wx_socketclient.cpp
+  * src/wx_frame.cpp
+  * src/wx_harbour.cpp
+  * src/wx_boxsizer.cpp
+  * src/wx_socketserver.cpp
+    * minor cleanup
+
+  * samples/simple/simple.prg
+    * more improvements to wxSocket sample
+
+
 2008-03-12 12:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.vc
   * GNUmakefile
