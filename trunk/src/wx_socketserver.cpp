@@ -75,7 +75,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 
   bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
 
-  if ( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
   {
     socketBase = socketServer->Accept( wait );
     if(socketBase)
@@ -109,7 +109,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
     return;
   }
 
-  if ( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( socketServer->AcceptWith( *socket, wait ) );
 }
 
@@ -123,6 +123,6 @@ HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
   wx_SocketServer* socketServer;
   long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
   long millisecond = hb_parnl( 2 );
-  if ( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( socketServer->WaitForAccept( seconds, millisecond ) );
 }

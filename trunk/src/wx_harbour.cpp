@@ -42,12 +42,12 @@ void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
 
   hb_itemCopy( p, pSelf );
 
-  if (hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW") )
+  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW") )
   {
     lastTopLevelWindow = p;
   }
 
-  if (hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER") )
+  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER") )
   {
     lastSizer = p;
   }
@@ -65,7 +65,7 @@ void wx_ObjList_wxDelete( wxObject* wxObj )
 {
   PHB_ITEM pSelf = wx_ObjList_hbGet( wxObj );
 
-  if (pSelf)
+  if(pSelf)
   {
     hbObjList.erase(  pSelf->item.asArray.value );
     hb_itemClear( pSelf );
@@ -82,7 +82,7 @@ void wx_ObjList_wxDelete( wxObject* wxObj )
 PHB_ITEM wx_ObjList_hbGet( wxObject* wxObj )
 {
 
-  if (!wxObj || (wxObjList.find( wxObj ) == wxObjList.end()) )
+  if(!wxObj || (wxObjList.find( wxObj ) == wxObjList.end()) )
     return NULL;
   return wxObjList[ wxObj ];
 
@@ -94,7 +94,7 @@ PHB_ITEM wx_ObjList_hbGet( wxObject* wxObj )
 */
 wxObject* wx_ObjList_wxGet( PHB_ITEM pSelf )
 {
-  if (!pSelf || (hbObjList.find( pSelf->item.asArray.value ) == hbObjList.end()) )
+  if(!pSelf || (hbObjList.find( pSelf->item.asArray.value ) == hbObjList.end()) )
     return NULL;
   return hbObjList[ pSelf->item.asArray.value ];
 }
@@ -115,7 +115,7 @@ wxObject* hb_par_WX( const int param )
 wxPoint hb_par_wxPoint( int param )
 {
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
-  if ( pStruct && hb_arrayLen( pStruct ) == 2 )
+  if( pStruct && hb_arrayLen( pStruct ) == 2 )
   {
     PHB_ITEM p1,p2;
     p1 = hb_arrayGetItemPtr( pStruct, 1 );
@@ -135,7 +135,7 @@ wxPoint hb_par_wxPoint( int param )
 wxSize hb_par_wxSize( int param )
 {
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
-  if ( pStruct && hb_arrayLen( pStruct ) == 2 )
+  if( pStruct && hb_arrayLen( pStruct ) == 2 )
   {
     PHB_ITEM p1,p2;
     p1 = hb_arrayGetItemPtr( pStruct, 1 );
@@ -156,7 +156,7 @@ HB_FUNC( WXOBJECT_GETCLASSP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxObject* wxObj = wx_ObjList_wxGet( pSelf );
-  if (wxObj)
+  if(wxObj)
     hb_retptr( wxObj );
   else
     hb_ret();
@@ -169,7 +169,7 @@ HB_FUNC( TBASECLASS_ONDESTRUCT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxObject* wxObj = wx_ObjList_wxGet( pSelf );
-  if (wxObj)
+  if(wxObj)
     wx_ObjList_wxDelete( wxObj );
 }
 

@@ -60,7 +60,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTextCtrl* textCtrl;
-  if ( pSelf && (textCtrl = (wxTextCtrl *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (textCtrl = (wxTextCtrl *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retc( textCtrl->GetValue().mb_str() );
   else
     hb_ret();

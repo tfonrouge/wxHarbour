@@ -65,6 +65,6 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Menu* menu;
-  if ( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
     menu->AppendSeparator();
 }

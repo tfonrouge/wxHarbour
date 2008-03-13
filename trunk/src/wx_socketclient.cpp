@@ -83,7 +83,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
     return;
   }
 
-  if ( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
     if( callingMode == 1 )
       hb_retl( socketClient->Connect( *address, hb_parl( 2 ) ) );
     else
@@ -100,6 +100,6 @@ HB_FUNC( WXSOCKETCLIENT_WAITONCONNECT )
   wx_SocketClient* socketClient;
   long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
   long millisecond = hb_parnl( 2 );
-  if ( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( socketClient->WaitOnConnect( seconds, millisecond ) );
 }

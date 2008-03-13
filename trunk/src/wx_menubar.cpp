@@ -50,7 +50,7 @@ HB_FUNC( WXMENUBAR_APPEND )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_MenuBar* menuBar;
   wx_Menu* menu;
-  if ( pSelf &&
+  if( pSelf &&
         ( menuBar = (wx_MenuBar *) wx_ObjList_wxGet( pSelf ) ) &&
         ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
     menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );

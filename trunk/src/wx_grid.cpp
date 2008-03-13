@@ -53,7 +53,7 @@ HB_FUNC( WXGRID_CREATEGRID )
   int numRows = hb_parnl(1);
   int numCols = hb_parnl(2);
   wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl(3);
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
   else
     hb_ret();
@@ -63,7 +63,7 @@ HB_FUNC( WXGRID_FIT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid;
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->Fit();
 }
 
@@ -72,12 +72,12 @@ HB_FUNC( WXGRID_GETTABLE )
   PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
   wx_Grid* grid;
   wx_GridTableBase* gridTable;
-  if ( pSelf &&
+  if( pSelf &&
         (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) &&
         (gridTable = (wx_GridTableBase *) grid->GetTable()) )
     pReturn = wx_ObjList_hbGet( gridTable );
 
-  if (pReturn)
+  if(pReturn)
     hb_itemReturn( pReturn );
   else
     hb_ret();
@@ -88,7 +88,7 @@ HB_FUNC( WXGRID_SETCOLLABELSIZE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid;
   int height = hb_parni(1);
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetColLabelSize( height );
 }
 
@@ -98,7 +98,7 @@ HB_FUNC( WXGRID_SETCOLLABELVALUE )
   wx_Grid* grid;
   int col = hb_parni(1);
   wxString value = wxString( hb_parcx(2), wxConvLocal );
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetColLabelValue( col, value );
 }
 
@@ -108,7 +108,7 @@ HB_FUNC( WXGRID_SETDEFAULTCOLSIZE )
   wx_Grid* grid;
   int width = hb_parni(1);
   bool resizeExistingCols = hb_parl( 2 );
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetDefaultColSize( width, resizeExistingCols );
 }
 
@@ -118,7 +118,7 @@ HB_FUNC( WXGRID_SETDEFAULTROWSIZE )
   wx_Grid* grid;
   int height = hb_parni(1);
   bool resizeExistingRows = hb_parl( 2 );
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetDefaultRowSize( height, resizeExistingRows );
 }
 
@@ -127,7 +127,7 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid;
   int width = hb_parni(1);
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetRowLabelSize( width );
 }
 
@@ -138,6 +138,6 @@ HB_FUNC( WXGRID_SETTABLE )
   wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX(1);
   bool takeOwnership = hb_parl(2);
   wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl(3);
-  if ( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->SetTable( gridTable, takeOwnership, selmode );
 }

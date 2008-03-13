@@ -61,18 +61,18 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
   wx_StatusBar* statusBar = (wx_StatusBar *) wx_ObjList_wxGet( pSelf );
   int number = hb_parni(1);
   int* widths = NULL;
-  if (ISARRAY(2) && hb_arrayLen( hb_param( 2, HB_IT_ARRAY ) ))
+  if(ISARRAY(2) && hb_arrayLen( hb_param( 2, HB_IT_ARRAY ) ))
   {
     PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY );
     int* aInt = new int[ hb_arrayLen( pArray ) ];
     for( unsigned int i=0; i < hb_arrayLen( pArray ); i++ )
       aInt[i] = hb_arrayGetItemPtr( pArray, i+1 )->item.asInteger.value;
     widths = aInt;
-    //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+    //if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
   }
   //else
-    //if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
-  if ( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+    //if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+  if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
 
   /* TODO: Check if this frees correctly the array */
   delete[] widths;
