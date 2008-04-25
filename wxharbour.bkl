@@ -8,6 +8,9 @@
     <headers>
       $(fileList("include/*.ch"))
     </headers>
+    <include>
+      include/wxbase
+    </include>
     <sources-at>
       src/common
       src/hrbcompat/tbcolumn
