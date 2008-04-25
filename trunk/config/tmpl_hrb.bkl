@@ -220,26 +220,6 @@ Where is wxWidgets installed
     </if>
   </set>
 
-
-  <!--
-    vc u  - /DWIN32 /D__WXMSW__ /D_UNICODE
-    vc ud - /DWIN32 /D_DEBUG /D__WXMSW__ /D__WXDEBUG__ /D_UNICODE
-  -->
-
-  <!--
-  <set var="HBLIBS" make_var="1">
-    <if cond="COMPILER=='vc'">
-      hbvm.lib hbpp.lib hbrtl.lib hbct.lib hbnf.lib hbw32.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib gtgui.lib gtwin.lib gtwvt.lib hbdebug.lib hbcplr.lib hbpcre.lib
-    </if>
-    <if cond="TOOLSET=='win32'">
-      -Wl,-.-start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtwin -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,-.-end-group
-    </if>
-    <if cond="TOOLSET=='unix'">
-      -Wl,-.-start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgtcgi -lgtstd -lgtpca -lgttrm -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,-.-end-group
-    </if>
-  </set>
-  -->
-
   <set var="CFLAGS">
     <if cond="COMPILER=='gcc'">
       -fno-strict-aliasing
