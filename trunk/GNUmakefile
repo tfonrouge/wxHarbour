@@ -79,8 +79,8 @@ WX_BUILD := release
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
 WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) -fno-strict-aliasing \
-	`wx-config --cxxflags`
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxbase $(CPPFLAGS) \
+	-fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxharbour_wxhcolumn.o \
@@ -152,7 +152,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxharbour.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p)
+	$(__D_WX_DEBUG_p) -Iinclude/wxbase
 
 ### Conditionally set variables: ###
 

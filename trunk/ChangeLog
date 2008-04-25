@@ -2,6 +2,59 @@
  *
  */
 
+2008-04-25 01:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   include/wxbase/wx_button.h
+A  +   include/wxbase/wx_staticboxsizer.h
+A  +   include/wxbase/wx_socketserver.h
+A  +   include/wxbase/wx_app.h
+A  +   include/wxbase/wx_notebook.h
+A  +   include/wxbase/wx_socketbase.h
+A  +   include/wxbase/wx_menuitem.h
+A  +   include/wxbase/wx_validator.h
+A  +   include/wxbase/wx_grid.h
+A  +   include/wxbase/wx_socketclient.h
+A  +   include/wxbase/wx_gridtablebase.h
+A  +   include/wxbase/wx_ipv4address.h
+A  +   include/wxbase/wx_menubar.h
+A  +   include/wxbase/wx_frame.h
+A  +   include/wxbase/wx_sizer.h
+A  +   include/wxbase/wx_statictext.h
+A  +   include/wxbase/wx_panel.h
+A  +   include/wxbase/wx_dialog.h
+A  +   include/wxbase/wx_staticbox.h
+A  +   include/wxbase/wx_gridsizer.h
+A  +   include/wxbase/wx_menu.h
+A  +   include/wxbase/wx_boxsizer.h
+A  +   include/wxbase/wx_statusbar.h
+A  +   include/wxbase/wx_textctrl.h
+  * GNUmakefile
+  - src/wxbase/app/wx_app.h
+  - src/wxbase/controls/wx_button.h
+  - src/wxbase/controls/wx_statictext.h
+  - src/wxbase/controls/wx_staticbox.h
+  - src/wxbase/controls/wx_textctrl.h
+  - src/wxbase/wlayout/wx_sizer.h
+  - src/wxbase/wlayout/wx_staticboxsizer.h
+  - src/wxbase/wlayout/wx_gridsizer.h
+  - src/wxbase/wlayout/wx_boxsizer.h
+  - src/wxbase/manwindows/wx_frame.h
+  - src/wxbase/miscwindows/wx_notebook.h
+  - src/wxbase/miscwindows/wx_grid.h
+  - src/wxbase/miscwindows/wx_gridtablebase.h
+  - src/wxbase/miscwindows/wx_statusbar.h
+  - src/wxbase/networking/wx_socketserver.h
+  - src/wxbase/networking/wx_socketbase.h
+  - src/wxbase/networking/wx_socketclient.h
+  - src/wxbase/networking/wx_ipv4address.h
+  - src/wxbase/menus/wx_menuitem.h
+  - src/wxbase/menus/wx_menu.h
+  - src/wxbase/menus/wx_menubar.h
+  - src/wxbase/validators/wx_validator.h
+  - src/wxbase/basicwindows/wx_panel.h
+  - src/wxbase/commdialogs/wx_dialog.h
+  * wxharbour.bkl
+    * relocating of headers
+
 2008-04-25 01:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + include/wxbase
 ~      include/property.ch
