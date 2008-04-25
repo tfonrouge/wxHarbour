@@ -9,7 +9,21 @@
       $(fileList("include/*.ch"))
     </headers>
     <sources-at>
-      src
+      src/common
+      src/hrbcompat/tbcolumn
+      src/hrbcompat/tbrowse
+      src/wxbase/app
+      src/wxbase/basicwindows
+      src/wxbase/commdialogs
+      src/wxbase/controls
+      src/wxbase/events
+      src/wxbase/manwindows
+      src/wxbase/menus
+      src/wxbase/miscwindows
+      src/wxbase/networking
+      src/wxbase/rtti
+      src/wxbase/validators
+      src/wxbase/wlayout
     </sources-at>
     <install-to>$(HB_LIB_PATH)</install-to>
     <install-headers-to>$(HB_INC_PATH)</install-headers-to>
