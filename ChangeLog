@@ -2,6 +2,58 @@
  *
  */
 
+2008-07-23 16:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * sending the reference of the var to the TEdit obj
+
+  - src/wxbase/wlayout
+  - src/wxbase/wlayout/wxhgridsizer.prg
+  - src/wxbase/wlayout/wx_gridsizer.cpp
+  - src/wxbase/wlayout/wxhboxsizer.prg
+  - src/wxbase/wlayout/wx_boxsizer.cpp
+  - src/wxbase/wlayout/wxhsizer.prg
+  - src/wxbase/wlayout/wx_sizer.cpp
+  - src/wxbase/wlayout/wxhstaticboxsizer.prg
+  - src/wxbase/wlayout/wx_staticboxsizer.cpp
+A  +   src/wxbase/winlayout
+  * wxharbour.bkl
+    * dir renamed
+
+
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/sizers/main.prg
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/simple/simple.prg
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.vc
+  * samples/simple/GNUmakefile
+  * samples/simple/makefile.gcc
+  * samples/helloworld/helloworld.prg
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+    * rebuild of the makefiles
+
+  + config/harbour-bcc.cfg
+    * needed borland harbour config file
+
+  + config/harbour_bkl.py
+  * config/tmpl_hrb.bkl
+    + adding the python module "harbour-blk"
+    * changes to include inside the --start-group/--end-group the wxharbour
+      library (because the linking problems with the harbour libs)
+    * changed the call method for addSufixToList
+
+  * makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+
 2008-04-25 01:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   include/wxbase/wx_button.h
 A  +   include/wxbase/wx_staticboxsizer.h

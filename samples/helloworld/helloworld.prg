@@ -45,8 +45,6 @@ ENDCLASS
   OnInit
   Teo. Mexico 2006
 */
-REQUEST HB_BITOR
-
 FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL edtNombre,edtPassword

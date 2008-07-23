@@ -6,6 +6,8 @@
 
 <makefile>
 
+  <using module="harbour_bkl"/>
+
   <echo>compiler: $(COMPILER)</echo>
   <echo>platform: $(PLATFORM_UNIX)</echo>
   <echo> toolset: $(TOOLSET)</echo>
@@ -331,12 +333,8 @@ Where is wxWidgets installed
     <sys-lib>hbct</sys-lib>
     <sys-lib>hbnf</sys-lib>
     <sys-lib>hbtip</sys-lib>
-    <sys-lib>xhb</sys-lib>
     <if cond="TOOLSET=='win32'">
       <sys-lib>gtwin</sys-lib>
-    </if>
-    <if cond="COMPILER=='gcc'">
-      <ldlibs>-Wl,--end-group</ldlibs>
     </if>
 
     <!---->
@@ -346,7 +344,7 @@ Where is wxWidgets installed
 
   </template>
 
-  <define-tag name="include" rules="harbour-lib,harbour-exe">
+  <define-tag name="include" rules="harbour-lib,harbour-exe,wxharbour-exe">
     <set var="__hbflags" append="1">
       $(addPrefixIfNotEmpty(__INCLUDE_ARG,nativePaths(value)))
     </set>
@@ -373,6 +371,41 @@ Where is wxWidgets installed
     </template>
   </define-rule>
 
+  <template id="common-harbour-exebuild">
+    <app-type>gui</app-type>
+    <lib-path>$(HB_LIB_PATH)</lib-path>
+    <if cond="TOOLSET=='unix'">
+      <sys-lib>fm</sys-lib>
+      <sys-lib>m</sys-lib>
+      <sys-lib>dl</sys-lib>
+      <sys-lib>slang</sys-lib>
+      <sys-lib>ncurses</sys-lib>
+      <lib-path>/usr/X11R6/lib</lib-path>
+      <sys-lib>X11</sys-lib>
+      <sys-lib>gpm</sys-lib>
+    </if>
+    <if cond="TOOLSET=='win32'">
+      <sys-lib>kernel32</sys-lib>
+      <sys-lib>user32</sys-lib>
+      <sys-lib>gdi32</sys-lib>
+      <sys-lib>comdlg32</sys-lib>
+      <sys-lib>winspool</sys-lib>
+      <sys-lib>winmm</sys-lib>
+      <sys-lib>shell32</sys-lib>
+      <sys-lib>comctl32</sys-lib>
+      <sys-lib>ole32</sys-lib>
+      <sys-lib>oleaut32</sys-lib>
+      <sys-lib>uuid</sys-lib>
+      <sys-lib>rpcrt4</sys-lib>
+      <sys-lib>advapi32</sys-lib>
+      <sys-lib>wsock32</sys-lib>
+      <if cond="COMPILER=='vc'">
+        <ldlibs>/NODEFAULTLIB:LIBCMT /FORCE</ldlibs>
+      </if>
+    </if>
+    <dirname>.</dirname>
+  </template>
+
   <define-rule name="wxharbour-lib" extends="harbour-lib">
     <template template="wx-common-build">
       <if cond="TOOLSET=='win32'">
@@ -382,29 +415,35 @@ Where is wxWidgets installed
     </template>
   </define-rule>
 
+  <template id="dummy-template">
+  </template>
+
   <define-rule name="harbour-exe" extends="exe">
     <template template="__commands_harbour">
-      <app-type>gui</app-type>
-      <lib-path>$(HB_LIB_PATH)</lib-path>
-      <if cond="TOOLSET=='unix'">
-        <sys-lib>fm</sys-lib>
-        <sys-lib>m</sys-lib>
-        <sys-lib>dl</sys-lib>
-        <sys-lib>slang</sys-lib>
-        <sys-lib>ncurses</sys-lib>
-        <lib-path>/usr/X11R6/lib</lib-path>
-        <sys-lib>X11</sys-lib>
-        <sys-lib>gpm</sys-lib>
+    </template>
+    <template template="dummy-template">
+      <if cond="COMPILER=='gcc'">
+        <ldlibs>-Wl,--end-group</ldlibs>
       </if>
-      <dirname>.</dirname>
+    </template>
+    <template template="common-harbour-exebuild">
     </template>
   </define-rule>
 
-  <define-rule name="wxharbour-exe" extends="harbour-exe">
-    <template template="wx-common-build">
+  <define-rule name="wxharbour-exe" extends="exe">
+    <template template="__commands_harbour">
+    </template>
+    <template template="dummy-template">
       <sys-lib>
         $(WXHLIBNAME)
       </sys-lib>
+      <if cond="COMPILER=='gcc'">
+        <ldlibs>-Wl,--end-group</ldlibs>
+      </if>
+    </template>
+    <template template="common-harbour-exebuild">
+    </template>
+    <template template="wx-common-build">
       <if cond="TOOLSET=='unix'">
         <ldlibs>`wx-config --libs`</ldlibs>
       </if>
@@ -430,33 +469,14 @@ Where is wxWidgets installed
         <sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
         <sys-lib>wxexpat</sys-lib>
       </if>
-      <if cond="TOOLSET=='win32'">
-        <sys-lib>kernel32</sys-lib>
-        <sys-lib>user32</sys-lib>
-        <sys-lib>gdi32</sys-lib>
-        <sys-lib>comdlg32</sys-lib>
-        <sys-lib>winspool</sys-lib>
-        <sys-lib>winmm</sys-lib>
-        <sys-lib>shell32</sys-lib>
-        <sys-lib>comctl32</sys-lib>
-        <sys-lib>ole32</sys-lib>
-        <sys-lib>oleaut32</sys-lib>
-        <sys-lib>uuid</sys-lib>
-        <sys-lib>rpcrt4</sys-lib>
-        <sys-lib>advapi32</sys-lib>
-        <sys-lib>wsock32</sys-lib>
-        <if cond="COMPILER=='vc'">
-          <ldlibs>/NODEFAULTLIB:LIBCMT /FORCE</ldlibs>
-        </if>
-      </if>
     </template>
   </define-rule>
 
   <define-tag name="sources-at" rules="exe,lib,dll">
     <sources>
-      $(fileList(safeSplit(addSufixToList('/'+'*.prg',value))))
-      $(fileList(safeSplit(addSufixToList('/'+'*.c',value))))
-      $(fileList(safeSplit(addSufixToList('/'+'*.cpp',value))))
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.prg',value))))
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.c',value))))
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.cpp',value))))
     </sources>
   </define-tag>
 

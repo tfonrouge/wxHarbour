@@ -68,22 +68,12 @@ WX_BUILD := release
 HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)/helloworld_helloworld.o
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) $(__D_WX_UNICODE_p_1) \
-	$(__D_WX_DEBUG_p_1) -I../../include
+	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I../../include
 
 ### Conditionally set variables: ###
 
 ifeq ($(BUILD),debug)
 __HBDEBUG__ = -b
-endif
-ifeq ($(WX_ENCODING),unicode)
-__D_WX_UNICODE_p_1 = -D_UNICODE
-endif
-ifeq ($(WX_BUILD),debug)
-__D_WX_DEBUG_p_1 = -D__WXDEBUG__
-endif
-ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_4 = -g
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -105,6 +95,9 @@ ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO_4 = -g
+endif
 
 
 all: $(__BUILDDIR__)
@@ -125,7 +118,7 @@ clean:
 	rm -f ./helloworld
 
 ./helloworld: $(HELLOWORLD_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip -lxhb -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm $(__WXHLIBNAME_p) `wx-config --libs`
+	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip $(__WXHLIBNAME_p) -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
 	./helloworld
