@@ -15,6 +15,11 @@
   Teo. Mexico 2006
 */
 
+/*!
+ * Build var-codeblock
+ */
+#xtranslate _WXGET_( <xVar> ) => WXGET( <"xVar"> , <xVar>, {|_xValue| iif( PCount() > 0 , <xVar> := _xValue , <xVar> ) } )
+
 #xcommand CREATE FRAME <oFrame> ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
@@ -156,7 +161,7 @@
           => ;
           wxh_SizerAdd( NIL,;
             wxh_Get(;
-              [<var>],;
+              [@<var>],;
               [<window>],;
               [<id>],;
               [<value>],;

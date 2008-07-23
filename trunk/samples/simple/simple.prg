@@ -45,7 +45,7 @@ FUNCTION OnInit() CLASS MyApp
   LOCAL newConn
   LOCAL s
 
-  port := "8000"
+  port := "27960"
 
   ipv4 := wxIPV4Address():New()
   ipv4:Service(port)

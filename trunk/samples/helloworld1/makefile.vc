@@ -72,27 +72,13 @@ WX_BUILD = release
 HELLOWORLD1_OBJECTS =  \
 	$(__BUILDDIR__)\helloworld1_helloworld1.obj
 HELLOWORLD1_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /D_WINDOWS $(__D_WX_UNICODE_p_2) \
-	$(__D_WX_DEBUG_p_2) $(____WX_DEBUG_INFO_9_p_2) /D__WXMSW__ \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
-	/I..\..\include
+	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /I..\..\include
 
 ### Conditionally set variables: ###
 
 !if "$(BUILD)" == "debug"
 __HBDEBUG__ = -b
-!endif
-!if "$(WX_ENCODING)" == "unicode"
-__D_WX_UNICODE_p_2 = /D_UNICODE
-!endif
-!if "$(WX_BUILD)" == "debug"
-__D_WX_DEBUG_p_2 = /D__WXDEBUG__
-!endif
-!if "$(WX_BUILD)" == "debug"
-__WX_DEBUG_INFO_8 = /DEBUG
-!endif
-!if "$(WX_BUILD)" == "debug"
-____WX_DEBUG_INFO_9_p_2 = /D_DEBUG
 !endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
 __WXHLIBNAME_p = wxHarbour.lib
@@ -105,6 +91,9 @@ __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING).lib
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING)-$(WX_BUILD).lib
+!endif
+!if "$(WX_BUILD)" == "debug"
+__WX_DEBUG_INFO_8 = /DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 WX_LIBID = d
@@ -135,7 +124,7 @@ clean:
 
 .\helloworld1.exe: $(HELLOWORLD1_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) $(__WX_DEBUG_INFO_8) /pdb:".\helloworld1.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) @<<
-	$(HELLOWORLD1_OBJECTS)  hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib xhb.lib gtwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
+	$(HELLOWORLD1_OBJECTS)  hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib
 <<
 
 run: all

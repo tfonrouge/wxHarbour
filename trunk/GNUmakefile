@@ -321,16 +321,16 @@ $(__BUILDDIR__)/wxharbour_wxhobject.o: ./src/wxbase/rtti/wxhobject.prg
 $(__BUILDDIR__)/wxharbour_wxhvalidator.o: ./src/wxbase/validators/wxhvalidator.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxharbour_wxhboxsizer.o: ./src/wxbase/wlayout/wxhboxsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhboxsizer.o: ./src/wxbase/winlayout/wxhboxsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxharbour_wxhgridsizer.o: ./src/wxbase/wlayout/wxhgridsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhgridsizer.o: ./src/wxbase/winlayout/wxhgridsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxbase/wlayout/wxhsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxbase/winlayout/wxhsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxbase/wlayout/wxhstaticboxsizer.prg
+$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxbase/winlayout/wxhstaticboxsizer.prg
 	$(HB_BIN_PATH)/$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
@@ -411,16 +411,16 @@ $(__BUILDDIR__)/wxharbour_wx_object.o: ./src/wxbase/rtti/wx_object.cpp
 $(__BUILDDIR__)/wxharbour_wx_validator.o: ./src/wxbase/validators/wx_validator.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxharbour_wx_boxsizer.o: ./src/wxbase/wlayout/wx_boxsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_boxsizer.o: ./src/wxbase/winlayout/wx_boxsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxharbour_wx_gridsizer.o: ./src/wxbase/wlayout/wx_gridsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_gridsizer.o: ./src/wxbase/winlayout/wx_gridsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxharbour_wx_sizer.o: ./src/wxbase/wlayout/wx_sizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_sizer.o: ./src/wxbase/winlayout/wx_sizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o: ./src/wxbase/wlayout/wx_staticboxsizer.cpp
+$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o: ./src/wxbase/winlayout/wx_staticboxsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour install_wxharbour_headers uninstall_wxharbour_headers samples
