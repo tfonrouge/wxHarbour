@@ -8,9 +8,6 @@
     <headers>
       $(fileList("include/*.ch"))
     </headers>
-    <include>
-      include/wxbase
-    </include>
     <sources-at>
       src/common
       src/hrbcompat/tbcolumn
@@ -29,8 +26,12 @@
       src/wxbase/validators
       src/wxbase/winlayout
     </sources-at>
-    <install-to>$(HB_LIB_PATH)</install-to>
-    <install-headers-to>$(HB_INC_PATH)</install-headers-to>
+    <include>
+      include
+    </include>
+    <!--<install-to>$(HB_LIB_PATH)</install-to>-->
+    <install-to>$(LIBDIR)</install-to>
+    <install-headers-to>$(prefix)</install-headers-to>
   </wxharbour-lib>
 
   <subproject id="samples">

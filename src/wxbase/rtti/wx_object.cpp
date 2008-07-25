@@ -19,5 +19,5 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
-#include "wx_object.h"
+#include "wxbase/wx_object.h"
 

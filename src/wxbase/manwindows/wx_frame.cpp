@@ -18,9 +18,9 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_statusbar.h"
-#include "wx_menubar.h"
-#include "wx_frame.h"
+#include "wxbase/wx_statusbar.h"
+#include "wxbase/wx_menubar.h"
+#include "wxbase/wx_frame.h"
 
 using namespace std;
 

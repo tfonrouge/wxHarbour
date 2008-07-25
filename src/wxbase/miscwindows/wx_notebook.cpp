@@ -23,7 +23,7 @@
 #include "wxh.h"
 #include "wx/notebook.h"
 
-#include "wx_notebook.h"
+#include "wxbase/wx_notebook.h"
 
 /*
   ~wx_Notebook

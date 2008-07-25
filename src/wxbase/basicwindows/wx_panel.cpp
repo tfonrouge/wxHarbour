@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_panel.h"
+#include "wxbase/wx_panel.h"
 
 /*
   ~wx_Panel
