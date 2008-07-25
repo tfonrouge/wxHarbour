@@ -19,7 +19,7 @@
 
 #include "wxh.h"
 
-#include "wx_frame.h"
+#include "wxbase/wx_frame.h"
 
 using namespace std;
 

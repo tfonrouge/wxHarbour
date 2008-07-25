@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_staticbox.h"
+#include "wxbase/wx_staticbox.h"
 
 /*
   ~wx_StaticBox

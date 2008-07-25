@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_validator.h"
+#include "wxbase/wx_validator.h"
 
 /*
   ~wx_Validator

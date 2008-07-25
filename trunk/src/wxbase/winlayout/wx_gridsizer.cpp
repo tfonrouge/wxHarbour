@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_gridsizer.h"
+#include "wxbase/wx_gridsizer.h"
 
 /*
   ~wx_GridSizer

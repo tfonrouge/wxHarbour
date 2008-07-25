@@ -35,7 +35,7 @@
   <option name="BUILD">
     <values>debug,release</values>
     <values-description>Debug,Release</values-description>
-    <default-value>debug</default-value>
+    <default-value>release</default-value>
     <description>
 ---------------------------------------------------------------
 Harbour compiler flags
@@ -240,23 +240,23 @@ Where is wxWidgets installed
     <!-- gnu Makefiles -->
     <if cond="FORMAT=='gnu'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HB_BIN_PATH)/$(HCC) $(__hbflags) -o$@ $&lt;
+        $(HCC) $(__hbflags) -o$@ $&lt;
       </set>
     </if>
     <!-- mingw Makefiles -->
     <if cond="FORMAT=='mingw'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HB_BIN_PATH)/$(HCC) $(__hbflags) -o$@ $&lt;
+        $(HCC) $(__hbflags) -o$@ $&lt;
       </set>
     </if>
     <if cond="FORMAT=='msvc'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HB_BIN_PATH)\$(HCC) $(__hbflags) -o$@ $**
+        $(HCC) $(__hbflags) -o$@ $**
       </set>
     </if>
     <if cond="FORMAT=='borland'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HB_BIN_PATH)\$(HCC) $(__hbflags) -o$@ $**
+        $(HCC) $(__hbflags) -o$@ $**
       </set>
     </if>
   </template>
@@ -300,6 +300,7 @@ Where is wxWidgets installed
 
     <include>include</include>
     <include>$(HB_INC_PATH)</include>
+    <include>$(INCLUDEDIR)</include>
 
     <if cond="COMPILER=='gcc'">
       <ldlibs>-Wl,--start-group</ldlibs>

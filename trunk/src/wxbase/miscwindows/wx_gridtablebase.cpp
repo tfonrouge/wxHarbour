@@ -20,7 +20,7 @@
 #include "wx/generic/gridctrl.h"
 #include "wxh.h"
 
-#include "wx_gridtablebase.h"
+#include "wxbase/wx_gridtablebase.h"
 
 /*
   ~wx_GridTableBase

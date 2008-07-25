@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_app.h"
+#include "wxbase/wx_app.h"
 
 extern "C"
 {

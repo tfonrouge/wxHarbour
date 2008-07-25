@@ -19,8 +19,8 @@
 #include "wx/grid.h"
 #include "wxh.h"
 
-#include "wx_gridtablebase.h"
-#include "wx_grid.h"
+#include "wxbase/wx_gridtablebase.h"
+#include "wxbase/wx_grid.h"
 
 /*
   ~wx_Grid

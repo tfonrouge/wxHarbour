@@ -2,6 +2,47 @@
  *
  */
 
+2008-07-24 20:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/miscwindows/wx_notebook.cpp
+  * src/wxbase/miscwindows/wx_grid.cpp
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+  * src/wxbase/miscwindows/wx_statusbar.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/menus/wx_menuitem.cpp
+  * src/wxbase/menus/wx_menu.cpp
+  * src/wxbase/menus/wx_menubar.cpp
+  * src/wxbase/validators/wx_validator.cpp
+  * src/wxbase/winlayout/wx_gridsizer.cpp
+  * src/wxbase/winlayout/wx_boxsizer.cpp
+  * src/wxbase/winlayout/wx_sizer.cpp
+  * src/wxbase/winlayout/wx_staticboxsizer.cpp
+  * src/wxbase/basicwindows/wx_window.cpp
+  * src/wxbase/basicwindows/wx_panel.cpp
+  * src/wxbase/commdialogs/wx_dialog.cpp
+    * added "wxbase/" to locate headers in include declaration
+
+  * GNUmakefile
+  * wxharbour.bkl
+    * changes to allow construct the rpm (small path's issues solved)
+
+  * config/tmpl_hrb.bkl
+    * changed default build mode to "release"
+    - removed prefix $(HB_BIN_PATH) from harbour compiler construct
+    + added $(INCLUDEDIR) to <include> struct
+
+  * wxharbour.spec
+    * completed a preliminar spec to construct rpms
+
 2008-07-23 16:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * sending the reference of the var to the TEdit obj

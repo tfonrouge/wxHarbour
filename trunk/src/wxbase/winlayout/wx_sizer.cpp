@@ -21,7 +21,7 @@
 
 #include "wxh.h"
 
-#include "wx_sizer.h"
+#include "wxbase/wx_sizer.h"
 
 /*
  * ChkFlagInArray
