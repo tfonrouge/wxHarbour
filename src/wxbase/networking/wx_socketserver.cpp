@@ -82,7 +82,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
     {
       PHB_ITEM p = hb_itemNew( NULL );
       HB_FUN_WXSOCKETBASE();
-      hb_itemCopy( p, &(hb_stack.Return) );
+      hb_itemCopy( p, hb_stackReturnItem() );
       wx_ObjList_New( socketBase, p );
       hb_itemReturn( p );
     }
