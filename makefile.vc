@@ -25,8 +25,13 @@ CPPFLAGS =
 # Standard flags for Harbour compiler 
 HBFLAGS = -n -a -v -m -go
 
-# [x]Harbour compiler 
+# [x]Harbour compiler executable name 
 HCC = harbour
+
+# [x]Harbour compiler used [harbour,xharbour]
+#   harbour - www.harbour-project.org
+#   xharbour - www.xharbour.com
+HBCOMPILER = harbour
 
 # ---------------------------------------------------------------
 # Harbour compiler flags
@@ -70,11 +75,11 @@ WX_BUILD = release
 
 MAKEARGS = PREFIX="$(PREFIX)" EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" \
 	CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBFLAGS="$(HBFLAGS)" HCC="$(HCC)" BUILD="$(BUILD)" HBWARNL="$(HBWARNL)" \
-	HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
-	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" \
-	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
-	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
+	HBFLAGS="$(HBFLAGS)" HCC="$(HCC)" HBCOMPILER="$(HBCOMPILER)" \
+	BUILD="$(BUILD)" HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" \
+	HB_BIN_PATH="$(HB_BIN_PATH)" HB_INC_PATH="$(HB_INC_PATH)" \
+	HB_LIB_PATH="$(HB_LIB_PATH)" __BUILDDIR__="$(__BUILDDIR__)" \
+	WX_PATH="$(WX_PATH)" WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
 	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
 	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \

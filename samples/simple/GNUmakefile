@@ -22,8 +22,11 @@ LDFLAGS :=
 # Standard flags for Harbour compiler 
 HBFLAGS := -n -a -v -m -go
 
-# [x]Harbour compiler 
+# [x]Harbour compiler executable name 
 HCC := harbour
+
+# [x]Harbour compiler used [harbour,xharbour]
+HBCOMPILER := harbour
 
 # ---------------------------------------------------------------
 # Harbour compiler flags
@@ -39,10 +42,10 @@ HBWARNL := 3
 HBEXITSL := 2
 
 # Where to search for Harbour Includes 
-HB_INC_PATH := /usr/include/harbour
+HB_INC_PATH := /usr/include/$(HBCOMPILER)
 
 # Where to search for Harbour libs 
-HB_LIB_PATH := /usr/lib/harbour
+HB_LIB_PATH := /usr/lib/$(HBCOMPILER)
 
 # Where the object and lib files are built 
 __BUILDDIR__ := obj/gcc-unix

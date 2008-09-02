@@ -28,7 +28,16 @@
   <option name="HCC">
     <default-value>harbour</default-value>
     <description>
-      [x]Harbour compiler
+      [x]Harbour compiler executable name
+    </description>
+  </option>
+
+  <option name="HBCOMPILER" category="path">
+    <values>harbour,xharbour</values>
+    <values-description>www.harbour-project.org,www.xharbour.com</values-description>
+    <default-value>harbour</default-value>
+    <description>
+      [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com)
     </description>
   </option>
 
@@ -75,7 +84,7 @@ Type of Harbour compiled binaries
       $(envvar("HB_INC_INSTALL"))
     </if>
     <if cond="TOOLSET=='unix'">
-      /usr/include/harbour
+      /usr/include/$(HBCOMPILER)
     </if>
   </set>
 
@@ -84,7 +93,7 @@ Type of Harbour compiled binaries
       $(envvar("HB_LIB_INSTALL"))
     </if>
     <if cond="TOOLSET=='unix'">
-      /usr/lib/harbour
+      /usr/lib/$(HBCOMPILER)
     </if>
   </set>
 
@@ -118,6 +127,10 @@ Where to search for the Harbour compiler
       Where to search for Harbour libs
     </description>
   </option>
+
+  <set var="__DUMMY1__">
+    <if cond="HBCOMPILER=='harbour'"></if>
+  </set>
 
   <set var="__HBDEBUG__">
     <if cond="BUILD=='debug'" >-b -d_DEBUG_</if>
