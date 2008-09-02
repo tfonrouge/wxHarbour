@@ -10,6 +10,12 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
+# The common installation prefix for header, data and library files 
+PREFIX = C:\opt
+
+# The common installation prefix for binary and DLL files 
+EXEC_PREFIX = C:\opt\bin
+
 # Standard linker flags 
 LDFLAGS = 
 
@@ -24,20 +30,13 @@ HCC = harbour
 # ---------------------------------------------------------------
 # 
 # Type of Harbour compiled binaries [debug,release]
-BUILD = debug
+BUILD = release
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL = 3
 
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL = 2
-
-# ---------------------------------------------------------------
-# Harbour paths
-# ---------------------------------------------------------------
-# 
-# Where to search for the Harbour compiler 
-HB_BIN_PATH = $(HB_BIN_INSTALL)
 
 # Where to search for Harbour Includes 
 HB_INC_PATH = $(HB_INC_INSTALL)
@@ -72,13 +71,14 @@ WX_BUILD = release
 DBBROWSER_OBJECTS =  \
 	$(__BUILDDIR__)\dbbrowser_dbbrowser.obj
 DBBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /I..\..\include
+	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
+	/I..\..\include
 
 ### Conditionally set variables: ###
 
 !if "$(BUILD)" == "debug"
-__HBDEBUG__ = -b
+__HBDEBUG__ = -b -d_DEBUG_
 !endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
 __WXHLIBNAME_p = wxHarbour.lib
@@ -114,6 +114,10 @@ $(__BUILDDIR__):
 
 all: .\dbbrowser.exe
 
+install: all
+
+uninstall: 
+
 clean: 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
@@ -124,12 +128,12 @@ clean:
 
 .\dbbrowser.exe: $(DBBROWSER_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) $(__WX_DEBUG_INFO_8) /pdb:".\dbbrowser.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) @<<
-	$(DBBROWSER_OBJECTS)  hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib
+	$(DBBROWSER_OBJECTS)  hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib hbfm.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib
 <<
 
 run: all
 	.\dbbrowser.exe
 
 $(__BUILDDIR__)\dbbrowser_dbbrowser.obj: .\dbbrowser.prg
-	$(HB_BIN_PATH)\$(HCC) $(DBBROWSER_HBFLAGS) -o$@ $**
+	$(HCC) $(DBBROWSER_HBFLAGS) -o$@ $**
 

@@ -107,6 +107,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhgridsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wxhxmldocument.o \
 	$(__BUILDDIR__)/wxharbour_wx_harbour.o \
 	$(__BUILDDIR__)/wxharbour_wx_browse.o \
 	$(__BUILDDIR__)/wxharbour_wx_app.o \
@@ -136,13 +137,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wx_boxsizer.o \
 	$(__BUILDDIR__)/wxharbour_wx_gridsizer.o \
 	$(__BUILDDIR__)/wxharbour_wx_sizer.o \
-	$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o
-WXHARBOUR_HEADERS =  \
-	include/defs.ch \
-	include/event.ch \
-	include/property.ch \
-	include/wx.ch \
-	include/wxharbour.ch
+	$(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o \
+	$(__BUILDDIR__)/wxharbour_wx_xmldocument.o
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
@@ -150,7 +146,7 @@ WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 ### Conditionally set variables: ###
 
 ifeq ($(BUILD),debug)
-__HBDEBUG__ = -b
+__HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -191,9 +187,9 @@ $(__BUILDDIR__):
 
 all: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 
-install: all install_wxharbour install_wxharbour_headers
+install: all install_wxharbour
 
-uninstall: uninstall_wxharbour uninstall_wxharbour_headers
+uninstall: uninstall_wxharbour
 
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
@@ -212,20 +208,6 @@ install_wxharbour:
 
 uninstall_wxharbour: 
 	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).a
-
-install_wxharbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(prefix)
-	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(prefix)/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(prefix)/`dirname $$f`; \
-	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(prefix)/$$f; \
-	done
-
-uninstall_wxharbour_headers: 
-	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(prefix)/$$f; \
-	done
 
 samples: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	(cd samples && $(MAKE) all)
@@ -326,6 +308,9 @@ $(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxbase/winlayout/wxhsizer.prg
 $(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxbase/winlayout/wxhstaticboxsizer.prg
 	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxharbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocument.prg
+	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -416,7 +401,10 @@ $(__BUILDDIR__)/wxharbour_wx_sizer.o: ./src/wxbase/winlayout/wx_sizer.cpp
 $(__BUILDDIR__)/wxharbour_wx_staticboxsizer.o: ./src/wxbase/winlayout/wx_staticboxsizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-.PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour install_wxharbour_headers uninstall_wxharbour_headers samples
+$(__BUILDDIR__)/wxharbour_wx_xmldocument.o: ./src/wxbase/xmlclasses/wx_xmldocument.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+.PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour samples
 
 
 # Dependencies tracking:

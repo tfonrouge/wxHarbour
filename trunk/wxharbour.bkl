@@ -25,13 +25,14 @@
       src/wxbase/rtti
       src/wxbase/validators
       src/wxbase/winlayout
+      src/wxbase/xmlclasses
     </sources-at>
     <include>
       include
     </include>
     <!--<install-to>$(HB_LIB_PATH)</install-to>-->
     <install-to>$(LIBDIR)</install-to>
-    <install-headers-to>$(prefix)</install-headers-to>
+    <!--<install-headers-to>$(prefix)</install-headers-to>-->
   </wxharbour-lib>
 
   <subproject id="samples">
