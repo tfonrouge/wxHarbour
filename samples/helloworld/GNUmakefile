@@ -10,6 +10,9 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
+# Location where the package is installed by 'make install' 
+prefix := /usr/local
+
 # C++ compiler 
 CXX := g++
 
@@ -27,20 +30,13 @@ HCC := harbour
 # ---------------------------------------------------------------
 # 
 # Type of Harbour compiled binaries [debug,release]
-BUILD := debug
+BUILD := release
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL := 3
 
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL := 2
-
-# ---------------------------------------------------------------
-# Harbour paths
-# ---------------------------------------------------------------
-# 
-# Where to search for the Harbour compiler 
-HB_BIN_PATH := /usr/bin
 
 # Where to search for Harbour Includes 
 HB_INC_PATH := /usr/include/harbour
@@ -68,12 +64,12 @@ WX_BUILD := release
 HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)/helloworld_helloworld.o
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I../../include
+	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -I../../include
 
 ### Conditionally set variables: ###
 
 ifeq ($(BUILD),debug)
-__HBDEBUG__ = -b
+__HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -118,13 +114,13 @@ clean:
 	rm -f ./helloworld
 
 ./helloworld: $(HELLOWORLD_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip $(__WXHLIBNAME_p) -Wl,--end-group -lfm -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lhbfm -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
 	./helloworld
 
 $(__BUILDDIR__)/helloworld_helloworld.o: ./helloworld.prg
-	$(HB_BIN_PATH)/$(HCC) $(HELLOWORLD_HBFLAGS) -o$@ $<
+	$(HCC) $(HELLOWORLD_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

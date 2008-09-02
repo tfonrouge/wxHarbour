@@ -7,7 +7,7 @@ import utils
 def addSufixToList(sufix, value):
     """Adds sufix to every item in 'value' interpreted as
        whitespace-separated list."""
-    
+
     def callback(sufix, cond, sources):
         prf = suf = ''
         if sources[0].isspace(): prf=' '

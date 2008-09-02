@@ -2,6 +2,22 @@
  *
  */
 
+2008-09-01 22:02 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wxbase/wx_xmldocument.h
+  + src/wxbase/xmlclasses
+  + src/wxbase/xmlclasses/wxhxmldocument.prg
+  + src/wxbase/xmlclasses/wx_xmldocument.cpp
+    + added wxXmlDocument class
+
+  * GNUmakefile
+  * wxharbour.bkl
+  * samples/sizers/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * config/tmpl_hrb.bkl
+    * changed version to 0.4
+    + added definition of _DEBUG_ if BUILD=debug ( -d_DEBUG_ )
+    * changed position of fm lib
+
 2008-07-24 20:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wx_browse.cpp
   * src/wxbase/app/wx_app.cpp
