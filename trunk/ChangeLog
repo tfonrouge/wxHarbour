@@ -2,6 +2,20 @@
  *
  */
 
+2008-09-02 16:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * samples/simple/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * makefile.gcc
+    * minor labeling on Harbour compiler var
+
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+    * using hb_stackReturnItem() instead of &(hb_stack.Return)
+
 2008-09-01 22:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.vc
   * GNUmakefile

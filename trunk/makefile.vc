@@ -28,7 +28,7 @@ HBFLAGS = -n -a -v -m -go
 # [x]Harbour compiler executable name 
 HCC = harbour
 
-# [x]Harbour compiler used [harbour,xharbour]
+# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
 #   harbour - www.harbour-project.org
 #   xharbour - www.xharbour.com
 HBCOMPILER = harbour
