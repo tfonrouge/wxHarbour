@@ -20,7 +20,9 @@ extern "C"
 #include "hbvmopt.h"
 #include "hbapi.h"
 #include "hbapiitm.h"
-#include "hbapicls.h"
+#ifndef __XHARBOUR__
+  #include "hbapicls.h"
+#endif
 #include "hbvm.h"
 #include "hbstack.h"
 #include "hbapierr.h"

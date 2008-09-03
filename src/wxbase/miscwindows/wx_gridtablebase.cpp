@@ -38,7 +38,12 @@ wx_GridTableBase::~wx_GridTableBase()
 int wx_GridTableBase::GetNumberCols()
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberCols");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 );
+  return hb_stackReturnItem()->item.asInteger.value;
+#else
   return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 )->item.asInteger.value;
+#endif
 }
 
 /*
@@ -48,7 +53,12 @@ int wx_GridTableBase::GetNumberCols()
 int wx_GridTableBase::GetNumberRows()
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberRows");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 );
+  return hb_stackReturnItem()->item.asInteger.value;
+#else
   return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 )->item.asInteger.value;
+#endif
 }
 
 /*
@@ -58,7 +68,12 @@ int wx_GridTableBase::GetNumberRows()
 wxString wx_GridTableBase::GetValue( int row, int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetValue");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
+  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+#else
   return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+#endif
 }
 
 /*
@@ -68,19 +83,34 @@ wxString wx_GridTableBase::GetValue( int row, int col )
 bool wx_GridTableBase::IsEmptyCell( int row, int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("IsEmptyCell");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
+  return hb_stackReturnItem()->item.asLogical.value;
+#else
   return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asLogical.value;
+#endif
 }
 
 wxString wx_GridTableBase::GetColLabelValue( int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetColLabelValue");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, col ) );
+  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+#else
   return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+#endif
 }
 
 wxString wx_GridTableBase::GetRowLabelValue( int row )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetRowLabelValue");
+#ifdef __XHARBOUR__
+  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, row ) );
+  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+#else
   return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, row ) )->item.asString.value, wxConvLocal );
+#endif
 }
 
 /*
