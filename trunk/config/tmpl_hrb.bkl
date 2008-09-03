@@ -18,21 +18,8 @@
   </set>
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
-  <option name="HBFLAGS">
-      <default-value>$(DEFAULT_HBFLAGS)</default-value>
-      <description>
-          Standard flags for Harbour compiler
-      </description>
-  </option>
 
-  <option name="HCC">
-    <default-value>harbour</default-value>
-    <description>
-      [x]Harbour compiler executable name
-    </description>
-  </option>
-
-  <option name="HBCOMPILER" category="path">
+  <option name="HBCOMPILER">
     <values>harbour,xharbour</values>
     <values-description>www.harbour-project.org,www.xharbour.com</values-description>
     <default-value>harbour</default-value>
@@ -41,17 +28,191 @@
     </description>
   </option>
 
-  <option name="BUILD">
+  <option name="HBFLAGS">
+      <default-value>$(DEFAULT_HBFLAGS)</default-value>
+      <description>
+          Standard flags for Harbour compiler
+      </description>
+  </option>
+
+  <option name="HBCC">
+    <default-value>harbour</default-value>
+    <description>
+      [x]Harbour compiler executable name
+    </description>
+  </option>
+
+  <!-- Start Section of Harbour/xHarbour libraries names -->
+  <set var="HBLIB_VM">
+    <if cond="HBCOMPILER=='harbour'">
+      hbvm
+    </if>
+  </set>
+  <set var="HBLIB_VM">
+    <if cond="HBCOMPILER=='xharbour'">
+      vm
+    </if>
+  </set>
+
+  <set var="HBLIB_PP">
+    <if cond="HBCOMPILER=='harbour'">
+      hbpp
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      pp
+    </if>
+  </set>
+
+  <set var="HBLIB_RTL">
+    <if cond="HBCOMPILER=='harbour'">
+      hbrtl
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      rtl
+    </if>
+  </set>
+
+  <set var="HBLIB_RDD">
+    <if cond="HBCOMPILER=='harbour'">
+      hbrdd
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      rdd
+    </if>
+  </set>
+
+  <set var="HBLIB_RDDFPT">
+    <if cond="HBCOMPILER=='harbour'">
+      rddfpt
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbffpt
+    </if>
+  </set>
+
+  <set var="HBLIB_RDDCDX">
+    <if cond="HBCOMPILER=='harbour'">
+      rddcdx
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbfcdx
+    </if>
+  </set>
+
+  <set var="HBLIB_RDDNTX">
+    <if cond="HBCOMPILER=='harbour'">
+      rddntx
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbfntx
+    </if>
+  </set>
+
+  <set var="HBLIB_USRRDD">
+    <if cond="HBCOMPILER=='harbour'">
+      hbusrrdd
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      usrrdd
+    </if>
+  </set>
+
+  <set var="HBLIB_MACRO">
+    <if cond="HBCOMPILER=='harbour'">
+      hbmacro
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      macro
+    </if>
+  </set>
+
+  <set var="HBLIB_COMMON">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcommon
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      common
+    </if>
+  </set>
+
+  <set var="HBLIB_LANG">
+    <if cond="HBCOMPILER=='harbour'">
+      hblang
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      lang
+    </if>
+  </set>
+
+  <set var="HBLIB_CPAGE">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcpage
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      codepage
+    </if>
+  </set>
+
+  <set var="HBLIB_FM">
+    <if cond="HBCOMPILER=='harbour'">
+      hbfm
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      fm
+    </if>
+  </set>
+
+  <set var="HBLIB_DEBUG">
+    <if cond="HBCOMPILER=='harbour'">
+      hbdebug
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      debug
+    </if>
+  </set>
+
+  <set var="HBLIB_CPLR">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcplr
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+    </if>
+  </set>
+
+  <set var="HBLIB_PCRE">
+    <if cond="HBCOMPILER=='harbour'">
+      hbpcre
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      pcrepos
+    </if>
+  </set>
+
+  <set var="HBLIB_CT">
+    <if cond="HBCOMPILER=='harbour'">
+      hbct
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      ct
+    </if>
+  </set>
+
+  <set var="HBLIB_TIP">
+    <if cond="HBCOMPILER=='harbour'">
+      hbtip
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      tip
+    </if>
+  </set>
+
+  <!-- End Section of Harbour/xHarbour libraries names -->
+
+  <option name="HBBUILD">
     <values>debug,release</values>
     <values-description>Debug,Release</values-description>
     <default-value>release</default-value>
-    <description>
----------------------------------------------------------------
-Harbour compiler flags
----------------------------------------------------------------
-
-Type of Harbour compiled binaries
-    </description>
+    <description>Type of Harbour compiled binaries</description>
   </option>
 
   <option name="HBWARNL">
@@ -115,7 +276,7 @@ Where to search for the Harbour compiler
       $(__HB_INC_PATH)
     </default-value>
     <description>
-      Where to search for Harbour Includes
+      Where to search for Harbour includes
     </description>
   </option>
 
@@ -128,12 +289,8 @@ Where to search for the Harbour compiler
     </description>
   </option>
 
-  <set var="__DUMMY1__">
-    <if cond="HBCOMPILER=='harbour'"></if>
-  </set>
-
   <set var="__HBDEBUG__">
-    <if cond="BUILD=='debug'" >-b -d_DEBUG_</if>
+    <if cond="HBBUILD=='debug'" >-b -d_DEBUG_</if>
   </set>
 
   <set var="HBDEFINES">
@@ -170,7 +327,7 @@ Where to search for the Harbour compiler
   <if cond="TOOLSET=='win32'">
   <option name="WX_PATH" category="path">
     <default-value>
-      C:\wxWidgets-2.8.7
+      C:\wxWidgets-2.8.8
     </default-value>
     <description>
 ---------------------------------------------------------------
@@ -183,6 +340,7 @@ Where is wxWidgets installed
   </if>
 
   <option name="WX_ENCODING">
+    <description>Encoding</description>
     <default-value>unicode</default-value>
     <values>ansi,unicode</values>
   </option>
@@ -253,23 +411,23 @@ Where is wxWidgets installed
     <!-- gnu Makefiles -->
     <if cond="FORMAT=='gnu'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HCC) $(__hbflags) -o$@ $&lt;
+        $(HBCC) $(__hbflags) -o$@ $&lt;
       </set>
     </if>
     <!-- mingw Makefiles -->
     <if cond="FORMAT=='mingw'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HCC) $(__hbflags) -o$@ $&lt;
+        $(HBCC) $(__hbflags) -o$@ $&lt;
       </set>
     </if>
     <if cond="FORMAT=='msvc'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HCC) $(__hbflags) -o$@ $**
+        $(HBCC) $(__hbflags) -o$@ $**
       </set>
     </if>
     <if cond="FORMAT=='borland'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HCC) $(__hbflags) -o$@ $**
+        $(HBCC) $(__hbflags) -o$@ $**
       </set>
     </if>
   </template>
@@ -318,21 +476,20 @@ Where is wxWidgets installed
     <if cond="COMPILER=='gcc'">
       <ldlibs>-Wl,--start-group</ldlibs>
     </if>
-    <sys-lib>hbvm</sys-lib>
-    <sys-lib>hbpp</sys-lib>
-    <sys-lib>hbrtl</sys-lib>
-    <sys-lib>hbrdd</sys-lib>
-    <sys-lib>rddfpt</sys-lib>
-    <sys-lib>rddcdx</sys-lib>
-    <sys-lib>rddntx</sys-lib>
-    <sys-lib>hbhsx</sys-lib>
+    <sys-lib>$(HBLIB_VM)</sys-lib>
+    <sys-lib>$(HBLIB_PP)</sys-lib>
+    <sys-lib>$(HBLIB_RTL)</sys-lib>
+    <sys-lib>$(HBLIB_RDD)</sys-lib>
+    <sys-lib>$(HBLIB_RDDFPT)</sys-lib>
+    <sys-lib>$(HBLIB_RDDCDX)</sys-lib>
+    <sys-lib>$(HBLIB_RDDNTX)</sys-lib>
     <sys-lib>hbsix</sys-lib>
-    <sys-lib>hbusrrdd</sys-lib>
-    <sys-lib>hbmacro</sys-lib>
-    <sys-lib>hbcommon</sys-lib>
-    <sys-lib>hblang</sys-lib>
-    <sys-lib>hbcpage</sys-lib>
-    <sys-lib>hbfm</sys-lib>
+    <sys-lib>$(HBLIB_USRRDD)</sys-lib>
+    <sys-lib>$(HBLIB_MACRO)</sys-lib>
+    <sys-lib>$(HBLIB_COMMON)</sys-lib>
+    <sys-lib>$(HBLIB_LANG)</sys-lib>
+    <sys-lib>$(HBLIB_CPAGE)</sys-lib>
+    <sys-lib>$(HBLIB_FM)</sys-lib>
     <if cond="TOOLSET=='unix'">
       <sys-lib>gtcrs</sys-lib>
       <sys-lib>gtsln</sys-lib>
@@ -342,17 +499,15 @@ Where is wxWidgets installed
     <sys-lib>gtcgi</sys-lib>
     <sys-lib>gtstd</sys-lib>
     <sys-lib>gtpca</sys-lib>
-    <sys-lib>hbdebug</sys-lib>
-    <sys-lib>hbcplr</sys-lib>
-    <sys-lib>hbpcre</sys-lib>
-    <sys-lib>hbct</sys-lib>
-    <sys-lib>hbnf</sys-lib>
-    <sys-lib>hbtip</sys-lib>
+    <sys-lib>$(HBLIB_DEBUG)</sys-lib>
+    <sys-lib>$(HBLIB_CPLR)</sys-lib>
+    <sys-lib>$(HBLIB_PCRE)</sys-lib>
+    <sys-lib>$(HBLIB_CT)</sys-lib>
+    <sys-lib>$(HBLIB_TIP)</sys-lib>
     <if cond="TOOLSET=='win32'">
       <sys-lib>gtwin</sys-lib>
     </if>
 
-    <!---->
     <warnings>max</warnings>
     <optimize>speed</optimize>
     <precomp-headers>on</precomp-headers>
