@@ -102,13 +102,7 @@ FUNCTION Login
     END SIZER
   END SIZER
 
-  bClassInfo := {||
-    btn1:ClassInfo()
-    btn2:ClassInfo()
-    btn3:ClassInfo()
-    oWnd:ClassInfo()
-    RETURN NIL
-  }
+  bClassInfo := {|| btn1:ClassInfo(),btn2:ClassInfo(),btn3:ClassInfo(),oWnd:ClassInfo() }
 
   oWnd:Connect( wxID_CANCEL, wxEVT_COMMAND_BUTTON_CLICKED, bClassInfo )
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
