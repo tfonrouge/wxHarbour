@@ -2,6 +2,37 @@
  *
  */
 
+2008-09-03 13:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls
+    * added labels to show state
+    ! with bakefile 0.2.3 is needed -DFORMAT_HAS_MAKE_INSTALL=1
+    ; TODO : solve this
+
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/GNUmakefile
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    * changed variable BUILD to HBBUILD (build mode)
+    * changed variable HCC TO HBCC (compiler file name)
+    % added capability to select compiler (harbour/xharbour)
+      * a large section is needed to select the libs names due to differences
+        between both compilers in library naming convention (if any)
+
 2008-09-03 01:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/menus/wxhmenu.prg
     * removed unneeded HB_HAUTOADD call (was needed by Harbour)

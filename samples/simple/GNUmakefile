@@ -19,21 +19,17 @@ CXX := g++
 # Standard linker flags 
 LDFLAGS := 
 
+# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+HBCOMPILER := harbour
+
 # Standard flags for Harbour compiler 
 HBFLAGS := -n -a -v -m -go
 
 # [x]Harbour compiler executable name 
-HCC := harbour
+HBCC := harbour
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-HBCOMPILER := harbour
-
-# ---------------------------------------------------------------
-# Harbour compiler flags
-# ---------------------------------------------------------------
-# 
 # Type of Harbour compiled binaries [debug,release]
-BUILD := release
+HBBUILD := release
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL := 3
@@ -41,7 +37,7 @@ HBWARNL := 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL := 2
 
-# Where to search for Harbour Includes 
+# Where to search for Harbour includes 
 HB_INC_PATH := /usr/include/$(HBCOMPILER)
 
 # Where to search for Harbour libs 
@@ -50,7 +46,7 @@ HB_LIB_PATH := /usr/lib/$(HBCOMPILER)
 # Where the object and lib files are built 
 __BUILDDIR__ := obj/gcc-unix
 
-#  [ansi,unicode]
+# Encoding [ansi,unicode]
 WX_ENCODING := unicode
 
 #  [release,debug]
@@ -71,8 +67,116 @@ SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 
 ### Conditionally set variables: ###
 
-ifeq ($(BUILD),debug)
+ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_VM_p = -lhbvm
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_VM_p = -lvm
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_PP_p = -lhbpp
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_PP_p = -lpp
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_RTL_p = -lhbrtl
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_RTL_p = -lrtl
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_RDD_p = -lhbrdd
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_RDD_p = -lrdd
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_RDDFPT_p = -lrddfpt
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_RDDFPT_p = -ldbffpt
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_RDDCDX_p = -lrddcdx
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_RDDCDX_p = -ldbfcdx
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_RDDNTX_p = -lrddntx
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_RDDNTX_p = -ldbfntx
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_USRRDD_p = -lhbusrrdd
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_USRRDD_p = -lusrrdd
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_MACRO_p = -lhbmacro
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_MACRO_p = -lmacro
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_COMMON_p = -lhbcommon
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_COMMON_p = -lcommon
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_LANG_p = -lhblang
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_LANG_p = -llang
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_CPAGE_p = -lhbcpage
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_CPAGE_p = -lcodepage
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_FM_p = -lhbfm
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_FM_p = -lfm
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_DEBUG_p = -lhbdebug
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_DEBUG_p = -ldebug
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_CPLR_p = -lhbcplr
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_CPLR_p = 
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_PCRE_p = -lhbpcre
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_PCRE_p = -lpcrepos
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_CT_p = -lhbct
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_CT_p = -lct
+endif
+ifeq ($(HBCOMPILER),harbour)
+__HBLIB_TIP_p = -lhbtip
+endif
+ifeq ($(HBCOMPILER),xharbour)
+__HBLIB_TIP_p = -ltip
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -117,13 +221,13 @@ clean:
 	rm -f ./simple
 
 ./simple: $(SIMPLE_OBJECTS)
-	$(CXX) -o $@ $(SIMPLE_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lhbfm -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+	$(CXX) -o $@ $(SIMPLE_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__HBLIB_VM_p) $(__HBLIB_PP_p) $(__HBLIB_RTL_p) $(__HBLIB_RDD_p) $(__HBLIB_RDDFPT_p) $(__HBLIB_RDDCDX_p) $(__HBLIB_RDDNTX_p) -lhbsix $(__HBLIB_USRRDD_p) $(__HBLIB_MACRO_p) $(__HBLIB_COMMON_p) $(__HBLIB_LANG_p) $(__HBLIB_CPAGE_p) $(__HBLIB_FM_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__HBLIB_DEBUG_p) $(__HBLIB_CPLR_p) $(__HBLIB_PCRE_p) $(__HBLIB_CT_p) $(__HBLIB_TIP_p) $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
 	./simple
 
 $(__BUILDDIR__)/simple_simple.o: ./simple.prg
-	$(HCC) $(SIMPLE_HBFLAGS) -o$@ $<
+	$(HBCC) $(SIMPLE_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

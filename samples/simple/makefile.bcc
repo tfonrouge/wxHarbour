@@ -19,9 +19,24 @@ BCCDIR = $(MAKEDIR)\..
 # These are configurable options:
 # -------------------------------------------------------------------------
 
+# The common installation prefix for header, data and library files 
+!ifndef PREFIX
+PREFIX = C:\opt
+!endif
+
+# The common installation prefix for binary and DLL files 
+!ifndef EXEC_PREFIX
+EXEC_PREFIX = C:\opt\bin
+!endif
+
 # Standard linker flags 
 !ifndef LDFLAGS
 LDFLAGS = 
+!endif
+
+# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+!ifndef HBCOMPILER
+HBCOMPILER = harbour
 !endif
 
 # Standard flags for Harbour compiler 
@@ -29,18 +44,14 @@ LDFLAGS =
 HBFLAGS = -n -a -v -m -go
 !endif
 
-# [x]Harbour compiler 
-!ifndef HCC
-HCC = harbour
+# [x]Harbour compiler executable name 
+!ifndef HBCC
+HBCC = harbour
 !endif
 
-# ---------------------------------------------------------------
-# Harbour compiler flags
-# ---------------------------------------------------------------
-# 
 # Type of Harbour compiled binaries [debug,release]
-!ifndef BUILD
-BUILD = debug
+!ifndef HBBUILD
+HBBUILD = release
 !endif
 
 # Warning level for the Harbour Compiler [0,1,2,3]
@@ -53,16 +64,7 @@ HBWARNL = 3
 HBEXITSL = 2
 !endif
 
-# ---------------------------------------------------------------
-# Harbour paths
-# ---------------------------------------------------------------
-# 
-# Where to search for the Harbour compiler 
-!ifndef HB_BIN_PATH
-HB_BIN_PATH = $(HB_BIN_INSTALL)
-!endif
-
-# Where to search for Harbour Includes 
+# Where to search for Harbour includes 
 !ifndef HB_INC_PATH
 HB_INC_PATH = $(HB_INC_INSTALL)
 !endif
@@ -83,10 +85,10 @@ __BUILDDIR__ = obj\bcc-win32
 # 
 # Where is wxWidgets installed 
 !ifndef WX_PATH
-WX_PATH = C:\wxWidgets-2.8.7
+WX_PATH = C:\wxWidgets-2.8.8
 !endif
 
-#  [ansi,unicode]
+# Encoding [ansi,unicode]
 !ifndef WX_ENCODING
 WX_ENCODING = unicode
 !endif
@@ -107,13 +109,122 @@ WX_BUILD = release
 SIMPLE_OBJECTS =  \
 	$(__BUILDDIR__)\simple_simple.obj
 SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include
+	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include \
+	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
+	-I..\..\include
 
 ### Conditionally set variables: ###
 
-!if "$(BUILD)" == "debug"
-__HBDEBUG__ = -b
+!if "$(HBBUILD)" == "debug"
+__HBDEBUG__ = -b -d_DEBUG_
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_VM_p = hbvm.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_VM_p = vm.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_PP_p = hbpp.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_PP_p = pp.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_RTL_p = hbrtl.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_RTL_p = rtl.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_RDD_p = hbrdd.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_RDD_p = rdd.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_RDDFPT_p = rddfpt.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_RDDFPT_p = dbffpt.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_RDDCDX_p = rddcdx.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_RDDCDX_p = dbfcdx.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_RDDNTX_p = rddntx.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_RDDNTX_p = dbfntx.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_USRRDD_p = hbusrrdd.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_USRRDD_p = usrrdd.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_MACRO_p = hbmacro.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_MACRO_p = macro.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_COMMON_p = hbcommon.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_COMMON_p = common.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_LANG_p = hblang.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_LANG_p = lang.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_CPAGE_p = hbcpage.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_CPAGE_p = codepage.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_FM_p = hbfm.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_FM_p = fm.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_DEBUG_p = hbdebug.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_DEBUG_p = debug.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_CPLR_p = hbcplr.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_CPLR_p = 
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_PCRE_p = hbpcre.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_PCRE_p = pcrepos.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_CT_p = hbct.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_CT_p = ct.lib
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+__HBLIB_TIP_p = hbtip.lib
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+__HBLIB_TIP_p = tip.lib
 !endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
 __WXHLIBNAME_p = wxHarbour.lib
@@ -149,6 +260,10 @@ $(__BUILDDIR__):
 
 all: .\simple.exe
 
+install: all
+
+uninstall: 
+
 clean: 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
@@ -162,12 +277,12 @@ clean:
 
 .\simple.exe: $(SIMPLE_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -aa -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_6) -L$(WX_PATH)\lib\bcc_lib -L..\..\$(__BUILDDIR__) @&&|
-	c0w32.obj $(SIMPLE_OBJECTS),$@,, hbvm.lib hbpp.lib hbrtl.lib hbrdd.lib rddfpt.lib rddcdx.lib rddntx.lib hbhsx.lib hbsix.lib hbusrrdd.lib hbmacro.lib hbcommon.lib hblang.lib hbcpage.lib gtcgi.lib gtstd.lib gtpca.lib hbdebug.lib hbcplr.lib hbpcre.lib hbct.lib hbnf.lib hbtip.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib import32.lib cw32.lib,,
+	c0w32.obj $(SIMPLE_OBJECTS),$@,, $(__HBLIB_VM_p) $(__HBLIB_PP_p) $(__HBLIB_RTL_p) $(__HBLIB_RDD_p) $(__HBLIB_RDDFPT_p) $(__HBLIB_RDDCDX_p) $(__HBLIB_RDDNTX_p) hbsix.lib $(__HBLIB_USRRDD_p) $(__HBLIB_MACRO_p) $(__HBLIB_COMMON_p) $(__HBLIB_LANG_p) $(__HBLIB_CPAGE_p) $(__HBLIB_FM_p) gtcgi.lib gtstd.lib gtpca.lib $(__HBLIB_DEBUG_p) $(__HBLIB_CPLR_p) $(__HBLIB_PCRE_p) $(__HBLIB_CT_p) $(__HBLIB_TIP_p) gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib import32.lib cw32.lib,,
 |
 
 run: all
 	.\simple.exe
 
 $(__BUILDDIR__)\simple_simple.obj: .\simple.prg
-	$(HB_BIN_PATH)\$(HCC) $(SIMPLE_HBFLAGS) -o$@ $**
+	$(HBCC) $(SIMPLE_HBFLAGS) -o$@ $**
 

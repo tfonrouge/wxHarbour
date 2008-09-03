@@ -31,21 +31,17 @@ CXX := g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS := 
 
+# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+HBCOMPILER := harbour
+
 # Standard flags for Harbour compiler 
 HBFLAGS := -n -a -v -m -go
 
 # [x]Harbour compiler executable name 
-HCC := harbour
+HBCC := harbour
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-HBCOMPILER := harbour
-
-# ---------------------------------------------------------------
-# Harbour compiler flags
-# ---------------------------------------------------------------
-# 
 # Type of Harbour compiled binaries [debug,release]
-BUILD := release
+HBBUILD := release
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL := 3
@@ -53,13 +49,13 @@ HBWARNL := 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL := 2
 
-# Where to search for Harbour Includes 
+# Where to search for Harbour includes 
 HB_INC_PATH := /usr/include/$(HBCOMPILER)
 
 # Where the object and lib files are built 
 __BUILDDIR__ := obj/gcc-unix
 
-#  [ansi,unicode]
+# Encoding [ansi,unicode]
 WX_ENCODING := unicode
 
 #  [release,debug]
@@ -148,7 +144,7 @@ WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 
 ### Conditionally set variables: ###
 
-ifeq ($(BUILD),debug)
+ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(WX_BUILD),release)
@@ -216,103 +212,103 @@ samples: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	(cd samples && $(MAKE) all)
 
 $(__BUILDDIR__)/wxharbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhbrowse.o: ./src/hrbcompat/tbrowse/wxhbrowse.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhtoplevelwindow.o: ./src/wxbase/basicwindows/wxhtoplevelwindow.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhwindow.o: ./src/wxbase/basicwindows/wxhwindow.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhdialog.o: ./src/wxbase/commdialogs/wxhdialog.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhbutton.o: ./src/wxbase/controls/wxhbutton.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhcontrol.o: ./src/wxbase/controls/wxhcontrol.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhstaticbox.o: ./src/wxbase/controls/wxhstaticbox.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhstatictext.o: ./src/wxbase/controls/wxhstatictext.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhtextctrl.o: ./src/wxbase/controls/wxhtextctrl.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhevthandler.o: ./src/wxbase/events/wxhevthandler.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhframe.o: ./src/wxbase/manwindows/wxhframe.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhmenu.o: ./src/wxbase/menus/wxhmenu.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhmenubar.o: ./src/wxbase/menus/wxhmenubar.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhmenuitem.o: ./src/wxbase/menus/wxhmenuitem.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhgrid.o: ./src/wxbase/miscwindows/wxhgrid.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhgridtablebase.o: ./src/wxbase/miscwindows/wxhgridtablebase.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhnotebook.o: ./src/wxbase/miscwindows/wxhnotebook.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhpanel.o: ./src/wxbase/miscwindows/wxhpanel.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhstatusbar.o: ./src/wxbase/miscwindows/wxhstatusbar.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhipv4address.o: ./src/wxbase/networking/wxhipv4address.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhsocketbase.o: ./src/wxbase/networking/wxhsocketbase.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhsocketclient.o: ./src/wxbase/networking/wxhsocketclient.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhsocketserver.o: ./src/wxbase/networking/wxhsocketserver.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhobject.o: ./src/wxbase/rtti/wxhobject.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhvalidator.o: ./src/wxbase/validators/wxhvalidator.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhboxsizer.o: ./src/wxbase/winlayout/wxhboxsizer.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhgridsizer.o: ./src/wxbase/winlayout/wxhgridsizer.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhsizer.o: ./src/wxbase/winlayout/wxhsizer.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxbase/winlayout/wxhstaticboxsizer.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocument.prg
-	$(HCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<

@@ -4,9 +4,13 @@
 adirs=$(find samples -maxdepth 1 -mindepth 1 -type d \! -name .svn)
 formats='gnu msvc mingw borland'
 
+echo "Building makefiles for wxHarbour library"
+
 for fmt in $formats ; do
   bakefile -f $fmt -D FORMAT_HAS_MAKE_INSTALL=1 wxharbour.bkl
 done
+
+echo "Building makefiles for samples"
 
 for DIR in $adirs ; do
   ndir=${DIR/samples\//}
@@ -14,6 +18,6 @@ for DIR in $adirs ; do
   SEDCMD=s/__SAMPLE_NAME__/$ndir/
   sed -i $SEDCMD samples/$ndir/$ndir.bkl
   for fmt in $formats ; do
-    bakefile -f $fmt samples/$ndir/$ndir.bkl
+    bakefile -f $fmt samples/$ndir/$ndir.bkl -DFORMAT_HAS_MAKE_INSTALL=1
   done
 done
