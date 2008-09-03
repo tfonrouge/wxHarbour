@@ -2,6 +2,15 @@
  *
  */
 
+2008-09-02 22:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+    * adding compilation conditions for Harbour/xHarbour
+    ; TODO: Change in xHarbour the type of function declared for
+            hb_stackReturnItem(),
+            Harbour : is a PHB_ITEM type
+            xHarbour: is a void type
+
 2008-09-02 16:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.vc
   * samples/sizers/GNUmakefile
