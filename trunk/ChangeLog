@@ -2,6 +2,19 @@
  *
  */
 
+2008-09-03 01:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/menus/wxhmenu.prg
+    * removed unneeded HB_HAUTOADD call (was needed by Harbour)
+
+  * samples/dbbrowser/GNUmakefile
+    * makefile manually modified to build and link using xHarbour
+    ; TODO: automate the libs inside the makefile
+    ;
+    ; HINT: In order to use the xHarbour compiler just set the
+    ;       HBCOMPILER variable to xharbour, e.g.:
+    ;
+    ;       make HBCOMPILER=xharbour
+
 2008-09-02 22:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * src/wxbase/miscwindows/wx_gridtablebase.cpp

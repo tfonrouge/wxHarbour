@@ -117,7 +117,7 @@ clean:
 	rm -f ./dbbrowser
 
 ./dbbrowser: $(DBBROWSER_OBJECTS)
-	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group -lhbvm -lhbpp -lhbrtl -lhbrdd -lrddfpt -lrddcdx -lrddntx -lhbhsx -lhbsix -lhbusrrdd -lhbmacro -lhbcommon -lhblang -lhbcpage -lhbfm -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca -lhbdebug -lhbcplr -lhbpcre -lhbct -lhbnf -lhbtip $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__) -Wl,--start-group -lvm -lpp -lrtl -lrdd -ldbffpt -ldbfcdx -ldbfntx -lhsx -lhbsix -lusrrdd -lmacro -lmisc -lnulsys -lcommon -llang -lcodepage -lfm -lfmstat -lcgi -lgtxwc -lgttrm -lgtcgi -lgtcrs -ldebug -lct -ltip -lpcrepos $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
 	./dbbrowser

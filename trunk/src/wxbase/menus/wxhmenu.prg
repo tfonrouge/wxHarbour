@@ -31,7 +31,6 @@ PROCEDURE wxh_DefineMenu( title )
     Global():g_menuList := {}
   ENDIF
 
-  HB_HAUTOADD( hData, .T. )
   hData["menu"] := wxMenu():New()
   hData["title"] := title
   AAdd( Global():g_menuList, hData )
