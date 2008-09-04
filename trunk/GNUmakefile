@@ -34,11 +34,26 @@ CPPFLAGS :=
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
 HBCOMPILER := harbour
 
-# Standard flags for Harbour compiler 
-HBFLAGS := -n -a -v -m -go
-
 # [x]Harbour compiler executable name 
 HBCC := harbour
+
+# ---------------------------------------------------------------
+# [x]Harbour optional libraries
+# ---------------------------------------------------------------
+#     Link in the TIP library [yes,no]
+HBLIB_TIP := no
+
+# Link in the FM library [yes,no]
+HBLIB_FM := no
+
+# Link in the CT library [yes,no]
+HBLIB_CT := no
+
+# ---------------------------------------------------------------
+# [x]Harbour compiler options
+# ---------------------------------------------------------------
+# Standard flags for Harbour compiler 
+HBFLAGS := -n -a -v -m -go
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD := release

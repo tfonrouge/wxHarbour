@@ -22,11 +22,26 @@ LDFLAGS :=
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
 HBCOMPILER := harbour
 
-# Standard flags for Harbour compiler 
-HBFLAGS := -n -a -v -m -go
-
 # [x]Harbour compiler executable name 
 HBCC := harbour
+
+# ---------------------------------------------------------------
+# [x]Harbour optional libraries
+# ---------------------------------------------------------------
+#     Link in the TIP library [yes,no]
+HBLIB_TIP := no
+
+# Link in the FM library [yes,no]
+HBLIB_FM := no
+
+# Link in the CT library [yes,no]
+HBLIB_CT := no
+
+# ---------------------------------------------------------------
+# [x]Harbour compiler options
+# ---------------------------------------------------------------
+# Standard flags for Harbour compiler 
+HBFLAGS := -n -a -v -m -go
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD := release
@@ -71,112 +86,124 @@ ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_VM_p = -lhbvm
+__LIB_VM_p = -lhbvm
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_VM_p = -lvm
+__LIB_VM_p = -lvm
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_PP_p = -lhbpp
+__LIB_PP_p = -lhbpp
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_PP_p = -lpp
+__LIB_PP_p = -lpp
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_RTL_p = -lhbrtl
+__LIB_RTL_p = -lhbrtl
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_RTL_p = -lrtl
+__LIB_RTL_p = -lrtl
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_RDD_p = -lhbrdd
+__LIB_RDD_p = -lhbrdd
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_RDD_p = -lrdd
+__LIB_RDD_p = -lrdd
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_RDDFPT_p = -lrddfpt
+__LIB_RDDFPT_p = -lrddfpt
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_RDDFPT_p = -ldbffpt
+__LIB_RDDFPT_p = -ldbffpt
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_RDDCDX_p = -lrddcdx
+__LIB_RDDCDX_p = -lrddcdx
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_RDDCDX_p = -ldbfcdx
+__LIB_RDDCDX_p = -ldbfcdx
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_RDDNTX_p = -lrddntx
+__LIB_RDDNTX_p = -lrddntx
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_RDDNTX_p = -ldbfntx
+__LIB_RDDNTX_p = -ldbfntx
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_USRRDD_p = -lhbusrrdd
+__LIB_USRRDD_p = -lhbusrrdd
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_USRRDD_p = -lusrrdd
+__LIB_USRRDD_p = -lusrrdd
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_MACRO_p = -lhbmacro
+__LIB_MACRO_p = -lhbmacro
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_MACRO_p = -lmacro
+__LIB_MACRO_p = -lmacro
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_COMMON_p = -lhbcommon
+__LIB_COMMON_p = -lhbcommon
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_COMMON_p = -lcommon
+__LIB_COMMON_p = -lcommon
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_LANG_p = -lhblang
+__LIB_LANG_p = -lhblang
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_LANG_p = -llang
+__LIB_LANG_p = -llang
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_CPAGE_p = -lhbcpage
+__LIB_CPAGE_p = -lhbcpage
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_CPAGE_p = -lcodepage
+__LIB_CPAGE_p = -lcodepage
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_FM_p = -lhbfm
+__LIB_DEBUG_p = -lhbdebug
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_FM_p = -lfm
+__LIB_DEBUG_p = -ldebug
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_DEBUG_p = -lhbdebug
+__LIB_CPLR_p = -lhbcplr
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_DEBUG_p = -ldebug
+__LIB_CPLR_p = 
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_CPLR_p = -lhbcplr
+__LIB_PCRE_p = -lhbpcre
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_CPLR_p = 
+__LIB_PCRE_p = -lpcrepos
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_PCRE_p = -lhbpcre
+ifeq ($(HBLIB_FM),yes)
+__LIB_FM_p = -lhbfm
+endif
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_PCRE_p = -lpcrepos
+ifeq ($(HBLIB_FM),yes)
+__LIB_FM_p = -lfm
+endif
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_CT_p = -lhbct
+ifeq ($(HBLIB_CT),yes)
+__LIB_CT_p = -lhbct
+endif
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_CT_p = -lct
+ifeq ($(HBLIB_CT),yes)
+__LIB_CT_p = -lct
+endif
 endif
 ifeq ($(HBCOMPILER),harbour)
-__HBLIB_TIP_p = -lhbtip
+ifeq ($(HBLIB_TIP),yes)
+__LIB_TIP_p = -lhbtip
+endif
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__HBLIB_TIP_p = -ltip
+ifeq ($(HBLIB_TIP),yes)
+__LIB_TIP_p = -ltip
+endif
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -221,7 +248,7 @@ clean:
 	rm -f ./helloworld1
 
 ./helloworld1: $(HELLOWORLD1_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD1_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__HBLIB_VM_p) $(__HBLIB_PP_p) $(__HBLIB_RTL_p) $(__HBLIB_RDD_p) $(__HBLIB_RDDFPT_p) $(__HBLIB_RDDCDX_p) $(__HBLIB_RDDNTX_p) -lhbsix $(__HBLIB_USRRDD_p) $(__HBLIB_MACRO_p) $(__HBLIB_COMMON_p) $(__HBLIB_LANG_p) $(__HBLIB_CPAGE_p) $(__HBLIB_FM_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__HBLIB_DEBUG_p) $(__HBLIB_CPLR_p) $(__HBLIB_PCRE_p) $(__HBLIB_CT_p) $(__HBLIB_TIP_p) $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+	$(CXX) -o $@ $(HELLOWORLD1_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
 	./helloworld1
