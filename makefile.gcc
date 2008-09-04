@@ -226,9 +226,9 @@ $(__BUILDDIR__):
 
 all: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 
-install: all install_wxharbour
+install: all install_wxharbour install_wxharbour_headers
 
-uninstall: uninstall_wxharbour
+uninstall: uninstall_wxharbour uninstall_wxharbour_headers
 
 clean: 
 	-if exist $(__BUILDDIR__)\*.o del $(__BUILDDIR__)\*.o
@@ -247,6 +247,22 @@ install_wxharbour:
 
 uninstall_wxharbour: 
 	-del $(PREFIX)\lib\lib$(WXHLIBNAME).a
+
+install_wxharbour_headers: 
+	if not exist $(PREFIX) mkdir $(PREFIX)
+	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
+	copy include\defs.ch $(PREFIX)\include
+	copy include\event.ch $(PREFIX)\include
+	copy include\property.ch $(PREFIX)\include
+	copy include\wx.ch $(PREFIX)\include
+	copy include\wxharbour.ch $(PREFIX)\include
+
+uninstall_wxharbour_headers: 
+	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
+	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
+	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
 
 samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all
@@ -443,7 +459,7 @@ $(__BUILDDIR__)\wxharbour_wx_staticboxsizer.o: ./src/wxbase/winlayout/wx_staticb
 $(__BUILDDIR__)\wxharbour_wx_xmldocument.o: ./src/wxbase/xmlclasses/wx_xmldocument.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-.PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour samples
+.PHONY: all install uninstall clean install_wxharbour uninstall_wxharbour install_wxharbour_headers uninstall_wxharbour_headers samples
 
 
 SHELL := $(COMSPEC)

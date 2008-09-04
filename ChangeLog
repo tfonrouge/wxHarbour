@@ -2,6 +2,16 @@
  *
  */
 
+2008-09-04 10:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+    ! added headers to install process
+
+  * wxharbour.spec
+    * added release number
+
 2008-09-04 09:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * wxharbour.spec
     * setting the version to 0.3.92

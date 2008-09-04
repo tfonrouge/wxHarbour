@@ -220,9 +220,9 @@ $(__BUILDDIR__):
 
 all: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 
-install: all install_wxharbour
+install: all install_wxharbour install_wxharbour_headers
 
-uninstall: uninstall_wxharbour
+uninstall: uninstall_wxharbour uninstall_wxharbour_headers
 
 clean: 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
@@ -245,6 +245,22 @@ install_wxharbour:
 
 uninstall_wxharbour: 
 	-del $(PREFIX)\lib\$(WXHLIBNAME).lib
+
+install_wxharbour_headers: 
+	if not exist $(PREFIX) mkdir $(PREFIX)
+	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
+	copy include\defs.ch $(PREFIX)\include
+	copy include\event.ch $(PREFIX)\include
+	copy include\property.ch $(PREFIX)\include
+	copy include\wx.ch $(PREFIX)\include
+	copy include\wxharbour.ch $(PREFIX)\include
+
+uninstall_wxharbour_headers: 
+	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
+	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
+	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
