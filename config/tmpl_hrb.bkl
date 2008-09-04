@@ -28,13 +28,6 @@
     </description>
   </option>
 
-  <option name="HBFLAGS">
-      <default-value>$(DEFAULT_HBFLAGS)</default-value>
-      <description>
-          Standard flags for Harbour compiler
-      </description>
-  </option>
-
   <option name="HBCC">
     <default-value>harbour</default-value>
     <description>
@@ -42,19 +35,42 @@
     </description>
   </option>
 
+  <option name="HBLIB_TIP">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>
+---------------------------------------------------------------
+[x]Harbour optional libraries
+---------------------------------------------------------------
+    Link in the TIP library
+    </description>
+  </option>
+
+  <option name="HBLIB_FM">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the FM library</description>
+  </option>
+
+  <option name="HBLIB_CT">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the CT library</description>
+  </option>
+
   <!-- Start Section of Harbour/xHarbour libraries names -->
-  <set var="HBLIB_VM">
+  <set var="LIB_VM">
     <if cond="HBCOMPILER=='harbour'">
       hbvm
     </if>
   </set>
-  <set var="HBLIB_VM">
+  <set var="LIB_VM">
     <if cond="HBCOMPILER=='xharbour'">
       vm
     </if>
   </set>
 
-  <set var="HBLIB_PP">
+  <set var="LIB_PP">
     <if cond="HBCOMPILER=='harbour'">
       hbpp
     </if>
@@ -63,7 +79,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_RTL">
+  <set var="LIB_RTL">
     <if cond="HBCOMPILER=='harbour'">
       hbrtl
     </if>
@@ -72,7 +88,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_RDD">
+  <set var="LIB_RDD">
     <if cond="HBCOMPILER=='harbour'">
       hbrdd
     </if>
@@ -81,7 +97,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_RDDFPT">
+  <set var="LIB_RDDFPT">
     <if cond="HBCOMPILER=='harbour'">
       rddfpt
     </if>
@@ -90,7 +106,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_RDDCDX">
+  <set var="LIB_RDDCDX">
     <if cond="HBCOMPILER=='harbour'">
       rddcdx
     </if>
@@ -99,7 +115,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_RDDNTX">
+  <set var="LIB_RDDNTX">
     <if cond="HBCOMPILER=='harbour'">
       rddntx
     </if>
@@ -108,7 +124,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_USRRDD">
+  <set var="LIB_USRRDD">
     <if cond="HBCOMPILER=='harbour'">
       hbusrrdd
     </if>
@@ -117,7 +133,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_MACRO">
+  <set var="LIB_MACRO">
     <if cond="HBCOMPILER=='harbour'">
       hbmacro
     </if>
@@ -126,7 +142,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_COMMON">
+  <set var="LIB_COMMON">
     <if cond="HBCOMPILER=='harbour'">
       hbcommon
     </if>
@@ -135,7 +151,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_LANG">
+  <set var="LIB_LANG">
     <if cond="HBCOMPILER=='harbour'">
       hblang
     </if>
@@ -144,7 +160,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_CPAGE">
+  <set var="LIB_CPAGE">
     <if cond="HBCOMPILER=='harbour'">
       hbcpage
     </if>
@@ -153,16 +169,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_FM">
-    <if cond="HBCOMPILER=='harbour'">
-      hbfm
-    </if>
-    <if cond="HBCOMPILER=='xharbour'">
-      fm
-    </if>
-  </set>
-
-  <set var="HBLIB_DEBUG">
+  <set var="LIB_DEBUG">
     <if cond="HBCOMPILER=='harbour'">
       hbdebug
     </if>
@@ -171,7 +178,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_CPLR">
+  <set var="LIB_CPLR">
     <if cond="HBCOMPILER=='harbour'">
       hbcplr
     </if>
@@ -179,7 +186,7 @@
     </if>
   </set>
 
-  <set var="HBLIB_PCRE">
+  <set var="LIB_PCRE">
     <if cond="HBCOMPILER=='harbour'">
       hbpcre
     </if>
@@ -188,31 +195,52 @@
     </if>
   </set>
 
-  <set var="HBLIB_CT">
-    <if cond="HBCOMPILER=='harbour'">
+  <set var="LIB_FM">
+    <if cond="HBLIB_FM=='yes' and HBCOMPILER=='harbour'">
+      hbfm
+    </if>
+    <if cond="HBLIB_FM=='yes' and HBCOMPILER=='xharbour'">
+      fm
+    </if>
+  </set>
+
+  <set var="LIB_CT">
+    <if cond="HBLIB_CT=='yes' and HBCOMPILER=='harbour'">
       hbct
     </if>
-    <if cond="HBCOMPILER=='xharbour'">
+    <if cond="HBLIB_CT=='yes' and HBCOMPILER=='xharbour'">
       ct
     </if>
   </set>
 
-  <set var="HBLIB_TIP">
-    <if cond="HBCOMPILER=='harbour'">
+  <set var="LIB_TIP" make_var="1">
+    <if cond="HBLIB_TIP=='yes' and HBCOMPILER=='harbour'">
       hbtip
     </if>
-    <if cond="HBCOMPILER=='xharbour'">
+    <if cond="HBLIB_TIP=='yes' and HBCOMPILER=='xharbour'">
       tip
     </if>
   </set>
 
   <!-- End Section of Harbour/xHarbour libraries names -->
 
+  <option name="HBFLAGS">
+      <default-value>$(DEFAULT_HBFLAGS)</default-value>
+      <description>
+---------------------------------------------------------------
+[x]Harbour compiler options
+---------------------------------------------------------------
+Standard flags for Harbour compiler
+      </description>
+  </option>
+
   <option name="HBBUILD">
     <values>debug,release</values>
     <values-description>Debug,Release</values-description>
     <default-value>release</default-value>
-    <description>Type of Harbour compiled binaries</description>
+    <description>
+    Type of Harbour compiled binaries
+    </description>
   </option>
 
   <option name="HBWARNL">
@@ -476,20 +504,25 @@ Where is wxWidgets installed
     <if cond="COMPILER=='gcc'">
       <ldlibs>-Wl,--start-group</ldlibs>
     </if>
-    <sys-lib>$(HBLIB_VM)</sys-lib>
-    <sys-lib>$(HBLIB_PP)</sys-lib>
-    <sys-lib>$(HBLIB_RTL)</sys-lib>
-    <sys-lib>$(HBLIB_RDD)</sys-lib>
-    <sys-lib>$(HBLIB_RDDFPT)</sys-lib>
-    <sys-lib>$(HBLIB_RDDCDX)</sys-lib>
-    <sys-lib>$(HBLIB_RDDNTX)</sys-lib>
+    <sys-lib>$(LIB_VM)</sys-lib>
+    <sys-lib>$(LIB_PP)</sys-lib>
+    <sys-lib>$(LIB_RTL)</sys-lib>
+    <sys-lib>$(LIB_RDD)</sys-lib>
+    <sys-lib>$(LIB_RDDFPT)</sys-lib>
+    <sys-lib>$(LIB_RDDCDX)</sys-lib>
+    <sys-lib>$(LIB_RDDNTX)</sys-lib>
     <sys-lib>hbsix</sys-lib>
-    <sys-lib>$(HBLIB_USRRDD)</sys-lib>
-    <sys-lib>$(HBLIB_MACRO)</sys-lib>
-    <sys-lib>$(HBLIB_COMMON)</sys-lib>
-    <sys-lib>$(HBLIB_LANG)</sys-lib>
-    <sys-lib>$(HBLIB_CPAGE)</sys-lib>
-    <sys-lib>$(HBLIB_FM)</sys-lib>
+    <sys-lib>$(LIB_USRRDD)</sys-lib>
+    <sys-lib>$(LIB_MACRO)</sys-lib>
+    <sys-lib>$(LIB_COMMON)</sys-lib>
+    <sys-lib>$(LIB_LANG)</sys-lib>
+    <sys-lib>$(LIB_CPAGE)</sys-lib>
+    <sys-lib>$(LIB_DEBUG)</sys-lib>
+    <sys-lib>$(LIB_CPLR)</sys-lib>
+    <sys-lib>$(LIB_PCRE)</sys-lib>
+    <sys-lib>$(LIB_FM)</sys-lib>
+    <sys-lib>$(LIB_CT)</sys-lib>
+    <sys-lib>$(LIB_TIP)</sys-lib>
     <if cond="TOOLSET=='unix'">
       <sys-lib>gtcrs</sys-lib>
       <sys-lib>gtsln</sys-lib>
@@ -499,11 +532,6 @@ Where is wxWidgets installed
     <sys-lib>gtcgi</sys-lib>
     <sys-lib>gtstd</sys-lib>
     <sys-lib>gtpca</sys-lib>
-    <sys-lib>$(HBLIB_DEBUG)</sys-lib>
-    <sys-lib>$(HBLIB_CPLR)</sys-lib>
-    <sys-lib>$(HBLIB_PCRE)</sys-lib>
-    <sys-lib>$(HBLIB_CT)</sys-lib>
-    <sys-lib>$(HBLIB_TIP)</sys-lib>
     <if cond="TOOLSET=='win32'">
       <sys-lib>gtwin</sys-lib>
     </if>
