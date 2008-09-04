@@ -123,6 +123,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhxmldocument.o \
 	$(__BUILDDIR__)/wxharbour_wx_harbour.o \
+	$(__BUILDDIR__)/wxharbour_wx_functions.o \
 	$(__BUILDDIR__)/wxharbour_wx_browse.o \
 	$(__BUILDDIR__)/wxharbour_wx_app.o \
 	$(__BUILDDIR__)/wxharbour_wx_panel.o \
@@ -346,6 +347,9 @@ $(__BUILDDIR__)/wxharbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocume
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxharbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxharbour_wx_browse.o: ./src/hrbcompat/tbrowse/wx_browse.cpp

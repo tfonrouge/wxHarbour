@@ -10,9 +10,6 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for header, data and library files 
-PREFIX := C:\opt
-
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX := C:\opt\bin
 
@@ -21,6 +18,9 @@ CXX := g++
 
 # Standard linker flags 
 LDFLAGS := 
+
+# Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
+HBPATH_INSTALL := $(HB_INSTALL_PREFIX)
 
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
 HBCOMPILER := harbour
@@ -85,6 +85,7 @@ WX_BUILD := release
 
 ### Variables: ###
 
+PREFIX = $(HBPATH_INSTALL)
 HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)\helloworld_helloworld.o
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
