@@ -19,6 +19,21 @@
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
 
+  <if cond="FORMAT!='gnu'">
+    <set var="HB_INSTALL_PREFIX">
+      $(envvar("HB_INSTALL_PREFIX"))
+    </set>
+    <option name="HBPATH_INSTALL">
+      <default-value>$(HB_INSTALL_PREFIX)</default-value>
+      <description>
+        Path for the installed [x]Harbour compiler (bin,lib and include dirs)
+      </description>
+    </option>
+    <set var="PREFIX" make_var="1">
+      $(HBPATH_INSTALL)
+    </set>
+  </if>
+
   <option name="HBCOMPILER">
     <values>harbour,xharbour</values>
     <values-description>www.harbour-project.org,www.xharbour.com</values-description>

@@ -10,9 +10,6 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for header, data and library files 
-PREFIX = C:\opt
-
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX = C:\opt\bin
 
@@ -21,6 +18,9 @@ CXX = cl
 
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS = 
+
+# Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
+HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
 #   harbour - www.harbour-project.org
@@ -84,14 +84,16 @@ WX_BUILD = release
 
 ### Variables: ###
 
-MAKEARGS = PREFIX="$(PREFIX)" EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" \
-	CXX="$(CXX)" CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBCOMPILER="$(HBCOMPILER)" HBCC="$(HBCC)" HBLIB_TIP="$(HBLIB_TIP)" \
-	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBFLAGS="$(HBFLAGS)" \
-	HBBUILD="$(HBBUILD)" HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" \
-	HB_BIN_PATH="$(HB_BIN_PATH)" HB_INC_PATH="$(HB_INC_PATH)" \
-	HB_LIB_PATH="$(HB_LIB_PATH)" __BUILDDIR__="$(__BUILDDIR__)" \
-	WX_PATH="$(WX_PATH)" WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
+MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
+	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
+	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
+	HBCC="$(HBCC)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_FM="$(HBLIB_FM)" \
+	HBLIB_CT="$(HBLIB_CT)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
+	HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
+	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" \
+	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
+	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
+PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
 	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
 	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \
@@ -133,6 +135,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wxhxmldocument.obj \
 	$(__BUILDDIR__)\wxharbour_wx_harbour.obj \
+	$(__BUILDDIR__)\wxharbour_wx_functions.obj \
 	$(__BUILDDIR__)\wxharbour_wx_browse.obj \
 	$(__BUILDDIR__)\wxharbour_wx_app.obj \
 	$(__BUILDDIR__)\wxharbour_wx_panel.obj \
@@ -368,6 +371,9 @@ $(__BUILDDIR__)\wxharbour_wxhxmldocument.obj: .\src\wxbase\xmlclasses\wxhxmldocu
 
 $(__BUILDDIR__)\wxharbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp
+
+$(__BUILDDIR__)\wxharbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\misc\wx_functions.cpp
 
 $(__BUILDDIR__)\wxharbour_wx_browse.obj: .\src\hrbcompat\tbrowse\wx_browse.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_browse.cpp

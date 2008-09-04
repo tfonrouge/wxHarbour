@@ -19,11 +19,6 @@ BCCDIR = $(MAKEDIR)\..
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for header, data and library files 
-!ifndef PREFIX
-PREFIX = C:\opt
-!endif
-
 # The common installation prefix for binary and DLL files 
 !ifndef EXEC_PREFIX
 EXEC_PREFIX = C:\opt\bin
@@ -32,6 +27,11 @@ EXEC_PREFIX = C:\opt\bin
 # Standard linker flags 
 !ifndef LDFLAGS
 LDFLAGS = 
+!endif
+
+# Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
+!ifndef HBPATH_INSTALL
+HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 !endif
 
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
@@ -127,6 +127,7 @@ WX_BUILD = release
 
 ### Variables: ###
 
+PREFIX = $(HBPATH_INSTALL)
 SIMPLE_OBJECTS =  \
 	$(__BUILDDIR__)\simple_simple.obj
 SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \

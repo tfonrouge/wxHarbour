@@ -2,6 +2,49 @@
  *
  */
 
+2008-09-04 13:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * ChangeLog
+  * config/tmpl_hrb.bkl
+    * added make var HBPATH_INSTALL for not 'gnu' formats to allow a correct
+      install of library and header files
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/makefile.gcc
+  * wxharbour.bkl
+    ! added src/hrbcompat/misc dir to makefiles
+
+2008-09-04 13:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+    * added make var HBPATH_INSTALL for not 'gnu' formats to allow a correct
+      installation of library and headers
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/makefile.gcc
+  * wxharbour.bkl
+    ! added src/hrbcompat/misc dir to makefiles
+
 2008-09-04 10:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
