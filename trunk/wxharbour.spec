@@ -4,7 +4,7 @@
 
 %define name      wxharbour
 %define cname     wxHarbour
-%define version   0.3.98
+%define version   0.3.92
 
 Summary:    A portable GUI toolkit for [x]Harbour using wxWidgets
 Name:       %{name}
