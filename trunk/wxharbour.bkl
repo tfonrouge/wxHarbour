@@ -32,7 +32,7 @@
     </include>
     <!--<install-to>$(HB_LIB_PATH)</install-to>-->
     <install-to>$(LIBDIR)</install-to>
-    <!--<install-headers-to>$(prefix)</install-headers-to>-->
+    <install-headers-to>$(PREFIX)</install-headers-to>
   </wxharbour-lib>
 
   <subproject id="samples">
