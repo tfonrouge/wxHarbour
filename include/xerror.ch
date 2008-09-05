@@ -6,10 +6,12 @@
 /* THROW => generate error */
 #xtranslate THROW(<oErr>) => (Eval(ErrorBlock(), <oErr>), Break(<oErr>))
 
+#ifndef __XHARBOUR__
 /* TRY / CATCH / FINALLY / END */
 #xcommand TRY  => BEGIN SEQUENCE WITH {|oErr| Break( oErr )}
 #xcommand CATCH [<!oErr!>] => RECOVER [USING <oErr>] <-oErr->
 #xcommand FINALLY => ALWAYS
+#endif
 
 #xcommand RAISE ERROR <cDescription> ;
                     [ SUBSYSTEM <cSubsystem> ] ;

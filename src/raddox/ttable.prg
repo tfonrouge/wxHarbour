@@ -3,6 +3,10 @@
   Teo. Mexico 2007
 */
 
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
+#endif
+
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"
@@ -404,7 +408,11 @@ PROCEDURE Cancel CLASS TTable
       ENDIF
     NEXT
     EXIT
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
 
   END
 
@@ -465,7 +473,11 @@ FUNCTION CopyRecord( origin ) CLASS TTable
       ENDIF
     NEXT
     EXIT
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
     RAISE ERROR "Unknown Record from Origin"
     RETURN .F.
   END
@@ -912,8 +924,13 @@ RETURN ::FInstances[ ::ClassName, "DbStruct" ]
   STATIC FUNCTION Make_cb_GetDisplayFields( Table, n )
 
     IF !Table:FieldList[ n ]:IsDerivedFrom("TObjectField")
+      #ifdef __XHARBOUR__
+      RETURN ;
+        <|Self|
+      #else
       RETURN ;
         {|Self|
+      #endif
           LOCAL Result
           IF ::__Obj:Eof()
             Result := ::__Obj:FieldList[ n ]:EmptyValue
@@ -925,16 +942,29 @@ RETURN ::FInstances[ ::ClassName, "DbStruct" ]
            */
           ::__FObj:Alias:SyncFromRecNo()
           RETURN Result
+        #ifdef __XHARBOUR__
+        >
+        #else
         }
+        #endif
     ENDIF
 
+    #ifdef __XHARBOUR__
+    RETURN ;
+      <|Self|
+    #else
     RETURN ;
       {|Self|
+    #endif
         IF ::__Obj:FieldList[ n ]:DataObj != NIL
           RETURN ::__Obj:FieldList[ n ]:DataObj:DisplayFields
         ENDIF
         RETURN NIL
+      #ifdef __XHARBOUR__
+      >
+      #else
       }
+      #endif
 
 FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL DisplayFieldsClass
@@ -947,13 +977,7 @@ FUNCTION GetDisplayFields( directAlias ) CLASS TTable
 
       DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields" )
 
-      DisplayFieldsClass:AddInline( "__Obj", ;
-        {|Self|
-          PushWS()
-          ::__FObj:SyncRecNo( directAlias )
-          PopWS()
-          RETURN ::__FObj
-        } )
+      DisplayFieldsClass:AddInline( "__Obj", {|Self| PushWS(), ::__FObj:SyncRecNo( directAlias ),PopWS(), ::__FObj } )
 
       DisplayFieldsClass:AddData( "__FObj" )
 
@@ -972,11 +996,7 @@ FUNCTION GetDisplayFields( directAlias ) CLASS TTable
 
       // Create the MasterSource field access reference
       IF ::FMasterSource != NIL
-        DisplayFieldsClass:AddInline( "MasterSource", ;
-          {|Self|
-            Self:__Obj:MasterSource:SyncRecNo()
-            RETURN Self:__Obj:MasterSource:GetDisplayFields()
-          } )
+        DisplayFieldsClass:AddInline( "MasterSource", {|Self| ::__Obj:MasterSource:SyncRecNo(), ::__Obj:MasterSource:GetDisplayFields() } )
       ENDIF
 
       DisplayFieldsClass:Create()
@@ -1263,7 +1283,11 @@ FUNCTION RawSeek( Value, index ) CLASS TTable
       AIndex := index
       EXIT
     ENDIF
+  #ifdef __XHARBOUR__
+  DEFAULT
+  #else
   OTHERWISE
+  #endif
     RAISE ERROR "Unknown index reference..."
   ENDSWITCH
 
@@ -1364,7 +1388,11 @@ FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
       AIndex := index
       EXIT
     ENDIF
+  #ifdef __XHARBOUR__
+  DEFAULT
+  #else
   OTHERWISE
+  #endif
     RAISE ERROR "Unknown index reference..."
   ENDSWITCH
 

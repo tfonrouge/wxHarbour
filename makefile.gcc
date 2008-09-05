@@ -271,6 +271,7 @@ install_wxharbour_headers:
 	copy include\property.ch $(PREFIX)\include
 	copy include\raddox.ch $(PREFIX)\include
 	copy include\wx.ch $(PREFIX)\include
+	copy include\wx_hbcompat.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
 	copy include\xerror.ch $(PREFIX)\include
 
@@ -280,6 +281,7 @@ uninstall_wxharbour_headers:
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
 	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
+	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
 	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
 

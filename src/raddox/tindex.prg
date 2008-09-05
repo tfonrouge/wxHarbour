@@ -3,10 +3,13 @@
   Teo. Mexico 2007
 */
 
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
+#endif
+
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"
-
 #include "xerror.ch"
 
 /*
@@ -324,7 +327,11 @@ PROCEDURE SetField( nIndex, XField ) CLASS TIndex
   CASE 'U'
     AField := NIL
     EXIT
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
     Alert("! : Not a Valid Field Identifier...")
     RETURN
   END

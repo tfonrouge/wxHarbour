@@ -2,6 +2,21 @@
  *
  */
 
+2008-09-05 14:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wx_hbcompat.ch
+    * Aimed to xHarbour enviroment to hold fixes for compatibility with
+      Harbour compiler
+
+  * include/xerror.ch
+    ! Fixed for xHarbour compiler
+
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+  * src/raddox/tfield.prg
+    ! Fixings for xHarbour compiler:
+      * SWITCH/CASE/ *OTHERWISE* / END  => *DEFAULT*
+      * {|| ; => <|| ;   > => }
+
 2008-09-05 12:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + samples/networking
   +   samples/networking/GNUmakefile
