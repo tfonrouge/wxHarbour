@@ -2,6 +2,10 @@
  *
  */
 
+2008-09-05 14:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    + added /usr/local/include/xerror.ch
+
 2008-09-05 14:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + include/wx_hbcompat.ch
     * Aimed to xHarbour enviroment to hold fixes for compatibility with
@@ -45,7 +49,7 @@
   + src/raddox/ttable.prg
   + src/raddox/xdoutils.c
     + added RADDOX set of tools
-      ; The name stands of "Remote Access Data Object eXtensible"
+      ; The name stands for "Remote Access Data Object eXtensible"
       ; Aims to be a Object Database tool client/server based
       ; TODO: Write the docs related:
       ;   - Description
