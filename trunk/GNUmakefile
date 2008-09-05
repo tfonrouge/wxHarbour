@@ -172,6 +172,7 @@ WXHARBOUR_HEADERS =  \
 	include/property.ch \
 	include/raddox.ch \
 	include/wx.ch \
+	include/wx_hbcompat.ch \
 	include/wxharbour.ch \
 	include/xerror.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \

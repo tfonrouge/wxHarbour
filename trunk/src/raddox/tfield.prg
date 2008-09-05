@@ -3,6 +3,10 @@
   Teo. Mexico 2007
 */
 
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
+#endif
+
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"
@@ -288,7 +292,11 @@ FUNCTION GetAsVariant CLASS TField
       Result := ::GetBuffer()
     ENDIF
     EXIT
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
     RAISE TFIELD ::Name ERROR "GetAsVariant(): Field Method Type not supported: " + ::FFieldMethodType
   END
 
@@ -517,7 +525,11 @@ FUNCTION IsValid( Value ) CLASS TField
         RETURN .F.
       ENDIF
       EXIT
+    #ifdef __XHARBOUR__
+    DEFAULT
+    #else
     OTHERWISE
+    #endif
       Alert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( Value ) + "'")
     ENDSWITCH
   ENDIF
@@ -662,7 +674,11 @@ PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
     RETURN
 
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
 
   END
 
@@ -718,7 +734,11 @@ PROCEDURE SetData( Value ) CLASS TField
 
     EXIT
 
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
 
     RETURN
 
@@ -1073,7 +1093,11 @@ FUNCTION GetAsString CLASS TStringField
       Result += AField:AsString()
     NEXT
     EXIT
+#ifdef __XHARBOUR__
+  DEFAULT
+#else
   OTHERWISE
+#endif
     Result := ::GetAsVariant()
   END
 
