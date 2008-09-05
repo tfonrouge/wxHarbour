@@ -40,8 +40,6 @@ ENDCLASS
   Teo. Mexico 2006
 */
 PROCEDURE OnCreate CLASS wxFrame
-  ? "OnCreate..."
-  ?
 RETURN
 
 /*

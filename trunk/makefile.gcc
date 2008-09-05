@@ -13,6 +13,9 @@
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX := C:\opt\bin
 
+# C compiler 
+CC := gcc
+
 # C++ compiler 
 CXX := g++
 
@@ -94,6 +97,10 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 CPPDEPS = -MT$@ -MF$@.d -MD
 PREFIX = $(HBPATH_INSTALL)
+WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include -W -Wall -O2 \
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -D__WXMSW__ \
+	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) \
+	-Iinclude $(CPPFLAGS) -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include -W -Wall -O2 \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -D__WXMSW__ \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) \
@@ -102,6 +109,11 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhfuncs.o \
 	$(__BUILDDIR__)\wxharbour_wxhcolumn.o \
 	$(__BUILDDIR__)\wxharbour_wxhbrowse.o \
+	$(__BUILDDIR__)\wxharbour_talias.o \
+	$(__BUILDDIR__)\wxharbour_tdatabase.o \
+	$(__BUILDDIR__)\wxharbour_tfield.o \
+	$(__BUILDDIR__)\wxharbour_tindex.o \
+	$(__BUILDDIR__)\wxharbour_ttable.o \
 	$(__BUILDDIR__)\wxharbour_wxhapp.o \
 	$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)\wxharbour_wxhwindow.o \
@@ -132,6 +144,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhsizer.o \
 	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.o \
 	$(__BUILDDIR__)\wxharbour_wxhxmldocument.o \
+	$(__BUILDDIR__)\wxharbour_xdoutils.o \
 	$(__BUILDDIR__)\wxharbour_wx_harbour.o \
 	$(__BUILDDIR__)\wxharbour_wx_functions.o \
 	$(__BUILDDIR__)\wxharbour_wx_browse.o \
@@ -256,15 +269,19 @@ install_wxharbour_headers:
 	copy include\defs.ch $(PREFIX)\include
 	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
+	copy include\raddox.ch $(PREFIX)\include
 	copy include\wx.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
+	copy include\xerror.ch $(PREFIX)\include
 
 uninstall_wxharbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
 	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
+	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
 
 samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all
@@ -276,6 +293,21 @@ $(__BUILDDIR__)\wxharbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxharbour_wxhbrowse.o: ./src/hrbcompat/tbrowse/wxhbrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_talias.o: ./src/raddox/talias.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_tdatabase.o: ./src/raddox/tdatabase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_tfield.o: ./src/raddox/tfield.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_tindex.o: ./src/raddox/tindex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_ttable.o: ./src/raddox/ttable.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxharbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
@@ -367,6 +399,9 @@ $(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.o: ./src/wxbase/winlayout/wxhstaticb
 
 $(__BUILDDIR__)\wxharbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocument.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxharbour_xdoutils.o: ./src/raddox/xdoutils.c
+	$(CC) -c -o $@ $(WXHARBOUR_CFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<

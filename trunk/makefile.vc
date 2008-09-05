@@ -13,6 +13,9 @@
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX = C:\opt\bin
 
+# C compiler 
+CC = cl
+
 # C++ compiler 
 CXX = cl
 
@@ -94,6 +97,11 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
+WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
+	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \
+	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude $(CPPFLAGS)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
 	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
 	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \
@@ -104,6 +112,11 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxharbour_wxhcolumn.obj \
 	$(__BUILDDIR__)\wxharbour_wxhbrowse.obj \
+	$(__BUILDDIR__)\wxharbour_talias.obj \
+	$(__BUILDDIR__)\wxharbour_tdatabase.obj \
+	$(__BUILDDIR__)\wxharbour_tfield.obj \
+	$(__BUILDDIR__)\wxharbour_tindex.obj \
+	$(__BUILDDIR__)\wxharbour_ttable.obj \
 	$(__BUILDDIR__)\wxharbour_wxhapp.obj \
 	$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.obj \
 	$(__BUILDDIR__)\wxharbour_wxhwindow.obj \
@@ -134,6 +147,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxharbour_wxhsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj \
 	$(__BUILDDIR__)\wxharbour_wxhxmldocument.obj \
+	$(__BUILDDIR__)\wxharbour_xdoutils.obj \
 	$(__BUILDDIR__)\wxharbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxharbour_wx_functions.obj \
 	$(__BUILDDIR__)\wxharbour_wx_browse.obj \
@@ -255,15 +269,19 @@ install_wxharbour_headers:
 	copy include\defs.ch $(PREFIX)\include
 	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
+	copy include\raddox.ch $(PREFIX)\include
 	copy include\wx.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
+	copy include\xerror.ch $(PREFIX)\include
 
 uninstall_wxharbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
 	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
+	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
@@ -277,6 +295,21 @@ $(__BUILDDIR__)\wxharbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxharbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_talias.obj: .\src\raddox\talias.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_tdatabase.obj: .\src\raddox\tdatabase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_tfield.obj: .\src\raddox\tfield.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_tindex.obj: .\src\raddox\tindex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_ttable.obj: .\src\raddox\ttable.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxharbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
@@ -368,6 +401,9 @@ $(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj: .\src\wxbase\winlayout\wxhstati
 
 $(__BUILDDIR__)\wxharbour_wxhxmldocument.obj: .\src\wxbase\xmlclasses\wxhxmldocument.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxharbour_xdoutils.obj: .\src\raddox\xdoutils.c
+	$(CC) /c /nologo /TC /Fo$@ $(WXHARBOUR_CFLAGS) .\src\raddox\xdoutils.c
 
 $(__BUILDDIR__)\wxharbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp

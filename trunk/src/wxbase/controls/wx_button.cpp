@@ -33,7 +33,7 @@ HB_FUNC( WXBUTTON_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-  wxWindowID id = hb_parnl( 2 );
+  wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   const wxString& label = wxString( hb_parcx(3), wxConvLocal );
   const wxPoint& pos = hb_par_wxPoint(4);
   const wxSize& size = hb_par_wxSize(5);

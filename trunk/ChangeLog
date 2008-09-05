@@ -2,32 +2,54 @@
  *
  */
 
-2008-09-04 13:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-  * ChangeLog
-  * config/tmpl_hrb.bkl
-    * added make var HBPATH_INSTALL for not 'gnu' formats to allow a correct
-      install of library and header files
+2008-09-05 12:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/networking
+  +   samples/networking/GNUmakefile
+  +   samples/networking/makefile.bcc
+  +   samples/networking/makefile.gcc
+  +   samples/networking/makefile.vc
+  - samples/simple
+  - samples/simple/GNUmakefile
+  - samples/simple/makefile.bcc
+  - samples/simple/makefile.gcc
+  - samples/simple/makefile.vc
+  - samples/simple/simple.bkl
+  - samples/simple/simple.prg
+    * renamed "simple" to "networking" samples of networking classes
 
   * GNUmakefile
+  + include/raddox.ch
+  + include/xerror.ch
   * makefile.gcc
   * makefile.vc
-  * samples/dbbrowser/makefile.gcc
-  * samples/dbbrowser/makefile.vc
-  * samples/helloworld1/makefile.gcc
-  * samples/helloworld1/makefile.vc
-  * samples/helloworld/makefile.gcc
-  * samples/helloworld/makefile.vc
-  * samples/simple/makefile.bcc
-  * samples/simple/makefile.gcc
-  * samples/simple/makefile.vc
-  * samples/sizers/makefile.gcc
-  * wxharbour.bkl
-    ! added src/hrbcompat/misc dir to makefiles
+  + src/raddox
+  + src/raddox/talias.prg
+  + src/raddox/tdatabase.prg
+  + src/raddox/tfield.prg
+  + src/raddox/tindex.prg
+  + src/raddox/ttable.prg
+  + src/raddox/xdoutils.c
+    + added RADDOX set of tools
+      ; The name stands of "Remote Access Data Object eXtensible"
+      ; Aims to be a Object Database tool client/server based
+      ; TODO: Write the docs related:
+      ;   - Description
+      ;   - Functions
+      ;   - Status
 
-2008-09-04 13:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/controls/wx_button.cpp
+    ! Set id param to wxID_ANY if NIL value is given
+
+  * src/wxbase/manwindows/wxhframe.prg
+    - removed unneeded message
+
+  * wxharbour.spec
+    + added raddox.ch
+
+2008-09-04 13:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
-    * added make var HBPATH_INSTALL for not 'gnu' formats to allow a correct
-      installation of library and headers
+    * added make var HBPATH_INSTALL for non 'gnu' formats to allow a correct
+      install of library and header files
 
   * GNUmakefile
   * makefile.gcc

@@ -75,9 +75,9 @@ WX_BUILD := release
 
 ### Variables: ###
 
-SIMPLE_OBJECTS =  \
-	$(__BUILDDIR__)/simple_simple.o
-SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+NETWORKING_OBJECTS =  \
+	$(__BUILDDIR__)/networking_simple.o
+NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -I../../include
 
 ### Conditionally set variables: ###
@@ -236,7 +236,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: ./simple
+all: ./networking
 
 install: all
 
@@ -245,16 +245,16 @@ uninstall:
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
-	rm -f ./simple
+	rm -f ./networking
 
-./simple: $(SIMPLE_OBJECTS)
-	$(CXX) -o $@ $(SIMPLE_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+./networking: $(NETWORKING_OBJECTS)
+	$(CXX) -o $@ $(NETWORKING_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
 
 run: all
-	./simple
+	./networking
 
-$(__BUILDDIR__)/simple_simple.o: ./simple.prg
-	$(HBCC) $(SIMPLE_HBFLAGS) -o$@ $<
+$(__BUILDDIR__)/networking_simple.o: ./simple.prg
+	$(HBCC) $(NETWORKING_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 
