@@ -4,15 +4,6 @@
 #     Do not modify, all changes will be overwritten!
 # =========================================================================
 
-.autodepend
-
-!ifndef BCCDIR
-!ifndef MAKEDIR
-!error Your Borland compiler does not define MAKEDIR. Please define the BCCDIR variable, e.g. BCCDIR=d:\bc4
-!endif
-BCCDIR = $(MAKEDIR)\..
-!endif
-
 
 
 # -------------------------------------------------------------------------
@@ -20,104 +11,70 @@ BCCDIR = $(MAKEDIR)\..
 # -------------------------------------------------------------------------
 
 # The common installation prefix for binary and DLL files 
-!ifndef EXEC_PREFIX
 EXEC_PREFIX = C:\opt\bin
-!endif
 
 # Standard linker flags 
-!ifndef LDFLAGS
 LDFLAGS = 
-!endif
 
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
-!ifndef HBPATH_INSTALL
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
-!endif
 
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-!ifndef HBCOMPILER
+#   harbour - www.harbour-project.org
+#   xharbour - www.xharbour.com
 HBCOMPILER = harbour
-!endif
 
 # [x]Harbour compiler executable name 
-!ifndef HBCC
 HBCC = harbour
-!endif
 
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
 #     Link in the TIP library [yes,no]
-!ifndef HBLIB_TIP
 HBLIB_TIP = no
-!endif
 
 # Link in the FM library [yes,no]
-!ifndef HBLIB_FM
 HBLIB_FM = no
-!endif
 
 # Link in the CT library [yes,no]
-!ifndef HBLIB_CT
 HBLIB_CT = no
-!endif
 
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-!ifndef HBFLAGS
 HBFLAGS = -n -a -v -m -go
-!endif
 
 # Type of Harbour compiled binaries [debug,release]
-!ifndef HBBUILD
 HBBUILD = release
-!endif
 
 # Warning level for the Harbour Compiler [0,1,2,3]
-!ifndef HBWARNL
 HBWARNL = 3
-!endif
 
 # Exit severity level for the Harbour Compiler [0,1,2]
-!ifndef HBEXITSL
 HBEXITSL = 2
-!endif
 
 # Where to search for Harbour includes 
-!ifndef HB_INC_PATH
 HB_INC_PATH = $(HB_INC_INSTALL)
-!endif
 
 # Where to search for Harbour libs 
-!ifndef HB_LIB_PATH
 HB_LIB_PATH = $(HB_LIB_INSTALL)
-!endif
 
 # Where the object and lib files are built 
-!ifndef __BUILDDIR__
-__BUILDDIR__ = obj\bcc-win32
-!endif
+__BUILDDIR__ = obj\vc-win32
 
 # ---------------------------------------------------------------
 # wxWidgets flags (version 2.8 required)
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-!ifndef WX_PATH
 WX_PATH = C:\wxWidgets-2.8.8
-!endif
 
 # Encoding [ansi,unicode]
-!ifndef WX_ENCODING
 WX_ENCODING = unicode
-!endif
 
 #  [release,debug]
-!ifndef WX_BUILD
 WX_BUILD = release
-!endif
 
 
 
@@ -128,12 +85,12 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
-SIMPLE_OBJECTS =  \
-	$(__BUILDDIR__)\simple_simple.obj
-SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
-	-I..\..\include
+NETWORKING_OBJECTS =  \
+	$(__BUILDDIR__)\networking_simple.obj
+NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
+	/I..\..\include
 
 ### Conditionally set variables: ###
 
@@ -261,7 +218,7 @@ __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING).lib
 __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING)-$(WX_BUILD).lib
 !endif
 !if "$(WX_BUILD)" == "debug"
-__WX_DEBUG_INFO_6 = -v
+__WX_DEBUG_INFO_8 = /DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 WX_LIBID = d
@@ -280,7 +237,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: .\simple.exe
+all: .\networking.exe
 
 install: all
 
@@ -289,22 +246,19 @@ uninstall:
 clean: 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
-	-if exist $(__BUILDDIR__)\*.csm del $(__BUILDDIR__)\*.csm
-	-if exist .\simple.exe del .\simple.exe
-	-if exist .\simple.tds del .\simple.tds
-	-if exist .\simple.ilc del .\simple.ilc
-	-if exist .\simple.ild del .\simple.ild
-	-if exist .\simple.ilf del .\simple.ilf
-	-if exist .\simple.ils del .\simple.ils
+	-if exist $(__BUILDDIR__)\*.pch del $(__BUILDDIR__)\*.pch
+	-if exist .\networking.exe del .\networking.exe
+	-if exist .\networking.ilk del .\networking.ilk
+	-if exist .\networking.pdb del .\networking.pdb
 
-.\simple.exe: $(SIMPLE_OBJECTS)
-	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -aa -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_6) -L$(WX_PATH)\lib\bcc_lib -L..\..\$(__BUILDDIR__) @&&|
-	c0w32.obj $(SIMPLE_OBJECTS),$@,, $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) gtcgi.lib gtstd.lib gtpca.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib import32.lib cw32.lib,,
-|
+.\networking.exe: $(NETWORKING_OBJECTS)
+	link /NOLOGO /OUT:$@ $(LDFLAGS) /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) $(__WX_DEBUG_INFO_8) /pdb:".\networking.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) @<<
+	$(NETWORKING_OBJECTS)  $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) gtcgi.lib gtstd.lib gtpca.lib gtwin.lib $(__WXHLIBNAME_p) kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib
+<<
 
 run: all
-	.\simple.exe
+	.\networking.exe
 
-$(__BUILDDIR__)\simple_simple.obj: .\simple.prg
-	$(HBCC) $(SIMPLE_HBFLAGS) -o$@ $**
+$(__BUILDDIR__)\networking_simple.obj: .\simple.prg
+	$(HBCC) $(NETWORKING_HBFLAGS) -o$@ $**
 

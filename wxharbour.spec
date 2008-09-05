@@ -46,6 +46,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/local/include/defs.ch
 /usr/local/include/event.ch
 /usr/local/include/property.ch
+/usr/local/include/raddox.ch
 /usr/local/include/wx.ch
 /usr/local/include/wxharbour.ch
 /usr/local/lib/libwxHarbour-unicode.a

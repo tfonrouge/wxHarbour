@@ -86,9 +86,9 @@ WX_BUILD := release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
-SIMPLE_OBJECTS =  \
-	$(__BUILDDIR__)\simple_simple.o
-SIMPLE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+NETWORKING_OBJECTS =  \
+	$(__BUILDDIR__)\networking_simple.o
+NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
 	-I..\..\include
@@ -264,7 +264,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: .\simple.exe
+all: .\networking.exe
 
 install: all
 
@@ -273,16 +273,16 @@ uninstall:
 clean: 
 	-if exist $(__BUILDDIR__)\*.o del $(__BUILDDIR__)\*.o
 	-if exist $(__BUILDDIR__)\*.d del $(__BUILDDIR__)\*.d
-	-if exist .\simple.exe del .\simple.exe
+	-if exist .\networking.exe del .\networking.exe
 
-.\simple.exe: $(SIMPLE_OBJECTS)
-	$(CXX) -o $@ $(SIMPLE_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcgi -lgtstd -lgtpca -lgtwin $(__WXHLIBNAME_p) -Wl,--end-group -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat
+.\networking.exe: $(NETWORKING_OBJECTS)
+	$(CXX) -o $@ $(NETWORKING_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcgi -lgtstd -lgtpca -lgtwin $(__WXHLIBNAME_p) -Wl,--end-group -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat
 
 run: all
-	.\simple.exe
+	.\networking.exe
 
-$(__BUILDDIR__)\simple_simple.o: ./simple.prg
-	$(HBCC) $(SIMPLE_HBFLAGS) -o$@ $<
+$(__BUILDDIR__)\networking_simple.o: ./simple.prg
+	$(HBCC) $(NETWORKING_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

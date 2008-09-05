@@ -25,6 +25,9 @@ AR := ar
 #  
 RANLIB := ranlib
 
+# C compiler 
+CC := gcc
+
 # C++ compiler 
 CXX := g++
 
@@ -85,6 +88,9 @@ WX_BUILD := release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
+WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
+	$(CPPFLAGS) -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
 	$(CPPFLAGS) -fno-strict-aliasing `wx-config --cxxflags`
@@ -92,6 +98,11 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxharbour_wxhcolumn.o \
 	$(__BUILDDIR__)/wxharbour_wxhbrowse.o \
+	$(__BUILDDIR__)/wxharbour_talias.o \
+	$(__BUILDDIR__)/wxharbour_tdatabase.o \
+	$(__BUILDDIR__)/wxharbour_tfield.o \
+	$(__BUILDDIR__)/wxharbour_tindex.o \
+	$(__BUILDDIR__)/wxharbour_ttable.o \
 	$(__BUILDDIR__)/wxharbour_wxhapp.o \
 	$(__BUILDDIR__)/wxharbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxharbour_wxhwindow.o \
@@ -122,6 +133,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxharbour_wxhsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o \
 	$(__BUILDDIR__)/wxharbour_wxhxmldocument.o \
+	$(__BUILDDIR__)/wxharbour_xdoutils.o \
 	$(__BUILDDIR__)/wxharbour_wx_harbour.o \
 	$(__BUILDDIR__)/wxharbour_wx_functions.o \
 	$(__BUILDDIR__)/wxharbour_wx_browse.o \
@@ -158,8 +170,10 @@ WXHARBOUR_HEADERS =  \
 	include/defs.ch \
 	include/event.ch \
 	include/property.ch \
+	include/raddox.ch \
 	include/wx.ch \
-	include/wxharbour.ch
+	include/wxharbour.ch \
+	include/xerror.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
@@ -256,6 +270,21 @@ $(__BUILDDIR__)/wxharbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
 $(__BUILDDIR__)/wxharbour_wxhbrowse.o: ./src/hrbcompat/tbrowse/wxhbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxharbour_talias.o: ./src/raddox/talias.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_tdatabase.o: ./src/raddox/tdatabase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_tfield.o: ./src/raddox/tfield.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_tindex.o: ./src/raddox/tindex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_ttable.o: ./src/raddox/ttable.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxharbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -345,6 +374,9 @@ $(__BUILDDIR__)/wxharbour_wxhstaticboxsizer.o: ./src/wxbase/winlayout/wxhstaticb
 
 $(__BUILDDIR__)/wxharbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocument.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxharbour_xdoutils.o: ./src/raddox/xdoutils.c
+	$(CC) -c -o $@ $(WXHARBOUR_CFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxharbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
