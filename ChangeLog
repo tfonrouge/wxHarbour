@@ -2,6 +2,10 @@
  *
  */
 
+2008-09-05 16:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + README.xharbour_users
+    * instructions for xHarbour users
+
 2008-09-05 14:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * wxharbour.spec
     ! Forgot to include /usr/local/include/wx_hbcompat.ch
