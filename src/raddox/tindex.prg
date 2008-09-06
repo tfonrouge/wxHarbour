@@ -127,7 +127,7 @@ RETURN Self
   CustomKeyDel
   Teo. Mexico 2006
 */
-PROCEDURE CustomKeyDel CLASS TIndex
+METHOD PROCEDURE CustomKeyDel CLASS TIndex
   LOCAL KeyVal
 
   IF !::FCustom
@@ -145,7 +145,7 @@ RETURN
   CustomKeyUpdate
   Teo. Mexico 2006
 */
-PROCEDURE CustomKeyUpdate CLASS TIndex
+METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
   LOCAL KeyVal
   LOCAL Value
 
@@ -180,7 +180,7 @@ RETURN
   ExistKey
   Teo. Mexico 2007
 */
-FUNCTION ExistKey( keyValue ) CLASS TIndex
+METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
 RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + ;
                                         iif( ::FCaseSensitive, ;
                                           keyValue, ;
@@ -191,7 +191,7 @@ RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + ;
   FirstLast
   Teo. Mexico 2008
 */
-FUNCTION FirstLast( n ) CLASS TIndex
+METHOD FUNCTION FirstLast( n ) CLASS TIndex
   LOCAL masterKeyString
 
   IF Empty( masterKeyString := ::MasterKeyString )
@@ -219,7 +219,7 @@ RETURN ::FTable:Found()
   GetField
   Teo. Mexico 2006
 */
-FUNCTION GetField( nIndex ) CLASS TIndex
+METHOD FUNCTION GetField( nIndex ) CLASS TIndex
   LOCAL AField
 
   SWITCH nIndex
@@ -243,7 +243,7 @@ RETURN AField
   Next
   Teo. Mexico 2007
 */
-PROCEDURE Next( numRecs ) CLASS TIndex
+METHOD PROCEDURE Next( numRecs ) CLASS TIndex
 
   ::FTable:Alias:Skip( numRecs, ::FName )
 
@@ -255,7 +255,7 @@ RETURN
   RawSeek
   Teo. Mexico 2008
 */
-FUNCTION RawSeek( Value ) CLASS TIndex
+METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 
   IF ::FTable:State $ {dsEdit,dsInsert}
     ::FTable:Post()
@@ -271,7 +271,7 @@ RETURN ::FTable:Found()
   Seek
   Teo. Mexico 2007
 */
-FUNCTION Seek( keyValue, lSoftSeek ) CLASS TIndex
+METHOD FUNCTION Seek( keyValue, lSoftSeek ) CLASS TIndex
 
   IF ::FTable:State $ {dsEdit,dsInsert}
     ::FTable:Post()
@@ -289,7 +289,7 @@ RETURN ::FTable:Found()
   SetCustom
   Teo. Mexico 2006
 */
-PROCEDURE SetCustom( Custom ) CLASS TIndex
+METHOD PROCEDURE SetCustom( Custom ) CLASS TIndex
 
   ::FCustom := Custom
 
@@ -301,7 +301,7 @@ RETURN
   SetField
   Teo. Mexico 2006
 */
-PROCEDURE SetField( nIndex, XField ) CLASS TIndex
+METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
   LOCAL AField
 
   SWITCH ValType( XField )

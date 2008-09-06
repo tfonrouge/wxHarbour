@@ -2,7 +2,7 @@
 Building wxHarbour with the xHarbour compiler
 -----------------------------------------------------------
 
-xHarbour users need to use additional parameters in order to
+xHarbour users needs to use additional parameters in order to
 succesfully build the wxHarbour library and samples. This parameters
 can be changed in the make file or can be specified as parameters
 (this is the prefered mode) on the command line.
@@ -12,13 +12,14 @@ of harbour/xharbour (case is important).
 
 HBCOMPILER=xharbour
 
-Additionally the warning level for the xHarbour compiler differs for the Harbour one, and is needed to lower the warning level to "1" when using
-the xHarbour compiler. The HBWARNL var in the makefile holds the warning
-level for the compiler.
+Additionally the warning level for the xHarbour compiler behaves differ
+for the Harbour one, and is needed to lower the warning level to "1" when
+using the xHarbour compiler. The HBWARNL var in the makefile holds the
+warning level for the compiler.
 
 HBWARNL=1
 
-This parameters can be specified in the command line when calling
+This parameters can be specified directly in the command line when calling
 the make command:
 
 $ make HBCOMPILER=xharbour HBWARNL=1

@@ -285,7 +285,7 @@ RETURN Self
   AddMessageField
   Teo. Mexico 2006
 */
-PROCEDURE AddMessageField( MessageName, AField ) CLASS TTable
+METHOD PROCEDURE AddMessageField( MessageName, AField ) CLASS TTable
   LOCAL n
 
 //   IF !::Instances[ ::ClassName ]["Initializing"]
@@ -317,7 +317,7 @@ RETURN
   AddRec
   Teo. Mexico 2006
 */
-FUNCTION AddRec CLASS TTable
+METHOD FUNCTION AddRec CLASS TTable
   LOCAL Result
   LOCAL AField
   LOCAL errObj
@@ -384,7 +384,7 @@ RETURN Result
   Cancel
   Teo. Mexico 2006
 */
-PROCEDURE Cancel CLASS TTable
+METHOD PROCEDURE Cancel CLASS TTable
   LOCAL AField
 
   IF !::State $ { dsInsert, dsEdit }
@@ -424,7 +424,7 @@ RETURN
   ChildSource
   Teo. Mexico 2008
 */
-FUNCTION ChildSource( tableName ) CLASS TTable
+METHOD FUNCTION ChildSource( tableName ) CLASS TTable
   LOCAL table
 
   /* tableName is in the DetailSourceList */
@@ -441,7 +441,7 @@ RETURN table
   CopyRecord
   Teo. Mexico 2007
 */
-FUNCTION CopyRecord( origin ) CLASS TTable
+METHOD FUNCTION CopyRecord( origin ) CLASS TTable
   LOCAL AField
   LOCAL AField1
   LOCAL entry
@@ -488,7 +488,7 @@ RETURN .T.
   Count : number of records
   Teo. Mexico 2008
 */
-FUNCTION Count CLASS TTable
+METHOD FUNCTION Count CLASS TTable
   LOCAL nCount := 0
   LOCAL RecNo
   LOCAL key
@@ -514,7 +514,7 @@ RETURN nCount
   DbEval
   Teo. M�xico 2008
 */
-PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
+METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
   LOCAL DetailSourceList
 
   IF ::FMasterSource != NIL
@@ -563,7 +563,7 @@ RETURN Result
   Delete
   Teo. Mexico 2006
 */
-FUNCTION Delete( lDeleteChilds ) CLASS TTable
+METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
   LOCAL AField
 
   IF !::State $ { dsBrowse, dsInsert }
@@ -597,7 +597,7 @@ RETURN .T.
   DeleteChilds
   Teo. Mexico 2006
 */
-FUNCTION DeleteChilds CLASS TTable
+METHOD FUNCTION DeleteChilds CLASS TTable
   LOCAL childTableName
   LOCAL ChildDB
   LOCAL nrec
@@ -630,7 +630,7 @@ RETURN .T.
   Destroy
   Teo. Mexico 2008
 */
-PROCEDURE Destroy CLASS TTable
+METHOD PROCEDURE Destroy CLASS TTable
 //   LOCAL AField
 
   IF ::pSelf != NIL
@@ -657,7 +657,7 @@ RETURN
   Edit
   Teo. Mexico 2006
 */
-FUNCTION Edit CLASS TTable
+METHOD FUNCTION Edit CLASS TTable
   LOCAL AField
 
   IF !::State = dsBrowse
@@ -684,7 +684,7 @@ RETURN .T.
   FieldByName
   Teo. Mexico 2006
 */
-FUNCTION FieldByName( Name ) CLASS TTable
+METHOD FUNCTION FieldByName( Name ) CLASS TTable
   LOCAL AField
 
   IF Empty( Name )
@@ -705,7 +705,7 @@ RETURN NIL
   FindDetailSourceField
   Teo. Mexico 2007
 */
-FUNCTION FindDetailSourceField( masterField ) CLASS TTable
+METHOD FUNCTION FindDetailSourceField( masterField ) CLASS TTable
   LOCAL Result
 
   IF hb_HHasKey( ::MasterDetailFieldList, masterField:Name )
@@ -720,7 +720,7 @@ RETURN Result
   FindMasterSourceField
   Teo. Mexico 2007
 */
-FUNCTION FindMasterSourceField( detailField ) CLASS TTable
+METHOD FUNCTION FindMasterSourceField( detailField ) CLASS TTable
   LOCAL enum
   LOCAL name
 
@@ -749,7 +749,7 @@ RETURN ::FMasterSource:FieldByName( name )
   FindTable : returns a ObjectField that has the table parameter
   Teo. Mexico 2008
 */
-FUNCTION FindTable( table ) CLASS TTable
+METHOD FUNCTION FindTable( table ) CLASS TTable
   LOCAL AField
 
   FOR EACH AField IN ::FFieldList
@@ -774,7 +774,7 @@ RETURN NIL
   FirstLast
   Teo. Mexico 2007
 */
-FUNCTION FirstLast( n ) CLASS TTable
+METHOD FUNCTION FirstLast( n ) CLASS TTable
 
   IF ::FState $ {dsEdit,dsInsert}
     ::Post()
@@ -794,7 +794,7 @@ RETURN .F.
   GetCurrentRecord
   Teo. Mexico 2007
 */
-FUNCTION GetCurrentRecord CLASS TTable
+METHOD FUNCTION GetCurrentRecord CLASS TTable
   LOCAL pkField,mkField
   LOCAL AField,BField
   LOCAL state
@@ -911,7 +911,7 @@ RETURN .T.
   GetDbStruct
   Teo. Mexico 2007
 */
-FUNCTION GetDbStruct CLASS TTable
+METHOD FUNCTION GetDbStruct CLASS TTable
   IF ! "DbStruct" $ ::FInstances[ ::ClassName ]
     ::FInstances[ ::ClassName, "DbStruct" ] := ::Alias:DbStruct
   ENDIF
@@ -966,7 +966,7 @@ RETURN ::FInstances[ ::ClassName, "DbStruct" ]
       }
       #endif
 
-FUNCTION GetDisplayFields( directAlias ) CLASS TTable
+METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL DisplayFieldsClass
   LOCAL MessageName
   LOCAL AField
@@ -1016,7 +1016,7 @@ RETURN ::FDisplayFields
   GetPublishedFieldList
   Teo. Mexico 2007
 */
-FUNCTION GetPublishedFieldList CLASS TTable
+METHOD FUNCTION GetPublishedFieldList CLASS TTable
   LOCAL Result := {}
   LOCAL AField
 
@@ -1034,7 +1034,7 @@ RETURN Result
   HasChilds
   Teo. Mexico
 */
-FUNCTION HasChilds CLASS TTable
+METHOD FUNCTION HasChilds CLASS TTable
   LOCAL childTableName
   LOCAL ChildDB
 
@@ -1062,7 +1062,7 @@ RETURN .F.
   IndexByName
   Teo. Mexico 2006
 */
-FUNCTION IndexByName( IndexName ) CLASS TTable
+METHOD FUNCTION IndexByName( IndexName ) CLASS TTable
   LOCAL AIndex
 
   FOR EACH AIndex IN ::FIndexList
@@ -1077,7 +1077,7 @@ RETURN NIL
   Insert
   Teo. Mexico 2006
 */
-FUNCTION Insert CLASS TTable
+METHOD FUNCTION Insert CLASS TTable
 
   IF !::State = dsBrowse
     ::Error_TableNotInBrowseState()
@@ -1103,7 +1103,7 @@ RETURN .T.
   InsertRecord
   Teo. Mexico 2007
 */
-PROCEDURE InsertRecord( origin ) CLASS TTable
+METHOD PROCEDURE InsertRecord( origin ) CLASS TTable
 
   IF !::Insert() .OR. !::CopyRecord( origin )
     RETURN
@@ -1118,7 +1118,7 @@ RETURN
   InsideScope
   Teo. Mexico 2006
 */
-FUNCTION InsideScope CLASS TTable
+METHOD FUNCTION InsideScope CLASS TTable
   LOCAL keyString
 
   IF ::Eof()
@@ -1137,7 +1137,7 @@ RETURN Empty( keyString ) .OR. ::Alias:KeyVal(::PrimaryIndex:Name) = keyString
   MasterSourceClassName
   Teo. Mexico 2008
 */
-FUNCTION MasterSourceClassName CLASS TTable
+METHOD FUNCTION MasterSourceClassName CLASS TTable
   LOCAL Result
 
   IF HB_HHasKey( ::DataBase:ChildParentList, ::ClassName )
@@ -1156,7 +1156,7 @@ RETURN Result
   Next
   Teo. Mexico 2007
 */
-PROCEDURE Next( numRecs ) CLASS TTable
+METHOD PROCEDURE Next( numRecs ) CLASS TTable
 
   TRY
     IF ::FState $ {dsEdit,dsInsert}
@@ -1174,7 +1174,7 @@ RETURN
   OnDestruct
   Teo. Mexico 2007
 */
-PROCEDURE OnDestruct CLASS TTable
+METHOD PROCEDURE OnDestruct CLASS TTable
 
   ::Destroy()
 
@@ -1185,7 +1185,7 @@ RETURN
   Post
   Teo. Mexico 2006
 */
-FUNCTION Post CLASS TTable
+METHOD FUNCTION Post CLASS TTable
   LOCAL AField
   LOCAL errObj
   LOCAL table
@@ -1257,7 +1257,7 @@ RETURN .T.
   RawSeek
   Teo. Mexico 2008
 */
-FUNCTION RawSeek( Value, index ) CLASS TTable
+METHOD FUNCTION RawSeek( Value, index ) CLASS TTable
   LOCAL AIndex
 
   SWITCH ValType( index )
@@ -1297,7 +1297,7 @@ RETURN AIndex:RawSeek( Value )
   RecLock
   Teo. Mexico 2006
 */
-FUNCTION RecLock CLASS TTable
+METHOD FUNCTION RecLock CLASS TTable
 
   IF ::FState != dsBrowse
     ::Error_Table_Not_In_Browse_Mode()
@@ -1321,7 +1321,7 @@ RETURN .T.
   RecUnLock
   Teo. Mexico 2006
 */
-FUNCTION RecUnLock CLASS TTable
+METHOD FUNCTION RecUnLock CLASS TTable
   LOCAL Result
   IF ( Result := ::Alias:RecUnLock() )
     ::FState := dsBrowse
@@ -1332,7 +1332,7 @@ RETURN Result
   Refresh
   Teo. Mexico 2007
 */
-PROCEDURE Refresh CLASS TTable
+METHOD PROCEDURE Refresh CLASS TTable
   IF ::FRecNo = ::Alias:RecNo
     RETURN
   ENDIF
@@ -1343,7 +1343,7 @@ RETURN
   Reset
   Teo. Mexico 2006
 */
-PROCEDURE Reset CLASS TTable
+METHOD PROCEDURE Reset CLASS TTable
   LOCAL AField
 
   ::FRecNo := 0
@@ -1362,7 +1362,7 @@ RETURN
   Seek
   Teo. Mexico 2007
 */
-FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
+METHOD FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
   LOCAL AIndex
 
   SWITCH ValType( index )
@@ -1402,7 +1402,7 @@ RETURN AIndex:Seek( Value, lSoftSeek )
   SetIndexName
   Teo. Mexico 2007
 */
-PROCEDURE SetIndexName( IndexName ) CLASS TTable
+METHOD PROCEDURE SetIndexName( IndexName ) CLASS TTable
   LOCAL AIndex
 
   IndexName := Upper( IndexName )
@@ -1422,7 +1422,7 @@ RETURN
   SetMasterSource
   Teo. Mexico 2007
 */
-PROCEDURE SetMasterSource( MasterSource ) CLASS TTable
+METHOD PROCEDURE SetMasterSource( MasterSource ) CLASS TTable
 
   IF ::FMasterSource == MasterSource
     RETURN
@@ -1450,7 +1450,7 @@ RETURN
   SetPrimaryIndex
   Teo. Mexico 2007
 */
-PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
+METHOD PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
 
   ::FPrimaryIndex := AIndex
 
@@ -1464,7 +1464,7 @@ RETURN
   SyncDetailSources
   Teo. Mexico 2007
 */
-PROCEDURE SyncDetailSources CLASS TTable
+METHOD PROCEDURE SyncDetailSources CLASS TTable
   LOCAL DetailSource
 
   IF Empty( ::DetailSourceList )
@@ -1483,7 +1483,7 @@ RETURN
   SyncFromMasterSourceFields
   Teo. Mexico 2007
 */
-PROCEDURE SyncFromMasterSourceFields CLASS TTable
+METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
 
   /* TField:Reset does the job */
   IF ::PrimaryMasterKeyField != NIL
@@ -1500,7 +1500,7 @@ RETURN
   SyncRecNo
   Teo. Mexico 2007
 */
-PROCEDURE SyncRecNo( directAlias ) CLASS TTable
+METHOD PROCEDURE SyncRecNo( directAlias ) CLASS TTable
   IF directAlias == .T.
     ::Alias:SyncFromAlias()
   ELSE
@@ -1516,7 +1516,7 @@ RETURN
   ValidateFields
   Teo. Mexico 2007
 */
-FUNCTION ValidateFields CLASS TTable
+METHOD FUNCTION ValidateFields CLASS TTable
   LOCAL AField
 
   FOR EACH AField IN ::FFieldList

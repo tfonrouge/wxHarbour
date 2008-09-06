@@ -2,6 +2,35 @@
  *
  */
 
+2008-09-06 00:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +   README.sp
+  - README
+    * renamed original README (in spanish)
+
+  * include/property.ch
+    + added PROCEDURE ... CLASS ... command to throw a error, now we are
+      going to use std harbour syntax
+
+  + README.installing_wxWidgets
+    * brief text to help install wxWidgets
+
+  * README.xharbour_users
+    * minor cleanup
+
+  * src/raddox/talias.prg
+  * src/raddox/tdatabase.prg
+  * src/raddox/tfield.prg
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+  * src/wxbase/events/wxhevthandler.prg
+  * src/wxbase/manwindows/wxhframe.prg
+  * src/wxbase/menus/wxhmenu.prg
+    * now using METHOD FUNCTION/PROCEDURE ... CLASS ...
+
+  * wxharbour.bkl
+  * wxharbour.spec
+    * renamed lib name "wxharbour" => "wxharbour"
+
 2008-09-05 16:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + README.xharbour_users
     * instructions for xHarbour users

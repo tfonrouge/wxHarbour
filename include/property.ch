@@ -63,6 +63,9 @@
           METHOD <name> INLINE Super:<name> ;;
           METHOD _<name> INLINE Super:_<name>
 
+#xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ;
+          ERROR
+
 // Simple VAR varname TO object
 //#xcommand VAR <DataName> TO <oObject> => VAR <DataName> IS <DataName> TO <oObject>
 #xcommand DATA <DataName> IS <OtherName> => VAR <DataName> IS <OtherName>
@@ -73,31 +76,6 @@
                   [, <uVarN> := <uValN> ] => ;
                      <uVar1> := If( <uVar1> == nil, <uVal1>, <uVar1> ) ;;
                    [ <uVarN> := If( <uVarN> == nil, <uValN>, <uVarN> ); ]
-
-#xcommand DECLARE FUNCTION <FunctionName> ;
-          => ;
-
-#xcommand DECLARE PROCEDURE <ProcedureName> ;
-          => ;
-
-#xcommand DECLARE METHOD FUNCTION <FunctionName> ;
-          => ;
-
-#xcommand DECLARE METHOD PROCEDURE <ProcedureName> ;
-          => ;
-
-//  REPEAT .. UNTIL
-#xcommand REPEAT => DO WHILE .T.
-#xcommand UNTIL <expression> => ;
-          IF <expression> ; EXIT ; ENDIF ; ENDDO
-
-//
-#xcommand FUNCTION <FuncDeclaration> CLASS <TheClass> ;
-          => ;
-          METHOD <FuncDeclaration> CLASS <TheClass>
-
-//
-#xcommand ENDWITH => END WITH
 
 #xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg> INLINE <code,...> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
   __clsAddMsg( <Obj>:ClassH, <Msg>, {|Self| <code> }, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )

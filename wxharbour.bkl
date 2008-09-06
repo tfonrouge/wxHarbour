@@ -3,7 +3,7 @@
 
   <include file="config/tmpl_hrb.bkl"/>
 
-  <wxharbour-lib id="wxharbour">
+  <wxharbour-lib id="wxHarbour">
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/*.ch"))
@@ -38,7 +38,7 @@
 
   <subproject id="samples">
     <dir>samples</dir>
-    <depends>wxharbour</depends>
+    <depends>wxHarbour</depends>
     <installable>no</installable>
   </subproject>
 

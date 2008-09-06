@@ -2,7 +2,7 @@
 # wxharbour.spec
 #
 
-%define name      wxharbour
+%define name      wxHarbour
 %define cname     wxHarbour
 %define version   0.3.92
 %define release   1

@@ -83,7 +83,7 @@ RETURN Self
   AddRec
   Teo. Mexico 2007
 */
-FUNCTION AddRec( index ) CLASS TAlias
+METHOD FUNCTION AddRec( index ) CLASS TAlias
   LOCAL Result
   Result := (::FName)->( AddRec(,index) )
   ::SyncFromAlias()
@@ -93,7 +93,7 @@ RETURN Result
   DbGoTo
   Teo. Mexico 2007
 */
-FUNCTION DbGoTo( RecNo ) CLASS TAlias
+METHOD FUNCTION DbGoTo( RecNo ) CLASS TAlias
   LOCAL Result
   Result := (::FName)->( DbGoTo( RecNo ) )
   ::SyncFromAlias()
@@ -103,7 +103,7 @@ RETURN Result
   DbSkip
   Teo. Mexico 2007
 */
-FUNCTION DbSkip( n ) CLASS TAlias
+METHOD FUNCTION DbSkip( n ) CLASS TAlias
   LOCAL Result
   ::SyncFromRecNo()
   Result := (::FName)->( DbSkip( n ) )
@@ -114,7 +114,7 @@ RETURN Result
   Eval
   Teo. Mexico 2007
 */
-FUNCTION Eval( codeBlock, p1, p2, p3 ) CLASS TAlias
+METHOD FUNCTION Eval( codeBlock, p1, p2, p3 ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->(codeBlock:Eval( p1, p2, p3 ) )
 
@@ -122,21 +122,21 @@ RETURN (::FName)->(codeBlock:Eval( p1, p2, p3 ) )
   ExistKey
   Teo. Mexico 2007
 */
-FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
+METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
 RETURN (::FName) -> ( ExistKey( KeyValue, IndexName, RecNo ) )
 
 /*
   Get4SeekLast
   Teo. Mexico 2007
 */
-FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
+METHOD FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
 RETURN (::FName) -> ( Get4SeekLast( xField, cKey, indexName, softSeek ) )
 
 /*
   GoBottom
   Teo. Mexico 2007
 */
-FUNCTION GoBottom( indexName ) CLASS TAlias
+METHOD FUNCTION GoBottom( indexName ) CLASS TAlias
   LOCAL Result
   Result := (::FName)->( GoBottom( indexName ) )
   ::SyncFromAlias()
@@ -146,7 +146,7 @@ RETURN Result
   GoTop
   Teo. Mexico 2007
 */
-FUNCTION GoTop( indexName ) CLASS TAlias
+METHOD FUNCTION GoTop( indexName ) CLASS TAlias
   LOCAL Result
   Result := (::FName)->( GoTop( indexName ) )
   ::SyncFromAlias()
@@ -156,14 +156,14 @@ RETURN Result
   IsLocked
   Teo. Mexico 2007
 */
-FUNCTION IsLocked( RecNo ) CLASS TAlias
+METHOD FUNCTION IsLocked( RecNo ) CLASS TAlias
 RETURN (::FName) -> ( IsLocked( iif( RecNo = NIL, ::FRecNo, RecNo ) ) )
 
 /*
   KeyVal
   Teo. Mexico 2007
 */
-FUNCTION KeyVal( indexName ) CLASS TAlias
+METHOD FUNCTION KeyVal( indexName ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName) -> ( KeyVal( indexName ) )
 
@@ -171,7 +171,7 @@ RETURN (::FName) -> ( KeyVal( indexName ) )
   OrdCustom
   Teo. Mexico 2007
 */
-FUNCTION OrdCustom( Name, cBag, KeyVal ) CLASS TAlias
+METHOD FUNCTION OrdCustom( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( OrdCustom( Name, cBag, KeyVal ) )
 
@@ -179,7 +179,7 @@ RETURN (::FName)->( OrdCustom( Name, cBag, KeyVal ) )
   OrdKeyAdd
   Teo. Mexico 2007
 */
-FUNCTION OrdKeyAdd( Name, cBag, KeyVal ) CLASS TAlias
+METHOD FUNCTION OrdKeyAdd( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( OrdKeyAdd( Name, cBag, KeyVal ) )
 
@@ -187,7 +187,7 @@ RETURN (::FName)->( OrdKeyAdd( Name, cBag, KeyVal ) )
   OrdKeyDel
   Teo. Mexico 2007
 */
-FUNCTION OrdKeyDel( Name, cBag, KeyVal ) CLASS TAlias
+METHOD FUNCTION OrdKeyDel( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( OrdKeyDel( Name, cBag, KeyVal ) )
 
@@ -195,7 +195,7 @@ RETURN (::FName)->( OrdKeyDel( Name, cBag, KeyVal ) )
   OrdSetFocus
   Teo. Mexico 2007
 */
-FUNCTION OrdSetFocus( Name, cBag ) CLASS TAlias
+METHOD FUNCTION OrdSetFocus( Name, cBag ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( OrdSetFocus( Name, cBag ) )
 
@@ -203,7 +203,7 @@ RETURN (::FName)->( OrdSetFocus( Name, cBag ) )
   RecLock
   Teo. Mexico 2007
 */
-FUNCTION RecLock( RecNo ) CLASS TAlias
+METHOD FUNCTION RecLock( RecNo ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( RecLock( RecNo ) )
 
@@ -211,7 +211,7 @@ RETURN (::FName)->( RecLock( RecNo ) )
   RecUnLock
   Teo. Mexico 2007
 */
-FUNCTION RecUnLock( RecNo ) CLASS TAlias
+METHOD FUNCTION RecUnLock( RecNo ) CLASS TAlias
   ::SyncFromRecNo()
 RETURN (::FName)->( RecUnLock( RecNo ) )
 
@@ -219,7 +219,7 @@ RETURN (::FName)->( RecUnLock( RecNo ) )
   Seek
   Teo. Mexico 2007
 */
-FUNCTION Seek( cKey, indexName, softSeek ) CLASS TAlias
+METHOD FUNCTION Seek( cKey, indexName, softSeek ) CLASS TAlias
   LOCAL Result
   Result := (::FName) -> ( Seek( cKey, indexName, softSeek ) )
   ::SyncFromAlias()
@@ -229,7 +229,7 @@ RETURN Result
   SeekLast
   Teo. Mexico 2007
 */
-FUNCTION SeekLast( cKey, indexName, softSeek ) CLASS TAlias
+METHOD FUNCTION SeekLast( cKey, indexName, softSeek ) CLASS TAlias
   LOCAL Result
   Result := (::FName) -> ( SeekLast( cKey, indexName, softSeek ) )
   ::SyncFromAlias()
@@ -239,7 +239,7 @@ RETURN Result
   Skip
   Teo. Mexico 2007
 */
-FUNCTION Skip( nRecords, indexName ) CLASS TAlias
+METHOD FUNCTION Skip( nRecords, indexName ) CLASS TAlias
   LOCAL Result
   ::SyncFromRecNo()
   Result := (::FName) -> ( Skip( nRecords, indexName ) )
@@ -250,7 +250,7 @@ RETURN Result
   SyncFromAlias
   Teo. Mexico 2007
 */
-PROCEDURE SyncFromAlias CLASS TAlias
+METHOD PROCEDURE SyncFromAlias CLASS TAlias
   IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
   ENDIF
@@ -264,7 +264,7 @@ RETURN
   SyncFromRecNo
   Teo. Mexico 2007
 */
-PROCEDURE SyncFromRecNo CLASS TAlias
+METHOD PROCEDURE SyncFromRecNo CLASS TAlias
   IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
   ENDIF

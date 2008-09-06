@@ -86,7 +86,7 @@ ENDCLASS
   Append
   Teo. Mexico 2006
 */
-FUNCTION Append( p1, p2, p3, p4 ) CLASS wxMenu
+METHOD FUNCTION Append( p1, p2, p3, p4 ) CLASS wxMenu
 
   /* Simulates overloaded method */
   DO CASE
