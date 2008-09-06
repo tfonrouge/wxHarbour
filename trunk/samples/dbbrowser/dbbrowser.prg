@@ -40,7 +40,7 @@ ENDCLASS
   OnInit
   Teo. Mexico 2006
 */
-FUNCTION OnInit() CLASS MyApp
+METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL grid, boxSizer, gtable, button
   LOCAL panel

@@ -46,7 +46,7 @@ ENDCLASS
   OnInit
   Teo. Mexico 2006
 */
-FUNCTION OnInit() CLASS MyApp
+METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL menuBar,menu1,menu2
   LOCAL boxSizer, boxSizer1

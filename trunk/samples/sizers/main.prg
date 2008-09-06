@@ -37,7 +37,7 @@ ENDCLASS
   OnInit
   Teo. Mexico 2008
 */
-FUNCTION OnInit() CLASS MyApp
+METHOD FUNCTION OnInit() CLASS MyApp
 
   ? "Login:",Login():ClassName
 

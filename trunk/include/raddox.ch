@@ -96,9 +96,9 @@
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
 
-#xtranslate PROCEDURE DefineFields CLASS <className> ;
+#xtranslate METHOD PROCEDURE DefineFields CLASS <className> ;
             => ;
-            PROCEDURE DefineFields( curClass ) CLASS <className>
+            METHOD PROCEDURE DefineFields( curClass ) CLASS <className>
 
 #xtranslate BEGIN FIELD SECTION ;
             => ;
@@ -110,7 +110,7 @@
 
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
-            PROCEDURE DefineMasterDetailFields CLASS <className>
+            METHOD PROCEDURE DefineMasterDetailFields CLASS <className>
 #xtranslate ADD MASTER <cMaster> DETAIL <cDetail> => ;
             ::MasterDetailFieldList\[ <cMaster> \] := <cDetail>
 #xtranslate END MASTERDETAIL FIELDS => ;
