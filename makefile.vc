@@ -109,77 +109,77 @@ WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) 
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude /GR /EHsc /YX \
 	$(CPPFLAGS)
 WXHARBOUR_OBJECTS =  \
-	$(__BUILDDIR__)\wxharbour_wxhfuncs.obj \
-	$(__BUILDDIR__)\wxharbour_wxhcolumn.obj \
-	$(__BUILDDIR__)\wxharbour_wxhbrowse.obj \
-	$(__BUILDDIR__)\wxharbour_talias.obj \
-	$(__BUILDDIR__)\wxharbour_tdatabase.obj \
-	$(__BUILDDIR__)\wxharbour_tfield.obj \
-	$(__BUILDDIR__)\wxharbour_tindex.obj \
-	$(__BUILDDIR__)\wxharbour_ttable.obj \
-	$(__BUILDDIR__)\wxharbour_wxhapp.obj \
-	$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.obj \
-	$(__BUILDDIR__)\wxharbour_wxhwindow.obj \
-	$(__BUILDDIR__)\wxharbour_wxhdialog.obj \
-	$(__BUILDDIR__)\wxharbour_wxhbutton.obj \
-	$(__BUILDDIR__)\wxharbour_wxhcontrol.obj \
-	$(__BUILDDIR__)\wxharbour_wxhstaticbox.obj \
-	$(__BUILDDIR__)\wxharbour_wxhstatictext.obj \
-	$(__BUILDDIR__)\wxharbour_wxhtextctrl.obj \
-	$(__BUILDDIR__)\wxharbour_wxhevthandler.obj \
-	$(__BUILDDIR__)\wxharbour_wxhframe.obj \
-	$(__BUILDDIR__)\wxharbour_wxhmenu.obj \
-	$(__BUILDDIR__)\wxharbour_wxhmenubar.obj \
-	$(__BUILDDIR__)\wxharbour_wxhmenuitem.obj \
-	$(__BUILDDIR__)\wxharbour_wxhgrid.obj \
-	$(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj \
-	$(__BUILDDIR__)\wxharbour_wxhnotebook.obj \
-	$(__BUILDDIR__)\wxharbour_wxhpanel.obj \
-	$(__BUILDDIR__)\wxharbour_wxhstatusbar.obj \
-	$(__BUILDDIR__)\wxharbour_wxhipv4address.obj \
-	$(__BUILDDIR__)\wxharbour_wxhsocketbase.obj \
-	$(__BUILDDIR__)\wxharbour_wxhsocketclient.obj \
-	$(__BUILDDIR__)\wxharbour_wxhsocketserver.obj \
-	$(__BUILDDIR__)\wxharbour_wxhobject.obj \
-	$(__BUILDDIR__)\wxharbour_wxhvalidator.obj \
-	$(__BUILDDIR__)\wxharbour_wxhboxsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wxhgridsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wxhsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wxhxmldocument.obj \
-	$(__BUILDDIR__)\wxharbour_xdoutils.obj \
-	$(__BUILDDIR__)\wxharbour_wx_harbour.obj \
-	$(__BUILDDIR__)\wxharbour_wx_functions.obj \
-	$(__BUILDDIR__)\wxharbour_wx_browse.obj \
-	$(__BUILDDIR__)\wxharbour_wx_app.obj \
-	$(__BUILDDIR__)\wxharbour_wx_panel.obj \
-	$(__BUILDDIR__)\wxharbour_wx_toplevelwindow.obj \
-	$(__BUILDDIR__)\wxharbour_wx_window.obj \
-	$(__BUILDDIR__)\wxharbour_wx_dialog.obj \
-	$(__BUILDDIR__)\wxharbour_wx_button.obj \
-	$(__BUILDDIR__)\wxharbour_wx_staticbox.obj \
-	$(__BUILDDIR__)\wxharbour_wx_statictext.obj \
-	$(__BUILDDIR__)\wxharbour_wx_textctrl.obj \
-	$(__BUILDDIR__)\wxharbour_wx_evthandler.obj \
-	$(__BUILDDIR__)\wxharbour_wx_frame.obj \
-	$(__BUILDDIR__)\wxharbour_wx_menu.obj \
-	$(__BUILDDIR__)\wxharbour_wx_menubar.obj \
-	$(__BUILDDIR__)\wxharbour_wx_menuitem.obj \
-	$(__BUILDDIR__)\wxharbour_wx_grid.obj \
-	$(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj \
-	$(__BUILDDIR__)\wxharbour_wx_notebook.obj \
-	$(__BUILDDIR__)\wxharbour_wx_statusbar.obj \
-	$(__BUILDDIR__)\wxharbour_wx_ipv4address.obj \
-	$(__BUILDDIR__)\wxharbour_wx_socketbase.obj \
-	$(__BUILDDIR__)\wxharbour_wx_socketclient.obj \
-	$(__BUILDDIR__)\wxharbour_wx_socketserver.obj \
-	$(__BUILDDIR__)\wxharbour_wx_object.obj \
-	$(__BUILDDIR__)\wxharbour_wx_validator.obj \
-	$(__BUILDDIR__)\wxharbour_wx_boxsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wx_gridsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wx_sizer.obj \
-	$(__BUILDDIR__)\wxharbour_wx_staticboxsizer.obj \
-	$(__BUILDDIR__)\wxharbour_wx_xmldocument.obj
+	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj \
+	$(__BUILDDIR__)\wxHarbour_talias.obj \
+	$(__BUILDDIR__)\wxHarbour_tdatabase.obj \
+	$(__BUILDDIR__)\wxHarbour_tfield.obj \
+	$(__BUILDDIR__)\wxHarbour_tindex.obj \
+	$(__BUILDDIR__)\wxHarbour_ttable.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhapp.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhwindow.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhdialog.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhbutton.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhcontrol.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhstaticbox.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhstatictext.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhtextctrl.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhevthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhframe.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhmenu.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhmenubar.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhmenuitem.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhgrid.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhgridtablebase.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhnotebook.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhpanel.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhipv4address.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhsocketbase.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhsocketclient.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhsocketserver.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhobject.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhvalidator.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhgridsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhxmldocument.obj \
+	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_browse.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_app.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_panel.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_window.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_dialog.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_button.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_staticbox.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_statictext.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_textctrl.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_frame.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_menu.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_menubar.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_menuitem.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_grid.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_gridtablebase.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_notebook.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_statusbar.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ipv4address.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_socketbase.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_socketclient.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_socketserver.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_object.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_validator.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_boxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_gridsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_sizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(____WX_DEBUG_INFO_7_p) /D__WXMSW__ \
@@ -237,9 +237,9 @@ $(__BUILDDIR__):
 
 all: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 
-install: all install_wxharbour install_wxharbour_headers
+install: all install_wxHarbour install_wxHarbour_headers
 
-uninstall: uninstall_wxharbour uninstall_wxharbour_headers
+uninstall: uninstall_wxHarbour uninstall_wxHarbour_headers
 
 clean: 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
@@ -256,14 +256,14 @@ $(__BUILDDIR__)\$(WXHLIBNAME).lib: $(WXHARBOUR_OBJECTS)
 	$(WXHARBOUR_OBJECTS)
 <<
 
-install_wxharbour: 
+install_wxHarbour: 
 	-mkdir $(PREFIX)\lib
 	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(PREFIX)\lib
 
-uninstall_wxharbour: 
+uninstall_wxHarbour: 
 	-del $(PREFIX)\lib\$(WXHLIBNAME).lib
 
-install_wxharbour_headers: 
+install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
 	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
 	copy include\defs.ch $(PREFIX)\include
@@ -275,7 +275,7 @@ install_wxharbour_headers:
 	copy include\wxharbour.ch $(PREFIX)\include
 	copy include\xerror.ch $(PREFIX)\include
 
-uninstall_wxharbour_headers: 
+uninstall_wxHarbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
 	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
@@ -290,216 +290,216 @@ sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
 	cd "$(MAKEDIR)"
 
-$(__BUILDDIR__)\wxharbour_wxhfuncs.obj: .\src\common\wxhfuncs.prg
+$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj: .\src\common\wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
+$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
+$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_talias.obj: .\src\raddox\talias.prg
+$(__BUILDDIR__)\wxHarbour_talias.obj: .\src\raddox\talias.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_tdatabase.obj: .\src\raddox\tdatabase.prg
+$(__BUILDDIR__)\wxHarbour_tdatabase.obj: .\src\raddox\tdatabase.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_tfield.obj: .\src\raddox\tfield.prg
+$(__BUILDDIR__)\wxHarbour_tfield.obj: .\src\raddox\tfield.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_tindex.obj: .\src\raddox\tindex.prg
+$(__BUILDDIR__)\wxHarbour_tindex.obj: .\src\raddox\tindex.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_ttable.obj: .\src\raddox\ttable.prg
+$(__BUILDDIR__)\wxHarbour_ttable.obj: .\src\raddox\ttable.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
+$(__BUILDDIR__)\wxHarbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhtoplevelwindow.obj: .\src\wxbase\basicwindows\wxhtoplevelwindow.prg
+$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj: .\src\wxbase\basicwindows\wxhtoplevelwindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhwindow.obj: .\src\wxbase\basicwindows\wxhwindow.prg
+$(__BUILDDIR__)\wxHarbour_wxhwindow.obj: .\src\wxbase\basicwindows\wxhwindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhdialog.obj: .\src\wxbase\commdialogs\wxhdialog.prg
+$(__BUILDDIR__)\wxHarbour_wxhdialog.obj: .\src\wxbase\commdialogs\wxhdialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhbutton.obj: .\src\wxbase\controls\wxhbutton.prg
+$(__BUILDDIR__)\wxHarbour_wxhbutton.obj: .\src\wxbase\controls\wxhbutton.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhcontrol.obj: .\src\wxbase\controls\wxhcontrol.prg
+$(__BUILDDIR__)\wxHarbour_wxhcontrol.obj: .\src\wxbase\controls\wxhcontrol.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhstaticbox.obj: .\src\wxbase\controls\wxhstaticbox.prg
+$(__BUILDDIR__)\wxHarbour_wxhstaticbox.obj: .\src\wxbase\controls\wxhstaticbox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhstatictext.obj: .\src\wxbase\controls\wxhstatictext.prg
+$(__BUILDDIR__)\wxHarbour_wxhstatictext.obj: .\src\wxbase\controls\wxhstatictext.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhtextctrl.obj: .\src\wxbase\controls\wxhtextctrl.prg
+$(__BUILDDIR__)\wxHarbour_wxhtextctrl.obj: .\src\wxbase\controls\wxhtextctrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhevthandler.obj: .\src\wxbase\events\wxhevthandler.prg
+$(__BUILDDIR__)\wxHarbour_wxhevthandler.obj: .\src\wxbase\events\wxhevthandler.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhframe.obj: .\src\wxbase\manwindows\wxhframe.prg
+$(__BUILDDIR__)\wxHarbour_wxhframe.obj: .\src\wxbase\manwindows\wxhframe.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhmenu.obj: .\src\wxbase\menus\wxhmenu.prg
+$(__BUILDDIR__)\wxHarbour_wxhmenu.obj: .\src\wxbase\menus\wxhmenu.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhmenubar.obj: .\src\wxbase\menus\wxhmenubar.prg
+$(__BUILDDIR__)\wxHarbour_wxhmenubar.obj: .\src\wxbase\menus\wxhmenubar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhmenuitem.obj: .\src\wxbase\menus\wxhmenuitem.prg
+$(__BUILDDIR__)\wxHarbour_wxhmenuitem.obj: .\src\wxbase\menus\wxhmenuitem.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhgrid.obj: .\src\wxbase\miscwindows\wxhgrid.prg
+$(__BUILDDIR__)\wxHarbour_wxhgrid.obj: .\src\wxbase\miscwindows\wxhgrid.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhgridtablebase.obj: .\src\wxbase\miscwindows\wxhgridtablebase.prg
+$(__BUILDDIR__)\wxHarbour_wxhgridtablebase.obj: .\src\wxbase\miscwindows\wxhgridtablebase.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhnotebook.obj: .\src\wxbase\miscwindows\wxhnotebook.prg
+$(__BUILDDIR__)\wxHarbour_wxhnotebook.obj: .\src\wxbase\miscwindows\wxhnotebook.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhpanel.obj: .\src\wxbase\miscwindows\wxhpanel.prg
+$(__BUILDDIR__)\wxHarbour_wxhpanel.obj: .\src\wxbase\miscwindows\wxhpanel.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhstatusbar.obj: .\src\wxbase\miscwindows\wxhstatusbar.prg
+$(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj: .\src\wxbase\miscwindows\wxhstatusbar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhipv4address.obj: .\src\wxbase\networking\wxhipv4address.prg
+$(__BUILDDIR__)\wxHarbour_wxhipv4address.obj: .\src\wxbase\networking\wxhipv4address.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhsocketbase.obj: .\src\wxbase\networking\wxhsocketbase.prg
+$(__BUILDDIR__)\wxHarbour_wxhsocketbase.obj: .\src\wxbase\networking\wxhsocketbase.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhsocketclient.obj: .\src\wxbase\networking\wxhsocketclient.prg
+$(__BUILDDIR__)\wxHarbour_wxhsocketclient.obj: .\src\wxbase\networking\wxhsocketclient.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhsocketserver.obj: .\src\wxbase\networking\wxhsocketserver.prg
+$(__BUILDDIR__)\wxHarbour_wxhsocketserver.obj: .\src\wxbase\networking\wxhsocketserver.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhobject.obj: .\src\wxbase\rtti\wxhobject.prg
+$(__BUILDDIR__)\wxHarbour_wxhobject.obj: .\src\wxbase\rtti\wxhobject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhvalidator.obj: .\src\wxbase\validators\wxhvalidator.prg
+$(__BUILDDIR__)\wxHarbour_wxhvalidator.obj: .\src\wxbase\validators\wxhvalidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhboxsizer.obj: .\src\wxbase\winlayout\wxhboxsizer.prg
+$(__BUILDDIR__)\wxHarbour_wxhboxsizer.obj: .\src\wxbase\winlayout\wxhboxsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhgridsizer.obj: .\src\wxbase\winlayout\wxhgridsizer.prg
+$(__BUILDDIR__)\wxHarbour_wxhgridsizer.obj: .\src\wxbase\winlayout\wxhgridsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhsizer.obj: .\src\wxbase\winlayout\wxhsizer.prg
+$(__BUILDDIR__)\wxHarbour_wxhsizer.obj: .\src\wxbase\winlayout\wxhsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhstaticboxsizer.obj: .\src\wxbase\winlayout\wxhstaticboxsizer.prg
+$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj: .\src\wxbase\winlayout\wxhstaticboxsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_wxhxmldocument.obj: .\src\wxbase\xmlclasses\wxhxmldocument.prg
+$(__BUILDDIR__)\wxHarbour_wxhxmldocument.obj: .\src\wxbase\xmlclasses\wxhxmldocument.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\wxharbour_xdoutils.obj: .\src\raddox\xdoutils.c
+$(__BUILDDIR__)\wxHarbour_xdoutils.obj: .\src\raddox\xdoutils.c
 	$(CC) /c /nologo /TC /Fo$@ $(WXHARBOUR_CFLAGS) .\src\raddox\xdoutils.c
 
-$(__BUILDDIR__)\wxharbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
+$(__BUILDDIR__)\wxHarbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
+$(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\misc\wx_functions.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_browse.obj: .\src\hrbcompat\tbrowse\wx_browse.cpp
+$(__BUILDDIR__)\wxHarbour_wx_browse.obj: .\src\hrbcompat\tbrowse\wx_browse.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_browse.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_app.obj: .\src\wxbase\app\wx_app.cpp
+$(__BUILDDIR__)\wxHarbour_wx_app.obj: .\src\wxbase\app\wx_app.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\app\wx_app.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_panel.obj: .\src\wxbase\basicwindows\wx_panel.cpp
+$(__BUILDDIR__)\wxHarbour_wx_panel.obj: .\src\wxbase\basicwindows\wx_panel.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\basicwindows\wx_panel.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_toplevelwindow.obj: .\src\wxbase\basicwindows\wx_toplevelwindow.cpp
+$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj: .\src\wxbase\basicwindows\wx_toplevelwindow.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\basicwindows\wx_toplevelwindow.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_window.obj: .\src\wxbase\basicwindows\wx_window.cpp
+$(__BUILDDIR__)\wxHarbour_wx_window.obj: .\src\wxbase\basicwindows\wx_window.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\basicwindows\wx_window.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_dialog.obj: .\src\wxbase\commdialogs\wx_dialog.cpp
+$(__BUILDDIR__)\wxHarbour_wx_dialog.obj: .\src\wxbase\commdialogs\wx_dialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\commdialogs\wx_dialog.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_button.obj: .\src\wxbase\controls\wx_button.cpp
+$(__BUILDDIR__)\wxHarbour_wx_button.obj: .\src\wxbase\controls\wx_button.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_button.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_staticbox.obj: .\src\wxbase\controls\wx_staticbox.cpp
+$(__BUILDDIR__)\wxHarbour_wx_staticbox.obj: .\src\wxbase\controls\wx_staticbox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_staticbox.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_statictext.obj: .\src\wxbase\controls\wx_statictext.cpp
+$(__BUILDDIR__)\wxHarbour_wx_statictext.obj: .\src\wxbase\controls\wx_statictext.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_statictext.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_textctrl.obj: .\src\wxbase\controls\wx_textctrl.cpp
+$(__BUILDDIR__)\wxHarbour_wx_textctrl.obj: .\src\wxbase\controls\wx_textctrl.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_textctrl.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_evthandler.obj: .\src\wxbase\events\wx_evthandler.cpp
+$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj: .\src\wxbase\events\wx_evthandler.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_evthandler.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_frame.obj: .\src\wxbase\manwindows\wx_frame.cpp
+$(__BUILDDIR__)\wxHarbour_wx_frame.obj: .\src\wxbase\manwindows\wx_frame.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\manwindows\wx_frame.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_menu.obj: .\src\wxbase\menus\wx_menu.cpp
+$(__BUILDDIR__)\wxHarbour_wx_menu.obj: .\src\wxbase\menus\wx_menu.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\menus\wx_menu.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_menubar.obj: .\src\wxbase\menus\wx_menubar.cpp
+$(__BUILDDIR__)\wxHarbour_wx_menubar.obj: .\src\wxbase\menus\wx_menubar.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\menus\wx_menubar.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_menuitem.obj: .\src\wxbase\menus\wx_menuitem.cpp
+$(__BUILDDIR__)\wxHarbour_wx_menuitem.obj: .\src\wxbase\menus\wx_menuitem.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\menus\wx_menuitem.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_grid.obj: .\src\wxbase\miscwindows\wx_grid.cpp
+$(__BUILDDIR__)\wxHarbour_wx_grid.obj: .\src\wxbase\miscwindows\wx_grid.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\miscwindows\wx_grid.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_gridtablebase.obj: .\src\wxbase\miscwindows\wx_gridtablebase.cpp
+$(__BUILDDIR__)\wxHarbour_wx_gridtablebase.obj: .\src\wxbase\miscwindows\wx_gridtablebase.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\miscwindows\wx_gridtablebase.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_notebook.obj: .\src\wxbase\miscwindows\wx_notebook.cpp
+$(__BUILDDIR__)\wxHarbour_wx_notebook.obj: .\src\wxbase\miscwindows\wx_notebook.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\miscwindows\wx_notebook.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_statusbar.obj: .\src\wxbase\miscwindows\wx_statusbar.cpp
+$(__BUILDDIR__)\wxHarbour_wx_statusbar.obj: .\src\wxbase\miscwindows\wx_statusbar.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\miscwindows\wx_statusbar.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_ipv4address.obj: .\src\wxbase\networking\wx_ipv4address.cpp
+$(__BUILDDIR__)\wxHarbour_wx_ipv4address.obj: .\src\wxbase\networking\wx_ipv4address.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\networking\wx_ipv4address.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_socketbase.obj: .\src\wxbase\networking\wx_socketbase.cpp
+$(__BUILDDIR__)\wxHarbour_wx_socketbase.obj: .\src\wxbase\networking\wx_socketbase.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\networking\wx_socketbase.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_socketclient.obj: .\src\wxbase\networking\wx_socketclient.cpp
+$(__BUILDDIR__)\wxHarbour_wx_socketclient.obj: .\src\wxbase\networking\wx_socketclient.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\networking\wx_socketclient.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_socketserver.obj: .\src\wxbase\networking\wx_socketserver.cpp
+$(__BUILDDIR__)\wxHarbour_wx_socketserver.obj: .\src\wxbase\networking\wx_socketserver.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\networking\wx_socketserver.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_object.obj: .\src\wxbase\rtti\wx_object.cpp
+$(__BUILDDIR__)\wxHarbour_wx_object.obj: .\src\wxbase\rtti\wx_object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\rtti\wx_object.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_validator.obj: .\src\wxbase\validators\wx_validator.cpp
+$(__BUILDDIR__)\wxHarbour_wx_validator.obj: .\src\wxbase\validators\wx_validator.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\validators\wx_validator.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_boxsizer.obj: .\src\wxbase\winlayout\wx_boxsizer.cpp
+$(__BUILDDIR__)\wxHarbour_wx_boxsizer.obj: .\src\wxbase\winlayout\wx_boxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\winlayout\wx_boxsizer.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_gridsizer.obj: .\src\wxbase\winlayout\wx_gridsizer.cpp
+$(__BUILDDIR__)\wxHarbour_wx_gridsizer.obj: .\src\wxbase\winlayout\wx_gridsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\winlayout\wx_gridsizer.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_sizer.obj: .\src\wxbase\winlayout\wx_sizer.cpp
+$(__BUILDDIR__)\wxHarbour_wx_sizer.obj: .\src\wxbase\winlayout\wx_sizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\winlayout\wx_sizer.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_staticboxsizer.obj: .\src\wxbase\winlayout\wx_staticboxsizer.cpp
+$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj: .\src\wxbase\winlayout\wx_staticboxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\winlayout\wx_staticboxsizer.cpp
 
-$(__BUILDDIR__)\wxharbour_wx_xmldocument.obj: .\src\wxbase\xmlclasses\wx_xmldocument.cpp
+$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj: .\src\wxbase\xmlclasses\wx_xmldocument.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\xmlclasses\wx_xmldocument.cpp
 

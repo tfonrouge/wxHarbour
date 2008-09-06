@@ -37,7 +37,7 @@ ENDCLASS
   OnInit
   Teo. Mexico 2008
 */
-FUNCTION OnInit() CLASS MyApp
+METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL port
   LOCAL ipv4,ipv4_a

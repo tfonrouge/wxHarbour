@@ -2,6 +2,22 @@
  *
  */
 
+2008-09-06 01:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * renamed lib name "wxharbour" => "wxharbour"
+
+  * include/raddox.ch
+    ! Fixed old PROCEDURE ... CLASS
+
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld1/helloworld1.prg
+  * samples/helloworld/helloworld.prg
+  * samples/networking/simple.prg
+  * samples/sizers/main.prg
+    * using METHOD FUNCTION ... CLASS ...
+
 2008-09-06 00:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +   README.sp
   - README
