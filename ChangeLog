@@ -2,6 +2,11 @@
  *
  */
 
+2008-09-06 01:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/property.ch
+    ! Fix for xHarbour: throws a error with
+      METHOD PROCEDURE <...> CLASS <...>
+
 2008-09-06 01:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

@@ -63,8 +63,13 @@
           METHOD <name> INLINE Super:<name> ;;
           METHOD _<name> INLINE Super:_<name>
 
-#xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ;
-          ERROR
+
+#ifdef __XHARBOUR__
+#xcommand METHOD PROCEDURE <Proc> CLASS <className> => ;
+          PROCEDURE <Proc> CLASS <className>
+#else
+#xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
+#endif
 
 // Simple VAR varname TO object
 //#xcommand VAR <DataName> TO <oObject> => VAR <DataName> IS <DataName> TO <oObject>
