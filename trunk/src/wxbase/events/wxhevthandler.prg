@@ -32,7 +32,7 @@ ENDCLASS
   Connect
   Teo. Mexico 2006
 */
-PROCEDURE Connect( id, eventType, bAction ) CLASS wxEvtHandler
+METHOD PROCEDURE Connect( id, eventType, bAction ) CLASS wxEvtHandler
   AAdd( ::FEventList, { id, eventType, bAction } )
 RETURN
 
@@ -40,7 +40,7 @@ RETURN
   ProcessEvent
   Teo. Mexico 2006
 */
-PROCEDURE ProcessEvent( id, eventType ) CLASS wxEvtHandler
+METHOD PROCEDURE ProcessEvent( id, eventType ) CLASS wxEvtHandler
   LOCAL evt
   LOCAL bAct
 

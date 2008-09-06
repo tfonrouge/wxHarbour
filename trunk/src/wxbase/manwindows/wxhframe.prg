@@ -39,14 +39,14 @@ ENDCLASS
   OnCreate
   Teo. Mexico 2006
 */
-PROCEDURE OnCreate CLASS wxFrame
+METHOD PROCEDURE OnCreate CLASS wxFrame
 RETURN
 
 /*
   OnShow
   Teo. Mexico 2006
 */
-PROCEDURE OnShow CLASS wxFrame
+METHOD PROCEDURE OnShow CLASS wxFrame
   ? "OnShow..."
   ?
 RETURN

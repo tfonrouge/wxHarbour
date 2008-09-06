@@ -198,7 +198,7 @@ RETURN Self
   CustomIndexUpdate
   Teo. Mexico 2006
 */
-PROCEDURE CustomIndexUpdate CLASS TField
+METHOD PROCEDURE CustomIndexUpdate CLASS TField
   LOCAL AIndex
   LOCAL Name
 
@@ -216,7 +216,7 @@ RETURN
   Delete
   Teo. Mexico 2007
 */
-PROCEDURE Delete CLASS TField
+METHOD PROCEDURE Delete CLASS TField
   LOCAL errObj
 
   IF !::Table:State $ { dsEdit, dsInsert }
@@ -246,7 +246,7 @@ RETURN
   GetAsVariant
   Teo. Mexico 2006
 */
-FUNCTION GetAsVariant CLASS TField
+METHOD FUNCTION GetAsVariant CLASS TField
   LOCAL AField
   LOCAL Result
   LOCAL value
@@ -306,7 +306,7 @@ RETURN Result
   GetAutoIncrementValue
   Teo. Mexico 2007
 */
-FUNCTION GetAutoIncrementValue CLASS TField
+METHOD FUNCTION GetAutoIncrementValue CLASS TField
   LOCAL AIndex
   LOCAL value
 
@@ -322,7 +322,7 @@ RETURN value
   GetBuffer
   Teo. Mexico 2007
 */
-FUNCTION GetBuffer CLASS TField
+METHOD FUNCTION GetBuffer CLASS TField
 
   /* FieldArray's doesn't have a absolute FBuffer */
   IF ::FFieldMethodType = "A"
@@ -339,7 +339,7 @@ RETURN ::FBuffer
   GetData
   Teo. Mexico 2006
 */
-FUNCTION GetData CLASS TField
+METHOD FUNCTION GetData CLASS TField
   LOCAL AField
 
   SWITCH ::FFieldMethodType
@@ -367,7 +367,7 @@ RETURN .T.
   GetDefaultValue
   Teo. Mexico 2007
 */
-FUNCTION GetDefaultValue CLASS TField
+METHOD FUNCTION GetDefaultValue CLASS TField
   LOCAL AField
 
   IF ::FFieldMethodType = 'A'
@@ -387,7 +387,7 @@ RETURN ::FDefaultValue
   GetEditText
   Teo. Mexico 2007
 */
-FUNCTION GetEditText CLASS TField
+METHOD FUNCTION GetEditText CLASS TField
   LOCAL Result
 
   IF ::OnGetText != NIL
@@ -403,7 +403,7 @@ RETURN Result
   GetFieldMethod
   Teo. Mexico 2006
 */
-FUNCTION GetFieldMethod CLASS TField
+METHOD FUNCTION GetFieldMethod CLASS TField
   SWITCH ::FFieldMethodType
   CASE 'A'
     RETURN ::FFieldArray
@@ -418,7 +418,7 @@ RETURN NIL
   GetFieldTypes
   Teo. Mexico 2008
 */
-FUNCTION GetFieldTypes CLASS TField
+METHOD FUNCTION GetFieldTypes CLASS TField
 
   IF ::FFieldTypes = NIL
     ::FFieldTypes := {=>}
@@ -454,7 +454,7 @@ RETURN ::FFieldTypes
   GetItDoPick
   Teo. Mexico 2008
 */
-FUNCTION GetItDoPick CLASS TField
+METHOD FUNCTION GetItDoPick CLASS TField
   LOCAL Result
 
   IF ::FGetItPick = NIL .OR. !HB_IsBLOCK( ::FGetItPick )
@@ -469,7 +469,7 @@ RETURN ::Value
   Indexed
   Teo. Mexico 2006
 */
-FUNCTION Indexed( OnlyCustom ) CLASS TField
+METHOD FUNCTION Indexed( OnlyCustom ) CLASS TField
   LOCAL AIndex
   LOCAL Name
 
@@ -491,7 +491,7 @@ RETURN .F.
   IsValid
   Teo. Mexico 2007
 */
-FUNCTION IsValid( Value ) CLASS TField
+METHOD FUNCTION IsValid( Value ) CLASS TField
 
   IF Value = NIL
     Value := ::GetBuffer()
@@ -544,7 +544,7 @@ RETURN ::OnValidate:Eval( Value )
   Reset
   Teo. Mexico 2007
 */
-PROCEDURE Reset CLASS TField
+METHOD PROCEDURE Reset CLASS TField
   LOCAL AField
   LOCAL value
 
@@ -604,7 +604,7 @@ RETURN
   SetAsVariant
   Teo. Mexico 2006
 */
-PROCEDURE SetAsVariant( rawValue ) CLASS TField
+METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
   LOCAL Value
 
   /* if Browsing then do a SeekKey() with the rawValue */
@@ -688,7 +688,7 @@ RETURN
   SetBuffer
   Teo. Mexico 2007
 */
-PROCEDURE SetBuffer( Value ) CLASS TField
+METHOD PROCEDURE SetBuffer( Value ) CLASS TField
 
   /* FieldArray's doesn't have a absolute FBuffer */
   IF ::FFieldMethodType = "A"
@@ -712,7 +712,7 @@ RETURN
   SetData
   Teo. Mexico 2006
 */
-PROCEDURE SetData( Value ) CLASS TField
+METHOD PROCEDURE SetData( Value ) CLASS TField
   LOCAL AField
   LOCAL nTries
   LOCAL errObj
@@ -857,7 +857,7 @@ RETURN
   SetEditText
   Teo. Mexico 2007
 */
-PROCEDURE SetEditText( Text ) CLASS TField
+METHOD PROCEDURE SetEditText( Text ) CLASS TField
 
   IF ::OnSetText != NIL
     ::OnSetText:Eval( Self, Text )
@@ -871,7 +871,7 @@ RETURN
   SetFieldMethod
   Teo. Mexico 2006
 */
-PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
+METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
   LOCAL fieldName
   LOCAL AField
   LOCAL n
@@ -970,7 +970,7 @@ RETURN
   SetGetItPick
   Teo. Mexico 2008
 */
-PROCEDURE SetGetItPick( block ) CLASS TField
+METHOD PROCEDURE SetGetItPick( block ) CLASS TField
   ::FGetItPick := block
 RETURN
 
@@ -978,7 +978,7 @@ RETURN
   SetIsMasterFieldComponent
   Teo. Mexico 2007
 */
-PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TField
+METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TField
   LOCAL AField
 
   SWITCH ::FFieldMethodType
@@ -997,7 +997,7 @@ RETURN
   SetName
   Teo. Mexico 2006
 */
-PROCEDURE SetName( Name ) CLASS TField
+METHOD PROCEDURE SetName( Name ) CLASS TField
 
   IF Empty( Name ) .OR. !Empty( ::FName )
     RETURN
@@ -1013,7 +1013,7 @@ RETURN
   SetPrimaryKeyComponent
   Teo. Mexico 2007
 */
-PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
+METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
   LOCAL AField
 
   SWITCH ::FFieldMethodType
@@ -1057,7 +1057,7 @@ ENDCLASS
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TStringField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TStringField
   LOCAL AField
 
   IF value = NIL
@@ -1083,7 +1083,7 @@ RETURN value
   GetAsString
   Teo. Mexico 2007
 */
-FUNCTION GetAsString CLASS TStringField
+METHOD FUNCTION GetAsString CLASS TStringField
   LOCAL Result := ""
   LOCAL AField
 
@@ -1107,7 +1107,7 @@ RETURN Result
   SetBuffer
   Teo. Mexico 2007
 */
-PROCEDURE SetBuffer( buffer ) CLASS TStringField
+METHOD PROCEDURE SetBuffer( buffer ) CLASS TStringField
   IF ::IsDerivedFrom("TMemoField")
     Super:SetBuffer( buffer )
   ELSE
@@ -1126,7 +1126,7 @@ RETURN
   SetDefaultValue
   Teo. Mexico 2006
 */
-PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
+METHOD PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
 
   IF DefaultValue = NIL
     ::FDefaultValue := NIL
@@ -1187,7 +1187,7 @@ ENDCLASS
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TNumericField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TNumericField
   IF value = NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsNumeric( value )
@@ -1202,7 +1202,7 @@ RETURN AsString( value )
   GetAsString
   Teo. Mexico 2007
 */
-FUNCTION GetAsString( Value ) CLASS TNumericField
+METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
   LOCAL Result
 
   IF Value = NIL
@@ -1222,7 +1222,7 @@ RETURN Result
   SetAsString
   Teo. Mexico 2007
 */
-PROCEDURE SetAsString( Text ) CLASS TNumericField
+METHOD PROCEDURE SetAsString( Text ) CLASS TNumericField
   ::SetAsVariant( Val( Text ) )
 RETURN
 
@@ -1251,7 +1251,7 @@ ENDCLASS
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TLogicalField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TLogicalField
   IF value = NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsLogical( value )
@@ -1287,7 +1287,7 @@ ENDCLASS
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TDateField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDateField
   IF value = NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsDate( value )
@@ -1320,7 +1320,7 @@ ENDCLASS
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TDayTimeField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDayTimeField
   IF value = NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsDate( value )
@@ -1383,7 +1383,7 @@ ENDCLASS
   Syncs the Table with the key in buffer
   Teo. Mexico 2008
 */
-FUNCTION DataObj CLASS TObjectField
+METHOD FUNCTION DataObj CLASS TObjectField
   ::LinkedTable:Value := ::GetBuffer()
 RETURN ::FLinkedTable
 
@@ -1391,7 +1391,7 @@ RETURN ::FLinkedTable
   AsIndexKeyVal
   Teo. Mexico 2008
 */
-FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
   IF value = NIL
     value := ::GetBuffer()
   ENDIF
@@ -1401,7 +1401,7 @@ RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
   GetAsString
   Teo. Mexico 2008
 */
-FUNCTION GetAsString CLASS TObjectField
+METHOD FUNCTION GetAsString CLASS TObjectField
   LOCAL Result
 
   Result := ::GetBuffer()
@@ -1412,7 +1412,7 @@ RETURN Result
   GetIsTheMasterSource
   Teo. Mexico 2008
 */
-FUNCTION GetIsTheMasterSource CLASS TObjectField
+METHOD FUNCTION GetIsTheMasterSource CLASS TObjectField
   LOCAL masterSource
 
   IF ::FIsTheMasterSource != NIL
@@ -1434,7 +1434,7 @@ RETURN ::FIsTheMasterSource
   GetLinkedTable
   Teo. Mexico 2007
 */
-FUNCTION GetLinkedTable CLASS TObjectField
+METHOD FUNCTION GetLinkedTable CLASS TObjectField
 
   IF ::FLinkedTable = NIL
 
@@ -1484,7 +1484,7 @@ FUNCTION GetLinkedTable CLASS TObjectField
 
 RETURN ::FLinkedTable
 
-PROCEDURE SetAsVariant( value ) CLASS TObjectField
+METHOD PROCEDURE SetAsVariant( value ) CLASS TObjectField
   Super:SetAsVariant( value )
 RETURN
 

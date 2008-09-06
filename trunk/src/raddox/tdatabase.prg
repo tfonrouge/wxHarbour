@@ -90,7 +90,7 @@ RETURN Self
   cmdAddTable
   Teo. Mexico 2008
 */
-PROCEDURE cmdAddTable( tableName, indexName, virtual ) CLASS TDataBase
+METHOD PROCEDURE cmdAddTable( tableName, indexName, virtual ) CLASS TDataBase
 
   ::cmdLevel[ ::cmdLevel:Size ] := { tableName, indexName, virtual }
 
@@ -104,7 +104,7 @@ RETURN
   cmdDefineChild
   Teo. Mexico 2008
 */
-PROCEDURE cmdDefineChild CLASS TDataBase
+METHOD PROCEDURE cmdDefineChild CLASS TDataBase
   AAdd( ::cmdLevel, { NIL } )
 RETURN
 
@@ -112,7 +112,7 @@ RETURN
   cmdEndChild
   Teo. Mexico 2008
 */
-PROCEDURE cmdEndChild CLASS TDataBase
+METHOD PROCEDURE cmdEndChild CLASS TDataBase
   ASize( ::cmdLevel, ::cmdLevel:Size -1 )
 RETURN
 
@@ -121,7 +121,7 @@ RETURN
   Exclude VIRTUAL Tables
   Teo. Mexico 2008
 */
-FUNCTION GetParentChildList( tableName, Result ) CLASS TDataBase
+METHOD FUNCTION GetParentChildList( tableName, Result ) CLASS TDataBase
   LOCAL childTableName
 
   IF Result = NIL
@@ -157,7 +157,7 @@ RETURN Result
   TableIsDerivedFrom
   Teo. Mexico 2008
 */
-FUNCTION TableIsDerivedFrom( table, fromTable ) CLASS TDataBase
+METHOD FUNCTION TableIsDerivedFrom( table, fromTable ) CLASS TDataBase
   LOCAL Result
 
   Result := HB_HHasKey( ::FParentChildList, fromTable ) .AND. Upper( table ) $ ::FParentChildList[ fromTable ]
