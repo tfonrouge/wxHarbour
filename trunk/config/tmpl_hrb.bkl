@@ -57,21 +57,151 @@
 ---------------------------------------------------------------
 [x]Harbour optional libraries
 ---------------------------------------------------------------
-    Link in the TIP library
+Link in the Harbour TIP library
     </description>
   </option>
 
   <option name="HBLIB_FM">
     <values>yes,no</values>
     <default-value>no</default-value>
-    <description>Link in the FM library</description>
+    <description>Link in the Harbour FM library</description>
   </option>
 
   <option name="HBLIB_CT">
     <values>yes,no</values>
     <default-value>no</default-value>
-    <description>Link in the CT library</description>
+    <description>Link in the Harbour CT library</description>
   </option>
+
+  <if cond="TOOLSET=='unix'">
+    <option name="HBLIB_GTTRM">
+      <values>yes,no</values>
+      <default-value>yes</default-value>
+      <description>Link in the Harbour GTTRM library</description>
+    </option>
+    <set var="LIB_GTTRM">
+      <if cond="HBLIB_GTTRM=='yes'">
+        gttrm
+      </if>
+    </set>
+
+    <option name="HBLIB_GPM">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the System GPM library</description>
+    </option>
+    <set var="LIB_GPM">
+      <if cond="HBLIB_GPM=='yes'">
+        gpm
+      </if>
+    </set>
+
+    <option name="HBLIB_GTXWC">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTXWC library</description>
+    </option>
+    <set var="LIB_GTXWC">
+      <if cond="HBLIB_GTXWC=='yes'">
+        gtxwc
+      </if>
+    </set>
+    <set var="LIB_X11">
+      <if cond="HBLIB_GTXWC=='yes'">
+        X11
+      </if>
+    </set>
+
+    <option name="HBLIB_GTCRS">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTCRS library</description>
+    </option>
+    <set var="LIB_GTCRS">
+      <if cond="HBLIB_GTCRS=='yes'">
+        gtcrs
+      </if>
+    </set>
+    <set var="LIB_NCURSES">
+      <if cond="HBLIB_GTCRS=='yes'">
+        ncurses
+      </if>
+    </set>
+
+    <option name="HBLIB_GTSLN">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTSLN library</description>
+    </option>
+    <set var="LIB_GTSLN">
+      <if cond="HBLIB_GTSLN=='yes'">
+        gtsln
+      </if>
+    </set>
+    <set var="LIB_SLANG">
+      <if cond="HBLIB_GTSLN=='yes'">
+        slang
+      </if>
+    </set>
+
+  </if>
+
+  <if cond="TOOLSET=='win32'">
+    <option name="HBLIB_GTWIN">
+      <values>yes,no</values>
+      <default-value>yes</default-value>
+      <description>Link in the Harbour GTWIN library</description>
+    </option>
+    <set var="LIB_GTWIN">
+      <if cond="HBLIB_GTWIN=='yes'">
+        gtwin
+      </if>
+    </set>
+
+    <option name="HBLIB_GTXVT">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTXVT library</description>
+    </option>
+    <set var="LIB_GTXVT">
+      <if cond="HBLIB_GTXVT=='yes'">
+        gtxvt
+      </if>
+    </set>
+  </if>
+
+  <option name="HBLIB_GTCGI">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTCGI library</description>
+  </option>
+  <set var="LIB_GTCGI">
+    <if cond="HBLIB_GTCGI=='yes'">
+      gtcgi
+    </if>
+  </set>
+
+  <option name="HBLIB_GTSTD">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTSTD library</description>
+  </option>
+  <set var="LIB_GTSTD">
+    <if cond="HBLIB_GTSTD=='yes'">
+      gtstd
+    </if>
+  </set>
+
+  <option name="HBLIB_GTPCA">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTPCA library</description>
+  </option>
+  <set var="LIB_GTPCA">
+    <if cond="HBLIB_GTPCA=='yes'">
+      gtpca
+    </if>
+  </set>
 
   <!-- Start Section of Harbour/xHarbour libraries names -->
   <set var="LIB_VM">
@@ -539,16 +669,17 @@ Where is wxWidgets installed
     <sys-lib>$(LIB_CT)</sys-lib>
     <sys-lib>$(LIB_TIP)</sys-lib>
     <if cond="TOOLSET=='unix'">
-      <sys-lib>gtcrs</sys-lib>
-      <sys-lib>gtsln</sys-lib>
-      <sys-lib>gtxwc</sys-lib>
-      <sys-lib>gttrm</sys-lib>
+      <sys-lib>$(LIB_GTTRM)</sys-lib>
+      <sys-lib>$(LIB_GTXWC)</sys-lib>
+      <sys-lib>$(LIB_GTCRS)</sys-lib>
+      <sys-lib>$(LIB_GTSLN)</sys-lib>
     </if>
-    <sys-lib>gtcgi</sys-lib>
-    <sys-lib>gtstd</sys-lib>
-    <sys-lib>gtpca</sys-lib>
+    <sys-lib>$(LIB_GTCGI)</sys-lib>
+    <sys-lib>$(LIB_GTSTD)</sys-lib>
+    <sys-lib>$(LIB_GTPCA)</sys-lib>
     <if cond="TOOLSET=='win32'">
-      <sys-lib>gtwin</sys-lib>
+      <sys-lib>$(LIB_GTXVT)</sys-lib>
+      <sys-lib>$(LIB_GTWIN)</sys-lib>
     </if>
 
     <warnings>max</warnings>
@@ -590,11 +721,11 @@ Where is wxWidgets installed
     <if cond="TOOLSET=='unix'">
       <sys-lib>m</sys-lib>
       <sys-lib>dl</sys-lib>
-      <sys-lib>slang</sys-lib>
-      <sys-lib>ncurses</sys-lib>
+      <sys-lib>$(LIB_NCURSES)</sys-lib>
+      <sys-lib>$(LIB_SLANG)</sys-lib>
+      <sys-lib>$(LIB_GPM)</sys-lib>
       <lib-path>/usr/X11R6/lib</lib-path>
-      <sys-lib>X11</sys-lib>
-      <sys-lib>gpm</sys-lib>
+      <sys-lib>$(LIB_X11)</sys-lib>
     </if>
     <if cond="TOOLSET=='win32'">
       <sys-lib>kernel32</sys-lib>
