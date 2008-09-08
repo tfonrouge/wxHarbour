@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="config/tmpl_hrb.bkl"/>
+
+  <wxharbour-lib id="wxHarbour">
+    <libname>$(WXHLIBNAME)</libname>
+    <headers>
+      $(fileList("include/*.ch"))
+    </headers>
+    <sources-at>
+      src/common
+      src/hrbcompat/misc
+      src/hrbcompat/tbcolumn
+      src/hrbcompat/tbrowse
+      src/raddox
+      src/wxbase/app
+      src/wxbase/basicwindows
+      src/wxbase/commdialogs
+      src/wxbase/controls
+      src/wxbase/events
+      src/wxbase/manwindows
+      src/wxbase/menus
+      src/wxbase/miscwindows
+      src/wxbase/networking
+      src/wxbase/rtti
+      src/wxbase/validators
+      src/wxbase/winlayout
+      src/wxbase/xmlclasses
+    </sources-at>
+    <include>
+      include
+    </include>
+    <!--<install-to>$(HB_LIB_PATH)</install-to>-->
+    <install-to>$(LIBDIR)</install-to>
+    <install-headers-to>$(PREFIX)</install-headers-to>
+  </wxharbour-lib>
+
+  <subproject id="samples">
+    <dir>samples</dir>
+    <depends>wxHarbour</depends>
+    <installable>no</installable>
+  </subproject>
+
+</makefile>

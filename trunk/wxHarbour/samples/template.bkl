@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="../../config/tmpl_hrb.bkl"/>
+
+  <wxharbour-exe id="__SAMPLE_NAME__">
+    <sources-at>
+      .
+    </sources-at>
+    <include>../../include</include>
+    <lib-path>../../$(__BUILDDIR__)</lib-path>
+  </wxharbour-exe>
+  
+  <action id="run">
+    <if cond="TOOLSET=='win32'">
+      <command>
+        .\__SAMPLE_NAME__.exe
+      </command>
+    </if>
+    <if cond="TOOLSET=='unix'">
+      <command>
+        ./__SAMPLE_NAME__
+      </command>
+    </if>
+    <depends>
+      all
+    </depends>
+  </action>
+
+</makefile>

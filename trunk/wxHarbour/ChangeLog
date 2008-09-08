@@ -1,0 +1,1505 @@
+/*
+ *
+ */
+
+2008-09-08 17:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    * added some labels indicating source of libs (Harbour/System)
+    * separated the unix/win32 group of options and vars
+      ; GT's for unix: gttrm, gtxwc, gtcrs, gtsln
+      ; GT's for win32: gtxvt, gtwin
+      ; GT's common: gtcgi, gtstd, gtpca
+      ; and required system libs for the above libs
+    * Harbour/xHarbour testings
+      ; linux: fedora 8, fedora 9, Ubuntu 8.04
+      ; win32: WinXP (msvc)
+
+2008-09-06 01:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/property.ch
+    ! Fix for xHarbour: throws a error with
+      METHOD PROCEDURE <...> CLASS <...>
+
+2008-09-06 01:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * renamed lib name "wxharbour" => "wxharbour"
+
+  * include/raddox.ch
+    ! Fixed old PROCEDURE ... CLASS
+
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld1/helloworld1.prg
+  * samples/helloworld/helloworld.prg
+  * samples/networking/simple.prg
+  * samples/sizers/main.prg
+    * using METHOD FUNCTION ... CLASS ...
+
+2008-09-06 00:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +   README.sp
+  - README
+    * renamed original README (in spanish)
+
+  * include/property.ch
+    + added PROCEDURE ... CLASS ... command to throw a error, now we are
+      going to use std harbour syntax
+
+  + README.installing_wxWidgets
+    * brief text to help install wxWidgets
+
+  * README.xharbour_users
+    * minor cleanup
+
+  * src/raddox/talias.prg
+  * src/raddox/tdatabase.prg
+  * src/raddox/tfield.prg
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+  * src/wxbase/events/wxhevthandler.prg
+  * src/wxbase/manwindows/wxhframe.prg
+  * src/wxbase/menus/wxhmenu.prg
+    * now using METHOD FUNCTION/PROCEDURE ... CLASS ...
+
+  * wxharbour.bkl
+  * wxharbour.spec
+    * renamed lib name "wxharbour" => "wxharbour"
+
+2008-09-05 16:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + README.xharbour_users
+    * instructions for xHarbour users
+
+2008-09-05 14:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    ! Forgot to include /usr/local/include/wx_hbcompat.ch
+
+2008-09-05 14:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    + added /usr/local/include/xerror.ch
+
+2008-09-05 14:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wx_hbcompat.ch
+    * Aimed to xHarbour enviroment to hold fixes for compatibility with
+      Harbour compiler
+
+  * include/xerror.ch
+    ! Fixed for xHarbour compiler
+
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+  * src/raddox/tfield.prg
+    ! Fixings for xHarbour compiler:
+      * SWITCH/CASE/ *OTHERWISE* / END  => *DEFAULT*
+      * {|| ; => <|| ;   > => }
+
+2008-09-05 12:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/networking
+  +   samples/networking/GNUmakefile
+  +   samples/networking/makefile.bcc
+  +   samples/networking/makefile.gcc
+  +   samples/networking/makefile.vc
+  - samples/simple
+  - samples/simple/GNUmakefile
+  - samples/simple/makefile.bcc
+  - samples/simple/makefile.gcc
+  - samples/simple/makefile.vc
+  - samples/simple/simple.bkl
+  - samples/simple/simple.prg
+    * renamed "simple" to "networking" samples of networking classes
+
+  * GNUmakefile
+  + include/raddox.ch
+  + include/xerror.ch
+  * makefile.gcc
+  * makefile.vc
+  + src/raddox
+  + src/raddox/talias.prg
+  + src/raddox/tdatabase.prg
+  + src/raddox/tfield.prg
+  + src/raddox/tindex.prg
+  + src/raddox/ttable.prg
+  + src/raddox/xdoutils.c
+    + added RADDOX set of tools
+      ; The name stands for "Remote Access Data Object eXtensible"
+      ; Aims to be a Object Database tool client/server based
+      ; TODO: Write the docs related:
+      ;   - Description
+      ;   - Functions
+      ;   - Status
+
+  * src/wxbase/controls/wx_button.cpp
+    ! Set id param to wxID_ANY if NIL value is given
+
+  * src/wxbase/manwindows/wxhframe.prg
+    - removed unneeded message
+
+  * wxharbour.spec
+    + added raddox.ch
+
+2008-09-04 13:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+    * added make var HBPATH_INSTALL for non 'gnu' formats to allow a correct
+      install of library and header files
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/makefile.gcc
+  * wxharbour.bkl
+    ! added src/hrbcompat/misc dir to makefiles
+
+2008-09-04 10:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+    ! added headers to install process
+
+  * wxharbour.spec
+    * added release number
+
+2008-09-04 09:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    * setting the version to 0.3.92
+
+2008-09-03 19:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/GNUmakefile
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    % adding make variables to include optional libs:
+      HBLIB_TIP = [yes|no]   # TIP library
+      HBLIB_FM  = [yes|no]   # FM library
+      HBLIB_CT  = [yes|no]   # CT library
+
+2008-09-03 13:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/main.prg
+    ! Fixed compatibility issue for [x]Harbour compilers
+
+2008-09-03 13:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls
+    * added labels to show state
+    ! with bakefile 0.2.3 is needed -DFORMAT_HAS_MAKE_INSTALL=1
+    ; TODO : solve this
+
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/simple/GNUmakefile
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/simple/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    * changed variable BUILD to HBBUILD (build mode)
+    * changed variable HCC TO HBCC (compiler file name)
+    % added capability to select compiler (harbour/xharbour)
+      * a large section is needed to select the libs names due to differences
+        between both compilers in library naming convention (if any)
+
+2008-09-03 01:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/menus/wxhmenu.prg
+    * removed unneeded HB_HAUTOADD call (was needed by Harbour)
+
+  * samples/dbbrowser/GNUmakefile
+    * makefile manually modified to build and link using xHarbour
+    ; TODO: automate the libs inside the makefile
+    ;
+    ; HINT: In order to use the xHarbour compiler just set the
+    ;       HBCOMPILER variable to xharbour, e.g.:
+    ;
+    ;       make HBCOMPILER=xharbour
+
+2008-09-02 22:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+    * adding compilation conditions for Harbour/xHarbour
+    ; TODO: Change in xHarbour the type of function declared for
+            hb_stackReturnItem(),
+            Harbour : is a PHB_ITEM type
+            xHarbour: is a void type
+
+2008-09-02 16:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * samples/simple/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * makefile.gcc
+    * minor labeling on Harbour compiler var
+
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+    * using hb_stackReturnItem() instead of &(hb_stack.Return)
+
+2008-09-01 22:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+  * GNUmakefile
+  * samples/sizers/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * samples/simple/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * config/tmpl_hrb.bkl
+  * makefile.gcc
+    * added HBCOMPILER variable to hold the name of compiler used (harbour/xharbour)
+
+2008-09-01 22:02 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wxbase/wx_xmldocument.h
+  + src/wxbase/xmlclasses
+  + src/wxbase/xmlclasses/wxhxmldocument.prg
+  + src/wxbase/xmlclasses/wx_xmldocument.cpp
+    + added wxXmlDocument class
+
+  * GNUmakefile
+  * wxharbour.bkl
+  * samples/sizers/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * config/tmpl_hrb.bkl
+    * changed version to 0.4
+    + added definition of _DEBUG_ if BUILD=debug ( -d_DEBUG_ )
+    * changed position of fm lib
+
+2008-07-24 20:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/miscwindows/wx_notebook.cpp
+  * src/wxbase/miscwindows/wx_grid.cpp
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+  * src/wxbase/miscwindows/wx_statusbar.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/menus/wx_menuitem.cpp
+  * src/wxbase/menus/wx_menu.cpp
+  * src/wxbase/menus/wx_menubar.cpp
+  * src/wxbase/validators/wx_validator.cpp
+  * src/wxbase/winlayout/wx_gridsizer.cpp
+  * src/wxbase/winlayout/wx_boxsizer.cpp
+  * src/wxbase/winlayout/wx_sizer.cpp
+  * src/wxbase/winlayout/wx_staticboxsizer.cpp
+  * src/wxbase/basicwindows/wx_window.cpp
+  * src/wxbase/basicwindows/wx_panel.cpp
+  * src/wxbase/commdialogs/wx_dialog.cpp
+    * added "wxbase/" to locate headers in include declaration
+
+  * GNUmakefile
+  * wxharbour.bkl
+    * changes to allow construct the rpm (small path's issues solved)
+
+  * config/tmpl_hrb.bkl
+    * changed default build mode to "release"
+    - removed prefix $(HB_BIN_PATH) from harbour compiler construct
+    + added $(INCLUDEDIR) to <include> struct
+
+  * wxharbour.spec
+    * completed a preliminar spec to construct rpms
+
+2008-07-23 16:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * sending the reference of the var to the TEdit obj
+
+  - src/wxbase/wlayout
+  - src/wxbase/wlayout/wxhgridsizer.prg
+  - src/wxbase/wlayout/wx_gridsizer.cpp
+  - src/wxbase/wlayout/wxhboxsizer.prg
+  - src/wxbase/wlayout/wx_boxsizer.cpp
+  - src/wxbase/wlayout/wxhsizer.prg
+  - src/wxbase/wlayout/wx_sizer.cpp
+  - src/wxbase/wlayout/wxhstaticboxsizer.prg
+  - src/wxbase/wlayout/wx_staticboxsizer.cpp
+A  +   src/wxbase/winlayout
+  * wxharbour.bkl
+    * dir renamed
+
+
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/sizers/main.prg
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/simple/simple.prg
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.vc
+  * samples/simple/GNUmakefile
+  * samples/simple/makefile.gcc
+  * samples/helloworld/helloworld.prg
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+    * rebuild of the makefiles
+
+  + config/harbour-bcc.cfg
+    * needed borland harbour config file
+
+  + config/harbour_bkl.py
+  * config/tmpl_hrb.bkl
+    + adding the python module "harbour-blk"
+    * changes to include inside the --start-group/--end-group the wxharbour
+      library (because the linking problems with the harbour libs)
+    * changed the call method for addSufixToList
+
+  * makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+
+2008-04-25 01:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   include/wxbase/wx_button.h
+A  +   include/wxbase/wx_staticboxsizer.h
+A  +   include/wxbase/wx_socketserver.h
+A  +   include/wxbase/wx_app.h
+A  +   include/wxbase/wx_notebook.h
+A  +   include/wxbase/wx_socketbase.h
+A  +   include/wxbase/wx_menuitem.h
+A  +   include/wxbase/wx_validator.h
+A  +   include/wxbase/wx_grid.h
+A  +   include/wxbase/wx_socketclient.h
+A  +   include/wxbase/wx_gridtablebase.h
+A  +   include/wxbase/wx_ipv4address.h
+A  +   include/wxbase/wx_menubar.h
+A  +   include/wxbase/wx_frame.h
+A  +   include/wxbase/wx_sizer.h
+A  +   include/wxbase/wx_statictext.h
+A  +   include/wxbase/wx_panel.h
+A  +   include/wxbase/wx_dialog.h
+A  +   include/wxbase/wx_staticbox.h
+A  +   include/wxbase/wx_gridsizer.h
+A  +   include/wxbase/wx_menu.h
+A  +   include/wxbase/wx_boxsizer.h
+A  +   include/wxbase/wx_statusbar.h
+A  +   include/wxbase/wx_textctrl.h
+  * GNUmakefile
+  - src/wxbase/app/wx_app.h
+  - src/wxbase/controls/wx_button.h
+  - src/wxbase/controls/wx_statictext.h
+  - src/wxbase/controls/wx_staticbox.h
+  - src/wxbase/controls/wx_textctrl.h
+  - src/wxbase/wlayout/wx_sizer.h
+  - src/wxbase/wlayout/wx_staticboxsizer.h
+  - src/wxbase/wlayout/wx_gridsizer.h
+  - src/wxbase/wlayout/wx_boxsizer.h
+  - src/wxbase/manwindows/wx_frame.h
+  - src/wxbase/miscwindows/wx_notebook.h
+  - src/wxbase/miscwindows/wx_grid.h
+  - src/wxbase/miscwindows/wx_gridtablebase.h
+  - src/wxbase/miscwindows/wx_statusbar.h
+  - src/wxbase/networking/wx_socketserver.h
+  - src/wxbase/networking/wx_socketbase.h
+  - src/wxbase/networking/wx_socketclient.h
+  - src/wxbase/networking/wx_ipv4address.h
+  - src/wxbase/menus/wx_menuitem.h
+  - src/wxbase/menus/wx_menu.h
+  - src/wxbase/menus/wx_menubar.h
+  - src/wxbase/validators/wx_validator.h
+  - src/wxbase/basicwindows/wx_panel.h
+  - src/wxbase/commdialogs/wx_dialog.h
+  * wxharbour.bkl
+    * relocating of headers
+
+2008-04-25 01:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wxbase
+~      include/property.ch
+  - src/wx_toplevelwindow.cpp
+  - src/wxhboxsizer.prg
+  - src/wx_ipv4address.cpp
+  - src/wx_menubar.cpp
+  - src/wxhbutton.prg
+  - src/wx_evthandler.cpp
+  - src/wxhsocketserver.prg
+  - src/wx_frame.h
+  - src/wx_browse.cpp
+  - src/wx_sizer.h
+  - src/wx_statictext.h
+  - src/wx_gridsizer.cpp
+  - src/wx_dialog.h
+  - src/wx_menu.cpp
+  - src/wx_window.cpp
+  - src/wx_statusbar.cpp
+  - src/wx_textctrl.cpp
+  - src/wxhframe.prg
+  - src/wxhsizer.prg
+  - src/wxhcolumn.prg
+  - src/wx_button.h
+  - src/wxhmenu.prg
+  - src/wxhtextctrl.prg
+  - src/wx_menuitem.h
+  - src/wx_validator.h
+  - src/wxhstaticboxsizer.prg
+  - src/wx_ipv4address.h
+  - src/wxhcontrol.prg
+  - src/wxhapp.prg
+  - src/wx_dialog.cpp
+  - src/wxhsocketbase.prg
+  - src/wx_panel.h
+  - src/wx_gridsizer.h
+  - src/wx_functions.cpp
+  - src/wx_menu.h
+  - src/wx_button.cpp
+  - src/wxhstatictext.prg
+  - src/wx_statusbar.h
+  - src/wx_app.cpp
+  - src/wx_notebook.cpp
+  - src/wxhgridsizer.prg
+  - src/wx_staticboxsizer.h
+  - src/wx_menuitem.cpp
+  - src/wx_validator.cpp
+  - src/wxhstatusbar.prg
+  - src/wx_socketbase.h
+  - src/wx_gridtablebase.cpp
+  - src/wx_grid.h
+  + src/wxbase
+  + src/wxbase/app
+A  +   src/wxbase/app/wx_app.cpp
+A  +   src/wxbase/app/wx_app.h
+A  +   src/wxbase/app/wxhapp.prg
+  + src/wxbase/rtti
+  + src/wxbase/controls
+A  +   src/wxbase/controls/wx_button.h
+A  +   src/wxbase/controls/wx_staticbox.cpp
+A  +   src/wxbase/controls/wx_statictext.h
+A  +   src/wxbase/controls/wx_staticbox.h
+A  +   src/wxbase/controls/wxhtextctrl.prg
+A  +   src/wxbase/controls/wx_textctrl.cpp
+A  +   src/wxbase/controls/wxhbutton.prg
+A  +   src/wxbase/controls/wx_button.cpp
+A  +   src/wxbase/controls/wxhstatictext.prg
+A  +   src/wxbase/controls/wx_statictext.cpp
+A  +   src/wxbase/controls/wx_textctrl.h
+A  +   src/wxbase/controls/wxhcontrol.prg
+A  +   src/wxbase/controls/wxhstaticbox.prg
+  + src/wxbase/wlayout
+A  +   src/wxbase/wlayout/wx_sizer.h
+A  +   src/wxbase/wlayout/wxhgridsizer.prg
+A  +   src/wxbase/wlayout/wx_gridsizer.cpp
+A  +   src/wxbase/wlayout/wx_staticboxsizer.h
+A  +   src/wxbase/wlayout/wxhboxsizer.prg
+A  +   src/wxbase/wlayout/wx_boxsizer.cpp
+A  +   src/wxbase/wlayout/wx_gridsizer.h
+A  +   src/wxbase/wlayout/wx_boxsizer.h
+A  +   src/wxbase/wlayout/wxhsizer.prg
+A  +   src/wxbase/wlayout/wx_sizer.cpp
+A  +   src/wxbase/wlayout/wxhstaticboxsizer.prg
+A  +   src/wxbase/wlayout/wx_staticboxsizer.cpp
+  + src/wxbase/events
+A  +   src/wxbase/events/wxhevthandler.prg
+A  +   src/wxbase/events/wx_evthandler.cpp
+  + src/wxbase/manwindows
+A  +   src/wxbase/manwindows/wxhframe.prg
+A  +   src/wxbase/manwindows/wx_frame.cpp
+A  +   src/wxbase/manwindows/wx_frame.h
+  + src/wxbase/miscwindows
+A  +   src/wxbase/miscwindows/wx_notebook.cpp
+A  +   src/wxbase/miscwindows/wxhgrid.prg
+A  +   src/wxbase/miscwindows/wx_grid.cpp
+A  +   src/wxbase/miscwindows/wx_notebook.h
+A  +   src/wxbase/miscwindows/wxhgridtablebase.prg
+A  +   src/wxbase/miscwindows/wxhstatusbar.prg
+A  +   src/wxbase/miscwindows/wx_gridtablebase.cpp
+A  +   src/wxbase/miscwindows/wx_statusbar.cpp
+A  +   src/wxbase/miscwindows/wx_grid.h
+A  +   src/wxbase/miscwindows/wx_gridtablebase.h
+A  +   src/wxbase/miscwindows/wx_statusbar.h
+A  +   src/wxbase/miscwindows/wxhpanel.prg
+A  +   src/wxbase/miscwindows/wxhnotebook.prg
+  + src/wxbase/networking
+A  +   src/wxbase/networking/wxhsocketbase.prg
+A  +   src/wxbase/networking/wx_socketbase.cpp
+A  +   src/wxbase/networking/wx_socketserver.h
+A  +   src/wxbase/networking/wxhsocketclient.prg
+A  +   src/wxbase/networking/wx_socketclient.cpp
+A  +   src/wxbase/networking/wxhipv4address.prg
+A  +   src/wxbase/networking/wx_ipv4address.cpp
+A  +   src/wxbase/networking/wx_socketbase.h
+A  +   src/wxbase/networking/wx_socketclient.h
+A  +   src/wxbase/networking/wx_ipv4address.h
+A  +   src/wxbase/networking/wxhsocketserver.prg
+A  +   src/wxbase/networking/wx_socketserver.cpp
+  + src/wxbase/menus
+A  +   src/wxbase/menus/wxhmenuitem.prg
+A  +   src/wxbase/menus/wx_menuitem.cpp
+A  +   src/wxbase/menus/wxhmenu.prg
+A  +   src/wxbase/menus/wx_menu.cpp
+A  +   src/wxbase/menus/wx_menuitem.h
+A  +   src/wxbase/menus/wxhmenubar.prg
+A  +   src/wxbase/menus/wx_menu.h
+A  +   src/wxbase/menus/wx_menubar.cpp
+A  +   src/wxbase/menus/wx_menubar.h
+  + src/wxbase/validators
+A  +   src/wxbase/validators/wxhvalidator.prg
+A  +   src/wxbase/validators/wx_validator.cpp
+A  +   src/wxbase/validators/wx_validator.h
+  + src/wxbase/basicwindows
+A  +   src/wxbase/basicwindows/wxhtoplevelwindow.prg
+A  +   src/wxbase/basicwindows/wx_toplevelwindow.cpp
+A  +   src/wxbase/basicwindows/wx_panel.h
+A  +   src/wxbase/basicwindows/wxhwindow.prg
+A  +   src/wxbase/basicwindows/wx_window.cpp
+A  +   src/wxbase/basicwindows/wx_panel.cpp
+  + src/wxbase/commdialogs
+A  +   src/wxbase/commdialogs/wx_dialog.h
+A  +   src/wxbase/commdialogs/wxhdialog.prg
+A  +   src/wxbase/commdialogs/wx_dialog.cpp
+  - src/wx_socketclient.h
+  - src/wxhfuncs.prg
+  - src/wx_panel.cpp
+  - src/wxhnotebook.prg
+  - src/wx_staticbox.cpp
+  - src/wxhtoplevelwindow.prg
+  - src/wxhmenuitem.prg
+  - src/wx_boxsizer.h
+  - src/wxhevthandler.prg
+  - src/wx_staticboxsizer.cpp
+  - src/wxhbrowse.prg
+  + src/hrbcompat
+  + src/hrbcompat/tbcolumn
+A  +   src/hrbcompat/tbcolumn/wxhcolumn.prg
+  + src/hrbcompat/tbrowse
+A  +   src/hrbcompat/tbrowse/wxhbrowse.prg
+A  +   src/hrbcompat/tbrowse/wx_browse.cpp
+A  +   src/hrbcompat/tbrowse/wx_browse.h
+  + src/hrbcompat/misc
+A  +   src/hrbcompat/misc/wx_functions.cpp
+  - src/wx_socketbase.cpp
+  - src/wx_socketserver.h
+  - src/wx_grid.cpp
+  - src/wx_app.h
+  - src/wx_notebook.h
+  - src/wxhwindow.prg
+  - src/wx_socketclient.cpp
+  + src/common
+A  +   src/common/wx_harbour.cpp
+A  +   src/common/wxhfuncs.prg
+  - src/wx_frame.cpp
+  - src/wx_sizer.cpp
+  - src/wx_statictext.cpp
+  - src/wx_gridtablebase.h
+  - src/wx_menubar.h
+  - src/wx_harbour.cpp
+  - src/wxhvalidator.prg
+  - src/wxhgrid.prg
+  - src/wx_boxsizer.cpp
+  - src/wx_staticbox.h
+  - src/wx_browse.h
+  - src/wxhsocketclient.prg
+  - src/wxhgridtablebase.prg
+  - src/wxhipv4address.prg
+  - src/wxhmenubar.prg
+  - src/wx_textctrl.h
+  - src/wxhpanel.prg
+  - src/wxhdialog.prg
+  - src/wxhstaticbox.prg
+  - src/wx_socketserver.cpp
+  * GNUmakefile
+  * wxharbour.bkl
+  * config/tmpl_hrb.bkl
+    * ordering by class category
+
+2008-03-12 22:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wx_ipv4address.cpp
+  * src/wx_menubar.cpp
+  * src/wx_gridsizer.cpp
+  * src/wx_menu.cpp
+  * src/wx_window.cpp
+  * src/wx_statusbar.cpp
+  * src/wx_textctrl.cpp
+  * src/wx_dialog.cpp
+  * src/wx_notebook.cpp
+  * src/wx_socketbase.cpp
+  * src/wx_grid.cpp
+  * src/wx_socketclient.cpp
+  * src/wx_frame.cpp
+  * src/wx_harbour.cpp
+  * src/wx_boxsizer.cpp
+  * src/wx_socketserver.cpp
+    * minor cleanup
+
+  * samples/simple/simple.prg
+    * more improvements to wxSocket sample
+
+
+2008-03-12 12:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+  * GNUmakefile
+  * wxharbour.bkl
+    * removed unnecesary <define>NEWDEFINE</define>
+
+  * samples/sizers/makefile.gcc
+  * samples/dbbrowser/makefile.gcc
+  * samples/simple/makefile.bcc
+  * samples/simple/makefile.gcc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/makefile.gcc
+  * config/harbour-mingw.cfg
+  * config/tmpl_hrb.bkl
+  * makefile.gcc
+    ! Fixed bakefile template that was not creating a correct .gcc (mingw)
+
+  - config/common_wxh_bin.bkl
+    * not needed anymore
+
+2008-03-12 05:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/simple
+    * simple sample ...
+
+  * include/wxh.h
+    * added "hbapierr.h" include
+
+  + src/wx_ipv4address.cpp
+  + src/wxhsocketserver.prg
+  + src/wx_ipv4address.h
+  + src/wxhsocketbase.prg
+  + src/wx_socketbase.h
+  + src/wx_socketclient.h
+  + src/wx_socketbase.cpp
+  + src/wx_socketserver.h
+  + src/wx_socketclient.cpp
+  + src/wxhsocketclient.prg
+  + src/wxhipv4address.prg
+  + src/wx_socketserver.cpp
+  * makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+    + added new classes: wxIPV4address, wxSocketBase, wxSocketClient,
+      wxSocketServer
+    * simple test for this clases on "simple" sample.
+
+  * src/wx_frame.cpp
+    ! Fixed small typo on returned value when creating a wxFrame
+
+2008-03-11 16:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * added VAR to return a wxButton object
+
+  * samples/sizers/login.prg
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/sizers/main.prg
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.prg
+  * samples/helloworld/helloworld.bkl
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/helloworld1.bkl
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+    * changes to enhance the samples
+
+  + samples/template.bkl
+  + build_bkls
+    * script to automatically build the scripts in samples dir
+
+
+2008-03-01 15:01 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.bkl
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/helloworld1.bkl
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * makefile.vc
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * more fixes and enhancements to build the library and binaries
+    * Now can be setted the flags for the wxWidgets build used
+    * detects compiler (win32)
+
+2008-03-01 14:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.bkl
+  * samples/helloworld/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld1/helloworld1.bkl
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * makefile.vc
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * more fixes and enhancements to build the library and binaries
+    * Now can be setted the flags for the wxWidgets build used
+    * detects compiler (win32)
+
+2008-02-29 05:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/sizers.bkl
+  * samples/sizers/GNUmakefile
+  * samples/makefile.vc
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * makefile.vc
+  - config/common_samples.bkl
+  * config/common_wxh_bin.bkl
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    ! Major changes in bkl core (tmpl_hrb.bkl) in order to use more correctly
+      the targets
+    + added new rules to deal with [wx]harbour-[exe|lib|] objetives.
+    ! Several fixes and enhancements
+    * Now the dbbrowser sample compiles ok with MSVC Express 8
+    TODO: more cleanup in win32 formats and tests.
+
+
+2008-02-25 17:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/login.prg
+    * minor change (setting a fixed width to buttons)
+
+  * GNUmakefile
+  * makefile.gcc
+  * wxharbour.bkl
+  * config/tmpl_hrb.bkl
+    ! Fixed adding CFLAGS values (when compiling .c sources)
+    + added tag <prgs-at> to simply indicate dirs when source files are
+
+
+2008-02-24 03:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/GNUmakefile
+  * samples/makefile.gcc
+  * samples/samples.bkl
+    * forgot to add this files needed for the last sample added
+      Seems that I need to automate this with the bakefile* tools
+
+  **
+     Now you need to INSTALL the wxHarbour lib in your system, currently
+     only at linux and win32-mingw, later I'll do in MSVC and other compilers
+  **
+
+2008-02-24 03:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/sizers
+  + samples/sizers/login.prg
+  + samples/sizers/sizers.bkl
+  + samples/sizers/GNUmakefile
+  + samples/sizers/makefile.gcc
+  + samples/sizers/main.prg
+    + Added sample showing automatic command sizers
+      linux, mingw32 for the moment
+
+
+2008-02-24 02:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * makefile.vc
+  + config/harbour-mingw.cfg
+  + config/harbour-unix.cfg
+  + config/common_wxh_bin.bkl
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+    * finished the changes in the bakefiles, for now, only linux-gcc
+      and windows-mingw are working, later I'll check MSVC & BCC
+
+
+2008-02-23 18:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - include/wxh
+  - include/wxh/wx.ch
+  - include/wxh/defs.ch
+  - include/wxh/event.ch
+A  +   include/wx.ch
+A  +   include/defs.ch
+A  +   include/event.ch
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/helloworld/helloworld.prg
+  * samples/helloworld1/helloworld1.prg
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * src/wxhboxsizer.prg
+  * src/wxhbutton.prg
+  * src/wxhsizer.prg
+  * src/wxhmenu.prg
+  * src/wxhtextctrl.prg
+  * src/wxhstaticboxsizer.prg
+  * src/wxhstatictext.prg
+  * src/wxhgridsizer.prg
+  * src/wxhfuncs.prg
+  * src/wxhnotebook.prg
+  * src/wxhmenuitem.prg
+  * src/wxhvalidator.prg
+  * src/wxhpanel.prg
+  * src/wxhstaticbox.prg
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * more changes on removing the include/wxh dir
+
+
+
+2008-02-23 15:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   include/wxh
+  * include/wxharbour.ch
+  - include/wx
+  - include/wx/wx.ch
+  - include/wx/defs.ch
+  - include/wx/event.ch
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * ChangeLog
+  * GNUmakefile
+  * wxharbour.bkl
+  * makefile.gcc
+    * major re-arrangement of makefiles
+
+
+2008-02-22 00:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * changes to hold the new classes added
+
+  + src/wx_gridsizer.cpp
+  + src/wxhstaticboxsizer.prg
+  + src/wx_gridsizer.h
+  + src/wxhgridsizer.prg
+  + src/wx_staticboxsizer.h
+  + src/wx_staticbox.cpp
+  + src/wx_staticboxsizer.cpp
+  + src/wx_staticbox.h
+  + src/wxhstaticbox.prg
+    + added new *sizer classes: wxStaticBoxSizer, wxGridSizer
+    + added wxStaticBox
+
+  * src/wxhdialog.prg
+  * src/wx_dialog.cpp
+    + added ::EndModal
+
+  * src/wxhstatictext.prg
+  * src/wxhfuncs.prg
+    * changed wxh_Define* to wxh_Begin
+    * added support for wxStaticBoxSizer, wxGridSizer
+    * minor changes in param names
+
+  * src/wx_statictext.cpp
+  * src/wx_notebook.cpp
+  * src/wx_panel.cpp
+  * src/wx_grid.cpp
+    ! fixed warning due to wrong cast
+    * corrected minor naming of params
+
+  * GNUmakefile
+    * changes for the new classes added
+
+
+2008-02-20 03:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * changes in xcommands to create controls, including:
+      @ BUTTON ...
+      @ SAY ...
+      @ GET ...
+      @ SAY ... GET ...
+      BEGIN/END BOXSIZER scopes
+      @ SPACER ...
+
+  * src/wxhbutton.prg
+    + added proportion (strech), flag & border params
+
+  * src/wxhfuncs.prg
+    * several fixes and changes in control creation functions
+
+2008-02-19 01:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * src/wxhmenubar.prg
+  * src/wxhmenuitem.prg
+  * src/wxhmenu.prg
+  * src/wxhstatusbar.prg
+    + added wxh_* prefix to Harbour functions
+    + added commands to help to construct complex sizers, spacers
+
+  * src/wxhbutton.prg
+    + added wxh_Button function
+
+  * GNUmakefile
+  + src/wxhfuncs.prg
+    * place of helper functions to help on preprocessor commands
+
+  * src/wx_sizer.cpp
+    + added ChkFlagInArray to build flag params from a array of values
+    * using ChkFlagInArray on ::Add method
+
+  * src/wx_harbour.cpp
+    + added lastSizer static var and wxh_lastSizer()
+    ! Fixed wxPos, wxSize to set default values (-1) on invalid array of params
+
+  * src/wxhboxsizer.prg
+  * src/wx_boxsizer.cpp
+    + added ::GetOrientation() method
+
+  * wxharbour.bkl
+    + added debug-info
+
+2008-02-18 13:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * set as optional the ON <window> param in CREATE STATUS BAR,
+      DEFINE MENUBAR
+
+  * src/wx_harbour.cpp
+    + added wxh_LastTopLevelWindow
+
+  * src/wxhmenubar.prg
+    + added code to accept wxTopLevelWindow optional parameter or get it from
+      wxh_LastTopLevelWindow()
+
+  * ChangeLog
+    * minot formatting
+
+
+
+2008-02-18 01:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld/helloworld.prg
+    * minor ordering of commands in CREATE FRAME, CREATE DIALOG,
+      CREATE STATUSBAR
+    * changed CREATE MENU[BAR] TO DEFINE MENU [BAR] and added window param
+
+  * samples/helloworld1/GNUmakefile
+  * config/tmpl_hrb.bkl
+    + added -Llib to search on ROOT/lib
+
+  * src/wx_dialog.cpp
+    - removed oLastDialog static var and GetLastDialog() function to
+      avoid to keep a active and unreleased reference of the Harbour object
+
+  * src/wxhstatusbar.prg
+  * src/wx_frame.cpp
+    - removed oLastFrame static var and GetLastFrame() function to
+      avoid to keep a and unreleased active reference of the Harbour object
+
+  * src/wx_menubar.cpp
+    - removed oLastMenuBar static var and GetLastMenuBar() function to
+      avoid to keep a and unreleased active reference of the Harbour object
+
+  * src/wxhmenuitem.prg
+  * src/wxhmenu.prg
+  * src/wxhmenubar.prg
+    + added data to the TGLobal class to hold more info about the menu
+      created
+
+
+2008-02-17 10:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * GNUmakefile
+    * changed from the main bakefiles
+
+  * config/common_samples.bkl
+    * changed library path of wxH to root/lib
+
+  * config/tmpl_hrb.bkl
+    * renamed libs to the new Harbour lib name convention (prior to release 1)
+
+  * wxharbour.bkl
+    * added root/lib as target to build the libraries
+
+
+2007-12-14 11:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/GNUmakefile
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld1/GNUmakefile
+  * config/common_samples.bkl
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * wxharbour.bkl
+    * changed bkl files to not use hblnk in linux builds
+
+
+2007-11-05 09:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - config/template_prg.bkl
+A  +   config/tmpl_hrb.bkl
+
+
+2007-11-05 09:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/template_prg.bkl
+
+2007-10-31 01:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + config/common_samples.bkl
+  + config/template_prg.bkl
+    + added bakefiles needed to build the makefiles
+
+  + src/wx_functions.cpp
+    + added some sample functions to test not wxGUI functions
+
+  * samples/helloworld1/helloworld1.prg
+    * minor cleanup
+
+  * makefile.vc
+  * GNUmakefile
+    * changed to use the wxWidgets 2.8.6 version
+
+  * src/wx_notebook.cpp
+    * minor cleanup
+
+2007-08-30 08:26  tfonrouge
+
+	* doc, doc/wxharbour.chm, doc/wxharbour.htm: Added Documentarion
+	  based on wxWidgets document archives.
+
+2007-08-29 19:36  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg: Renamed :Center to :Center
+
+2007-08-29 19:36  tfonrouge
+
+	* samples/helloworld1/helloworld1.prg: Added GetValue to retrieve
+	  buffer of wxTextCtrl
+
+2007-08-29 19:35  tfonrouge
+
+	* src/wx_app.cpp, src/wx_dialog.cpp, src/wx_dialog.h,
+	  src/wx_frame.cpp, src/wx_frame.h, src/wx_grid.cpp,
+	  src/wx_menu.cpp, src/wx_menubar.cpp, src/wx_notebook.cpp,
+	  src/wx_panel.cpp, src/wx_toplevelwindow.cpp, src/wx_window.cpp,
+	  src/wxhevthandler.prg, src/wxhframe.prg, src/wxhgrid.prg,
+	  src/wxhmenu.prg, src/wxhsizer.prg, src/wxhtoplevelwindow.prg,
+	  src/wxhvalidator.prg, src/wxhwindow.prg: Minor fixes.
+	  * Renamed ::ProcessEvents to ::ProcessEvent
+	  + Added ::Centre to wxFrame
+	  TODO: need to check all the other ::Centre methods in the other
+	  classes
+
+2007-08-29 19:31  tfonrouge
+
+	* src/wxhtextctrl.prg: Added :GetValue method to retrieve edit
+	  buffer.
+
+2007-08-29 19:30  tfonrouge
+
+	* src/wx_textctrl.cpp: Added :GetValue method to retrieve edit
+	  buffer.
+
+2007-08-24 06:19  tfonrouge
+
+	* ChangeLog:
+
+2007-08-24 06:17  tfonrouge
+
+	* samples/helloworld1/helloworld1.prg: * Added wxNotebook control
+	  sample.
+
+2007-08-24 06:16  tfonrouge
+
+	* GNUmakefile, makefile.gcc, makefile.vc, src/wx_notebook.cpp,
+	  src/wx_notebook.h, src/wx_statusbar.cpp, src/wxhnotebook.prg:
+	  Added wxNotebook
+	  + Added wxNotebook class
+	  + Added ::AddPage
+
+2007-08-19 11:27  tfonrouge
+
+	* ChangeLog, samples/dbbrowser/GNUmakefile: Minor Fix to makefile
+
+2007-08-19 11:17  tfonrouge
+
+	* ChangeLog:
+
+2007-08-19 11:16  tfonrouge
+
+	* GNUmakefile, makefile.gcc, makefile.vc,
+	  samples/dbbrowser/GNUmakefile, samples/dbbrowser/makefile.gcc,
+	  samples/dbbrowser/makefile.vc, samples/helloworld/GNUmakefile,
+	  samples/helloworld/makefile.gcc, samples/helloworld/makefile.vc,
+	  samples/helloworld1/GNUmakefile,
+	  samples/helloworld1/makefile.gcc,
+	  samples/helloworld1/makefile.vc, samples/makefile.gcc,
+	  samples/makefile.vc, wxharbour.bkl: Bakefiles for: GNUmake,
+	  MinGW, MSVC
+	  TODO: Fix and Symplify linking process under Windows with MSVC
+
+2007-08-19 01:41  tfonrouge
+
+	* ChangeLog:
+
+2007-08-19 01:40  tfonrouge
+
+	* GNUmakefile, config/Makefile.bat, config/Makefile.inc,
+	  config/Makefile.run, samples/GNUmakefile, samples/Makefile,
+	  samples/dbbrowser/GNUmakefile, samples/dbbrowser/Makefile,
+	  samples/dbbrowser/dbbrowser.bkl, samples/helloworld/GNUmakefile,
+	  samples/helloworld/Makefile, samples/helloworld/helloworld.bkl,
+	  samples/helloworld1/GNUmakefile, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.bkl, samples/samples.bkl,
+	  src/Makefile, wxharbour.bkl: Now using Bakefiles to allow cross
+	  compiling:
+	  + Added GNUmakefile's to build libs & samples
+	  TODO: Create makefiles for the other platforms.
+
+2007-08-16 10:49  tfonrouge
+
+	* ChangeLog:
+
+2007-08-16 10:47  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.prg: Added wxPanel and enhancing
+	  the samples.
+
+2007-08-16 10:46  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run: Added WXCONFIG var to
+	  hold the wx-config variant to use in compiling/linking
+
+2007-08-16 10:44  tfonrouge
+
+	* include/wx/defs.ch: Added wxTAB_TRAVERSAL
+
+2007-08-16 10:44  tfonrouge
+
+	* src/wx_statictext.cpp, src/wxhstatictext.prg: Added the Wrap
+	  member to wxStaticText
+	  ! wxWidgets v 2.6.. does not call to Wrap correctly, even if is
+	  set to -1, 2.8.4 does ok.
+
+2007-08-16 10:42  tfonrouge
+
+	* src/wx_sizer.cpp, src/wxhsizer.prg: Moved the overloaded variants
+	  for the member Add from .prg to .cpp
+
+2007-08-16 04:02  tfonrouge
+
+	* src/wx_sizer.cpp, src/wx_textctrl.cpp, src/wxhsizer.prg,
+	  src/wxhtextctrl.prg: : Adding the version 4 of overloading ::Add
+	  * Maybe is time to do this overloading emulation enterily on the
+	  wx_Sizer class
+
+2007-08-16 03:55  tfonrouge
+
+	* src/Makefile, src/wx_statictext.cpp, src/wx_statictext.h,
+	  src/wxhstatictext.prg: : Added wxStaticText
+
+2007-08-15 05:02  tfonrouge
+
+	* ChangeLog:
+
+2007-08-15 05:00  tfonrouge
+
+	* samples/helloworld/helloworld.prg,
+	  samples/helloworld1/helloworld1.prg, src/Makefile,
+	  src/wx_harbour.cpp, src/wx_panel.cpp, src/wx_panel.h,
+	  src/wxharbour.cpp, src/wxhpanel.prg, src/wxhstatusbar.prg: :
+	  Added wxPanel
+	  + Added C++ wx_panel.cpp, wx_panel.h
+	  + Added Harbour class wxhpanel.prg
+	  ! Renamed wxharbour.cpp to wx_harbour.cpp and changed Makefile
+	  * Changed Makefile to include wxPanel classes
+	  * helloworld.prg: Added wxPanel
+	  * Changed wxTextCtrl sample in samples
+	  helloworld.prg/helloworld1.prg to wxGROW
+
+2007-08-13 04:31  tfonrouge
+
+	* ChangeLog:
+
+2007-08-13 04:30  tfonrouge
+
+	* ChangeLog, INSTALL, config/Makefile.run: [SOLVED] hblnk under
+	  MinGW fails.
+	  * Linking is different in gcc & g++, hblnk is forcing (via a
+	  HB_COMPILER="mingw32" in the hblnk script) linking with gcc, when
+	  compiling using g++ the linking process is ok and the binary
+	  executable is builded ok.
+	  Currently using gcc/g++ version: 3.4.2 (mingw-special)
+	  TODO: Check with Harbour developers if the hblnk script can be
+	  changed to no hardcode the HB_COMPILER="mingw32" env var. Anyway
+	  I think we can override this by issuing a parameter when linking
+	  via gcc.
+
+2007-08-12 18:28  tfonrouge
+
+	* samples/dbbrowser/init.cld:
+
+2007-08-12 17:35  tfonrouge
+
+	* samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg: : Cleaning source code
+	  + Adding STYLE 1 parameter to helloworld.prg sample.
+
+2007-08-11 07:55  tfonrouge
+
+	* ChangeLog: Updated Changelog
+
+2007-08-11 07:54  tfonrouge
+
+	* samples/helloworld/Makefile, samples/helloworld/helloworld.prg: :
+	  Why is HB_HAUTOADD needed here in helloworld.prg sample ?.
+
+2007-08-11 07:52  tfonrouge
+
+	* src/wxhmenu.prg: :
+	  * Specifically setting HB_HAUTOADD to TRUE to hash in wxhmenu.prg
+	  (Harbour specs).
+
+2007-08-11 07:49  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run: : Temporary hack to
+	  linking under MinGW32
+	  ! Seems that hblnk doesn't parse correctly additional parameters
+	  under MinGW32
+	  For now, we are doing a 'brute' linking with g++
+	  TODO: Check why hblnk is not working under MinGW32.
+
+2007-08-10 14:58  tfonrouge
+
+	* config/Makefile.bat, config/Makefile.inc, config/Makefile.run,
+	  samples/Makefile, samples/helloworld/Makefile, src/Makefile,
+	  src/wxhmenu.prg, src/wxhmenubar.prg, src/wxhmenuitem.prg: :
+	  Changes to cross plattform compiling on windows using MinGw
+	  * TODO: hblnk linking is not working when using the `wx-config
+	  --libs`
+
+2007-08-08 18:35  tfonrouge
+
+	* .:
+
+2007-08-08 18:34  tfonrouge
+
+	* src/wxharbour.cpp:
+
+2007-08-07 18:39  tfonrouge
+
+	* samples/helloworld/init.cld, samples/helloworld/oper.cdx,
+	  samples/helloworld/oper.dbf, samples/helloworld/oper.fpt:
+
+2007-08-07 18:38  tfonrouge
+
+	* samples/dbbrowser/main.cdx:
+
+2007-08-07 18:37  tfonrouge
+
+	* samples/Makefile, samples/dbbrowser/dbbrowser.prg,
+	  samples/dbbrowser/main.dbf, samples/helloworld/helloworld.prg,
+	  samples/helloworld1, samples/helloworld1/Makefile,
+	  samples/helloworld1/helloworld1.prg, src/wx_evthandler.cpp,
+	  src/wx_gridtablebase.cpp, src/wxhapp.prg: : Cleanup samples
+
+2007-08-07 07:19  tfonrouge
+
+	* ChangeLog:
+
+2007-08-07 07:14  tfonrouge
+
+	* config/Makefile.inc, config/Makefile.run, include/property.ch,
+	  include/wx/defs.ch, include/wxh.h,
+	  samples/dbbrowser/dbbrowser.prg,
+	  samples/helloworld/helloworld.prg, src/Makefile, src/wx_app.cpp,
+	  src/wx_gridtablebase.cpp, src/wxhbrowse.prg, src/wxhmenu.prg,
+	  src/wxhmenubar.prg, src/wxhmenuitem.prg: : Modified to use the
+	  Harbour compiler
+
+2006-11-17 22:55  tfonrouge
+
+	* config/Makefile.inc: * Minor changes for correct working on Linux
+
+2006-11-16 23:08  shadday
+
+	* README: Modificando Makefiles para poder compilar bajo windows.
+
+2006-11-16 22:50  shadday
+
+	* config/Makefile.inc, config/Makefile.run: Para compilar bajo
+	  windows con MinGw:
+
+	  Se necesita ademas de wxwidgets y xHarbour, los siguientes
+	  Prerequisitos:
+
+	  Bajar e instalar MinGW 5.0.3 gcc 3.4.5 (candidate) installer:
+	  http://prdownloads.sourceforge.net/mingw/MinGW-5.0.3.exe?download
+
+	  Bajar e instalar GDB v6.3-2 debugger:
+	  http://prdownloads.sourceforge.net/mingw/gdb-6.3-2.exe?download
+
+	  Bajar e instalar 7-Zip:
+	  http://www.7-zip.org/es/
+
+	  Bajar e instalar los ports de GNU tools:
+	  http://gnuwin32.sourceforge.net/
+
+	  También necesita el port de wxconfig para windows,lo puedes bajar
+	  de:
+	  http://wxconfig.googlepages.com/
+
+	  Modificar los archivos Makefile.inc del directorio trunk/config y
+	  setear las variables correspondientes,
+	  entrar al directorio trunk/src y ejecutar mingw32-make, luego
+	  entrar en cada directorio de los ejemplos
+	  que estan el directorio trunk/samples y ejecutar mingw32-make. Es
+	  todo.
+
+	  suerte!.
+
+2006-11-09 03:10  tfonrouge
+
+	* samples/helloworld/helloworld.prg:
+
+2006-11-08 19:24  tfonrouge
+
+	* config/Makefile.inc: * Cleaning make file
+
+2006-09-27 22:20  tfonrouge
+
+	* src/wx_textctrl.cpp, src/wx_textctrl.h, src/wxhtextctrl.prg:
+	  Added wxTextCtrl
+
+2006-09-27 22:19  tfonrouge
+
+	* ., samples/helloworld/Makefile: Minor changes
+
+2006-09-27 22:16  tfonrouge
+
+	* samples/helloworld/helloworld.prg: Added wxTextCtrl control in
+	  the test
+
+2006-09-27 22:14  tfonrouge
+
+	* src/Makefile, src/wx_app.cpp, src/wx_boxsizer.cpp,
+	  src/wx_browse.cpp, src/wx_button.cpp, src/wx_dialog.cpp,
+	  src/wx_frame.cpp, src/wx_grid.cpp, src/wx_gridtablebase.cpp,
+	  src/wx_menu.cpp, src/wx_menubar.cpp, src/wx_menuitem.cpp,
+	  src/wx_sizer.cpp, src/wx_statusbar.cpp,
+	  src/wx_toplevelwindow.cpp, src/wx_validator.cpp,
+	  src/wx_window.cpp, src/wxharbour.cpp: Eliminated declaration of
+	  'external "C"'
+
+2006-09-27 14:58  tfonrouge
+
+	* config/Makefile.inc: ! Attempt to make the make scripts
+	  [x]Harbour compatibles
+
+2006-09-27 04:41  tfonrouge
+
+	* wxharbour.spec: First attemp to have rpm files for distribution
+
+2006-09-19 13:28  tfonrouge
+
+	* samples/helloworld/helloworld.prg: Corrected source for new
+	  preprocessor commands
+
+2006-09-19 07:08  tfonrouge
+
+	* ChangeLog: Reordering repository
+
+2006-09-19 06:54  tfonrouge
+
+	* README: Reordering repository
+
+2006-09-19 06:53  tfonrouge
+
+	* ChangeLog: Reordering repository
+
+2006-09-19 06:53  tfonrouge
+
+	* COPYING: Reordering repository
+
+2006-09-19 06:51  tfonrouge
+
+	* src: Reordering repository
+
+2006-09-19 06:51  tfonrouge
+
+	* samples: Reordering repository
+
+2006-09-19 06:50  tfonrouge
+
+	* include: Reordering repository
+
+2006-09-19 06:49  tfonrouge
+
+	* config: Reordering repository
+
+2006-09-19 06:47  tfonrouge
+
+	* .: Reordering repository
+

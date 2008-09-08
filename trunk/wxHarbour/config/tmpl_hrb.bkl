@@ -1,0 +1,826 @@
+<?xml version="1.0" ?>
+
+<!-- Common Harbour template for Bakefiles  -->
+<!-- (C) 2008 Teo Fonrouge. WindTelSoft     -->
+<!-- v0.4                                   -->
+
+<makefile>
+
+  <using module="harbour_bkl"/>
+
+  <echo>compiler: $(COMPILER)</echo>
+  <echo>platform: $(PLATFORM_UNIX)</echo>
+  <echo> toolset: $(TOOLSET)</echo>
+  <echo>  format: $(FORMAT)</echo>
+
+  <set var="__DEFAULT_HBFLAGS">
+    -n -a -v -m -go
+  </set>
+
+  <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
+
+  <if cond="FORMAT!='gnu'">
+    <set var="HB_INSTALL_PREFIX">
+      $(envvar("HB_INSTALL_PREFIX"))
+    </set>
+    <option name="HBPATH_INSTALL">
+      <default-value>$(HB_INSTALL_PREFIX)</default-value>
+      <description>
+        Path for the installed [x]Harbour compiler (bin,lib and include dirs)
+      </description>
+    </option>
+    <set var="PREFIX" make_var="1">
+      $(HBPATH_INSTALL)
+    </set>
+  </if>
+
+  <option name="HBCOMPILER">
+    <values>harbour,xharbour</values>
+    <values-description>www.harbour-project.org,www.xharbour.com</values-description>
+    <default-value>harbour</default-value>
+    <description>
+      [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com)
+    </description>
+  </option>
+
+  <option name="HBCC">
+    <default-value>harbour</default-value>
+    <description>
+      [x]Harbour compiler executable name
+    </description>
+  </option>
+
+  <option name="HBLIB_TIP">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>
+---------------------------------------------------------------
+[x]Harbour optional libraries
+---------------------------------------------------------------
+Link in the Harbour TIP library
+    </description>
+  </option>
+
+  <option name="HBLIB_FM">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour FM library</description>
+  </option>
+
+  <option name="HBLIB_CT">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour CT library</description>
+  </option>
+
+  <if cond="TOOLSET=='unix'">
+    <option name="HBLIB_GTTRM">
+      <values>yes,no</values>
+      <default-value>yes</default-value>
+      <description>Link in the Harbour GTTRM library</description>
+    </option>
+    <set var="LIB_GTTRM">
+      <if cond="HBLIB_GTTRM=='yes'">
+        gttrm
+      </if>
+    </set>
+
+    <option name="HBLIB_GPM">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the System GPM library</description>
+    </option>
+    <set var="LIB_GPM">
+      <if cond="HBLIB_GPM=='yes'">
+        gpm
+      </if>
+    </set>
+
+    <option name="HBLIB_GTXWC">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTXWC library</description>
+    </option>
+    <set var="LIB_GTXWC">
+      <if cond="HBLIB_GTXWC=='yes'">
+        gtxwc
+      </if>
+    </set>
+    <set var="LIB_X11">
+      <if cond="HBLIB_GTXWC=='yes'">
+        X11
+      </if>
+    </set>
+
+    <option name="HBLIB_GTCRS">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTCRS library</description>
+    </option>
+    <set var="LIB_GTCRS">
+      <if cond="HBLIB_GTCRS=='yes'">
+        gtcrs
+      </if>
+    </set>
+    <set var="LIB_NCURSES">
+      <if cond="HBLIB_GTCRS=='yes'">
+        ncurses
+      </if>
+    </set>
+
+    <option name="HBLIB_GTSLN">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTSLN library</description>
+    </option>
+    <set var="LIB_GTSLN">
+      <if cond="HBLIB_GTSLN=='yes'">
+        gtsln
+      </if>
+    </set>
+    <set var="LIB_SLANG">
+      <if cond="HBLIB_GTSLN=='yes'">
+        slang
+      </if>
+    </set>
+
+  </if>
+
+  <if cond="TOOLSET=='win32'">
+    <option name="HBLIB_GTWIN">
+      <values>yes,no</values>
+      <default-value>yes</default-value>
+      <description>Link in the Harbour GTWIN library</description>
+    </option>
+    <set var="LIB_GTWIN">
+      <if cond="HBLIB_GTWIN=='yes'">
+        gtwin
+      </if>
+    </set>
+
+    <option name="HBLIB_GTXVT">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTXVT library</description>
+    </option>
+    <set var="LIB_GTXVT">
+      <if cond="HBLIB_GTXVT=='yes'">
+        gtxvt
+      </if>
+    </set>
+  </if>
+
+  <option name="HBLIB_GTCGI">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTCGI library</description>
+  </option>
+  <set var="LIB_GTCGI">
+    <if cond="HBLIB_GTCGI=='yes'">
+      gtcgi
+    </if>
+  </set>
+
+  <option name="HBLIB_GTSTD">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTSTD library</description>
+  </option>
+  <set var="LIB_GTSTD">
+    <if cond="HBLIB_GTSTD=='yes'">
+      gtstd
+    </if>
+  </set>
+
+  <option name="HBLIB_GTPCA">
+    <values>yes,no</values>
+    <default-value>no</default-value>
+    <description>Link in the Harbour GTPCA library</description>
+  </option>
+  <set var="LIB_GTPCA">
+    <if cond="HBLIB_GTPCA=='yes'">
+      gtpca
+    </if>
+  </set>
+
+  <!-- Start Section of Harbour/xHarbour libraries names -->
+  <set var="LIB_VM">
+    <if cond="HBCOMPILER=='harbour'">
+      hbvm
+    </if>
+  </set>
+  <set var="LIB_VM">
+    <if cond="HBCOMPILER=='xharbour'">
+      vm
+    </if>
+  </set>
+
+  <set var="LIB_PP">
+    <if cond="HBCOMPILER=='harbour'">
+      hbpp
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      pp
+    </if>
+  </set>
+
+  <set var="LIB_RTL">
+    <if cond="HBCOMPILER=='harbour'">
+      hbrtl
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      rtl
+    </if>
+  </set>
+
+  <set var="LIB_RDD">
+    <if cond="HBCOMPILER=='harbour'">
+      hbrdd
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      rdd
+    </if>
+  </set>
+
+  <set var="LIB_RDDFPT">
+    <if cond="HBCOMPILER=='harbour'">
+      rddfpt
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbffpt
+    </if>
+  </set>
+
+  <set var="LIB_RDDCDX">
+    <if cond="HBCOMPILER=='harbour'">
+      rddcdx
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbfcdx
+    </if>
+  </set>
+
+  <set var="LIB_RDDNTX">
+    <if cond="HBCOMPILER=='harbour'">
+      rddntx
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      dbfntx
+    </if>
+  </set>
+
+  <set var="LIB_USRRDD">
+    <if cond="HBCOMPILER=='harbour'">
+      hbusrrdd
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      usrrdd
+    </if>
+  </set>
+
+  <set var="LIB_MACRO">
+    <if cond="HBCOMPILER=='harbour'">
+      hbmacro
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      macro
+    </if>
+  </set>
+
+  <set var="LIB_COMMON">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcommon
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      common
+    </if>
+  </set>
+
+  <set var="LIB_LANG">
+    <if cond="HBCOMPILER=='harbour'">
+      hblang
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      lang
+    </if>
+  </set>
+
+  <set var="LIB_CPAGE">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcpage
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      codepage
+    </if>
+  </set>
+
+  <set var="LIB_DEBUG">
+    <if cond="HBCOMPILER=='harbour'">
+      hbdebug
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      debug
+    </if>
+  </set>
+
+  <set var="LIB_CPLR">
+    <if cond="HBCOMPILER=='harbour'">
+      hbcplr
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+    </if>
+  </set>
+
+  <set var="LIB_PCRE">
+    <if cond="HBCOMPILER=='harbour'">
+      hbpcre
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      pcrepos
+    </if>
+  </set>
+
+  <set var="LIB_FM">
+    <if cond="HBLIB_FM=='yes' and HBCOMPILER=='harbour'">
+      hbfm
+    </if>
+    <if cond="HBLIB_FM=='yes' and HBCOMPILER=='xharbour'">
+      fm
+    </if>
+  </set>
+
+  <set var="LIB_CT">
+    <if cond="HBLIB_CT=='yes' and HBCOMPILER=='harbour'">
+      hbct
+    </if>
+    <if cond="HBLIB_CT=='yes' and HBCOMPILER=='xharbour'">
+      ct
+    </if>
+  </set>
+
+  <set var="LIB_TIP" make_var="1">
+    <if cond="HBLIB_TIP=='yes' and HBCOMPILER=='harbour'">
+      hbtip
+    </if>
+    <if cond="HBLIB_TIP=='yes' and HBCOMPILER=='xharbour'">
+      tip
+    </if>
+  </set>
+
+  <!-- End Section of Harbour/xHarbour libraries names -->
+
+  <option name="HBFLAGS">
+      <default-value>$(DEFAULT_HBFLAGS)</default-value>
+      <description>
+---------------------------------------------------------------
+[x]Harbour compiler options
+---------------------------------------------------------------
+Standard flags for Harbour compiler
+      </description>
+  </option>
+
+  <option name="HBBUILD">
+    <values>debug,release</values>
+    <values-description>Debug,Release</values-description>
+    <default-value>release</default-value>
+    <description>
+    Type of Harbour compiled binaries
+    </description>
+  </option>
+
+  <option name="HBWARNL">
+    <values>0,1,2,3</values>
+    <default-value>3</default-value>
+    <description>
+      Warning level for the Harbour Compiler
+    </description>
+  </option>
+
+  <option name="HBEXITSL">
+    <values>0,1,2</values>
+    <default-value>2</default-value>
+    <description>
+      Exit severity level for the Harbour Compiler
+    </description>
+  </option>
+
+  <set var="__HB_BIN_PATH">
+    <if cond="TOOLSET=='win32'">
+      $(envvar("HB_BIN_INSTALL"))
+    </if>
+    <if cond="TOOLSET=='unix'">
+      /usr/bin
+    </if>
+  </set>
+
+  <set var="__HB_INC_PATH">
+    <if cond="TOOLSET=='win32'">
+      $(envvar("HB_INC_INSTALL"))
+    </if>
+    <if cond="TOOLSET=='unix'">
+      /usr/include/$(HBCOMPILER)
+    </if>
+  </set>
+
+  <set var="__HB_LIB_PATH">
+    <if cond="TOOLSET=='win32'">
+      $(envvar("HB_LIB_INSTALL"))
+    </if>
+    <if cond="TOOLSET=='unix'">
+      /usr/lib/$(HBCOMPILER)
+    </if>
+  </set>
+
+  <option name="HB_BIN_PATH" category="path">
+    <default-value>
+      $(__HB_BIN_PATH)
+    </default-value>
+    <description>
+---------------------------------------------------------------
+Harbour paths
+---------------------------------------------------------------
+
+Where to search for the Harbour compiler
+    </description>
+  </option>
+
+  <option name="HB_INC_PATH" category="path">
+    <default-value force="1">
+      $(__HB_INC_PATH)
+    </default-value>
+    <description>
+      Where to search for Harbour includes
+    </description>
+  </option>
+
+  <option name="HB_LIB_PATH" category="path">
+    <default-value>
+      $(__HB_LIB_PATH)
+    </default-value>
+    <description>
+      Where to search for Harbour libs
+    </description>
+  </option>
+
+  <set var="__HBDEBUG__">
+    <if cond="HBBUILD=='debug'" >-b -d_DEBUG_</if>
+  </set>
+
+  <set var="HBDEFINES">
+    <if cond="TOOLSET=='win32'">
+      -dHB_OS_WIN_32
+    </if>
+    <if cond="TOOLSET=='unix'">
+      -dHB_OS_LINUX
+    </if>
+  </set>
+
+  <set var="___BUILDDIR__">
+    <if cond="TOOLSET=='unix'">
+      obj/$(COMPILER)-$(TOOLSET)
+    </if>
+    <if cond="TOOLSET=='win32'">
+      obj\$(COMPILER)-$(TOOLSET)
+    </if>
+  </set>
+
+  <option name="__BUILDDIR__" category="path">
+    <default-value>
+      $(___BUILDDIR__)
+    </default-value>
+    <description>
+      Where the object and lib files are built
+    </description>
+  </option>
+
+  <set var="BUILDDIR">
+      $(__BUILDDIR__)
+  </set>
+
+  <if cond="TOOLSET=='win32'">
+  <option name="WX_PATH" category="path">
+    <default-value>
+      C:\wxWidgets-2.8.8
+    </default-value>
+    <description>
+---------------------------------------------------------------
+wxWidgets flags (version 2.8 required)
+---------------------------------------------------------------
+
+Where is wxWidgets installed
+    </description>
+  </option>
+  </if>
+
+  <option name="WX_ENCODING">
+    <description>Encoding</description>
+    <default-value>unicode</default-value>
+    <values>ansi,unicode</values>
+  </option>
+  <option name="WX_BUILD">
+    <default-value>release</default-value>
+    <values>release,debug</values>
+  </option>
+  <set var="WX_LIBID">
+    <if cond="WX_ENCODING=='ansi' and WX_BUILD=='debug'">
+      d
+    </if>
+    <if cond="WX_ENCODING=='unicode' and WX_BUILD=='release'">
+      u
+    </if>
+    <if cond="WX_ENCODING=='unicode' and WX_BUILD=='debug'">
+      ud
+    </if>
+  </set>
+
+  <set var="WXHLIBNAME" make_var="1">
+    <if cond="WX_ENCODING=='ansi' and WX_BUILD=='release'">
+      wxHarbour
+    </if>
+    <if cond="WX_ENCODING=='ansi' and WX_BUILD=='debug'">
+      wxHarbour-$(WX_BUILD)
+    </if>
+    <if cond="WX_ENCODING=='unicode' and WX_BUILD=='release'">
+      wxHarbour-$(WX_ENCODING)
+    </if>
+    <if cond="WX_ENCODING=='unicode' and WX_BUILD=='debug'">
+      wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+    </if>
+  </set>
+
+  <set var="D_WX_UNICODE">
+    <if cond="WX_ENCODING=='unicode'">
+      _UNICODE
+    </if>
+  </set>
+
+  <set var="D_WX_DEBUG">
+    <if cond="WX_BUILD=='debug'">
+      __WXDEBUG__
+    </if>
+  </set>
+
+  <set var="WX_DEBUG_INFO">
+    <if cond="WX_BUILD=='debug'">
+      on
+    </if>
+  </set>
+
+  <set var="CFLAGS">
+    <if cond="COMPILER=='gcc'">
+      -fno-strict-aliasing
+    </if>
+  </set>
+
+  <set var="CXXFLAGS">
+    <if cond="TOOLSET=='unix'">
+      -fno-strict-aliasing `wx-config --cxxflags`
+    </if>
+  </set>
+
+  <!-- Defines how to call the Harbour compiler in the makefiles -->
+  <template id="__commands_templ_PRG">
+
+    <!-- gnu Makefiles -->
+    <if cond="FORMAT=='gnu'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        $(HBCC) $(__hbflags) -o$@ $&lt;
+      </set>
+    </if>
+    <!-- mingw Makefiles -->
+    <if cond="FORMAT=='mingw'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        $(HBCC) $(__hbflags) -o$@ $&lt;
+      </set>
+    </if>
+    <if cond="FORMAT=='msvc'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        $(HBCC) $(__hbflags) -o$@ $**
+      </set>
+    </if>
+    <if cond="FORMAT=='borland'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        $(HBCC) $(__hbflags) -o$@ $**
+      </set>
+    </if>
+  </template>
+
+  <define-rule name="__prg-to-$(OBJEXT[1:])" extends="__any,compilation_rule">
+
+    <template template="__commands_templ_PRG">
+      <set var="__command">$(__COMPILE_PRG_CMD)</set>
+      <set var="__hbflags">$(HBFLAGS)</set>
+    </template>
+
+    <define-tag name="hbflags">
+        <set var="__hbflags" append="1">$(value)</set>
+    </define-tag>
+
+    <define-tag name="parent-target">
+      <!-- to link with g++ -->
+      <set var="__uses_cxx" scope="$(__parent)">1</set>
+      <set var="__hbflags">$(targets[__parent].__hbflags_var)</set>
+    </define-tag>
+
+  </define-rule>
+
+  <template id="__commands_harbour" template="__commands_templ">
+    <set var="__hbflags"/>
+    <set var="__hbflags_mv" eval="0">
+        $(HBFLAGS) $(__hbflags)
+    </set>
+    <set var="__hbflags" append="1">-w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__)</set>
+    <set var="__hbflags" append="1">
+      <if cond="TOOLSET=='win32'">
+        -dHB_OS_WIN_32
+      </if>
+      <if cond="TOOLSET=='unix'">
+        -dHB_OS_LINUX
+      </if>
+    </set>
+    <set var="__hbflags_var">
+        $(createMakeVar(id, '__hbflags_mv', 'HBFLAGS'))
+    </set>
+
+    <include>include</include>
+    <include>$(HB_INC_PATH)</include>
+    <include>$(INCLUDEDIR)</include>
+
+    <if cond="COMPILER=='gcc'">
+      <ldlibs>-Wl,--start-group</ldlibs>
+    </if>
+    <sys-lib>$(LIB_VM)</sys-lib>
+    <sys-lib>$(LIB_PP)</sys-lib>
+    <sys-lib>$(LIB_RTL)</sys-lib>
+    <sys-lib>$(LIB_RDD)</sys-lib>
+    <sys-lib>$(LIB_RDDFPT)</sys-lib>
+    <sys-lib>$(LIB_RDDCDX)</sys-lib>
+    <sys-lib>$(LIB_RDDNTX)</sys-lib>
+    <sys-lib>hbsix</sys-lib>
+    <sys-lib>$(LIB_USRRDD)</sys-lib>
+    <sys-lib>$(LIB_MACRO)</sys-lib>
+    <sys-lib>$(LIB_COMMON)</sys-lib>
+    <sys-lib>$(LIB_LANG)</sys-lib>
+    <sys-lib>$(LIB_CPAGE)</sys-lib>
+    <sys-lib>$(LIB_DEBUG)</sys-lib>
+    <sys-lib>$(LIB_CPLR)</sys-lib>
+    <sys-lib>$(LIB_PCRE)</sys-lib>
+    <sys-lib>$(LIB_FM)</sys-lib>
+    <sys-lib>$(LIB_CT)</sys-lib>
+    <sys-lib>$(LIB_TIP)</sys-lib>
+    <if cond="TOOLSET=='unix'">
+      <sys-lib>$(LIB_GTTRM)</sys-lib>
+      <sys-lib>$(LIB_GTXWC)</sys-lib>
+      <sys-lib>$(LIB_GTCRS)</sys-lib>
+      <sys-lib>$(LIB_GTSLN)</sys-lib>
+    </if>
+    <sys-lib>$(LIB_GTCGI)</sys-lib>
+    <sys-lib>$(LIB_GTSTD)</sys-lib>
+    <sys-lib>$(LIB_GTPCA)</sys-lib>
+    <if cond="TOOLSET=='win32'">
+      <sys-lib>$(LIB_GTXVT)</sys-lib>
+      <sys-lib>$(LIB_GTWIN)</sys-lib>
+    </if>
+
+    <warnings>max</warnings>
+    <optimize>speed</optimize>
+    <precomp-headers>on</precomp-headers>
+
+  </template>
+
+  <define-tag name="include" rules="harbour-lib,harbour-exe,wxharbour-exe">
+    <set var="__hbflags" append="1">
+      $(addPrefixIfNotEmpty(__INCLUDE_ARG,nativePaths(value)))
+    </set>
+    <res-include>$(value)</res-include>
+  </define-tag>
+
+  <template id="wx-common-build">
+    <define>$(D_WX_UNICODE)</define>
+    <define>$(D_WX_DEBUG)</define>
+    <debug-info>$(WX_DEBUG_INFO)</debug-info>
+    <if cond="TOOLSET=='win32'">
+      <define>__WXMSW__</define>
+    </if>
+  </template>
+
+  <define-tag name="define" rules="harbour-exe,harbour-lib">
+    <set var="__hbflags" append="1">
+      $(addPrefixIfNotEmpty(__DEFINE_ARG,value.replace('"', '\\"')))
+    </set>
+  </define-tag>
+
+  <define-rule name="harbour-lib" extends="lib">
+    <template template="__commands_harbour">
+    </template>
+  </define-rule>
+
+  <template id="common-harbour-exebuild">
+    <app-type>gui</app-type>
+    <lib-path>$(HB_LIB_PATH)</lib-path>
+    <if cond="TOOLSET=='unix'">
+      <sys-lib>m</sys-lib>
+      <sys-lib>dl</sys-lib>
+      <sys-lib>$(LIB_NCURSES)</sys-lib>
+      <sys-lib>$(LIB_SLANG)</sys-lib>
+      <sys-lib>$(LIB_GPM)</sys-lib>
+      <lib-path>/usr/X11R6/lib</lib-path>
+      <sys-lib>$(LIB_X11)</sys-lib>
+    </if>
+    <if cond="TOOLSET=='win32'">
+      <sys-lib>kernel32</sys-lib>
+      <sys-lib>user32</sys-lib>
+      <sys-lib>gdi32</sys-lib>
+      <sys-lib>comdlg32</sys-lib>
+      <sys-lib>winspool</sys-lib>
+      <sys-lib>winmm</sys-lib>
+      <sys-lib>shell32</sys-lib>
+      <sys-lib>comctl32</sys-lib>
+      <sys-lib>ole32</sys-lib>
+      <sys-lib>oleaut32</sys-lib>
+      <sys-lib>uuid</sys-lib>
+      <sys-lib>rpcrt4</sys-lib>
+      <sys-lib>advapi32</sys-lib>
+      <sys-lib>wsock32</sys-lib>
+      <if cond="COMPILER=='vc'">
+        <ldlibs>/NODEFAULTLIB:LIBCMT /FORCE</ldlibs>
+      </if>
+    </if>
+    <dirname>.</dirname>
+  </template>
+
+  <define-rule name="wxharbour-lib" extends="harbour-lib">
+    <template template="wx-common-build">
+      <if cond="TOOLSET=='win32'">
+        <include>$(WX_PATH)/Include</include>
+        <include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
+      </if>
+    </template>
+  </define-rule>
+
+  <template id="dummy-template">
+  </template>
+
+  <define-rule name="harbour-exe" extends="exe">
+    <template template="__commands_harbour">
+    </template>
+    <template template="dummy-template">
+      <if cond="COMPILER=='gcc'">
+        <ldlibs>-Wl,--end-group</ldlibs>
+      </if>
+    </template>
+    <template template="common-harbour-exebuild">
+    </template>
+  </define-rule>
+
+  <define-rule name="wxharbour-exe" extends="exe">
+    <template template="__commands_harbour">
+    </template>
+    <template template="dummy-template">
+      <sys-lib>
+        $(WXHLIBNAME)
+      </sys-lib>
+      <if cond="COMPILER=='gcc'">
+        <ldlibs>-Wl,--end-group</ldlibs>
+      </if>
+    </template>
+    <template template="common-harbour-exebuild">
+    </template>
+    <template template="wx-common-build">
+      <if cond="TOOLSET=='unix'">
+        <ldlibs>`wx-config --libs`</ldlibs>
+      </if>
+      <if cond="TOOLSET=='win32'">
+        <include>$(WX_PATH)/Include</include>
+        <include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
+        <lib-path>$(WX_PATH)/lib/$(COMPILER)_lib</lib-path>
+      </if>
+      <if cond="TOOLSET=='win32'">
+        <sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>
+        <sys-lib>wxmsw28$(WX_LIBID)_aui</sys-lib>
+        <sys-lib>wxmsw28$(WX_LIBID)_core</sys-lib>
+        <sys-lib>wxbase28$(WX_LIBID)</sys-lib>
+        <sys-lib>wxtiff</sys-lib>
+        <sys-lib>wxjpeg</sys-lib>
+        <sys-lib>wxpng</sys-lib>
+        <sys-lib>wxzlib</sys-lib>
+        <sys-lib>wxregex$(WX_LIBID)</sys-lib>
+        <sys-lib>wxmsw28$(WX_LIBID)_adv</sys-lib>
+        <sys-lib>wxmsw28$(WX_LIBID)_html</sys-lib>
+        <sys-lib>wxmsw28$(WX_LIBID)_xrc</sys-lib>
+        <sys-lib>wxbase28$(WX_LIBID)_net</sys-lib>
+        <sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
+        <sys-lib>wxexpat</sys-lib>
+      </if>
+    </template>
+  </define-rule>
+
+  <define-tag name="sources-at" rules="exe,lib,dll">
+    <sources>
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.prg',value))))
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.c',value))))
+      $(fileList(safeSplit(harbour_bkl.addSufixToList('/'+'*.cpp',value))))
+    </sources>
+  </define-tag>
+
+</makefile>

@@ -1,0 +1,24 @@
+Installing wxWidgets
+-----------------------------------------------------------
+
+Windows MSVC
+============
+Download the wxMSW package from the wxWidgets download page at:
+
+http://www.wxwidgets.org/downloads
+
+There is a .exe file which makes easy the installation
+
+Linux
+=====
+
+Depending of the Linux distribution you need to install the wxWidgets package
+which provides the "wx-config" utility. You can check if this utility is
+installed by typing in the command line on a terminal:
+
+$ wx-config --version
+
+
+-----------------------------------------------------------
+Please refer to the wxWidgets home page for more details on how to install and
+build the library:  http://www.wxwidgets.org
