@@ -2,6 +2,36 @@
  *
  */
 
+2008-09-08 17:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    * added some labels indicating source of libs (Harbour/System)
+    * separated the unix/win32 group of options and vars
+      ; GT's for unix: gttrm, gtxwc, gtcrs, gtsln
+      ; GT's for win32: gtxvt, gtwin
+      ; GT's common: gtcgi, gtstd, gtpca
+      ; and required system libs for the above libs
+    * Harbour/xHarbour testings
+      ; linux: fedora 8, fedora 9, Ubuntu 8.04
+      ; win32: WinXP (msvc)
+
 2008-09-06 01:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/property.ch
     ! Fix for xHarbour: throws a error with

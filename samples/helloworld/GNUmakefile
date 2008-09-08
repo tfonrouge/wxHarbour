@@ -28,14 +28,38 @@ HBCC := harbour
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
-#     Link in the TIP library [yes,no]
+# Link in the Harbour TIP library [yes,no]
 HBLIB_TIP := no
 
-# Link in the FM library [yes,no]
+# Link in the Harbour FM library [yes,no]
 HBLIB_FM := no
 
-# Link in the CT library [yes,no]
+# Link in the Harbour CT library [yes,no]
 HBLIB_CT := no
+
+# Link in the Harbour GTTRM library [yes,no]
+HBLIB_GTTRM := yes
+
+# Link in the System GPM library [yes,no]
+HBLIB_GPM := no
+
+# Link in the Harbour GTXWC library [yes,no]
+HBLIB_GTXWC := no
+
+# Link in the Harbour GTCRS library [yes,no]
+HBLIB_GTCRS := no
+
+# Link in the Harbour GTSLN library [yes,no]
+HBLIB_GTSLN := no
+
+# Link in the Harbour GTCGI library [yes,no]
+HBLIB_GTCGI := no
+
+# Link in the Harbour GTSTD library [yes,no]
+HBLIB_GTSTD := no
+
+# Link in the Harbour GTPCA library [yes,no]
+HBLIB_GTPCA := no
 
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
@@ -205,6 +229,27 @@ ifeq ($(HBLIB_TIP),yes)
 __LIB_TIP_p = -ltip
 endif
 endif
+ifeq ($(HBLIB_GTTRM),yes)
+__LIB_GTTRM_p = -lgttrm
+endif
+ifeq ($(HBLIB_GTXWC),yes)
+__LIB_GTXWC_p = -lgtxwc
+endif
+ifeq ($(HBLIB_GTCRS),yes)
+__LIB_GTCRS_p = -lgtcrs
+endif
+ifeq ($(HBLIB_GTSLN),yes)
+__LIB_GTSLN_p = -lgtsln
+endif
+ifeq ($(HBLIB_GTCGI),yes)
+__LIB_GTCGI_p = -lgtcgi
+endif
+ifeq ($(HBLIB_GTSTD),yes)
+__LIB_GTSTD_p = -lgtstd
+endif
+ifeq ($(HBLIB_GTPCA),yes)
+__LIB_GTPCA_p = -lgtpca
+endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
 __WXHLIBNAME_p = -lwxHarbour
@@ -224,6 +269,18 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
+endif
+ifeq ($(HBLIB_GTCRS),yes)
+__LIB_NCURSES_p = -lncurses
+endif
+ifeq ($(HBLIB_GTSLN),yes)
+__LIB_SLANG_p = -lslang
+endif
+ifeq ($(HBLIB_GPM),yes)
+__LIB_GPM_p = -lgpm
+endif
+ifeq ($(HBLIB_GTXWC),yes)
+__LIB_X11_p = -lX11
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_4 = -g
@@ -248,7 +305,7 @@ clean:
 	rm -f ./helloworld
 
 ./helloworld: $(HELLOWORLD_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcrs -lgtsln -lgtxwc -lgttrm -lgtcgi -lgtstd -lgtpca $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl -lslang -lncurses -lX11 -lgpm `wx-config --libs`
+	$(CXX) -o $@ $(HELLOWORLD_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p) `wx-config --libs`
 
 run: all
 	./helloworld

@@ -36,14 +36,29 @@ HBCC = harbour
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
-#     Link in the TIP library [yes,no]
+# Link in the Harbour TIP library [yes,no]
 HBLIB_TIP = no
 
-# Link in the FM library [yes,no]
+# Link in the Harbour FM library [yes,no]
 HBLIB_FM = no
 
-# Link in the CT library [yes,no]
+# Link in the Harbour CT library [yes,no]
 HBLIB_CT = no
+
+# Link in the Harbour GTWIN library [yes,no]
+HBLIB_GTWIN = yes
+
+# Link in the Harbour GTXVT library [yes,no]
+HBLIB_GTXVT = no
+
+# Link in the Harbour GTCGI library [yes,no]
+HBLIB_GTCGI = no
+
+# Link in the Harbour GTSTD library [yes,no]
+HBLIB_GTSTD = no
+
+# Link in the Harbour GTPCA library [yes,no]
+HBLIB_GTPCA = no
 
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
@@ -91,8 +106,11 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
 	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
 	HBCC="$(HBCC)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_FM="$(HBLIB_FM)" \
-	HBLIB_CT="$(HBLIB_CT)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
-	HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
+	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
+	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTCGI="$(HBLIB_GTCGI)" \
+	HBLIB_GTSTD="$(HBLIB_GTSTD)" HBLIB_GTPCA="$(HBLIB_GTPCA)" \
+	HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" HBWARNL="$(HBWARNL)" \
+	HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
 	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" \
 	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"

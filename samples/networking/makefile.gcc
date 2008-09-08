@@ -31,14 +31,29 @@ HBCC := harbour
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
-#     Link in the TIP library [yes,no]
+# Link in the Harbour TIP library [yes,no]
 HBLIB_TIP := no
 
-# Link in the FM library [yes,no]
+# Link in the Harbour FM library [yes,no]
 HBLIB_FM := no
 
-# Link in the CT library [yes,no]
+# Link in the Harbour CT library [yes,no]
 HBLIB_CT := no
+
+# Link in the Harbour GTWIN library [yes,no]
+HBLIB_GTWIN := yes
+
+# Link in the Harbour GTXVT library [yes,no]
+HBLIB_GTXVT := no
+
+# Link in the Harbour GTCGI library [yes,no]
+HBLIB_GTCGI := no
+
+# Link in the Harbour GTSTD library [yes,no]
+HBLIB_GTSTD := no
+
+# Link in the Harbour GTPCA library [yes,no]
+HBLIB_GTPCA := no
 
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
@@ -218,6 +233,21 @@ ifeq ($(HBLIB_TIP),yes)
 __LIB_TIP_p = -ltip
 endif
 endif
+ifeq ($(HBLIB_GTCGI),yes)
+__LIB_GTCGI_p = -lgtcgi
+endif
+ifeq ($(HBLIB_GTSTD),yes)
+__LIB_GTSTD_p = -lgtstd
+endif
+ifeq ($(HBLIB_GTPCA),yes)
+__LIB_GTPCA_p = -lgtpca
+endif
+ifeq ($(HBLIB_GTXVT),yes)
+__LIB_GTXVT_p = -lgtxvt
+endif
+ifeq ($(HBLIB_GTWIN),yes)
+__LIB_GTWIN_p = -lgtwin
+endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
 __WXHLIBNAME_p = -lwxHarbour
@@ -276,7 +306,7 @@ clean:
 	-if exist .\networking.exe del .\networking.exe
 
 .\networking.exe: $(NETWORKING_OBJECTS)
-	$(CXX) -o $@ $(NETWORKING_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) -lgtcgi -lgtstd -lgtpca -lgtwin $(__WXHLIBNAME_p) -Wl,--end-group -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat
+	$(CXX) -o $@ $(NETWORKING_OBJECTS) $(LDFLAGS) -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__WXHLIBNAME_p) -Wl,--end-group -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat
 
 run: all
 	.\networking.exe

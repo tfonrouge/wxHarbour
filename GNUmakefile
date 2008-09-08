@@ -43,14 +43,38 @@ HBCC := harbour
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
-#     Link in the TIP library [yes,no]
+# Link in the Harbour TIP library [yes,no]
 HBLIB_TIP := no
 
-# Link in the FM library [yes,no]
+# Link in the Harbour FM library [yes,no]
 HBLIB_FM := no
 
-# Link in the CT library [yes,no]
+# Link in the Harbour CT library [yes,no]
 HBLIB_CT := no
+
+# Link in the Harbour GTTRM library [yes,no]
+HBLIB_GTTRM := yes
+
+# Link in the System GPM library [yes,no]
+HBLIB_GPM := no
+
+# Link in the Harbour GTXWC library [yes,no]
+HBLIB_GTXWC := no
+
+# Link in the Harbour GTCRS library [yes,no]
+HBLIB_GTCRS := no
+
+# Link in the Harbour GTSLN library [yes,no]
+HBLIB_GTSLN := no
+
+# Link in the Harbour GTCGI library [yes,no]
+HBLIB_GTCGI := no
+
+# Link in the Harbour GTSTD library [yes,no]
+HBLIB_GTSTD := no
+
+# Link in the Harbour GTPCA library [yes,no]
+HBLIB_GTPCA := no
 
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
