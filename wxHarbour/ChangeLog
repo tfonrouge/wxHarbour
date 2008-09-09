@@ -2,6 +2,10 @@
  *
  */
 
+2008-09-09 18:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_pkgs.sh
+    * changes to create tree on tmp dir
+
 2008-09-09 18:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + build_bkls.sh
     + script to help on build packages
