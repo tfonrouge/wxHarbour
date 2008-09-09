@@ -271,6 +271,9 @@ ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO_3 = -g
+endif
 ifeq ($(HBLIB_GTCRS),yes)
 __LIB_NCURSES_p = -lncurses
 endif
@@ -282,9 +285,6 @@ __LIB_GPM_p = -lgpm
 endif
 ifeq ($(HBLIB_GTXWC),yes)
 __LIB_X11_p = -lX11
-endif
-ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_4 = -g
 endif
 
 
@@ -306,7 +306,7 @@ clean:
 	rm -f ./sizers
 
 ./sizers: $(SIZERS_OBJECTS)
-	$(CXX) -o $@ $(SIZERS_OBJECTS) $(LDFLAGS)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib $(__WX_DEBUG_INFO_4) -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) -Wl,--end-group -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p) `wx-config --libs`
+	$(CXX) -o $@ $(SIZERS_OBJECTS) $(LDFLAGS) $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) -Wl,--end-group `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	./sizers
