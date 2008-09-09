@@ -2,6 +2,18 @@
  *
  */
 
+2008-09-09 18:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + build_bkls.sh
+    + script to help on build packages
+      ; TODO: add DEB package option
+
+  - build_bkls
+  + build_pkgs.sh
+    * renaming of script by adding .sh extension
+
+  * wxharbour.spec
+    ! Fixed bug on %setup macro
+
 2008-09-09 06:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_bkls
     * added "tests" directory for creating makefiles

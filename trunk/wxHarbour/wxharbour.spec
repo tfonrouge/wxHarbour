@@ -19,7 +19,6 @@ Packager:   Teo Fonrouge <teo@windtelsoft.com>
 Requires:   harbour
 Provides:   %{name}
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root
-#BuildRoot:  /var/tmp/%{name}-%{version}-root
 
 %description
 %{cname} is [x]Harbour (a 100% Clipper compatible compiler) language (www.xharbour.org, www.harbour-project.org) bindings for wxWidgets (www.wxwidgets.org), providing a portable GUI toolkit for [x]Harbour.
@@ -28,7 +27,7 @@ Install %{cname} if you want to give a powerfull multiplatform GUI
 to your [x]Harbour applications.
 
 %prep
-%setup -c %{name}-%{version}-%{release}
+%setup -n %{name}-%{version}-%{release}
 
 #%patch -p1 -b .buildroot
 
