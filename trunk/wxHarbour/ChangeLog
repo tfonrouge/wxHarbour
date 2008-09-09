@@ -2,6 +2,36 @@
  *
  */
 
+2008-09-09 06:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls
+    * added "tests" directory for creating makefiles
+
+  * config/tmpl_hrb.bkl
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    ! Fixed order of win32 system libs vs wxWidgets libs. Important with gcc
+      ; wxWidgets libs first then win32 libs
+
+  + Notes
+    * This file will contain notes for the commit/release
+
+  * src/wxbase/controls/wx_textctrl.cpp
+    ! wxID_ANY as default
+    ! Fixed casting of wxWindowID var
+
 2008-09-08 17:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * GNUmakefile

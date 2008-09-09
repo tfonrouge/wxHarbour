@@ -784,8 +784,6 @@ Where is wxWidgets installed
         <ldlibs>-Wl,--end-group</ldlibs>
       </if>
     </template>
-    <template template="common-harbour-exebuild">
-    </template>
     <template template="wx-common-build">
       <if cond="TOOLSET=='unix'">
         <ldlibs>`wx-config --libs`</ldlibs>
@@ -812,6 +810,8 @@ Where is wxWidgets installed
         <sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
         <sys-lib>wxexpat</sys-lib>
       </if>
+    </template>
+    <template template="common-harbour-exebuild">
     </template>
   </define-rule>
 
