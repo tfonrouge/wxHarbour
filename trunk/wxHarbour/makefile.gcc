@@ -171,6 +171,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)\wxHarbour_wx_window.o \
 	$(__BUILDDIR__)\wxHarbour_wx_dialog.o \
+	$(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.o \
 	$(__BUILDDIR__)\wxHarbour_wx_button.o \
 	$(__BUILDDIR__)\wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_statictext.o \
@@ -284,6 +285,7 @@ uninstall_wxHarbour:
 install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
 	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
+	if not exist $(PREFIX)\include/wxh mkdir $(PREFIX)\include/wxh
 	copy include\defs.ch $(PREFIX)\include
 	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
@@ -292,6 +294,7 @@ install_wxHarbour_headers:
 	copy include\wx_hbcompat.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
 	copy include\xerror.ch $(PREFIX)\include
+	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
@@ -302,6 +305,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
 	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
+	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all
@@ -445,6 +449,9 @@ $(__BUILDDIR__)\wxHarbour_wx_window.o: ./src/wxbase/basicwindows/wx_window.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_dialog.o: ./src/wxbase/commdialogs/wx_dialog.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.o: ./src/wxbase/commdialogs/wx_dialogfuncs.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp

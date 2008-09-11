@@ -52,7 +52,6 @@ static int ChkFlagInArray( int iParam )
 /*
   wxSizer:Add Emulates Overload on Harbour method.
   Teo. Mexico 2007
-  Compat: wxWidgets 2.4.8
 */
 HB_FUNC( WXSIZER_ADD )
 {
@@ -71,15 +70,30 @@ HB_FUNC( WXSIZER_ADD )
         sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
     else
       if( obj->IsKindOf( CLASSINFO( wxSizer ) ) )
+      {
         if( hb_pcount() == 2 )
           /*wxSizerItem* Add(wxSizer* sizer, const wxSizerFlags& flags)*/
           sizer->Add( (wxSizer *) obj, ChkFlagInArray( 2 ) ) ;
         else
           /*wxSizerItem* Add(wxSizer* sizer, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
           sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
+      }
   }
   else
     if( ISNUM( 1 ) )
       /*wxSizerItem* Add(int width, int height, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
       sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) hb_par_WX( 6 ) );
+}
+
+/*
+  SetSizeHints
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXSIZER_SETSIZEHINTS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxSizer* sizer;
+  wxWindow* wnd = (wxWindow *) hb_par_WX( 1 );
+  if( pSelf && (sizer = (wxSizer *) wx_ObjList_wxGet( pSelf ) ) && wnd )
+    sizer->SetSizeHints( wnd );
 }

@@ -58,7 +58,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketClient* socketClient;
-  wxSockAddress* local;
+  wxSockAddress* local = NULL;
   bool paramFail;
 
   char callingMode;
@@ -84,10 +84,12 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
   }
 
   if( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
+  {
     if( callingMode == 1 )
       hb_retl( socketClient->Connect( *address, hb_parl( 2 ) ) );
     else
       hb_retl( socketClient->Connect( *address, *local, hb_parl( 3 ) ) );
+  }
 }
 
 /*

@@ -174,6 +174,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_window.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_dialog.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_button.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticbox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_statictext.obj \
@@ -284,6 +285,7 @@ uninstall_wxHarbour:
 install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
 	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
+	if not exist $(PREFIX)\include/wxh mkdir $(PREFIX)\include/wxh
 	copy include\defs.ch $(PREFIX)\include
 	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
@@ -292,6 +294,7 @@ install_wxHarbour_headers:
 	copy include\wx_hbcompat.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
 	copy include\xerror.ch $(PREFIX)\include
+	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
@@ -302,6 +305,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
 	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
+	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
@@ -448,6 +452,9 @@ $(__BUILDDIR__)\wxHarbour_wx_window.obj: .\src\wxbase\basicwindows\wx_window.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_dialog.obj: .\src\wxbase\commdialogs\wx_dialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\commdialogs\wx_dialog.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.obj: .\src\wxbase\commdialogs\wx_dialogfuncs.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\commdialogs\wx_dialogfuncs.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_button.obj: .\src\wxbase\controls\wx_button.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_button.cpp

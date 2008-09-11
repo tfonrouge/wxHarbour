@@ -22,11 +22,22 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   DESTRUCTOR OnDestruct()
+  METHOD wxDestruct
 PUBLISHED:
 ENDCLASS
 /*
   EndClass TBaseClass
 */
+
+/*
+  OnDestruct
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE OnDestruct CLASS TBaseClass
+
+  ::wxDestruct()
+
+RETURN
 
 /*
   wxObject
