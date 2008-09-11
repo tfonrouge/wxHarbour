@@ -91,7 +91,7 @@ HB_FUNC( WXFRAME_NEW )
   if(hb_pcount())
   {
     wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
-    wxWindowID id = wxWindowID( hb_parnl(2) );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxString title = wxString( hb_parcx(3), wxConvLocal );
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);

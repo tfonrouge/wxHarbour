@@ -2,6 +2,74 @@
  *
  */
 
+2008-09-10 23:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxh/textctrl.ch
+  + src/wxbase/commdialogs/wx_dialogfuncs.cpp
+    + created wx_dialogfuncs.cpp
+      + added wxMessageBox Harbour function
+    + added wx/textctrl.ch
+
+  * include/defs.ch
+    + added id's for messages and dialog return values
+
+  * include/event.ch
+    + added mouse event defines
+
+  * include/wxharbour.ch
+  * src/wxbase/controls/wxhbutton.prg
+    % added ACTION clause to BUTTON command
+
+  * src/common/wx_harbour.cpp
+    - removed harbour's TBaseClass:OnDestruct
+    * added some code to help debugging the harbour/wxWidgets class destructors
+
+  * src/wxbase/basicwindows/wxhwindow.prg
+  * src/wxbase/basicwindows/wx_window.cpp
+    % added to wxWindow class:
+      * Destroy
+      * FindWindowByName
+      * FindWindowByLabel
+      * GetLabel
+      * GetName
+      * GetParent
+      * GetSizer
+
+  * src/wxbase/commdialogs/wx_dialog.cpp
+    ! Fixed default value for Id on wxDialog class
+    % style value for wxDialog class
+    * ordered EndModal section code
+
+  * src/wxbase/manwindows/wx_frame.cpp
+    ! Fixed default value for Id on wxFrame class
+
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+    * commented unused code that was firing compiler warnings
+
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+    * pacified else compiler warning
+    * pacified uninitialized value for variable
+
+  * src/rtti/wxhobject.prg
+    - removed OnDestruct method
+
+  * src/rtti/wx_object.cpp
+    + added TBaseClass:wxDestruct method
+
+  * src/wxbase/winlayout/wxhsizer.prg
+  * src/wxbase/winlayout/wx_sizer.cpp
+    + added:
+      * SetSizeHints
+
+  * wxharbour.bkl
+    + added include/wx/*.ch to headers list
+
+  * wxharbour.spec
+    + added hbcompiler %define (to set HBCOMPILER make var)
+
 2008-09-09 18:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_pkgs.sh
     * changes to create tree on tmp dir

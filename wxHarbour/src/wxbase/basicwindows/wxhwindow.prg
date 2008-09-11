@@ -23,7 +23,14 @@ PROTECTED:
 PUBLIC:
   METHOD Centre( direction )
   METHOD Close( force )
+  METHOD Destroy
+  METHOD FindWindowByName( name, parent )
+  METHOD FindWindowByLabel( label, parent )
   METHOD GetId
+  METHOD GetLabel
+  METHOD GetName
+  METHOD GetParent
+  METHOD GetSizer
   METHOD Hide( Value )
   METHOD IsShown
   METHOD SetSizer( sizer, deleteOld )
@@ -33,9 +40,3 @@ ENDCLASS
 /*
   End Class wxWindow
 */
-
-
-
-
-
-

@@ -166,6 +166,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wx_window.o \
 	$(__BUILDDIR__)/wxHarbour_wx_dialog.o \
+	$(__BUILDDIR__)/wxHarbour_wx_dialogfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wx_button.o \
 	$(__BUILDDIR__)/wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statictext.o \
@@ -198,7 +199,8 @@ WXHARBOUR_HEADERS =  \
 	include/wx.ch \
 	include/wx_hbcompat.ch \
 	include/wxharbour.ch \
-	include/xerror.ch
+	include/xerror.ch \
+	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
@@ -425,6 +427,9 @@ $(__BUILDDIR__)/wxHarbour_wx_window.o: ./src/wxbase/basicwindows/wx_window.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_dialog.o: ./src/wxbase/commdialogs/wx_dialog.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_dialogfuncs.o: ./src/wxbase/commdialogs/wx_dialogfuncs.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp

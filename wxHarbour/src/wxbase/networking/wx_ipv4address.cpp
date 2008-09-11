@@ -59,6 +59,7 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
   wx_IPV4address* ipv4Address;
 
   if( pSelf && (ipv4Address = (wx_IPV4address*) wx_ObjList_wxGet( pSelf ) ) )
+  {
     if( hb_pcount() == 0 )
       hb_retc( ipv4Address->Hostname().mb_str() );
     else
@@ -66,6 +67,7 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
       wxString hostname = wxString( hb_parcx(1), wxConvLocal );
       hb_retl( ipv4Address->Hostname( hostname ) );
     }
+  }
 }
 
 /*

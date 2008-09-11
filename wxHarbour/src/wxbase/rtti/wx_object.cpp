@@ -21,3 +21,21 @@
 
 #include "wxbase/wx_object.h"
 
+using namespace std;
+
+/*
+  TBaseClass::OnDestruct
+  Teo. Mexico 2008
+*/
+HB_FUNC( TBASECLASS_WXDESTRUCT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  wxObject* wxObj = wx_ObjList_wxGet( pSelf );
+
+  if( wxObj )
+  {
+//     cout << "\n*** ::wxDestruct ***";
+    wx_ObjList_wxDelete( wxObj );
+  }
+}

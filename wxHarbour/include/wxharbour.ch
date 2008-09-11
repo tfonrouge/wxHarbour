@@ -98,6 +98,7 @@
             [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
             [ BORDER <border> ] ;
             [ SIDEBORDERS <sideborders,...> ] ;
+            [ ACTION <bAction> ] ;
           => ;
           wxh_SizerAdd( NIL,;
             [<btn>:=]wxh_Button( ;
@@ -108,7 +109,8 @@
               [{<nWidth>,<nHeight>}],;
               [<style>],;
               [<validator>],;
-              [<name>];
+              [<name>],;
+              [<{bAction}>];
             ),;
             [ wx<strech> ],;
             [ wxALIGN_<align> ],;

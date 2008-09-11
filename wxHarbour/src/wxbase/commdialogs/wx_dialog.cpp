@@ -20,12 +20,15 @@
 
 #include "wxbase/wx_dialog.h"
 
+using namespace std;
+
 /*
   ~wx_Dialog
   Teo. Mexico 2006
 */
 wx_Dialog::~wx_Dialog()
 {
+//   cout << "\n*** ~wx_Dialog ***\n";
   wx_ObjList_wxDelete( this );
 }
 
@@ -61,12 +64,11 @@ HB_FUNC( WXDIALOG_NEW )
   if(hb_pcount())
   {
     wxWindow* parent = (wxDialog *) hb_par_WX( 1 );
-    wxWindowID id = wxWindowID( hb_parnl(2) );
+    wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
     wxString title = wxString( hb_parcx(3), wxConvLocal );
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
-    long style;
-    if( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
+    long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
     wxString name = wxString( hb_parcx(7), wxConvLocal );
     dialog = new wx_Dialog( parent, id, title, point, size, style, name );
   }
@@ -123,6 +125,18 @@ HB_FUNC( WXDIALOG_CREATESTDDIALOGBUTTONSIZER )
 }
 
 /*
+ * wxDialog::EndModal()
+ * Teo. Mexico 2008
+ */
+HB_FUNC( WXDIALOG_ENDMODAL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Dialog* dialog;
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+    dialog->EndModal( hb_parni( 1 ) );
+}
+
+/*
   wxDialog::Show( const bool show )
   RETURN bool
   Teo. Mexico 2006
@@ -150,16 +164,4 @@ HB_FUNC( WXDIALOG_SHOWMODAL )
     hb_retni( dialog->ShowModal() );
   else
     hb_ret();
-}
-
-/*
- * wxDialog::EndModal()
- * Teo. Mexico 2008
- */
-HB_FUNC( WXDIALOG_ENDMODAL )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Dialog* dialog;
-  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
-    dialog->EndModal( hb_parni( 1 ) );
 }

@@ -11,45 +11,27 @@
 */
 
 /*
-  wxButton
-  Teo. Mexico 2006
+  wx Dialog Functions
+  Teo. Mexico 2008
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "wx.ch"
+#include "wx/wx.h"
+#include "wxh.h"
 
 /*
-  wxButton
-  Teo. Mexico 2006
+  Constructor: Object
+  Teo. Mexico 2008
 */
-CLASS wxButton FROM wxControl
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  CONSTRUCTOR New( parent, id, label, pos, size, style, validator, name )
-PUBLISHED:
-ENDCLASS
+HB_FUNC( WXMESSAGEBOX )
+{
 
-/*
-  EndClass wxButton
-*/
+  const wxString& message = wxString( hb_parcx(1), wxConvLocal );
+  const wxString& caption = wxString( hb_parcx(2), wxConvLocal );
+  int style = ISNIL(3) ? wxOK : hb_parni(3);
+  wxWindow* window = (wxWindow *) hb_par_WX( 4 );
+  int x = ISNIL(5) ? -1 : hb_parni(5);
+  int y = ISNIL(6) ? -1 : hb_parni(6);
 
-/*
- * wxh_Button
- * Teo. Mexico 2008
- */
-FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
-  LOCAL Result
+  hb_retni( wxMessageBox( message, caption, style, window, x, y ) );
 
-  IF window = NIL
-    window := wxh_LastTopLevelWindow()
-  ENDIF
-
-  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
-
-  IF bAction != NIL
-    window:Connect( Result:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
-  ENDIF
-
-RETURN Result
+}

@@ -41,12 +41,96 @@ HB_FUNC( WXWINDOW_CLOSE )
   hb_ret();
 }
 
+HB_FUNC( WXWINDOW_DESTROY )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  bool Result = false;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    Result = wnd->Destroy();
+  hb_retl( Result );
+}
+
+HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  const wxString& label = wxString( hb_parcx(1), wxConvLocal );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+
+  wxWindow* wnd;
+  wxWindow* result;
+
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && ( result =  wnd->FindWindowByLabel( label, parent ) ) )
+    hb_itemReturn( wx_ObjList_hbGet( result ) );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  const wxString& name = wxString( hb_parcx(1), wxConvLocal );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+
+  wxWindow* wnd;
+  wxWindow* result;
+
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && ( result =  wnd->FindWindowByName( name, parent ) ) )
+    hb_itemReturn( wx_ObjList_hbGet( result ) );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXWINDOW_GETLABEL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retc( wnd->GetLabel().mb_str() );
+  else
+    hb_retc("?");
+}
+
+HB_FUNC( WXWINDOW_GETNAME )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retc( wnd->GetName().mb_str() );
+  else
+    hb_retc("?");
+}
+
 HB_FUNC( WXWINDOW_GETID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     hb_retnl( wnd->GetId() );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXWINDOW_GETPARENT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  wxWindow* parent;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && ( parent =  wnd->GetParent() ) )
+    hb_itemReturn( wx_ObjList_hbGet( parent ) );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXWINDOW_GETSIZER )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  wxSizer* sizer;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && ( sizer =  wnd->GetSizer() ) )
+    hb_itemReturn( wx_ObjList_hbGet( sizer ) );
   else
     hb_ret();
 }

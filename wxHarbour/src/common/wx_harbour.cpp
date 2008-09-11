@@ -67,11 +67,17 @@ void wx_ObjList_wxDelete( wxObject* wxObj )
 
   if(pSelf)
   {
+//     cout << "\n*** wx_ObjList_wxDelete *** pSelf != NIL" ;
     hbObjList.erase(  pSelf->item.asArray.value );
     hb_itemClear( pSelf );
   }
+//   else
+//     cout << "\n*** wx_ObjList_wxDelete *** pSelf == NIL" ;
 
   wxObjList.erase( wxObj );
+
+//   if( pSelf = wx_ObjList_hbGet( wxObj ) )
+//     cout << "\n*** ERROR, WXOBJ NOT REMOVED FROM LIST***";
 
 }
 
@@ -160,17 +166,6 @@ HB_FUNC( WXOBJECT_GETCLASSP )
     hb_retptr( wxObj );
   else
     hb_ret();
-}
-
-/*
-  TBaseClass::OnDestruct
-*/
-HB_FUNC( TBASECLASS_ONDESTRUCT )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxObject* wxObj = wx_ObjList_wxGet( pSelf );
-  if(wxObj)
-    wx_ObjList_wxDelete( wxObj );
 }
 
 /*
