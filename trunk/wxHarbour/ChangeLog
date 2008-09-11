@@ -2,6 +2,10 @@
  *
  */
 
+2008-09-11 09:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/miscwindows/wxhgridtablebase.prg
+    % SetValue method
+
 2008-09-11 02:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/miscwindows/wx_gridtablebase.cpp
     ! Fixed SetValue method to properly call the Harbour method one
