@@ -117,13 +117,18 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
   SetValue
   Teo. Mexico 2006
 */
-/*
 void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("SetValue");
-  //hb_objSendSymbol( xHObj, pSymb, 3, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ), value );
+  PHB_ITEM hbRow = hb_itemNew( NULL );
+  PHB_ITEM hbCol = hb_itemNew( NULL );
+  PHB_ITEM hbStr = hb_itemNew( NULL );
+
+  hb_itemPutNI( hbRow, row );
+  hb_itemPutNI( hbCol, col );
+  hb_itemPutC( hbStr, value.mb_str() );
+
+  hb_objSendMsg( wx_ObjList_hbGet( this ), "SetValue", 3, hbRow, hbCol, hbStr );
 }
-*/
 
 HB_FUNC( WXGRIDTABLEBASE_NEW )
 {

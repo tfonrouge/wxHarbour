@@ -27,6 +27,7 @@ PUBLIC:
   METHOD GetValue( row, col ) BLOCK {|Self, row, col| Self,LTrim(Str(row))+":"+LTrim(Str(col)) }
   METHOD IsEmptyCell( row, col ) BLOCK {|| .F. }
   METHOD SetColLabelValue( col, label )
+  METHOD SetValue( row, col, value ) VIRTUAL
 PUBLISHED:
 ENDCLASS
 
