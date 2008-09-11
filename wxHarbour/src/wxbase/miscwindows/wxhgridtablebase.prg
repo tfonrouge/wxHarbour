@@ -50,15 +50,24 @@ PUBLIC:
   DATA GetNumberCols
   DATA GetNumberRows
   METHOD GetValue( row, col )
+  METHOD SetValue( row, col, value )
 
 ENDCLASS
 
+/*
+  New
+  Teo. Mexico 2008
+*/
 METHOD New CLASS wxGridTableBaseDb
   Super:New()
   ::GetNumberCols := FCount()
   ::GetNumberRows := RecCount()
 RETURN Self
 
+/*
+  GetValue
+  Teo. Mexico 2008
+*/
 METHOD GetValue( row, col ) CLASS wxGridTableBaseDb
   LOCAL Result
 
@@ -74,13 +83,12 @@ METHOD GetValue( row, col ) CLASS wxGridTableBaseDb
 
 RETURN "?"
 
+/*
+  SetValue
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE SetValue( row, col, value )
 
+  ? "Changing:","Row:", row, "Col:", col, "Value:",value
 
-
-
-
-
-
-
-
-
+RETURN
