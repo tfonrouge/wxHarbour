@@ -28,55 +28,10 @@ using namespace std;
   Constructor
   Teo. Mexico 2006
 */
-wx_Frame::wx_Frame()
-{
-}
-
-/*
-  Constructor
-  Teo. Mexico 2006
-*/
 wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
   Create( parent, id, title, pos, size, style, name );
 }
-
-/*
-  Create
-  Teo. Mexico 2006
-*/
-bool wx_Frame::Create( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
-{
-  return wxFrame::Create( parent, id, title, pos, size, style, name );
-}
-
-/*
-  ~wx_Frame
-  Teo. Mexico 2006
-*/
-wx_Frame::~wx_Frame()
-{
-  wx_ObjList_wxDelete( this );
-}
-
-void wx_Frame::ProcessEvent(wxCommandEvent& event)
-{
-  PHB_ITEM pId,pEventType;
-  pId = hb_itemNew( NULL );
-  pEventType = hb_itemNew( NULL );
-  pId->type = HB_IT_INTEGER;
-  pId->item.asInteger.length = 10;
-  pId->item.asInteger.value = event.GetId();
-  pEventType->type = HB_IT_INTEGER;
-  pEventType->item.asInteger.length = 10;
-  pEventType->item.asInteger.value = event.GetEventType();
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvent", 2, pId, pEventType );
-}
-
-BEGIN_EVENT_TABLE( wx_Frame, wxFrame )
-  EVT_MENU( wxID_ANY, wx_Frame::ProcessEvent )
-  EVT_BUTTON( wxID_ANY, wx_Frame::ProcessEvent )
-END_EVENT_TABLE()
 
 /*
   Constructor: Object
@@ -95,13 +50,12 @@ HB_FUNC( WXFRAME_NEW )
     wxString title = wxString( hb_parcx(3), wxConvLocal );
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
-    long style;
-    if( ISNIL(6) ) style = wxDEFAULT_FRAME_STYLE ; else style = hb_parnl(6);
+    long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
     wxString name = wxString( hb_parcx(7), wxConvLocal );
     frame = new wx_Frame( parent, id, title, point, size, style, name );
   }
   else
-    frame = new wx_Frame;
+    frame = new wx_Frame( NULL );
 
   // Add object's to hash list
   wx_ObjList_New( frame, pSelf );

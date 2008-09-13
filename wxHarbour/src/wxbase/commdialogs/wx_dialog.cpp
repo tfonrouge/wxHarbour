@@ -23,33 +23,13 @@
 using namespace std;
 
 /*
-  ~wx_Dialog
+  Constructor
   Teo. Mexico 2006
 */
-wx_Dialog::~wx_Dialog()
+wx_Dialog::wx_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
-//   cout << "\n*** ~wx_Dialog ***\n";
-  wx_ObjList_wxDelete( this );
+  Create( parent, id, title, pos, size, style, name );
 }
-
-void wx_Dialog::ProcessEvent(wxCommandEvent& event)
-{
-  PHB_ITEM pId,pEventType;
-  pId = hb_itemNew( NULL );
-  pEventType = hb_itemNew( NULL );
-  pId->type = HB_IT_INTEGER;
-  pId->item.asInteger.length = 10;
-  pId->item.asInteger.value = event.GetId();
-  pEventType->type = HB_IT_INTEGER;
-  pEventType->item.asInteger.length = 10;
-  pEventType->item.asInteger.value = event.GetEventType();
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "ProcessEvent", 2, pId, pEventType );
-}
-
-BEGIN_EVENT_TABLE( wx_Dialog, wxDialog )
-  EVT_MENU( wxID_ANY, wx_Dialog::ProcessEvent )
-  EVT_BUTTON( wxID_ANY, wx_Dialog::ProcessEvent )
-END_EVENT_TABLE()
 
 /*
   Constructor: Object
@@ -73,7 +53,7 @@ HB_FUNC( WXDIALOG_NEW )
     dialog = new wx_Dialog( parent, id, title, point, size, style, name );
   }
   else
-    dialog = new wx_Dialog;
+    dialog = new wx_Dialog( NULL );
 
   // Add object's to hash list
   wx_ObjList_New( dialog, pSelf );

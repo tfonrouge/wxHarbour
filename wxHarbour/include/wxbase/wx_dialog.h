@@ -15,17 +15,10 @@
   Teo. Mexico 2006
 */
 
-class wx_Dialog : public wxDialog
+class wx_Dialog : public hbEvtHandler<wxDialog>
 {
 private:
-  DECLARE_EVENT_TABLE()
 protected:
 public:
-  wx_Dialog() : wxDialog() {}
-  wx_Dialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") )
-  : wxDialog( parent, id, title, pos, size, style, name ) {}
-
-  ~wx_Dialog();
-
-  void ProcessEvent(wxCommandEvent& event);
+  wx_Dialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
 };

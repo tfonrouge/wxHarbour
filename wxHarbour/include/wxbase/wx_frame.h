@@ -15,19 +15,10 @@
   Teo. Mexico 2006
 */
 
-class wx_Frame : public wxFrame
+class wx_Frame : public hbEvtHandler<wxFrame>
 {
 private:
-  DECLARE_EVENT_TABLE()
 protected:
 public:
-  wx_Frame();
   wx_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
-
-  ~wx_Frame();
-
-  bool Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
-
-  void ProcessEvent(wxCommandEvent& event);
-
 };

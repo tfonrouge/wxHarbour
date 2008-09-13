@@ -16,7 +16,7 @@
 */
 
 #xcommand DECLARE_EVENT_TYPE( <evt>, <id> ) => ;
-          #define <evt> <id>
+          #define <evt> <id>+9999
 
 #define wxEVT_COMMAND_BUTTON_CLICKED            wxEVT_FIRST(1)
 #define wxEVT_COMMAND_CHECKBOX_CLICKED          wxEVT_FIRST(2)
