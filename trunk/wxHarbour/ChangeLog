@@ -2,6 +2,30 @@
  *
  */
 
+2008-09-13 05:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/event.ch
+    ! Fixed relative index of event #defines
+
+  * include/wxbase/wx_dialog.h
+  * include/wxbase/wx_frame.h
+  * include/wxh.h
+  * src/wxbase/commdialogs/wx_dialog.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+    % improved event handling, now is possible to handle almost all
+      events (need more testing)
+    * added template to have a common member to process the events and
+      removed the macros (EVENT...) from c++ classes (wx_Frame,wx_Dialog)
+    * cleanup of headers
+    - removed destructors in c++ (now in template)
+    - removed ProcessEvent
+
+  * src/wxbase/events/wx_evthandler.cpp
+    + added wxConnect method to harbour wxEvtHandler ( which call c++ member
+      wxConnect )
+
+  * src/wxbase/events/wxhevthandler.prg
+    % optimized search and store of table to hold list of connected events
+
 2008-09-11 09:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/miscwindows/wxhgridtablebase.prg
     % SetValue method

@@ -11,8 +11,32 @@
 */
 
 /*
-  xhEvtHandler
-  Teo. Mexico 2006
+  wx_EvtHandler
+  Teo. Mexico 2008
 */
 
 #include "wx/wx.h"
+#include "wxh.h"
+
+#include "wxbase/wx_frame.h"
+
+/*
+  wxConnect
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXEVTHANDLER_WXCONNECT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  int id = hb_parni( 1 );
+  int lastId = hb_parni( 2 );
+  wxEventType eventType = hb_parni( 3 );
+
+  hbEvtHandler<wxEvtHandler>* evtHandler;
+
+  if( !( pSelf && (evtHandler = (hbEvtHandler<wxEvtHandler> *) wx_ObjList_wxGet( pSelf ) ) ) )
+    return;
+
+  evtHandler->wxConnect( id, lastId, eventType, evtHandler );
+
+};
+

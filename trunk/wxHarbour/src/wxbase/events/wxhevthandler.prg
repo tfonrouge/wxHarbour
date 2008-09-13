@@ -12,37 +12,70 @@
 
 #include "hbclass.ch"
 #include "property.ch"
-
+#include "wx.ch"
 /*
   wxEvtHandler
   Teo. Mexico 2006
 */
 CLASS wxEvtHandler FROM wxObject
 PRIVATE:
-  DATA FEventList INIT {}
+  DATA FEventHashList INIT HB_HSetCaseMatch( {=>}, .F. )
   DATA FEventTypeValue
 PROTECTED:
+  METHOD wxConnect( id, lastId, eventType )
 PUBLIC:
-  METHOD Connect( id, eventType, bAction )
-  METHOD ProcessEvent( event )
+  METHOD Connect( p1, p2, p3, p4 )
+  METHOD OnCommandEvent( event )
+  PROPERTY EventHashList READ FEventHashList
 PUBLISHED:
 ENDCLASS
 
 /*
   Connect
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
-METHOD PROCEDURE Connect( id, eventType, bAction ) CLASS wxEvtHandler
-  AAdd( ::FEventList, { id, eventType, bAction } )
+METHOD PROCEDURE Connect( p1, p2, p3, p4 ) CLASS wxEvtHandler
+  LOCAL id, lastId, eventType, bAction
+  LOCAL vtP1 := ValType( p1 )
+  LOCAL vtP2 := ValType( p2 )
+  LOCAL vtP3 := ValType( p3 )
+  LOCAL vtP4 := ValType( p4 )
+
+  /* Check for codeBlock, Character, or Symbol type */
+  IF vtP4 $ "BCS"
+    id := p1
+    lastId := p2
+    eventType := p3
+    bAction := p4
+  ELSEIF vtP3 $ "BCS"
+    id := p1
+    lastId := p1
+    eventType := p2
+    bAction := p3
+  ELSEIF vtP2 $ "BCS"
+    id := wxID_ANY
+    lastId := wxID_ANY
+    eventType := p1
+    bAction := p2
+  ENDIF
+
+  IF bAction != NIL
+    IF !HB_HHasKey( ::FEventHashList, eventType )
+      ::FEventHashList[ eventType ] := {}
+    ENDIF
+    AAdd( ::FEventHashList[ eventType ], { id, lastId, bAction } )
+  ENDIF
+
+  ::wxConnect( id, lastId, eventType )
+
 RETURN
 
 /*
-  ProcessEvent
+  OnCommandEvent
   Teo. Mexico 2006
 */
-METHOD PROCEDURE ProcessEvent( id, eventType ) CLASS wxEvtHandler
-  LOCAL evt
-  LOCAL bAct
+METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
+  LOCAL itm
 
   ? ::ClassName
   ?? " Id: "+LTrim(Str(::GetId()))
@@ -50,16 +83,19 @@ METHOD PROCEDURE ProcessEvent( id, eventType ) CLASS wxEvtHandler
   ?? " type: "+LTrim(Str(eventType))
   ?
 
-  FOR EACH evt IN ::FEventList
-    IF evt[1] = id .AND. evt[2] = eventType
-      bAct := evt[3]
+  IF !HB_HHasKey( ::FEventHashList, eventType )
+    //::Skip() ?
+    ? "No events..."
+    RETURN
+  ENDIF
+
+  FOR EACH itm IN ::FEventHashList[ eventType ]
+    ? "Testing:",itm[1],itm[2]
+    IF id >= itm[1] .AND. id <= itm[2]
+      itm[3]:Eval( Self )
       EXIT
     ENDIF
   NEXT
-
-  IF bAct != NIL
-    bAct:Eval( Self )
-  ENDIF
 
 RETURN
 
