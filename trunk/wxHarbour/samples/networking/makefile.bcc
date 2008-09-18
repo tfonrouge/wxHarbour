@@ -59,7 +59,7 @@ HBLIB_FM = no
 
 # Link in the Harbour CT library [yes,no]
 !ifndef HBLIB_CT
-HBLIB_CT = no
+HBLIB_CT = yes
 !endif
 
 # Link in the Harbour GTWIN library [yes,no]
@@ -157,6 +157,7 @@ NETWORKING_OBJECTS =  \
 	$(__BUILDDIR__)\networking_simple.obj
 NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include \
+	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
 	-I..\..\include
 
@@ -299,6 +300,12 @@ __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING).lib
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING)-$(WX_BUILD).lib
+!endif
+!if "$(WX_ENCODING)" == "unicode"
+____D_WX_UNICODE_FILENAMES_p = -D_UNICODE
+!endif
+!if "$(WX_BUILD)" == "debug"
+____D_WX_DEBUG_FILENAMES_p = -D__WXDEBUG__
 !endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_4 = -v

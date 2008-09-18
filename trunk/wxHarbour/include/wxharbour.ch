@@ -21,6 +21,7 @@
 #xtranslate _WXGET_( <xVar> ) => WXGET( <"xVar"> , <xVar>, {|_xValue| iif( PCount() > 0 , <xVar> := _xValue , <xVar> ) } )
 
 #xcommand CREATE FRAME <oFrame> ;
+          [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
@@ -28,9 +29,10 @@
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oFrame> := wxFrame():New( [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oFrame> := wx_Frame( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
+          [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
@@ -38,7 +40,7 @@
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oDlg> := wxDialog():New( [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oDlg> := wx_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE STATUSBAR [<oSB>] ;
           [ ID <nID> ] ;
@@ -63,10 +65,11 @@
               [HELPLINE <cHelpString>] ;
               [<kind: CHECK,RADIO>] ;
               [ACTION <bAction> ] ;
+              [ENABLED <bEnabled> ] ;
           => ;
-          wxh_AddMenuItem( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>] )
+          wxh_AddMenuItem( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
 
-#xcommand ADD SEPARATOR ;
+#xcommand ADD MENUSEPARATOR ;
           => ;
           wxh_AddMenuItem( NIL, wxID_SEPARATOR )
 

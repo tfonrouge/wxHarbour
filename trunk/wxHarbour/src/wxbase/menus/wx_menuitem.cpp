@@ -29,6 +29,10 @@ wx_MenuItem::~wx_MenuItem()
   wx_ObjList_wxDelete( this );
 }
 
+/*
+  New
+  Teo. Mexico 2008
+*/
 HB_FUNC( WXMENUITEM_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -47,11 +51,14 @@ HB_FUNC( WXMENUITEM_NEW )
   hb_itemReturn( pSelf );
 }
 
-
-
-
-
-
-
-
-
+/*
+  Enable
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXMENUITEM_ENABLE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_MenuItem* menuItem;
+  if( pSelf && (menuItem = (wx_MenuItem *) wx_ObjList_wxGet( pSelf ) ) )
+    menuItem->Enable( hb_parl( 1 ) );
+}

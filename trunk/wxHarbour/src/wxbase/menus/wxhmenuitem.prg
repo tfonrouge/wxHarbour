@@ -24,7 +24,7 @@
   AddMenuItem: Wrapper for wxMenuItem
   Teo. Mexico 2006
 */
-FUNCTION wxh_AddMenuItem( text, id, helpString, kind, bAction )
+FUNCTION wxh_AddMenuItem( text, id, helpString, kind, bAction, bEnabled )
   LOCAL menuItem
   LOCAL nLast
 
@@ -42,6 +42,10 @@ FUNCTION wxh_AddMenuItem( text, id, helpString, kind, bAction )
     Global():g_window:Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
+  IF bEnabled != NIL
+    menuItem:Enable( bEnabled:Eval() )
+  ENDIF
+
 RETURN menuItem
 
 /*
@@ -53,6 +57,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parentMenu, id, text, helpString, kind, subMenu )
+  METHOD Enable( enable )
 PUBLISHED:
 ENDCLASS
 

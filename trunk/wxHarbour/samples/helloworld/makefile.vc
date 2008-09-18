@@ -37,7 +37,7 @@ HBLIB_TIP = no
 HBLIB_FM = no
 
 # Link in the Harbour CT library [yes,no]
-HBLIB_CT = no
+HBLIB_CT = yes
 
 # Link in the Harbour GTWIN library [yes,no]
 HBLIB_GTWIN = yes
@@ -104,8 +104,9 @@ HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)\helloworld_helloworld.obj
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
-	/I..\..\include
+	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) \
+	$(______WX_DEBUG_INFO_7_FILENAMES_p) /D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS /I..\..\include
 
 ### Conditionally set variables: ###
 
@@ -247,8 +248,17 @@ __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING).lib
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour-$(WX_ENCODING)-$(WX_BUILD).lib
 !endif
+!if "$(WX_ENCODING)" == "unicode"
+____D_WX_UNICODE_FILENAMES_p = /D_UNICODE
+!endif
+!if "$(WX_BUILD)" == "debug"
+____D_WX_DEBUG_FILENAMES_p = /D__WXDEBUG__
+!endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_6 = /DEBUG
+!endif
+!if "$(WX_BUILD)" == "debug"
+______WX_DEBUG_INFO_7_FILENAMES_p = /D_DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 WX_LIBID = d

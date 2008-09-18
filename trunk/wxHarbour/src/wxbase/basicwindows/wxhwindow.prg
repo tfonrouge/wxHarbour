@@ -24,6 +24,7 @@ PUBLIC:
   METHOD Centre( direction )
   METHOD Close( force )
   METHOD Destroy
+  METHOD FindWindowById( id, parent )
   METHOD FindWindowByName( name, parent )
   METHOD FindWindowByLabel( label, parent )
   METHOD GetId

@@ -64,9 +64,9 @@ FUNCTION Login
         ADD MENUITEM "From A"
         ADD MENUITEM "From B"
       ENDMENU
-      ADD SEPARATOR
+      ADD MENUSEPARATOR
       ADD MENUITEM E"Open \tCtrl+O"
-      ADD SEPARATOR
+      ADD MENUSEPARATOR
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits the program..."
     ENDMENU
