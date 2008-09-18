@@ -18,7 +18,9 @@
 class wx_App : public wxApp
 {
 private:
+  DECLARE_CLASS( wx_App )
 public:
   virtual bool OnInit();
 };
 
+DECLARE_APP( wx_App )

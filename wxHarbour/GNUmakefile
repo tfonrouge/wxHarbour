@@ -50,7 +50,7 @@ HBLIB_TIP := no
 HBLIB_FM := no
 
 # Link in the Harbour CT library [yes,no]
-HBLIB_CT := no
+HBLIB_CT := yes
 
 # Link in the Harbour GTTRM library [yes,no]
 HBLIB_GTTRM := yes
@@ -120,8 +120,10 @@ WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2
 	$(CPPFLAGS) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
+	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcolumn.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbrowse.o \
+	$(__BUILDDIR__)/wxHarbour_dba.o \
 	$(__BUILDDIR__)/wxHarbour_talias.o \
 	$(__BUILDDIR__)/wxHarbour_tdatabase.o \
 	$(__BUILDDIR__)/wxHarbour_tfield.o \
@@ -203,7 +205,8 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
+	$(__D_WX_UNICODE_p) $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__D_WX_DEBUG_p) \
+	-Iinclude
 
 ### Conditionally set variables: ###
 
@@ -291,10 +294,16 @@ samples: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhutils.o: ./src/common/wxhutils.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhbrowse.o: ./src/hrbcompat/tbrowse/wxhbrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_dba.o: ./src/raddox/dba.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_talias.o: ./src/raddox/talias.prg

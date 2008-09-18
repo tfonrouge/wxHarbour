@@ -122,7 +122,7 @@
 #define wxYES                   0x00000002
 #define wxOK                    0x00000004
 #define wxNO                    0x00000008
-#define wxYES_NO                (wxYES | wxNO)
+#define wxYES_NO                HB_BITOR(wxYES,wxNO)
 #define wxCANCEL                0x00000010
 
 #define wxYES_DEFAULT           0x00000000  /*  has no effect (default) */

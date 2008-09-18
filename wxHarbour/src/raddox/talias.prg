@@ -15,6 +15,7 @@ PRIVATE:
   DATA FFound     INIT .F.
   DATA FName      INIT ""
   DATA FRecNo     INIT 0
+  DATA FTable
   METHOD GetName INLINE ::FName
   METHOD GetRecNo INLINE ::SyncFromRecNo(),::FRecNo
   METHOD SetRecNo( RecNo ) INLINE ::DbGoTo( RecNo )
@@ -25,6 +26,7 @@ PUBLIC:
   METHOD DbGoTo( RecNo )
   METHOD DbSkip( n )
   METHOD DbStruct INLINE (::FName)->(DbStruct())
+  METHOD DbOpen
   METHOD Eval( codeBlock )
   METHOD ExistKey( KeyValue, IndexName, RecNo )
   METHOD FieldPos( FieldName ) INLINE (::FName)->( FieldPos( FieldName ) )
@@ -65,14 +67,24 @@ ENDCLASS
   New
   Teo. Mexico 2007
 */
-METHOD New( Name ) CLASS TAlias
+METHOD New( table ) CLASS TAlias
 
-  ::FName := Name
+  IF Empty( table )
+    RAISE ERROR "TAlias: Empty Table parameter."
+  ENDIF
+
+  ::FTable := table
+
+  ::FName := table:TableName
 
   ::FRecNo := 0
 
-  IF Empty( Name )
+  IF Empty( ::FName )
     RAISE ERROR "TAlias: Empty Database Name..."
+  ENDIF
+
+  IF !::DbOpen()
+    RAISE ERROR "TAlias: Cannot Open Database '" + ::FName + "'"
   ENDIF
 
   ::SyncFromRecNo()
@@ -98,6 +110,18 @@ METHOD FUNCTION DbGoTo( RecNo ) CLASS TAlias
   Result := (::FName)->( DbGoTo( RecNo ) )
   ::SyncFromAlias()
 RETURN Result
+
+/*
+  DbOpen
+  Teo. Mexico 2008
+*/
+METHOD DbOpen CLASS TAlias
+  IF ::FTable:DataBase:OpenBlock != NIL
+    RETURN ::FTable:DataBase:OpenBlock:Eval( ::FName )
+  ENDIF
+  ? "Opening:",::FTable:FullFileName
+  USE ( ::FTable:FullFileName ) VIA "DBFCDX" NEW
+RETURN !NetErr()
 
 /*
   DbSkip
@@ -251,9 +275,9 @@ RETURN Result
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromAlias CLASS TAlias
-  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
+/*  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
-  ENDIF
+  ENDIF*/
   ::FBof   := (::FName)->( Bof() )
   ::FEof   := (::FName)->( Eof() )
   ::FFound := (::FName)->( Found() )
@@ -265,9 +289,9 @@ RETURN
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromRecNo CLASS TAlias
-  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
+/*  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
-  ENDIF
+  ENDIF*/
   IF (::FName)->(RecNo()) != ::FRecNo
     (::FName)->(DbGoTo( ::FRecNo ) )
     ::FBof   := (::FName)->( Bof() )

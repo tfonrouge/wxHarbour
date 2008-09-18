@@ -155,6 +155,14 @@ HB_FUNC( WXWINDOW_ISSHOWN )
     hb_ret();
 }
 
+HB_FUNC( WXWINDOW_SETFOCUS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->SetFocus();
+}
+
 HB_FUNC( WXWINDOW_SETSIZER )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
