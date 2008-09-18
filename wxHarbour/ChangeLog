@@ -2,6 +2,11 @@
  *
  */
 
+2008-09-18 13:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+    ! Fixed compiling with MSVC, was complaining for a cout << code
+      inside template of destructor declaration for hbEvtHandler<T>
+
 2008-09-18 05:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/event.ch
     % complete list for event types

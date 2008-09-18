@@ -52,7 +52,7 @@ public:
   void OnMouseEvent( wxMouseEvent& event );
   void wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler );
 
-  ~hbEvtHandler<T>() { cout << "destroying..." ; wx_ObjList_wxDelete( this ); }
+  ~hbEvtHandler<T>() { wx_ObjList_wxDelete( this ); }
 };
 
 /*
