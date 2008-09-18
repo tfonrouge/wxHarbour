@@ -106,6 +106,7 @@ PUBLIC:
   METHOD FindMasterSourceField( detailField )
   METHOD FindTable( table )
   METHOD First INLINE ::FirstLast( 0 )
+  METHOD FullFileName
   METHOD GetAsString INLINE iif( ::PrimaryKeyField=NIL, "", ::PrimaryKeyField:AsString )
   METHOD GetAsVariant INLINE iif( ::PrimaryKeyField=NIL, NIL, ::PrimaryKeyField:Value )
   METHOD GetCurrentRecord
@@ -199,7 +200,7 @@ METHOD New( MasterSource ) CLASS TTable
    * Make sure that database is open here
    */
   IF ::FAlias = NIL
-    ::FAlias := TAlias():New( ::TableName )
+    ::FAlias := TAlias():New( Self )
   ENDIF
 
   /*!
@@ -219,7 +220,7 @@ METHOD New( MasterSource ) CLASS TTable
     /*
      * removes any previous entry for Self in MasterSource:DetailSourceList
      */
-    IF ::ClassName $ MasterSource:DetailSourceList
+    IF HB_HHasKey( MasterSource:DetailSourceList, ::ClassName )
       HB_HDel( MasterSource:DetailSourceList, ::ClassName )
     ENDIF
 
@@ -367,7 +368,7 @@ METHOD FUNCTION AddRec CLASS TTable
 
   CATCH errObj
 
-    ShowError( errObj )
+    ErrorBlock():Eval( errObj )
 
     ::Delete()
     ::RecUnLock()
@@ -387,7 +388,7 @@ RETURN Result
 METHOD PROCEDURE Cancel CLASS TTable
   LOCAL AField
 
-  IF !::State $ { dsInsert, dsEdit }
+  IF AScan( { dsInsert, dsEdit }, ::State ) = 0
     //::Error_Table_Not_In_Edit_or_Insert_mode()
     RETURN
   ENDIF
@@ -428,7 +429,7 @@ METHOD FUNCTION ChildSource( tableName ) CLASS TTable
   LOCAL table
 
   /* tableName is in the DetailSourceList */
-  IF tableName $ ::DetailSourceList
+  IF HB_HHasKey( ::DetailSourceList, tableName )
     table := ::DetailSourceList[ tableName ]
     table:Reset()
   ELSE
@@ -566,7 +567,7 @@ RETURN Result
 METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
   LOCAL AField
 
-  IF !::State $ { dsBrowse, dsInsert }
+  IF AScan( { dsBrowse, dsInsert }, ::State ) = 0
     ::Error_Table_Not_In_Browse_or_Insert_State()
     RETURN .F.
   ENDIF
@@ -639,7 +640,7 @@ METHOD PROCEDURE Destroy CLASS TTable
   ENDIF
 
   IF !HB_IsArray( ::FFieldList )
-    WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
+    //WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
     RETURN
   ENDIF
 
@@ -776,7 +777,7 @@ RETURN NIL
 */
 METHOD FUNCTION FirstLast( n ) CLASS TTable
 
-  IF ::FState $ {dsEdit,dsInsert}
+  IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
     ::Post()
   ENDIF
 
@@ -789,6 +790,24 @@ METHOD FUNCTION FirstLast( n ) CLASS TTable
   ENDIF
 
 RETURN .F.
+
+/*
+  FullFileName
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION FullFileName CLASS TTable
+  LOCAL Result
+
+  IF !Empty( ::DataBase:Directory )
+    Result := LTrim( RTrim( ::DataBase:Directory ) )
+    IF !Right( Result, 1 ) == HB_OSPathSeparator()
+      Result += HB_OSPathSeparator()
+    ENDIF
+  ELSE
+    Result := ""
+  ENDIF
+
+RETURN Result + ::TableName
 
 /*
   GetCurrentRecord
@@ -813,7 +832,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
       RETURN .F.
     ENDIF
 
-    IF ::ClassName $ ::FMasterSource:DetailSourceList
+    IF HB_HHasKey( ::FMasterSource:DetailSourceList, ::ClassName )
       pSelf := ::FMasterSource:DetailSourceList[ ::ClassName ]
       ::FMasterSource:DetailSourceList[ ::ClassName ] := NIL
     ENDIF
@@ -912,7 +931,7 @@ RETURN .T.
   Teo. Mexico 2007
 */
 METHOD FUNCTION GetDbStruct CLASS TTable
-  IF ! "DbStruct" $ ::FInstances[ ::ClassName ]
+  IF ! HB_HHasKey( ::FInstances[ ::ClassName ], "DbStruct" )
     ::FInstances[ ::ClassName, "DbStruct" ] := ::Alias:DbStruct
   ENDIF
 RETURN ::FInstances[ ::ClassName, "DbStruct" ]
@@ -1159,7 +1178,7 @@ RETURN Result
 METHOD PROCEDURE Next( numRecs ) CLASS TTable
 
   TRY
-    IF ::FState $ {dsEdit,dsInsert}
+    IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
       ::Post()
     ENDIF
     ::FIndex:Next( numRecs )
@@ -1202,7 +1221,7 @@ METHOD FUNCTION Post CLASS TTable
 
   END
 
-  IF !::State $ { dsEdit, dsInsert }
+  IF AScan( { dsEdit, dsInsert }, ::State ) = 0
     ::Error_Table_Not_In_Edit_or_Insert_mode()
     RETURN .F.
   ENDIF
@@ -1211,7 +1230,7 @@ METHOD FUNCTION Post CLASS TTable
 
   IF Len( ::DetailSourceList ) > 0
     FOR EACH table IN ::DetailSourceList
-      IF table:State $ { dsEdit, dsInsert }
+      IF AScan( { dsEdit, dsInsert }, table:State ) > 0
         table:Post()
       ENDIF
     NEXT
@@ -1434,7 +1453,7 @@ METHOD PROCEDURE SetMasterSource( MasterSource ) CLASS TTable
    * Check if another Self is already in the MasterSource DetailSourceList
    * and RAISE ERROR if another Self is trying to break the previous link
    */
-  IF ::ClassName $ MasterSource:DetailSourceList .AND. ;
+  IF HB_HHasKey( MasterSource:DetailSourceList, ::ClassName) .AND. ;
      MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
      !MasterSource:DetailSourceList[ ::ClassName ] == Self
     RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"

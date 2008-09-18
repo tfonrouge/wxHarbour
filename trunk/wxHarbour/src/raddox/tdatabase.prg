@@ -32,6 +32,9 @@ PRIVATE:
 PROTECTED:
   METHOD DefineRelations VIRTUAL
 PUBLIC:
+  DATA Directory INIT ""
+  DATA Driver    INIT "DBFCDX"
+  DATA OpenBlock
   CONSTRUCTOR New( databaseName )
   METHOD AddParentChild( parentTableName, childTableName , indexName )
 
@@ -92,10 +95,10 @@ RETURN Self
 */
 METHOD PROCEDURE cmdAddTable( tableName, indexName, virtual ) CLASS TDataBase
 
-  ::cmdLevel[ ::cmdLevel:Size ] := { tableName, indexName, virtual }
+  ::cmdLevel[ Len( ::cmdLevel ) ] := { tableName, indexName, virtual }
 
-  IF ::cmdLevel:Size > 1
-    ::AddParentChild( ::cmdLevel[ ::cmdLevel:Size -1, 1 ], tableName, indexName, virtual )
+  IF Len( ::cmdLevel ) > 1
+    ::AddParentChild( ::cmdLevel[ Len( ::cmdLevel ) - 1, 1 ], tableName, indexName, virtual )
   ENDIF
 
 RETURN
@@ -113,7 +116,7 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE cmdEndChild CLASS TDataBase
-  ASize( ::cmdLevel, ::cmdLevel:Size -1 )
+  ASize( ::cmdLevel, Len( ::cmdLevel ) - 1 )
 RETURN
 
 /*
@@ -160,7 +163,7 @@ RETURN Result
 METHOD FUNCTION TableIsDerivedFrom( table, fromTable ) CLASS TDataBase
   LOCAL Result
 
-  Result := HB_HHasKey( ::FParentChildList, fromTable ) .AND. Upper( table ) $ ::FParentChildList[ fromTable ]
+  Result := HB_HHasKey( ::FParentChildList, fromTable ) .AND. AScan( ::FParentChildList[ fromTable ], {|e| e == Upper( table ) } ) > 0
 
 RETURN Result
 

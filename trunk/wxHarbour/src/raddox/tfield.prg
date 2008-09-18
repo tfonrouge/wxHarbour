@@ -18,7 +18,7 @@
                       ";" + ;
                       <cDescription> + ";;" ;
                 SUBSYSTEM ::ClassName + "<" + ::Name + ">"  ;
-                OPERATION ";" + ProcName(0)+"(" + NTrim(ProcLine(0)) + ")"
+                OPERATION ";" + ProcName(0)+"(" + LTrim(Str(ProcLine(0))) + ")"
 
 /*
   TField
@@ -219,7 +219,7 @@ RETURN
 METHOD PROCEDURE Delete CLASS TField
   LOCAL errObj
 
-  IF !::Table:State $ { dsEdit, dsInsert }
+  IF AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
     ::Table:Table_Not_In_Edit_or_Insert_mode()
     RETURN
   ENDIF
@@ -620,7 +620,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
       IF ::FTable:LinkedObjField != NIL
 
-        IF ::FTable:LinkedObjField:Table:State $ { dsEdit, dsInsert }
+        IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
           ::FTable:LinkedObjField:SetAsVariant( ::FTable:PrimaryKeyField:GetBuffer() )
         ENDIF
 
@@ -640,7 +640,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
   ENDIF
 
-  IF !::FTable:State $ { dsEdit, dsInsert, dsReading }
+  IF AScan( { dsEdit, dsInsert, dsReading }, ::FTable:State ) = 0
     RAISE TFIELD ::Name ERROR "Table not in Edit or Insert or Reading mode"
     RETURN
   ENDIF
@@ -696,7 +696,7 @@ METHOD PROCEDURE SetBuffer( Value ) CLASS TField
   ENDIF
 
   IF !( hb_IsNIL( Value ) .OR. ValType( Value ) = ::FValType ) .AND. ;
-     ( ::IsDerivedFrom("TStringField") .AND. ! ValType( Value ) $ {"C","M"} )
+     ( ::IsDerivedFrom("TStringField") .AND. AScan( {"C","M"}, ValType( Value ) ) = 0 )
     RAISE TFIELD ::Name ERROR "Wrong Type Assign: [" + Value:ClassName + "] to <" + ::ClassName + ">"
   ENDIF
 
@@ -744,7 +744,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
   END
 
-  IF !::Table:State $ { dsEdit, dsInsert }
+  IF AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
     RAISE TFIELD ::Name ERROR "SetData(): Table not in Edit or Insert mode..."
     RETURN
   ENDIF
@@ -847,7 +847,8 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
   CATCH errObj
 
-    ShowError( errObj )
+    //ShowError( errObj )
+    ErrorBlock():Eval( errObj )
 
   END
 
@@ -893,10 +894,10 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
         RAISE TFIELD fieldName ERROR "Field is not defined yet..."
       ENDIF
       IF ::IsDerivedFrom("TStringField")
-        IF AField:Size == NIL
+        IF Len( AField ) == NIL
           RAISE TFIELD AField:Name ERROR "Size is NIL..."
         ENDIF
-        ::TStringField:FSize += AField:Size
+        ::TStringField:FSize += Len( AField )
       ENDIF
     NEXT
     ::FFieldCodeBlock := NIL
@@ -952,7 +953,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
     IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldName) .AND. Upper( AField:FieldName ) == Upper( fieldName ) }) > 0
       n := AScan( ::FTable:FieldList, {|AField| AField == Self } )
       IF n > 0
-        ADelete( ::FTable:FieldList, n )
+        ADel( ::FTable:FieldList, n )
+        ASize( ::FTable:FieldList, Len( ::FTable:FieldList ) - 1 )
       ENDIF
       RETURN /* ok, we don't need this now repeated parent field */
     ENDIF
@@ -1361,6 +1363,7 @@ PRIVATE:
   DATA FObjValue
   DATA FLinkedTable                  /* holds the Table object */
   METHOD GetIsTheMasterSource
+  METHOD GetSize INLINE Len( ::LinkedTable:PrimaryKeyField )
   METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
   DATA FValType                   INIT "O"
@@ -1374,7 +1377,7 @@ PUBLIC:
   PROPERTY LinkedTable READ GetLinkedTable
   PROPERTY IsTheMasterSource READ GetIsTheMasterSource
   PROPERTY ObjValue READ FObjValue WRITE SetObjValue
-  PROPERTY Size READ LinkedTable:PrimaryKeyField:Size
+  PROPERTY Size READ GetSize
 PUBLISHED:
 ENDCLASS
 

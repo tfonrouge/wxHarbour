@@ -20,10 +20,7 @@
 
 #include "wxbase/wx_app.h"
 
-extern "C"
-{
-  void HB_FUN_WX_APP_ONINIT( void );
-}
+static PHB_ITEM hb_wxApp;
 
 /*
   OnInit
@@ -31,44 +28,48 @@ extern "C"
 */
 bool wx_App::OnInit()
 {
+  return hb_retl( hb_objSendMsg( hb_wxApp, "OnInit", 0 )->item.asLogical.value );
+}
 
-  PHB_ITEM p;
-
-  HB_FUN_WX_APP_ONINIT();
-
-  p = hb_itemNew( NULL );
-  hb_itemCopy( p, hb_stackReturnItem() );
-
-  return p->item.asLogical.value;
-};
 /*
   end class wx_App
 */
 
-DECLARE_APP( wx_App )
 IMPLEMENT_APP_NO_MAIN( wx_App )
+IMPLEMENT_CLASS( wx_App, wxApp )
 
-HB_FUNC( IMPLEMENT_APP )
-{
-  char **p_args = NULL;
-  int i_args = 0;
-  wxEntry( i_args, p_args );
-};
-
-/*
+/*! \brief wxApp initializacion, we don't link here the wxApp c++ because we can get it right from the wxGetApp function
+    \param wxApp HBCLASS
+    \return The wxApp Harbour object
   Constructor: wxApp Object
   Teo. Mexico 2006
 */
-HB_FUNC( WXAPP_NEW )
+HB_FUNC( IMPLEMENT_APP )
 {
-  hb_itemReturn( hb_stackSelfItem() );
+  hb_wxApp = hb_param( 1, HB_IT_OBJECT );
+  int i_args = 0;
+  char **p_args = NULL;
+
+  wxEntry( i_args, p_args );
 }
 
-HB_FUNC( WX_APP_ONINIT )
+/*
+  wxApp::ExitMainLoop
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXAPP_EXITMAINLOOP )
 {
-  PHB_ITEM pObjApp = hb_param( 1, HB_IT_OBJECT );
-  hb_retl( hb_objSendMsg( pObjApp, "OnInit", 0 )->item.asLogical.value );
-};
+  wxGetApp().ExitMainLoop();
+}
+
+/*!
+  wxGetApp
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGETAPP )
+{
+  hb_itemReturn( hb_wxApp );
+}
 
 HB_FUNC( WXEVT_FIRST )
 {

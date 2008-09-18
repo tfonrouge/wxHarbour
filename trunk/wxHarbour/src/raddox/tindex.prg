@@ -257,7 +257,7 @@ RETURN
 */
 METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 
-  IF ::FTable:State $ {dsEdit,dsInsert}
+  IF AScan( {dsEdit,dsInsert}, ::FTable:State ) > 0
     ::FTable:Post()
   ENDIF
 
@@ -273,7 +273,7 @@ RETURN ::FTable:Found()
 */
 METHOD FUNCTION Seek( keyValue, lSoftSeek ) CLASS TIndex
 
-  IF ::FTable:State $ {dsEdit,dsInsert}
+  IF AScan( {dsEdit,dsInsert}, ::FTable:State ) > 0
     ::FTable:Post()
   ENDIF
 
@@ -367,7 +367,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
     AField:UniqueKeyIndex := Self
     ::FUniqueKeyField := AField
   CASE 3   /* KeyField */
-    IF AField:IsDerivedFrom( "TStringField" ) .AND. Empty( AField:Size )
+    IF AField:IsDerivedFrom( "TStringField" ) .AND. Len( AField ) = 0
       RAISE ERROR ::FTable:ClassName + ": Master key field <" + AField:Name + ">  needs a size > 0..."
     ENDIF
     AField:KeyIndex := Self

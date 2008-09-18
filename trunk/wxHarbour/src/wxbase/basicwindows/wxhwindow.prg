@@ -33,6 +33,7 @@ PUBLIC:
   METHOD GetSizer
   METHOD Hide( Value )
   METHOD IsShown
+  METHOD SetFocus
   METHOD SetSizer( sizer, deleteOld )
   METHOD Show( Value /* defaults to TRUE */ )
 PUBLISHED:

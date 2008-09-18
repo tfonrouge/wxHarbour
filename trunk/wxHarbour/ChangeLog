@@ -2,6 +2,54 @@
  *
  */
 
+2008-09-17 19:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+    * changed default value for HBLIB_CT make var to 'yes'
+      ; this lib needs to be included as default in Harbour/xHarbour
+    * added <define></define> rules to HBFLAGS
+      ! TODO: Fix replicated defs in CFLAGS/CXXFLAGS
+
+  * include/defs.ch
+    ! Fixed wrong use of '|' (or). using HB_BITOR now.
+
+  * include/wxbase/wx_app.h
+    * added cast for wx_App
+
+  + src/common/wxhutils.prg
+  + src/raddox/dba.prg
+    + utilities needed for raddox
+    + database access functions
+
+  * src/raddox/talias.prg
+    * now receiving a Table obj as constructor param
+    + added DbOpen method to open the database using simple open procedure
+      or use a user defined procedure in ::Table:DataBase:OpenBlock
+    - removed DbIsOpen,DBF_OPEN funcs
+
+  * src/raddox/tdatabase.prg
+  * src/raddox/tfield.prg
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+    * changed ::Size for HB_HHasKey/AScan (Harbour simple methods)
+    - removed NTrim
+    + added Table:FullFileName to return name + ::Directory info
+    - removed ShowError and replaced by ErrorBlock:Eval...
+
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/app/wxhapp.prg
+    - removed unnecesary HB_FUN_WX_APP_ONINIT func
+    + added simple call to hb "OnInit" method in wxApp::OnInit c++ class
+    * storing in static PHB_ITEM var the hb wxApp obj on IMPLEMENT_APP c++ func
+    + added:
+      + ExitMainLoop()
+      + wxGetApp()
+
+  * src/wxbase/basicwindows/wxhwindow.prg
+  * src/wxbase/basicwindows/wx_window.cpp
+    + added:
+      + SetFocus()
+
 2008-09-13 05:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/event.ch
     ! Fixed relative index of event #defines

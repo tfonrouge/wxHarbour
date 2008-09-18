@@ -69,7 +69,7 @@ Link in the Harbour TIP library
 
   <option name="HBLIB_CT">
     <values>yes,no</values>
-    <default-value>no</default-value>
+    <default-value>yes</default-value>
     <description>Link in the Harbour CT library</description>
   </option>
 
@@ -687,6 +687,13 @@ Where is wxWidgets installed
     <precomp-headers>on</precomp-headers>
 
   </template>
+
+  <define-tag name="define" rules="harbour-lib,harbour-exe,wxharbour-exe">
+    <set var="__hbflags" append="1">
+      $(addPrefixIfNotEmpty(__DEFINE_ARG,nativePaths(value)))
+    </set>
+    <res-include>$(value)</res-include>
+  </define-tag>
 
   <define-tag name="include" rules="harbour-lib,harbour-exe,wxharbour-exe">
     <set var="__hbflags" append="1">
