@@ -116,11 +116,18 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD DbOpen CLASS TAlias
+
+  /* Check for a previously open database */
+  IF Select( ::FName ) > 0
+    RETURN .T.
+  ENDIF
+
   IF ::FTable:DataBase:OpenBlock != NIL
     RETURN ::FTable:DataBase:OpenBlock:Eval( ::FName )
   ENDIF
-  ? "Opening:",::FTable:FullFileName
-  USE ( ::FTable:FullFileName ) VIA "DBFCDX" NEW
+
+  USE ( ::FTable:FullFileName ) NEW
+
 RETURN !NetErr()
 
 /*

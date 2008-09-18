@@ -53,13 +53,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
   DEFINE MENUBAR STYLE 1 ON oWnd
     DEFINE MENU "&File"
       ADD MENUITEM E"Open \tCtrl+O"
-      ADD SEPARATOR
+      ADD MENUSEPARATOR
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
       ADD MENUITEM "Fit Grid" ACTION grid:Fit()
-      ADD SEPARATOR
+      ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
   ENDMENUBAR

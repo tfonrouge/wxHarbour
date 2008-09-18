@@ -43,7 +43,7 @@ HBLIB_TIP = no
 HBLIB_FM = no
 
 # Link in the Harbour CT library [yes,no]
-HBLIB_CT = no
+HBLIB_CT = yes
 
 # Link in the Harbour GTWIN library [yes,no]
 HBLIB_GTWIN = yes
@@ -116,20 +116,20 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \
+	/I$(PREFIX)\include /W4 /O2 $(VAR) $(VAR_0) $(__WX_DEBUG_INFO_5) $(p_1) \
 	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude $(CPPFLAGS)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include /W4 /O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	$(__WX_DEBUG_INFO_5) $(____WX_DEBUG_INFO_7_p) \
+	/I$(PREFIX)\include /W4 /O2 $(VAR) $(VAR_0) $(__WX_DEBUG_INFO_5) $(p_1) \
 	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude /GR /EHsc /YX \
 	$(CPPFLAGS)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj \
+	$(__BUILDDIR__)\wxHarbour_dba.obj \
 	$(__BUILDDIR__)\wxHarbour_talias.obj \
 	$(__BUILDDIR__)\wxHarbour_tdatabase.obj \
 	$(__BUILDDIR__)\wxHarbour_tfield.obj \
@@ -200,10 +200,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(____WX_DEBUG_INFO_7_p) /D__WXMSW__ \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	/Iinclude
+	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include $(VAR) $(VAR) \
+	$(VAR_0) $(VAR_0) $(p_1) $(p_1) /D__WXMSW__ /D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude
 
 ### Conditionally set variables: ###
 
@@ -229,13 +228,13 @@ __WX_DEBUG_INFO_5 = /Zi
 __WX_DEBUG_INFO_8 = d
 !endif
 !if "$(WX_ENCODING)" == "unicode"
-__D_WX_UNICODE_p = /D_UNICODE
+VAR = /D_UNICODE
 !endif
 !if "$(WX_BUILD)" == "debug"
-__D_WX_DEBUG_p = /D__WXDEBUG__
+VAR_0 = /D__WXDEBUG__
 !endif
 !if "$(WX_BUILD)" == "debug"
-____WX_DEBUG_INFO_7_p = /D_DEBUG
+p_1 = /D_DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 __WX_LIBID_FILENAMES = d
@@ -315,10 +314,16 @@ sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.obj: .\src\common\wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhutils.obj: .\src\common\wxhutils.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_dba.obj: .\src\raddox\dba.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_talias.obj: .\src\raddox\talias.prg

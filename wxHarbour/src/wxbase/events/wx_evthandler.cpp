@@ -36,7 +36,8 @@ HB_FUNC( WXEVTHANDLER_WXCONNECT )
   if( !( pSelf && (evtHandler = (hbEvtHandler<wxEvtHandler> *) wx_ObjList_wxGet( pSelf ) ) ) )
     return;
 
+  //cout << "wxEventType: " << eventType << endl;
+
   evtHandler->wxConnect( id, lastId, eventType, evtHandler );
 
-};
-
+}

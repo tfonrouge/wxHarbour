@@ -19,6 +19,25 @@
 #include "property.ch"
 
 /*
+  wx_Frame
+  Teo. Mexico 2008
+*/
+FUNCTION wx_Frame( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+  LOCAL dlg
+
+  IF Empty( fromClass )
+    RETURN wxFrame():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+  ENDIF
+
+  dlg := __ClsInstFromName( fromClass ):New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+
+  IF !dlg:IsDerivedFrom( "wxFrame" )
+    dlg:IsNotDerivedFrom_wxFrame()
+  ENDIF
+
+RETURN dlg
+
+/*
   wxFrame
   Teo. Mexico 2006
 */

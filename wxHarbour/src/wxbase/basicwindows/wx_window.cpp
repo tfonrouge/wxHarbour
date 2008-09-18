@@ -51,6 +51,22 @@ HB_FUNC( WXWINDOW_DESTROY )
   hb_retl( Result );
 }
 
+HB_FUNC( WXWINDOW_FINDWINDOWBYID )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  long id = hb_parnl(1);
+  wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+
+  wxWindow* wnd;
+  wxWindow* result;
+
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) && ( result =  wnd->FindWindowById( id, parent ) ) )
+    hb_itemReturn( wx_ObjList_hbGet( result ) );
+  else
+    hb_ret();
+}
+
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();

@@ -35,7 +35,7 @@ HBLIB_TIP := no
 HBLIB_FM := no
 
 # Link in the Harbour CT library [yes,no]
-HBLIB_CT := no
+HBLIB_CT := yes
 
 # Link in the Harbour GTTRM library [yes,no]
 HBLIB_GTTRM := yes
@@ -102,7 +102,8 @@ WX_BUILD := release
 HELLOWORLD1_OBJECTS =  \
 	$(__BUILDDIR__)/helloworld1_helloworld1.o
 HELLOWORLD1_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -I../../include
+	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
+	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include
 
 ### Conditionally set variables: ###
 
@@ -269,6 +270,12 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
+endif
+ifeq ($(WX_ENCODING),unicode)
+__D_WX_UNICODE_p_1 = -D_UNICODE
+endif
+ifeq ($(WX_BUILD),debug)
+__D_WX_DEBUG_p_1 = -D__WXDEBUG__
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_3 = -g
