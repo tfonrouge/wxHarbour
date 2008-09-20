@@ -181,6 +181,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_textctrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_frame.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_mdichildframe.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_mdiparentframe.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_menu.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_menubar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_menuitem.obj \
@@ -478,6 +480,12 @@ $(__BUILDDIR__)\wxHarbour_wx_evthandler.obj: .\src\wxbase\events\wx_evthandler.c
 
 $(__BUILDDIR__)\wxHarbour_wx_frame.obj: .\src\wxbase\manwindows\wx_frame.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\manwindows\wx_frame.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_mdichildframe.obj: .\src\wxbase\manwindows\wx_mdichildframe.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\manwindows\wx_mdichildframe.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_mdiparentframe.obj: .\src\wxbase\manwindows\wx_mdiparentframe.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\manwindows\wx_mdiparentframe.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_menu.obj: .\src\wxbase\menus\wx_menu.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\menus\wx_menu.cpp

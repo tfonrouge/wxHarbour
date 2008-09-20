@@ -2,6 +2,126 @@
  *
  */
 
+2008-09-19 19:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxbase/wx_mdichildframe.h
+  + include/wxbase/wx_mdiparentframe.h
+    + added wxMDIChildFrame/wxMDIParentFrame
+
+  * include/defs.ch
+  * include/event.ch
+  * include/property.ch
+    % added define var to avoid re-definition
+
+  * include/raddox.ch
+    * renamed the define var
+
+  * include/wxbase/wx_gridtablebase.h
+    ! added hack to get the wxGrid c++ notified on change of number of rows/cols
+      ; TODO: Check why AppendCols and related are not working
+
+  * include/wxharbour.ch
+  * src/wxbase/manwindows/wxhframe.prg
+  + src/wxbase/manwindows/wx_mdichildframe.cpp
+  + src/wxbase/manwindows/wx_mdiparentframe.cpp
+  * src/wxbase/miscwindows/wxhpanel.prg
+    + added the includes:
+      * hbclass.ch
+      * property.ch
+      * raddox.ch
+      * wx.ch
+    % modified CREATE FRAME to allow MDICHILD/MDIPARENT frames
+    * not needed both of FROM ... SIZE ... commands at once on FRAME/DIALOG
+    + FIT WINDOW <oWnd>
+      ; fits the dialog/frame to the componentes size
+    + CENTRE WINDOW <oWnd>
+    + SHOW WINDOW <oWnd> [MODAL] [FIT] [CENTRE] [TO <var>]
+    + @ PANEL
+    % added more commands to GET clause:
+      * PICTURE
+      * WARNING
+      * HELP
+      * HELPLINE
+      * REFRESH ALL
+    + added SAY ABOVE <label> ...
+    + @ WXBROWSEDB
+      ; to browse Raddox tables
+    + @ WXCOLUMN
+      ; to add columns on the above class
+
+
+  * samples/GNUmakefile
+  * samples/makefile.gcc
+  * samples/makefile.vc
+  * samples/samples.bkl
+    * updated makefiles
+    + added networking sample
+
+  * src/common/wxhutils.prg
+    + added more generic functions
+      ; TODO: describe this
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * work in progress
+      ; now has basic functionality, allows to browse raddox tables
+
+  * src/raddox/dba.prg
+    + added Get4Seek function
+
+  * src/raddox/talias.prg
+    + FCount
+    * FieldValue, syncs before retrieve field value
+    + added SHARED to USE command
+
+  * src/wxbase/basicwindows/wxhtoplevelwindow.prg
+  * src/wxbase/basicwindows/wx_toplevelwindow.cpp
+    + added:
+      + CanSetTransparent
+      + GetTitle
+      + SetTitle
+
+  * src/wxbase/basicwindows/wxhwindow.prg
+  * src/wxbase/basicwindows/wx_window.cpp
+    + added:
+      + Raise
+      + SetId
+      + SetLabel
+      + SetName
+    ! Fixed default value for Centre
+
+  * src/wxbase/commdialogs/wx_dialog.cpp
+  * src/wxbase/commdialogs/wxhdialog.prg
+    + added:
+      + GetReturnCode
+    * casting title var
+    ! Fixed default value for Centre
+
+  * src/wxbase/events/wxhevthandler.prg
+    % small cleanup for OnCommand (event receptor from c++)
+
+  * src/wxbase/manwindows/wx_frame.cpp
+    * casting title var
+    ! Fixed default value for Centre
+
+  * src/wxbase/miscwindows/wx_grid.cpp
+  * src/wxbase/miscwindows/wxhgrid.prg
+    * checking for param default values on NEW
+    + added:
+      + AppendCols
+      + ForceRefresh
+
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+  * src/wxbase/miscwindows/wxhgridtablebase.prg
+    + added:
+      + AppendCols
+      + AppendRows
+      + GetView
+      + InsertCols
+      + InsertRows
+      + UpdateRowCols (c++) called from the above funcs
+
 2008-09-18 13:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
     ! Fixed compiling with MSVC, was complaining for a cout << code

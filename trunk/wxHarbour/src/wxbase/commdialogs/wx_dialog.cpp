@@ -45,7 +45,7 @@ HB_FUNC( WXDIALOG_NEW )
   {
     wxWindow* parent = (wxDialog *) hb_par_WX( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
-    wxString title = wxString( hb_parcx(3), wxConvLocal );
+    const wxString& title = wxString( hb_parcx(3), wxConvLocal );
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
     long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
@@ -69,9 +69,10 @@ HB_FUNC( WXDIALOG_NEW )
 HB_FUNC( WXDIALOG_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
   wx_Dialog* dialog;
   if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
-    dialog->Centre( hb_parni(1) );
+    dialog->Centre( direction );
 }
 
 /*
@@ -114,6 +115,20 @@ HB_FUNC( WXDIALOG_ENDMODAL )
   wx_Dialog* dialog;
   if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
     dialog->EndModal( hb_parni( 1 ) );
+}
+
+/*
+ * wxDialog::GetReturnCode()
+ * Teo. Mexico 2008
+ */
+HB_FUNC( WXDIALOG_GETRETURNCODE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Dialog* dialog;
+  if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retl( dialog->GetReturnCode() );
+  else
+    hb_ret();
 }
 
 /*

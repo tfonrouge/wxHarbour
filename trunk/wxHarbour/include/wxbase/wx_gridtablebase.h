@@ -20,15 +20,20 @@ class wx_GridTableBase : public wxGridTableBase
 private:
 protected:
 public:
-  wx_GridTableBase() : wxGridTableBase() {}
+  wx_GridTableBase() : wxGridTableBase() { m_rows = 0; m_cols = 0; }
 
   ~wx_GridTableBase();
+
+  int m_rows, m_cols;
 
   int       GetNumberRows();
   int       GetNumberCols();
   wxString  GetValue( int row, int col );
   wxString  GetColLabelValue( int col );
   wxString  GetRowLabelValue( int row );
-  void      SetValue( int row, int col, const wxString& value );
   bool      IsEmptyCell( int row, int col );
+  void      SetValue( int row, int col, const wxString& value );
+
+  virtual bool UpdateRowsCols();
+
 };

@@ -29,8 +29,10 @@ PUBLIC:
   METHOD DbOpen
   METHOD Eval( codeBlock )
   METHOD ExistKey( KeyValue, IndexName, RecNo )
+  METHOD FCount INLINE (::FName)->(FCount())
   METHOD FieldPos( FieldName ) INLINE (::FName)->( FieldPos( FieldName ) )
-  METHOD FieldValue( fieldName ) INLINE (::FName)->( FieldGet( FieldPos( fieldName ) ) )
+  METHOD FieldValue( fieldName )
+  METHOD Get4Seek( xField, cKey, indexName, softSeek )
   METHOD Get4SeekLast( xField, cKey, indexName, softSeek )
   METHOD GoBottom( indexName )
   METHOD GoTop( indexName )
@@ -41,6 +43,9 @@ PUBLIC:
   METHOD OrdKeyAdd( Name, cBag, KeyVal )
   METHOD OrdKeyDel( Name, cBag, KeyVal )
   METHOD OrdSetFocus( Name, cBag )
+  METHOD PopWS INLINE (::FName)->(PopWS())
+  METHOD PushWS INLINE (::FName)->(PushWS())
+  METHOD RecCount INLINE (::FName)->( RecCount() )
   METHOD RecLock( RecNo )
   METHOD RecUnLock( RecNo )
   METHOD Seek( cKey, indexName, softSeek )
@@ -126,7 +131,7 @@ METHOD DbOpen CLASS TAlias
     RETURN ::FTable:DataBase:OpenBlock:Eval( ::FName )
   ENDIF
 
-  USE ( ::FTable:FullFileName ) NEW
+  USE ( ::FTable:FullFileName ) NEW SHARED
 
 RETURN !NetErr()
 
@@ -155,6 +160,21 @@ RETURN (::FName)->(codeBlock:Eval( p1, p2, p3 ) )
 */
 METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
 RETURN (::FName) -> ( ExistKey( KeyValue, IndexName, RecNo ) )
+
+/*
+  FieldValue
+  Teo. Mexico 2007
+*/
+METHOD FUNCTION FieldValue( fieldName ) CLASS TAlias
+  ::SyncFromRecNo()
+RETURN (::FName)->( FieldGet( FieldPos( fieldName ) ) )
+
+/*
+  Get4Seek
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Get4Seek( xField, cKey, indexName, softSeek ) CLASS TAlias
+RETURN (::FName) -> ( Get4Seek( xField, cKey, indexName, softSeek ) )
 
 /*
   Get4SeekLast

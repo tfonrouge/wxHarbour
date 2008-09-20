@@ -11,16 +11,14 @@
 */
 
 /*
-  wx_Frame: Implementation
+  wx_MDIParentFrame: Implementation
   Teo. Mexico 2006
 */
 
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_statusbar.h"
-#include "wxbase/wx_menubar.h"
-#include "wxbase/wx_frame.h"
+#include "wxbase/wx_mdiparentframe.h"
 
 using namespace std;
 
@@ -28,7 +26,7 @@ using namespace std;
   Constructor
   Teo. Mexico 2006
 */
-wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
+wx_MDIParentFrame::wx_MDIParentFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
   Create( parent, id, title, pos, size, style, name );
 }
@@ -37,72 +35,41 @@ wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, cons
   Constructor: Object
   Teo. Mexico 2006
 */
-HB_FUNC( WXFRAME_NEW )
+HB_FUNC( WXMDIPARENTFRAME_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_Frame* frame;
+  wx_MDIParentFrame* frame;
 
   if(hb_pcount())
   {
     wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-    const wxString& title = wxString( hb_parcx(3), wxConvLocal );
+    wxString title = wxString( hb_parcx(3), wxConvLocal );
     wxPoint point = hb_par_wxPoint(4);
     wxSize size = hb_par_wxSize(5);
     long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
     wxString name = wxString( hb_parcx(7), wxConvLocal );
-    frame = new wx_Frame( parent, id, title, point, size, style, name );
+    frame = new wx_MDIParentFrame( parent, id, title, point, size, style, name );
   }
   else
-    frame = new wx_Frame( NULL );
+    frame = new wx_MDIParentFrame( NULL );
 
   // Add object's to hash list
   wx_ObjList_New( frame, pSelf );
-
-  // OnCreate...
-  hb_objSendMsg( pSelf, "OnCreate", 0 );
 
   hb_itemReturn( pSelf );
 
 }
 
 /*
-  wxFrame::Centre( int direction = wxBOTH )
-  RETURN void
-  Teo. Mexico 2006
+  Cascade
+  Teo. Mexico 2008
 */
-HB_FUNC( WXFRAME_CENTRE )
+HB_FUNC( WXMDIPARENTFRAME_CASCADE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
-  wx_Frame* frame;
-  if( pSelf && (frame = (wx_Frame*) wx_ObjList_wxGet( pSelf ) ) )
-    frame->Centre( direction );
-}
-
-/*
-  SetMenuBar: message
-  Teo. Mexico 2006
-*/
-HB_FUNC( WXFRAME_SETMENUBAR )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame;
-  wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
-    frame->SetMenuBar( menuBar );
-}
-
-/*
-  SetStatusBar: message
-  Teo. Mexico 2006
-*/
-HB_FUNC( WXFRAME_SETSTATUSBAR )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame;
-  wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
-    frame->SetStatusBar( statusBar );
+  wx_MDIParentFrame* frame;
+  if( pSelf && (frame = (wx_MDIParentFrame *) wx_ObjList_wxGet( pSelf ) ) )
+    frame->Cascade();
 }

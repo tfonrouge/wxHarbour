@@ -34,8 +34,10 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
+  METHOD AppendCols( numCols )
   METHOD CreateGrid( numRows, numCols, selmode )
   METHOD Fit
+  METHOD ForceRefresh
   METHOD GetTable
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )

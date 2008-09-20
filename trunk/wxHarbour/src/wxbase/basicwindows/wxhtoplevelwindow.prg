@@ -21,6 +21,9 @@ CLASS wxTopLevelWindow FROM wxWindow
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  METHOD CanSetTransparent
+  METHOD GetTitle
+  METHOD SetTitle( title )
 PUBLISHED:
 ENDCLASS
 /*
