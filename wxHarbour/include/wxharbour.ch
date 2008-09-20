@@ -15,33 +15,56 @@
   Teo. Mexico 2006
 */
 
+#ifndef _WXHARBOUR_H_
+#define _WXHARBOUR_H_
+
+#include "hbclass.ch"
+#include "property.ch"
+#include "raddox.ch"
+#include "wx.ch"
+
 /*!
  * Build var-codeblock
  */
 #xtranslate _WXGET_( <xVar> ) => WXGET( <"xVar"> , <xVar>, {|_xValue| iif( PCount() > 0 , <xVar> := _xValue , <xVar> ) } )
 
-#xcommand CREATE FRAME <oFrame> ;
+#xcommand CREATE [<type: MDIPARENT,MDICHILD>] FRAME <oFrame> ;
           [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
-          [ FROM <nTop>, <nLeft> SIZE <nHeight>, <nWidth> ] ;
+          [ FROM <nTop>, <nLeft> ] [ SIZE <nHeight>, <nWidth> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oFrame> := wx_Frame( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oFrame> := wx_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
-          [ FROM <nTop>, <nLeft> SIZE <nHeight>, <nWidth> ] ;
+          [ FROM <nTop>, <nLeft> ] [ SIZE <nHeight>, <nWidth> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
           <oDlg> := wx_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
+#xcommand FIT WINDOW <oWnd> ;
+          => ;
+          iif( <oWnd>:GetSizer() != NIL, <oWnd>:GetSizer():SetSizeHints( <oWnd> ), NIL )
+
+#xcommand CENTRE WINDOW <oWnd> ;
+          => ;
+          <oWnd>:Centre()
+
+#xcommand SHOW WINDOW <oWnd> [<modal: MODAL>] [<fit: FIT>] [TO <var>] [<centre: CENTRE>];
+          => ;
+          [<var> := ] wxh_ShowWindow( <oWnd>, <.modal.>, <.fit.>, <.centre.> )
+
+/*
+  StatusBar
+*/
 #xcommand CREATE STATUSBAR [<oSB>] ;
           [ ID <nID> ] ;
           [ STYLE <nStyle> ] ;
@@ -122,6 +145,36 @@
           )
 
 /*
+  Panel
+*/
+#xcommand @ PANEL ;
+            [ VAR <panel> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+            [ <strech: STRECH> ] ;
+            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+            [ BORDER <border> ] ;
+            [ SIDEBORDERS <sideborders,...> ] ;
+          => ;
+          wxh_SizerAdd( NIL,;
+            [<panel>:=]wxh_Panel( ;
+              [<window>],;
+              [<id>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<name>] ;
+            ),;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+/*
  * SAY ... GET
  */
 #xcommand @ SAY <label> ;
@@ -163,6 +216,11 @@
             [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
             [ BORDER <border> ] ;
             [ SIDEBORDERS <sideborders,...> ] ;
+            [ PICTURE <picture> ] ;
+            [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
+            [ HELP <help> ] ;
+            [ HELPLINE <hlpLine> ] ;
+            [ <refresh: REFRESH ALL> ] ;
           => ;
           wxh_SizerAdd( NIL,;
             wxh_Get(;
@@ -174,7 +232,12 @@
               [{<nWidth>,<nHeight>}],;
               [<style>],;
               [<validator>],;
-              [<name>];
+              [<name>],;
+              [<picture>],;
+              [{<{warnWhen}>,<warnMsg>}],;
+              [<{help}>],;
+              [<{hlpLine}>],;
+              [<.refresh.>] ;
             ),;
             [ wx<strech> ],;
             [ wxALIGN_<align> ],;
@@ -188,6 +251,52 @@
           @ SAY [<sayclauses>] ;;
           @ GET [<getclauses>] STRECH ;;
           END SIZER
+
+#xcommand @ SAY ABOVE [<sayclauses,...>] GET [<getclauses,...>] ;
+          => ;
+          BEGIN BOXSIZER VERTICAL ALIGN EXPAND ;;
+          @ SAY [<sayclauses>] ;;
+          @ GET [<getclauses>] STRECH ;;
+          END SIZER
+
+/*
+  WXBROWSEDB
+*/
+#xcommand @ WXBROWSEDB [ [VAR] <wxBrw> ] ;
+            [ TABLE <table> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ <strech: STRECH> ] ;
+            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+            [ BORDER <border> ] ;
+            [ SIDEBORDERS <sideborders,...> ] ;
+          => ;
+          wxh_SizerAdd( NIL,;
+            [<wxBrw>:=]wxh_BrowseDb( ;
+              [<table>],;
+              [<window>],;
+              [<id>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<name>] ;
+            ),;
+            [ wx<strech> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+/*
+  WXBCOLUMN
+*/
+#xcommand WXCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
+          => ;
+          wxh_Column( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
 
 /*
  * SIZERS
@@ -252,3 +361,5 @@
             [<flag>],;
             [<border>] ;
           )
+
+#endif

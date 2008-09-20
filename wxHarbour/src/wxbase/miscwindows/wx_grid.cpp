@@ -38,12 +38,34 @@ wx_Grid::~wx_Grid()
 HB_FUNC( WXGRID_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = new wx_Grid( (wxWindow*) hb_par_WX( 1 ), hb_parnl( 2 ), hb_par_wxPoint( 3 ), hb_par_wxSize( 4 ), hb_parnl( 5 ), wxString( hb_parcx(6), wxConvLocal ) );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
+  wxPoint pos = hb_par_wxPoint( 3 );
+  wxSize size = hb_par_wxSize( 4 );
+  long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
+  wxString name = wxString( hb_parcx( 6 ), wxConvLocal );
+
+  wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );
 
   // Add object's to hash list
   wx_ObjList_New( grid, pSelf );
 
   hb_itemReturn( pSelf );
+}
+
+/*
+  AppendCols
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_APPENDCOLS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid;
+  size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retl( grid->AppendCols( numCols ) );
+  else
+    hb_ret();
 }
 
 HB_FUNC( WXGRID_CREATEGRID )
@@ -65,6 +87,14 @@ HB_FUNC( WXGRID_FIT )
   wx_Grid* grid;
   if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
     grid->Fit();
+}
+
+HB_FUNC( WXGRID_FORCEREFRESH )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid;
+  if( pSelf && (grid = (wx_Grid *) wx_ObjList_wxGet( pSelf ) ) )
+    grid->ForceRefresh();
 }
 
 HB_FUNC( WXGRID_GETTABLE )

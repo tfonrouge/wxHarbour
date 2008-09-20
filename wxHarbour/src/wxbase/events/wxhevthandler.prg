@@ -59,12 +59,15 @@ METHOD PROCEDURE Connect( p1, p2, p3, p4 ) CLASS wxEvtHandler
     bAction := p2
   ENDIF
 
-  IF bAction != NIL
-    IF !HB_HHasKey( ::FEventHashList, eventType )
-      ::FEventHashList[ eventType ] := {}
-    ENDIF
-    AAdd( ::FEventHashList[ eventType ], { id, lastId, bAction } )
+  IF bAction == NIL
+    //RETURN
   ENDIF
+
+  IF !HB_HHasKey( ::FEventHashList, eventType )
+    ::FEventHashList[ eventType ] := {}
+  ENDIF
+
+  AAdd( ::FEventHashList[ eventType ], { id, lastId, bAction } )
 
   ::wxConnect( id, lastId, eventType )
 
@@ -81,7 +84,9 @@ METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
   ?? " Id: "+LTrim(Str(::GetId()))
   ?? ", Event #: "+LTrim(Str(id))
   ?? " type: "+LTrim(Str(eventType))
-  ?
+  IF ::IsDerivedFrom("wxFrame")
+    ? ::GetTitle()
+  ENDIF
 
   IF !HB_HHasKey( ::FEventHashList, eventType )
     //::Skip() ?

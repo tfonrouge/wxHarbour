@@ -3,6 +3,9 @@
   Teo Mexico 2006
 */
 
+#ifndef _PROPERTY_H_
+#define _PROPERTY_H_
+
 #ifndef __XHARBOUR__
 #xcommand PRIVATE: => HIDDEN:
 #xcommand PUBLIC: => EXPORTED:
@@ -90,3 +93,5 @@
 
 #xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg> BLOCK <codeBlock> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
   __clsAddMsg( <Obj>:ClassH, <Msg>, <codeBlock>, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )
+
+#endif

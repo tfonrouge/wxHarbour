@@ -10,12 +10,6 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for header, data and library files 
-PREFIX := C:\opt
-
-# The common installation prefix for binary and DLL files 
-EXEC_PREFIX := C:\opt\bin
-
 
 
 # -------------------------------------------------------------------------
@@ -24,8 +18,7 @@ EXEC_PREFIX := C:\opt\bin
 
 ### Variables: ###
 
-MAKEARGS = PREFIX="$(PREFIX)" EXEC_PREFIX="$(EXEC_PREFIX)" \
-	LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
+MAKEARGS = LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	LINK_MODULE_FLAGS="$(LINK_MODULE_FLAGS)" CC="$(CC)" CXX="$(CXX)" \
 	CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" CPPFLAGS="$(CPPFLAGS)" \
 	LDFLAGS="$(LDFLAGS)"
@@ -36,11 +29,7 @@ MAKEARGS = PREFIX="$(PREFIX)" EXEC_PREFIX="$(EXEC_PREFIX)" \
 
 ### Targets: ###
 
-all: dbbrowser helloworld helloworld1 sizers
-
-install: all
-
-uninstall: 
+all: dbbrowser helloworld helloworld1 networking sizers
 
 clean: 
 	-if exist .\*.o del .\*.o
@@ -48,6 +37,7 @@ clean:
 	$(MAKE) -C dbbrowser -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C helloworld -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C helloworld1 -f makefile.gcc $(MAKEARGS) clean
+	$(MAKE) -C networking -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C sizers -f makefile.gcc $(MAKEARGS) clean
 
 dbbrowser: 
@@ -59,10 +49,13 @@ helloworld:
 helloworld1: 
 	$(MAKE) -C helloworld1 -f makefile.gcc $(MAKEARGS) all
 
+networking: 
+	$(MAKE) -C networking -f makefile.gcc $(MAKEARGS) all
+
 sizers: 
 	$(MAKE) -C sizers -f makefile.gcc $(MAKEARGS) all
 
-.PHONY: all install uninstall clean dbbrowser helloworld helloworld1 sizers
+.PHONY: all clean dbbrowser helloworld helloworld1 networking sizers
 
 
 SHELL := $(COMSPEC)

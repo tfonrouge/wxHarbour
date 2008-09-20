@@ -18,3 +18,31 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
+HB_FUNC( WXTOPLEVELWINDOW_CANSETTRANSPARENT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTopLevelWindow* tlWnd;
+  if( pSelf && (tlWnd = (wxTopLevelWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retl( tlWnd->CanSetTransparent() );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXTOPLEVELWINDOW_GETTITLE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTopLevelWindow* tlWnd;
+  if( pSelf && (tlWnd = (wxTopLevelWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    hb_retc( tlWnd->GetTitle().mb_str() );
+  else
+    hb_ret();
+}
+
+HB_FUNC( WXTOPLEVELWINDOW_SETTITLE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTopLevelWindow* tlWnd;
+  const wxString& title = wxString( hb_parcx(1), wxConvLocal );
+  if( pSelf && (tlWnd = (wxTopLevelWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    tlWnd->SetTitle( title );
+}

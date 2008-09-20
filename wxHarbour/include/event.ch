@@ -15,6 +15,9 @@
   Teo. Mexico 2006
 */
 
+#ifndef _WX_EVENT_H_
+#define _WX_EVENT_H_
+
 #define wxEVT_COMMAND_BUTTON_CLICKED            10082
 #define wxEVT_COMMAND_CHECKBOX_CLICKED          10083
 #define wxEVT_COMMAND_CHOICE_SELECTED           10084
@@ -139,3 +142,5 @@
 #define wxEVT_COMMAND_ENTER                     10200
 #define wxEVT_HELP                              10201
 #define wxEVT_DETAILED_HELP                     10202
+
+#endif

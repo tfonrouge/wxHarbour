@@ -3,9 +3,9 @@
   Teo. Mexico 2008
 */
 
-#ifndef _ARELDS_
+#ifndef _RADDOX_H_
 
-#define _ARELDS_
+#define _RADDOX_H_
 
 #define dsInactive  0
 #define dsBrowse    1

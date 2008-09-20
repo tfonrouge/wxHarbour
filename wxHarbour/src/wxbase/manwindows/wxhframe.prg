@@ -22,20 +22,66 @@
   wx_Frame
   Teo. Mexico 2008
 */
-FUNCTION wx_Frame( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+FUNCTION wx_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
   LOCAL dlg
 
   IF Empty( fromClass )
-    RETURN wxFrame():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+    DO CASE
+    CASE frameType == "MDIPARENT"
+      RETURN wxMDIParentFrame():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+    CASE frameType == "MDICHILD"
+      RETURN wxMDIChildFrame():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+    OTHERWISE
+      RETURN wxFrame():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+    ENDCASE
   ENDIF
 
   dlg := __ClsInstFromName( fromClass ):New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
 
-  IF !dlg:IsDerivedFrom( "wxFrame" )
-    dlg:IsNotDerivedFrom_wxFrame()
-  ENDIF
+  DO CASE
+  CASE frameType == "MDIPARENT"
+    IF !dlg:IsDerivedFrom( "wxMDIParentFrame" )
+      dlg:IsNotDerivedFrom_wxMDIParentFrame()
+    ENDIF
+  CASE frameType == "MDICHILD"
+    IF !dlg:IsDerivedFrom( "wxMDIChildFrame" )
+      dlg:IsNotDerivedFrom_wxMDIChildFrame()
+    ENDIF
+  OTHERWISE
+    IF !dlg:IsDerivedFrom( "wxFrame" )
+      dlg:IsNotDerivedFrom_wxFrame()
+    ENDIF
+  ENDCASE
 
 RETURN dlg
+
+/*
+  wxh_ShowWindow : shows wxFrame/wxDialog
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_ShowWindow( oWnd, modal, fit, centre )
+  LOCAL Result
+
+  IF fit
+    IF oWnd:GetSizer() != NIL
+      oWnd:GetSizer():SetSizeHints( oWnd )
+    ENDIF
+  ENDIF
+
+  IF centre
+    oWnd:Centre()
+  ENDIF
+
+  IF modal
+    IF !oWnd:IsDerivedFrom("wxDialog")
+      oWnd:IsNotDerivedFrom_wxDialog()
+    ENDIF
+    Result := oWnd:ShowModal()
+  ELSE
+    Result := oWnd:Show( .T. )
+  ENDIF
+
+RETURN Result
 
 /*
   wxFrame
@@ -72,4 +118,40 @@ RETURN
 
 /*
   End Class wxFrame
+*/
+
+/*
+  wxMDIParentFrame
+  Teo. Mexico 2008
+*/
+CLASS wxMDIParentFrame FROM wxFrame
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  CONSTRUCTOR New( parent, id, title, pos, size, style, name )
+  METHOD Cascade
+PUBLISHED:
+ENDCLASS
+
+/*
+  End Class wxMDIParentFrame
+*/
+
+/*
+  wxMDIChildFrame
+  Teo. Mexico 2008
+*/
+CLASS wxMDIChildFrame FROM wxFrame
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  CONSTRUCTOR New( parent, id, title, pos, size, style, name )
+  METHOD Activate
+  METHOD Maximize( maximize )
+  METHOD Restore
+PUBLISHED:
+ENDCLASS
+
+/*
+  End Class wxMDIParentFrame
 */

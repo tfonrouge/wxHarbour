@@ -20,6 +20,7 @@
 #include "wx/generic/gridctrl.h"
 #include "wxh.h"
 
+#include "wxbase/wx_grid.h"
 #include "wxbase/wx_gridtablebase.h"
 
 /*
@@ -144,4 +145,154 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
 HB_FUNC( WXGRIDTABLEBASE_SETCOLLABELVALUE )
 {
   ((wx_GridTableBase *) hb_stackSelfItem())->SetColLabelValue( hb_parnl(1), wxString( hb_parcx(2), wxConvLocal ) );
+}
+
+/*
+  AppendCols
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable;
+  size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  {
+    hb_retl( gridTable->AppendCols( numCols ) );
+    gridTable->UpdateRowsCols();
+  }
+  else
+    hb_ret();
+}
+
+/*
+  AppendRows
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable;
+  size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  {
+    hb_retl( gridTable->AppendRows( numRows ) );
+    gridTable->UpdateRowsCols();
+  }
+  else
+    hb_ret();
+}
+
+/*
+  GetView
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
+{
+  PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable;
+  wx_Grid* grid;
+  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) &&
+        (grid = (wx_Grid *) gridTable->GetView()) )
+    pReturn = wx_ObjList_hbGet( grid );
+
+  if(pReturn)
+    hb_itemReturn( pReturn );
+  else
+    hb_ret();
+}
+
+/*
+  InsertCols
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable;
+  size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
+  size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
+  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  {
+    hb_retl( gridTable->InsertCols( pos, numCols ) );
+    gridTable->UpdateRowsCols();
+  }
+  else
+    hb_ret();
+}
+
+/*
+  InsertRows
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable;
+  size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
+  size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
+  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  {
+    hb_retl( gridTable->InsertRows( pos, numRows ) );
+    gridTable->UpdateRowsCols();
+  }
+  else
+    hb_ret();
+}
+
+bool wx_GridTableBase::UpdateRowsCols()
+{
+     bool updated = FALSE;
+     int rows = GetNumberRows();
+     int cols = GetNumberCols();
+
+     if (rows > m_rows)
+     {
+         if ( GetView() )
+         {
+             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_INSERTED,
+                                     0, rows - m_rows );
+
+             GetView()->ProcessTableMessage( msg );
+             updated = TRUE;
+         }
+     }
+     else if (rows < m_rows)
+     {
+         if ( GetView() )
+         {
+             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_DELETED,
+                                     0, m_rows - rows );
+
+             GetView()->ProcessTableMessage( msg );
+             updated = TRUE;
+         }
+     }
+
+     if (cols > m_cols)
+     {
+         if ( GetView() )
+         {
+             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_INSERTED,
+                                     0, cols - m_cols );
+
+             GetView()->ProcessTableMessage( msg );
+             updated = TRUE;
+         }
+     }
+     else if (cols < m_cols)
+     {
+         if ( GetView() )
+         {
+             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_DELETED,
+                                     0, m_cols - cols );
+
+             GetView()->ProcessTableMessage( msg );
+             updated = TRUE;
+         }
+     }
+
+     m_rows = rows;
+     m_cols = cols;
+     return updated;
 }

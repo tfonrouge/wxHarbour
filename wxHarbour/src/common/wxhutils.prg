@@ -24,6 +24,16 @@ FUNCTION __ClsInstName( className )
 RETURN Result
 
 /*
+  asCodeBlock : Convierte la cadena a un code block
+  Teo. Mexico 2002
+*/
+FUNCTION asCodeBlock( cStr, xDefaultVal )
+  IF empty(cStr)
+    RETURN xDefaultVal
+  ENDIF
+RETURN &("{||" + cStr + "}")
+
+/*
   AsDate
   Teo. Mexico 2004
 */
@@ -120,6 +130,50 @@ FUNCTION Base2N(sBase,nBase,l,cFill)
 RETURN iif(l==NIL,dec,N2Base(dec,10,l,cFill))
 
 /*
+  Choose() : Elige de un array de opciones a un array de selecciones
+  Teo. 1995
+*/
+FUNCTION Choose(se,ao,as,def,lSoftCompare)
+  LOCAL n
+
+  IF ValType( ao[1] ) = "A"
+    IF lSoftCompare = .T.
+      IF (n:=ascan(ao[1],{|e| se = e }))>0
+        RETURN ao[2,n]
+      ENDIF
+    ELSE
+      IF (n:=ascan(ao[1],{|e| se == e }))>0
+        RETURN ao[2,n]
+      ENDIF
+    ENDIF
+  ELSE
+    IF lSoftCompare = .T.
+      IF (n:=ascan(ao,{|e| se = e }))>0
+        RETURN as[n]
+      ENDIF
+    ELSE
+      IF (n:=ascan(ao,{|e| se == e }))>0
+        RETURN as[n]
+      ENDIF
+    ENDIF
+  ENDIF
+
+  IF !def==NIL
+    RETURN def
+  ENDIF
+
+  DO CASE
+  CASE valtype(as[1])=="C"
+    RETURN ""
+  CASE valtype(as[1])=="N"
+    RETURN 0
+  CASE valtype(as[1])=="D"
+    RETURN ctod("")
+  ENDCASE
+
+RETURN NIL
+
+/*
   Dec
   Teo. Mexico 2005
 */
@@ -169,11 +223,38 @@ FUNCTION Dec(p,base,fill,n)
 RETURN p
 
 /*
-  fdate2f() : Regresa un valor DATE como cadena en formato:
+  Eval : Evalua la cadena y regresa el resultado
+  Teo. Mexico 2002
+*/
+FUNCTION Exec(cStr,xDefaultVal)
+  LOCAL xRet
+
+  BEGIN SEQUENCE //WITH {|e| ArelErrorHandle(e) }
+
+    IF ValType(cStr)="B"
+
+      xRet := Eval( cStr )
+
+    ELSE
+
+      xRet := AsCodeBlock( cStr, xDefaultVal ):Eval()
+
+    ENDIF
+
+  RECOVER
+
+    xRet := xDefaultVal
+
+  END SEQUENCE
+
+RETURN xRet
+
+/*
+  FDate2F() : Regresa un valor DATE como cadena en formato:
               MM-DD-YYYY, D$-M$-Y$ ... D$ DD de M$ de Y$
   Teo. 1995
 */
-FUNCTION fdate2f(d,p)
+FUNCTION FDate2F(d,p)
   LOCAL i,n,s
   IF valtype(d)=="C"
     IF len(d)==6
@@ -211,6 +292,16 @@ FUNCTION fdate2f(d,p)
     ENDCASE
   NEXT
 RETURN p
+
+/*
+  FDateS
+  Teo. Mexico 2008
+*/
+FUNCTION FDateS( d )
+  IF Empty(iif(d==NIL,d:=Date(),d)) .OR. Empty(d) .OR. DToS(d)="000000"
+    RETURN "  /   /    "
+  ENDIF
+RETURN Str(Day(d),2)+"/"+Left(CMonth(d),3)+"/"+Str(Year(d),4)
 
 /*
   Inc

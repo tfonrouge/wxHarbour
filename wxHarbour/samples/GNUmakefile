@@ -25,7 +25,7 @@
 
 ### Targets: ###
 
-all: dbbrowser helloworld helloworld1 sizers
+all: dbbrowser helloworld helloworld1 networking sizers
 
 install: all
 
@@ -37,6 +37,7 @@ clean:
 	-(cd dbbrowser && $(MAKE) clean)
 	-(cd helloworld && $(MAKE) clean)
 	-(cd helloworld1 && $(MAKE) clean)
+	-(cd networking && $(MAKE) clean)
 	-(cd sizers && $(MAKE) clean)
 
 dbbrowser: 
@@ -48,10 +49,13 @@ helloworld:
 helloworld1: 
 	(cd helloworld1 && $(MAKE) all)
 
+networking: 
+	(cd networking && $(MAKE) all)
+
 sizers: 
 	(cd sizers && $(MAKE) all)
 
-.PHONY: all install uninstall clean dbbrowser helloworld helloworld1 sizers
+.PHONY: all install uninstall clean dbbrowser helloworld helloworld1 networking sizers
 
 
 # Dependencies tracking:

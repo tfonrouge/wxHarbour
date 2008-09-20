@@ -26,9 +26,10 @@ using namespace std;
 HB_FUNC( WXWINDOW_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
-    wnd->Centre( hb_parni( 1 ) );
+    wnd->Centre( hb_parni( direction ) );
   hb_ret();
 }
 
@@ -171,12 +172,46 @@ HB_FUNC( WXWINDOW_ISSHOWN )
     hb_ret();
 }
 
+HB_FUNC( WXWINDOW_RAISE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->Raise();
+}
+
 HB_FUNC( WXWINDOW_SETFOCUS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
     wnd->SetFocus();
+}
+
+HB_FUNC( WXWINDOW_SETID )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->SetId( hb_parni( 1 ) );
+}
+
+HB_FUNC( WXWINDOW_SETLABEL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  const wxString& label = wxString( hb_parcx( 1 ), wxConvLocal );
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->SetLabel( label );
+}
+
+HB_FUNC( WXWINDOW_SETNAME )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  const wxString& name = wxString( hb_parcx( 1 ), wxConvLocal );
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->SetName( name );
 }
 
 HB_FUNC( WXWINDOW_SETSIZER )

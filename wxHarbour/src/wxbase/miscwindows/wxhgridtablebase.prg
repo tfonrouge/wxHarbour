@@ -22,9 +22,14 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New
+  METHOD AppendCols( numCols )
+  METHOD AppendRows( numRows )
   METHOD GetNumberCols BLOCK {|| 10 }
   METHOD GetNumberRows BLOCK {|| 10 }
   METHOD GetValue( row, col ) BLOCK {|Self, row, col| Self,LTrim(Str(row))+":"+LTrim(Str(col)) }
+  METHOD GetView
+  METHOD InsertCols( pos, numCols )
+  METHOD InsertRows( pos, numRows )
   METHOD IsEmptyCell( row, col ) BLOCK {|| .F. }
   METHOD SetColLabelValue( col, label )
   METHOD SetValue( row, col, value ) VIRTUAL
@@ -87,7 +92,7 @@ RETURN "?"
   SetValue
   Teo. Mexico 2008
 */
-METHOD PROCEDURE SetValue( row, col, value )
+METHOD PROCEDURE SetValue( row, col, value ) CLASS wxGridTableBaseDb
 
   ? "Changing:","Row:", row, "Col:", col, "Value:",value
 

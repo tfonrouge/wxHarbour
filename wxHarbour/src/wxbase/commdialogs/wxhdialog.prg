@@ -45,6 +45,7 @@ PUBLIC:
   METHOD CreateButtonSizer( flags )
   METHOD CreateStdDialogButtonSizer( flags )
   METHOD EndModal( retCode )
+  METHOD GetReturnCode
   METHOD Show( show )
   METHOD ShowModal
 PUBLISHED:

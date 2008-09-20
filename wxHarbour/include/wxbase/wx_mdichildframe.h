@@ -10,39 +10,15 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-
 /*
-  wxWindow
+  wx_MDIChildFrame: Interface
   Teo. Mexico 2006
 */
-CLASS wxWindow FROM wxEvtHandler
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  METHOD Centre( direction )
-  METHOD Close( force )
-  METHOD Destroy
-  METHOD FindWindowById( id, parent )
-  METHOD FindWindowByName( name, parent )
-  METHOD FindWindowByLabel( label, parent )
-  METHOD GetId
-  METHOD GetLabel
-  METHOD GetName
-  METHOD GetParent
-  METHOD GetSizer
-  METHOD Hide( Value )
-  METHOD IsShown
-  METHOD Raise
-  METHOD SetFocus
-  METHOD SetId( id )
-  METHOD SetLabel( label )
-  METHOD SetName( name )
-  METHOD SetSizer( sizer, deleteOld )
-  METHOD Show( Value /* defaults to TRUE */ )
-PUBLISHED:
-ENDCLASS
-/*
-  End Class wxWindow
-*/
+
+class wx_MDIChildFrame : public hbEvtHandler<wxMDIChildFrame>
+{
+private:
+protected:
+public:
+  wx_MDIChildFrame( wxMDIParentFrame* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
+};

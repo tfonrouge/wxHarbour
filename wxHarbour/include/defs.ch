@@ -15,6 +15,9 @@
   Teo. Mexico 2006
 */
 
+#ifndef _WX_DEFS_H_
+#define _WX_DEFS_H_
+
 #define wxID_NONE            -3
 #define wxID_SEPARATOR       -2
 #define wxID_ANY             -1
@@ -144,3 +147,5 @@
 #define  wxHELP                 0x00008000
 #define  wxMORE                 0x00010000
 #define  wxSETUP                0x00020000
+
+#endif

@@ -116,6 +116,39 @@ FUNCTION ExistKey(cKey,xOrder,nRec,bFor,bEval)
 RETURN .F.
 
 /*
+  Get4Seek(cFieldname,xSeekvalue,nOrder,lSoftseek)
+  Regresa 'xVar' (nombre de la variable) del registro en xSeek...
+  Teo. USA 1995
+*/
+FUNCTION Get4Seek(xVar,xs,no,ss,cAlias)
+  LOCAL ret
+  LOCAL nrec
+
+  nrec:=RecNo()
+
+  IF cAlias=NIL
+    (Seek(xs,no,ss))
+  ELSE
+    (cAlias)->(Seek(xs,no,ss))
+  ENDIF
+
+  IF valtype(xVar)=="B"
+    ret:=Eval(xVar)
+    DbGoTo(nrec)
+    RETURN ret
+  ELSE
+    IF cAlias=NIL
+      ret := Exec(xVar)
+    ELSE
+      ret:=(cAlias)->(Exec(xVar))
+    ENDIF
+  ENDIF
+
+  DbGoTo(nrec)
+
+RETURN iif(valtype(ret)=="C" .AND. len(ret)==8,ret,ret)
+
+/*
   Get4SeekLast(cFieldname,xSeekvalue,nOrder,lSoftseek)
   Regresa 'var' (nombre de la variable) del registro en xSeek...
   Teo. USA 1995

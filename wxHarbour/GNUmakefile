@@ -175,6 +175,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_textctrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
 	$(__BUILDDIR__)/wxHarbour_wx_frame.o \
+	$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o \
+	$(__BUILDDIR__)/wxHarbour_wx_mdiparentframe.o \
 	$(__BUILDDIR__)/wxHarbour_wx_menu.o \
 	$(__BUILDDIR__)/wxHarbour_wx_menubar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_menuitem.o \
@@ -457,6 +459,12 @@ $(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/events/wx_evthandler.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_frame.o: ./src/wxbase/manwindows/wx_frame.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o: ./src/wxbase/manwindows/wx_mdichildframe.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_mdiparentframe.o: ./src/wxbase/manwindows/wx_mdiparentframe.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_menu.o: ./src/wxbase/menus/wx_menu.cpp
