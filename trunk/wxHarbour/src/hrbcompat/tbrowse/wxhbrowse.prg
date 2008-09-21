@@ -14,41 +14,6 @@
 #include "property.ch"
 
 /*
- * wxh_BrowseDb
- * Teo. Mexico 2008
- */
-FUNCTION wxh_BrowseDb( table, window, id, pos, size, style, name )
-  LOCAL Result
-
-  IF window = NIL
-    window := wxh_LastTopLevelWindow()
-  ENDIF
-
-  Result := wxBrowseDb():New( table, window, id, pos, size, style, name )
-
-RETURN Result
-
-/*
-  wxh_Column
-  Teo. Mexico 2008
-*/
-PROCEDURE wxh_Column( zero, wxBrw, title, block, picture, width )
-  LOCAL hColumn := HB_HSetCaseMatch( {=>}, .F. )
-
-  hColumn["title"]   := title
-  hColumn["block"]   := block
-  hColumn["picture"] := picture
-  hColumn["width"]   := width
-
-  IF zero
-    wxBrw:GetTable():ColumnZero := hColumn
-  ELSE
-    wxBrw:GetTable():AddColumn( hColumn )
-  ENDIF
-
-RETURN
-
-/*
   wxBrowseDb
   Teo. Mexico 2008
 */
@@ -176,7 +141,11 @@ METHOD FUNCTION GetResult( hColumn ) CLASS wxBrowseDbProvider
   CASE 'C'
   CASE 'M'
     EXIT
+  #ifdef __XHARBOUR__
+  DEFAULT
+  #else
   OTHERWISE
+  #endif
     Result := "<unknown type '" + ValType( Result ) + "'>"
   END
 

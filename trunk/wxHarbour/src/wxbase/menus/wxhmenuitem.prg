@@ -21,34 +21,6 @@
 #include "wx.ch"
 
 /*
-  AddMenuItem: Wrapper for wxMenuItem
-  Teo. Mexico 2006
-*/
-FUNCTION wxh_AddMenuItem( text, id, helpString, kind, bAction, bEnabled )
-  LOCAL menuItem
-  LOCAL nLast
-
-  IF id=NIL
-    id := Global():g_menuID++
-  ENDIF
-
-  nLast := Global():lenMenuList
-
-  menuItem := wxMenuItem():New( Global():g_menuList[ nLast ]["menu"], id, text, helpString, kind )
-
-  Global():g_menuList[ nLast ]["menu"]:Append( menuItem )
-
-  IF bAction != NIL
-    Global():g_window:Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
-  ENDIF
-
-  IF bEnabled != NIL
-    menuItem:Enable( bEnabled:Eval() )
-  ENDIF
-
-RETURN menuItem
-
-/*
   wxMenuItem
   Teo. Mexico 2006
 */

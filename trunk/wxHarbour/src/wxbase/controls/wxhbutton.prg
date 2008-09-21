@@ -34,22 +34,3 @@ ENDCLASS
 /*
   EndClass wxButton
 */
-
-/*
- * wxh_Button
- * Teo. Mexico 2008
- */
-FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
-  LOCAL Result
-
-  IF window = NIL
-    window := wxh_LastTopLevelWindow()
-  ENDIF
-
-  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
-
-  IF bAction != NIL
-    window:Connect( Result:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
-  ENDIF
-
-RETURN Result

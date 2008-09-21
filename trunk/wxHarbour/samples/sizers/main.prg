@@ -73,7 +73,7 @@ FUNCTION Login
     DEFINE MENU "Help"
       ADD MENUITEM "About..."
     ENDMENU
-  ENDMENUBAR
+  ENDMENU
 
   oWnd:Centre( HB_BITOR( wxVERTICAL, wxHORIZONTAL) )
 
@@ -93,7 +93,7 @@ FUNCTION Login
     END SIZER
     BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
       @ SAY "Name:" WIDTH 50 STYLE RIGHT GET edtNombre
-      @ SAY "Password:" WIDTH 50 STYLE RIGHT GET edtPassword SIDEBORDERS 0x0800
+      @ SAY "Password:" WIDTH 50 STYLE RIGHT GET edtPassword SIZER SIDEBORDERS 0x0800
     END SIZER
     @ SAY "More Text"
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
@@ -108,9 +108,9 @@ FUNCTION Login
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 //   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:EndModal() } )
 
-  // CREATE STATUSBAR
+  @ STATUSBAR
 
-  oWnd:Show()
+  SHOW WINDOW oWnd
 
   ? "Aqui termina..."
 

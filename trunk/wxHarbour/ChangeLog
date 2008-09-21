@@ -2,6 +2,61 @@
  *
  */
 
+2008-09-21 14:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/property.ch
+    + added TRACE command very usefull nowadays
+
+  * include/wxbase/wx_staticboxsizer.h
+  * src/wxbase/winlayout/wx_staticboxsizer.cpp
+    % added overrided create method:
+      create( int orient, wxWindow* parent, cont wxString& label )
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/wxbase/commdialogs/wxhdialog.prg
+  * src/wxbase/controls/wxhbutton.prg
+  * src/wxbase/manwindows/wxhframe.prg
+  * src/wxbase/menus/wxhmenubar.prg
+  * src/wxbase/menus/wxhmenuitem.prg
+  * src/wxbase/menus/wxhmenu.prg
+  * src/wxbase/miscwindows/wxhpanel.prg
+  * src/wxbase/miscwindows/wxhstatusbar.prg
+    * removed/renamed command helper functions to wxhfuncs.prg
+    % major improvements to harbour style (commands via preprocessor):
+      + now it's possible to have mutiple and complex controls nested
+        ( see sizers.prg in samples )
+      + added BEGIN NOTEBOOK / END
+      + added BEGIN PANEL / END
+
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld1/helloworld1.prg
+  * samples/helloworld/helloworld.prg
+  * samples/sizers/main.prg
+    * updated syntax in samples and other minor changes
+
+  * src/common/wx_harbour.cpp
+  * src/common/wxhutils.prg
+  * src/wxbase/controls/wxhcontrol.prg
+  * src/wxbase/miscwindows/wx_notebook.cpp
+    * minor cleanup
+
+  * src/wxbase/basicwindows/wxhwindow.prg
+  * src/wxbase/basicwindows/wx_window.cpp
+    + added:
+      + wxWindow::MakeModal( bool flag )
+
+  * src/wxbase/winlayout/wxhstaticboxsizer.prg
+    ! Removed wrong constructed member ::GetStaticBox
+      ; TODO: implement this form of creating separated HB Objs from c++
+      ;       check destructor of HB Obj doesn't mess c++ obj
+
+  * src/wxbase/winlayout/wx_sizer.cpp
+    ! Fixed GPF on wrong checking of valid HB param
+
+  * wxharbour.spec
+    * added debug flag to harbour sources on rpm creation
+
 2008-09-19 19:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

@@ -1,4 +1,3 @@
-
 /*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
@@ -10,18 +9,6 @@
 
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
-
-/*
- * wxh_Panel
- * Teo. Mexico 2008
- */
-FUNCTION wxh_Panel( parent, id, pos, size, style, name )
-
-  IF parent = NIL
-    parent := wxh_LastTopLevelWindow()
-  ENDIF
-
-RETURN wxPanel():New( parent, id, pos, size, style, name )
 
 /*
   wxPanel

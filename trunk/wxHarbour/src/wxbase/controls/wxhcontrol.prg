@@ -27,9 +27,3 @@ ENDCLASS
 /*
   End Class wxControl
 */
-
-
-
-
-
-

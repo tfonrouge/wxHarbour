@@ -94,4 +94,6 @@
 #xcommand EXTEND OBJECT <Obj> WITH MESSAGE <Msg> BLOCK <codeBlock> [SCOPE <Scope>] [<Persistent: PERSISTENT> ] [<Case: NOUPPER>] => ;
   __clsAddMsg( <Obj>:ClassH, <Msg>, <codeBlock>, HB_OO_MSG_INLINE, NIL, IIF( <.Scope.>, <Scope>, HB_OO_CLSTP_EXPORTED ), <.Persistent.>, <.Case.> )
 
+#xcommand TRACE <clauses,...> => ? "TRACE: "+ProcName()+"()["+LTrim(Str(ProcLine()))+"]: ", <clauses>
+
 #endif

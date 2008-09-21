@@ -21,6 +21,7 @@ private:
 protected:
 public:
   wx_StaticBoxSizer( wxStaticBox* box, int orient ) : wxStaticBoxSizer( box, orient ) {}
+  wx_StaticBoxSizer( int orient, wxWindow* parent, const wxString& label ) : wxStaticBoxSizer( orient, parent, label ) {}
 
   ~wx_StaticBoxSizer();
 };

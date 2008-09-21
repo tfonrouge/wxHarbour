@@ -62,7 +62,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
       ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
-  ENDMENUBAR
+  ENDMENU
 
   panel := wxPanel():New( oWnd )
 
@@ -90,7 +90,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
 
-  CREATE STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  ON oWnd
+  @ STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  ON oWnd
 
   oWnd:Centre( wxBOTH )
 

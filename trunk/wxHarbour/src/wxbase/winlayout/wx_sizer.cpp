@@ -30,21 +30,25 @@
 static int ChkFlagInArray( int iParam )
 {
   PHB_ITEM p = hb_param( iParam, HB_IT_ANY );
-  if( HB_IS_NUMERIC( p ) )
-    return hb_itemGetNI( p );
-  else if( HB_IS_ARRAY( p ) )
+
+  if( p )
   {
-    PHB_BASEARRAY pBaseArray = p->item.asArray.value;
-    int result = 0;
-    ULONG ulLen = pBaseArray->ulLen;
-    ULONG ulIndex;
-    for( ulIndex = 0; ulIndex < ulLen; ulIndex++ )
+    if( HB_IS_NUMERIC( p ) )
+      return hb_itemGetNI( p );
+    else if( HB_IS_ARRAY( p ) )
     {
-      PHB_ITEM pItem = pBaseArray->pItems + ulIndex;
-      if( HB_IS_NUMERIC( pItem ) )
-        result |= hb_itemGetNI( pItem );
+      PHB_BASEARRAY pBaseArray = p->item.asArray.value;
+      int result = 0;
+      ULONG ulLen = pBaseArray->ulLen;
+      ULONG ulIndex;
+      for( ulIndex = 0; ulIndex < ulLen; ulIndex++ )
+      {
+        PHB_ITEM pItem = pBaseArray->pItems + ulIndex;
+        if( HB_IS_NUMERIC( pItem ) )
+          result |= hb_itemGetNI( pItem );
+      }
+      return result;
     }
-    return result;
   }
   return 0;
 }

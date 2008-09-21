@@ -37,7 +37,7 @@
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oFrame> := wx_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oFrame> := wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
@@ -48,7 +48,7 @@
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oDlg> := wx_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;
@@ -63,25 +63,15 @@
           [<var> := ] wxh_ShowWindow( <oWnd>, <.modal.>, <.fit.>, <.centre.> )
 
 /*
-  StatusBar
+  Menues
 */
-#xcommand CREATE STATUSBAR [<oSB>] ;
-          [ ID <nID> ] ;
-          [ STYLE <nStyle> ] ;
-          [ NAME <cName> ] ;
-          [ FIELDS <nFields> ] ;
-          [ WIDTHS <aWidths,...> ] ;
-          [ ON <oFrame> ] ;
-          => ;
-          [<oSB> := ] wxh_DefineStatusBar( [<oFrame>], [<nID>], [<nStyle>], [<cName>], [<nFields>], [{<aWidths>}] ) ;;
-
 #xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
-          [<oMB> := ] wxh_DefineMenuBar( [<oWindow>], [<nStyle>] )
+          [<oMB> := ] wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 
 #xcommand DEFINE MENU <cLabel> ;
           => ;
-          wxh_DefineMenu( <cLabel> )
+          wxh_MenuBegin( <cLabel> )
 
 #xcommand ADD MENUITEM <cLabel> ;
               [ID <nID>] ;
@@ -90,28 +80,105 @@
               [ACTION <bAction> ] ;
               [ENABLED <bEnabled> ] ;
           => ;
-          wxh_AddMenuItem( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
+          wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
 
 #xcommand ADD MENUSEPARATOR ;
           => ;
-          wxh_AddMenuItem( NIL, wxID_SEPARATOR )
+          wxh_MenuItemAdd( NIL, wxID_SEPARATOR )
 
 #xcommand ENDMENU ;
           => ;
-          wxh_EndMenu()
+          wxh_MenuEnd()
 
-#xcommand ENDMENUBAR ;
+/*
+ * SIZERS
+ *
+ * TODO: On ALIGN CENTER we need to create a wxALIGN_CENTER_[HORIZONTAL|VERTICAL]
+ *       in sync with the parent sizer, currently we do just wxALIGN_CENTER
+ *
+ */
+
+#define wxALIGN_EXPAND  wxGROW
+#define wxSTRETCH        1
+
+#xcommand @ SIZER ;
+          [ PARENTSIZER <parentSizer> ] ;
+          [ CHILD <child> ] ;
+          [ <stretch: STRETCH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+          [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_EndMenuBar()
+          wxh_SizerAdd( ;
+            [ <parentSizer> ],;
+            [ <child> ],;
+            [ wx<stretch> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] )
+
+#xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
+          [ VAR <bs> ] ;
+          [ [LABEL] <label> ] ;
+          [ <stretch: STRETCH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+          [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
+          => ;
+          [ <bs> := ]wxh_BoxSizerBegin( ;
+            [ <label> ], ;
+            wx<orient>,;
+            [ wx<stretch> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+#xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
+          [ <stretch: STRETCH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+          [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
+          => ;
+          wxh_GridSizerBegin( ;
+            [ <rows> ],;
+            [ <cols> ],;
+            [ <vgap> ],;
+            [ <hgap> ],;
+            [ wx<stretch> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ HB_BITOR(0,<sideborders>) ] ;
+          )
+
+#xcommand END SIZER ;
+          => ;
+          wxh_SizerEnd()
+
+
+#xcommand @ SPACER ;
+          [ WIDTH <width> ] ;
+          [ HEIGHT <height> ] ;
+          [ <stretch: STRETCH> ] ;
+          [ FLAG <flag> ] ;
+          [ BORDER <border> ] ;
+          => ;
+          wxh_Spacer( ;
+            [<width>],;
+            [<height>],;
+            [ wx<stretch> ],;
+            [<flag>],;
+            [<border>] ;
+          )
+
+/*
+  End Sizers
+*/
 
 /*
  * Button
  * Teo. Mexico 2006
  */
-
-#define wxALIGN_EXPAND  wxGROW
-#define wxSTRECH        1
-
 #xcommand @ BUTTON [<label>] ;
             [ VAR <btn> ] ;
             [ ON <window> ] ;
@@ -120,59 +187,79 @@
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
-            [ <strech: STRECH> ] ;
-            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-            [ BORDER <border> ] ;
-            [ SIDEBORDERS <sideborders,...> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          wxh_SizerAdd( NIL,;
-            [<btn>:=]wxh_Button( ;
-              [<window>],;
-              [<id>],;
-              [<label>],;
-              ,;
-              [{<nWidth>,<nHeight>}],;
-              [<style>],;
-              [<validator>],;
-              [<name>],;
-              [<{bAction}>];
-            ),;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
+          [ <btn> := ]wxh_Button( ;
+            [<window>],;
+            [<id>],;
+            [<label>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ BUTTON [<btnclauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          @ BUTTON [<btnclauses>] ;;
+          @ SIZER [<wxsizerclauses>]
+
+/*
+  NoteBook
+*/
+#xcommand BEGIN NOTEBOOK ;
+            [ VAR <nb> ] ;
+            [ ON <parent> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+          [ <nb> := ]wxh_NotebookBegin( ;
+            [<parent>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>] )
+
+#xcommand END NOTEBOOK => wxh_NotebookEnd()
+
+#xcommand BEGIN NOTEBOOK [<nbclauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          BEGIN NOTEBOOK [<nbclauses>] ;;
+          @ SIZER [<wxsizerclauses>]
+
+#xcommand ADD PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] WITH ;
+          => ;
+          wxh_NotebookAddPage( <title>, <select>, <imageId> )
 
 /*
   Panel
 */
-#xcommand @ PANEL ;
+#xcommand BEGIN PANEL ;
             [ VAR <panel> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
-            [ <strech: STRECH> ] ;
-            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-            [ BORDER <border> ] ;
-            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_SizerAdd( NIL,;
-            [<panel>:=]wxh_Panel( ;
-              [<window>],;
-              [<id>],;
-              ,;
-              [{<nWidth>,<nHeight>}],;
-              [<style>],;
-              [<name>] ;
-            ),;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
+          [ <panel> := ]wxh_PanelBegin( ;
+            [<window>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>] )
+
+#xcommand END PANEL => wxh_PanelEnd()
+
+#xcommand BEGIN PANEL [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          BEGIN PANEL [<clauses>] ;;
+          @ SIZER [<wxsizerclauses>]
 
 /*
  * SAY ... GET
@@ -183,26 +270,20 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style: LEFT, RIGHT, CENTRE, CENTER> ] ;
             [ NAME <name> ] ;
-            [ <strech: STRECH> ] ;
-            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-            [ BORDER <border> ] ;
-            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_SizerAdd( NIL,;
-            wxh_Say( ;
-              [<window>],;
-              [<id>],;
-              <label>,;
-              ,;
-              [{<nWidth>,<nHeight>}],;
-              [wxALIGN_<style>],;
-              [<name>];
-            ),;
-            [ wx<strech> ],;
-            [wxALIGN_<align>],;
-            [<border>],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
+          wxh_Say( ;
+            [<window>],;
+            [<id>],;
+            <label>,;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [wxALIGN_<style>],;
+            [<name>] )
+
+#xcommand @ SAY [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          @ SAY [<clauses>] ;;
+          @ SIZER [<wxsizerclauses>]
 
 #xcommand @ GET <var> ;
             [ ON <window> ] ;
@@ -212,52 +293,65 @@
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
-            [ <strech: STRECH> ] ;
-            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-            [ BORDER <border> ] ;
-            [ SIDEBORDERS <sideborders,...> ] ;
             [ PICTURE <picture> ] ;
             [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
             [ HELP <help> ] ;
-            [ HELPLINE <hlpLine> ] ;
-            [ <refresh: REFRESH ALL> ] ;
+            [ HELPLINE <helpLine> ] ;
+            [ <refreshAll: REFRESH ALL> ] ;
           => ;
-          wxh_SizerAdd( NIL,;
-            wxh_Get(;
-              [@<var>],;
-              [<window>],;
-              [<id>],;
-              [<value>],;
-              ,;
-              [{<nWidth>,<nHeight>}],;
-              [<style>],;
-              [<validator>],;
-              [<name>],;
-              [<picture>],;
-              [{<{warnWhen}>,<warnMsg>}],;
-              [<{help}>],;
-              [<{hlpLine}>],;
-              [<.refresh.>] ;
-            ),;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
+          wxh_Get(;
+            [@<var>],;
+            [<window>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<picture>],;
+            [{<{warnWhen}>,<warnMsg>}],;
+            [<{help}>],;
+            [<{helpLine}>],;
+            [<.refreshAll.>] )
+
+#xcommand @ GET [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          @ GET [<clauses>] ;;
+          @ SIZER [<wxsizerclauses>]
 
 #xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
           @ SAY [<sayclauses>] ;;
-          @ GET [<getclauses>] STRECH ;;
+          @ GET [<getclauses>] ;;
           END SIZER
 
 #xcommand @ SAY ABOVE [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
           BEGIN BOXSIZER VERTICAL ALIGN EXPAND ;;
           @ SAY [<sayclauses>] ;;
-          @ GET [<getclauses>] STRECH ;;
+          @ GET [<getclauses>] ;;
           END SIZER
+
+/*
+  StatusBar
+*/
+#xcommand @ STATUSBAR [<oSB>] ;
+            [ ID <nID> ] ;
+            [ STYLE <nStyle> ] ;
+            [ NAME <cName> ] ;
+            [ FIELDS <nFields> ] ;
+            [ WIDTHS <aWidths,...> ] ;
+            [ ON <oFrame> ] ;
+          => ;
+          [ <oSB> := ] wxh_StatusBar( ;
+            [<oFrame>], ;
+            [<nID>], ;
+            [<nStyle>], ;
+            [<cName>], ;
+            [<nFields>], ;
+            [{<aWidths>}] ) ;;
 
 /*
   WXBROWSEDB
@@ -268,14 +362,8 @@
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
-            [ <strech: STRECH> ] ;
-            [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-            [ BORDER <border> ] ;
-            [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_SizerAdd( NIL,;
             [<wxBrw>:=]wxh_BrowseDb( ;
               [<table>],;
               [<window>],;
@@ -284,82 +372,18 @@
               [{<nWidth>,<nHeight>}],;
               [<style>],;
               [<name>] ;
-            ),;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
+            )
+
+#xcommand @ WXBROWSEDB [<wxbclauses,...>] SIZER [<wxsizerclauses,...>] ;
+          => ;
+          @ WXBROWSEDB [<wxbclauses>] ;;
+          @ SIZER [<wxsizerclauses>]
 
 /*
-  WXBCOLUMN
+  WXCOLUMN
 */
 #xcommand WXCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
           => ;
-          wxh_Column( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
-
-/*
- * SIZERS
- *
- * TODO: On ALIGN CENTER we need to create a wxALIGN_CENTER_[HORIZONTAL|VERTICAL]
- *       in sync with the parent sizer, currently we do just wxALIGN_CENTER
- *
- */
-#xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
-          [ [LABEL] <label> ] ;
-          [ <strech: STRECH> ] ;
-          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-          [ BORDER <border> ] ;
-          [ SIDEBORDERS <sideborders,...> ] ;
-          => ;
-          wxh_BeginBoxSizer( ;
-            [wxStaticBox():New( ;
-              wxh_LastTopLevelWindow(),;
-              wxID_ANY,;
-              <label> ;
-            )],;
-            wx<orient>,;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
-
-#xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
-          [ <strech: STRECH> ] ;
-          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
-          [ BORDER <border> ] ;
-          [ SIDEBORDERS <sideborders,...> ] ;
-          => ;
-          wxh_BeginGridSizer( ;
-            [ <rows> ],;
-            [ <cols> ],;
-            [ <vgap> ],;
-            [ <hgap> ],;
-            [ wx<strech> ],;
-            [ wxALIGN_<align> ],;
-            [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
-          )
-
-#xcommand END SIZER ;
-          => ;
-          wxh_EndSizer()
-
-
-#xcommand @ SPACER ;
-          [ WIDTH <width> ] ;
-          [ HEIGHT <height> ] ;
-          [ <strech: STRECH> ] ;
-          [ FLAG <flag> ] ;
-          [ BORDER <border> ] ;
-          => ;
-          wxh_Spacer( ;
-            [<width>],;
-            [<height>],;
-            [ wx<strech> ],;
-            [<flag>],;
-            [<border>] ;
-          )
+          wxh_BrowseDbAddColumn( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
 
 #endif

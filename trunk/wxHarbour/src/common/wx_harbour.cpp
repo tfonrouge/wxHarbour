@@ -42,12 +42,12 @@ void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
 
   hb_itemCopy( p, pSelf );
 
-  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW") )
+  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
   {
     lastTopLevelWindow = p;
   }
 
-  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER") )
+  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER" ) )
   {
     lastSizer = p;
   }

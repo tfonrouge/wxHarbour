@@ -21,54 +21,6 @@
 #include "wx.ch"
 
 /*
-  DefineMenu: Wrapper for wxMenu
-  Teo. Mexico 2006
-*/
-PROCEDURE wxh_DefineMenu( title )
-  LOCAL hData := {=>}
-
-  IF Global():g_menuList = NIL
-    Global():g_menuList := {}
-  ENDIF
-
-  hData["menu"] := wxMenu():New()
-  hData["title"] := title
-  AAdd( Global():g_menuList, hData )
-
-RETURN
-
-/*
-  EndMenu
-  Teo. Mexico 2006
-*/
-PROCEDURE wxh_EndMenu
-  LOCAL hData
-  LOCAL menuListSize
-  LOCAL menuItem
-  LOCAL nLast
-
-  IF Empty( Global():g_menuList )
-    RETURN
-  ENDIF
-
-  nLast := Global():lenMenuList
-
-  hData := Global():g_menuList[ nLast ]
-
-  menuListSize := Len( Global():g_menuList )
-
-  IF menuListSize = 1 /* Append to menuBar */
-    Global():g_menuBar:Append( hData["menu"], hData["title"] )
-  ELSE                /* Append SubMenu */
-    menuItem := wxMenuItem():New( Global():g_menuList[ nLast -1 ]["menu"], Global():g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
-    Global():g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )
-  ENDIF
-
-  ASize( Global():g_menuList, menuListSize - 1)
-
-RETURN
-
-/*
   wxMenu
   Teo. Mexico 2006
 */
