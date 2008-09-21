@@ -37,7 +37,7 @@ to your [x]Harbour applications.
 #%patch -p1 -b .buildroot
 
 %build
-make HBCOMPILER=%{hbcompiler}
+make HBCOMPILER=%{hbcompiler} HBBUILD=debug
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -75,7 +75,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   panel := wxPanel():New( oWnd, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) )
 
-  boxSizer := wxBoxSizer():New( wxVERTICAL )
+  boxSizer := wxBoxSizer():New( wxVERTICAL )//, oWnd, "Hello" )
+
   panel:SetSizer( boxSizer )
 
   noteBook := wxNoteBook():New( panel )
@@ -96,7 +97,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   boxSizer1:Add( itemStaticText6, 0, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
-  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> áéíóúñ" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
+  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
   button1 := wxButton():New( panel , 100 )
   buttonOk := wxButton():New( panel, wxID_OK )

@@ -32,8 +32,19 @@ wx_StaticBoxSizer::~wx_StaticBoxSizer()
 HB_FUNC( WXSTATICBOXSIZER_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticBox* staticBox = (wxStaticBox *) hb_par_WX( 1 );
-  wx_StaticBoxSizer* boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );
+  wx_StaticBoxSizer* boxSizer;
+
+  if( ISOBJECT( 1 ) )
+  {
+    wxStaticBox* staticBox = (wxStaticBox *) hb_par_WX( 1 );
+    boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );
+  }
+  else
+  {
+    wxWindow* parent = (wxStaticBox *) hb_par_WX( 2 );
+    const wxString& label = wxString( hb_parcx( 3 ), wxConvLocal );
+    boxSizer = new wx_StaticBoxSizer( hb_parni( 1 ), parent, label );
+  }
 
   // Add object's to hash list
   wx_ObjList_New( boxSizer, pSelf );
@@ -42,21 +53,22 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 
 }
 
-/*
-  wxStaticBox:GetStaticBox
+/*! IMPLEMENT THIS (SEE .prg SOURCE)
+  wxStaticBoxSizer::GetStaticBox
   Teo. Mexico 2007
 */
-HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  PHB_ITEM pResult = NULL;
-  wxStaticBox* staticBox;
-
-  if( pSelf && (staticBox = (wxStaticBox *) wx_ObjList_wxGet( pSelf ) ) )
-    pResult = wx_ObjList_hbGet( staticBox );
-
-  if(pResult)
-    hb_itemReturn( pResult );
-  else
-    hb_ret();
-}
+// HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
+// {
+//   PHB_ITEM pSelf = hb_stackSelfItem();
+//   PHB_ITEM pResult = NULL;
+//   wx_StaticBoxSizer* sbSizer;
+//   wxStaticBox* staticBox;
+//
+//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wx_ObjList_wxGet( pSelf ) ) )
+//     pResult = wx_ObjList_hbGet( staticBox );
+//
+//   if(pResult)
+//     hb_itemReturn( pResult );
+//   else
+//     hb_ret();
+// }

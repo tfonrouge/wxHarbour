@@ -18,59 +18,6 @@
 #include "hbclass.ch"
 #include "property.ch"
 
-STATIC oGlobal
-
-/*
-  TGlobal class to hold global vars...
-  Teo. Mexico 2007
-*/
-CLASS TGlobal
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  DATA g_menuID INIT 1
-  DATA g_menuList
-  DATA g_menuBar
-  DATA g_window
-  METHOD lenMenuList INLINE Len( ::g_menuList )
-PUBLISHED:
-ENDCLASS
-
-/*
-  EndClass TGlobal
-*/
-
-/*
-  Global function
-  Teo. Mexico 2007
-*/
-FUNCTION Global
-RETURN oGlobal
-
-/*
-  DefineMenu: Wrapper for wxMenuBar
-  Teo. Mexico 2006
-*/
-FUNCTION wxh_DefineMenuBar( window, style )
-  oGlobal := TGlobal():New()
-  oGlobal:g_menuID := 1
-  oGlobal:g_menuBar := wxMenuBar():New( style )
-  IF window = NIL
-    oGlobal:g_window := wxh_LastTopLevelWindow()
-  ELSE
-    oGlobal:g_window := window
-  ENDIF
-RETURN oGlobal:g_menuBar
-
-/*
-  EndMenuBar
-  Teo. Mexico 2006
-*/
-PROCEDURE wxh_EndMenuBar
-  oGlobal:g_window:SetMenuBar( oGlobal:g_menuBar )
-  oGlobal := NIL
-RETURN
-
 /*
   wxMenuBar
   Teo. Mexico 2006

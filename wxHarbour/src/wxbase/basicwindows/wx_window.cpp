@@ -172,6 +172,14 @@ HB_FUNC( WXWINDOW_ISSHOWN )
     hb_ret();
 }
 
+HB_FUNC( WXWINDOW_MAKEMODAL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wx_ObjList_wxGet( pSelf ) ) )
+    wnd->MakeModal( hb_parl( 1 ) );
+}
+
 HB_FUNC( WXWINDOW_RAISE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();

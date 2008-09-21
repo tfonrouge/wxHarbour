@@ -19,31 +19,6 @@
 #include "property.ch"
 
 /*
-  DefineStatusBar
-  Teo. Mexico 2006
-*/
-FUNCTION wxh_DefineStatusBar( oW, id, style, name, fields, widths )
-  LOCAL sb
-
-  IF oW = NIL
-    oW := wxh_LastTopLevelWindow()
-  ENDIF
-
-  sb := wxStatusBar():New( oW, id, style, name )
-
-  IF widths!=NIL .AND. fields=NIL
-    fields := Len( widths )
-  ENDIF
-
-  IF fields != NIL
-    sb:SetFieldsCount( fields, widths )
-  ENDIF
-
-  oW:SetStatusBar( sb )
-
-RETURN sb
-
-/*
   wxStatusBar
   Teo. Mexico 2006
 */

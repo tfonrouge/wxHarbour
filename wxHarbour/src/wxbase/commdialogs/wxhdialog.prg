@@ -14,25 +14,6 @@
 #include "property.ch"
 
 /*
-  wx_Dialog
-  Teo. Mexico 2008
-*/
-FUNCTION wx_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
-  LOCAL dlg
-
-  IF Empty( fromClass )
-    RETURN wxDialog():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
-  ENDIF
-
-  dlg := __ClsInstFromName( fromClass ):New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
-
-  IF !dlg:IsDerivedFrom( "wxDialog" )
-    dlg:IsNotDerivedFrom_wxDialog()
-  ENDIF
-
-RETURN dlg
-
-/*
   wxDialog
   Teo. Mexico 2006
 */

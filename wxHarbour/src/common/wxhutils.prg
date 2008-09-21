@@ -12,6 +12,7 @@
 
 STATIC BaseArray:="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+#ifndef __XHARBOUR__
 /*
   __ClsInstName
   Teo. Mexico 2007
@@ -22,6 +23,7 @@ FUNCTION __ClsInstName( className )
   Result := &(className+"()")
 
 RETURN Result
+#endif
 
 /*
   asCodeBlock : Convierte la cadena a un code block
@@ -216,7 +218,11 @@ FUNCTION Dec(p,base,fill,n)
     IF !empty(p)
       asize(p,len(p)-n)
     ENDIF
+  #ifdef __XHARBOUR__
+  DEFAULT
+  #else
   OTHERWISE
+  #endif
     //mess_open("ERROR","* Dec() *",-1,C_ERROR)
   ENDSWITCH
 
@@ -345,7 +351,11 @@ FUNCTION Inc( p, base, fill, n )
   CASE 'A'
     asize(p,len(p)+n)
     EXIT
+  #ifdef __XHARBOUR__
+  DEFAULT
+  #else
   OTHERWISE
+  #endif
     //mess_open("ERROR","* Inc() *",-1,C_ERROR)
   ENDSWITCH
 

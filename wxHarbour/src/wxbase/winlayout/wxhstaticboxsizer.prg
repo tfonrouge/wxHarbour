@@ -30,7 +30,10 @@ PUBLIC:
 
   CONSTRUCTOR New( boxSizer, orient )
 
-  METHOD GetStaticBox
+  /*! TODO : Create a HB Object from a c++ object
+             hb obj doesn't have to destroy the c++ one
+  */
+  //METHOD GetStaticBox
 
 PUBLISHED:
 ENDCLASS

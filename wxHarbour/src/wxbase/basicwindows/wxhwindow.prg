@@ -34,6 +34,7 @@ PUBLIC:
   METHOD GetSizer
   METHOD Hide( Value )
   METHOD IsShown
+  METHOD MakeModal( flag )
   METHOD Raise
   METHOD SetFocus
   METHOD SetId( id )
