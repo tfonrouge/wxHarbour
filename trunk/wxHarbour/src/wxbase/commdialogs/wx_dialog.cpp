@@ -126,7 +126,7 @@ HB_FUNC( WXDIALOG_GETRETURNCODE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Dialog* dialog;
   if( pSelf && (dialog = (wx_Dialog *) wx_ObjList_wxGet( pSelf ) ) )
-    hb_retl( dialog->GetReturnCode() );
+    hb_retni( dialog->GetReturnCode() );
   else
     hb_ret();
 }

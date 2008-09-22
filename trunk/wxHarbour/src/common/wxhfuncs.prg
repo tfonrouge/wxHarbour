@@ -54,35 +54,14 @@ FUNCTION wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
   ENDIF
 
   IF lastSizer == NIL
-    parent:SetSizer( sizer )
+    wxh_SetSizer( parent, sizer )
   ELSE
-    wxh_SizerAdd( lastSizer, sizer, strech, align, border, sideBorders )
+    wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
   ENDIF
 
   containerObj():AddToSizerList( sizer )
 
 RETURN sizer
-
-/*
- * wxh_Button
- * Teo. Mexico 2008
- */
-FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
-  LOCAL Result
-
-  IF window = NIL
-    window := ContainerObj():LastParent()
-  ENDIF
-
-  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
-
-  IF bAction != NIL
-    window:Connect( Result:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
-  ENDIF
-
-  containerObj():SetLastChild( Result )
-
-RETURN Result
 
 /*
  * wxh_BrowseDb
@@ -120,6 +99,27 @@ PROCEDURE wxh_BrowseDbAddColumn( zero, wxBrw, title, block, picture, width )
   ENDIF
 
 RETURN
+
+/*
+ * wxh_Button
+ * Teo. Mexico 2008
+ */
+FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
+  LOCAL Result
+
+  IF window = NIL
+    window := ContainerObj():LastParent()
+  ENDIF
+
+  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
+
+  IF bAction != NIL
+    window:Connect( Result:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( Result )
+
+RETURN Result
 
 /*
   wxh_Dialog
@@ -218,9 +218,9 @@ PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sid
   lastSizer := containerObj():LastSizer
 
   IF lastSizer == NIL
-    parent:SetSizer( sizer )
+    wxh_SetSizer( parent, sizer )
   ELSE
-    wxh_SizerAdd( lastSizer, sizer, strech, align, border, sideBorders )
+    wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
   ENDIF
 
   containerObj():AddToSizerList( sizer )
@@ -335,15 +335,14 @@ RETURN
   wxh_NotebookBegin
   Teo. Mexico 2008
 */
-FUNCTION wxh_NotebookBegin( parent)//, id, pos, size, style, name )
+FUNCTION wxh_NotebookBegin( parent, id, pos, size, style, name )
   LOCAL notebook
 
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  //notebook := wxNotebook():New( parent, id, pos, size, style, name )
-  notebook := wxNotebook():New( parent )//, id, pos, size, style, name )
+  notebook := wxNotebook():New( parent, id, pos, size, style, name )
 
   containerObj():SetLastChild( notebook )
 
@@ -404,33 +403,67 @@ FUNCTION wxh_SAY( window, id, label, pos, size, style, name )
 RETURN Result
 
 /*
- * wxh_SizerAdd
+  wxh_SetSizer
+  Teo. Mexico 2008
+*/
+PROCEDURE wxh_SetSizer( window, sizer )
+
+  IF window:IsDerivedFrom( "wxNotebook" )
+    Alert( "Sizer cannot be direct child of wxNotebook.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
+  ENDIF
+
+  window:SetSizer( sizer )
+
+RETURN
+
+/*
+ * wxh_SizerInfoAdd
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_SizerAdd( parentSizer, child, strech, align, border, sideBorders, flag )
+PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
+  LOCAL sizerInfo
 
-  IF child = NIL
+  IF child = NIL .AND. ! ( addSizerInfoToLastItem == .T. )
 
     /* Check if last child has been processed */
-    IF containerObj():GetLastChild()[ 2 ]
+    IF containerObj():GetLastChild()[ "processed" ]
       RETURN
     ENDIF
 
-    child := containerObj():GetLastChild()[ 1 ]
-    containerObj():GetLastChild()[ 2 ] := .T. /* mark processed */
-    parentSizer := containerObj():GetLastChild()[ 3 ]
+    child := containerObj():GetLastChild()[ "child" ]
+    sizerInfo := containerObj():GetLastChild()[ "sizerInfo" ]
 
-  ELSE
-
-    IF parentSizer = NIL
-      parentSizer := containerObj():LastSizer()
+    /* no sizerInfo available */
+    IF sizerInfo == NIL
+      RETURN
     ENDIF
 
+    containerObj():GetLastChild()[ "processed" ] := .T. /* mark processed */
+
+    strech      := sizerInfo[ "strech" ]
+    align       := sizerInfo[ "align" ]
+    border      := sizerInfo[ "border" ]
+    sideBorders := sizerInfo[ "sideBorders" ]
+    flag        := sizerInfo[ "flag" ]
+
+  ENDIF
+
+  /* collect default parentSizer */
+  IF parentSizer = NIL
+    /* check if we have a parent control */
+    IF containerObj():GetLastChild()[ "child" ] == NIL
+      IF containerObj():GetLastParent( -1 ) != NIL
+        parentSizer := ATail( containerObj():GetLastParent( -1 )[ "sizers" ] )
+      ENDIF
+    ELSE
+      parentSizer := containerObj():LastSizer()
+    ENDIF
   ENDIF
 
   IF parentSizer = NIL
     //Alert( "No parent Sizer available.", {"QUIT"})
-    ? "No parent Sizer available."
+    TRACE "Child:", child:ClassName, "No parent Sizer available"
+    RETURN
   ENDIF
 
   IF strech = NIL
@@ -465,11 +498,21 @@ PROCEDURE wxh_SizerAdd( parentSizer, child, strech, align, border, sideBorders, 
     flag := 0
   ENDIF
 
-  containerObj():CheckLastChildSizerAdd()
+  /* just add to last item */
+  IF addSizerInfoToLastItem == .T.
 
-  IF parentSizer != NIL
-    parentSizer:Add( child, strech, HB_BITOR( align, sideBorders, flag ), border )
+    IF ! useLast == .T.
+      sizerInfo := { "strech"=>strech, "align"=>align, "border"=>border, "sideBorders"=>sideBorders, "flag"=>flag }
+      containerObj():AddSizerInfoToLastItem( sizerInfo )
+    ENDIF
+
+    RETURN
+
   ENDIF
+
+  containerObj():SizerAddOnLastChild()
+
+  parentSizer:Add( child, strech, HB_BITOR( align, sideBorders, flag ), border )
 
 RETURN
 
@@ -585,22 +628,57 @@ RETURN sb
 CLASS TContainerObj
 PRIVATE:
   DATA FParentList
-  DATA FLastChild INIT { NIL, .F., NIL }
 PROTECTED:
 PUBLIC:
+  METHOD AddSizerInfoToLastItem( sizerInfo )
+  METHOD AddToNextNotebookPage( hInfo )
   METHOD AddToParentList( parent )
   METHOD AddToSizerList( sizer )
   METHOD CheckForAddPage
-  METHOD CheckLastChildSizerAdd
   METHOD ClearData
-  METHOD GetLastChild INLINE ::FLastChild
+  METHOD GetLastChild
+  METHOD GetLastParent( index )
   METHOD LastParent
   METHOD LastSizer
   METHOD RemoveLastParent
   METHOD RemoveLastSizer
   METHOD SetLastChild( child )
+  METHOD SizerAddOnLastChild
 PUBLISHED:
 ENDCLASS
+
+/*
+  AddSizerInfoToLastItem
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE AddSizerInfoToLastItem( sizerInfo ) CLASS TContainerObj
+
+  /* if has not child yet defined then is a parent ctrl */
+  IF ATail( ::FParentList )[ "lastChild" ][ "child" ] == NIL
+    /* control is in lastChild in the previuos Parent list */
+    IF ::GetLastParent( -1 ) != NIL
+      ::GetLastParent( -1 )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
+    ENDIF
+  ELSE
+    ATail( ::FParentList )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
+  ENDIF
+
+RETURN
+
+/*
+  AddToNextNotebookPage
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE AddToNextNotebookPage( hInfo ) CLASS TContainerObj
+
+  IF !::LastParent():IsDerivedFrom("wxNotebook")
+    Alert( "Previuos page not a wxNotebook control" )
+    RETURN
+  ENDIF
+
+  ATail( ::FParentList )[ "pageInfo" ] := hInfo
+
+RETURN
 
 /*
   AddToParentList
@@ -617,8 +695,7 @@ METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
     Alert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
     ::QUIT()
   ENDIF
-  ::CheckLastChildSizerAdd()
-  AAdd( ::FParentList, { "parent"=>parent, "sizers"=>{} } )
+  AAdd( ::FParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL } } )
 RETURN
 
 /*
@@ -635,7 +712,6 @@ RETURN
 */
 METHOD PROCEDURE ClearData CLASS TContainerObj
   ::FParentList := NIL
-  ::FLastChild := { NIL, .F., NIL }
 RETURN
 
 /*
@@ -643,26 +719,40 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE CheckForAddPage( window ) CLASS TContainerObj
+  LOCAL hInfo
 
   IF ::LastParent():IsDerivedFrom("wxNotebook")
-    ::LastParent():AddPage( window, "Tab" )
+    hInfo := ATail( ::FParentList )[ "pageInfo" ]
+    IF  hInfo != NIL
+      ::LastParent():AddPage( window, hInfo["title"], hInfo["select"], hInfo["imageId"] )
+      ATail( ::FParentList )[ "pageInfo" ] := NIL
+    ELSE
+      ::LastParent():AddPage( window, "Tab" )
+    ENDIF
   ENDIF
 
 RETURN
 
 /*
-  CheckLastChildSizerAdd
+  GetLastChild
   Teo. Mexico 2008
 */
-METHOD PROCEDURE CheckLastChildSizerAdd CLASS TContainerObj
-  IF ::FLastChild[ 1 ] != NIL
-    IF ! ::FLastChild[ 2 ]
-      ::FLastChild[ 2 ] := .T. /* avoid infinite recursion */
-      @ SIZER PARENTSIZER ::FLastChild[ 3 ] CHILD ::FLastChild[ 1 ]
-      ::FLastChild[ 3 ] := NIL
-    ENDIF
+METHOD FUNCTION GetLastChild CLASS TContainerObj
+RETURN ATail( ::FParentList )[ "lastChild" ]
+
+/*
+  GetLastParent
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GetLastParent( index ) CLASS TContainerObj
+  IF Empty( index )
+    RETURN ATail( ::FParentList )
   ENDIF
-RETURN
+  index := Len( ::FParentList ) + index
+  IF index < 1 .OR. index > Len( ::FParentList )
+    RETURN NIL
+  ENDIF
+RETURN ::FParentList[ index ]
 
 /*
   LastParent
@@ -676,6 +766,9 @@ RETURN ATail( ::FParentList )[ "parent" ]
   Teo. Mexico 2008
 */
 METHOD FUNCTION LastSizer CLASS TContainerObj
+  IF Empty( ::FParentList )
+    RETURN NIL
+  ENDIF
 RETURN ATail( ATail( ::FParentList )[ "sizers" ] )
 
 /*
@@ -687,17 +780,14 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
   /* do some checking */
   IF className != NIL
     IF !Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) == Upper( className )
-      Alert("Attempt to remove wrong parent on stack (ClassName not equal).",{"QUIT"})
+      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing END ... clauses to your controls definition.",{"QUIT"})
       ::QUIT()
     ENDIF
   ENDIF
 
-  /*
-    We dont call CheckLastChildSizerAdd here because is
-    supposed that a END SIZER was done already
-  */
-
   ASize( ::FParentList, Len( ::FParentList ) - 1 )
+
+  ::SizerAddOnLastChild()
 
 RETURN
 
@@ -712,7 +802,7 @@ METHOD PROCEDURE RemoveLastSizer CLASS TContainerObj
     Alert("Attempt to remove a Sizer on a empty sizers stack.",{"QUIT"})
     //::QUIT()
   ENDIF
-  ::CheckLastChildSizerAdd()
+  ::SizerAddOnLastChild()
   ASize( a, Len( a ) - 1 )
 RETURN
 
@@ -721,16 +811,43 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE SetLastChild( child ) CLASS TContainerObj
-  IF ::FLastChild[ 1 ] == child
+  IF ::GetLastChild()[ "child" ] == child
     RETURN
   ENDIF
 
+  ::SizerAddOnLastChild()
+
   ::CheckForAddPage( child )
 
-  ::CheckLastChildSizerAdd()
-  ::FLastChild[ 1 ] := child
-  ::FLastChild[ 2 ] := .F.
-  ::FLastChild[ 3 ] := ::LastSizer()
+  ::GetLastChild()[ "child" ] := child
+  ::GetLastChild()[ "processed" ] := .F.
+
+RETURN
+
+/*
+  SizerAddOnLastChild
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
+  LOCAL child
+  LOCAL sizerInfo
+
+  child := ::GetLastChild()[ "child" ]
+
+  IF child != NIL .AND. ! ::GetLastChild()[ "processed" ]
+
+    ::GetLastChild()[ "processed" ] := .T. /* avoid infinite recursion */
+
+    sizerInfo := ::GetLastChild()[ "sizerInfo" ]
+
+    IF sizerInfo == NIL
+      wxh_SizerInfoAdd( child )
+    ELSE
+      wxh_SizerInfoAdd( child, NIL, sizerInfo[ "strech" ], sizerInfo[ "align" ], sizerInfo[ "border" ], sizerInfo[ "sideBorders" ], sizerInfo[ "flag" ] )
+    ENDIF
+
+  ENDIF
+
 RETURN
 
 /*

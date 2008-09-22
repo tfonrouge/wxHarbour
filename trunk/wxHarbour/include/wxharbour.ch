@@ -101,21 +101,25 @@
 #define wxALIGN_EXPAND  wxGROW
 #define wxSTRETCH        1
 
-#xcommand @ SIZER ;
-          [ PARENTSIZER <parentSizer> ] ;
+#xcommand @ SIZERINFO ;
           [ CHILD <child> ] ;
+          [ PARENTSIZER <parentSizer> ] ;
           [ <stretch: STRETCH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
           [ BORDER <border> ] ;
           [ SIDEBORDERS <sideborders,...> ] ;
+          [ <useLast: LAST> ] ;
           => ;
-          wxh_SizerAdd( ;
-            [ <parentSizer> ],;
+          wxh_SizerInfoAdd( ;
             [ <child> ],;
+            [ <parentSizer> ],;
             [ wx<stretch> ],;
             [ wxALIGN_<align> ],;
             [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] )
+            [ HB_BITOR(0,<sideborders>) ],;
+            NIL,;
+            [ <.useLast.> ],;
+            .T. ) /* No processing, sizer info to stack */
 
 #xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
           [ VAR <bs> ] ;
@@ -200,10 +204,10 @@
             [<name>],;
             [<{bAction}>] )
 
-#xcommand @ BUTTON [<btnclauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand @ BUTTON [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           @ BUTTON [<btnclauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
 /*
   NoteBook
@@ -226,12 +230,12 @@
 
 #xcommand END NOTEBOOK => wxh_NotebookEnd()
 
-#xcommand BEGIN NOTEBOOK [<nbclauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand BEGIN NOTEBOOK [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           BEGIN NOTEBOOK [<nbclauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
-#xcommand ADD PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] WITH ;
+#xcommand ADD PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
           => ;
           wxh_NotebookAddPage( <title>, <select>, <imageId> )
 
@@ -256,10 +260,10 @@
 
 #xcommand END PANEL => wxh_PanelEnd()
 
-#xcommand BEGIN PANEL [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand BEGIN PANEL [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           BEGIN PANEL [<clauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
 /*
  * SAY ... GET
@@ -280,10 +284,10 @@
             [wxALIGN_<style>],;
             [<name>] )
 
-#xcommand @ SAY [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand @ SAY [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           @ SAY [<clauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
 #xcommand @ GET <var> ;
             [ ON <window> ] ;
@@ -315,10 +319,10 @@
             [<{helpLine}>],;
             [<.refreshAll.>] )
 
-#xcommand @ GET [<clauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand @ GET [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           @ GET [<clauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
 #xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
@@ -374,10 +378,10 @@
               [<name>] ;
             )
 
-#xcommand @ WXBROWSEDB [<wxbclauses,...>] SIZER [<wxsizerclauses,...>] ;
+#xcommand @ WXBROWSEDB [<wxbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           @ WXBROWSEDB [<wxbclauses>] ;;
-          @ SIZER [<wxsizerclauses>]
+          @ SIZERINFO [<wxsizerclauses>]
 
 /*
   WXCOLUMN

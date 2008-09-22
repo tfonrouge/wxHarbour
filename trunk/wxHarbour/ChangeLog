@@ -2,6 +2,20 @@
  *
  */
 
+2008-09-22 10:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * renamed clause "SIZE" to "SIZER" on @ SIZER command.
+
+  * samples/helloworld/helloworld.prg
+    * sample refined.
+
+  * src/common/wxhfuncs.prg
+    ! corrected several bugs on displaying
+    * using hashes to hold values
+
+  * src/wxbase/commdialogs/wx_dialog.cpp
+    ! Fixed type of returned value on wx_Dialog::GetReturnValue()
+
 2008-09-21 14:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/property.ch
     + added TRACE command very usefull nowadays
