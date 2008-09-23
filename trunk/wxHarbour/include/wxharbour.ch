@@ -324,7 +324,7 @@
 #xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
-          @ SAY [<sayclauses>] STYLE RIGHT SIZERINFO ALIGN RIGHT ;;
+          @ SAY [<sayclauses>] STYLE RIGHT ;;
           @ GET [<getclauses>] SIZERINFO STRETCH ;;
           END SIZER
 
