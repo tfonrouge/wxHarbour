@@ -88,9 +88,9 @@ METHOD FUNCTION OnInit() CLASS MyApp
   ENDIF
 
   CREATE FRAME oWnd ;
-        FROM 10,10 SIZE 400,500 ;
-        ID 999 ;
-        TITLE "Simple"
+         WIDTH 500 HEIGHT 400 ;
+         ID 999 ;
+         TITLE "Simple"
 
   oWnd:Show()
 

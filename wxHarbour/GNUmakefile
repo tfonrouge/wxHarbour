@@ -121,6 +121,7 @@ WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
+	$(__BUILDDIR__)/wxHarbour_wxGET.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcolumn.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbrowse.o \
 	$(__BUILDDIR__)/wxHarbour_dba.o \
@@ -138,6 +139,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstaticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstatictext.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtextctrl.o \
+	$(__BUILDDIR__)/wxHarbour_wxhtreectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
 	$(__BUILDDIR__)/wxHarbour_wxhframe.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmenu.o \
@@ -173,6 +175,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statictext.o \
 	$(__BUILDDIR__)/wxHarbour_wx_textctrl.o \
+	$(__BUILDDIR__)/wxHarbour_wx_treectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
 	$(__BUILDDIR__)/wxHarbour_wx_frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o \
@@ -299,6 +302,9 @@ $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 $(__BUILDDIR__)/wxHarbour_wxhutils.o: ./src/common/wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxGET.o: ./src/hrbcompat/misc/wxGET.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -348,6 +354,9 @@ $(__BUILDDIR__)/wxHarbour_wxhstatictext.o: ./src/wxbase/controls/wxhstatictext.p
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhtextctrl.o: ./src/wxbase/controls/wxhtextctrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhtreectrl.o: ./src/wxbase/controls/wxhtreectrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhevthandler.o: ./src/wxbase/events/wxhevthandler.prg
@@ -453,6 +462,9 @@ $(__BUILDDIR__)/wxHarbour_wx_statictext.o: ./src/wxbase/controls/wx_statictext.c
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_textctrl.o: ./src/wxbase/controls/wx_textctrl.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_treectrl.o: ./src/wxbase/controls/wx_treectrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/events/wx_evthandler.cpp

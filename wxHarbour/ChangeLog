@@ -2,6 +2,45 @@
  *
  */
 
+2008-09-23 02:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxbase/wx_treectrl.h
+  + src/hrbcompat/misc/wxGET.prg
+  + src/wxbase/controls/wxhtreectrl.prg
+  + src/wxbase/controls/wx_treectrl.cpp
+    + added
+      + wxTreeCtrl
+    + added harbour class wxGET to manage data on wxTextCtrl's
+
+  * include/wxharbour.ch
+    * minor changes on syntax for FRAME/DIALOG
+    + added @ TREECTRL command
+
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/helloworld/helloworld.prg
+  * samples/networking/simple.prg
+  * samples/sizers/main.prg
+    % general improvings on samples
+
+  * src/common/wxhfuncs.prg
+    + added
+      + wxh_GET
+      + wxh_TreeCtrl
+    ! Fix on reseting previous sizer info for child control
+
+  * src/hrbcompat/misc/wx_functions.cpp
+    + added:
+      + wxGetUserId
+      + wxGetUserName
+
+  * src/wxbase/controls/wx_textctrl.cpp
+    * minor cleanup
+
+  * src/wxbase/events/wxhevthandler.prg
+    - removed some debug helper code
+
 2008-09-22 10:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * renamed clause "SIZE" to "SIZER" on @ SIZER command.

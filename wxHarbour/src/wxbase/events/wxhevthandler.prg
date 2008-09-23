@@ -80,13 +80,13 @@ RETURN
 METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
   LOCAL itm
 
-  ? ::ClassName
-  ?? " Id: "+LTrim(Str(::GetId()))
-  ?? ", Event #: "+LTrim(Str(id))
-  ?? " type: "+LTrim(Str(eventType))
-  IF ::IsDerivedFrom("wxFrame")
-    ? ::GetTitle()
-  ENDIF
+//   ? ::ClassName
+//   ?? " Id: "+LTrim(Str(::GetId()))
+//   ?? ", Event #: "+LTrim(Str(id))
+//   ?? " type: "+LTrim(Str(eventType))
+//   IF ::IsDerivedFrom("wxFrame")
+//     ? ::GetTitle()
+//   ENDIF
 
   IF !HB_HHasKey( ::FEventHashList, eventType )
     //::Skip() ?
@@ -95,7 +95,7 @@ METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
   ENDIF
 
   FOR EACH itm IN ::FEventHashList[ eventType ]
-    ? "Testing:",itm[1],itm[2]
+//     ? "Testing:",itm[1],itm[2]
     IF id >= itm[1] .AND. id <= itm[2]
       itm[3]:Eval( Self )
       EXIT

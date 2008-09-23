@@ -24,31 +24,30 @@
 #include "wx.ch"
 
 /*!
- * Build var-codeblock
+ * Frame/Dialog
  */
-#xtranslate _WXGET_( <xVar> ) => WXGET( <"xVar"> , <xVar>, {|_xValue| iif( PCount() > 0 , <xVar> := _xValue , <xVar> ) } )
 
 #xcommand CREATE [<type: MDIPARENT,MDICHILD>] FRAME <oFrame> ;
           [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
-          [ FROM <nTop>, <nLeft> ] [ SIZE <nHeight>, <nWidth> ] ;
+          [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oFrame> := wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oFrame> := wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
-          [ FROM <nTop>, <nLeft> ] [ SIZE <nHeight>, <nWidth> ] ;
+          [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nHeight>,<nWidth>}, [<nStyle>], [<cName>] )
+          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;
@@ -292,7 +291,6 @@
 #xcommand @ GET <var> ;
             [ ON <window> ] ;
             [ ID <id> ] ;
-            [ VALUE <value> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
@@ -304,10 +302,9 @@
             [ <refreshAll: REFRESH ALL> ] ;
           => ;
           wxh_Get(;
-            [@<var>],;
             [<window>],;
             [<id>],;
-            [<value>],;
+            wxhGET():New( <"var">, <var>, {|__localVal| iif( PCount()>0, <var> := __localVal, <var> ) } ),;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -327,8 +324,8 @@
 #xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
-          @ SAY [<sayclauses>] ;;
-          @ GET [<getclauses>] ;;
+          @ SAY [<sayclauses>] STYLE RIGHT SIZERINFO ALIGN RIGHT ;;
+          @ GET [<getclauses>] SIZERINFO STRETCH ;;
           END SIZER
 
 #xcommand @ SAY ABOVE [<sayclauses,...>] GET [<getclauses,...>] ;
@@ -357,6 +354,35 @@
             [<nFields>], ;
             [{<aWidths>}] ) ;;
 
+/*
+ * TreeCtrl
+ * Teo. Mexico 2006
+ */
+#xcommand @ TREECTRL [<label>] ;
+            [ VAR <btn> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <btn> := ]wxh_TreeCtrl( ;
+            [<window>],;
+            [<id>],;
+            [<label>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ TREECTRL [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+          => ;
+          @ TREECTRL [<clauses>] ;;
+          @ SIZERINFO [<wxsizerclauses>]
 /*
   WXBROWSEDB
 */

@@ -188,16 +188,14 @@ RETURN oWnd
  * wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION wxh_GET( var, window, id, value, pos, size, style, validator, name )
+FUNCTION wxh_GET( window, id, wxhGet, pos, size, style, validator, name )
   LOCAL Result
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
 
-  var := var
-
-  Result := wxTextCtrl():New( window, id, value, pos, size, style, validator, name )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, size, style, validator, name )
 
   containerObj():SetLastChild( Result )
 
@@ -622,6 +620,23 @@ FUNCTION wxh_StatusBar( oW, id, style, name, fields, widths )
 RETURN sb
 
 /*
+  wxh_TreeCtrl
+  Teo. Mexico 2008
+ */
+FUNCTION wxh_TreeCtrl( window, id, pos, size, style, validator, name )
+  LOCAL Result
+
+  IF window = NIL
+    window := ContainerObj():LastParent()
+  ENDIF
+
+  Result := wxTreeCtrl():New( window, id, pos, size, style, validator, name )
+
+  containerObj():SetLastChild( Result )
+
+RETURN Result
+
+/*
   TContainerObj
   Teo. Mexico 2008
 */
@@ -839,6 +854,7 @@ METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
     ::GetLastChild()[ "processed" ] := .T. /* avoid infinite recursion */
 
     sizerInfo := ::GetLastChild()[ "sizerInfo" ]
+    ::GetLastChild()[ "sizerInfo" ] := NIL
 
     IF sizerInfo == NIL
       wxh_SizerInfoAdd( child )
