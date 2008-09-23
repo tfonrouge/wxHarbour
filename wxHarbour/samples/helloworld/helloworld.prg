@@ -91,9 +91,9 @@ METHOD FUNCTION OnInit() CLASS MyApp
       BEGIN PANEL
         BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
           @ BUTTON
-          @ SAY "Name:" WIDTH 70 STYLE RIGHT GET edtNombre NAME "Name" STYLE wxTE_PROCESS_ENTER
+          @ SAY "Name:" WIDTH 70 GET edtNombre NAME "Name" STYLE wxTE_PROCESS_ENTER
           ? "Password:", edtPassword
-          @ SAY "Password:" WIDTH 70 STYLE RIGHT GET edtPassword NAME "Pass" STYLE HB_BITOR( wxTE_PASSWORD, wxTE_PROCESS_ENTER )
+          @ SAY "Password:" WIDTH 70 GET edtPassword NAME "Pass" STYLE HB_BITOR( wxTE_PASSWORD, wxTE_PROCESS_ENTER )
           @ BUTTON ID wxID_OK SIZERINFO ALIGN RIGHT
         END SIZER
       END PANEL
