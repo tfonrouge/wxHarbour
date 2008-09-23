@@ -46,7 +46,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL panel
 
   CREATE FRAME oWnd ;
-         FROM 10,10 SIZE 600,400 ;
+         WIDTH 600 HEIGHT 400 ;
          ID 999 ;
          TITLE "Simple Dbf Browser"
 

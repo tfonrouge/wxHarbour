@@ -127,6 +127,7 @@ WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) 
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
+	$(__BUILDDIR__)\wxHarbour_wxGET.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj \
 	$(__BUILDDIR__)\wxHarbour_dba.obj \
@@ -144,6 +145,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticbox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstatictext.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhtextctrl.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhtreectrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhevthandler.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhframe.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhmenu.obj \
@@ -179,6 +181,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_staticbox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_statictext.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_textctrl.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_treectrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_frame.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_mdichildframe.obj \
@@ -319,6 +322,9 @@ $(__BUILDDIR__)\wxHarbour_wxhfuncs.obj: .\src\common\wxhfuncs.prg
 $(__BUILDDIR__)\wxHarbour_wxhutils.obj: .\src\common\wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxGET.obj: .\src\hrbcompat\misc\wxGET.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -368,6 +374,9 @@ $(__BUILDDIR__)\wxHarbour_wxhstatictext.obj: .\src\wxbase\controls\wxhstatictext
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhtextctrl.obj: .\src\wxbase\controls\wxhtextctrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhtreectrl.obj: .\src\wxbase\controls\wxhtreectrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhevthandler.obj: .\src\wxbase\events\wxhevthandler.prg
@@ -474,6 +483,9 @@ $(__BUILDDIR__)\wxHarbour_wx_statictext.obj: .\src\wxbase\controls\wx_statictext
 
 $(__BUILDDIR__)\wxHarbour_wx_textctrl.obj: .\src\wxbase\controls\wx_textctrl.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_textctrl.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_treectrl.obj: .\src\wxbase\controls\wx_treectrl.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_treectrl.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_evthandler.obj: .\src\wxbase\events\wx_evthandler.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_evthandler.cpp
