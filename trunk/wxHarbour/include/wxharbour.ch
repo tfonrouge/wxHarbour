@@ -325,7 +325,7 @@
           => ;
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
           @ SAY [<sayclauses>] STYLE RIGHT ;;
-          @ GET [<getclauses>] SIZERINFO STRETCH ;;
+          @ GET [<getclauses>] ;;
           END SIZER
 
 #xcommand @ SAY ABOVE [<sayclauses,...>] GET [<getclauses,...>] ;

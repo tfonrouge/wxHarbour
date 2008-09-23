@@ -67,6 +67,7 @@ HB_FUNC( WXTREECTRL_ADDROOT )
   if( pSelf && (treeCtrl = (wxTreeCtrl *) wx_ObjList_wxGet( pSelf ) ) )
   {
     treeItemId = treeCtrl->AddRoot( text, image, selImage, data );
+    cout << endl << "AddRoot -> " << treeItemId << endl;
     hb_retnl( treeItemId );
   }
   else
@@ -80,7 +81,7 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 HB_FUNC( WXTREECTRL_APPENDITEM )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& parent = hb_parnl( 1 );
+  const wxTreeItemId& parent = ( wxTreeItemId* ) hb_parnl( 1 );
   const wxString& text = wxString( hb_parcx( 2 ), wxConvLocal );
   int image = ISNIL( 3 ) ? -1 : hb_parni( 3 );
   int selImage = ISNIL( 4 ) ? -1 : hb_parni( 4 );
@@ -105,7 +106,7 @@ HB_FUNC( WXTREECTRL_APPENDITEM )
 HB_FUNC( WXTREECTRL_DELETE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -138,7 +139,7 @@ HB_FUNC( WXTREECTRL_DELETEALLITEMS )
 HB_FUNC( WXTREECTRL_DELETECHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -155,7 +156,7 @@ HB_FUNC( WXTREECTRL_DELETECHILDREN )
 HB_FUNC( WXTREECTRL_COLLAPSE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -188,7 +189,7 @@ HB_FUNC( WXTREECTRL_COLLAPSEALL )
 HB_FUNC( WXTREECTRL_COLLAPSEALLCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -205,7 +206,7 @@ HB_FUNC( WXTREECTRL_COLLAPSEALLCHILDREN )
 HB_FUNC( WXTREECTRL_ENSUREVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -222,7 +223,7 @@ HB_FUNC( WXTREECTRL_ENSUREVISIBLE )
 HB_FUNC( WXTREECTRL_EXPAND )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -255,7 +256,7 @@ HB_FUNC( WXTREECTRL_EXPANDALL )
 HB_FUNC( WXTREECTRL_EXPANDALLCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -272,7 +273,7 @@ HB_FUNC( WXTREECTRL_EXPANDALLCHILDREN )
 HB_FUNC( WXTREECTRL_GETCHILDRENCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
   bool recursively = ISNIL( 2 ) ? true : hb_parl( 2 );
 
   wxTreeCtrl* treeCtrl;
@@ -310,7 +311,7 @@ HB_FUNC( WXTREECTRL_GETCOUNT )
 HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
   wxTreeItemIdValue cookie;
 
   if( ( hb_pcount() != 2 ) || !( ISBYREF( 2 ) ) )
@@ -343,7 +344,7 @@ HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 HB_FUNC( WXTREECTRL_GETLASTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -362,7 +363,7 @@ HB_FUNC( WXTREECTRL_GETLASTCHILD )
 HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
   wxTreeItemIdValue cookie;
 
   if( ( hb_pcount() != 2 ) || !( ISBYREF( 2 ) ) )
@@ -395,7 +396,7 @@ HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 HB_FUNC( WXTREECTRL_GETNEXTSIBLING )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -414,7 +415,7 @@ HB_FUNC( WXTREECTRL_GETNEXTSIBLING )
 HB_FUNC( WXTREECTRL_GETNEXTVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -433,7 +434,7 @@ HB_FUNC( WXTREECTRL_GETNEXTVISIBLE )
 HB_FUNC( WXTREECTRL_GETITEMPARENT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -452,7 +453,7 @@ HB_FUNC( WXTREECTRL_GETITEMPARENT )
 HB_FUNC( WXTREECTRL_GETPREVSIBLING )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -471,7 +472,7 @@ HB_FUNC( WXTREECTRL_GETPREVSIBLING )
 HB_FUNC( WXTREECTRL_GETPREVVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -526,7 +527,7 @@ HB_FUNC( WXTREECTRL_ISEMPTY )
 HB_FUNC( WXTREECTRL_ISEXPANDED )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -545,7 +546,7 @@ HB_FUNC( WXTREECTRL_ISEXPANDED )
 HB_FUNC( WXTREECTRL_ISSELECTED )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -564,7 +565,7 @@ HB_FUNC( WXTREECTRL_ISSELECTED )
 HB_FUNC( WXTREECTRL_ISVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -583,7 +584,7 @@ HB_FUNC( WXTREECTRL_ISVISIBLE )
 HB_FUNC( WXTREECTRL_ITEMHASCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxTreeItemId& treeItemId = hb_parnl( 1 );
+  const wxTreeItemId& treeItemId = ( wxTreeItemId* ) hb_parnl( 1 );
 
   wxTreeCtrl* treeCtrl;
 
@@ -601,6 +602,6 @@ HB_FUNC( WXTREECTRL_ITEMHASCHILDREN )
 */
 HB_FUNC( WXTREEITEMID_ISOK )
 {
-  wxTreeItemId treeItemId = hb_parnl( 1 );
+  wxTreeItemId treeItemId = ( wxTreeItemIdValue* ) hb_parnl( 1 );
   hb_retl( treeItemId.IsOk() );
 }

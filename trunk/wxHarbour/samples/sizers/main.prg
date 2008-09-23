@@ -99,7 +99,8 @@ FUNCTION Login
             END SIZER
             BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
               @ SAY "    Name:" WIDTH 80 GET edtNombre WIDTH 200
-              @ SAY "Password:" WIDTH 80 GET edtPassword WIDTH 200 STYLE wxTE_PASSWORD
+              @ SAY "Password:" WIDTH 80 GET edtPassword WIDTH 200 STYLE wxTE_PASSWORD ;
+                SIZERINFO STRETCH
             END SIZER
           END SIZER
         END PANEL

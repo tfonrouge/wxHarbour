@@ -28,6 +28,8 @@ extern "C"
 #include "hbapierr.h"
 }
 
+#include <iostream>
+
 using namespace std;
 
 wxObject*     hb_par_WX( int param );
