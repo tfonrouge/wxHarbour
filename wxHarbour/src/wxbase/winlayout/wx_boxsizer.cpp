@@ -26,7 +26,7 @@
 */
 wx_BoxSizer::~wx_BoxSizer()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 HB_FUNC( WXBOXSIZER_NEW )
@@ -35,7 +35,7 @@ HB_FUNC( WXBOXSIZER_NEW )
   wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
   // Add object's to hash list
-  wx_ObjList_New( boxSizer, pSelf );
+  wxh_ItemListAdd( boxSizer, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -49,7 +49,7 @@ HB_FUNC( WXBOXSIZER_GETORIENTATION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxBoxSizer* boxSizer;
-  if( pSelf && (boxSizer = (wxBoxSizer *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (boxSizer = (wxBoxSizer *) wxh_ItemListGetWX( pSelf ) ) )
     hb_retni( boxSizer->GetOrientation() );
   else
     hb_retni( 0 );

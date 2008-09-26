@@ -56,7 +56,7 @@ HB_FUNC( WXMDIPARENTFRAME_NEW )
     frame = new wx_MDIParentFrame( NULL );
 
   // Add object's to hash list
-  wx_ObjList_New( frame, pSelf );
+  wxh_ItemListAdd( frame, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -70,6 +70,6 @@ HB_FUNC( WXMDIPARENTFRAME_CASCADE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_MDIParentFrame* frame;
-  if( pSelf && (frame = (wx_MDIParentFrame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_MDIParentFrame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->Cascade();
 }

@@ -26,7 +26,7 @@
 */
 wx_MenuItem::~wx_MenuItem()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -46,7 +46,7 @@ HB_FUNC( WXMENUITEM_NEW )
   wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
 
   // Add object's to hash list
-  wx_ObjList_New( menuItem, pSelf );
+  wxh_ItemListAdd( menuItem, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -59,6 +59,6 @@ HB_FUNC( WXMENUITEM_ENABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_MenuItem* menuItem;
-  if( pSelf && (menuItem = (wx_MenuItem *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (menuItem = (wx_MenuItem *) wxh_ItemListGetWX( pSelf ) ) )
     menuItem->Enable( hb_parl( 1 ) );
 }

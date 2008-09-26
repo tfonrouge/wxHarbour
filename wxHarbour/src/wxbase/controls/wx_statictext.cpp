@@ -26,7 +26,7 @@
 */
 wx_StaticText::~wx_StaticText()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -47,7 +47,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
   wx_StaticText* staticText = new wx_StaticText( parent, id, label, pos, size, style, name );
 
   // Add object's to hash list
-  wx_ObjList_New( staticText, pSelf );
+  wxh_ItemListAdd( staticText, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -60,6 +60,6 @@ HB_FUNC( WXSTATICTEXT_NEW )
 HB_FUNC( WXSTATICTEXT_WRAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticText* staticText = (wxStaticText *) wx_ObjList_wxGet( pSelf );
+  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGetWX( pSelf );
   staticText->Wrap( hb_parnl( 1 ) );
 }

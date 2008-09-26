@@ -26,7 +26,7 @@
 */
 wx_TextCtrl::~wx_TextCtrl()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -47,7 +47,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
   wx_TextCtrl* textCtrl = new wx_TextCtrl( parent, id, value, pos, size, style, validator, name );
 
   // Add object's to hash list
-  wx_ObjList_New( textCtrl, pSelf );
+  wxh_ItemListAdd( textCtrl, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -61,7 +61,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTextCtrl* textCtrl;
 
-  if( pSelf && (textCtrl = (wxTextCtrl *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf ) ) )
     hb_retc( textCtrl->GetValue().mb_str() );
   else
     hb_ret();

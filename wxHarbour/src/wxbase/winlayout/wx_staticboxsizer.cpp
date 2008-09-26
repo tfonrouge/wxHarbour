@@ -26,7 +26,7 @@
 */
 wx_StaticBoxSizer::~wx_StaticBoxSizer()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )
@@ -47,7 +47,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
   }
 
   // Add object's to hash list
-  wx_ObjList_New( boxSizer, pSelf );
+  wxh_ItemListAdd( boxSizer, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -64,8 +64,8 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 //   wx_StaticBoxSizer* sbSizer;
 //   wxStaticBox* staticBox;
 //
-//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wx_ObjList_wxGet( pSelf ) ) )
-//     pResult = wx_ObjList_hbGet( staticBox );
+//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wxh_ItemListGetWX( pSelf ) ) )
+//     pResult = wxh_ItemListGetHB( staticBox );
 //
 //   if(pResult)
 //     hb_itemReturn( pResult );

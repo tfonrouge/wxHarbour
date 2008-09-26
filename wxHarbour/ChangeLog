@@ -2,6 +2,71 @@
  *
  */
 
+2008-09-26 01:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/sizers/makefile.gcc
+  * makefile.gcc
+  * makefile.vc
+    * using wxWidgets 2.8.9 on windows builds
+
+  * include/wxh.h
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/wxbase/basicwindows/wx_panel.cpp
+  * src/wxbase/basicwindows/wx_toplevelwindow.cpp
+  * src/wxbase/basicwindows/wx_window.cpp
+  * src/wxbase/commdialogs/wx_dialog.cpp
+  * src/wxbase/events/wx_evthandler.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/manwindows/wx_mdichildframe.cpp
+  * src/wxbase/manwindows/wx_mdiparentframe.cpp
+  * src/wxbase/menus/wx_menubar.cpp
+  * src/wxbase/menus/wx_menu.cpp
+  * src/wxbase/menus/wx_menuitem.cpp
+  * src/wxbase/miscwindows/wx_grid.cpp
+  * src/wxbase/miscwindows/wx_gridtablebase.cpp
+  * src/wxbase/miscwindows/wx_notebook.cpp
+  * src/wxbase/miscwindows/wx_statusbar.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/rtti/wx_object.cpp
+  * src/wxbase/validators/wx_validator.cpp
+  * src/wxbase/winlayout/wx_boxsizer.cpp
+  * src/wxbase/winlayout/wx_gridsizer.cpp
+  * src/wxbase/winlayout/wx_sizer.cpp
+  * src/wxbase/winlayout/wx_staticboxsizer.cpp
+  * src/wxbase/xmlclasses/wx_xmldocument.cpp
+    ! Fixed releasing of new objects on ::wxDestruct
+      delete wxObj
+      ; TODO check this deeply
+    ! Fixed releasing the PHB_ITEM on wxh_ItemListDel( PWXH_ITEM )
+    * created type PWXH_ITEM (void *) to hold items on hash mapped lists
+    * renamed wx_ObjList* functions to wxh_ItemList*
+
+  * samples/sizers/main.prg
+    * testing wxTreeCtrl
+
+
+  * src/wxbase/controls/wxhtreectrl.prg
+  * src/wxbase/controls/wx_treectrl.cpp
+    + added hb class wxTreeItemId to use as parameter on wxTreeCtrl methods
+      ; this fixed MSVC builds on creating nodes on control
+
 2008-09-23 15:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * samples/helloworld/helloworld.prg

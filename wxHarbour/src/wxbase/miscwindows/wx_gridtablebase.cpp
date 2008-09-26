@@ -29,7 +29,7 @@
 */
 wx_GridTableBase::~wx_GridTableBase()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -40,10 +40,10 @@ int wx_GridTableBase::GetNumberCols()
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberCols");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 );
   return hb_stackReturnItem()->item.asInteger.value;
 #else
-  return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 )->item.asInteger.value;
+  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 )->item.asInteger.value;
 #endif
 }
 
@@ -55,10 +55,10 @@ int wx_GridTableBase::GetNumberRows()
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberRows");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 );
   return hb_stackReturnItem()->item.asInteger.value;
 #else
-  return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 0 )->item.asInteger.value;
+  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 )->item.asInteger.value;
 #endif
 }
 
@@ -70,10 +70,10 @@ wxString wx_GridTableBase::GetValue( int row, int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetValue");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
   return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
 #endif
 }
 
@@ -85,10 +85,10 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("IsEmptyCell");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
   return hb_stackReturnItem()->item.asLogical.value;
 #else
-  return hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asLogical.value;
+  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asLogical.value;
 #endif
 }
 
@@ -96,10 +96,10 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetColLabelValue");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, col ) );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, col ) );
   return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
 #endif
 }
 
@@ -107,10 +107,10 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetRowLabelValue");
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, row ) );
+  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, row ) );
   return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  return wxString( hb_objSendMessage( wx_ObjList_hbGet( this ), pDyns, 1, hb_itemPutNI( NULL, row ) )->item.asString.value, wxConvLocal );
+  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, row ) )->item.asString.value, wxConvLocal );
 #endif
 }
 
@@ -128,7 +128,7 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
   hb_itemPutNI( hbCol, col );
   hb_itemPutC( hbStr, value.mb_str() );
 
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "SetValue", 3, hbRow, hbCol, hbStr );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "SetValue", 3, hbRow, hbCol, hbStr );
 }
 
 HB_FUNC( WXGRIDTABLEBASE_NEW )
@@ -137,7 +137,7 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
   wx_GridTableBase* gridTable = new wx_GridTableBase;
 
   // Add object's to hash list
-  wx_ObjList_New( gridTable, pSelf );
+  wxh_ItemListAdd( gridTable, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -156,7 +156,7 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable;
   size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
   {
     hb_retl( gridTable->AppendCols( numCols ) );
     gridTable->UpdateRowsCols();
@@ -174,7 +174,7 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable;
   size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
   {
     hb_retl( gridTable->AppendRows( numRows ) );
     gridTable->UpdateRowsCols();
@@ -192,9 +192,9 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
   PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable;
   wx_Grid* grid;
-  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) &&
+  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) &&
         (grid = (wx_Grid *) gridTable->GetView()) )
-    pReturn = wx_ObjList_hbGet( grid );
+    pReturn = wxh_ItemListGetHB( grid );
 
   if(pReturn)
     hb_itemReturn( pReturn );
@@ -212,7 +212,7 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
   wx_GridTableBase* gridTable;
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
-  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
   {
     hb_retl( gridTable->InsertCols( pos, numCols ) );
     gridTable->UpdateRowsCols();
@@ -231,7 +231,7 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
   wx_GridTableBase* gridTable;
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
-  if( pSelf && (gridTable = (wx_GridTableBase *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
   {
     hb_retl( gridTable->InsertRows( pos, numRows ) );
     gridTable->UpdateRowsCols();

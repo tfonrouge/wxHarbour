@@ -28,7 +28,7 @@
 */
 wx_Browse::~wx_Browse()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 HB_FUNC( WXBROWSE_GETCOLCOUNT )

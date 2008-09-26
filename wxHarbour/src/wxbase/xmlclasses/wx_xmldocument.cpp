@@ -33,7 +33,7 @@ HB_FUNC( XMLDOCUMENT_NEW )
   xmlDocument = new wx_XmlDocument;
 
   // Add object's to hash list
-  wx_ObjList_New( xmlDocument, pSelf );
+  wxh_ItemListAdd( xmlDocument, pSelf );
 
   hb_itemReturn( pSelf );
 

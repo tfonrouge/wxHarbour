@@ -26,7 +26,7 @@
 */
 wx_Panel::~wx_Panel()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -51,7 +51,7 @@ HB_FUNC( WXPANEL_NEW )
     panel = new wx_Panel();
 
   // Add object's to hash list
-  wx_ObjList_New( panel, pSelf );
+  wxh_ItemListAdd( panel, pSelf );
 
   hb_itemReturn( pSelf );
 }

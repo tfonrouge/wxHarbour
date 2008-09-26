@@ -60,7 +60,7 @@ static int ChkFlagInArray( int iParam )
 HB_FUNC( WXSIZER_ADD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxSizer* sizer = (wxSizer *) wx_ObjList_wxGet( pSelf );
+  wxSizer* sizer = (wxSizer *) wxh_ItemListGetWX( pSelf );
 
   if( ISOBJECT( 1 ) )
   {
@@ -98,6 +98,6 @@ HB_FUNC( WXSIZER_SETSIZEHINTS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxSizer* sizer;
   wxWindow* wnd = (wxWindow *) hb_par_WX( 1 );
-  if( pSelf && (sizer = (wxSizer *) wx_ObjList_wxGet( pSelf ) ) && wnd )
+  if( pSelf && (sizer = (wxSizer *) wxh_ItemListGetWX( pSelf ) ) && wnd )
     sizer->SetSizeHints( wnd );
 }

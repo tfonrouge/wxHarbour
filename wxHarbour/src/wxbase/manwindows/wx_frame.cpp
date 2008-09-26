@@ -58,7 +58,7 @@ HB_FUNC( WXFRAME_NEW )
     frame = new wx_Frame( NULL );
 
   // Add object's to hash list
-  wx_ObjList_New( frame, pSelf );
+  wxh_ItemListAdd( frame, pSelf );
 
   // OnCreate...
   hb_objSendMsg( pSelf, "OnCreate", 0 );
@@ -77,7 +77,7 @@ HB_FUNC( WXFRAME_CENTRE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
   wx_Frame* frame;
-  if( pSelf && (frame = (wx_Frame*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame*) wxh_ItemListGetWX( pSelf ) ) )
     frame->Centre( direction );
 }
 
@@ -90,7 +90,7 @@ HB_FUNC( WXFRAME_SETMENUBAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame;
   wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->SetMenuBar( menuBar );
 }
 
@@ -103,6 +103,6 @@ HB_FUNC( WXFRAME_SETSTATUSBAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame;
   wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_Frame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->SetStatusBar( statusBar );
 }

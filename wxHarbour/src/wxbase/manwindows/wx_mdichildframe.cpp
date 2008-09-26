@@ -53,7 +53,7 @@ HB_FUNC( WXMDICHILDFRAME_NEW )
   frame = new wx_MDIChildFrame( parent, id, title, point, size, style, name );
 
   // Add object's to hash list
-  wx_ObjList_New( frame, pSelf );
+  wxh_ItemListAdd( frame, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -67,7 +67,7 @@ HB_FUNC( WXMDICHILDFRAME_ACTIVATE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_MDIChildFrame* frame;
-  if( pSelf && (frame = (wx_MDIChildFrame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_MDIChildFrame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->Activate();
 }
 
@@ -80,7 +80,7 @@ HB_FUNC( WXMDICHILDFRAME_MAXIMIZE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   bool maximize = hb_parl( 1 );
   wx_MDIChildFrame* frame;
-  if( pSelf && (frame = (wx_MDIChildFrame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_MDIChildFrame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->Maximize( maximize );
 }
 
@@ -92,6 +92,6 @@ HB_FUNC( WXMDICHILDFRAME_RESTORE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_MDIChildFrame* frame;
-  if( pSelf && (frame = (wx_MDIChildFrame *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (frame = (wx_MDIChildFrame *) wxh_ItemListGetWX( pSelf ) ) )
     frame->Restore();
 }

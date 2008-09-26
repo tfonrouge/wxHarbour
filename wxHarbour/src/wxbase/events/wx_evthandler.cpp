@@ -33,7 +33,7 @@ HB_FUNC( WXEVTHANDLER_WXCONNECT )
 
   hbEvtHandler<wxEvtHandler>* evtHandler;
 
-  if( !( pSelf && (evtHandler = (hbEvtHandler<wxEvtHandler> *) wx_ObjList_wxGet( pSelf ) ) ) )
+  if( !( pSelf && (evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGetWX( pSelf ) ) ) )
     return;
 
   //cout << "wxEventType: " << eventType << endl;

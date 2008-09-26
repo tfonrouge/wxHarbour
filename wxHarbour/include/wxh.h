@@ -32,15 +32,19 @@ extern "C"
 
 using namespace std;
 
-wxObject*     hb_par_WX( int param );
+typedef void * PWXH_ITEM;
+
+PWXH_ITEM     hb_par_WX( int param );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 //void          SetxHObj( unsigned int* ptr, PHB_ITEM xHObjFrom, PHB_ITEM* xHObjTo );
 
-void          wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf );
-void          wx_ObjList_wxDelete( wxObject* wxObj );
-PHB_ITEM      wx_ObjList_hbGet( wxObject* wxObj );
-wxObject*     wx_ObjList_wxGet( PHB_ITEM pSelf );
+void          wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf );
+void          wxh_ItemListDel( PWXH_ITEM wxObj );
+PHB_ITEM      wxh_ItemListGetHB( PWXH_ITEM wxObj );
+PWXH_ITEM     wxh_ItemListGetWX( PHB_ITEM pSelf );
+void          TRACEOUT( const char* fmt, const void* val);
+void          TRACEOUT( const char* fmt, long int val);
 
 /*
   template for send event handling to harbour objects
@@ -54,7 +58,7 @@ public:
   void OnMouseEvent( wxMouseEvent& event );
   void wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler );
 
-  ~hbEvtHandler<T>() { wx_ObjList_wxDelete( this ); }
+  ~hbEvtHandler<T>() { wxh_ItemListDel( this ); }
 };
 
 /*
@@ -70,7 +74,7 @@ void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
   hb_itemPutNI( pId, event.GetId() );
   hb_itemPutNI( pEventType, event.GetEventType() );
 
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "OnCommandEvent", 2, pId, pEventType );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
 };
 
 /*
@@ -86,7 +90,7 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
   hb_itemPutNI( pId, event.GetId() );
   hb_itemPutNI( pEventType, event.GetEventType() );
 
-  hb_objSendMsg( wx_ObjList_hbGet( this ), "OnCommandEvent", 2, pId, pEventType );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
 };
 
 /*

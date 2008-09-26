@@ -27,7 +27,7 @@
 */
 wx_MenuBar::~wx_MenuBar()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -40,7 +40,7 @@ HB_FUNC( WXMENUBAR_NEW )
   wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl(1) );
 
   // Add object's to hash list
-  wx_ObjList_New( menuBar, pSelf );
+  wxh_ItemListAdd( menuBar, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -51,7 +51,7 @@ HB_FUNC( WXMENUBAR_APPEND )
   wx_MenuBar* menuBar;
   wx_Menu* menu;
   if( pSelf &&
-        ( menuBar = (wx_MenuBar *) wx_ObjList_wxGet( pSelf ) ) &&
+        ( menuBar = (wx_MenuBar *) wxh_ItemListGetWX( pSelf ) ) &&
         ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
     menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );
 }

@@ -31,7 +31,7 @@
 */
 wx_Notebook::~wx_Notebook()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 /*
   wxNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr)
@@ -55,7 +55,7 @@ HB_FUNC( WXNOTEBOOK_NEW )
     noteBook = new wx_Notebook();
 
   // Add object's to hash list
-  wx_ObjList_New( noteBook, pSelf );
+  wxh_ItemListAdd( noteBook, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -67,7 +67,7 @@ HB_FUNC( WXNOTEBOOK_NEW )
 HB_FUNC( WXNOTEBOOK_ADDPAGE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxNotebook* Notebook = (wxNotebook *) wx_ObjList_wxGet( pSelf );
+  wxNotebook* Notebook = (wxNotebook *) wxh_ItemListGetWX( pSelf );
   wxNotebookPage* page = (wxNotebookPage *) hb_par_WX( 1 );
   bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
   int imageld = ISNIL( 4 ) ? -1 : hb_parni( 4 );

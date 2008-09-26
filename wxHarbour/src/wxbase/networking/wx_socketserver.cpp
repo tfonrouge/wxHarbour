@@ -33,7 +33,7 @@ using namespace std;
 */
 wx_SocketServer::~wx_SocketServer()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -57,7 +57,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
   socketServer = new wx_SocketServer( *address, flags );
 
   // Add object's to hash list
-  wx_ObjList_New( socketServer, pSelf );
+  wxh_ItemListAdd( socketServer, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -75,7 +75,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 
   bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
 
-  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf ) ) )
   {
     socketBase = socketServer->Accept( wait );
     if(socketBase)
@@ -83,7 +83,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
       PHB_ITEM p = hb_itemNew( NULL );
       HB_FUN_WXSOCKETBASE();
       hb_itemCopy( p, hb_stackReturnItem() );
-      wx_ObjList_New( socketBase, p );
+      wxh_ItemListAdd( socketBase, p );
       hb_itemReturn( p );
     }
   }
@@ -109,7 +109,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
     return;
   }
 
-  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf ) ) )
     hb_retl( socketServer->AcceptWith( *socket, wait ) );
 }
 
@@ -123,6 +123,6 @@ HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
   wx_SocketServer* socketServer;
   long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
   long millisecond = hb_parnl( 2 );
-  if( pSelf && (socketServer = (wx_SocketServer*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf ) ) )
     hb_retl( socketServer->WaitForAccept( seconds, millisecond ) );
 }
