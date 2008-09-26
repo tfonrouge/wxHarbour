@@ -64,18 +64,3 @@ ENDCLASS
 /*
   EndClass wxTreeCtrl
 */
-
-/*
-  wxTreeItemId
-  Teo. Mexico 2008
-*/
-CLASS wxTreeItemId
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  METHOD IsOk
-PUBLISHED:
-ENDCLASS
-/*
-  EndClass wxTreeItemId
-*/

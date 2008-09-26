@@ -2,6 +2,18 @@
  *
  */
 
+2008-09-26 08:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/sizers/main.prg
+    * enhanced wxTreeCtrl sample
+
+  * src/wxbase/controls/wxhtreectrl.prg
+  * src/wxbase/controls/wx_treectrl.cpp
+    % removed wxTreeItemId class, too much overhead and hassle
+      ; keeping this simple and fast
+
+  * wxharbour.spec
+    * release tag to 2
+
 2008-09-26 01:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * samples/dbbrowser/makefile.gcc

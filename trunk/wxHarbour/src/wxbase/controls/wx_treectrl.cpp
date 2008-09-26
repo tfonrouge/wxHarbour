@@ -28,19 +28,6 @@ extern "C"
 }
 
 /*
-  wxTreeItemId_ReturnHBClass
-  Teo. Mexico 2008
-*/
-void wxTreeItemId_ReturnHBClass( wxTreeItemId* treeItemId )
-{
-  PHB_ITEM p = hb_itemNew( NULL );
-  HB_FUN_WXTREEITEMID();
-  hb_itemCopy( p, hb_stackReturnItem() );
-  wxh_ItemListAdd( treeItemId, p );
-  hb_itemReturn( p );
-}
-
-/*
   ~wx_TreeCtrl
   Teo. Mexico 2008
 */
@@ -82,14 +69,12 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 
   if( pSelf && treeCtrl )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->AddRoot( text, image, selImage, data );
+    wxTreeItemId treeItemId = treeCtrl->AddRoot( text, image, selImage, data );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -102,7 +87,7 @@ HB_FUNC( WXTREECTRL_APPENDITEM )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* parent = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId parent = wxTreeItemId( (void *) hb_parnl( 1 ) );
   const wxString& text = wxString( hb_parcx( 2 ), wxConvLocal );
   int image = ISNIL( 3 ) ? -1 : hb_parni( 3 );
   int selImage = ISNIL( 4 ) ? -1 : hb_parni( 4 );
@@ -110,14 +95,12 @@ HB_FUNC( WXTREECTRL_APPENDITEM )
 
   if( pSelf && treeCtrl && parent )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->AppendItem( parent->m_pItem, text, image, selImage, data );
+    wxTreeItemId treeItemId = treeCtrl->AppendItem( parent, text, image, selImage, data );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -130,7 +113,7 @@ HB_FUNC( WXTREECTRL_DELETE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -161,7 +144,7 @@ HB_FUNC( WXTREECTRL_DELETECHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -177,7 +160,7 @@ HB_FUNC( WXTREECTRL_COLLAPSE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -208,7 +191,7 @@ HB_FUNC( WXTREECTRL_COLLAPSEALLCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -224,7 +207,7 @@ HB_FUNC( WXTREECTRL_ENSUREVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -240,7 +223,7 @@ HB_FUNC( WXTREECTRL_EXPAND )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -271,7 +254,7 @@ HB_FUNC( WXTREECTRL_EXPANDALLCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -287,7 +270,7 @@ HB_FUNC( WXTREECTRL_GETCHILDRENCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
   bool recursively = ISNIL( 2 ) ? true : hb_parl( 2 );
 
   if( pSelf && treeCtrl && item )
@@ -323,7 +306,7 @@ HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   wxTreeItemIdValue cookie;
 
@@ -340,16 +323,14 @@ HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
     cookie = &( hb_param( 2, HB_IT_NUMERIC )->item.asLong.value );
-    *treeItemId = treeCtrl->GetFirstChild( item, cookie );
+    wxTreeItemId treeItemId = treeCtrl->GetFirstChild( item, cookie );
     if( treeItemId )
     {
       hb_stornl( (long int) cookie, 2 );
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -362,18 +343,16 @@ HB_FUNC( WXTREECTRL_GETITEMPARENT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetItemParent( item );
+    wxTreeItemId treeItemId = treeCtrl->GetItemParent( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -386,18 +365,16 @@ HB_FUNC( WXTREECTRL_GETLASTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetLastChild( item );
+    wxTreeItemId treeItemId = treeCtrl->GetLastChild( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -410,7 +387,7 @@ HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   wxTreeItemIdValue cookie;
 
@@ -427,16 +404,14 @@ HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
     cookie = &( hb_param( 2, HB_IT_NUMERIC )->item.asLong.value );
-    *treeItemId = treeCtrl->GetNextChild( item, cookie );
+    wxTreeItemId treeItemId = treeCtrl->GetNextChild( item, cookie );
     if( treeItemId )
     {
       hb_stornl( (long int) cookie, 2 );
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -449,18 +424,16 @@ HB_FUNC( WXTREECTRL_GETNEXTSIBLING )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetNextSibling( item );
+    wxTreeItemId treeItemId = treeCtrl->GetNextSibling( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -473,18 +446,16 @@ HB_FUNC( WXTREECTRL_GETNEXTVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetNextVisible( item );
+    wxTreeItemId treeItemId = treeCtrl->GetNextVisible( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -497,18 +468,16 @@ HB_FUNC( WXTREECTRL_GETPREVSIBLING )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetPrevSibling( item );
+    wxTreeItemId treeItemId = treeCtrl->GetPrevSibling( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -521,18 +490,16 @@ HB_FUNC( WXTREECTRL_GETPREVVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetPrevVisible( item );
+    wxTreeItemId treeItemId = treeCtrl->GetPrevVisible( item );
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -548,14 +515,12 @@ HB_FUNC( WXTREECTRL_GETROOTITEM )
 
   if( pSelf && treeCtrl )
   {
-    wxTreeItemId* treeItemId = new wxTreeItemId;
-    *treeItemId = treeCtrl->GetRootItem();
+    wxTreeItemId treeItemId = treeCtrl->GetRootItem();
     if( treeItemId )
     {
-      wxTreeItemId_ReturnHBClass( treeItemId );
+      hb_retnl( (long int) treeItemId.m_pItem );
       return;
     }
-    delete treeItemId;
   }
   hb_ret();
 }
@@ -585,7 +550,7 @@ HB_FUNC( WXTREECTRL_ISEXPANDED )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -603,7 +568,7 @@ HB_FUNC( WXTREECTRL_ISSELECTED )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -621,7 +586,7 @@ HB_FUNC( WXTREECTRL_ISVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
@@ -639,29 +604,11 @@ HB_FUNC( WXTREECTRL_ITEMHASCHILDREN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  wxTreeItemId* item = (wxTreeItemId *) hb_par_WX( 1 );
+  wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
   if( pSelf && treeCtrl && item )
   {
     hb_retl( treeCtrl->ItemHasChildren( item ) );
-  }
-  else
-    hb_ret();
-}
-
-/*
-  wxTreeItemId:IsOk
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXTREEITEMID_ISOK )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-
-  wxTreeItemId* treeItemId = (wxTreeItemId *) wxh_ItemListGetWX( pSelf );
-
-  if( pSelf && treeItemId )
-  {
-    hb_retl( treeItemId->IsOk() );
   }
   else
     hb_ret();

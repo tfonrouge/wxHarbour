@@ -7,7 +7,7 @@
 %define name        wxHarbour
 %define cname       wxHarbour
 %define version     0.3.92
-%define release     1
+%define release     2
 %define hbcompiler  harbour
 
 Summary:    A portable GUI toolkit for [x]Harbour using wxWidgets
@@ -37,7 +37,7 @@ to your [x]Harbour applications.
 #%patch -p1 -b .buildroot
 
 %build
-make HBCOMPILER=%{hbcompiler} HBBUILD=debug
+make HBCOMPILER=%{hbcompiler}
 
 %install
 rm -rf $RPM_BUILD_ROOT
