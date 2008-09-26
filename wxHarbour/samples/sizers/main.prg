@@ -52,7 +52,7 @@ FUNCTION Login
   LOCAL oWnd
   LOCAL edtNombre
   LOCAL edtPassword
-  LOCAL treeCtrl, treeItemId
+  LOCAL treeCtrl, treeItemId, cookie
   LOCAL i
 
   CREATE FRAME oWnd ;
@@ -136,24 +136,27 @@ FUNCTION Login
 
   treeItemId := treeCtrl:AddRoot("Root")
 
+  ? "GetFirstChild()",treeCtrl:GetFirstChild( treeItemId, @cookie )
+
   ? "treeItemId:ClassName()",treeItemId:ClassName()
-  ? "treeItemId:IsOk()",treeItemId:IsOk()
+  ? "treeItemId:IsOk()", !Empty( treeItemId )
 
   FOR i:=1 TO 10
     ? "treeCtrl:AppendItem()",treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
+    ? "GetFirstChild()",treeCtrl:GetLastChild( treeItemId, @cookie )
   NEXT
 
-//   ? "GetRootItem",treeCtrl:GetRootItem()
-//
-//
-//   ? "treeItemId",treeItemId
+  ? "GetRootItem",treeCtrl:GetRootItem()
 
 
-//   treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
-//   treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
-//   treeCtrl:AppendItem( treeItemId, "Item4" )
+  ? "treeItemId",treeItemId
 
-  //treeCtrl:ExpandAll()
+
+  treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
+  treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
+  treeCtrl:AppendItem( treeItemId, "Item4" )
+
+  treeCtrl:ExpandAll()
 
   SHOW WINDOW oWnd FIT CENTRE
 
