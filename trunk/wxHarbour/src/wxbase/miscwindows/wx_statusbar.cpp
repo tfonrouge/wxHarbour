@@ -26,7 +26,7 @@
 */
 wx_StatusBar::~wx_StatusBar()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -44,7 +44,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
   // Add object's to hash list
-  wx_ObjList_New( statusBar, pSelf );
+  wxh_ItemListAdd( statusBar, pSelf );
 
 
   hb_itemReturn( pSelf );
@@ -58,7 +58,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
 HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_StatusBar* statusBar = (wx_StatusBar *) wx_ObjList_wxGet( pSelf );
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGetWX( pSelf );
   int number = hb_parni(1);
   int* widths = NULL;
   if(ISARRAY(2) && hb_arrayLen( hb_param( 2, HB_IT_ARRAY ) ))

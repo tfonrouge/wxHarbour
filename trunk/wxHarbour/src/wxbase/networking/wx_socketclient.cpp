@@ -28,7 +28,7 @@ using namespace std;
 */
 wx_SocketClient::~wx_SocketClient()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -44,7 +44,7 @@ HB_FUNC( WXSOCKETCLIENT_NEW )
   socketClient = new wx_SocketClient( flags );
 
   // Add object's to hash list
-  wx_ObjList_New( socketClient, pSelf );
+  wxh_ItemListAdd( socketClient, pSelf );
 
   hb_itemReturn( pSelf );
 
@@ -83,7 +83,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
     return;
   }
 
-  if( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketClient = (wx_SocketClient*) wxh_ItemListGetWX( pSelf ) ) )
   {
     if( callingMode == 1 )
       hb_retl( socketClient->Connect( *address, hb_parl( 2 ) ) );
@@ -102,6 +102,6 @@ HB_FUNC( WXSOCKETCLIENT_WAITONCONNECT )
   wx_SocketClient* socketClient;
   long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
   long millisecond = hb_parnl( 2 );
-  if( pSelf && (socketClient = (wx_SocketClient*) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (socketClient = (wx_SocketClient*) wxh_ItemListGetWX( pSelf ) ) )
     hb_retl( socketClient->WaitOnConnect( seconds, millisecond ) );
 }

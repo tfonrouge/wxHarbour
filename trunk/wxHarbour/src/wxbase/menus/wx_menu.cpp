@@ -26,7 +26,7 @@
 */
 wx_Menu::~wx_Menu()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -39,7 +39,7 @@ HB_FUNC( WXMENU_NEW )
   wx_Menu* menu = new wx_Menu();
 
   // Add object's to hash list
-  wx_ObjList_New( menu, pSelf );
+  wxh_ItemListAdd( menu, pSelf );
 
   hb_itemReturn( pSelf );
 }
@@ -65,6 +65,6 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Menu* menu;
-  if( pSelf && (menu = (wx_Menu *) wx_ObjList_wxGet( pSelf ) ) )
+  if( pSelf && (menu = (wx_Menu *) wxh_ItemListGetWX( pSelf ) ) )
     menu->AppendSeparator();
 }

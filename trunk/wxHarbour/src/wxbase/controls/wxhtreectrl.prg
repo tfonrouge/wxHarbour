@@ -46,10 +46,10 @@ PUBLIC:
   METHOD GetCount
   METHOD GetFirstChild( item, cookie ) // cookie must be a reference var (@)
   METHOD GetLastChild( item )
+  METHOD GetItemParent( item )
   METHOD GetNextChild( item, cookie ) // cookie must be a reference var (@)
   METHOD GetNextSibling( item )
   METHOD GetNextVisible( item )
-  METHOD GetItemParent( item )
   METHOD GetPrevSibling( item )
   METHOD GetRootItem
   METHOD IsEmpty
@@ -63,4 +63,19 @@ ENDCLASS
 
 /*
   EndClass wxTreeCtrl
+*/
+
+/*
+  wxTreeItemId
+  Teo. Mexico 2008
+*/
+CLASS wxTreeItemId
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  METHOD IsOk
+PUBLISHED:
+ENDCLASS
+/*
+  EndClass wxTreeItemId
 */

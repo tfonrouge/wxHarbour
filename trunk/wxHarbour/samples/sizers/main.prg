@@ -53,6 +53,7 @@ FUNCTION Login
   LOCAL edtNombre
   LOCAL edtPassword
   LOCAL treeCtrl, treeItemId
+  LOCAL i
 
   CREATE FRAME oWnd ;
          WIDTH 500 HEIGHT 400 ;
@@ -128,13 +129,29 @@ FUNCTION Login
     END SIZER
   END SIZER
 
+
   @ STATUSBAR
 
+  ? "GetRootItem",treeCtrl:GetRootItem()
+
   treeItemId := treeCtrl:AddRoot("Root")
-  treeCtrl:AppendItem( treeItemId, "Item1" )
-  treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
-  treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
-  treeCtrl:AppendItem( treeItemId, "Item4" )
+
+  ? "treeItemId:ClassName()",treeItemId:ClassName()
+  ? "treeItemId:IsOk()",treeItemId:IsOk()
+
+  FOR i:=1 TO 10
+    ? "treeCtrl:AppendItem()",treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
+  NEXT
+
+//   ? "GetRootItem",treeCtrl:GetRootItem()
+//
+//
+//   ? "treeItemId",treeItemId
+
+
+//   treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
+//   treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
+//   treeCtrl:AppendItem( treeItemId, "Item4" )
 
   //treeCtrl:ExpandAll()
 

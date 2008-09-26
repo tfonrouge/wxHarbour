@@ -26,7 +26,7 @@
 */
 wx_Validator::~wx_Validator()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 HB_FUNC( WXVALIDATOR_NEW )
@@ -36,7 +36,7 @@ HB_FUNC( WXVALIDATOR_NEW )
   wx_Validator* validator = new wx_Validator;
 
   // Add object's to hash list
-  wx_ObjList_New( validator, pSelf );
+  wxh_ItemListAdd( validator, pSelf );
 
 
   hb_itemReturn( pSelf );

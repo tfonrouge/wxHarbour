@@ -19,23 +19,21 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
-using namespace std;
-
 /* PHB_ITEM keys */
-WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxObject*, wxPointerHash, wxPointerEqual, HBOBJLIST );
-/* wxObject* keys */
-WX_DECLARE_HASH_MAP( wxObject*, PHB_ITEM, wxPointerHash, wxPointerEqual, WXOBJLIST );
+WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, HBITEMLIST );
+/* PWXH_ITEM keys */
+WX_DECLARE_HASH_MAP( PWXH_ITEM, PHB_ITEM, wxPointerHash, wxPointerEqual, WXHITEMLIST );
 
-static HBOBJLIST hbObjList;
-static WXOBJLIST wxObjList;
+static HBITEMLIST hbItemList;
+static WXHITEMLIST wxItemList;
+
 static PHB_ITEM lastTopLevelWindow;
-static PHB_ITEM lastSizer;
 
 /*
-  wx_ObjList_New: Add wxObject & PHB_ITEM objects to hash list
+  wxh_ItemListAdd: Add wxObject & PHB_ITEM objects to hash list
   Teo. Mexico 2006
 */
-void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
+void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf )
 {
 
   PHB_ITEM p = hb_itemNew( NULL );
@@ -47,71 +45,66 @@ void wx_ObjList_New( wxObject* wxObj, PHB_ITEM pSelf )
     lastTopLevelWindow = p;
   }
 
-  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXSIZER" ) )
-  {
-    lastSizer = p;
-  }
-
-  hbObjList[ p->item.asArray.value ] = wxObj;
-  wxObjList[ wxObj ] = p;
+  hbItemList[ p->item.asArray.value ] = wxObj;
+  wxItemList[ wxObj ] = p;
 
 }
 
 /*
-  wx_ObjList_wxDelete
+  wxh_ItemListDel
   Teo. Mexico 2006
 */
-void wx_ObjList_wxDelete( wxObject* wxObj )
+void wxh_ItemListDel( PWXH_ITEM wxObj )
 {
-  PHB_ITEM pSelf = wx_ObjList_hbGet( wxObj );
+  PHB_ITEM pSelf = wxh_ItemListGetHB( wxObj );
 
   if(pSelf)
   {
-//     cout << "\n*** wx_ObjList_wxDelete *** pSelf != NIL" ;
-    hbObjList.erase(  pSelf->item.asArray.value );
-    hb_itemClear( pSelf );
+    hbItemList.erase( pSelf->item.asArray.value );
+    hb_itemRelease( pSelf );
   }
-//   else
-//     cout << "\n*** wx_ObjList_wxDelete *** pSelf == NIL" ;
 
-  wxObjList.erase( wxObj );
+  wxItemList.erase( wxObj );
 
-//   if( pSelf = wx_ObjList_hbGet( wxObj ) )
-//     cout << "\n*** ERROR, WXOBJ NOT REMOVED FROM LIST***";
-
-}
-
-/*
-  wx_ObjList_hbGet
-  Teo. Mexico 2006
-*/
-PHB_ITEM wx_ObjList_hbGet( wxObject* wxObj )
-{
-
-  if(!wxObj || (wxObjList.find( wxObj ) == wxObjList.end()) )
-    return NULL;
-  return wxObjList[ wxObj ];
+  if( wxObj )
+  {
+    //delete wxObj;
+    wxObj = NULL;
+  }
 
 }
 
 /*
-  wx_ObjList_wxGet
+  wxh_ItemListGetHB
   Teo. Mexico 2006
 */
-wxObject* wx_ObjList_wxGet( PHB_ITEM pSelf )
+PHB_ITEM wxh_ItemListGetHB( PWXH_ITEM wxObj )
 {
-  if(!pSelf || (hbObjList.find( pSelf->item.asArray.value ) == hbObjList.end()) )
+
+  if(!wxObj || (wxItemList.find( wxObj ) == wxItemList.end()) )
     return NULL;
-  return hbObjList[ pSelf->item.asArray.value ];
+  return wxItemList[ wxObj ];
+
+}
+
+/*
+  wxh_ItemListGetWX
+  Teo. Mexico 2006
+*/
+PWXH_ITEM wxh_ItemListGetWX( PHB_ITEM pSelf )
+{
+  if(!pSelf || (hbItemList.find( pSelf->item.asArray.value ) == hbItemList.end()) )
+    return NULL;
+  return hbItemList[ pSelf->item.asArray.value ];
 }
 
 /*
   hb_par_WX
   Teo. Mexico 2006
 */
-wxObject* hb_par_WX( const int param )
+PWXH_ITEM hb_par_WX( const int param )
 {
-  return wx_ObjList_wxGet( hb_param( param, HB_IT_OBJECT ) );
+  return wxh_ItemListGetWX( hb_param( param, HB_IT_OBJECT ) );
 }
 
 /*
@@ -161,7 +154,7 @@ wxSize hb_par_wxSize( int param )
 HB_FUNC( WXOBJECT_GETCLASSP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxObject* wxObj = wx_ObjList_wxGet( pSelf );
+  PWXH_ITEM wxObj = wxh_ItemListGetWX( pSelf );
   if(wxObj)
     hb_retptr( wxObj );
   else
@@ -178,10 +171,27 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
- * wxh_LastSizer
- * Teo. Mexico 2008
- */
-HB_FUNC( WXH_LASTSIZER )
+  TRACEOUT
+  Teo. Mexico 2008
+*/
+void TRACEOUT( const char* fmt, const void* val)
 {
-  hb_itemReturn( lastSizer );
+  char buff[ 50 ];
+  int n;
+
+  n = sprintf( buff, fmt, val );
+  hb_gtOutStd( (BYTE *) buff, n );
+}
+/*
+  TRACEOUT
+  Teo. Mexico 2008
+*/
+
+void TRACEOUT( const char* fmt, long int val)
+{
+  char buff[ 50 ];
+  int n;
+
+  n = sprintf( buff, fmt, val );
+  hb_gtOutStd( (BYTE *) buff, n );
 }

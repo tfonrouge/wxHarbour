@@ -26,7 +26,7 @@
 */
 wx_Button::~wx_Button()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 HB_FUNC( WXBUTTON_NEW )
@@ -43,7 +43,7 @@ HB_FUNC( WXBUTTON_NEW )
   wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
 
   // Add object's to hash list
-  wx_ObjList_New( button, pSelf );
+  wxh_ItemListAdd( button, pSelf );
 
   hb_itemReturn( pSelf );
 }

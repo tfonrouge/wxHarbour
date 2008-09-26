@@ -26,7 +26,7 @@
 */
 wx_StaticBox::~wx_StaticBox()
 {
-  wx_ObjList_wxDelete( this );
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -46,7 +46,7 @@ HB_FUNC( WXSTATICBOX_NEW )
   wx_StaticBox* staticBox = new wx_StaticBox( parent, id, label, pos, size, style, name );
 
   // Add object's to hash list
-  wx_ObjList_New( staticBox, pSelf );
+  wxh_ItemListAdd( staticBox, pSelf );
 
   hb_itemReturn( pSelf );
 }
