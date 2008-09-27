@@ -68,23 +68,23 @@ RETURN sizer
  * Teo. Mexico 2008
  */
 FUNCTION wxh_BrowseDb( table, window, id, pos, size, style, name )
-  LOCAL Result
+  LOCAL wxhBrw
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
 
-  Result := wxBrowseDb():New( table, window, id, pos, size, style, name )
+  wxhBrw := wxhBrowseDb():New( table, window, id, pos, size, style, name )
 
-  containerObj():SetLastChild( Result )
+  containerObj():SetLastChild( wxhBrw )
 
-RETURN Result
+RETURN wxhBrw
 
 /*
   wxh_BrowseDbAddColumn
   Teo. Mexico 2008
 */
-PROCEDURE wxh_BrowseDbAddColumn( zero, wxBrw, title, block, picture, width )
+PROCEDURE wxh_BrowseDbAddColumn( zero, wxhBrw, title, block, picture, width )
   LOCAL hColumn := HB_HSetCaseMatch( {=>}, .F. )
 
   hColumn["title"]   := title
@@ -93,9 +93,9 @@ PROCEDURE wxh_BrowseDbAddColumn( zero, wxBrw, title, block, picture, width )
   hColumn["width"]   := width
 
   IF zero
-    wxBrw:GetTable():ColumnZero := hColumn
+    wxhBrw:GetTable():ColumnZero := hColumn
   ELSE
-    wxBrw:GetTable():AddColumn( hColumn )
+    wxhBrw:GetTable():AddColumn( hColumn )
   ENDIF
 
 RETURN
@@ -226,6 +226,43 @@ PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sid
 RETURN
 
 /*
+  wxh_BookAddPage
+  Teo. Mexico 2008
+*/
+PROCEDURE wxh_BookAddPage( title, select, imageId )
+
+  containerObj():AddToNextBookPage( {"title"=>title,"select"=>select,"imageId"=>imageId} )
+
+RETURN
+
+/*
+  wxh_BookBegin
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
+  LOCAL book
+
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  book := bookClass:New( parent, id, pos, size, style, name )
+
+  containerObj():SetLastChild( book )
+
+  containerObj():AddToParentList( book )
+
+RETURN book
+
+/*
+  wxh_BookEnd
+  Teo. Mexico 2008
+*/
+PROCEDURE wxh_BookEnd( book )
+  containerObj():RemoveLastParent( book )
+RETURN
+
+/*
   wxh_MenuBarBegin
   Teo. Mexico 2006
 */
@@ -320,43 +357,6 @@ FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
 RETURN menuItem
 
 /*
-  wxh_NotebookAddPage
-  Teo. Mexico 2008
-*/
-PROCEDURE wxh_NotebookAddPage( title, select, imageId )
-
-  containerObj():AddToNextNotebookPage( {"title"=>title,"select"=>select,"imageId"=>imageId} )
-
-RETURN
-
-/*
-  wxh_NotebookBegin
-  Teo. Mexico 2008
-*/
-FUNCTION wxh_NotebookBegin( parent, id, pos, size, style, name )
-  LOCAL notebook
-
-  IF parent == NIL
-    parent := containerObj():LastParent()
-  ENDIF
-
-  notebook := wxNotebook():New( parent, id, pos, size, style, name )
-
-  containerObj():SetLastChild( notebook )
-
-  containerObj():AddToParentList( notebook )
-
-RETURN notebook
-
-/*
-  wxh_NotebookEnd
-  Teo. Mexico 2008
-*/
-PROCEDURE wxh_NotebookEnd
-  containerObj():RemoveLastParent( "wxNotebook" )
-RETURN
-
-/*
  * wxh_PanelBegin
  * Teo. Mexico 2008
  */
@@ -405,9 +405,17 @@ RETURN Result
   Teo. Mexico 2008
 */
 PROCEDURE wxh_SetSizer( window, sizer )
-
-  IF window:IsDerivedFrom( "wxNotebook" )
-    Alert( "Sizer cannot be direct child of wxNotebook.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
+  LOCAL bookCtrl
+  LOCAL IsWindowBook := .F.
+  
+  FOR EACH bookCtrl IN containerObj():BookCtrls
+    IF window:IsDerivedFrom( bookCtrl )
+      IsWindowBook := .T.
+    ENDIF
+  NEXT
+  
+  IF IsWindowBook
+    Alert( "Sizer cannot be a direct child of a " + window:ClassName() + " control.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
   ENDIF
 
   window:SetSizer( sizer )
@@ -645,8 +653,9 @@ PRIVATE:
   DATA FParentList
 PROTECTED:
 PUBLIC:
+  DATA BookCtrls INIT { "wxNotebook", "wxListbook" }
   METHOD AddSizerInfoToLastItem( sizerInfo )
-  METHOD AddToNextNotebookPage( hInfo )
+  METHOD AddToNextBookPage( hInfo )
   METHOD AddToParentList( parent )
   METHOD AddToSizerList( sizer )
   METHOD CheckForAddPage
@@ -681,13 +690,21 @@ METHOD PROCEDURE AddSizerInfoToLastItem( sizerInfo ) CLASS TContainerObj
 RETURN
 
 /*
-  AddToNextNotebookPage
+  AddToNextBookPage
   Teo. Mexico 2008
 */
-METHOD PROCEDURE AddToNextNotebookPage( hInfo ) CLASS TContainerObj
-
-  IF !::LastParent():IsDerivedFrom("wxNotebook")
-    Alert( "Previuos page not a wxNotebook control" )
+METHOD PROCEDURE AddToNextBookPage( hInfo ) CLASS TContainerObj
+  LOCAL bookCtrl
+  LOCAL IsParentBook := .F.
+  
+  FOR EACH bookCtrl IN ::BookCtrls
+    IF ::LastParent():IsDerivedFrom( bookCtrl )
+      IsParentBook := .T.
+    ENDIF
+  NEXT
+  
+  IF !IsParentBook
+    Alert( "Previuos page not a " + bookCtrl + " control" )
     RETURN
   ENDIF
 
@@ -735,8 +752,16 @@ RETURN
 */
 METHOD PROCEDURE CheckForAddPage( window ) CLASS TContainerObj
   LOCAL hInfo
+  LOCAL bookCtrl
+  LOCAL IsParentBook := .F.
 
-  IF ::LastParent():IsDerivedFrom("wxNotebook")
+  FOR EACH bookCtrl IN ::BookCtrls
+    IF ::LastParent():IsDerivedFrom( bookCtrl )
+      IsParentBook := .T.
+    ENDIF
+  NEXT
+    
+  IF IsParentBook
     hInfo := ATail( ::FParentList )[ "pageInfo" ]
     IF  hInfo != NIL
       ::LastParent():AddPage( window, hInfo["title"], hInfo["select"], hInfo["imageId"] )
@@ -795,7 +820,7 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
   /* do some checking */
   IF className != NIL
     IF !Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) == Upper( className )
-      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing END ... clauses to your controls definition.",{"QUIT"})
+      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
       ::QUIT()
     ENDIF
   ENDIF

@@ -98,10 +98,9 @@ FUNCTION Login
               @ BUTTON "8" WIDTH 30
               @ BUTTON "9" WIDTH 30
             END SIZER
-            BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN EXPAND
-              @ SAY "    Name:" WIDTH 80 GET edtNombre WIDTH 200
-              @ SAY "Password:" WIDTH 80 GET edtPassword WIDTH 200 STYLE wxTE_PASSWORD ;
-                SIZERINFO STRETCH
+            BEGIN BOXSIZER VERTICAL LABEL "Access" ALIGN CENTER
+              @ SAY 	"Name:" WIDTH 80 GET edtNombre WIDTH 200
+              @ SAY "Password:" WIDTH 80 GET edtPassword WIDTH 200 STYLE wxTE_PASSWORD
             END SIZER
           END SIZER
         END PANEL
@@ -116,7 +115,7 @@ FUNCTION Login
               END SIZER
             END SIZER
             BEGIN BOXSIZER VERTICAL "wxBrowseDb" ALIGN EXPAND STRETCH
-              @ WXBROWSEDB SIZERINFO ALIGN EXPAND STRETCH
+              @ BROWSEDB TABLE "main.dbf" SIZERINFO ALIGN EXPAND STRETCH
               @ SAY "Some text"
             END SIZER
           END SIZER
