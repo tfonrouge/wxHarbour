@@ -2,6 +2,18 @@
  *
  */
 
+2008-09-27 17:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   src/wxbase/advctrls
+  - src/wxbase/mainwindows
+  - src/wxbase/mainwindows/wx_grid.cpp
+  - src/wxbase/mainwindows/wx_gridtablebase.cpp
+  - src/wxbase/mainwindows/wxhgrid.prg
+  - src/wxbase/mainwindows/wxhgridtablebase.prg
+  - src/wxbase/mainwindows/wxhpanel.prg
+  - src/wxbase/mainwindows/wxhstatusbar.prg
+  - src/wxbase/mainwindows/wx_panel.cpp
+  - src/wxbase/mainwindows/wx_statusbar.cpp
+
 2008-09-27 17:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   src/wxbase/baseclasses/wx_evthandler.cpp
 A  +   src/wxbase/baseclasses/wxhevthandler.prg
