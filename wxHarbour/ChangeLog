@@ -2,6 +2,21 @@
  *
  */
 
+2008-09-27 17:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   src/wxbase/menu
+A  +   src/wxbase/miscfuncs
+  * GNUmakefile
+  - src/wxbase/commdialogs
+  - src/wxbase/commdialogs/wx_dialogfuncs.cpp
+  - src/wxbase/menus
+  - src/wxbase/menus/wxhmenubar.prg
+  - src/wxbase/menus/wxhmenuitem.prg
+  - src/wxbase/menus/wxhmenu.prg
+  - src/wxbase/menus/wx_menubar.cpp
+  - src/wxbase/menus/wx_menu.cpp
+  - src/wxbase/menus/wx_menuitem.cpp
+  * wxharbour.bkl
+
 2008-09-27 17:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   src/wxbase/advctrls
   - src/wxbase/mainwindows
