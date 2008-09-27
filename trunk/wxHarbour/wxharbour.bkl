@@ -15,18 +15,17 @@
       src/hrbcompat/tbcolumn
       src/hrbcompat/tbrowse
       src/raddox
+      src/wxbase/advctrls
       src/wxbase/app
-      src/wxbase/basicwindows
-      src/wxbase/commdialogs
+      src/wxbase/baseclasses
+      src/wxbase/books
       src/wxbase/controls
-      src/wxbase/events
       src/wxbase/manwindows
-      src/wxbase/menus
-      src/wxbase/miscwindows
+      src/wxbase/menu
+      src/wxbase/miscfuncs
       src/wxbase/networking
-      src/wxbase/rtti
+      src/wxbase/sizers
       src/wxbase/validators
-      src/wxbase/winlayout
       src/wxbase/xmlclasses
     </sources-at>
     <include>
