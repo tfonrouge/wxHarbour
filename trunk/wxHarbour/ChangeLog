@@ -2,6 +2,33 @@
  *
  */
 
+2008-09-27 16:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   src/wxbase/books/wxhlistbook.prg
+A  +   src/wxbase/books/wxhnotebook.prg
+A  +   src/wxbase/books/wx_listbook.cpp
+A  +   src/wxbase/books/wx_notebook.cpp
+A  +   src/wxbase/mainwindows
+A  +   src/wxbase/manwindows/wx_dialog.cpp
+A  +   src/wxbase/manwindows/wxhdialog.prg
+D  +   src/wxbase/mainwindows/wxhnotebook.prg
+D  +   src/wxbase/mainwindows/wx_notebook.cpp
+  + src/wxbase/books
+  - src/wxbase/commdialogs/wx_dialog.cpp
+  - src/wxbase/commdialogs/wxhdialog.prg
+  - src/wxbase/controls/wxhlistbook.prg
+  - src/wxbase/controls/wx_listbook.cpp
+  - src/wxbase/miscwindows
+  - src/wxbase/miscwindows/wx_grid.cpp
+  - src/wxbase/miscwindows/wx_gridtablebase.cpp
+  - src/wxbase/miscwindows/wxhgrid.prg
+  - src/wxbase/miscwindows/wxhgridtablebase.prg
+  - src/wxbase/miscwindows/wxhnotebook.prg
+  - src/wxbase/miscwindows/wxhpanel.prg
+  - src/wxbase/miscwindows/wxhstatusbar.prg
+  - src/wxbase/miscwindows/wx_notebook.cpp
+  - src/wxbase/miscwindows/wx_statusbar.cpp
+    * reordering wxbase directory of classes
+
 2008-09-27 16:52 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   src/wxbase/books/wxhlistbook.prg
 A  +   src/wxbase/books/wxhnotebook.prg
