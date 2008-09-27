@@ -24,7 +24,7 @@
   wxMenu
   Teo. Mexico 2006
 */
-CLASS wxMenu FROM wxObject
+CLASS wxMenu FROM wxEvtHandler
 PRIVATE:
 PROTECTED:
 PUBLIC:

@@ -166,6 +166,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.o \
 	$(__BUILDDIR__)\wxHarbour_wxhxmldocument.o \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.o \
+	$(__BUILDDIR__)\wxHarbour_sysdefs.o \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.o \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)\wxHarbour_wx_browse.o \
@@ -444,6 +445,9 @@ $(__BUILDDIR__)\wxHarbour_wxhxmldocument.o: ./src/wxbase/xmlclasses/wxhxmldocume
 
 $(__BUILDDIR__)\wxHarbour_xdoutils.o: ./src/raddox/xdoutils.c
 	$(CC) -c -o $@ $(WXHARBOUR_CFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_sysdefs.o: ./src/common/sysdefs.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<

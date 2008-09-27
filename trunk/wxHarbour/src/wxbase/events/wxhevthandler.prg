@@ -63,6 +63,8 @@ METHOD PROCEDURE Connect( p1, p2, p3, p4 ) CLASS wxEvtHandler
     //RETURN
   ENDIF
 
+//   TRACE "Connect:",::ClassName,id,lastId
+
   IF !HB_HHasKey( ::FEventHashList, eventType )
     ::FEventHashList[ eventType ] := {}
   ENDIF
