@@ -182,6 +182,7 @@ void TRACEOUT( const char* fmt, const void* val)
   n = sprintf( buff, fmt, val );
   hb_gtOutStd( (BYTE *) buff, n );
 }
+
 /*
   TRACEOUT
   Teo. Mexico 2008

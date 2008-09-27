@@ -52,7 +52,7 @@ FUNCTION Login
   LOCAL oWnd
   LOCAL edtNombre
   LOCAL edtPassword
-  LOCAL treeCtrl, treeItemId, cookie
+  LOCAL treeCtrl, treeItemId
   LOCAL i
 
   CREATE FRAME oWnd ;
@@ -69,7 +69,7 @@ FUNCTION Login
       ADD MENUSEPARATOR
       ADD MENUITEM E"Open \tCtrl+O"
       ADD MENUSEPARATOR
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION {|| oWnd:Close() } ;
           HELPLINE "Quits the program..."
     ENDMENU
     DEFINE MENU "Help"
@@ -129,28 +129,13 @@ FUNCTION Login
     END SIZER
   END SIZER
 
-
   @ STATUSBAR
-
-  ? "GetRootItem",treeCtrl:GetRootItem()
 
   treeItemId := treeCtrl:AddRoot("Root")
 
-  ? "GetFirstChild()",treeCtrl:GetFirstChild( treeItemId, @cookie )
-
-  ? "treeItemId:ClassName()",treeItemId:ClassName()
-  ? "treeItemId:IsOk()", !Empty( treeItemId )
-
   FOR i:=1 TO 10
-    ? "treeCtrl:AppendItem()",treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
-    ? "GetFirstChild()",treeCtrl:GetLastChild( treeItemId, @cookie )
+    treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
   NEXT
-
-  ? "GetRootItem",treeCtrl:GetRootItem()
-
-
-  ? "treeItemId",treeItemId
-
 
   treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
   treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )

@@ -2,6 +2,30 @@
  *
  */
 
+2008-09-27 08:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + src/common/sysdefs.cpp
+  * include/event.ch
+    + added hb wxh_TRANSLATE_EVT_DEFS() function to solve event defines on
+      linux/windows builds
+
+  * samples/sizers/main.prg
+    * changes on sample
+
+  * src/common/wx_harbour.cpp
+    * minor cleanup
+
+  * src/common/wxhfuncs.prg
+    * wxh_Button() uses the self wxButton obj to Connect the bAction
+
+  * src/wxbase/events/wxhevthandler.prg
+    + added minor TRACE
+
+  * src/wxbase/menus/wxhmenu.prg
+    ! Fix parent class on wxMenu to wxEvtHandler (was wxObject)
+
 2008-09-26 08:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/sizers/main.prg
     * enhanced wxTreeCtrl sample
@@ -10,6 +34,7 @@
   * src/wxbase/controls/wx_treectrl.cpp
     % removed wxTreeItemId class, too much overhead and hassle
       ; keeping this simple and fast
+      ; to emulate wxTreeItemId:IsOk:  !Empty( treeItemId )
 
   * wxharbour.spec
     * release tag to 2

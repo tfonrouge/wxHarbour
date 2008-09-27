@@ -105,21 +105,21 @@ RETURN
  * Teo. Mexico 2008
  */
 FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
-  LOCAL Result
+  LOCAL button
 
   IF window = NIL
-    window := ContainerObj():LastParent()
+    window := containerObj():LastParent()
   ENDIF
 
-  Result := wxButton():New( window, id, label, pos, size, style, validator, name )
+  button := wxButton():New( window, id, label, pos, size, style, validator, name )
 
   IF bAction != NIL
-    window:Connect( Result:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+    button:Connect( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
   ENDIF
 
-  containerObj():SetLastChild( Result )
+  containerObj():SetLastChild( button )
 
-RETURN Result
+RETURN button
 
 /*
   wxh_Dialog
