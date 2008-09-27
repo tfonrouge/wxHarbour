@@ -244,7 +244,7 @@
 /*
   Notebook|Listbook
 */
-#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK> ;
+#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> ;
             [ VAR <nb> ] ;
             [ ON <parent> ] ;
             [ ID <id> ] ;
@@ -260,14 +260,14 @@
             [<style>],;
             [<name>] )
 
-#xcommand END <bookType: NOTEBOOK, LISTBOOK> => wxh_BookEnd( "wx"+<"bookType"> )
+#xcommand END <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> => wxh_BookEnd( "wx"+<"bookType"> )
 
-#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK> [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           BEGIN <bookType> [<nbclauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
 
-#xcommand ADD PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
+#xcommand ADD BOOK PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
           => ;
           wxh_BookAddPage( <title>, <select>, <imageId> )
 

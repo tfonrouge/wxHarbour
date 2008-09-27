@@ -653,7 +653,7 @@ PRIVATE:
   DATA FParentList
 PROTECTED:
 PUBLIC:
-  DATA BookCtrls INIT { "wxNotebook", "wxListbook" }
+  DATA BookCtrls INIT { "wxNotebook", "wxListbook", "wxAuiNotebook" }
   METHOD AddSizerInfoToLastItem( sizerInfo )
   METHOD AddToNextBookPage( hInfo )
   METHOD AddToParentList( parent )
