@@ -179,6 +179,39 @@
 */
 
 /*
+  BROWSEDB
+*/
+#xcommand @ BROWSEDB [ [VAR] <wxBrw> ] ;
+            [ TABLE <table> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+            [<wxBrw>:=]wxh_BrowseDb( ;
+              [<table>],;
+              [<window>],;
+              [<id>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<name>] ;
+            )
+
+#xcommand @ BROWSEDB [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+          => ;
+          @ BROWSEDB [<bclauses>] ;;
+          @ SIZERINFO [<wxsizerclauses>]
+
+/*
+  BCOLUMN
+*/
+#xcommand BCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
+          => ;
+          wxh_BrowseDbAddColumn( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
+
+/*
  * Button
  * Teo. Mexico 2006
  */
@@ -209,9 +242,9 @@
           @ SIZERINFO [<wxsizerclauses>]
 
 /*
-  NoteBook
+  Notebook|Listbook
 */
-#xcommand BEGIN NOTEBOOK ;
+#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK> ;
             [ VAR <nb> ] ;
             [ ON <parent> ] ;
             [ ID <id> ] ;
@@ -219,7 +252,7 @@
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
-          [ <nb> := ]wxh_NotebookBegin( ;
+          [ <nb> := ]wxh_BookBegin( wx<bookType>() ;
             [<parent>],;
             [<id>],;
             ,;
@@ -227,16 +260,16 @@
             [<style>],;
             [<name>] )
 
-#xcommand END NOTEBOOK => wxh_NotebookEnd()
+#xcommand END <bookType: NOTEBOOK, LISTBOOK> => wxh_BookEnd( "wx"+<"bookType"> )
 
-#xcommand BEGIN NOTEBOOK [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK> [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
-          BEGIN NOTEBOOK [<nbclauses>] ;;
+          BEGIN <bookType> [<nbclauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
 
 #xcommand ADD PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
           => ;
-          wxh_NotebookAddPage( <title>, <select>, <imageId> )
+          wxh_BookAddPage( <title>, <select>, <imageId> )
 
 /*
   Panel
@@ -383,37 +416,4 @@
           => ;
           @ TREECTRL [<clauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
-/*
-  WXBROWSEDB
-*/
-#xcommand @ WXBROWSEDB [ [VAR] <wxBrw> ] ;
-            [ TABLE <table> ] ;
-            [ ON <window> ] ;
-            [ ID <id> ] ;
-            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
-            [ STYLE <style> ] ;
-            [ NAME <name> ] ;
-          => ;
-            [<wxBrw>:=]wxh_BrowseDb( ;
-              [<table>],;
-              [<window>],;
-              [<id>],;
-              ,;
-              [{<nWidth>,<nHeight>}],;
-              [<style>],;
-              [<name>] ;
-            )
-
-#xcommand @ WXBROWSEDB [<wxbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
-          => ;
-          @ WXBROWSEDB [<wxbclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
-
-/*
-  WXCOLUMN
-*/
-#xcommand WXCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
-          => ;
-          wxh_BrowseDbAddColumn( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
-
 #endif

@@ -42,8 +42,7 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL grid, boxSizer, gtable, button
-  LOCAL panel
+  LOCAL b
 
   CREATE FRAME oWnd ;
          WIDTH 600 HEIGHT 400 ;
@@ -58,42 +57,60 @@ METHOD FUNCTION OnInit() CLASS MyApp
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
-      ADD MENUITEM "Fit Grid" ACTION grid:Fit()
+      ADD MENUITEM "Fit Grid" ACTION b:Fit()
       ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
   ENDMENU
 
-  panel := wxPanel():New( oWnd )
+  BEGIN BOXSIZER VERTICAL
+    BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
+      BEGIN BOXSIZER VERTICAL
+      END SIZER
+      BEGIN BOXSIZER VERTICAL
+	BEGIN NOTEBOOK
+	END NOTEBOOK
+      END SIZER
+    END SIZER
+    BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
+      @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+    END SIZER
+  END SIZER
 
-  panel:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+//   panel := wxPanel():New( oWnd )
+// 
+//   panel:SetSizer( boxSizer := wxBoxSizer():New( wxVERTICAL ) )
+// 
+//   grid := wxGrid():New( panel, wxID_ANY, {-1,-1}, {200,150}, HB_BITOR(wxSUNKEN_BORDER,wxHSCROLL,wxVSCROLL) )
+//   grid:SetDefaultColSize( 50 )
+//   grid:SetDefaultRowSize( 25 )
+//   grid:SetColLabelSize(25)
+//   grid:SetRowLabelSize(50)
+// 
+//   USE "main" //VIA "DBFCDX"
+//   //OrdSetFocus("X01")
+// 
+//   gtable := wxGridTableBaseDb():New()
+//   grid:SetTable( gtable )
+// 
+//   boxSizer:Add(grid, 1, HB_BITOR( wxGROW, wxALL ), 5)
+// 
+//   //boxSizer:Add(5, 5, 1, wxALIGN_RIGHT | wxALL, 5)
+// 
+//   button := wxButton():New( panel, wxID_OK )
+// 
+//   boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
+// 
+//   oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
+// 
+//   @ STATUSBAR
+// 
+//   oWnd:Centre( wxBOTH )
+// 
+//   oWnd:Show()
 
-  grid := wxGrid():New( panel, wxID_ANY, {-1,-1}, {200,150}, HB_BITOR(wxSUNKEN_BORDER,wxHSCROLL,wxVSCROLL) )
-  grid:SetDefaultColSize( 50 )
-  grid:SetDefaultRowSize( 25 )
-  grid:SetColLabelSize(25)
-  grid:SetRowLabelSize(50)
+  @ STATUSBAR
 
-  USE "main" //VIA "DBFCDX"
-  //OrdSetFocus("X01")
-
-  gtable := wxGridTableBaseDb():New()
-  grid:SetTable( gtable )
-
-  boxSizer:Add(grid, 1, HB_BITOR( wxGROW, wxALL ), 5)
-
-  //boxSizer:Add(5, 5, 1, wxALIGN_RIGHT | wxALL, 5)
-
-  button := wxButton():New( panel, wxID_OK )
-
-  boxSizer:Add( button, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
-
-  oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close } )
-
-  @ STATUSBAR FIELDS 5 WIDTHS 100,-1,100,-1,-1  ON oWnd
-
-  oWnd:Centre( wxBOTH )
-
-  oWnd:Show()
+  SHOW WINDOW oWnd FIT CENTRE
 
 RETURN .T.

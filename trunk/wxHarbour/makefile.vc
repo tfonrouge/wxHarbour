@@ -142,6 +142,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhdialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbutton.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrol.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhlistbook.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticbox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstatictext.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhtextctrl.obj \
@@ -179,6 +180,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_dialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_button.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_listbook.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticbox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_statictext.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_textctrl.obj \
@@ -368,6 +370,9 @@ $(__BUILDDIR__)\wxHarbour_wxhbutton.obj: .\src\wxbase\controls\wxhbutton.prg
 $(__BUILDDIR__)\wxHarbour_wxhcontrol.obj: .\src\wxbase\controls\wxhcontrol.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhlistbook.obj: .\src\wxbase\controls\wxhlistbook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhstaticbox.obj: .\src\wxbase\controls\wxhstaticbox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -478,6 +483,9 @@ $(__BUILDDIR__)\wxHarbour_wx_dialogfuncs.obj: .\src\wxbase\commdialogs\wx_dialog
 
 $(__BUILDDIR__)\wxHarbour_wx_button.obj: .\src\wxbase\controls\wx_button.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_button.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_listbook.obj: .\src\wxbase\controls\wx_listbook.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_listbook.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_staticbox.obj: .\src\wxbase\controls\wx_staticbox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_staticbox.cpp

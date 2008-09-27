@@ -2,6 +2,37 @@
  *
  */
 
+2008-09-27 16:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + include/wxbase/wx_listbook.h
+  + src/wxbase/controls/wxhlistbook.prg
+  + src/wxbase/controls/wx_listbook.cpp
+  * makefile.gcc
+  * makefile.vc
+    + added wxListbook
+  
+  * include/wxharbour.ch
+    * renamed @ WXBROWSEDB to @ BROWSEDB
+    + added command 
+      + BEGIN LISTBOOK / END LISTBOOK
+    
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/sizers/main.prg
+    * updated samples
+
+  * src/common/wx_harbour.cpp
+    * commented out code using hb_gtStdOut() (requieres not standard libs in harbour)
+
+  * src/common/wxhfuncs.prg
+    * unified NOTEBOOK/LISTBOOK on one single creator function
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * renamed wxBrowseDb() to wxhBrowseDb()
+      ; naming convention for hibrid HB/WX function
+
+  * src/wxbase/miscwindows/wxhnotebook.prg
+    ! Fixed parent class (was wxWindow)
+
 2008-09-27 08:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

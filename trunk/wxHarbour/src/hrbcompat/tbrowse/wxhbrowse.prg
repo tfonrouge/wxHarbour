@@ -14,10 +14,10 @@
 #include "property.ch"
 
 /*
-  wxBrowseDb
+  wxhBrowseDb
   Teo. Mexico 2008
 */
-CLASS wxBrowseDb FROM wxGrid
+CLASS wxhBrowseDb FROM wxGrid
 PRIVATE:
 PROTECTED:
 PUBLIC:
@@ -31,23 +31,23 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( table, window, id, pos, size, style, name ) CLASS wxBrowseDb
+METHOD New( table, window, id, pos, size, style, name ) CLASS wxhBrowseDb
 
   Super:New( window, id, pos, size, style, name )
 
-  ::SetTable( wxBrowseDbProvider():New( table ), .F. )
+  ::SetTable( wxhBrowseDbProvider():New( table ), .F. )
 
 RETURN Self
 
 /*
-  End Class wxBrowseDb
+  End Class wxhBrowseDb
 */
 
 /*
-  wxBrowseDbProvider
+  wxhBrowseDbProvider
   Teo. Mexico 2008
 */
-CLASS wxBrowseDbProvider FROM wxGridTableBase
+CLASS wxhBrowseDbProvider FROM wxGridTableBase
 PRIVATE:
   DATA FTable
   METHOD GetResult( hColumn )
@@ -82,7 +82,7 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( table ) CLASS wxBrowseDbProvider
+METHOD New( table ) CLASS wxhBrowseDbProvider
 
   Super:New()
 
@@ -94,7 +94,7 @@ RETURN Self
   AddColumn
   Teo. Mexico 2008
 */
-METHOD PROCEDURE AddColumn( hColumn ) CLASS wxBrowseDbProvider
+METHOD PROCEDURE AddColumn( hColumn ) CLASS wxhBrowseDbProvider
   AAdd( ::ColumnList, hColumn )
   ::ColCount := Len( ::ColumnList )
   ::AppendCols()
@@ -104,7 +104,7 @@ RETURN
   GetColLabelValue
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetColLabelValue( col ) CLASS wxBrowseDbProvider
+METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseDbProvider
   IF col < 0
     RETURN ""
   ENDIF
@@ -114,7 +114,7 @@ RETURN ::ColumnList[ col + 1, "title" ]
   GetResult
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetResult( hColumn ) CLASS wxBrowseDbProvider
+METHOD FUNCTION GetResult( hColumn ) CLASS wxhBrowseDbProvider
   LOCAL Result
   LOCAL width
   LOCAL picture
@@ -159,7 +159,7 @@ RETURN Result
   GetRowLabelValue
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetRowLabelValue( row ) CLASS wxBrowseDbProvider
+METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseDbProvider
   IF Empty( ::ColumnZero )
     RETURN LTrim( Str( row + 1 ) )
   ENDIF
@@ -170,21 +170,21 @@ RETURN ::GetResult( ::ColumnZero )
   GetNumberCols
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetNumberCols CLASS wxBrowseDbProvider
+METHOD FUNCTION GetNumberCols CLASS wxhBrowseDbProvider
 RETURN ::ColCount
 
 /*
   GetNumberRows
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetNumberRows CLASS wxBrowseDbProvider
+METHOD FUNCTION GetNumberRows CLASS wxhBrowseDbProvider
 RETURN ::RowCount
 
 /*
   GetValue
   Teo. Mexico 2008
 */
-METHOD GetValue( row, col ) CLASS wxBrowseDbProvider
+METHOD GetValue( row, col ) CLASS wxhBrowseDbProvider
 
   IF col >= ::ColCount
     RETURN "<error>" /* raise error ? */
@@ -202,10 +202,10 @@ RETURN ::GetResult( ::ColumnList[ col + 1 ] )
   SetTable
   Teo. Mexico 2008
 */
-METHOD PROCEDURE SetTable( table ) CLASS wxBrowseDbProvider
+METHOD PROCEDURE SetTable( table ) CLASS wxhBrowseDbProvider
   ::FTable := table
   ::ColCount := 0
-  ::RowCount := 5
+  ::RowCount := 0
   ::ColumnList := {}
   ::ColumnZero := NIL
 RETURN
@@ -214,12 +214,12 @@ RETURN
   SetValue
   Teo. Mexico 2008
 */
-METHOD PROCEDURE SetValue( row, col, value ) CLASS wxBrowseDbProvider
+METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseDbProvider
 
   ? "Changing:","Row:", row, "Col:", col, "Value:",value
 
 RETURN
 
 /*
-  End Class wxBrowseDbProvider
+  End Class wxhBrowseDbProvider
 */

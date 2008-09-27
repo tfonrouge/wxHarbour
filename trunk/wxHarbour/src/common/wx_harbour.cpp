@@ -170,6 +170,7 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
   hb_itemReturn( lastTopLevelWindow );
 }
 
+#if 0
 /*
   TRACEOUT
   Teo. Mexico 2008
@@ -196,3 +197,4 @@ void TRACEOUT( const char* fmt, long int val)
   n = sprintf( buff, fmt, val );
   hb_gtOutStd( (BYTE *) buff, n );
 }
+#endif
