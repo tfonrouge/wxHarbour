@@ -2,121 +2,26 @@
  *
  */
 
+2008-09-27 18:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * ChangeLog
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxbase/wx_auinotebook.h
+  * include/wxharbour.ch
+  + src/wxbase/books/wx_auinotebook.cpp
+  + src/wxbase/books/wxhauinotebook.prg
+  * src/common/wxhfuncs.prg
+    + added wxAuiNotebook
+
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
 2008-09-27 17:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-A  +   src/wxbase/menu
-A  +   src/wxbase/miscfuncs
-  * GNUmakefile
-  - src/wxbase/commdialogs
-  - src/wxbase/commdialogs/wx_dialogfuncs.cpp
-  - src/wxbase/menus
-  - src/wxbase/menus/wxhmenubar.prg
-  - src/wxbase/menus/wxhmenuitem.prg
-  - src/wxbase/menus/wxhmenu.prg
-  - src/wxbase/menus/wx_menubar.cpp
-  - src/wxbase/menus/wx_menu.cpp
-  - src/wxbase/menus/wx_menuitem.cpp
-  * wxharbour.bkl
-
 2008-09-27 17:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-A  +   src/wxbase/advctrls
-  - src/wxbase/mainwindows
-  - src/wxbase/mainwindows/wx_grid.cpp
-  - src/wxbase/mainwindows/wx_gridtablebase.cpp
-  - src/wxbase/mainwindows/wxhgrid.prg
-  - src/wxbase/mainwindows/wxhgridtablebase.prg
-  - src/wxbase/mainwindows/wxhpanel.prg
-  - src/wxbase/mainwindows/wxhstatusbar.prg
-  - src/wxbase/mainwindows/wx_panel.cpp
-  - src/wxbase/mainwindows/wx_statusbar.cpp
-
 2008-09-27 17:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-A  +   src/wxbase/baseclasses/wx_evthandler.cpp
-A  +   src/wxbase/baseclasses/wxhevthandler.prg
-A  +   src/wxbase/baseclasses/wxhobject.prg
-A  +   src/wxbase/baseclasses/wxhtoplevelwindow.prg
-A  +   src/wxbase/baseclasses/wxhwindow.prg
-A  +   src/wxbase/baseclasses/wx_object.cpp
-A  +   src/wxbase/baseclasses/wx_toplevelwindow.cpp
-A  +   src/wxbase/baseclasses/wx_window.cpp
-A  +   src/wxbase/mainwindows/wx_panel.cpp
-A  +   src/wxbase/sizers
-  * GNUmakefile
-  + src/wxbase/baseclasses
-  - src/wxbase/basicwindows
-  - src/wxbase/basicwindows/wxhtoplevelwindow.prg
-  - src/wxbase/basicwindows/wxhwindow.prg
-  - src/wxbase/basicwindows/wx_panel.cpp
-  - src/wxbase/basicwindows/wx_toplevelwindow.cpp
-  - src/wxbase/basicwindows/wx_window.cpp
-  - src/wxbase/events
-  - src/wxbase/events/wx_evthandler.cpp
-  - src/wxbase/events/wxhevthandler.prg
-  - src/wxbase/rtti
-  - src/wxbase/rtti/wxhobject.prg
-  - src/wxbase/rtti/wx_object.cpp
-  - src/wxbase/winlayout
-  - src/wxbase/winlayout/wx_boxsizer.cpp
-  - src/wxbase/winlayout/wx_gridsizer.cpp
-  - src/wxbase/winlayout/wxhboxsizer.prg
-  - src/wxbase/winlayout/wxhgridsizer.prg
-  - src/wxbase/winlayout/wxhsizer.prg
-  - src/wxbase/winlayout/wxhstaticboxsizer.prg
-  - src/wxbase/winlayout/wx_sizer.cpp
-  - src/wxbase/winlayout/wx_staticboxsizer.cpp
-    * reordering wxbase directory of classes (cont)
-
 2008-09-27 16:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-A  +   src/wxbase/books/wxhlistbook.prg
-A  +   src/wxbase/books/wxhnotebook.prg
-A  +   src/wxbase/books/wx_listbook.cpp
-A  +   src/wxbase/books/wx_notebook.cpp
-A  +   src/wxbase/mainwindows
-A  +   src/wxbase/manwindows/wx_dialog.cpp
-A  +   src/wxbase/manwindows/wxhdialog.prg
-D  +   src/wxbase/mainwindows/wxhnotebook.prg
-D  +   src/wxbase/mainwindows/wx_notebook.cpp
-  + src/wxbase/books
-  - src/wxbase/commdialogs/wx_dialog.cpp
-  - src/wxbase/commdialogs/wxhdialog.prg
-  - src/wxbase/controls/wxhlistbook.prg
-  - src/wxbase/controls/wx_listbook.cpp
-  - src/wxbase/miscwindows
-  - src/wxbase/miscwindows/wx_grid.cpp
-  - src/wxbase/miscwindows/wx_gridtablebase.cpp
-  - src/wxbase/miscwindows/wxhgrid.prg
-  - src/wxbase/miscwindows/wxhgridtablebase.prg
-  - src/wxbase/miscwindows/wxhnotebook.prg
-  - src/wxbase/miscwindows/wxhpanel.prg
-  - src/wxbase/miscwindows/wxhstatusbar.prg
-  - src/wxbase/miscwindows/wx_notebook.cpp
-  - src/wxbase/miscwindows/wx_statusbar.cpp
-    * reordering wxbase directory of classes
-
 2008-09-27 16:52 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
-A  +   src/wxbase/books/wxhlistbook.prg
-A  +   src/wxbase/books/wxhnotebook.prg
-A  +   src/wxbase/books/wx_listbook.cpp
-A  +   src/wxbase/books/wx_notebook.cpp
-A  +   src/wxbase/mainwindows
-A  +   src/wxbase/manwindows/wx_dialog.cpp
-A  +   src/wxbase/manwindows/wxhdialog.prg
-D  +   src/wxbase/mainwindows/wxhnotebook.prg
-D  +   src/wxbase/mainwindows/wx_notebook.cpp
-  + src/wxbase/books
-  - src/wxbase/commdialogs/wx_dialog.cpp
-  - src/wxbase/commdialogs/wxhdialog.prg
-  - src/wxbase/controls/wxhlistbook.prg
-  - src/wxbase/controls/wx_listbook.cpp
-  - src/wxbase/miscwindows
-  - src/wxbase/miscwindows/wx_grid.cpp
-  - src/wxbase/miscwindows/wx_gridtablebase.cpp
-  - src/wxbase/miscwindows/wxhgrid.prg
-  - src/wxbase/miscwindows/wxhgridtablebase.prg
-  - src/wxbase/miscwindows/wxhnotebook.prg
-  - src/wxbase/miscwindows/wxhpanel.prg
-  - src/wxbase/miscwindows/wxhstatusbar.prg
-  - src/wxbase/miscwindows/wx_notebook.cpp
-  - src/wxbase/miscwindows/wx_statusbar.cpp
     * reordering wxbase directory of classes
 
 2008-09-27 16:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)

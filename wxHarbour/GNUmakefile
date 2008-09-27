@@ -139,6 +139,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhwindow.o \
+	$(__BUILDDIR__)/wxHarbour_wxhauinotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhlistbook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhnotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbutton.o \
@@ -176,6 +177,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wx_window.o \
+	$(__BUILDDIR__)/wxHarbour_wx_auinotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_listbook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_notebook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_button.o \
@@ -359,6 +361,9 @@ $(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o: ./src/wxbase/baseclasses/wxhtople
 $(__BUILDDIR__)/wxHarbour_wxhwindow.o: ./src/wxbase/baseclasses/wxhwindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhauinotebook.o: ./src/wxbase/books/wxhauinotebook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhlistbook.o: ./src/wxbase/books/wxhlistbook.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -468,6 +473,9 @@ $(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o: ./src/wxbase/baseclasses/wx_tople
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_window.o: ./src/wxbase/baseclasses/wx_window.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_auinotebook.o: ./src/wxbase/books/wx_auinotebook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_listbook.o: ./src/wxbase/books/wx_listbook.cpp
