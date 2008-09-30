@@ -10,6 +10,10 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
+#ifdef __XHARBOUR__
+#include "wx_hbcompat.ch"
+#endif
+
 #include "hbclass.ch"
 #include "property.ch"
 

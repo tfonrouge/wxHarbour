@@ -34,4 +34,6 @@
 #xtranslate HB_HALLOCATE(       => HALLOCATE(
 #xtranslate HB_HDEFAULT(        => HDEFAULT(
 
+#xtranslate <v>:__enumIndex()   => hb_enumIndex()
+
 #endif

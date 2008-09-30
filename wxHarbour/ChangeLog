@@ -2,6 +2,13 @@
  *
  */
 
+2008-09-30 14:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wx_hbcompat.ch
+    ! added translate for __enumIndex() to be xHarbour compat.
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * added "wx_hbcompat.ch" for xHarbour compat.
+
 2008-09-30 13:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wx_hbcompat.ch
     ! Some translations don't work on xHarbour (HB_HHASKEY... => HHASKEY... )
