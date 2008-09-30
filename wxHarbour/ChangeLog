@@ -2,6 +2,10 @@
  *
  */
 
+2008-09-30 12:21 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wx_hbcompat.ch
+    * added some missing translations for xHarbour <-> Harbour
+
 2008-09-30 11:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
