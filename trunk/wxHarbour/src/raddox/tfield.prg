@@ -13,7 +13,7 @@
 #include "xerror.ch"
 
 #xcommand RAISE TFIELD <name> ERROR <cDescription> => ;
-          RAISE ERROR ";Table: <" + ::FTable:ClassName + ">, FieldName: <" + <name> + ">" + ;
+          RAISE ERROR ";Table: <" + ::FTable:TableName + ">, FieldName: <" + <name> + ">" + ;
                       ";" + ;
                       ";" + ;
                       <cDescription> + ";;" ;
@@ -27,8 +27,6 @@
 CLASS TField
 PRIVATE:
 
-  CLASSDATA FFieldTypes
-
   DATA FActive  INIT .F.
   DATA FAutoIncrementKeyIndex
   DATA FDescription INIT ""
@@ -40,6 +38,7 @@ PRIVATE:
   DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField only 'C' TFields
   DATA FIsTheMasterSource INIT .F.    // Field is TObjectField type and is the MasterSource Table
   DATA FKeyIndex
+  DATA FLabel
   DATA FModStamp  INIT .F.            // Field is automatically mantained (dbf layer)
   DATA FPrimaryKeyComponent INIT .F.  // Field is included in a Array of fields for a Primary Index Key
   DATA FPublished INIT .T.            // Logical: Appears in user field selection
@@ -51,9 +50,9 @@ PRIVATE:
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
   METHOD GetAutoIncrementValue
   METHOD GetFieldMethod
-  METHOD GetFieldTypes
   METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
   METHOD GetIsPrimaryKeyField INLINE ::Table:PrimaryKeyField == Self
+  METHOD GetLabel INLINE iif( ::FLabel = NIL, ::FName, ::FLabel )
   METHOD GetReadOnly INLINE ::FReadOnly
   METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
   METHOD Indexed( OnlyCustom )
@@ -64,6 +63,7 @@ PRIVATE:
   METHOD SetGroup( Group ) INLINE ::FGroup := Group
   METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
   METHOD SetKeyIndex( Index ) INLINE ::FKeyIndex := Index
+  METHOD SetLabel( label ) INLINE ::FLabel := label
   METHOD SetName( Name )
   METHOD SetPrimaryKeyComponent( PrimaryKeyComponent )
   METHOD SetPublished( Published ) INLINE ::FPublished := Published
@@ -95,6 +95,8 @@ PROTECTED:
 
 PUBLIC:
 
+  DATA Picture
+
   CONSTRUCTOR New( Table )
 
   METHOD AsIndexKeyVal INLINE ::Need_To_Declare_AsIndexKeyVal()
@@ -116,7 +118,6 @@ PUBLIC:
   PROPERTY Calculated READ FCalculated
   PROPERTY DisplayText READ GetEditText
   PROPERTY EmptyValue READ GetEmptyValue
-  PROPERTY FieldTypes READ GetFieldTypes
   PROPERTY GetItPick READ FGetItPick WRITE SetGetItPick
   PROPERTY IsKeyIndex READ GetIsKeyIndex
   PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
@@ -152,6 +153,7 @@ PUBLISHED:
   PROPERTY Group READ FGroup WRITE SetGroup
   PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
   PROPERTY KeyIndex READ FKeyIndex WRITE SetKeyIndex
+  PROPERTY Label READ GetLabel WRITE SetLabel
   PROPERTY PrimaryKeyComponent READ FPrimaryKeyComponent WRITE SetPrimaryKeyComponent
   PROPERTY Published READ FPublished WRITE SetPublished
   PROPERTY Name READ FName WRITE SetName
@@ -413,42 +415,6 @@ METHOD FUNCTION GetFieldMethod CLASS TField
     RETURN ::FFieldName
   END
 RETURN NIL
-
-/*
-  GetFieldTypes
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetFieldTypes CLASS TField
-
-  IF ::FFieldTypes = NIL
-    ::FFieldTypes := {=>}
-    ::FFieldTypes['C'] := "TStringField"    /* HB_FT_STRING */
-    ::FFieldTypes['L'] := "TLogicalField"   /* HB_FT_LOGICAL */
-    ::FFieldTypes['D'] := "TDateField"      /* HB_FT_DATE */
-    ::FFieldTypes['I'] := "TNumericField"   /* HB_FT_INTEGER */
-    ::FFieldTypes['Y'] := "TNumericField"   /* HB_FT_CURRENCY */
-    ::FFieldTypes['2'] := "TNumericField"   /* HB_FT_INTEGER */
-    ::FFieldTypes['4'] := "TNumericField"   /* HB_FT_INTEGER */
-    ::FFieldTypes['N'] := "TNumericField"   /* HB_FT_LONG */
-    ::FFieldTypes['F'] := "TNumericField"   /* HB_FT_FLOAT */
-    ::FFieldTypes['8'] := "TNumericField"   /* HB_FT_DOUBLE */
-    ::FFieldTypes['B'] := "TNumericField"   /* HB_FT_DOUBLE */
-
-    ::FFieldTypes['T'] := "TTimeField"      /* HB_FT_DAYTIME(8) HB_FT_TIME(4) */
-    ::FFieldTypes['@'] := "TDayTimeField"   /* HB_FT_DAYTIME */
-    ::FFieldTypes['='] := "TModTimeField"   /* HB_FT_MODTIME */
-    ::FFieldTypes['^'] := "TRowVerField"    /* HB_FT_ROWVER */
-    ::FFieldTypes['+'] := "TAutoIncField"   /* HB_FT_AUTOINC */
-    ::FFieldTypes['Q'] := "TVarLengthField" /* HB_FT_VARLENGTH */
-    ::FFieldTypes['V'] := "TVarLengthField" /* HB_FT_VARLENGTH */
-    ::FFieldTypes['M'] := "TMemoField"      /* HB_FT_MEMO */
-    ::FFieldTypes['P'] := "TImageField"     /* HB_FT_IMAGE */
-    ::FFieldTypes['W'] := "TBlobField"      /* HB_FT_BLOB */
-    ::FFieldTypes['G'] := "TOleField"       /* HB_FT_OLE */
-    ::FFieldTypes['0'] := "TVarLengthField" /* HB_FT_VARLENGTH (NULLABLE) */
-  ENDIF
-
-RETURN ::FFieldTypes
 
 /*
   GetItDoPick
@@ -936,8 +902,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
        * Check if TField and database field are compatible
        * except for TObjectField's here
        */
-      IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FieldTypes[ ::Table:DbStruct[n][2] ] )
-        RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FFieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
+      IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
+        RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
       ENDIF
       ::FModStamp        := ::Table:DbStruct[n][2] $ "=^+"
       ::FCalculated := .F.

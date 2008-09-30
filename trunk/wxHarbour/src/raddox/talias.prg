@@ -66,6 +66,7 @@ PUBLISHED:
   PROPERTY Found READ FFound
   PROPERTY Name READ GetName
   PROPERTY RecNo READ GetRecNo WRITE SetRecNo
+  PROPERTY Table READ FTable
 ENDCLASS
 
 /*
@@ -80,16 +81,14 @@ METHOD New( table ) CLASS TAlias
 
   ::FTable := table
 
-  ::FName := table:TableName
-
   ::FRecNo := 0
 
-  IF Empty( ::FName )
-    RAISE ERROR "TAlias: Empty Database Name..."
+  IF Empty( table:TableName )
+    RAISE ERROR "TAlias: Empty Table Name..."
   ENDIF
 
   IF !::DbOpen()
-    RAISE ERROR "TAlias: Cannot Open Database '" + ::FName + "'"
+    RAISE ERROR "TAlias: Cannot Open Table '" + table:TableName + "'"
   ENDIF
 
   ::SyncFromRecNo()
@@ -123,15 +122,17 @@ RETURN Result
 METHOD DbOpen CLASS TAlias
 
   /* Check for a previously open database */
-  IF Select( ::FName ) > 0
+  IF !Empty( ::FName ) .AND. Select( ::FName ) > 0
     RETURN .T.
   ENDIF
 
   IF ::FTable:DataBase:OpenBlock != NIL
-    RETURN ::FTable:DataBase:OpenBlock:Eval( ::FName )
+    RETURN ::FTable:DataBase:OpenBlock:Eval( ::FTable:TableName )
   ENDIF
 
   USE ( ::FTable:FullFileName ) NEW SHARED
+
+  ::FName := Alias()
 
 RETURN !NetErr()
 

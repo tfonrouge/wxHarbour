@@ -30,9 +30,9 @@ wx_TextCtrl::~wx_TextCtrl()
 }
 
 /*
-wxTextCtrl(wxWindow* parent, wxWindowID id, const wxString& value = "", const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxValidator& validator = wxDefaultValidator, const wxString& name = wxTextCtrlNameStr)
+  wxTextCtrl:New
+  Teo. Mexico 2008
 */
-
 HB_FUNC( WXTEXTCTRL_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();

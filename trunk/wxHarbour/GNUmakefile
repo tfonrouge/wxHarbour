@@ -148,6 +148,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatictext.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtextctrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtreectrl.o \
+	$(__BUILDDIR__)/wxHarbour_wxhfiledialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhdialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhframe.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmenu.o \
@@ -185,6 +186,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_statictext.o \
 	$(__BUILDDIR__)/wxHarbour_wx_textctrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_treectrl.o \
+	$(__BUILDDIR__)/wxHarbour_wx_filedialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o \
@@ -212,6 +214,7 @@ WXHARBOUR_HEADERS =  \
 	include/wx_hbcompat.ch \
 	include/wxharbour.ch \
 	include/xerror.ch \
+	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
@@ -388,6 +391,9 @@ $(__BUILDDIR__)/wxHarbour_wxhtextctrl.o: ./src/wxbase/controls/wxhtextctrl.prg
 $(__BUILDDIR__)/wxHarbour_wxhtreectrl.o: ./src/wxbase/controls/wxhtreectrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhfiledialog.o: ./src/wxbase/comdialogs/wxhfiledialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhdialog.o: ./src/wxbase/manwindows/wxhdialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -497,6 +503,9 @@ $(__BUILDDIR__)/wxHarbour_wx_textctrl.o: ./src/wxbase/controls/wx_textctrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_treectrl.o: ./src/wxbase/controls/wx_treectrl.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_filedialog.o: ./src/wxbase/comdialogs/wx_filedialog.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_dialog.o: ./src/wxbase/manwindows/wx_dialog.cpp

@@ -10,28 +10,35 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-  wx Dialog Functions
-  Teo. Mexico 2008
-*/
-
-#include "wx/wx.h"
-#include "wxh.h"
+#include "hbclass.ch"
+#include "property.ch"
 
 /*
-  wxMessageBox
+  wxFileDialog
   Teo. Mexico 2008
 */
-HB_FUNC( WXMESSAGEBOX )
-{
+CLASS wxFileDialog FROM wxDialog
+PRIVATE:
+PROTECTED:
+PUBLIC:
 
-  const wxString& message = wxString( hb_parcx(1), wxConvLocal );
-  const wxString& caption = wxString( hb_parcx(2), wxConvLocal );
-  int style = ISNIL(3) ? wxOK : hb_parni(3);
-  wxWindow* window = (wxWindow *) hb_par_WX( 4 );
-  int x = ISNIL(5) ? -1 : hb_parni(5);
-  int y = ISNIL(6) ? -1 : hb_parni(6);
+  METHOD New( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name )
 
-  hb_retni( wxMessageBox( message, caption, style, window, x, y ) );
+  METHOD GetDirectory
+  METHOD GetFilename
+  METHOD GetFilenames
+  METHOD GetFilterIndex
+  METHOD GetMessage
+  METHOD GetPath
+  METHOD GetPaths
+  METHOD GetWildcard
+  METHOD SetDirectory
+  METHOD SetFilename
+  METHOD SetFilterIndex
+  METHOD SetMessage
+  METHOD SetPath
+  METHOD SetWildcard
+  METHOD ShowModal
 
-}
+PUBLISHED:
+ENDCLASS
