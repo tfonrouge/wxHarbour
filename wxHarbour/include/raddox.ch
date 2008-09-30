@@ -48,6 +48,7 @@
 
 #xtranslate ADD <type: _STRING, MEMO, NUMERIC, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
             [ NAME <cName> ] ;
+            [ LABEL <label> ] ;
             [ <ro: READONLY> ] ;
             [ DEFAULT <xDefault> ] ;
             [ READ <readblock,...> ] ;
@@ -57,6 +58,7 @@
             [ DESCRIPTION <cDesc> ] ;
             [ GETITPICK <bGetItPick> ] ;
             [ SIZE <nSize> ] ;
+            [ PICTURE <pict> ] ;
             [ <pv: PRIVATE> ] ;
             [ OBJVALUE <objValue> ] ;
             [ ON GETTEXT <bOnGetText> ] ;
@@ -70,6 +72,7 @@
            => ;
             WITH OBJECT T<type>Field():New( Self ) ;;
               [ :Name := <cName> ] ;;
+              [ :Label := <label> ] ;;
               [ :ReadOnly := <.ro.> ] ;;
               [ :FieldMethod := <xFieldMethod> ] ;;
               [ :ReadBlock := {|| <readblock> } ] ;;
@@ -80,6 +83,7 @@
               [ :Description := <cDesc> ] ;;
               [ :GetItPick := <bGetItPick> ] ;;
               [ :Size := <nSize> ] ;;
+              [ :Picture := <pict> ] ;;
               [ :Published := !<.pv.> ] ;;
               [ :ObjValue := <objValue> ] ;;
               [ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
@@ -96,7 +100,7 @@
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
 
-#xtranslate METHOD PROCEDURE DefineFields CLASS <className> ;
+#xtranslate METHOD [PROCEDURE] DefineFields CLASS <className> ;
             => ;
             METHOD PROCEDURE DefineFields( curClass ) CLASS <className>
 

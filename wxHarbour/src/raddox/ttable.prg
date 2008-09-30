@@ -26,6 +26,7 @@ RETURN __ClsInstName( Upper( ClassName ) )
 CLASS TTable
 PRIVATE:
 
+  CLASSDATA FFieldTypes
   CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
 
   DATA pSelf
@@ -48,6 +49,7 @@ PRIVATE:
   METHOD GetBof INLINE ::Alias:Bof
   METHOD GetDbStruct
   METHOD GetEof INLINE ::Alias:Eof
+  METHOD GetFieldTypes
   METHOD GetFound INLINE ::Alias:Found
   METHOD GetIndexName INLINE ::FIndex:Name
   METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex = NIL .OR. ::FPrimaryIndex:UniqueKeyField = NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
@@ -83,16 +85,12 @@ PUBLIC:
 
   CONSTRUCTOR New( MasterSource )
 
-#ifndef _DEBUG_
-  DESTRUCTOR OnDestruct
-#endif
-
   METHOD AddMessageField( MessageName, AField )
   METHOD Cancel
   METHOD ChildSource( tableName )
   METHOD CopyRecord( Value )
   METHOD Count
-  METHOD DefineFields                 VIRTUAL
+  METHOD DefineFields
   METHOD DefineIndexes                VIRTUAL
   METHOD DefineMasterDetailFields     VIRTUAL
   METHOD DefineRelations              VIRTUAL
@@ -110,6 +108,7 @@ PUBLIC:
   METHOD GetAsString INLINE iif( ::PrimaryKeyField=NIL, "", ::PrimaryKeyField:AsString )
   METHOD GetAsVariant INLINE iif( ::PrimaryKeyField=NIL, NIL, ::PrimaryKeyField:Value )
   METHOD GetCurrentRecord
+  METHOD GetDisplayFieldBlock( nField )
   METHOD GetDisplayFields( directAlias )
   METHOD HasChilds
   METHOD IndexByName( IndexName )
@@ -119,6 +118,7 @@ PUBLIC:
   METHOD Last INLINE ::FirstLast( 1 )
   METHOD MasterSourceClassName
   METHOD Next( numRecs )
+  METHOD Open
   METHOD Post
   METHOD RawSeek( Value )
   METHOD RecLock
@@ -137,6 +137,7 @@ PUBLIC:
   METHOD SyncDetailSources
   METHOD SyncFromMasterSourceFields
   METHOD SyncRecNo
+  METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
   METHOD ValidateFields
 
@@ -155,6 +156,7 @@ PUBLIC:
   PROPERTY Eof READ GetEof
   PROPERTY FieldList READ FFieldList
   PROPERTY Found READ GetFound
+  PROPERTY FieldTypes READ GetFieldTypes
   PROPERTY Instances READ FInstances
   PROPERTY MasterList READ FMasterList WRITE SetMasterList
   PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
@@ -166,11 +168,11 @@ PUBLISHED:
 
   DATA Cargo
 
-  PROPERTY ChildReferenceList READ FInstances[ ::ClassName, "ChildReferenceList" ]
+  PROPERTY ChildReferenceList READ FInstances[ ::TableClass, "ChildReferenceList" ]
   PROPERTY Index READ FIndex WRITE SetIndex
   PROPERTY IndexList READ FIndexList
   PROPERTY IndexName READ GetIndexName WRITE SetIndexName
-  PROPERTY MasterDetailFieldList READ FInstances[ ::ClassName, "MasterDetailFieldList" ]
+  PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
   PROPERTY MasterSource READ FMasterSource WRITE SetMasterSource
   PROPERTY PrimaryKeyField READ GetPrimaryKeyField
   PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
@@ -186,21 +188,10 @@ ENDCLASS
 */
 METHOD New( MasterSource ) CLASS TTable
 
+  ::OnCreate( Self )
+
   IF ::DataBase = NIL
     ::DataBase := ::InitDataBase()
-  ENDIF
-
-  IF !HB_HHasKey( ::FInstances, ::ClassName )
-
-    ::FInstances[ ::ClassName ] := HB_HSetCaseMatch( { "Initializing" => .T. }, .F. )
-
-  ENDIF
-
-  /*!
-   * Make sure that database is open here
-   */
-  IF ::FAlias = NIL
-    ::FAlias := TAlias():New( Self )
   ENDIF
 
   /*!
@@ -213,7 +204,7 @@ METHOD New( MasterSource ) CLASS TTable
      */
     IF ::MasterSourceClassName != NIL
       IF !MasterSource:IsDerivedFrom( ::MasterSourceClassName ) .AND. !::DataBase:TableIsDerivedFrom( ::MasterSourceClassName, MasterSource:ClassName )
-        RAISE ERROR "Table <" + ::ClassName + "> Invalid MasterSource Class Name: " + MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceClassName + ">"
+        RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceClassName + ">"
       ENDIF
     ENDIF
 
@@ -241,44 +232,9 @@ METHOD New( MasterSource ) CLASS TTable
 
   ENDIF
 
-  IF ::FInstances[ ::ClassName, "Initializing" ]
-
-    ::FInstances[ ::ClassName, "ChildReferenceList" ] := {}
-
-    ::DefineRelations()
-
-    ::FInstances[ ::ClassName, "MasterDetailFieldList" ] := HB_HSetCaseMatch( {=>}, .F. )
-
-    ::DefineMasterDetailFields()
-
-    ::FInstances[ ::ClassName, "DisplayFieldsClass" ] := NIL
-
-    ::FInstances[ ::ClassName, "Initializing" ] := .F.
-
+  IF !Empty( ::TableName )
+    ::Open()
   ENDIF
-
-  /*!
-   * Load definitions for Fields and Indexes
-   */
-  ::FFieldList := {}
-  ::DefineFields()
-  ::FIndexList := {}
-  ::DefineIndexes()
-
-  IF Len( ::FIndexList ) > 0 .AND. ::FIndex = NIL
-    ::FIndex := ::FIndexList[ 1 ]
-  ENDIF
-
-  ::FState := dsBrowse
-
-  ::FActive := .T.
-
-  /*
-   * Try to sync with MasterSource (if any)
-   */
-  ::SyncFromMasterSourceFields()
-
-  ::OnCreate( Self )
 
 RETURN Self
 
@@ -559,6 +515,35 @@ METHOD DbGoTo( RecNo ) CLASS TTable
   ::GetCurrentRecord()
 
 RETURN Result
+
+REQUEST TStringField
+
+/*
+  DefineFields
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE DefineFields CLASS TTable
+  LOCAL dbStruct := ::GetDbStruct()
+  LOCAL fld
+  LOCAL AField
+
+  IF !Empty( ::FieldList )
+    RETURN
+  ENDIF
+
+  BEGIN FIELD SECTION
+
+  FOR EACH fld IN dbStruct
+
+    AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ]  ):New( Self )
+
+    AField:FieldMethod := fld[ 1 ]
+
+  NEXT
+
+  //END FIELD SECTION /* no Super:DefineFields to call here */
+
+RETURN
 
 /*
   Delete
@@ -931,59 +916,59 @@ RETURN .T.
   Teo. Mexico 2007
 */
 METHOD FUNCTION GetDbStruct CLASS TTable
-  IF ! HB_HHasKey( ::FInstances[ ::ClassName ], "DbStruct" )
-    ::FInstances[ ::ClassName, "DbStruct" ] := ::Alias:DbStruct
+  IF ! HB_HHasKey( ::FInstances[ ::TableClass ], "DbStruct" )
+    ::FInstances[ ::TableClass, "DbStruct" ] := ::Alias:DbStruct
   ENDIF
-RETURN ::FInstances[ ::ClassName, "DbStruct" ]
+RETURN ::FInstances[ ::TableClass, "DbStruct" ]
 
 /*
-  GetDisplayFields
-  Teo. Mexico 2007
+  GetDisplayFieldBlock
+  Teo. Mexico 2008
 */
-  STATIC FUNCTION Make_cb_GetDisplayFields( Table, n )
+METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
 
-    IF !Table:FieldList[ n ]:IsDerivedFrom("TObjectField")
-      #ifdef __XHARBOUR__
-      RETURN ;
-        <|Self|
-      #else
-      RETURN ;
-        {|Self|
-      #endif
-          LOCAL Result
-          IF ::__Obj:Eof()
-            Result := ::__Obj:FieldList[ n ]:EmptyValue
-          ELSE
-            Result := ::__Obj:FieldList[ n ]:Value
-          ENDIF
-          /*
-           * Alias RecNo maybe changed, so force a record sync
-           */
-          ::__FObj:Alias:SyncFromRecNo()
-          RETURN Result
-        #ifdef __XHARBOUR__
-        >
-        #else
-        }
-        #endif
-    ENDIF
-
+  IF !::FieldList[ n ]:IsDerivedFrom("TObjectField")
     #ifdef __XHARBOUR__
     RETURN ;
-      <|Self|
+      <|o|
     #else
     RETURN ;
-      {|Self|
+      {|o|
     #endif
-        IF ::__Obj:FieldList[ n ]:DataObj != NIL
-          RETURN ::__Obj:FieldList[ n ]:DataObj:DisplayFields
+        LOCAL Result
+        IF o:__Obj:Eof()
+          Result := o:__Obj:FieldList[ n ]:EmptyValue
+        ELSE
+          Result := o:__Obj:FieldList[ n ]:Value
         ENDIF
-        RETURN NIL
+        /*
+          * Alias RecNo maybe changed, so force a record sync
+          */
+        o:__FObj:Alias:SyncFromRecNo()
+        RETURN Result
       #ifdef __XHARBOUR__
       >
       #else
       }
       #endif
+  ENDIF
+
+  #ifdef __XHARBOUR__
+  RETURN ;
+    <|o|
+  #else
+  RETURN ;
+    {|o|
+  #endif
+      IF o:__Obj:FieldList[ n ]:DataObj != NIL
+        RETURN o:__Obj:FieldList[ n ]:DataObj:DisplayFields
+      ENDIF
+      RETURN NIL
+    #ifdef __XHARBOUR__
+    >
+    #else
+    }
+    #endif
 
 METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL DisplayFieldsClass
@@ -992,7 +977,7 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
 
   IF ::FDisplayFields = NIL
 
-    IF ::FInstances[ ::ClassName, "DisplayFieldsClass" ] = NIL
+    IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] = NIL
 
       DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields" )
 
@@ -1007,7 +992,7 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
         /* TODO: Check for a duplicate message name */
         IF !Empty( MessageName ) //.AND. ! __ObjHasMsg( ef, MessageName )
 
-          DisplayFieldsClass:AddInline( MessageName, Make_cb_GetDisplayFields( Self, AField:__enumIndex() ) )
+          DisplayFieldsClass:AddInline( MessageName, ::GetDisplayFieldBlock( AField:__enumIndex() ) )
 
         ENDIF
 
@@ -1020,16 +1005,52 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
 
       DisplayFieldsClass:Create()
 
-      ::FInstances[ ::ClassName, "DisplayFieldsClass" ] := DisplayFieldsClass
+      ::FInstances[ ::TableClass, "DisplayFieldsClass" ] := DisplayFieldsClass
 
     ENDIF
 
-    ::FDisplayFields := ::FInstances[ ::ClassName, "DisplayFieldsClass" ]:Instance()
+    ::FDisplayFields := ::FInstances[ ::TableClass, "DisplayFieldsClass" ]:Instance()
     ::FDisplayFields:__FObj := Self
 
   ENDIF
 
 RETURN ::FDisplayFields
+
+/*
+  GetFieldTypes
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GetFieldTypes CLASS TTable
+
+  IF ::FFieldTypes = NIL
+    ::FFieldTypes := {=>}
+    ::FFieldTypes['C'] := "TStringField"    /* HB_FT_STRING */
+    ::FFieldTypes['L'] := "TLogicalField"   /* HB_FT_LOGICAL */
+    ::FFieldTypes['D'] := "TDateField"      /* HB_FT_DATE */
+    ::FFieldTypes['I'] := "TNumericField"   /* HB_FT_INTEGER */
+    ::FFieldTypes['Y'] := "TNumericField"   /* HB_FT_CURRENCY */
+    ::FFieldTypes['2'] := "TNumericField"   /* HB_FT_INTEGER */
+    ::FFieldTypes['4'] := "TNumericField"   /* HB_FT_INTEGER */
+    ::FFieldTypes['N'] := "TNumericField"   /* HB_FT_LONG */
+    ::FFieldTypes['F'] := "TNumericField"   /* HB_FT_FLOAT */
+    ::FFieldTypes['8'] := "TNumericField"   /* HB_FT_DOUBLE */
+    ::FFieldTypes['B'] := "TNumericField"   /* HB_FT_DOUBLE */
+
+    ::FFieldTypes['T'] := "TTimeField"      /* HB_FT_DAYTIME(8) HB_FT_TIME(4) */
+    ::FFieldTypes['@'] := "TDayTimeField"   /* HB_FT_DAYTIME */
+    ::FFieldTypes['='] := "TModTimeField"   /* HB_FT_MODTIME */
+    ::FFieldTypes['^'] := "TRowVerField"    /* HB_FT_ROWVER */
+    ::FFieldTypes['+'] := "TAutoIncField"   /* HB_FT_AUTOINC */
+    ::FFieldTypes['Q'] := "TVarLengthField" /* HB_FT_VARLENGTH */
+    ::FFieldTypes['V'] := "TVarLengthField" /* HB_FT_VARLENGTH */
+    ::FFieldTypes['M'] := "TMemoField"      /* HB_FT_MEMO */
+    ::FFieldTypes['P'] := "TImageField"     /* HB_FT_IMAGE */
+    ::FFieldTypes['W'] := "TBlobField"      /* HB_FT_BLOB */
+    ::FFieldTypes['G'] := "TOleField"       /* HB_FT_OLE */
+    ::FFieldTypes['0'] := "TVarLengthField" /* HB_FT_VARLENGTH (NULLABLE) */
+  ENDIF
+
+RETURN ::FFieldTypes
 
 /*
   GetPublishedFieldList
@@ -1188,17 +1209,67 @@ METHOD PROCEDURE Next( numRecs ) CLASS TTable
 
 RETURN
 
-#ifndef _DEBUG_
 /*
-  OnDestruct
-  Teo. Mexico 2007
+  Open
+  Teo. Mexico 2008
 */
-METHOD PROCEDURE OnDestruct CLASS TTable
+METHOD FUNCTION Open CLASS TTable
 
-  ::Destroy()
+  /*!
+   * Make sure that database is open here
+   */
+  IF ::FAlias = NIL
+    ::FAlias := TAlias():New( Self )
+  ENDIF
 
-RETURN
-#endif
+  IF !HB_HHasKey( ::FInstances, ::TableClass )
+
+    ::FInstances[ ::TableClass ] := HB_HSetCaseMatch( { "Initializing" => .T. }, .F. )
+
+  ENDIF
+
+  IF ::FInstances[ ::TableClass, "Initializing" ]
+
+    ::FInstances[ ::TableClass, "ChildReferenceList" ] := {}
+
+    ::DefineRelations()
+
+    ::FInstances[ ::TableClass, "MasterDetailFieldList" ] := HB_HSetCaseMatch( {=>}, .F. )
+
+    ::DefineMasterDetailFields()
+
+    ::FInstances[ ::TableClass, "DisplayFieldsClass" ] := NIL
+
+    ::FInstances[ ::TableClass, "Initializing" ] := .F.
+
+  ENDIF
+
+  /*!
+   * Load definitions for Fields and Indexes
+   */
+  IF Empty( ::FFieldList )
+    ::FFieldList := {}
+    ::DefineFields()
+  ENDIF
+  IF Empty( ::FIndexList )
+    ::FIndexList := {}
+    ::DefineIndexes()
+  ENDIF
+
+  IF Len( ::FIndexList ) > 0 .AND. ::FIndex = NIL
+    ::FIndex := ::FIndexList[ 1 ]
+  ENDIF
+
+  ::FState := dsBrowse
+
+  ::FActive := .T.
+
+  /*
+   * Try to sync with MasterSource (if any)
+   */
+  ::SyncFromMasterSourceFields()
+
+RETURN .T.
 
 /*
   Post

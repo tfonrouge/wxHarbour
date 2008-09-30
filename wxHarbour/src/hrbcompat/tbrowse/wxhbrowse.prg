@@ -13,6 +13,8 @@
 #include "hbclass.ch"
 #include "property.ch"
 
+#include "wxharbour.ch"
+
 /*
   wxhBrowseDb
   Teo. Mexico 2008
@@ -23,6 +25,8 @@ PROTECTED:
 PUBLIC:
 
   METHOD New( table, window, id, pos, size, style, name )
+
+  METHOD AddAllColumns
 
 PUBLISHED:
 ENDCLASS
@@ -40,6 +44,22 @@ METHOD New( table, window, id, pos, size, style, name ) CLASS wxhBrowseDb
 RETURN Self
 
 /*
+  AddAllColumns
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE AddAllColumns CLASS wxhBrowseDb
+  LOCAL table
+  LOCAL fld
+
+  table := ::GetTable():Table
+
+  FOR EACH fld IN table:FieldList
+    wxh_BrowseDbAddColumn( .F., Self, fld:Label, table:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
+  NEXT
+
+RETURN
+
+/*
   End Class wxhBrowseDb
 */
 
@@ -53,6 +73,7 @@ PRIVATE:
   METHOD GetResult( hColumn )
   METHOD SetTable( table )
 PROTECTED:
+  METHOD BuildTableFromAlias( tableName )
 PUBLIC:
 
   DATA ColCount INIT 0
@@ -99,6 +120,19 @@ METHOD PROCEDURE AddColumn( hColumn ) CLASS wxhBrowseDbProvider
   ::ColCount := Len( ::ColumnList )
   ::AppendCols()
 RETURN
+
+/*
+  BuildTableFromAlias
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION BuildTableFromAlias( tableName ) CLASS wxhBrowseDbProvider
+  LOCAL table
+
+  table := TTable():New()
+  table:TableName := tableName
+  table:Open()
+
+RETURN table
 
 /*
   GetColLabelValue
@@ -203,9 +237,12 @@ RETURN ::GetResult( ::ColumnList[ col + 1 ] )
   Teo. Mexico 2008
 */
 METHOD PROCEDURE SetTable( table ) CLASS wxhBrowseDbProvider
+  IF ValType( table ) = "C"
+    table := ::BuildTableFromAlias( table )
+  ENDIF
   ::FTable := table
   ::ColCount := 0
-  ::RowCount := 0
+  ::RowCount := table:Alias:RecCount()
   ::ColumnList := {}
   ::ColumnZero := NIL
 RETURN

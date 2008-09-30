@@ -11,27 +11,20 @@
 */
 
 /*
-  wx Dialog Functions
+  wx_FileDialog: Interface
   Teo. Mexico 2008
 */
 
-#include "wx/wx.h"
-#include "wxh.h"
+#include <wx/filedlg.h>
 
-/*
-  wxMessageBox
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXMESSAGEBOX )
+class wx_FileDialog : public wxFileDialog
 {
+private:
+protected:
+public:
 
-  const wxString& message = wxString( hb_parcx(1), wxConvLocal );
-  const wxString& caption = wxString( hb_parcx(2), wxConvLocal );
-  int style = ISNIL(3) ? wxOK : hb_parni(3);
-  wxWindow* window = (wxWindow *) hb_par_WX( 4 );
-  int x = ISNIL(5) ? -1 : hb_parni(5);
-  int y = ISNIL(6) ? -1 : hb_parni(6);
+  wx_FileDialog(wxWindow* parent, const wxString& message = wxT("Choose a file"), const wxString& defaultDir = wxT(""), const wxString& defaultFile = wxT(""), const wxString& wildcard = wxT("*.*"), long style = wxFD_DEFAULT_STYLE, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, const wxString& name = wxT("filedlg") ) : wxFileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name ) {};
 
-  hb_retni( wxMessageBox( message, caption, style, window, x, y ) );
+  ~wx_FileDialog();
 
-}
+};

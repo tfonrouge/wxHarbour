@@ -207,7 +207,7 @@
 /*
   BCOLUMN
 */
-#xcommand BCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
+#xcommand ADD BCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
           => ;
           wxh_BrowseDbAddColumn( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
 

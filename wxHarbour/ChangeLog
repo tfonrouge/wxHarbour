@@ -2,6 +2,60 @@
  *
  */
 
+2008-09-30 11:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxh/filedlg.ch
+  + include/wxbase/wx_filedialog.h
+  + src/wxbase/comdialogs
+  + src/wxbase/comdialogs/wx_filedialog.cpp
+  + src/wxbase/comdialogs/wxhfiledialog.prg
+  * wxharbour.bkl
+  * wxharbour.spec
+    + added wxFileDialog classes
+
+  * include/raddox.ch
+    + added PICTURE, LABEL clauses to ADD ... FIELD command
+    * minor cleanup on METHOD PROCEDURE DefineFields command
+
+  * include/wxbase/wx_dialog.h
+    * minor correction on year
+
+  * include/wxharbour.ch
+    * changed BCOLUMN to ADD BCOLUMN
+
+  * samples/dbbrowser/dbbrowser.prg
+    * sample updated
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    + added method AddAllColumns()
+      ; add all TFields (table:FieldList) to the grid
+    + added method BuildTableFromAlias()
+      ; create a TTable and TField obj's from a alias/filename
+
+  * src/raddox/talias.prg
+    ! Fixed using the alias (::FName) instead of ::TableName (the real filename)
+      to open a database.
+
+  * src/raddox/tfield.prg
+    * minor cleanup on error message description
+    * moved ::FieldTypes hash to ::Table
+    + added ::Label, ::Picture
+
+  * src/raddox/ttable.prg
+    + added code to ::DefineFields, this is to poblate a non inherited TTable obj
+      from an opened database
+    + added index using the ::ClassName + "@" + ::TableName to create data for a specific
+      database opened (used on ::FInstances) this allows to use a TTable class non inherited
+      to open databases. ::TableClass is the new method.
+    * created ::Open and moved there code placed in ::New
+    * moved static func Make_cb_GetDisplayFields to a method ::GetDisplayFieldBlock(nField)
+
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/miscfuncs/wx_dialogfuncs.cpp
+    * minor cleanup
+
 2008-09-27 18:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * ChangeLog
   * GNUmakefile
