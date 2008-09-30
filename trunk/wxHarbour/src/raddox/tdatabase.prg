@@ -12,6 +12,12 @@
 
 STATIC aDBRelationCommands
 
+#ifdef __XHARBOUR__
+
+#include "wx_hbcompat.ch"
+
+#endif
+
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"

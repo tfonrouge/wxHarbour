@@ -12,6 +12,10 @@
 
 STATIC BaseArray:="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+#ifdef __XHARBOUR__
+#include "wx_hbcompat.ch"
+#endif
+
 #ifndef __XHARBOUR__
 /*
   __ClsInstName
