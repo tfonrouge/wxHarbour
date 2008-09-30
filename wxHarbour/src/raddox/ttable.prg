@@ -709,15 +709,16 @@ RETURN Result
 METHOD FUNCTION FindMasterSourceField( detailField ) CLASS TTable
   LOCAL enum
   LOCAL name
+  LOCAL vt := ValType( detailField )
 
   IF ::FMasterSource = NIL
     RETURN NIL
   ENDIF
 
   DO CASE
-  CASE hb_IsChar( detailField )
+  CASE vt = "C"
     name := Upper( detailField )
-  CASE hb_IsObject( detailField ) .AND. detailField:IsDerivedFrom( "TField" )
+  CASE vt = "O" .AND. detailField:IsDerivedFrom( "TField" )
     name := Upper( detailField:Name )
   OTHERWISE
     RETURN NIL

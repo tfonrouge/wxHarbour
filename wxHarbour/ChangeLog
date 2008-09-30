@@ -2,6 +2,19 @@
  *
  */
 
+2008-09-30 13:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wx_hbcompat.ch
+    ! Some translations don't work on xHarbour (HB_HHASKEY... => HHASKEY... )
+
+  * src/common/wxhfuncs.prg
+  * src/raddox/tdatabase.prg
+  * src/common/wxhutils.prg
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    * added "wx_hbcompat.ch" to compile with xHarbour
+
+  * src/raddox/ttable.prg
+    * cleaned some xHarbour incompat.
+
 2008-09-30 12:21 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wx_hbcompat.ch
     * added some missing translations for xHarbour <-> Harbour
