@@ -130,6 +130,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxGET.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhbrowsedbprovider.obj \
 	$(__BUILDDIR__)\wxHarbour_dba.obj \
 	$(__BUILDDIR__)\wxHarbour_talias.obj \
 	$(__BUILDDIR__)\wxHarbour_tdatabase.obj \
@@ -164,6 +165,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhsocketbase.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhsocketclient.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhsocketserver.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhscrollbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhboxsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhgridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhsizer.obj \
@@ -205,6 +207,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_socketbase.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_socketclient.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_socketserver.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_scrollbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_boxsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_gridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_sizer.obj \
@@ -340,6 +343,9 @@ $(__BUILDDIR__)\wxHarbour_wxhcolumn.obj: .\src\hrbcompat\tbcolumn\wxhcolumn.prg
 $(__BUILDDIR__)\wxHarbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhbrowsedbprovider.obj: .\src\hrbcompat\tbrowse\wxhbrowsedbprovider.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_dba.obj: .\src\raddox\dba.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -440,6 +446,9 @@ $(__BUILDDIR__)\wxHarbour_wxhsocketclient.obj: .\src\wxbase\networking\wxhsocket
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhsocketserver.obj: .\src\wxbase\networking\wxhsocketserver.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhscrollbar.obj: .\src\wxbase\range\wxhscrollbar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhboxsizer.obj: .\src\wxbase\sizers\wxhboxsizer.prg
@@ -564,6 +573,9 @@ $(__BUILDDIR__)\wxHarbour_wx_socketclient.obj: .\src\wxbase\networking\wx_socket
 
 $(__BUILDDIR__)\wxHarbour_wx_socketserver.obj: .\src\wxbase\networking\wx_socketserver.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\networking\wx_socketserver.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_scrollbar.obj: .\src\wxbase\range\wx_scrollbar.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\range\wx_scrollbar.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_boxsizer.obj: .\src\wxbase\sizers\wx_boxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\sizers\wx_boxsizer.cpp

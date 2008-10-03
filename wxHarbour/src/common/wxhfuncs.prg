@@ -70,46 +70,44 @@ FUNCTION wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
 RETURN sizer
 
 /*
- * wxh_BrowseDb
- * Teo. Mexico 2008
+  wxh_Browse
+  Teo. Mexico 2008
  */
-FUNCTION wxh_BrowseDb( table, window, id, pos, size, style, name )
+FUNCTION wxh_Browse( dataSource, window, id, pos, size, style, name )
   LOCAL wxhBrw
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhBrw := wxhBrowseDb():New( table, window, id, pos, size, style, name )
+  wxhBrw := wxhBrowse():New( dataSource, window, id, pos, size, style, name )
 
-  containerObj():SetLastChild( wxhBrw )
+  containerObj():SetLastChild( wxhBrw:panel )
 
 RETURN wxhBrw
 
 /*
-  wxh_BrowseDbAddColumn
+  wxh_BrowseAddColumn
   Teo. Mexico 2008
 */
-PROCEDURE wxh_BrowseDbAddColumn( zero, wxhBrw, title, block, picture, width )
-  LOCAL hColumn := HB_HSetCaseMatch( {=>}, .F. )
+PROCEDURE wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
+  LOCAL column := wxhBColumn():New( title, block )
 
-  hColumn["title"]   := title
-  hColumn["block"]   := block
-  hColumn["picture"] := picture
-  hColumn["width"]   := width
+  column:Picture := picture
+  column:Width   := width
 
   IF zero
-    wxhBrw:GetTable():ColumnZero := hColumn
+    wxhBrw:GetTable():ColumnZero := column
   ELSE
-    wxhBrw:GetTable():AddColumn( hColumn )
+    wxhBrw:GetTable():AddColumn( column )
   ENDIF
 
 RETURN
 
 /*
- * wxh_Button
- * Teo. Mexico 2008
- */
+  wxh_Button
+  Teo. Mexico 2008
+*/
 FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
   LOCAL button
 
@@ -407,19 +405,47 @@ FUNCTION wxh_SAY( window, id, label, pos, size, style, name )
 RETURN Result
 
 /*
+  wxh_ScrollBar
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
+  LOCAL sb
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  IF Empty( style )
+    style := orient
+  ELSE
+    style := HB_BitOr( orient, style )
+  ENDIF
+
+  sb := wxScrollBar():New( window, id, pos, size, style, validator, name )
+  sb:SetScrollbar( 0, 1, 100, 1)
+
+  IF bAction != NIL
+    sb:Connect( sb:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( sb )
+
+RETURN sb
+
+/*
   wxh_SetSizer
   Teo. Mexico 2008
 */
 PROCEDURE wxh_SetSizer( window, sizer )
   LOCAL bookCtrl
   LOCAL IsWindowBook := .F.
-  
+
   FOR EACH bookCtrl IN containerObj():BookCtrls
     IF window:IsDerivedFrom( bookCtrl )
       IsWindowBook := .T.
     ENDIF
   NEXT
-  
+
   IF IsWindowBook
     Alert( "Sizer cannot be a direct child of a " + window:ClassName() + " control.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
   ENDIF
@@ -702,13 +728,13 @@ RETURN
 METHOD PROCEDURE AddToNextBookPage( hInfo ) CLASS TContainerObj
   LOCAL bookCtrl
   LOCAL IsParentBook := .F.
-  
+
   FOR EACH bookCtrl IN ::BookCtrls
     IF ::LastParent():IsDerivedFrom( bookCtrl )
       IsParentBook := .T.
     ENDIF
   NEXT
-  
+
   IF !IsParentBook
     Alert( "Previuos page not a " + bookCtrl + " control" )
     RETURN
@@ -766,7 +792,7 @@ METHOD PROCEDURE CheckForAddPage( window ) CLASS TContainerObj
       IsParentBook := .T.
     ENDIF
   NEXT
-    
+
   IF IsParentBook
     hInfo := ATail( ::FParentList )[ "pageInfo" ]
     IF  hInfo != NIL

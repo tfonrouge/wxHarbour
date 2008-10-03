@@ -11,18 +11,20 @@
 */
 
 /*
-  wx_Grid: Interface
+  wx_ScrollBar: Interface
   Teo. Mexico 2008
 */
 
-class wx_Grid : public wxGrid
+class wx_ScrollBar : public wxScrollBar
 {
 private:
 protected:
 public:
-  wx_Grid() : wxGrid() {}
-  wx_Grid( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = wxPanelNameStr ) : wxGrid( parent, id, pos, size, style, name ) {}
 
-  ~wx_Grid();
+  wx_ScrollBar() : wxScrollBar() {}
+
+  wx_ScrollBar(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxSB_HORIZONTAL, const wxValidator& validator = wxDefaultValidator, const wxString& name = wxT("scrollBar") ) : wxScrollBar( parent, id, pos, size, style, validator, name ) {}
+
+  ~wx_ScrollBar();
 
 };

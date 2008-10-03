@@ -181,16 +181,16 @@
 /*
   BROWSEDB
 */
-#xcommand @ BROWSEDB [ [VAR] <wxBrw> ] ;
-            [ TABLE <table> ] ;
+#xcommand @ BROWSE [ [VAR] <wxBrw> ] ;
+            [ DATASOURCE <dataSource> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
-            [<wxBrw>:=]wxh_BrowseDb( ;
-              [<table>],;
+            [<wxBrw>:=]wxh_Browse( ;
+              [<dataSource>],;
               [<window>],;
               [<id>],;
               ,;
@@ -199,9 +199,9 @@
               [<name>] ;
             )
 
-#xcommand @ BROWSEDB [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
-          @ BROWSEDB [<bclauses>] ;;
+          @ BROWSE [<bclauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
 
 /*
@@ -209,7 +209,7 @@
 */
 #xcommand ADD BCOLUMN [<zero: ZERO>] <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
           => ;
-          wxh_BrowseDbAddColumn( <.zero.>, <wxBrw>, <title>, {|o| <block> }, [<picture>], [<width>] )
+          wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>] )
 
 /*
  * Button
@@ -367,6 +367,36 @@
           @ SAY [<sayclauses>] ;;
           @ GET [<getclauses>] ;;
           END SIZER
+
+/*
+  ScrollBar
+  Teo. Mexico 2006
+*/
+#xcommand @ SCROLLBAR <orient: HORIZONTAL, VERTICAL>;
+            [ VAR <sb> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <sb> := ]wxh_ScrollBar( ;
+            [<window>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [wxSB_<orient>],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ SCROLLBAR [<clauses,...>] SIZERINFO [<sizerclauses,...>] ;
+          => ;
+          @ SCROLLBAR [<clauses>] ;;
+          @ SIZERINFO [<sizerclauses>]
 
 /*
   StatusBar

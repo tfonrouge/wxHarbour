@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,7 +7,7 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 #ifdef __XHARBOUR__
@@ -16,21 +16,50 @@
 
 #include "hbclass.ch"
 #include "property.ch"
-
+#include "inkey.ch"
 #include "wxharbour.ch"
 
 /*
-  wxhBrowseDb
+  wxhBrowse
   Teo. Mexico 2008
 */
-CLASS wxhBrowseDb FROM wxGrid
+CLASS wxhBrowse FROM wxGrid
 PRIVATE:
 PROTECTED:
 PUBLIC:
 
-  METHOD New( table, window, id, pos, size, style, name )
+  DATA boxSizer
+  DATA panel
+  DATA scrollBar
+
+  CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
+  METHOD wxNew( window, id, pos, size, style, name )
 
   METHOD AddAllColumns
+
+  /* don't call this methods here */
+  METHOD AppendCols( numCols )          VIRTUAL
+  METHOD AppendRows( numRows )          VIRTUAL
+  METHOD DeleteCols( pos, numCols )     VIRTUAL
+  METHOD DeleteRows( pos, numRows )     VIRTUAL
+  METHOD InsertCols( pos, numCols )     VIRTUAL
+  METHOD InsertRows( pos, numRows )     VIRTUAL
+  /* don't call this methods here */
+
+  /* TBrowse compatible vars */
+  METHOD RowCount
+  /* TBrowse compatible vars */
+
+  /* TBrowse compatible methods */
+  METHOD AddColumn( column )    INLINE ::GetTable():AddColumn( column )
+  METHOD DelColumn( pos )       INLINE ::GetTable():DelColumn( pos )
+  METHOD GoBottom               INLINE ::GetTable():GoBottomBlock:Eval()
+  METHOD GoTop                  INLINE ::GetTable():GoTopBlock:Eval()
+  /* TBrowse compatible methods */
+
+  METHOD EventManager
+
+  PROPERTY index READ GetTable():index
 
 PUBLISHED:
 ENDCLASS
@@ -39,11 +68,23 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( table, window, id, pos, size, style, name ) CLASS wxhBrowseDb
+METHOD New( dataSource, window, id, pos, size, style, name ) CLASS wxhBrowse
 
-  Super:New( window, id, pos, size, style, name )
+  ::panel := wxPanel():New( window )
+  ::boxSizer := wxBoxSizer():New( wxHORIZONTAL )
+  ::panel:SetSizer( ::boxSizer )
 
-  ::SetTable( wxhBrowseDbProvider():New( table ), .F. )
+  ::wxNew( ::panel, id, pos, size, style, name )
+
+  ::boxSizer:Add( Self, 1, HB_BitOr( wxGROW, wxALL), 5 )
+  ::scrollBar := wxScrollBar():New( ::panel, NIL, NIL, NIL, wxSB_VERTICAL )
+  ::scrollBar:SetScrollbar( 2, 0, 4, 1 )
+  ::boxSizer:Add( ::scrollBar, 0, wxGROW, 5 )
+
+  ::scrollBar:Connect( ::scrollBar:GetId(), wxEVT_SCROLL_LINEUP, {|| ::EventManager( K_PGUP ) } )
+
+  ::SetTable( wxhBrowseTableBase():New( dataSource ), .T. )
+  ::GoTop()
 
 RETURN Self
 
@@ -51,216 +92,34 @@ RETURN Self
   AddAllColumns
   Teo. Mexico 2008
 */
-METHOD PROCEDURE AddAllColumns CLASS wxhBrowseDb
-  LOCAL table
+METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
+  LOCAL dataSource
   LOCAL fld
 
-  table := ::GetTable():Table
+  dataSource := ::GetTable():DataSource
 
-  FOR EACH fld IN table:FieldList
-    wxh_BrowseDbAddColumn( .F., Self, fld:Label, table:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
-  NEXT
-
-RETURN
-
-/*
-  End Class wxhBrowseDb
-*/
-
-/*
-  wxhBrowseDbProvider
-  Teo. Mexico 2008
-*/
-CLASS wxhBrowseDbProvider FROM wxGridTableBase
-PRIVATE:
-  DATA FTable
-  METHOD GetResult( hColumn )
-  METHOD SetTable( table )
-PROTECTED:
-  METHOD BuildTableFromAlias( tableName )
-PUBLIC:
-
-  DATA ColCount INIT 0
-  DATA ColumnList INIT {}
-  DATA ColumnZero
-  DATA RowCount INIT 5
-
-  METHOD New( table )
-
-  METHOD AddColumn( hColumn )
-
-  METHOD GetColLabelValue( col )
-  METHOD GetRowLabelValue( row )
-
-  METHOD GetNumberCols
-  METHOD GetNumberRows
-  METHOD GetValue( row, col )
-  METHOD SetValue( row, col, value )
-
-PUBLISHED:
-
-  PROPERTY Table READ FTable WRITE SetTable
-
-ENDCLASS
-
-/*
-  New
-  Teo. Mexico 2008
-*/
-METHOD New( table ) CLASS wxhBrowseDbProvider
-
-  Super:New()
-
-  ::SetTable( table )
-
-RETURN Self
-
-/*
-  AddColumn
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE AddColumn( hColumn ) CLASS wxhBrowseDbProvider
-  AAdd( ::ColumnList, hColumn )
-  ::ColCount := Len( ::ColumnList )
-  ::AppendCols()
-RETURN
-
-/*
-  BuildTableFromAlias
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION BuildTableFromAlias( tableName ) CLASS wxhBrowseDbProvider
-  LOCAL table
-
-  table := TTable():New()
-  table:TableName := tableName
-  table:Open()
-
-RETURN table
-
-/*
-  GetColLabelValue
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseDbProvider
-  IF col < 0
-    RETURN ""
-  ENDIF
-RETURN ::ColumnList[ col + 1, "title" ]
-
-/*
-  GetResult
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetResult( hColumn ) CLASS wxhBrowseDbProvider
-  LOCAL Result
-  LOCAL width
-  LOCAL picture
-
-  picture  := hColumn[ "picture" ]
-  width    := hColumn[ "width" ]
-
-  Result := hColumn[ "block" ]:Eval( ::FTable:DisplayFields() )
-
-  IF picture != NIL
-    Result := Transform( Result, picture )
-  ENDIF
-
-  SWITCH ValType( Result )
-  CASE 'N'
-    Result := Str( Result )
-    EXIT
-  CASE 'D'
-    Result := FDateS( Result )
-    EXIT
-  CASE 'L'
-    Result := iif( Result, "True", "False" )
-    EXIT
-  CASE 'C'
-  CASE 'M'
-    EXIT
-  #ifdef __XHARBOUR__
-  DEFAULT
-  #else
-  OTHERWISE
-  #endif
-    Result := "<unknown type '" + ValType( Result ) + "'>"
-  END
-
-  IF width != NIL
-    Result := Left( Result, width )
-  ENDIF
-
-RETURN Result
-
-/*
-  GetRowLabelValue
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseDbProvider
-  IF Empty( ::ColumnZero )
-    RETURN LTrim( Str( row + 1 ) )
-  ENDIF
-  ::FTable:RecNo := row + 1
-RETURN ::GetResult( ::ColumnZero )
-
-/*
-  GetNumberCols
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetNumberCols CLASS wxhBrowseDbProvider
-RETURN ::ColCount
-
-/*
-  GetNumberRows
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetNumberRows CLASS wxhBrowseDbProvider
-RETURN ::RowCount
-
-/*
-  GetValue
-  Teo. Mexico 2008
-*/
-METHOD GetValue( row, col ) CLASS wxhBrowseDbProvider
-
-  IF col >= ::ColCount
-    RETURN "<error>" /* raise error ? */
-  ENDIF
-
-  ::FTable:RecNo := row + 1
-
-  IF ::FTable:Eof()
-    RETURN ""
-  ENDIF
-
-RETURN ::GetResult( ::ColumnList[ col + 1 ] )
-
-/*
-  SetTable
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE SetTable( table ) CLASS wxhBrowseDbProvider
-  IF ValType( table ) = "C"
-    table := ::BuildTableFromAlias( table )
-  ENDIF
-  ::FTable := table
-  ::ColCount := 0
-  ::RowCount := table:Alias:RecCount()
-  ::ColumnList := {}
-  ::ColumnZero := NIL
-RETURN
-
-/*
-  SetValue
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseDbProvider
-
-  ? "Changing:","Row:", row, "Col:", col, "Value:",value
+  DO CASE
+  CASE ValType( dataSource ) = "O" .AND. dataSource:IsDerivedFrom( "TTable" )
+    FOR EACH fld IN dataSource:FieldList
+      wxh_BrowseAddColumn( .F., Self, fld:Label, dataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
+    NEXT
+  ENDCASE
 
 RETURN
 
 /*
-  End Class wxhBrowseDbProvider
+  EventManager
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE EventManager( nKey ) CLASS wxhBrowse
+
+  DO CASE
+  CASE nKey = K_PGUP
+
+  ENDCASE
+
+RETURN
+
+/*
+  End Class wxhBrowse
 */
