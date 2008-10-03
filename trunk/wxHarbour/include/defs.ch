@@ -148,4 +148,10 @@
 #define  wxMORE                 0x00010000
 #define  wxSETUP                0x00020000
 
+/*
+ * wxScrollBar flags
+ */
+#define wxSB_HORIZONTAL      wxHORIZONTAL
+#define wxSB_VERTICAL        wxVERTICAL
+
 #endif

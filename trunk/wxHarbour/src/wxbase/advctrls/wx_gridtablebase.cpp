@@ -33,42 +33,109 @@ wx_GridTableBase::~wx_GridTableBase()
 }
 
 /*
-  GetNumberCols
-  Teo. Mexico 2006
+  AppendCols
+  Teo. Mexico 2008
 */
-int wx_GridTableBase::GetNumberCols()
+bool wx_GridTableBase::AppendCols( size_t numCols )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberCols");
-#ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 );
-  return hb_stackReturnItem()->item.asInteger.value;
-#else
-  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 )->item.asInteger.value;
-#endif
+  if( GetView() && numCols > 0 )
+  {
+    m_numCols += numCols;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_APPENDED, numCols );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
 }
 
 /*
-  GetNumberRows
-  Teo. Mexico 2006
+  AppendRows
+  Teo. Mexico 2008
 */
-int wx_GridTableBase::GetNumberRows()
+bool wx_GridTableBase::AppendRows( size_t numRows )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("GetNumberRows");
-#ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 );
-  return hb_stackReturnItem()->item.asInteger.value;
-#else
-  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 0 )->item.asInteger.value;
-#endif
+  if( GetView() && numRows > 0 )
+  {
+    m_numRows += numRows;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_APPENDED, numRows );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
 }
 
 /*
-  GetNumberCols
+  DeleteCols
+  Teo. Mexico 2008
+*/
+bool wx_GridTableBase::DeleteCols( size_t pos, size_t numCols )
+{
+  if( GetView() && numCols > 0 && (pos + numCols) <= m_numCols )
+  {
+    m_numCols -= numCols;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_DELETED, pos, numCols );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
+}
+
+/*
+  DeleteRows
+  Teo. Mexico 2008
+*/
+bool wx_GridTableBase::DeleteRows( size_t pos, size_t numRows )
+{
+  if( GetView() && numRows > 0 && (pos + numRows) <= m_numRows )
+  {
+    m_numRows -= numRows;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_DELETED, pos, numRows );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
+}
+
+/*
+  InsertCols
+  Teo. Mexico 2008
+*/
+bool wx_GridTableBase::InsertCols( size_t pos, size_t numCols )
+{
+  if( GetView() && numCols > 0 )
+  {
+    m_numCols += numCols;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_INSERTED, pos, numCols );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
+}
+
+/*
+  InsertRows
+  Teo. Mexico 2008
+*/
+bool wx_GridTableBase::InsertRows( size_t pos, size_t numRows )
+{
+  if( GetView() && numRows > 0 )
+  {
+    m_numRows += numRows;
+    wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_INSERTED, pos, numRows );
+    GetView()->ProcessTableMessage( msg );
+    return true;
+  }
+  return false;
+}
+
+/*
+  GetValue
   Teo. Mexico 2006
 */
 wxString wx_GridTableBase::GetValue( int row, int col )
 {
   static PHB_DYNS pDyns = hb_dynsymFindName("GetValue");
+
 #ifdef __XHARBOUR__
   hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
   return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
@@ -142,11 +209,6 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
   hb_itemReturn( pSelf );
 }
 
-HB_FUNC( WXGRIDTABLEBASE_SETCOLLABELVALUE )
-{
-  ((wx_GridTableBase *) hb_stackSelfItem())->SetColLabelValue( hb_parnl(1), wxString( hb_parcx(2), wxConvLocal ) );
-}
-
 /*
   AppendCols
   Teo. Mexico 2008
@@ -154,13 +216,10 @@ HB_FUNC( WXGRIDTABLEBASE_SETCOLLABELVALUE )
 HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable;
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
   size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
-  {
+  if( pSelf && gridTable )
     hb_retl( gridTable->AppendCols( numCols ) );
-    gridTable->UpdateRowsCols();
-  }
   else
     hb_ret();
 }
@@ -172,12 +231,73 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable;
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
   size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
-  {
+  if( pSelf && gridTable )
     hb_retl( gridTable->AppendRows( numRows ) );
-    gridTable->UpdateRowsCols();
+  else
+    hb_ret();
+}
+
+/*
+  DeleteCols
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+  size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
+  size_t numCols = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+  if( pSelf && gridTable )
+    hb_retl( gridTable->DeleteCols( pos, numCols ) );
+  else
+    hb_ret();
+}
+
+/*
+  DeleteRows
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+  size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
+  size_t numRows = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+  if( pSelf && gridTable )
+    hb_retl( gridTable->DeleteRows( pos, numRows ) );
+  else
+    hb_ret();
+}
+
+/*
+  GetNumberCols
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && gridTable )
+  {
+    hb_retnl( gridTable->GetNumberCols() );
+  }
+  else
+    hb_ret();
+}
+
+/*
+  GetNumberRows
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && gridTable )
+  {
+    hb_retnl( gridTable->GetNumberRows() );
   }
   else
     hb_ret();
@@ -190,11 +310,13 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 {
   PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable;
-  wx_Grid* grid;
-  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) &&
-        (grid = (wx_Grid *) gridTable->GetView()) )
-    pReturn = wxh_ItemListGetHB( grid );
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && gridTable )
+  {
+    wx_Grid* grid = (wx_Grid *) gridTable->GetView();
+    if( grid )
+      pReturn = wxh_ItemListGetHB( grid );
+  }
 
   if(pReturn)
     hb_itemReturn( pReturn );
@@ -209,14 +331,11 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable;
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
-  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
-  {
+  if( pSelf && gridTable )
     hb_retl( gridTable->InsertCols( pos, numCols ) );
-    gridTable->UpdateRowsCols();
-  }
   else
     hb_ret();
 }
@@ -228,71 +347,11 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable;
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
-  if( pSelf && (gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf ) ) )
-  {
+  if( pSelf && gridTable )
     hb_retl( gridTable->InsertRows( pos, numRows ) );
-    gridTable->UpdateRowsCols();
-  }
   else
     hb_ret();
-}
-
-bool wx_GridTableBase::UpdateRowsCols()
-{
-     bool updated = FALSE;
-     int rows = GetNumberRows();
-     int cols = GetNumberCols();
-
-     if (rows > m_rows)
-     {
-         if ( GetView() )
-         {
-             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_INSERTED,
-                                     0, rows - m_rows );
-
-             GetView()->ProcessTableMessage( msg );
-             updated = TRUE;
-         }
-     }
-     else if (rows < m_rows)
-     {
-         if ( GetView() )
-         {
-             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_ROWS_DELETED,
-                                     0, m_rows - rows );
-
-             GetView()->ProcessTableMessage( msg );
-             updated = TRUE;
-         }
-     }
-
-     if (cols > m_cols)
-     {
-         if ( GetView() )
-         {
-             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_INSERTED,
-                                     0, cols - m_cols );
-
-             GetView()->ProcessTableMessage( msg );
-             updated = TRUE;
-         }
-     }
-     else if (cols < m_cols)
-     {
-         if ( GetView() )
-         {
-             wxGridTableMessage msg( this, wxGRIDTABLE_NOTIFY_COLS_DELETED,
-                                     0, m_cols - cols );
-
-             GetView()->ProcessTableMessage( msg );
-             updated = TRUE;
-         }
-     }
-
-     m_rows = rows;
-     m_cols = cols;
-     return updated;
 }

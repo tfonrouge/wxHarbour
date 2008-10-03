@@ -25,6 +25,7 @@
       src/wxbase/menu
       src/wxbase/miscfuncs
       src/wxbase/networking
+      src/wxbase/range
       src/wxbase/sizers
       src/wxbase/validators
       src/wxbase/xmlclasses

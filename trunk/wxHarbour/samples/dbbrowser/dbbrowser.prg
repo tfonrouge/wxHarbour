@@ -44,8 +44,10 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL b
   LOCAL auiNb
+  LOCAL b
+  //LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+  LOCAL a := {1,2,3,4,5,6,7,8,9,10,11}
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -69,17 +71,28 @@ METHOD FUNCTION OnInit() CLASS MyApp
   BEGIN BOXSIZER VERTICAL
     BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
       BEGIN BOXSIZER VERTICAL "1" ALIGN EXPAND
+        BEGIN PANEL
+        END PANEL
       END SIZER
       BEGIN BOXSIZER VERTICAL "2" ALIGN EXPAND STRETCH
-        BEGIN AUINOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
-        END AUINOTEBOOK
+        BEGIN NOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
+          @ BROWSE b DATASOURCE "main"
+//               @ BROWSE b DATASOURCE a
+        END NOTEBOOK
       END SIZER
     END SIZER
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
-      @ BUTTON "Add" ACTION AddTable( oWnd, auiNb )
+      @ BUTTON "Del Row 1" ACTION b:GetTable():DeleteRows( 0, 1 )
+      @ BUTTON "Ins Row 1" ACTION (AIns(a,1), a[1] := "Teo", b:GetTable():InsertRows( 0, 1 ))
+      @ BUTTON "Check"
       @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
     END SIZER
   END SIZER
+
+  b:AddAllColumns()
+  b:Fit()
+
+//   ADD BCOLUMN b "#" BLOCK {|| a[ b:index ] }
 
   @ STATUSBAR
 
@@ -103,7 +116,7 @@ STATIC PROCEDURE AddTable( oWnd, auiNb )
   ENDIF
 
   FOR EACH tableName IN fileDlg:GetPaths()
-    browseDb := wxhBrowseDb():New( tableName, auiNb )
+    browseDb := wxhBrowse():New( tableName, auiNb )
     browseDb:AddAllColumns()
     auiNb:AddPage( browseDb, tableName, .T. )
 //     browseDb:Fit()

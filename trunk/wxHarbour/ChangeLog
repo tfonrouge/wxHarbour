@@ -2,6 +2,84 @@
  *
  */
 
+2008-10-03 02:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+  + src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    + added wxhBrowserProvider
+      ; this class is in charge of provide data to wxhBrowse currently
+      ; it's going to handle: array, hash and databases datasources.
+  + include/wxbase/wx_scrollbar.h
+  + src/wxbase/range
+  + src/wxbase/range/wxhscrollbar.prg
+  + src/wxbase/range/wx_scrollbar.cpp
+    + added wxScrollBar
+
+  * include/defs.ch
+    + added wxSB_[HORIZONTAL|VERTICAL] defines.
+
+  * include/wxbase/wx_grid.h
+    * minor code cleanup
+
+  * include/wxbase/wx_gridtablebase.h
+    + added:
+      + AppendCols, AppendRows, DeleteCols, DeleteRows, InsertCols, InsertRows
+
+  * include/wxharbour.ch
+    * renamed @ BROWSEDB ... to @ BROWSE ... DATASOURCE <dataType>
+      ; where dataType can be a array, hash, or a TTable object (database)
+    + added @ SCROLLBAR
+
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/common/wxhfuncs.prg
+    * renamed function wxh_BrowseDb() to wxh_Browse()
+    * renamed function wxh_BrowseDbAddColumn() to wxh_BrowseAddColumn()
+    + added function wxh_ScrollBar()
+
+  * src/hrbcompat/tbcolumn/wxhcolumn.prg
+    * renamed class wxColumn to wxhBColumn (Browse Column)
+    * renamed function wxColumnNew() to wxhBColumnNew()
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+    * renamed class from wx_Browse to wxBrowse
+    * added event c++ handler to intercept changes on grid size (vertical ones to us)
+    * added wxhBrowse::CalcRowCount() to get available rows on grid (browse)
+    * added c++ class initializer from hb (wxNew)
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * blocked calls to AppendCols,AppendRows ..., we need only the harbour methods
+    + added TBrowse compat methods
+      + RowCount
+      + AddColumn
+      + DelColumn
+      + GoBottom
+      + GoTop
+    * wxhBrowse is constructed within a wxPanel and has a vert scroll bar, the
+      grid (browse) has a fixed number of rows (RowCount) and the additional
+      scroll bar is for navigation control.
+    + added
+      + AddAllColumns : currently to poblate cols from an TTable object
+    % several major enhancements
+
+  * src/wxbase/advctrls/wx_grid.cpp
+    * code cleanup to pacify MSVC compiler with 'assignament on conditional...'
+    + added
+      + GetNumberCols, GetNumberRows
+      + IsVisible
+
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    + added
+      + AppendCols, AppendRows, ...
+    % optimized the messaging to wxGrid to resize the grid on append/delete rows/cols
+    * code cleanup
+  * src/wxbase/advctrls/wxhgridtablebase.prg
+    - removed wxGridTableBaseDb class
+
 2008-09-30 14:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wx_hbcompat.ch
     ! added translate for __enumIndex() to be xHarbour compat.

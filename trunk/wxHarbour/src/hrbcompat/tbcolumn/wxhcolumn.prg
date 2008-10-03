@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,17 +7,17 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 #include "hbclass.ch"
 #include "property.ch"
 
 /*
-  wxColumn
-  Teo. Mexico 2006
+  wxhBColumn
+  Teo. Mexico 2008
 */
-CLASS wxColumn
+CLASS wxhBColumn
 PRIVATE:
 
   DATA FBlock
@@ -25,8 +25,6 @@ PRIVATE:
   DATA FHeading INIT ""
   DATA FPicture
   DATA FWidth
-
-  CONSTRUCTOR New( heading, block )
 
   METHOD SetBlock( block ) INLINE ::FBlock := block
   METHOD SetFooting( footing ) INLINE ::FFooting := footing
@@ -36,6 +34,9 @@ PRIVATE:
 
 PROTECTED:
 PUBLIC:
+
+  CONSTRUCTOR New( heading, block )
+
 PUBLISHED:
   PROPERTY Block READ FBlock WRITE SetBlock
   PROPERTY Footing READ FFooting WRITE SetFooting
@@ -46,9 +47,9 @@ ENDCLASS
 
 /*
   New
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
-METHOD New( heading, block ) CLASS wxColumn
+METHOD New( heading, block ) CLASS wxhBColumn
 
   IF heading != NIL
     ::FHeading := heading
@@ -59,14 +60,12 @@ METHOD New( heading, block ) CLASS wxColumn
 RETURN Self
 
 /*
-  wxColumnNew
-  Teo. Mexico 2006
+  wxhBColumnNew
+  Teo. Mexico 2008
 */
-FUNCTION wxColumnNew( heading, block )
-RETURN wxColumn():New( heading, block )
+FUNCTION wxhBColumnNew( heading, block )
+RETURN wxhBColumn():New( heading, block )
 
 /*
-  EndClass wxColumn
+  EndClass wxhBColumn
 */
-
-

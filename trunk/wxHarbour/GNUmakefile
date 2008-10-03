@@ -124,6 +124,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxGET.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcolumn.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbrowse.o \
+	$(__BUILDDIR__)/wxHarbour_wxhbrowsedbprovider.o \
 	$(__BUILDDIR__)/wxHarbour_dba.o \
 	$(__BUILDDIR__)/wxHarbour_talias.o \
 	$(__BUILDDIR__)/wxHarbour_tdatabase.o \
@@ -158,6 +159,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhsocketbase.o \
 	$(__BUILDDIR__)/wxHarbour_wxhsocketclient.o \
 	$(__BUILDDIR__)/wxHarbour_wxhsocketserver.o \
+	$(__BUILDDIR__)/wxHarbour_wxhscrollbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhboxsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhgridsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhsizer.o \
@@ -199,6 +201,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_socketbase.o \
 	$(__BUILDDIR__)/wxHarbour_wx_socketclient.o \
 	$(__BUILDDIR__)/wxHarbour_wx_socketserver.o \
+	$(__BUILDDIR__)/wxHarbour_wx_scrollbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_boxsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_gridsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_sizer.o \
@@ -319,6 +322,9 @@ $(__BUILDDIR__)/wxHarbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
 $(__BUILDDIR__)/wxHarbour_wxhbrowse.o: ./src/hrbcompat/tbrowse/wxhbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhbrowsedbprovider.o: ./src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_dba.o: ./src/raddox/dba.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -419,6 +425,9 @@ $(__BUILDDIR__)/wxHarbour_wxhsocketclient.o: ./src/wxbase/networking/wxhsocketcl
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhsocketserver.o: ./src/wxbase/networking/wxhsocketserver.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhscrollbar.o: ./src/wxbase/range/wxhscrollbar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhboxsizer.o: ./src/wxbase/sizers/wxhboxsizer.prg
@@ -542,6 +551,9 @@ $(__BUILDDIR__)/wxHarbour_wx_socketclient.o: ./src/wxbase/networking/wx_socketcl
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_socketserver.o: ./src/wxbase/networking/wx_socketserver.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_scrollbar.o: ./src/wxbase/range/wx_scrollbar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_boxsizer.o: ./src/wxbase/sizers/wx_boxsizer.cpp

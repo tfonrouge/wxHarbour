@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,21 +7,28 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wx_Browse: Interface
-  Teo. Mexico 2006
+  wxhBrowse : Interface
+  Teo. Mexico 2008
 */
 
-class wx_Browse : public wx_Grid
+class wxhBrowse : public wx_Grid
 {
 private:
+  DECLARE_EVENT_TABLE()
 protected:
 public:
+  wxhBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = 0; }
+  wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = 0; }
 
-  ~wx_Browse();
+  void OnSize( wxSizeEvent& );
+
+  void CalcRowCount();
+
+  int m_rowCount;
+  int m_gridWindowHeight;
+  ~wxhBrowse();
 };
-
-

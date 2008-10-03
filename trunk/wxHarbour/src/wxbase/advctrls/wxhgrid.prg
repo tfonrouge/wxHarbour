@@ -34,11 +34,19 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
-  METHOD AppendCols( numCols )
+  METHOD AppendCols( numCols ) INLINE ::GetTable():AppendCols( numCols )
+  METHOD AppendRows( numRows ) INLINE ::GetTable():AppendRows( numRows )
+  METHOD DeleteCols( pos, numCols ) INLINE ::GetTable():DeleteCols( pos, numCols )
+  METHOD DeleteRows( pos, numRows ) INLINE ::GetTable():DeleteRows( pos, numRows )
+  METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
+  METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
   METHOD CreateGrid( numRows, numCols, selmode )
   METHOD Fit
   METHOD ForceRefresh
+  METHOD GetNumberCols
+  METHOD GetNumberRows
   METHOD GetTable
+  METHOD IsVisible( row, col, wholeCellVisible )
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
   METHOD SetDefaultColSize( width, resizeExistingCols )
