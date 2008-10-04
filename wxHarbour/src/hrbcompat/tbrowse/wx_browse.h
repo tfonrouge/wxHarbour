@@ -10,25 +10,48 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
+#include "wxbase/wx_panel.h"
+
+/* forward class declararion */
+class wxhBrowse;
+
 /*
-  wxhBrowse : Interface
+  wxhGridBrowse : Interface
   Teo. Mexico 2008
 */
-
-class wxhBrowse : public wx_Grid
+class wxhGridBrowse : public wx_Grid
 {
 private:
   DECLARE_EVENT_TABLE()
 protected:
 public:
-  wxhBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = 0; }
-  wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = 0; }
+  wxhGridBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = -1; }
+  wxhGridBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhGridBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = -1; }
 
-  void OnSize( wxSizeEvent& );
+  wxhBrowse *m_browse;
+
+  int m_gridWindowHeight;
+  int m_rowCount;
 
   void CalcRowCount();
+  void OnSize( wxSizeEvent& );
 
-  int m_rowCount;
-  int m_gridWindowHeight;
+  ~wxhGridBrowse();
+};
+
+/*
+  wxhBrowse
+  Teo. Mexico 2008
+*/
+class wxhBrowse : public wx_Panel
+{
+private:
+protected:
+public:
+  wxhBrowse() : wx_Panel() {}
+  wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = _T("wxhBrowse") ) : wx_Panel( parent, id, pos, size, style, name ) {}
+
+  wxhGridBrowse *m_gridBrowse;
+
   ~wxhBrowse();
 };

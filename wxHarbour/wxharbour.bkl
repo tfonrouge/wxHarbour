@@ -27,6 +27,7 @@
       src/wxbase/networking
       src/wxbase/range
       src/wxbase/sizers
+      src/wxbase/static
       src/wxbase/validators
       src/wxbase/xmlclasses
     </sources-at>

@@ -33,7 +33,6 @@ PUBLIC:
   METHOD InsertCols( pos, numCols )
   METHOD InsertRows( pos, numRows )
   METHOD IsEmptyCell( row, col ) BLOCK {|| .F. }
-  //METHOD SetColLabelValue( col, label )
   METHOD SetValue( row, col, value ) VIRTUAL
 PUBLISHED:
 ENDCLASS

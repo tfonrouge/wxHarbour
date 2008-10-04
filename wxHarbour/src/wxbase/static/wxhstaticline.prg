@@ -11,19 +11,31 @@
 */
 
 /*
-  wx_StaticText: Interface
+  wxStaticLine
   Teo. Mexico 2008
 */
 
-class wx_StaticText : public wxStaticText
-{
-private:
-protected:
-public:
-  wx_StaticText() : wxStaticText() {}
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx.ch"
 
-  wx_StaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("staticText") ) : wxStaticText( parent, id, label, pos, size, style, name ) {}
+/*
+  wxStaticLine
+  Teo. Mexico 2008
+*/
+CLASS wxStaticLine FROM wxControl
+PRIVATE:
+PROTECTED:
+PUBLIC:
 
-  ~wx_StaticText();
+  CONSTRUCTOR New( parent, id, pos, size, style, name )
 
-};
+  METHOD IsVertical
+  METHOD GetDefaultSize
+
+PUBLISHED:
+ENDCLASS
+
+/*
+  EndClass wxStaticLine
+*/

@@ -11,19 +11,21 @@
 */
 
 /*
-  wx_StaticText: Interface
+  wx_StaticLine: Interface
   Teo. Mexico 2008
 */
 
-class wx_StaticText : public wxStaticText
+#include "wx/statline.h"
+
+class wx_StaticLine : public wxStaticLine
 {
 private:
 protected:
 public:
-  wx_StaticText() : wxStaticText() {}
+  wx_StaticLine() : wxStaticLine() {}
 
-  wx_StaticText(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("staticText") ) : wxStaticText( parent, id, label, pos, size, style, name ) {}
+  wx_StaticLine(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("StaticLine") ) : wxStaticLine( parent, id, pos, size, style, name ) {}
 
-  ~wx_StaticText();
+  ~wx_StaticLine();
 
 };

@@ -25,80 +25,32 @@
 */
 CLASS wxhBrowseTableBase FROM wxGridTableBase
 PRIVATE:
-  DATA FIndex
-PROTECTED:
   DATA FBlockParam
   DATA FColumnList INIT {}
-  DATA FDataSource
-  DATA FDataSourceType
+  DATA FColumnZero
+  DATA FRowIndex
   METHOD GetCellValue( column )
-  METHOD SetDataSource( dataSource )
-  METHOD SetIndex( index )
+PROTECTED:
 PUBLIC:
 
-  /* TBrowse compatible vars */
-  DATA GoBottomBlock
-  DATA GoTopBlock
-  DATA SkipBlock
-  /* TBrowse compatible vars */
-
-  DATA ColumnZero
-
-  CONSTRUCTOR New( dataSource )
-
   /* TBrowse compatible methods */
-  METHOD AddColumn( column )
-  METHOD DelColumn( pos )
   /* TBrowse compatible methods */
 
   METHOD GetColLabelValue( col )
   METHOD GetRowLabelValue( row )
   METHOD GetValue( row, col )
+  METHOD SetBlockParam( blockParam ) INLINE ::FBlockParam := blockParam
+  METHOD SetColumnList( columnList )
+  METHOD SetColumnZero( columnZero ) INLINE ::FColumnZero := columnZero
+  METHOD SetRowIndex( rowIndex ) INLINE ::FRowIndex := rowIndex
   METHOD SetValue( row, col, value )
 
-  PROPERTY ColumnList READ FColumnList
+  PROPERTY BlockParam READ FBlockParam WRITE SetBlockParam
+  PROPERTY ColumnList READ FColumnList WRITE SetColumnList
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
-  PROPERTY Index READ FIndex WRITE SetIndex
 
 PUBLISHED:
 ENDCLASS
-
-/*
-  New
-  Teo. Mexico 2008
-*/
-METHOD New( dataSource ) CLASS wxhBrowseTableBase
-
-  Super:New()
-
-  ::SetDataSource( dataSource )
-
-RETURN Self
-
-/*
-  AddColumn
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowseTableBase
-  AAdd( ::FColumnList, column )
-  ::AppendCols( 1 )
-RETURN
-
-/*
-  DelColumn
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION DelColumn( pos ) CLASS wxhBrowseTableBase
-  LOCAL column
-  LOCAL length := Len( ::FColumnList )
-
-  IF !Empty( pos ) .AND. pos > 0 .AND. pos <= length .AND. ::DeleteCols( pos - 1, 1 )
-    column := ::FColumnList[ pos ]
-    ADel( ::FColumnList, pos )
-    ASize( ::FColumnList, length - 1 )
-  ENDIF
-
-RETURN column
 
 /*
   GetCellValue
@@ -155,16 +107,16 @@ METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseTableBase
   ENDIF
 RETURN ::FColumnList[ col + 1 ]:Heading
 
-/*
+ /*
   GetRowLabelValue
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
-  IF Empty( ::ColumnZero )
+  IF Empty( ::FColumnZero )
     RETURN LTrim( Str( row + 1 ) )
   ENDIF
-  ::index := row + 1
-RETURN ::GetCellValue( ::ColumnZero )
+  ::FRowIndex:Eval( row + 1 )
+RETURN ::GetCellValue( ::FColumnZero )
 
 /*
   GetValue
@@ -176,65 +128,18 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
     RETURN "<error>" /* raise error ? */
   ENDIF
 
-  ::index := row + 1
+  ::FRowIndex:Eval( row + 1 )
 
 RETURN ::GetCellValue( ::FColumnList[ col + 1 ] )
 
 /*
-  SetDataSource
+  SetColumnList
   Teo. Mexico 2008
 */
-METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowseTableBase
-  LOCAL vt := ValType( dataSource )
-  LOCAL table
-  LOCAL oldPos
-
-  ::FColumnList := {}
-  ::DeleteRows( 0, ::GetNumberRows() )
+METHOD PROCEDURE SetColumnList( columnList ) CLASS wxhBrowseTableBase
+  ::FColumnList := columnList
   ::DeleteCols( 0, ::GetNumberCols() )
-  ::ColumnZero  := NIL
-  ::FBlockParam := NIL
-  ::FDataSourceType := NIL
-
-  DO CASE
-  CASE vt == "C"        /* path/filename for a database browse */
-    table := TTable():New()
-    table:TableName := dataSource
-    table:Open()
-    ::FDataSource := table
-    ::FBlockParam := table:DisplayFields()
-    ::FDataSourceType := "O"
-
-    ::GoTopBlock    := {|| table:First() }
-    ::GoBottomBlock := {|| table:Last() }
-    ::SkipBlock     := {|n| table:Next( n ) }
-
-  CASE vt == "A"        /* Array browse */
-    ::FDataSource := dataSource
-
-    ::GoTopBlock    := {|| ::Index := 1 }
-    ::GoBottomBlock := {|| ::Index := Len( dataSource ) }
-    ::SkipBlock     := {|n| oldPos := n, ::Index := iif( n < 0, Max( 1, ::Index - n ), Min( Len( dataSource ), ::Index + n ) ), ::Index - oldPos }
-  CASE vt == "H"        /* Hash browse */
-    ::FDataSource := dataSource
-  OTHERWISE
-    ::FDataSource := NIL
-  ENDCASE
-
-RETURN
-
-/*
-  SetIndex
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE SetIndex( index ) CLASS wxhBrowseTableBase
-  ::FIndex := index
-
-  DO CASE
-  CASE ::FDataSourceType = "O"
-    ::FDataSource:RecNo := index
-  ENDCASE
-
+  ::AppendCols( Len( columnList ) )
 RETURN
 
 /*

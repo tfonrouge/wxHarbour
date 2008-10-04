@@ -154,4 +154,10 @@
 #define wxSB_HORIZONTAL      wxHORIZONTAL
 #define wxSB_VERTICAL        wxVERTICAL
 
+/*
+ * wxStaticLine flags
+ */
+#define wxLI_HORIZONTAL         wxHORIZONTAL
+#define wxLI_VERTICAL           wxVERTICAL
+
 #endif
