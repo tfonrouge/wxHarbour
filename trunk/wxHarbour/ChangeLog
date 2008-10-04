@@ -2,6 +2,38 @@
  *
  */
 
+2008-10-04 18:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  * wxharbour.bkl
+  + src/wxbase/static
+  + src/wxbase/static/wxhstaticline.prg
+  + src/wxbase/static/wx_staticline.cpp
+  + include/wxbase/wx_staticline.h
+    + added
+      + wxStaticLine
+  * include/defs.ch
+    * added const defs for wxStaticLine
+
+  * include/wxbase/wx_statictext.h
+    * minor code cleanup
+
+  * samples/dbbrowser/dbbrowser.prg
+    * sample update
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * towards a TBrowse compatible class
+      ; work in progress
+
+  * src/wxbase/advctrls/wxhgridtablebase.prg
+    * minor cleanup
+
 2008-10-03 02:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

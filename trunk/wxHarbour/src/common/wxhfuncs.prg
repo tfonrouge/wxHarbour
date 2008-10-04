@@ -41,6 +41,43 @@ FUNCTION ContainerObj
 RETURN containerObj
 
 /*
+  wxh_BookAddPage
+  Teo. Mexico 2008
+*/
+PROCEDURE wxh_BookAddPage( title, select, imageId )
+
+  containerObj():AddToNextBookPage( {"title"=>title,"select"=>select,"imageId"=>imageId} )
+
+RETURN
+
+/*
+  wxh_BookBegin
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
+  LOCAL book
+
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  book := bookClass:New( parent, id, pos, size, style, name )
+
+  containerObj():SetLastChild( book )
+
+  containerObj():AddToParentList( book )
+
+RETURN book
+
+/*
+  wxh_BookEnd
+  Teo. Mexico 2008
+*/
+PROCEDURE wxh_BookEnd( book )
+  containerObj():RemoveLastParent( book )
+RETURN
+
+/*
  * wxh_BoxSizerBegin
  * Teo. Mexico 2008
  */
@@ -82,7 +119,7 @@ FUNCTION wxh_Browse( dataSource, window, id, pos, size, style, name )
 
   wxhBrw := wxhBrowse():New( dataSource, window, id, pos, size, style, name )
 
-  containerObj():SetLastChild( wxhBrw:panel )
+  containerObj():SetLastChild( wxhBrw )
 
 RETURN wxhBrw
 
@@ -97,9 +134,9 @@ PROCEDURE wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
   column:Width   := width
 
   IF zero
-    wxhBrw:GetTable():ColumnZero := column
+    wxhBrw:ColumnZero := column
   ELSE
-    wxhBrw:GetTable():AddColumn( column )
+    wxhBrw:AddColumn( column )
   ENDIF
 
 RETURN
@@ -227,43 +264,6 @@ PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sid
 
   containerObj():AddToSizerList( sizer )
 
-RETURN
-
-/*
-  wxh_BookAddPage
-  Teo. Mexico 2008
-*/
-PROCEDURE wxh_BookAddPage( title, select, imageId )
-
-  containerObj():AddToNextBookPage( {"title"=>title,"select"=>select,"imageId"=>imageId} )
-
-RETURN
-
-/*
-  wxh_BookBegin
-  Teo. Mexico 2008
-*/
-FUNCTION wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
-  LOCAL book
-
-  IF parent == NIL
-    parent := containerObj():LastParent()
-  ENDIF
-
-  book := bookClass:New( parent, id, pos, size, style, name )
-
-  containerObj():SetLastChild( book )
-
-  containerObj():AddToParentList( book )
-
-RETURN book
-
-/*
-  wxh_BookEnd
-  Teo. Mexico 2008
-*/
-PROCEDURE wxh_BookEnd( book )
-  containerObj():RemoveLastParent( book )
 RETURN
 
 /*
@@ -455,6 +455,36 @@ PROCEDURE wxh_SetSizer( window, sizer )
 RETURN
 
 /*
+  wxh_ShowWindow : shows wxFrame/wxDialog
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_ShowWindow( oWnd, modal, fit, centre )
+  LOCAL Result
+
+  containerObj():ClearData()
+
+  IF fit
+    IF oWnd:GetSizer() != NIL
+      oWnd:GetSizer():SetSizeHints( oWnd )
+    ENDIF
+  ENDIF
+
+  IF centre
+    oWnd:Centre()
+  ENDIF
+
+  IF modal
+    IF !oWnd:IsDerivedFrom("wxDialog")
+      oWnd:IsNotDerivedFrom_wxDialog()
+    ENDIF
+    Result := oWnd:ShowModal()
+  ELSE
+    Result := oWnd:Show( .T. )
+  ENDIF
+
+RETURN Result
+
+/*
  * wxh_SizerInfoAdd
  * Teo. Mexico 2008
  */
@@ -563,36 +593,6 @@ PROCEDURE wxh_SizerEnd
 RETURN
 
 /*
-  wxh_ShowWindow : shows wxFrame/wxDialog
-  Teo. Mexico 2008
-*/
-FUNCTION wxh_ShowWindow( oWnd, modal, fit, centre )
-  LOCAL Result
-
-  containerObj():ClearData()
-
-  IF fit
-    IF oWnd:GetSizer() != NIL
-      oWnd:GetSizer():SetSizeHints( oWnd )
-    ENDIF
-  ENDIF
-
-  IF centre
-    oWnd:Centre()
-  ENDIF
-
-  IF modal
-    IF !oWnd:IsDerivedFrom("wxDialog")
-      oWnd:IsNotDerivedFrom_wxDialog()
-    ENDIF
-    Result := oWnd:ShowModal()
-  ELSE
-    Result := oWnd:Show( .T. )
-  ENDIF
-
-RETURN Result
-
-/*
  * wxh_Spacer
  * Teo. Mexico 2008
  */
@@ -658,6 +658,23 @@ FUNCTION wxh_StatusBar( oW, id, style, name, fields, widths )
   oW:SetStatusBar( sb )
 
 RETURN sb
+
+/*
+  wxh_StaticLine
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_StaticLine( window, id, pos, orient, name )
+  LOCAL sl
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  sl := wxScrollBar():New( window, id, pos, NIL, orient, name )
+
+  containerObj():SetLastChild( sl )
+
+RETURN sl
 
 /*
   wxh_TreeCtrl

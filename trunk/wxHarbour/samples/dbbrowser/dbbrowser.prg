@@ -76,8 +76,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
       END SIZER
       BEGIN BOXSIZER VERTICAL "2" ALIGN EXPAND STRETCH
         BEGIN NOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
-          @ BROWSE b DATASOURCE "main"
-//               @ BROWSE b DATASOURCE a
+//           @ BROWSE b DATASOURCE "main"
+          @ BROWSE b DATASOURCE a
         END NOTEBOOK
       END SIZER
     END SIZER
@@ -89,10 +89,10 @@ METHOD FUNCTION OnInit() CLASS MyApp
     END SIZER
   END SIZER
 
-  b:AddAllColumns()
-  b:Fit()
+//   b:AddAllColumns()
+//   b:Fit()
 
-//   ADD BCOLUMN b "#" BLOCK {|| a[ b:index ] }
+  ADD BCOLUMN b "#" BLOCK {|| a[ b:RecNo ] }
 
   @ STATUSBAR
 
@@ -105,7 +105,7 @@ RETURN .T.
   Teo. Mexico 2008
 */
 STATIC PROCEDURE AddTable( oWnd, auiNb )
-  LOCAL browseDb
+  LOCAL b
   LOCAL fileDlg
   LOCAL tableName
 
@@ -116,10 +116,9 @@ STATIC PROCEDURE AddTable( oWnd, auiNb )
   ENDIF
 
   FOR EACH tableName IN fileDlg:GetPaths()
-    browseDb := wxhBrowse():New( tableName, auiNb )
-    browseDb:AddAllColumns()
-    auiNb:AddPage( browseDb, tableName, .T. )
-//     browseDb:Fit()
+    b := wxhBrowse():New( tableName, auiNb )
+    auiNb:AddPage( b, tableName, .T. )
+    b:AddAllColumns()
   NEXT
 
 RETURN

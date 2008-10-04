@@ -10,85 +10,87 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-  wx_Browse: Implementation
-  Teo. Mexico 2008
-*/
-
 #include "wx/wx.h"
 #include "wx/grid.h"
 #include "wxh.h"
 
 #include "wxbase/wx_gridtablebase.h"
 #include "wxbase/wx_grid.h"
+#include "wxbase/wx_staticline.h"
+
 #include "wx_browse.h"
 
-BEGIN_EVENT_TABLE( wxhBrowse, wxScrolledWindow )
-    EVT_SIZE( wxhBrowse::OnSize )
+BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
+    EVT_SIZE( wxhGridBrowse::OnSize )
 END_EVENT_TABLE()
 
-void wxhBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
+void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
 {
   if (m_targetWindow != this)
   {
+//     cout << endl << "wxhGridBrowse::OnSize...";
     CalcDimensions();
     CalcRowCount();
   }
 }
 
-void wxhBrowse::CalcRowCount()
+void wxhGridBrowse::CalcRowCount()
 {
-  int nInc,curNumberRows;
-  int offs = 0, n = 0;
   wxSize size = GetGridWindow()->GetSize();
 
   if( size.GetHeight() == m_gridWindowHeight )
     return;
 
-  m_gridWindowHeight = size.GetHeight();
+//   EnableScrolling( false, false );
+  Scroll( 0, 0 );
 
-  //cout << endl << "m_gridWindowHeight: " << m_gridWindowHeight;
+  m_gridWindowHeight = size.GetHeight();
 
   BeginBatch();
 
-  do {
-    MakeCellVisible( 0, 0 );
-    m_rowCount = 0;
-    curNumberRows = GetNumberRows();
-    for( int i = 0; i < curNumberRows; i++ )
-    {
-      if( IsVisible( i, 0, true ) )
-        m_rowCount++;
-    }
+  if( GetNumberRows() == 0 )
+    AppendRows( 1 );
 
-    nInc = curNumberRows - m_rowCount;
+  //SetScrollbars(0, 0, 0, 0, true );
+  wxRect cellRect( CellToRect( 0, 0 ) );
 
-    if( curNumberRows > (m_rowCount + offs) )
-    {
-      if( curNumberRows == (m_rowCount + offs + 1) )
-        break;
-      else
-      {
-        DeleteRows( curNumberRows - 1, 1 );
-        continue;
-      }
-    }
+  int top,bottom;
+  top = cellRect.GetTop();
+  bottom = cellRect.GetBottom();
 
-    if( nInc >= 0 )
-    {
-      AppendRows( nInc + 1 );
-    }
+//   cout << endl << "m_gridWindowHeight : " << m_gridWindowHeight;
+//   cout << endl << "               top : " << top;
+//   cout << endl << "            bottom : " << bottom;
 
-  } while ( ++n < 200 );
+  m_rowCount = floor( ( (m_gridWindowHeight - 10) / ( bottom - top ) ) ) - 1;
 
-  /* this is to fix the real visible rows in case that we have a horz scroll bar */
-  if( m_rowCount < GetNumberRows() )
-    DeleteRows( m_rowCount - 1, GetNumberRows() - m_rowCount );
+//   cout << endl << "m_rowCount           : " << m_rowCount;
+//   cout << endl;
 
-  //AppendRows( m_rowCount );
+  if( m_rowCount == GetNumberRows() )
+    return;
 
-  this->EndBatch();
+  if( m_rowCount > 0 )
+  {
+    if( m_rowCount < GetNumberRows() )
+      DeleteRows( m_rowCount - 1, GetNumberRows() - m_rowCount );
+    else
+      AppendRows( m_rowCount - GetNumberRows() );
+  }
+  else
+    DeleteRows( 0, GetNumberRows() );
 
+  EndBatch();
+
+}
+
+/*
+  ~wxhGridBrowse
+  Teo. Mexico 2008
+*/
+wxhGridBrowse::~wxhGridBrowse()
+{
+  wxh_ItemListDel( this );
 }
 
 /*
@@ -102,24 +104,56 @@ wxhBrowse::~wxhBrowse()
 
 /*
   Constructor: wxhBrowse Object
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
 HB_FUNC( WXHBROWSE_WXNEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-  wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
-  wxPoint pos = hb_par_wxPoint( 3 );
-  wxSize size = hb_par_wxSize( 4 );
-  long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
-  wxString name = wxString( hb_parcx( 6 ), wxConvLocal );
+  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 1 );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+  wxWindowID id = ISNIL( 3 ) ? wxID_ANY : hb_parni( 3 );
+  wxPoint pos = hb_par_wxPoint( 4 );
+  wxSize size = hb_par_wxSize( 5 );
+  long style = ISNIL( 6 ) ? wxWANTS_CHARS : hb_parnl( 6 );
+  wxString name = wxString( hb_parcx( 7 ), wxConvLocal );
 
-  wx_Grid* grid = new wxhBrowse( parent, id, pos, size, style, name );
+  wxhBrowse *browse = new wxhBrowse( parent, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name );
+
+  wxBoxSizer *boxSizer = new wxBoxSizer( wxHORIZONTAL );
+  browse->SetSizer( boxSizer );
+  browse->m_gridBrowse = new wxhGridBrowse( browse, id, wxDefaultPosition, wxDefaultSize, style, _T("wxhGridBrowse") );
+  boxSizer->Add( browse->m_gridBrowse, 1, wxGROW|wxALL, 5 );
+  wxStaticLine* staticLine = new wxStaticLine( browse, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
+  boxSizer->Add( staticLine, 0, wxGROW, 5 );
+  wxScrollBar* scrollBar = new wxScrollBar( browse, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
+  scrollBar->SetScrollbar(0, 1, 100, 1);
+  boxSizer->Add( scrollBar, 0, wxGROW|wxLEFT|wxRIGHT, 5 );
+
+  if( tableBase )
+    browse->m_gridBrowse->SetTable( tableBase, true );
+
+  browse->m_gridBrowse->m_browse = browse;
 
   // Add object's to hash list
-  wxh_ItemListAdd( grid, pSelf );
+  wxh_ItemListAdd( browse, pSelf );
 
   hb_itemReturn( pSelf );
+}
+
+/*
+  Initialize
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_INITIALIZE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxSizeEvent event;
+  if( pSelf && browse )
+  {
+    browse->OnSize( event );
+    browse->m_gridBrowse->CalcRowCount();
+  }
 }
 
 /*
@@ -133,7 +167,26 @@ HB_FUNC( WXHBROWSE_ROWCOUNT )
   wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
   if( pSelf && browse )
   {
-    rowCount = browse->m_rowCount;
+    rowCount = browse->m_gridBrowse->m_rowCount;
   }
   hb_retnl( rowCount );
+}
+
+/*
+  SetRowCount
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_SETROWCOUNT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  int rowCount = hb_parni( 1 );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && browse && ( rowCount != browse->m_gridBrowse->m_rowCount ) )
+  {
+    if( rowCount > browse->m_gridBrowse->m_rowCount )
+      browse->m_gridBrowse->AppendRows( rowCount - browse->m_gridBrowse->m_rowCount );
+    else
+      browse->m_gridBrowse->DeleteRows( rowCount - 1, browse->m_gridBrowse->m_rowCount - rowCount );
+    browse->m_gridBrowse->m_rowCount = rowCount;
+  }
 }

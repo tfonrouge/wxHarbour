@@ -170,6 +170,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhgridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhstaticline.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhvalidator.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhxmldocument.obj \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
@@ -212,6 +213,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_gridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_sizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_staticline.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
@@ -463,6 +465,9 @@ $(__BUILDDIR__)\wxHarbour_wxhsizer.obj: .\src\wxbase\sizers\wxhsizer.prg
 $(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj: .\src\wxbase\sizers\wxhstaticboxsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhstaticline.obj: .\src\wxbase\static\wxhstaticline.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhvalidator.obj: .\src\wxbase\validators\wxhvalidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -588,6 +593,9 @@ $(__BUILDDIR__)\wxHarbour_wx_sizer.obj: .\src\wxbase\sizers\wx_sizer.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj: .\src\wxbase\sizers\wx_staticboxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\sizers\wx_staticboxsizer.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_staticline.obj: .\src\wxbase\static\wx_staticline.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\static\wx_staticline.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_validator.obj: .\src\wxbase\validators\wx_validator.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\validators\wx_validator.cpp
