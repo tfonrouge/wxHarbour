@@ -2,6 +2,15 @@
  *
  */
 
+2008-10-05 21:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/raddox/talias.prg
+    ; towards a compatible TBrowse
+
 2008-10-04 18:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

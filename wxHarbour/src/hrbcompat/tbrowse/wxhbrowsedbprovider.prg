@@ -26,12 +26,15 @@
 CLASS wxhBrowseTableBase FROM wxGridTableBase
 PRIVATE:
   DATA FBlockParam
+  DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
   DATA FRowIndex
   METHOD GetCellValue( column )
 PROTECTED:
 PUBLIC:
+
+  CONSTRUCTOR New( browse )
 
   /* TBrowse compatible methods */
   /* TBrowse compatible methods */
@@ -51,6 +54,15 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
+/*
+  New
+  Teo. Mexico 2008
+*/
+METHOD New( browse ) CLASS wxhBrowseTableBase
+  Super:New()
+  ::FBrowse := browse
+RETURN Self
 
 /*
   GetCellValue
@@ -115,6 +127,10 @@ METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
   IF Empty( ::FColumnZero )
     RETURN LTrim( Str( row + 1 ) )
   ENDIF
+  IF ::FBrowse:FRowListSize < row
+    ::FBrowse:GoTop()
+    RETURN ""
+  ENDIF
   ::FRowIndex:Eval( row + 1 )
 RETURN ::GetCellValue( ::FColumnZero )
 
@@ -124,11 +140,18 @@ RETURN ::GetCellValue( ::FColumnZero )
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
 
+  row++
+
   IF col >= ::GetNumberCols()
     RETURN "<error>" /* raise error ? */
   ENDIF
 
-  ::FRowIndex:Eval( row + 1 )
+  IF ::FBrowse:FRowListSize < row
+    ::FBrowse:GoTop()
+    RETURN ""
+  ENDIF
+
+  ::FRowIndex:Eval( row )
 
 RETURN ::GetCellValue( ::FColumnList[ col + 1 ] )
 
