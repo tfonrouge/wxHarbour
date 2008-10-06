@@ -51,7 +51,6 @@ PUBLIC:
   METHOD Seek( cKey, indexName, softSeek )
   METHOD SeekLast( cKey, indexName, softSeek )
   METHOD Skip( nRecords, indexName )
-  METHOD SkipK( nRecords, indexName ) INLINE ::Skip( nRecords, indexName )
   METHOD SyncFromAlias
   METHOD SyncFromRecNo
 
@@ -297,74 +296,6 @@ METHOD FUNCTION Skip( nRecords, indexName ) CLASS TAlias
   Result := (::FName) -> ( Skip( nRecords, indexName ) )
   ::SyncFromAlias()
 RETURN Result
-
-/*
-  SkipBrowse : BROWSE skipblock
-  Teo. Mexico 2008
-*/
-METHOD SkipBrowse( n ) CLASS TAlias
-  LOCAL num_skipped:=0
-  LOCAL nrec
-
-  ::SyncFromRecNo()
-
-  IF n==NIL
-    n := 1
-  ENDIF
-
-  IF n = 0
-
-    (::FName)->( DbSkip( n ) )
-
-    RETURN 0
-
-  ENDIF
-
-  IF ( n > 0 .AND. (::FName)->(Eof()) ) .OR. ( n < 0 .AND. (::FName)->(Bof()) )
-    (::FName)->( DbSkip( 0 ) )
-    RETURN 0
-  ENDIF
-
-  WHILE num_skipped != n
-
-    DO CASE
-    CASE n>0 .AND. !::Eof() .AND. ::DbWhile:eval
-      (::FName)->( DbSkip( n ) )
-      num_skipped++
-    CASE n<0 .AND. !::Bof() .AND. ::DbWhile:eval
-      nrec := ::oDBE:RecNo // Last record on for condition
-      ::DbSkipR( -1 )
-      num_skipped--
-    OTHERWISE
-      EXIT
-    ENDCASE
-
-  ENDDO
-
-  IF ::Bof()
-    ::RecNo := nrec
-    num_skipped++
-  ENDIF
-
-  IF !::DbWhile:eval
-    IF n>0
-      ::DbSkipR( -1 )
-      num_skipped--
-    ELSE
-      ::DbSkipR( 1 )
-      num_skipped++
-    ENDIF
-  ENDIF
-
-  ::RecNo := ::oDBE:RecNo()
-
-  IF ::lFirstRec = .T.
-    IF n<1
-      ::nFirstRec := ::RecNo
-    ENDIF
-  ENDIF
-
-RETURN num_skipped
 
 /*
   SyncFromAlias

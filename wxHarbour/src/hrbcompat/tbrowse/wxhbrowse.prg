@@ -158,7 +158,7 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
   ENDIF
 
   SWITCH ::FDataSourceType
-  CASE 'C'
+  CASE 'O'
     ::GoBottomBlock:Eval()
     IF ::FDataSource:Eof()
       ::SetRowListSize( 0 )
@@ -215,7 +215,7 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
   ::GoTopBlock:Eval()
 
   SWITCH ::FDataSourceType
-  CASE 'C'
+  CASE 'O'
     IF ::FDataSource:Eof()
       ::SetRowListSize( 0 )
       RETURN Self
@@ -254,15 +254,16 @@ RETURN Self
 METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   LOCAL table
   LOCAL oldPos
+  LOCAL vt := ValType( dataSource )
 
   ::FDataSource := dataSource
-  ::FDataSourceType := ValType( dataSource )
+  ::FDataSourceType := NIL
   ::ColumnList := {}
   ::ColumnZero := NIL
   ::BlockParam := NIL
 
   DO CASE
-  CASE ::FDataSourceType == "C"        /* path/filename for a database browse */
+  CASE vt == "C"        /* path/filename for a database browse */
     table := TTable():New()
     table:TableName := dataSource
     table:Open()
@@ -272,11 +273,11 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
     ::GoTopBlock    := {|| table:First() }
     ::GoBottomBlock := {|| table:Last() }
-    ::SkipBlock     := {|n| table:Next( n ) }
+    ::SkipBlock     := {|n| table:SkipBrowse( n ) }
 
     ::RowIndex  := {|n| table:RecNo := ::FRowList[ n ] }
 
-  CASE ::FDataSourceType == "A"        /* Array browse */
+  CASE vt == "A"        /* Array browse */
     ::FDataSource := dataSource
 
     ::GoTopBlock    := {|| ::FRecNo := 1 }
@@ -285,7 +286,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
     ::RowIndex := {|n| ::FRecNo := ::FRowList[ n ] }
 
-  CASE ::FDataSourceType == "H"        /* Hash browse */
+  CASE vt == "H"        /* Hash browse */
     ::FDataSource := dataSource
   OTHERWISE
     ::FDataSource := NIL
