@@ -12,6 +12,8 @@
 #include "raddox.ch"
 #include "xerror.ch"
 
+REQUEST TField
+
 /*
   __ClsInstFromName (Just UpperCase in __ClsInstName)
   Teo. Mexico 2007
@@ -97,6 +99,7 @@ PUBLIC:
   METHOD Destroy
   METHOD DbEval( bBlock, bForCondition, bWhileCondition )
   METHOD DbGoTo( RecNo )
+  METHOD DbSkip( numRecs )
   METHOD Delete
   METHOD DeleteChilds
   METHOD Edit
@@ -117,7 +120,6 @@ PUBLIC:
   METHOD InsideScope
   METHOD Last INLINE ::FirstLast( 1 )
   METHOD MasterSourceClassName
-  METHOD Next( numRecs )
   METHOD Open
   METHOD Post
   METHOD RawSeek( Value )
@@ -134,6 +136,7 @@ PUBLIC:
    *       able to create a live index
    */
   METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
+  METHOD SkipBrowse( n )
   METHOD SyncDetailSources
   METHOD SyncFromMasterSourceFields
   METHOD SyncRecNo
@@ -460,7 +463,7 @@ METHOD FUNCTION Count CLASS TTable
 
   WHILE !::FAlias:Eof() .AND. ::FAlias:KeyVal( indexName ) = key
     nCount++
-    ::FAlias:Skip( 1, indexName )
+    ::DbSkip()
   ENDDO
 
   ::FAlias:RecNo := RecNo
@@ -491,7 +494,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
       bBlock:Eval( ::pSelf )
     ENDIF
 
-    ::pSelf:Next()
+    ::pSelf:DbSkip()
 
   ENDDO
 
@@ -516,7 +519,26 @@ METHOD DbGoTo( RecNo ) CLASS TTable
 
 RETURN Result
 
-REQUEST TStringField
+/*
+  DbSkip
+  Teo. Mexico 2007
+*/
+METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
+
+  TRY
+    IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
+      ::Post()
+    ENDIF
+    IF ::FIndex != NIL
+      ::FIndex:DbSkip( numRecs )
+    ELSE
+      ::Alias:DbSkip( numRecs )
+    ENDIF
+  CATCH
+
+  END
+
+RETURN
 
 /*
   DefineFields
@@ -772,6 +794,12 @@ METHOD FUNCTION FirstLast( n ) CLASS TTable
       RETURN ::FIndex:First()
     ELSE
       RETURN ::FIndex:Last()
+    ENDIF
+  ELSE
+    IF n = 0
+      ::Alias:GoTop()
+    ELSE
+      ::Alias:GoBottom()
     ENDIF
   ENDIF
 
@@ -1194,23 +1222,6 @@ METHOD FUNCTION MasterSourceClassName CLASS TTable
 RETURN Result
 
 /*
-  Next
-  Teo. Mexico 2007
-*/
-METHOD PROCEDURE Next( numRecs ) CLASS TTable
-
-  TRY
-    IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
-      ::Post()
-    ENDIF
-    ::FIndex:Next( numRecs )
-  CATCH
-
-  END
-
-RETURN
-
-/*
   Open
   Teo. Mexico 2008
 */
@@ -1550,6 +1561,61 @@ METHOD PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
   ENDIF
 
 RETURN
+
+/*
+  SkipBrowse : BROWSE skipblock
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SkipBrowse( n ) CLASS TTable
+  LOCAL num_skipped := 0
+
+  IF n==NIL
+    n := 1
+  ENDIF
+
+  IF n = 0
+
+    ::DbSkip( 0 )
+
+    RETURN 0
+
+  ENDIF
+
+  IF ( n > 0 .AND. ::Eof() ) .OR. ( n < 0 .AND. ::Bof() )
+    ::DbSkip( 0 )
+    RETURN 0
+  ENDIF
+
+  WHILE num_skipped != n
+
+    DO CASE
+    CASE n>0 .AND. !::Eof() /*.AND. scopeBlock:Eval()*/
+      ::DbSkip( n )
+      num_skipped++
+    CASE n<0 .AND. !::Bof() /*.AND. scopeBlock:Eval()*/
+      ::DbSkip( -1 )
+      num_skipped--
+    OTHERWISE
+      EXIT
+    ENDCASE
+
+  ENDDO
+
+  IF ::Bof()
+    num_skipped++
+  ENDIF
+
+//   IF !scopeBlock:Eval()
+//     IF n>0
+//       (::FName)->(DbSkip( -1 ))
+//       num_skipped--
+//     ELSE
+//       (::FName)->(DbSkip( 1 ))
+//       num_skipped++
+//     ENDIF
+//   ENDIF
+
+RETURN num_skipped
 
 /*
   SyncDetailSources

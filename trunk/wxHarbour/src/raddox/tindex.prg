@@ -44,11 +44,11 @@ PUBLIC:
   METHOD AddIndex
   METHOD CustomKeyDel
   METHOD CustomKeyUpdate
+  METHOD DbSkip( numRecs )
   METHOD ExistKey( keyValue )
   METHOD First INLINE ::FirstLast( 0 )
   METHOD Last INLINE ::FirstLast( 1 )
   METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
-  METHOD Next( numRecs )
   METHOD RawSeek( Value )
   METHOD Seek( keyValue )
 PUBLISHED:
@@ -177,6 +177,18 @@ METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
 RETURN
 
 /*
+  DbSkip
+  Teo. Mexico 2007
+*/
+METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
+
+  ::FTable:Alias:Skip( numRecs, ::FName )
+
+  ::FTable:GetCurrentRecord()
+
+RETURN
+
+/*
   ExistKey
   Teo. Mexico 2007
 */
@@ -238,18 +250,6 @@ METHOD FUNCTION GetField( nIndex ) CLASS TIndex
   END
 
 RETURN AField
-
-/*
-  Next
-  Teo. Mexico 2007
-*/
-METHOD PROCEDURE Next( numRecs ) CLASS TIndex
-
-  ::FTable:Alias:Skip( numRecs, ::FName )
-
-  ::FTable:GetCurrentRecord()
-
-RETURN
 
 /*
   RawSeek

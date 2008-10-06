@@ -2,6 +2,13 @@
  *
  */
 
+2008-10-06 11:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/raddox/talias.prg
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+
 2008-10-05 21:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
   * src/hrbcompat/tbrowse/wx_browse.cpp
