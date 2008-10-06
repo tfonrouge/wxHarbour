@@ -45,9 +45,9 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL auiNb
-  LOCAL b
-  //LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
-  LOCAL a := {1,2,3,4,5,6,7,8,9,10,11}
+  LOCAL b1,b2
+  LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+  //LOCAL a := {"a","b",123}
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -62,7 +62,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
-      ADD MENUITEM "Fit Grid" ACTION b:Fit()
+      ADD MENUITEM "Fit Grid" ACTION b1:Fit()
       ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
@@ -76,23 +76,20 @@ METHOD FUNCTION OnInit() CLASS MyApp
       END SIZER
       BEGIN BOXSIZER VERTICAL "2" ALIGN EXPAND STRETCH
         BEGIN NOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
-//           @ BROWSE b DATASOURCE "main"
-          @ BROWSE b DATASOURCE a
+          @ BROWSE b1 DATASOURCE "main"
+          @ BROWSE b2 DATASOURCE a
         END NOTEBOOK
       END SIZER
     END SIZER
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
-      @ BUTTON "Del Row 1" ACTION b:GetTable():DeleteRows( 0, 1 )
-      @ BUTTON "Ins Row 1" ACTION (AIns(a,1), a[1] := "Teo", b:GetTable():InsertRows( 0, 1 ))
-      @ BUTTON "Check"
       @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
     END SIZER
   END SIZER
 
-//   b:AddAllColumns()
+  b1:AddAllColumns()
 //   b:Fit()
 
-  ADD BCOLUMN b "#" BLOCK {|| a[ b:RecNo ] }
+  ADD BCOLUMN b2 "#" BLOCK {|| a[ b2:RecNo ] }
 
   @ STATUSBAR
 

@@ -22,7 +22,17 @@
 
 BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
     EVT_SIZE( wxhGridBrowse::OnSize )
+    EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
 END_EVENT_TABLE()
+
+/*
+  ~wxhBrowse
+  Teo. Mexico 2008
+*/
+wxhBrowse::~wxhBrowse()
+{
+  wxh_ItemListDel( this );
+}
 
 void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
 {
@@ -62,7 +72,7 @@ void wxhGridBrowse::CalcRowCount()
 //   cout << endl << "               top : " << top;
 //   cout << endl << "            bottom : " << bottom;
 
-  m_rowCount = floor( ( (m_gridWindowHeight - 10) / ( bottom - top ) ) ) - 1;
+  m_rowCount = (int) floor( ( (m_gridWindowHeight - 10) / ( bottom - top ) ) ) - 1;
 
 //   cout << endl << "m_rowCount           : " << m_rowCount;
 //   cout << endl;
@@ -85,19 +95,185 @@ void wxhGridBrowse::CalcRowCount()
 }
 
 /*
+  OnKeyDown
+  Teo. Mexico 2008
+*/
+void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
+{
+    if ( m_inOnKeyDown )
+    {
+        // shouldn't be here - we are going round in circles...
+        //
+        wxFAIL_MSG( wxT("wxGrid::OnKeyDown called while already active") );
+    }
+
+    m_inOnKeyDown = true;
+
+    // propagate the event up and see if it gets processed
+    wxWindow *parent = GetParent();
+    wxKeyEvent keyEvt( event );
+    keyEvt.SetEventObject( parent );
+
+    if ( !parent->GetEventHandler()->ProcessEvent( keyEvt ) )
+    {
+        if (GetLayoutDirection() == wxLayout_RightToLeft)
+        {
+            if (event.GetKeyCode() == WXK_RIGHT)
+                event.m_keyCode = WXK_LEFT;
+            else if (event.GetKeyCode() == WXK_LEFT)
+                event.m_keyCode = WXK_RIGHT;
+        }
+
+        // try local handlers
+        switch ( event.GetKeyCode() )
+        {
+            case WXK_UP:
+                if ( event.ControlDown() )
+                    MoveCursorUpBlock( event.ShiftDown() );
+                else
+                    MoveCursorUp( event.ShiftDown() );
+                break;
+
+            case WXK_DOWN:
+                if ( event.ControlDown() )
+                    MoveCursorDownBlock( event.ShiftDown() );
+                else
+                    MoveCursorDown( event.ShiftDown() );
+                break;
+
+            case WXK_LEFT:
+                if ( event.ControlDown() )
+                    MoveCursorLeftBlock( event.ShiftDown() );
+                else
+                    MoveCursorLeft( event.ShiftDown() );
+                break;
+
+            case WXK_RIGHT:
+                if ( event.ControlDown() )
+                    MoveCursorRightBlock( event.ShiftDown() );
+                else
+                    MoveCursorRight( event.ShiftDown() );
+                break;
+
+            case WXK_RETURN:
+            case WXK_NUMPAD_ENTER:
+                if ( event.ControlDown() )
+                {
+                    event.Skip();  // to let the edit control have the return
+                }
+                else
+                {
+                    if ( GetGridCursorRow() < GetNumberRows()-1 )
+                    {
+                        MoveCursorDown( event.ShiftDown() );
+                    }
+                    else
+                    {
+                        // at the bottom of a column
+                        DisableCellEditControl();
+                    }
+                }
+                break;
+
+            case WXK_ESCAPE:
+                ClearSelection();
+                break;
+
+            case WXK_TAB:
+                if (event.ShiftDown())
+                {
+                    if ( GetGridCursorCol() > 0 )
+                    {
+                        MoveCursorLeft( false );
+                    }
+                    else
+                    {
+                        // at left of grid
+                        DisableCellEditControl();
+                    }
+                }
+                else
+                {
+                    if ( GetGridCursorCol() < GetNumberCols() - 1 )
+                    {
+                        MoveCursorRight( false );
+                    }
+                    else
+                    {
+                        // at right of grid
+                        DisableCellEditControl();
+                    }
+                }
+                break;
+
+            case WXK_HOME:
+                if ( event.ControlDown() )
+                {
+                    MakeCellVisible( 0, 0 );
+                    SetCurrentCell( 0, 0 );
+                }
+                else
+                {
+                    event.Skip();
+                }
+                break;
+
+            case WXK_END:
+                if ( event.ControlDown() )
+                {
+                    MakeCellVisible( m_numRows - 1, m_numCols - 1 );
+                    SetCurrentCell( m_numRows - 1, m_numCols - 1 );
+                }
+                else
+                {
+                    event.Skip();
+                }
+                break;
+
+            case WXK_PAGEUP:
+                MovePageUp();
+                break;
+
+            case WXK_PAGEDOWN:
+                MovePageDown();
+                break;
+
+            case WXK_SPACE:
+//                 if ( event.ControlDown() )
+//                 {
+//                     if ( m_selection )
+//                     {
+//                         m_selection->ToggleCellSelection(
+//                             m_currentCellCoords.GetRow(),
+//                             m_currentCellCoords.GetCol(),
+//                             event.ControlDown(),
+//                             event.ShiftDown(),
+//                             event.AltDown(),
+//                             event.MetaDown() );
+//                     }
+//                     break;
+//                 }
+
+                if ( !IsEditable() )
+                    MoveCursorRight( false );
+                else
+                    event.Skip();
+                break;
+
+            default:
+                event.Skip();
+                break;
+        }
+    }
+
+    m_inOnKeyDown = false;
+}
+
+/*
   ~wxhGridBrowse
   Teo. Mexico 2008
 */
 wxhGridBrowse::~wxhGridBrowse()
-{
-  wxh_ItemListDel( this );
-}
-
-/*
-  ~wxhBrowse
-  Teo. Mexico 2008
-*/
-wxhBrowse::~wxhBrowse()
 {
   wxh_ItemListDel( this );
 }

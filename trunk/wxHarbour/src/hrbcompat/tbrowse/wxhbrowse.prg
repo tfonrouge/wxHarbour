@@ -25,15 +25,18 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
-  DATA FIndexPosList INIT {}
   DATA FDataSource
   DATA FDataSourceType
-  DATA FRecNo           INIT 1
+  DATA FRecNo           INIT -1
+  DATA FRowList INIT {}
   DATA gridTableBase
-  METHOD Initialize
   METHOD SetDataSource( dataSource )
+  METHOD SetRowCount( rowCount )
+  METHOD SetRowListSize( size )
 PROTECTED:
 PUBLIC:
+
+  DATA FRowListSize INIT 0
 
   CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
   METHOD wxNew( window, id, pos, size, style, name )
@@ -72,17 +75,12 @@ ENDCLASS
 METHOD New( dataSource, window, id, pos, size, style, name ) CLASS wxhBrowse
 
   /* TODO: Optimize this many calls: remove this New method, implement it in c++ */
-  ::gridTableBase := wxhBrowseTableBase():New()
+  ::gridTableBase := wxhBrowseTableBase():New( Self )
   ::wxNew( ::gridTableBase, window, id, pos, size, style, name )
 
   IF dataSource != NIL
     ::SetDataSource( dataSource )
   ENDIF
-
-//   ::Initialize()
-
-  AltD()
-  ::GoTop()
 
 RETURN Self
 
@@ -151,8 +149,8 @@ RETURN
 METHOD FUNCTION GoBottom CLASS wxhBrowse
   LOCAL i := 0,j,nTop
 
-  IF Len( ::FIndexPosList ) != ::RowCount
-    ASize( ::FIndexPosList, ::RowCount )
+  IF ::FRowListSize != ::RowCount
+    ::SetRowListSize( ::RowCount )
   ENDIF
 
   IF ::RowCount = 0
@@ -163,11 +161,11 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
   CASE 'C'
     ::GoBottomBlock:Eval()
     IF ::FDataSource:Eof()
-      ::SetRowCount( 0 )
+      ::SetRowListSize( 0 )
       RETURN Self
     ENDIF
     FOR i := ::RowCount TO 1 STEP -1
-      ::FIndexPosList[ i ] := ::FDataSource:RecNo
+      ::FRowList[ i ] := ::FDataSource:RecNo
       IF ::SkipBlock:Eval( -1 ) != 1
         EXIT
       ENDIF
@@ -175,14 +173,14 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
     EXIT
   CASE 'A'
     IF Len( ::FDataSource ) = 0
-      ::SetRowCount( 0 )
+      ::SetRowListSize( 0 )
       RETURN Self
     ENDIF
     nTop := ::GoTopBlock:Eval()
     ::GoBottomBlock:Eval()
     j := ::FRecNo
     FOR i := j TO 1 STEP -1
-      ::FIndexPosList[ i ] := ::FRecNo
+      ::FRowList[ i ] := ::FRecNo
       IF ::FRecNo < nTop .OR. ::SkipBlock:Eval( -1 ) != 1
         EXIT
       ENDIF
@@ -192,9 +190,9 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
 
   IF i < ::RowCount
     FOR j:=1 TO ::RowCount - i
-      ADel( ::FIndexPosList, 1 )
+      ADel( ::FRowList, 1 )
     NEXT
-    ::SetRowCount( i )
+    ::SetRowListSize( i )
   ENDIF
 
 RETURN Self
@@ -204,10 +202,10 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
-  LOCAL i
+  LOCAL i := 0
 
-  IF Len( ::FIndexPosList ) != ::RowCount
-    ASize( ::FIndexPosList, ::RowCount )
+  IF ::FRowListSize != ::RowCount
+    ::SetRowListSize( ::RowCount )
   ENDIF
 
   IF ::RowCount = 0
@@ -219,27 +217,24 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
   SWITCH ::FDataSourceType
   CASE 'C'
     IF ::FDataSource:Eof()
-      ::SetRowCount( 0 )
+      ::SetRowListSize( 0 )
       RETURN Self
     ELSE
       FOR i:=1 TO ::RowCount
-        ::FIndexPosList[ i ] := ::FDataSource:RecNo
+        ::FRowList[ i ] := ::FDataSource:RecNo
         IF ::SkipBlock:Eval( 1 ) != 1
           EXIT
         ENDIF
       NEXT
-      IF i < ::RowCount
-        ::SetRowCount( i )
-      ENDIF
     ENDIF
     EXIT
   CASE 'A'
-    IF ::FRecNo = 0
-      ::SetRowCount( 0 )
+    IF Len( ::FDataSource ) = 0
+      ::SetRowListSize( 0 )
       RETURN Self
     ENDIF
     FOR i:=1 TO ::RowCount
-      ::FIndexPosList[ i ] := ::FRecNo
+      ::FRowList[ i ] := ::FRecNo
       IF ::SkipBlock:Eval( 1 ) != 1
         EXIT
       ENDIF
@@ -247,8 +242,7 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
   END
 
   IF i < ::RowCount
-    ASize( ::FIndexPosList, i )
-    ::SetRowCount( i )
+    ::SetRowListSize( i )
   ENDIF
 
 RETURN Self
@@ -280,7 +274,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::GoBottomBlock := {|| table:Last() }
     ::SkipBlock     := {|n| table:Next( n ) }
 
-    ::RowIndex  := {|n| table:RecNo := ::FIndexPosList[ n ] }
+    ::RowIndex  := {|n| table:RecNo := ::FRowList[ n ] }
 
   CASE ::FDataSourceType == "A"        /* Array browse */
     ::FDataSource := dataSource
@@ -289,7 +283,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
     ::SkipBlock     := {|n| oldPos := ::FRecNo, ::FRecNo := iif( n < 0, Max( 1, ::FRecNo - n ), Min( Len( dataSource ), ::FRecNo + n ) ), ::FRecNo - oldPos }
 
-    ::RowIndex := {|n| n }
+    ::RowIndex := {|n| ::FRecNo := ::FRowList[ n ] }
 
   CASE ::FDataSourceType == "H"        /* Hash browse */
     ::FDataSource := dataSource
@@ -297,6 +291,18 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::FDataSource := NIL
   ENDCASE
 
+RETURN
+
+/*
+  SetRowListSize
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE SetRowListSize( size ) CLASS wxhBrowse
+  ASize( ::FRowList, size )
+  ::FRowListSize := size
+  IF ::RowCount != size
+    ::SetRowCount( size )
+  ENDIF
 RETURN
 
 /*

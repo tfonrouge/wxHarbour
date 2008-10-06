@@ -14,6 +14,7 @@
 
 /* forward class declararion */
 class wxhBrowse;
+class wxGridSelection;
 
 /*
   wxhGridBrowse : Interface
@@ -24,6 +25,7 @@ class wxhGridBrowse : public wx_Grid
 private:
   DECLARE_EVENT_TABLE()
 protected:
+  wxGridSelection  *m_selection;
 public:
   wxhGridBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = -1; }
   wxhGridBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhGridBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = -1; }
@@ -34,6 +36,7 @@ public:
   int m_rowCount;
 
   void CalcRowCount();
+  void OnKeyDown( wxKeyEvent& );
   void OnSize( wxSizeEvent& );
 
   ~wxhGridBrowse();
