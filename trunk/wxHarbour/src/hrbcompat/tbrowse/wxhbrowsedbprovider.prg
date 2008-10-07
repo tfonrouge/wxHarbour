@@ -124,14 +124,15 @@ RETURN ::FColumnList[ col + 1 ]:Heading
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
+  row++
   IF Empty( ::FColumnZero )
-    RETURN LTrim( Str( row + 1 ) )
+    RETURN LTrim( Str( row ) )
   ENDIF
   IF ::FBrowse:FRowListSize < row
-    ::FBrowse:GoTop()
-    RETURN ""
+    ::FBrowse:GoBottom()
+    RETURN "?"
   ENDIF
-  ::FRowIndex:Eval( row + 1 )
+  ::FRowIndex:Eval( row )
 RETURN ::GetCellValue( ::FColumnZero )
 
 /*
@@ -147,7 +148,7 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
   ENDIF
 
   IF ::FBrowse:FRowListSize < row
-    ::FBrowse:GoTop()
+    ::FBrowse:GoBottom()
     RETURN ""
   ENDIF
 
