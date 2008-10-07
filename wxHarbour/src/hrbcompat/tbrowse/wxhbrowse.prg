@@ -93,6 +93,8 @@ METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
 
   DO CASE
   CASE ValType( ::FDataSource ) = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
+  
+    wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
 
     FOR EACH fld IN ::FDataSource:FieldList
       wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
@@ -148,7 +150,7 @@ RETURN
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
   LOCAL i := 0,j,nTop
-
+  
   IF ::FRowListSize != ::RowCount
     ::SetRowListSize( ::RowCount )
   ENDIF
@@ -166,7 +168,7 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
     ENDIF
     FOR i := ::RowCount TO 1 STEP -1
       ::FRowList[ i ] := ::FDataSource:RecNo
-      IF ::SkipBlock:Eval( -1 ) != 1
+      IF ::SkipBlock:Eval( -1 ) != -1
         EXIT
       ENDIF
     NEXT
@@ -181,18 +183,18 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
     j := ::FRecNo
     FOR i := j TO 1 STEP -1
       ::FRowList[ i ] := ::FRecNo
-      IF ::FRecNo < nTop .OR. ::SkipBlock:Eval( -1 ) != 1
+      IF ::FRecNo < nTop .OR. ::SkipBlock:Eval( -1 ) != -1
         EXIT
       ENDIF
     NEXT
     EXIT
   END
 
-  IF i < ::RowCount
+  IF i > 1
     FOR j:=1 TO ::RowCount - i
       ADel( ::FRowList, 1 )
     NEXT
-    ::SetRowListSize( i )
+    ::SetRowListSize( ::RowCount - i )
   ENDIF
 
 RETURN Self
@@ -203,7 +205,7 @@ RETURN Self
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
   LOCAL i := 0
-
+  
   IF ::FRowListSize != ::RowCount
     ::SetRowListSize( ::RowCount )
   ENDIF

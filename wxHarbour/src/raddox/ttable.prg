@@ -533,6 +533,7 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
       ::FIndex:DbSkip( numRecs )
     ELSE
       ::Alias:DbSkip( numRecs )
+      ::GetCurrentRecord()
     ENDIF
   CATCH
 
@@ -801,6 +802,7 @@ METHOD FUNCTION FirstLast( n ) CLASS TTable
     ELSE
       ::Alias:GoBottom()
     ENDIF
+    ::GetCurrentRecord()
   ENDIF
 
 RETURN .F.
@@ -1576,7 +1578,7 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
   IF n = 0
 
     ::DbSkip( 0 )
-
+    
     RETURN 0
 
   ENDIF
