@@ -23,7 +23,9 @@ PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( Name )
   METHOD AddRec
+  METHOD DbGoBottom( indexName )
   METHOD DbGoTo( RecNo )
+  METHOD DbGoTop( indexName )
   METHOD DbSkip( n )
   METHOD DbStruct INLINE (::FName)->(DbStruct())
   METHOD DbOpen
@@ -34,8 +36,6 @@ PUBLIC:
   METHOD FieldValue( fieldName )
   METHOD Get4Seek( xField, cKey, indexName, softSeek )
   METHOD Get4SeekLast( xField, cKey, indexName, softSeek )
-  METHOD GoBottom( indexName )
-  METHOD GoTop( indexName )
   METHOD IsLocked( RecNo )
   METHOD KeyVal( indexName )
   METHOD LastRec INLINE (::FName)->( LastRec() )
@@ -105,12 +105,32 @@ METHOD FUNCTION AddRec( index ) CLASS TAlias
 RETURN Result
 
 /*
+  DbGoBottom
+  Teo. Mexico 2007
+*/
+METHOD FUNCTION DbGoBottom( indexName ) CLASS TAlias
+  LOCAL Result
+  Result := (::FName)->( GoBottom( indexName ) )
+  ::SyncFromAlias()
+RETURN Result
+
+/*
   DbGoTo
   Teo. Mexico 2007
 */
 METHOD FUNCTION DbGoTo( RecNo ) CLASS TAlias
   LOCAL Result
   Result := (::FName)->( DbGoTo( RecNo ) )
+  ::SyncFromAlias()
+RETURN Result
+
+/*
+  DbGoTop
+  Teo. Mexico 2007
+*/
+METHOD FUNCTION DbGoTop( indexName ) CLASS TAlias
+  LOCAL Result
+  Result := (::FName)->( GoTop( indexName ) )
   ::SyncFromAlias()
 RETURN Result
 
@@ -182,26 +202,6 @@ RETURN (::FName) -> ( Get4Seek( xField, cKey, indexName, softSeek ) )
 */
 METHOD FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
 RETURN (::FName) -> ( Get4SeekLast( xField, cKey, indexName, softSeek ) )
-
-/*
-  GoBottom
-  Teo. Mexico 2007
-*/
-METHOD FUNCTION GoBottom( indexName ) CLASS TAlias
-  LOCAL Result
-  Result := (::FName)->( GoBottom( indexName ) )
-  ::SyncFromAlias()
-RETURN Result
-
-/*
-  GoTop
-  Teo. Mexico 2007
-*/
-METHOD FUNCTION GoTop( indexName ) CLASS TAlias
-  LOCAL Result
-  Result := (::FName)->( GoTop( indexName ) )
-  ::SyncFromAlias()
-RETURN Result
 
 /*
   IsLocked

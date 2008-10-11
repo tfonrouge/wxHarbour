@@ -28,7 +28,7 @@ PRIVATE:
   DATA FMasterKeyField
   DATA FTable
   DATA FUniqueKeyField
-  METHOD FirstLast( n )
+  METHOD DbGoBottomTop( n )
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyField != NIL
   METHOD GetField
   METHOD GetUnique INLINE ::FUniqueKeyField != NIL
@@ -44,10 +44,10 @@ PUBLIC:
   METHOD AddIndex
   METHOD CustomKeyDel
   METHOD CustomKeyUpdate
+  METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
+  METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
   METHOD DbSkip( numRecs )
   METHOD ExistKey( keyValue )
-  METHOD First INLINE ::FirstLast( 0 )
-  METHOD Last INLINE ::FirstLast( 1 )
   METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
   METHOD RawSeek( Value )
   METHOD Seek( keyValue )
@@ -177,33 +177,10 @@ METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
 RETURN
 
 /*
-  DbSkip
-  Teo. Mexico 2007
-*/
-METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
-
-  ::FTable:Alias:Skip( numRecs, ::FName )
-
-  ::FTable:GetCurrentRecord()
-
-RETURN
-
-/*
-  ExistKey
-  Teo. Mexico 2007
-*/
-METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
-RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + ;
-                                        iif( ::FCaseSensitive, ;
-                                          keyValue, ;
-                                          Upper( keyValue ) ), ;
-                                        ::FName, ::FTable:RecNo )
-
-/*
-  FirstLast
+  DbGoBottomTop
   Teo. Mexico 2008
 */
-METHOD FUNCTION FirstLast( n ) CLASS TIndex
+METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
   LOCAL masterKeyString
 
   IF Empty( masterKeyString := ::MasterKeyString )
@@ -226,6 +203,29 @@ METHOD FUNCTION FirstLast( n ) CLASS TIndex
   ::FTable:GetCurrentRecord()
 
 RETURN ::FTable:Found()
+
+/*
+  DbSkip
+  Teo. Mexico 2007
+*/
+METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
+
+  ::FTable:Alias:Skip( numRecs, ::FName )
+
+  ::FTable:GetCurrentRecord()
+
+RETURN
+
+/*
+  ExistKey
+  Teo. Mexico 2007
+*/
+METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
+RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + ;
+                                        iif( ::FCaseSensitive, ;
+                                          keyValue, ;
+                                          Upper( keyValue ) ), ;
+                                        ::FName, ::FTable:RecNo )
 
 /*
   GetField

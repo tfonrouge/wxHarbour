@@ -47,7 +47,7 @@ PRIVATE:
   DATA FTimer INIT 0
   DATA FUndoList INIT HB_HSetCaseMatch( {=>}, .F. )
 
-  METHOD FirstLast
+  METHOD DbGoBottomTop( type )
   METHOD GetBof INLINE ::Alias:Bof
   METHOD GetDbStruct
   METHOD GetEof INLINE ::Alias:Eof
@@ -98,7 +98,9 @@ PUBLIC:
   METHOD DefineRelations              VIRTUAL
   METHOD Destroy
   METHOD DbEval( bBlock, bForCondition, bWhileCondition )
+  METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
   METHOD DbGoTo( RecNo )
+  METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
   METHOD DbSkip( numRecs )
   METHOD Delete
   METHOD DeleteChilds
@@ -106,7 +108,6 @@ PUBLIC:
   METHOD FieldByName
   METHOD FindMasterSourceField( detailField )
   METHOD FindTable( table )
-  METHOD First INLINE ::FirstLast( 0 )
   METHOD FullFileName
   METHOD GetAsString INLINE iif( ::PrimaryKeyField=NIL, "", ::PrimaryKeyField:AsString )
   METHOD GetAsVariant INLINE iif( ::PrimaryKeyField=NIL, NIL, ::PrimaryKeyField:Value )
@@ -118,7 +119,6 @@ PUBLIC:
   METHOD Insert
   METHOD InsertRecord( Value )
   METHOD InsideScope
-  METHOD Last INLINE ::FirstLast( 1 )
   METHOD MasterSourceClassName
   METHOD Open
   METHOD Post
@@ -486,7 +486,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
     ::pSelf := __ClsInst( ::ClassH ):New( ::FMasterSource )
   ENDIF
 
-  ::pSelf:First()
+  ::pSelf:DbGoTop()
 
   WHILE !::pSelf:Eof() .AND. ( bWhileCondition = NIL .OR. bWhileCondition:Eval( ::pSelf ) )
 
@@ -503,6 +503,33 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
   ENDIF
 
 RETURN
+
+/*
+  DbGoBottomTop
+  Teo. Mexico 2007
+*/
+METHOD FUNCTION DbGoBottomTop( n ) CLASS TTable
+
+  IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
+    ::Post()
+  ENDIF
+
+  IF ::FIndex != NIL
+    IF n = 0
+      RETURN ::FIndex:DbGoTop()
+    ELSE
+      RETURN ::FIndex:DbGoBottom()
+    ENDIF
+  ELSE
+    IF n = 0
+      ::Alias:DbGoTop()
+    ELSE
+      ::Alias:DbGoBottom()
+    ENDIF
+    ::GetCurrentRecord()
+  ENDIF
+
+RETURN .F.
 
 /*
   DbGoTo
@@ -625,7 +652,7 @@ METHOD FUNCTION DeleteChilds CLASS TTable
       ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
     ENDIF
 
-    WHILE ChildDB:First()
+    WHILE ChildDB:DbGoTop()
       ChildDB:Delete( .T. )
     ENDDO
 
@@ -781,33 +808,6 @@ METHOD FUNCTION FindTable( table ) CLASS TTable
 RETURN NIL
 
 /*
-  FirstLast
-  Teo. Mexico 2007
-*/
-METHOD FUNCTION FirstLast( n ) CLASS TTable
-
-  IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
-    ::Post()
-  ENDIF
-
-  IF ::FIndex != NIL
-    IF n = 0
-      RETURN ::FIndex:First()
-    ELSE
-      RETURN ::FIndex:Last()
-    ENDIF
-  ELSE
-    IF n = 0
-      ::Alias:GoTop()
-    ELSE
-      ::Alias:GoBottom()
-    ENDIF
-    ::GetCurrentRecord()
-  ENDIF
-
-RETURN .F.
-
-/*
   FullFileName
   Teo. Mexico 2008
 */
@@ -956,16 +956,13 @@ RETURN ::FInstances[ ::TableClass, "DbStruct" ]
   GetDisplayFieldBlock
   Teo. Mexico 2008
 */
+#ifdef __XHARBOUR__
+
 METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
 
   IF !::FieldList[ n ]:IsDerivedFrom("TObjectField")
-    #ifdef __XHARBOUR__
     RETURN ;
       <|o|
-    #else
-    RETURN ;
-      {|o|
-    #endif
         LOCAL Result
         IF o:__Obj:Eof()
           Result := o:__Obj:FieldList[ n ]:EmptyValue
@@ -977,29 +974,45 @@ METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
           */
         o:__FObj:Alias:SyncFromRecNo()
         RETURN Result
-      #ifdef __XHARBOUR__
       >
-      #else
-      }
-      #endif
   ENDIF
 
-  #ifdef __XHARBOUR__
   RETURN ;
     <|o|
-  #else
-  RETURN ;
-    {|o|
-  #endif
       IF o:__Obj:FieldList[ n ]:DataObj != NIL
         RETURN o:__Obj:FieldList[ n ]:DataObj:DisplayFields
       ENDIF
       RETURN NIL
-    #ifdef __XHARBOUR__
     >
-    #else
+#else
+
+METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
+
+  IF !::FieldList[ n ]:IsDerivedFrom("TObjectField")
+    RETURN ;
+      {|o|
+        LOCAL Result
+        IF o:__Obj:Eof()
+          Result := o:__Obj:FieldList[ n ]:EmptyValue
+        ELSE
+          Result := o:__Obj:FieldList[ n ]:Value
+        ENDIF
+        /*
+          * Alias RecNo maybe changed, so force a record sync
+          */
+        o:__FObj:Alias:SyncFromRecNo()
+        RETURN Result
+      }
+  ENDIF
+
+  RETURN ;
+    {|o|
+      IF o:__Obj:FieldList[ n ]:DataObj != NIL
+        RETURN o:__Obj:FieldList[ n ]:DataObj:DisplayFields
+      ENDIF
+      RETURN NIL
     }
-    #endif
+#endif
 
 METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL DisplayFieldsClass
@@ -1121,7 +1134,7 @@ METHOD FUNCTION HasChilds CLASS TTable
       ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
     ENDIF
 
-    IF ChildDB:First()
+    IF ChildDB:DbGoTop()
       RETURN .T.
     ENDIF
 
@@ -1570,52 +1583,32 @@ RETURN
 */
 METHOD FUNCTION SkipBrowse( n ) CLASS TTable
   LOCAL num_skipped := 0
-
-  IF n==NIL
-    n := 1
-  ENDIF
+  LOCAL recNo
 
   IF n = 0
-
-    ::DbSkip( 0 )
-    
-    RETURN 0
-
-  ENDIF
-
-  IF ( n > 0 .AND. ::Eof() ) .OR. ( n < 0 .AND. ::Bof() )
     ::DbSkip( 0 )
     RETURN 0
   ENDIF
 
-  WHILE num_skipped != n
-
-    DO CASE
-    CASE n>0 .AND. !::Eof() /*.AND. scopeBlock:Eval()*/
-      ::DbSkip( n )
+  IF n > 0
+    WHILE num_skipped < n
+      recNo := ::RecNo
+      ::DbSkip( 1 )
+      IF ::Eof()
+        ::RecNo := recNo
+        EXIT
+      ENDIF
       num_skipped++
-    CASE n<0 .AND. !::Bof() /*.AND. scopeBlock:Eval()*/
+    ENDDO
+  ELSE
+    WHILE num_skipped > n
       ::DbSkip( -1 )
+      IF ::Bof()
+        EXIT
+      ENDIF
       num_skipped--
-    OTHERWISE
-      EXIT
-    ENDCASE
-
-  ENDDO
-
-  IF ::Bof()
-    num_skipped++
+    ENDDO
   ENDIF
-
-//   IF !scopeBlock:Eval()
-//     IF n>0
-//       (::FName)->(DbSkip( -1 ))
-//       num_skipped--
-//     ELSE
-//       (::FName)->(DbSkip( 1 ))
-//       num_skipped++
-//     ENDIF
-//   ENDIF
 
 RETURN num_skipped
 
@@ -1650,7 +1643,7 @@ METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
   ENDIF
 
   IF ::FActive
-    ::First()
+    ::DbGoTop()
   ENDIF
 
 RETURN

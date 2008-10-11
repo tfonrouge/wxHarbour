@@ -84,7 +84,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
       HB_FUN_WXSOCKETBASE();
       hb_itemCopy( p, hb_stackReturnItem() );
       wxh_ItemListAdd( socketBase, p );
-      hb_itemReturn( p );
+      hb_itemReturnRelease( p );
     }
   }
 }

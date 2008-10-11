@@ -15,11 +15,16 @@
 #include "wxh/filedlg.ch"
 
 FUNCTION Main()
+  LOCAL profiler := HBProfile():New()
   LOCAL MyApp
 
   MyApp := MyApp():New()
 
+  __setProfiler( .T. )
+
   IMPLEMENT_APP( MyApp )
+
+  profiler:Gather()
 
 RETURN NIL
 
@@ -45,10 +50,11 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL auiNb
-  LOCAL b1
-//   LOCAL b2
-//   LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
-  LOCAL a := {"a","b",123}
+  LOCAL text
+  LOCAL b1,b2
+//   LOCAL oldPos
+  LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+//   LOCAL a := {1,2,3}
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -77,21 +83,37 @@ METHOD FUNCTION OnInit() CLASS MyApp
       END SIZER
       BEGIN BOXSIZER VERTICAL "2" ALIGN EXPAND STRETCH
         BEGIN NOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
-//           @ BROWSE b2 DATASOURCE a
-          @ BROWSE b1 DATASOURCE "main"
+          @ BROWSE b1 DATASOURCE a
+          @ BROWSE b2 DATASOURCE "main"
         END NOTEBOOK
       END SIZER
     END SIZER
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
-      @ BUTTON "GoBottom" ACTION b1:GoBottom()
+      @ GET text MULTILINE SIZERINFO ALIGN EXPAND STRETCH
+      BEGIN BOXSIZER HORIZONTAL
+        @ BUTTON "GoTop" ACTION b1:GoTop()
+        @ BUTTON "GoBottom" ACTION b1:GoBottom()
+        @ BUTTON "PgUp" ACTION b1:PageUp()
+        @ BUTTON "PgDown" ACTION b1:PageDown()
+        @ BUTTON "Up" ACTION b1:Up()
+        @ BUTTON "Down" ACTION b1:Down()
+        @ BUTTON "RefreshAll" ACTION b1:RefreshAll()
+      END SIZER
       @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
     END SIZER
   END SIZER
 
-  b1:AddAllColumns()
-//   b:Fit()
+//   b1:Fit()
 
-//   ADD BCOLUMN b2 "#" BLOCK {|| a[ b2:RecNo ] }
+//   b1:GoTopBlock := {|| b1:cargo := 1 }
+//   b1:GoBottomBlock := {|| b1:cargo := Len( a ) }
+//   b1:SkipBlock := {|n| oldPos := b1:cargo, b1:cargo := iif( n < 0, Max( 1, b1:cargo + n ), Min( Len( a ), b1:cargo + n ) ), b1:cargo - oldPos }
+
+  ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:RecNo ] }
+//   ADD BCOLUMN ZERO b1 BLOCK {|| b1:cargo }
+//   ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:cargo ] }
+
+  b2:AddAllColumns()
 
   @ STATUSBAR
 
@@ -104,7 +126,7 @@ RETURN .T.
   Teo. Mexico 2008
 */
 STATIC PROCEDURE AddTable( oWnd, auiNb )
-  LOCAL b
+  LOCAL b1
   LOCAL fileDlg
   LOCAL tableName
 
@@ -115,9 +137,9 @@ STATIC PROCEDURE AddTable( oWnd, auiNb )
   ENDIF
 
   FOR EACH tableName IN fileDlg:GetPaths()
-    b := wxhBrowse():New( tableName, auiNb )
-    auiNb:AddPage( b, tableName, .T. )
-    b:AddAllColumns()
+    b1 := wxhBrowse():New( tableName, auiNb )
+    auiNb:AddPage( b1, tableName, .T. )
+    b1:AddAllColumns()
   NEXT
 
 RETURN
