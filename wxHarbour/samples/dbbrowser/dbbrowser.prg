@@ -26,6 +26,12 @@ FUNCTION Main()
 
   profiler:Gather()
 
+  ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 0 } )
+  ? Replicate("=",40)
+  ? "  Total Calls: " + str( profiler:totalCalls() )
+  ? "  Total Ticks: " + str( profiler:totalTicks() )
+  ? "Total Seconds: " + str( profiler:totalSeconds() )
+
 RETURN NIL
 
 /*

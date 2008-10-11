@@ -30,14 +30,13 @@ PRIVATE:
   DATA FDataSource
   DATA FDataSourceType
   DATA FRecNo           INIT -1
-  DATA FRefreshAll      INIT .T.
   DATA FRowIndexGetValue
   DATA FRowIndexSetValue
   DATA FRowList
   DATA FRowListSize     INIT 0
   DATA FTmpRowPos
   DATA gridTableBase
-  METHOD FillRowList( index ) EXPORTED
+  METHOD FillRowList( index ) EXPORTED /* TODO: remove EXPORTED here */
   METHOD GetColCount INLINE Len( ::gridTableBase:ColumnList )
   METHOD GetColPos
   METHOD GetRowCount
@@ -50,7 +49,6 @@ PRIVATE:
   METHOD SetRowPos( rowPos )
 PROTECTED:
 PUBLIC:
-
 
   CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
   METHOD wxNew( window, id, pos, size, style, name )

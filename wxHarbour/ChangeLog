@@ -2,6 +2,11 @@
  *
  */
 
+2008-10-11 14:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * testing code
+
 2008-10-11 12:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * src/common/wxhfuncs.prg
