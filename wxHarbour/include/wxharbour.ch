@@ -325,6 +325,7 @@
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ <mline: MULTILINE> ] ;
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
@@ -340,6 +341,7 @@
             wxhGET():New( <"var">, <var>, {|__localVal| iif( PCount()>0, <var> := __localVal, <var> ) } ),;
             ,;
             [{<nWidth>,<nHeight>}],;
+            [<.mline.>],;
             [<style>],;
             [<validator>],;
             [<name>],;

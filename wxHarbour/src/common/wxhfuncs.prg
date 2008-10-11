@@ -25,6 +25,8 @@
 #include "property.ch"
 #include "wx.ch"
 
+#include "wxh/textctrl.ch"
+
 #include "wxharbour.ch"
 
 STATIC containerObj
@@ -229,11 +231,19 @@ RETURN oWnd
  * wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION wxh_GET( window, id, wxhGet, pos, size, style, validator, name )
+FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name )
   LOCAL Result
 
   IF window = NIL
     window := containerObj():LastParent()
+  ENDIF
+
+  IF multiLine == .T.
+    IF Empty( style )
+      style := wxTE_MULTILINE
+    ELSE
+      style := HB_BitOr( wxTE_MULTILINE, style )
+    ENDIF
   ENDIF
 
   Result := wxHBTextCtrl():New( window, id, wxhGet, pos, size, style, validator, name )

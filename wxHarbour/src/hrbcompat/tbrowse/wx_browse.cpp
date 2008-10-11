@@ -51,17 +51,8 @@ void wxhGridBrowse::CalcRowCount()
   if( size.GetHeight() == m_gridWindowHeight )
     return;
 
-//   EnableScrolling( false, false );
-  Scroll( 0, 0 );
-
   m_gridWindowHeight = size.GetHeight();
 
-  BeginBatch();
-
-  if( GetNumberRows() == 0 )
-    AppendRows( 1 );
-
-  //SetScrollbars(0, 0, 0, 0, true );
   wxRect cellRect( CellToRect( 0, 0 ) );
 
   int top,bottom;
@@ -72,7 +63,7 @@ void wxhGridBrowse::CalcRowCount()
 //   cout << endl << "               top : " << top;
 //   cout << endl << "            bottom : " << bottom;
 
-  m_rowCount = (int) floor( ( (m_gridWindowHeight - 10) / ( bottom - top ) ) ) - 1;
+  m_rowCount = ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 ;
 
 //   cout << endl << "m_rowCount           : " << m_rowCount;
 //   cout << endl;
@@ -90,7 +81,13 @@ void wxhGridBrowse::CalcRowCount()
   else
     DeleteRows( 0, GetNumberRows() );
 
-  EndBatch();
+  PHB_ITEM hbwxhBrowse = wxh_ItemListGetHB( this->m_browse );
+  if( hbwxhBrowse && hb_objSendMsg( hbwxhBrowse, "Initialized", 0 )->item.asLogical.value )
+  {
+    hb_objSendMsg( hbwxhBrowse, "FillRowList", 0 );
+  }
+
+  m_maxRows = GetNumberRows();
 
 }
 
@@ -104,7 +101,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
     {
         // shouldn't be here - we are going round in circles...
         //
-        wxFAIL_MSG( wxT("wxGrid::OnKeyDown called while already active") );
+        wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
     }
 
     m_inOnKeyDown = true;
@@ -317,6 +314,54 @@ HB_FUNC( WXHBROWSE_WXNEW )
 }
 
 /*
+  GetColPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_GETCOLPOS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && browse )
+  {
+    hb_retni( browse->m_gridBrowse->GetGridCursorCol() + 1 );
+  }
+  else
+    hb_ret();
+}
+
+/*
+  GetRowCount
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_GETROWCOUNT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  int rowCount = 0;
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && browse )
+  {
+    rowCount = browse->m_gridBrowse->m_rowCount;
+  }
+  hb_retnl( rowCount );
+}
+
+/*
+  GetRowPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_GETROWPOS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && browse )
+  {
+    hb_retni( browse->m_gridBrowse->GetGridCursorRow() + 1 );
+  }
+  else
+    hb_ret();
+}
+
+/*
   Initialize
   Teo. Mexico 2008
 */
@@ -333,21 +378,36 @@ HB_FUNC( WXHBROWSE_INITIALIZE )
 }
 
 /*
-  RowCount
+  RefreshAll
   Teo. Mexico 2008
 */
-HB_FUNC( WXHBROWSE_ROWCOUNT )
+HB_FUNC( WXHBROWSE_REFRESHALL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  int rowCount = 0;
   wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
   if( pSelf && browse )
   {
-    rowCount = browse->m_gridBrowse->m_rowCount;
+    browse->m_gridBrowse->SetFocus();
+    browse->m_gridBrowse->MakeCellVisible( browse->m_gridBrowse->GetGridCursorRow(), browse->m_gridBrowse->GetGridCursorCol() );
+    browse->m_gridBrowse->ForceRefresh();
   }
-  hb_retnl( rowCount );
 }
 
+/*
+  SetColPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_SETCOLPOS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  int col = hb_parni( 1 );
+  if( pSelf && browse )
+  {
+    int row = browse->m_gridBrowse->GetGridCursorRow();
+    browse->m_gridBrowse->SetGridCursor( row, col - 1 );
+  }
+}
 /*
   SetRowCount
   Teo. Mexico 2008
@@ -364,5 +424,24 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
     else
       browse->m_gridBrowse->DeleteRows( rowCount - 1, browse->m_gridBrowse->m_rowCount - rowCount );
     browse->m_gridBrowse->m_rowCount = rowCount;
+  }
+}
+
+/*
+  SetRowPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_SETROWPOS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  int row = hb_parni( 1 );
+
+  if( pSelf && browse )
+  {
+    int col = browse->m_gridBrowse->GetGridCursorCol();
+    browse->m_gridBrowse->SetFocus();
+    browse->m_gridBrowse->MakeCellVisible( row - 1, col );
+    browse->m_gridBrowse->SetGridCursor( row - 1, col );
   }
 }

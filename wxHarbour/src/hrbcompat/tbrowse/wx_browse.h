@@ -34,6 +34,7 @@ public:
 
   int m_gridWindowHeight;
   int m_rowCount;
+  int m_maxRows;
 
   void CalcRowCount();
   void OnKeyDown( wxKeyEvent& );

@@ -16,6 +16,7 @@
 
 #include "hbclass.ch"
 #include "property.ch"
+#include "xerror.ch"
 
 #include "wxharbour.ch"
 
@@ -29,7 +30,6 @@ PRIVATE:
   DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
-  DATA FRowIndex
   METHOD GetCellValue( column )
 PROTECTED:
 PUBLIC:
@@ -45,10 +45,10 @@ PUBLIC:
   METHOD SetBlockParam( blockParam ) INLINE ::FBlockParam := blockParam
   METHOD SetColumnList( columnList )
   METHOD SetColumnZero( columnZero ) INLINE ::FColumnZero := columnZero
-  METHOD SetRowIndex( rowIndex ) INLINE ::FRowIndex := rowIndex
   METHOD SetValue( row, col, value )
 
   PROPERTY BlockParam READ FBlockParam WRITE SetBlockParam
+  PROPERTY Browse READ FBrowse
   PROPERTY ColumnList READ FColumnList WRITE SetColumnList
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
 
@@ -76,7 +76,11 @@ METHOD FUNCTION GetCellValue( column ) CLASS wxhBrowseTableBase
   picture  := column:Picture
   width    := column:Width
 
-  Result := column:Block:Eval( ::FBlockParam )
+  TRY
+    Result := column:Block:Eval( ::FBlockParam )
+  CATCH
+    Result := "<error on block>"
+  END
 
   IF picture != NIL
     Result := Transform( Result, picture )
@@ -114,47 +118,61 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseTableBase
-  IF col < 0
+  col++
+  IF col < 1
     RETURN ""
   ENDIF
-RETURN ::FColumnList[ col + 1 ]:Heading
+RETURN ::FColumnList[ col ]:Heading
 
  /*
   GetRowLabelValue
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
-  row++
-  IF Empty( ::FColumnZero )
-    RETURN LTrim( Str( row ) )
+  LOCAL result := ""
+  LOCAL n
+
+  IF !::FBrowse:SetRowIndex( row )
+    RETURN result
   ENDIF
-  IF ::FBrowse:FRowListSize < row
-    ::FBrowse:GoBottom()
-    RETURN "?"
+
+  n := ::FBrowse:SkipBlock:Eval( row )
+  IF n = row
+    IF ::FColumnZero = NIL
+      result := LTrim( Str( ::FBrowse:RecNo ) )
+    ELSE
+      result := ::GetCellValue( ::FColumnZero )
+    ENDIF
   ENDIF
-  ::FRowIndex:Eval( row )
-RETURN ::GetCellValue( ::FColumnZero )
+  ::FBrowse:SkipBlock:Eval( - n )
+
+RETURN result
 
 /*
   GetValue
   Teo. Mexico 2008
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
+  LOCAL result := ""
+  LOCAL n
 
-  row++
+  col++
 
-  IF col >= ::GetNumberCols()
+  IF col > ::GetNumberCols()
     RETURN "<error>" /* raise error ? */
   ENDIF
 
-  IF ::FBrowse:FRowListSize < row
-    ::FBrowse:GoBottom()
-    RETURN ""
+  IF !::FBrowse:SetRowIndex( row )
+    RETURN result
   ENDIF
 
-  ::FRowIndex:Eval( row )
+  n := ::FBrowse:SkipBlock:Eval( row )
+  IF n = row
+    result := ::GetCellValue( ::FColumnList[ col ] )
+  ENDIF
+  ::FBrowse:SkipBlock:Eval( - n )
 
-RETURN ::GetCellValue( ::FColumnList[ col + 1 ] )
+RETURN result
 
 /*
   SetColumnList

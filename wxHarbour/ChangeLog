@@ -2,6 +2,38 @@
  *
  */
 
+2008-10-11 12:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    + added MULTILINE clause to @ GET ...
+
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * implemented TBrowse *alike*:
+      DATA cargo, GoBottomBlock, GoTopBlock, SkipBlock
+      PROPERTY ColCount, RowCount, ColPos, RowPos
+      METHOD AddColumn( column ), DelColumn( pos ), Down, GoBottom, GoTop
+        PageDown, PageUp, RefreshAll, Up
+    ; I don't want to achieve 100% of TBrowse compat, only to give
+      a very close functionality.
+
+  * src/raddox/talias.prg
+    * renamed GoTop/GoBottom -> DbGoTop/DbGoBottom
+
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+    * renamed First/Last -> DbGoTop/DbGoBottom
+    ! On ttable.prg fixed a wrong misplacing of debug info when #ifdef's
+      ( xHarbour <| ... -> Harbour {| ... )
+
+  * src/wxbase/networking/wx_socketserver.cpp
+    ! Fixed release de created PHB_ITEM
+
 2008-10-06 19:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
   * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
