@@ -27,6 +27,7 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
+  DATA FCurRow  EXPORTED
   DATA FDataSource
   DATA FDataSourceType
   DATA FRecNo           INIT -1
@@ -200,6 +201,9 @@ METHOD PROCEDURE FillRowList CLASS wxhBrowse
   LOCAL direction
   LOCAL totalSkipped := 0
   LOCAL topRecord
+
+  /* start at first index row */
+  ::FCurRow := 0
 
   ::FTmpRowPos := ::RowPos
 
@@ -414,6 +418,7 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD FUNCTION SetRowIndex( rowIndex ) CLASS wxhBrowse
+  LOCAL n
 
   IF Empty( ::FRowList )
     ::FillRowList()
@@ -422,6 +427,14 @@ METHOD FUNCTION SetRowIndex( rowIndex ) CLASS wxhBrowse
   IF rowIndex >= ::RowCount
     RETURN .F.
   ENDIF
+
+  IF rowIndex == ::FCurRow
+    RETURN .T.
+  ENDIF
+
+  n := ::SkipBlock:Eval( rowIndex - ::FCurRow )
+
+  ::FCurRow := rowIndex
 
 RETURN .T.
 

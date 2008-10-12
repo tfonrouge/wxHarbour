@@ -79,7 +79,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
 
   if( paramFail )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, "WXSOCKETCLIENT:", &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, "WXSOCKETCLIENT:", &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 

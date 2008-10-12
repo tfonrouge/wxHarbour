@@ -51,7 +51,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 
   if( !address )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
   socketServer = new wx_SocketServer( *address, flags );
@@ -105,7 +105,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 
   if( !socket )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 
