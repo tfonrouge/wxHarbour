@@ -26,7 +26,7 @@ FUNCTION Main()
 
   profiler:Gather()
 
-  ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 0 } )
+  ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
   ? Replicate("=",40)
   ? "  Total Calls: " + str( profiler:totalCalls() )
   ? "  Total Ticks: " + str( profiler:totalTicks() )
@@ -88,10 +88,10 @@ METHOD FUNCTION OnInit() CLASS MyApp
         END PANEL
       END SIZER
       BEGIN BOXSIZER VERTICAL "2" ALIGN EXPAND STRETCH
-        BEGIN NOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
+        BEGIN AUINOTEBOOK VAR auiNb SIZERINFO ALIGN EXPAND STRETCH
           @ BROWSE b1 DATASOURCE a
           @ BROWSE b2 DATASOURCE "main"
-        END NOTEBOOK
+        END AUINOTEBOOK
       END SIZER
     END SIZER
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND

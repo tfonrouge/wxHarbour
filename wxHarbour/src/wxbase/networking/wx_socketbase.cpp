@@ -370,7 +370,7 @@ HB_FUNC( WXSOCKETBASE_PEEK )
 
   if( pBuffer == NULL || !ISBYREF( 1 ) )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 
@@ -396,7 +396,7 @@ HB_FUNC( WXSOCKETBASE_READ )
 
   if( pBuffer == NULL || !ISBYREF( 1 ) )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 
@@ -422,7 +422,7 @@ HB_FUNC( WXSOCKETBASE_READMSG )
 
   if( pBuffer == NULL || !ISBYREF( 1 ) )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 
@@ -448,7 +448,7 @@ HB_FUNC( WXSOCKETBASE_UNREAD )
 
   if( pBuffer == NULL || !ISBYREF( 1 ) )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 

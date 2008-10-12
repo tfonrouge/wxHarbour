@@ -2,6 +2,25 @@
  *
  */
 
+2008-10-12 17:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    % optimized method of calling for ::SkipBlock, this enhances the browser
+      time response.
+
+  * src/raddox/dba.prg
+    * not use of PushWS to get the WS stack size (profiler number of calls)
+
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+    ! Comented out code for creating error.
+      ; TODO: create our own error messaging frame.
+
+
 2008-10-11 14:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
   * src/hrbcompat/tbrowse/wxhbrowse.prg

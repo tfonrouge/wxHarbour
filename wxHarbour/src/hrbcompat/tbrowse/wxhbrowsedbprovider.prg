@@ -30,6 +30,7 @@ PRIVATE:
   DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
+  DATA FCurRow
   METHOD GetCellValue( column )
 PROTECTED:
 PUBLIC:
@@ -129,50 +130,33 @@ RETURN ::FColumnList[ col ]:Heading
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
-  LOCAL result := ""
-  LOCAL n
 
   IF !::FBrowse:SetRowIndex( row )
-    RETURN result
+    RETURN ""
   ENDIF
 
-  n := ::FBrowse:SkipBlock:Eval( row )
-  IF n = row
-    IF ::FColumnZero = NIL
-      result := LTrim( Str( ::FBrowse:RecNo ) )
-    ELSE
-      result := ::GetCellValue( ::FColumnZero )
-    ENDIF
+  IF ::FColumnZero = NIL
+    RETURN LTrim( Str( ::FBrowse:RecNo ) )
   ENDIF
-  ::FBrowse:SkipBlock:Eval( - n )
 
-RETURN result
+RETURN ::GetCellValue( ::FColumnZero )
 
 /*
   GetValue
   Teo. Mexico 2008
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
-  LOCAL result := ""
-  LOCAL n
 
+  ? "GetValue:",row,col,::Browse:RowPos
+  ?
+  
   col++
 
-  IF col > ::GetNumberCols()
-    RETURN "<error>" /* raise error ? */
-  ENDIF
-
   IF !::FBrowse:SetRowIndex( row )
-    RETURN result
+    RETURN ""
   ENDIF
 
-  n := ::FBrowse:SkipBlock:Eval( row )
-  IF n = row
-    result := ::GetCellValue( ::FColumnList[ col ] )
-  ENDIF
-  ::FBrowse:SkipBlock:Eval( - n )
-
-RETURN result
+RETURN ::GetCellValue( ::FColumnList[ col ] )
 
 /*
   SetColumnList

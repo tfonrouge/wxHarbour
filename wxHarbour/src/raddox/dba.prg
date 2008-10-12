@@ -274,7 +274,7 @@ RETURN ret
 FUNCTION PopWS(n)
   LOCAL ws,a,wa
   n:=iif(n==NIL,len(aws),n)
-  IF n<=0 .OR. n>PushWS(0)
+  IF n<=0 .OR. n>Len(aws)
     //mess_open("!","ERROR: PopWS Fuera de rango !!!",-1,C_ERROR,,0)
     RETURN 0
   ENDIF
