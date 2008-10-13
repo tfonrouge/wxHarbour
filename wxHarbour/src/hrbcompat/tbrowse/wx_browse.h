@@ -24,6 +24,8 @@ class wxhGridBrowse : public wx_Grid
 {
 private:
   DECLARE_EVENT_TABLE()
+  void OnKeyDown( wxKeyEvent& );
+  void OnSize( wxSizeEvent& );
 protected:
   wxGridSelection  *m_selection;
 public:
@@ -37,8 +39,6 @@ public:
   int m_maxRows;
 
   void CalcRowCount();
-  void OnKeyDown( wxKeyEvent& );
-  void OnSize( wxSizeEvent& );
 
   ~wxhGridBrowse();
 };
@@ -50,6 +50,8 @@ public:
 class wxhBrowse : public wx_Panel
 {
 private:
+  DECLARE_EVENT_TABLE()
+  void OnSelectCell( wxGridEvent& );
 protected:
 public:
   wxhBrowse() : wx_Panel() {}

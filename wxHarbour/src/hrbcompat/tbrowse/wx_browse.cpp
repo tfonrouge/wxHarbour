@@ -21,8 +21,12 @@
 #include "wx_browse.h"
 
 BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
-    EVT_SIZE( wxhGridBrowse::OnSize )
     EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
+    EVT_SIZE( wxhGridBrowse::OnSize )
+END_EVENT_TABLE()
+
+BEGIN_EVENT_TABLE( wxhBrowse, wx_Panel )
+    EVT_GRID_SELECT_CELL( wxhBrowse::OnSelectCell )
 END_EVENT_TABLE()
 
 /*
@@ -34,6 +38,52 @@ wxhBrowse::~wxhBrowse()
   wxh_ItemListDel( this );
 }
 
+/*
+  OnSelectCell
+  Teo. Mexico 2008
+*/
+void wxhBrowse::OnSelectCell( wxGridEvent& event )
+{
+//   wxString logBuf;
+//   if ( event.Selecting() )
+//     logBuf << _T("Selected ");
+//   else
+//     logBuf << _T("***Deselected ");
+//   logBuf << _T("cell at row ") << event.GetRow()
+//          << _T(" col ") << event.GetCol()
+//          << _T(" ( ControlDown: ")<< (event.ControlDown() ? 'T':'F')
+//          << _T(", ShiftDown: ")<< (event.ShiftDown() ? 'T':'F')
+//          << _T(", AltDown: ")<< (event.AltDown() ? 'T':'F')
+//          << _T(", MetaDown: ")<< (event.MetaDown() ? 'T':'F') << _T(" )");
+
+  
+
+  if( event.Selecting() )
+  {
+    PHB_ITEM hbwxhBrowse = wxh_ItemListGetHB( this );
+    if( hbwxhBrowse )
+    {
+      if( hb_objSendMsg( hbwxhBrowse, "Initialized", 0 )->item.asLogical.value )
+      {
+        wxLogMessage( wxT("%s"), wxT("OnSelectCell") );
+        PHB_ITEM pRow = hb_itemPutNI( NULL, event.GetRow() );
+        hb_objSendMsg( hbwxhBrowse, "SelectRowIndex", 1, pRow );
+        hb_itemRelease( pRow );
+//       wxLogMessage( wxT("%s"), logBuf.c_str() );
+      }
+    }
+    else
+      wxLogMessage( wxT("Error"), wxT("No wxhBrowse object") );
+  }
+
+  event.Skip();
+
+}
+
+/*
+  OnSize
+  Teo. Mexico 2008
+*/
 void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
 {
   if (m_targetWindow != this)
@@ -359,22 +409,6 @@ HB_FUNC( WXHBROWSE_GETROWPOS )
   }
   else
     hb_ret();
-}
-
-/*
-  Initialize
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_INITIALIZE )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
-  wxSizeEvent event;
-  if( pSelf && browse )
-  {
-    browse->OnSize( event );
-    browse->m_gridBrowse->CalcRowCount();
-  }
 }
 
 /*

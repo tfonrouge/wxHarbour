@@ -131,7 +131,7 @@ RETURN ::FColumnList[ col ]:Heading
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
 
-  IF !::FBrowse:SetRowIndex( row )
+  IF !::FBrowse:SelectRowIndex( row )
     RETURN ""
   ENDIF
 
@@ -147,12 +147,9 @@ RETURN ::GetCellValue( ::FColumnZero )
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
 
-  ? "GetValue:",row,col,::Browse:RowPos
-  ?
-  
   col++
 
-  IF !::FBrowse:SetRowIndex( row )
+  IF !::FBrowse:SelectRowIndex( row )
     RETURN ""
   ENDIF
 
