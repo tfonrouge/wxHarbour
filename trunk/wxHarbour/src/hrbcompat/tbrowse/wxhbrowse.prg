@@ -82,8 +82,8 @@ PUBLIC:
 
   METHOD AddAllColumns
   METHOD EventManager
-  METHOD SetRowIndex( rowIndex )
   METHOD Initialized INLINE ::FRowList != NIL
+  METHOD SelectRowIndex( rowIndex )
 
   PROPERTY BlockParam READ gridTableBase:GetBlockParam WRITE gridTableBase:SetBlockParam
   PROPERTY ColumnList READ gridTableBase:GetColumnList WRITE gridTableBase:SetColumnList
@@ -365,6 +365,34 @@ METHOD FUNCTION PageUp CLASS wxhBrowse
 RETURN Self
 
 /*
+  SelectRowIndex
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SelectRowIndex( rowIndex ) CLASS wxhBrowse
+  LOCAL n
+
+//   AltD()
+  ? "SelectRowIndex:",rowIndex
+
+  IF Empty( ::FRowList )
+    ::FillRowList()
+  ENDIF
+
+  IF rowIndex >= ::RowCount
+    RETURN .F.
+  ENDIF
+
+  IF rowIndex == ::FCurRow
+    RETURN .T.
+  ENDIF
+
+  n := ::SkipBlock:Eval( rowIndex - ::FCurRow )
+
+  ::FCurRow := rowIndex
+
+RETURN .T.
+
+/*
   SetDataSource
   Teo. Mexico 2008
 */
@@ -412,31 +440,6 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   ENDCASE
 
 RETURN
-
-/*
-  SetRowIndex
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION SetRowIndex( rowIndex ) CLASS wxhBrowse
-  LOCAL n
-
-  IF Empty( ::FRowList )
-    ::FillRowList()
-  ENDIF
-
-  IF rowIndex >= ::RowCount
-    RETURN .F.
-  ENDIF
-
-  IF rowIndex == ::FCurRow
-    RETURN .T.
-  ENDIF
-
-  n := ::SkipBlock:Eval( rowIndex - ::FCurRow )
-
-  ::FCurRow := rowIndex
-
-RETURN .T.
 
 /*
   SetRowListSize

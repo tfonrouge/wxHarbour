@@ -15,22 +15,21 @@
 #include "wxh/filedlg.ch"
 
 FUNCTION Main()
-  LOCAL profiler := HBProfile():New()
+//   LOCAL profiler := HBProfile():New()
   LOCAL MyApp
 
   MyApp := MyApp():New()
 
-  __setProfiler( .T. )
+//   __setProfiler( .T. )
 
   IMPLEMENT_APP( MyApp )
 
-  profiler:Gather()
-
-  ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
-  ? Replicate("=",40)
-  ? "  Total Calls: " + str( profiler:totalCalls() )
-  ? "  Total Ticks: " + str( profiler:totalTicks() )
-  ? "Total Seconds: " + str( profiler:totalSeconds() )
+//   profiler:Gather()
+//   ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
+//   ? Replicate("=",40)
+//   ? "  Total Calls: " + str( profiler:totalCalls() )
+//   ? "  Total Ticks: " + str( profiler:totalTicks() )
+//   ? "Total Seconds: " + str( profiler:totalSeconds() )
 
 RETURN NIL
 
