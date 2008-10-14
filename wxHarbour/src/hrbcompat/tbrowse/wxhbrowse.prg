@@ -167,12 +167,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
   IF ::RowPos < ::RowCount
     ::RowPos += 1
   ELSE
-    n := ::SkipBlock:Eval( ::RowCount )
-    IF n != ::RowCount
-      ::SkipBlock:Eval( - n )
-    ELSE
-      ::SkipBlock:Eval( - ( ::RowCount - 1 ) )
-    ENDIF
+    n := ::SkipBlock:Eval( 1 )
     ::RefreshAll()
   ENDIF
 
@@ -201,6 +196,8 @@ METHOD PROCEDURE FillRowList CLASS wxhBrowse
   LOCAL direction
   LOCAL totalSkipped := 0
   LOCAL topRecord
+
+  AltD()
 
   /* start at first index row */
   ::FCurRow := 0
@@ -306,9 +303,6 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
   ::FTmpRowPos := ::RowCount
   ::RowPos := ::RowCount
 
-  /* we move to the first record-at-row 1 */
-  ::SkipBlock:Eval( - ( ::RowCount - 1 ) )
-
   ::RefreshAll()
 
 RETURN Self
@@ -318,6 +312,7 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
+
   ::FRecNo := ::GoTopBlock:Eval()
   ::FTmpRowPos := 1
   ::RowPos := 1
@@ -368,11 +363,12 @@ RETURN Self
   SelectRowIndex
   Teo. Mexico 2008
 */
-METHOD FUNCTION SelectRowIndex( rowIndex ) CLASS wxhBrowse
+METHOD FUNCTION SelectRowIndex( rowIndex, fromEvent ) CLASS wxhBrowse
   LOCAL n
 
-//   AltD()
-  ? "SelectRowIndex:",rowIndex
+  IF fromEvent == .T.
+    ? "SelectRowIndex:",rowIndex
+  ENDIF
 
   IF Empty( ::FRowList )
     ::FillRowList()

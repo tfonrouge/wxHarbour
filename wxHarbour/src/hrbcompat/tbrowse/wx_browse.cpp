@@ -44,19 +44,6 @@ wxhBrowse::~wxhBrowse()
 */
 void wxhBrowse::OnSelectCell( wxGridEvent& event )
 {
-//   wxString logBuf;
-//   if ( event.Selecting() )
-//     logBuf << _T("Selected ");
-//   else
-//     logBuf << _T("***Deselected ");
-//   logBuf << _T("cell at row ") << event.GetRow()
-//          << _T(" col ") << event.GetCol()
-//          << _T(" ( ControlDown: ")<< (event.ControlDown() ? 'T':'F')
-//          << _T(", ShiftDown: ")<< (event.ShiftDown() ? 'T':'F')
-//          << _T(", AltDown: ")<< (event.AltDown() ? 'T':'F')
-//          << _T(", MetaDown: ")<< (event.MetaDown() ? 'T':'F') << _T(" )");
-
-  
 
   if( event.Selecting() )
   {
@@ -65,16 +52,16 @@ void wxhBrowse::OnSelectCell( wxGridEvent& event )
     {
       if( hb_objSendMsg( hbwxhBrowse, "Initialized", 0 )->item.asLogical.value )
       {
-        wxLogMessage( wxT("%s"), wxT("OnSelectCell") );
         PHB_ITEM pRow = hb_itemPutNI( NULL, event.GetRow() );
-        hb_objSendMsg( hbwxhBrowse, "SelectRowIndex", 1, pRow );
+        PHB_ITEM pFlag = hb_itemPutL( NULL, true );
+        hb_objSendMsg( hbwxhBrowse, "SelectRowIndex", 2, pRow, pFlag );
         hb_itemRelease( pRow );
-//       wxLogMessage( wxT("%s"), logBuf.c_str() );
+        hb_itemRelease( pFlag );
       }
     }
-    else
-      wxLogMessage( wxT("Error"), wxT("No wxhBrowse object") );
   }
+//   else
+//     wxLogMessage( wxT("%s"), wxT("De-Selecting") );
 
   event.Skip();
 
@@ -88,7 +75,6 @@ void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
 {
   if (m_targetWindow != this)
   {
-//     cout << endl << "wxhGridBrowse::OnSize...";
     CalcDimensions();
     CalcRowCount();
   }
@@ -109,14 +95,7 @@ void wxhGridBrowse::CalcRowCount()
   top = cellRect.GetTop();
   bottom = cellRect.GetBottom();
 
-//   cout << endl << "m_gridWindowHeight : " << m_gridWindowHeight;
-//   cout << endl << "               top : " << top;
-//   cout << endl << "            bottom : " << bottom;
-
   m_rowCount = ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 ;
-
-//   cout << endl << "m_rowCount           : " << m_rowCount;
-//   cout << endl;
 
   if( m_rowCount == GetNumberRows() )
     return;
