@@ -15,21 +15,21 @@
 #include "wxh/filedlg.ch"
 
 FUNCTION Main()
-//   LOCAL profiler := HBProfile():New()
+  LOCAL profiler := HBProfile():New()
   LOCAL MyApp
 
   MyApp := MyApp():New()
 
-//   __setProfiler( .T. )
+  __setProfiler( .T. )
 
   IMPLEMENT_APP( MyApp )
 
-//   profiler:Gather()
-//   ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
-//   ? Replicate("=",40)
-//   ? "  Total Calls: " + str( profiler:totalCalls() )
-//   ? "  Total Ticks: " + str( profiler:totalTicks() )
-//   ? "Total Seconds: " + str( profiler:totalSeconds() )
+  profiler:Gather()
+  ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
+  ? Replicate("=",40)
+  ? "  Total Calls: " + str( profiler:totalCalls() )
+  ? "  Total Ticks: " + str( profiler:totalTicks() )
+  ? "Total Seconds: " + str( profiler:totalSeconds() )
 
 RETURN NIL
 
@@ -57,9 +57,9 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL auiNb
   LOCAL text
   LOCAL b1,b2
-//   LOCAL oldPos
-  LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
-//   LOCAL a := {1,2,3}
+  LOCAL oldPos
+//   LOCAL a := {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
+  LOCAL a := {1,2,3,4,5,6}
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -110,13 +110,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
 //   b1:Fit()
 
-//   b1:GoTopBlock := {|| b1:cargo := 1 }
-//   b1:GoBottomBlock := {|| b1:cargo := Len( a ) }
-//   b1:SkipBlock := {|n| oldPos := b1:cargo, b1:cargo := iif( n < 0, Max( 1, b1:cargo + n ), Min( Len( a ), b1:cargo + n ) ), b1:cargo - oldPos }
+  b1:GoTopBlock := {|| b1:cargo := 1 }
+  b1:GoBottomBlock := {|| b1:cargo := Len( a ) }
+  b1:SkipBlock := {|n| oldPos := b1:cargo, b1:cargo := iif( n < 0, Max( 1, b1:cargo + n ), Min( Len( a ), b1:cargo + n ) ), b1:cargo - oldPos }
 
-  ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:RecNo ] }
-//   ADD BCOLUMN ZERO b1 BLOCK {|| b1:cargo }
-//   ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:cargo ] }
+//   ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:RecNo ] }
+  ADD BCOLUMN ZERO b1 BLOCK {|| b1:cargo }
+  ADD BCOLUMN b1 "#" BLOCK {|| a[ b1:cargo ] }
 
   b2:AddAllColumns()
 
