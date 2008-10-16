@@ -26,7 +26,7 @@ PUBLIC:
   METHOD DbGoBottom( indexName )
   METHOD DbGoTo( RecNo )
   METHOD DbGoTop( indexName )
-  METHOD DbSkip( n )
+  METHOD DbSkip( nRecords, indexName )
   METHOD DbStruct INLINE (::FName)->(DbStruct())
   METHOD DbOpen
   METHOD Eval( codeBlock )
@@ -50,7 +50,6 @@ PUBLIC:
   METHOD RecUnLock( RecNo )
   METHOD Seek( cKey, indexName, softSeek )
   METHOD SeekLast( cKey, indexName, softSeek )
-  METHOD Skip( nRecords, indexName )
   METHOD SyncFromAlias
   METHOD SyncFromRecNo
 
@@ -110,7 +109,11 @@ RETURN Result
 */
 METHOD FUNCTION DbGoBottom( indexName ) CLASS TAlias
   LOCAL Result
-  Result := (::FName)->( GoBottom( indexName ) )
+  IF Empty( indexName )
+    Result := (::FName)->( DbGoBottom() )
+  ELSE
+    Result := (::FName)->( DbGoBottomX( indexName ) )
+  ENDIF
   ::SyncFromAlias()
 RETURN Result
 
@@ -130,7 +133,11 @@ RETURN Result
 */
 METHOD FUNCTION DbGoTop( indexName ) CLASS TAlias
   LOCAL Result
-  Result := (::FName)->( GoTop( indexName ) )
+  IF Empty( indexName )
+    Result := (::FName)->( DbGoTop() )
+  ELSE
+    Result := (::FName)->( DbGoTopX( indexName ) )
+  ENDIF
   ::SyncFromAlias()
 RETURN Result
 
@@ -146,6 +153,7 @@ METHOD DbOpen CLASS TAlias
   ENDIF
 
   IF ::FTable:DataBase:OpenBlock != NIL
+    ::FName := ::FTable:TableName
     RETURN ::FTable:DataBase:OpenBlock:Eval( ::FTable:TableName )
   ENDIF
 
@@ -159,10 +167,14 @@ RETURN !NetErr()
   DbSkip
   Teo. Mexico 2007
 */
-METHOD FUNCTION DbSkip( n ) CLASS TAlias
+METHOD FUNCTION DbSkip( nRecords, indexName ) CLASS TAlias
   LOCAL Result
   ::SyncFromRecNo()
-  Result := (::FName)->( DbSkip( n ) )
+  IF Empty( indexName )
+    Result := (::FName)->( DbSkip( nRecords ) )
+  ELSE
+    Result := (::FName)->( DbSkipX( nRecords, indexName ) )
+  ENDIF
   ::SyncFromAlias()
 RETURN Result
 
@@ -283,17 +295,6 @@ RETURN Result
 METHOD FUNCTION SeekLast( cKey, indexName, softSeek ) CLASS TAlias
   LOCAL Result
   Result := (::FName) -> ( SeekLast( cKey, indexName, softSeek ) )
-  ::SyncFromAlias()
-RETURN Result
-
-/*
-  Skip
-  Teo. Mexico 2007
-*/
-METHOD FUNCTION Skip( nRecords, indexName ) CLASS TAlias
-  LOCAL Result
-  ::SyncFromRecNo()
-  Result := (::FName) -> ( Skip( nRecords, indexName ) )
   ::SyncFromAlias()
 RETURN Result
 

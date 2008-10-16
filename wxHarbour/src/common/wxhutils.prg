@@ -113,7 +113,7 @@ FUNCTION AsString( xVal )
     RETURN "<Array>: "+LTrim( Str( Len( xVal ) ) )
   END
 
-RETURN "<Unkown>"
+RETURN ""
 
 /*
   Base2N() : Convierte string de base numerica a numero en base 10

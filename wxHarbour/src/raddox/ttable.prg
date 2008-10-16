@@ -28,10 +28,10 @@ RETURN __ClsInstName( Upper( ClassName ) )
 CLASS TTable
 PRIVATE:
 
+  DATA pSelf
+
   CLASSDATA FFieldTypes
   CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
-
-  DATA pSelf
 
   DATA FActive        INIT .F.
   DATA FAlias
@@ -552,19 +552,15 @@ RETURN Result
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
 
-  TRY
-    IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
-      ::Post()
-    ENDIF
-    IF ::FIndex != NIL
-      ::FIndex:DbSkip( numRecs )
-    ELSE
-      ::Alias:DbSkip( numRecs )
-      ::GetCurrentRecord()
-    ENDIF
-  CATCH
-
-  END
+  IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
+    ::Post()
+  ENDIF
+  IF ::FIndex != NIL
+    ::FIndex:DbSkip( numRecs )
+  ELSE
+    ::Alias:DbSkip( numRecs )
+    ::GetCurrentRecord()
+  ENDIF
 
 RETURN
 

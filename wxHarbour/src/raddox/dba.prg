@@ -87,6 +87,26 @@ FUNCTION Clear()
 RETURN .T.
 
 /*
+  DbSkipX() : menos
+  Teo. USA 1995
+*/
+FUNCTION DbSkipX(n,ord)
+  STATIC bord,orden,ret
+  ret:=.T.
+  bord:=OrdSetFocus()
+  IF ord==NIL
+    orden:=OrdSetFocus()
+  ELSE
+    orden:=ord
+  ENDIF
+  OrdSetFocus(orden)
+  DbSkip(n)
+  IF ((n==NIL .OR. n>0) .AND. Eof()) .OR. bof()
+    ret:=.F.
+  ENDIF
+  OrdSetFocus(bord)
+RETURN ret
+/*
   ExistKey() : Checa si existe key en indice dado
   Teo. Mexico 1996
 */
@@ -179,7 +199,7 @@ STATIC FUNCTION GetNextEmpty( index )
     index := "X01"
   ENDIF
 
-  GoTop(index)
+  DbGoTopX(index)
 
   IF valtype(key:=KeyVal(index))!="C"
     DbGoTo(rec)
@@ -190,12 +210,12 @@ STATIC FUNCTION GetNextEmpty( index )
 
   WHILE !Eof() .AND. empty(KeyVal(index))
     IF IsLocked()
-      (Skip(1,index))
+      (DbSkipX(1,index))
       LOOP
     ENDIF
     dbrlock(RecNo())
     //rlock()
-    (Skip(0,index))
+    (DbSkipX(0,index))
     IF dbrlock(RecNo()) .AND. empty(KeyVal(index))
     //IF rlock() .AND. empty(KeyVal(index))
       Clear()
@@ -203,7 +223,7 @@ STATIC FUNCTION GetNextEmpty( index )
     ELSE
       dbrunlock(RecNo())
     ENDIF
-    (Skip(1,index))
+    (DbSkipX(1,index))
   ENDDO
 
   DbGoTo(rec)
@@ -211,10 +231,10 @@ STATIC FUNCTION GetNextEmpty( index )
 RETURN .F.
 
 /*
-  GoBottom
+  DbGoBottom
   Teo. Mexico 2008
 */
-FUNCTION GoBottom(ord)
+FUNCTION DbGoBottomX(ord)
   LOCAL bord
   IF ord==NIL
     dbgobottom()
@@ -227,10 +247,10 @@ FUNCTION GoBottom(ord)
 RETURN NIL
 
 /*
-  GoTop
+  DbGoTopX
   Teo. Mexico 2008
 */
-FUNCTION GoTop(ord)
+FUNCTION DbGoTopX(ord)
   LOCAL bord
   IF ord==NIL
     dbgotop()
@@ -398,25 +418,4 @@ FUNCTION SeekLast(expr,ord,ss)
   ret := DBSeek(expr,ss,.T.)
   OrdSetFocus(bord)
 
-RETURN ret
-
-/*
-  Skip() : menos
-  Teo. USA 1995
-*/
-FUNCTION Skip(n,ord)
-  STATIC bord,orden,ret
-  ret:=.T.
-  bord:=OrdSetFocus()
-  IF ord==NIL
-    orden:=OrdSetFocus()
-  ELSE
-    orden:=ord
-  ENDIF
-  OrdSetFocus(orden)
-  DbSkip(n)
-  IF ((n==NIL .OR. n>0) .AND. Eof()) .OR. bof()
-    ret:=.F.
-  ENDIF
-  OrdSetFocus(bord)
 RETURN ret
