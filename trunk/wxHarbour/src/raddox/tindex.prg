@@ -210,7 +210,7 @@ RETURN ::FTable:Found()
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
-  ::FTable:Alias:Skip( numRecs, ::FName )
+  ::FTable:Alias:DbSkip( numRecs, ::FName )
 
   ::FTable:GetCurrentRecord()
 
