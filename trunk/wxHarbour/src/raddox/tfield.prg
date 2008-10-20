@@ -535,10 +535,11 @@ METHOD PROCEDURE Reset CLASS TField
 
     value := AField:GetBuffer()
 
+#ifdef _DEBUG_
     IF ::FDefaultValue != NIL
       Alert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
     ENDIF
-
+#endif
   ELSE
 
     IF ::FDefaultValue != NIL
