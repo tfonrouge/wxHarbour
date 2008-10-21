@@ -2,6 +2,24 @@
  *
  */
 
+2008-10-21 18:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/event.ch
+    * enabling as default WXWIN_COMPATIBILITY_EVENT_TYPES
+
+  * src/common/sysdefs.cpp
+    * enabling the events:
+      wxEVT_COMMAND_TEXT_UPDATED
+      wxEVT_COMMAND_TEXT_ENTER
+      wxEVT_COMMAND_TEXT_URL
+      wxEVT_COMMAND_TEXT_MAXLEN
+    * disabling:
+      wxEVT_COMMAND_SCROLLBAR_UPDATED
+      wxEVT_COMMAND_VLBOX_SELECTED
+      ; id's are conflicting with ..._URL and ..._MAXLEN
+
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+    * minor cleanup
+
 2008-10-19 21:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/tfield.prg
     * adding to ignore a alert message when not debugging.
