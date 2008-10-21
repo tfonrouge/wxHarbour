@@ -37,10 +37,10 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 6 : evtNumber = wxEVT_COMMAND_CHECKLISTBOX_TOGGLED; break;
     // now they are in wx/textctrl.h
 #ifdef WXWIN_COMPATIBILITY_EVENT_TYPES
-/*    case 7 : evtNumber = wxEVT_COMMAND_TEXT_UPDATED; break;
+    case 7 : evtNumber = wxEVT_COMMAND_TEXT_UPDATED; break;
     case 8 : evtNumber = wxEVT_COMMAND_TEXT_ENTER; break;
     case 13 : evtNumber = wxEVT_COMMAND_TEXT_URL; break;
-    case 14 : evtNumber = wxEVT_COMMAND_TEXT_MAXLEN; break;*/
+    case 14 : evtNumber = wxEVT_COMMAND_TEXT_MAXLEN; break;
 #endif // WXWIN_COMPATIBILITY_EVENT_TYPES
     case 9 : evtNumber = wxEVT_COMMAND_MENU_SELECTED; break;
     case 10 : evtNumber = wxEVT_COMMAND_SLIDER_UPDATED; break;
@@ -50,8 +50,8 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     // wxEVT_COMMAND_SCROLLBAR_UPDATED is now obsolete since we use
     // wxEVT_SCROLL... events
 
-    case 13 : evtNumber = wxEVT_COMMAND_SCROLLBAR_UPDATED; break;
-    case 14 : evtNumber = wxEVT_COMMAND_VLBOX_SELECTED; break;
+/*    case 13 : evtNumber = wxEVT_COMMAND_SCROLLBAR_UPDATED; break;
+    case 14 : evtNumber = wxEVT_COMMAND_VLBOX_SELECTED; break;*/
     case 15 : evtNumber = wxEVT_COMMAND_COMBOBOX_SELECTED; break;
     case 16 : evtNumber = wxEVT_COMMAND_TOOL_RCLICKED; break;
     case 17 : evtNumber = wxEVT_COMMAND_TOOL_ENTER; break;
