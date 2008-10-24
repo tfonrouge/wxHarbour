@@ -31,6 +31,7 @@ PRIVATE:
   DATA FColumnList INIT {}
   DATA FColumnZero
   DATA FCurRow
+  DATA FIgnoreCellEvalError INIT .F.
   METHOD GetCellValue( column )
 PROTECTED:
 PUBLIC:
@@ -77,11 +78,15 @@ METHOD FUNCTION GetCellValue( column ) CLASS wxhBrowseTableBase
   picture  := column:Picture
   width    := column:Width
 
-  TRY
+  IF ::FIgnoreCellEvalError
+    TRY
+      Result := column:Block:Eval( ::FBlockParam )
+    CATCH
+      Result := "<error on block>"
+    END
+  ELSE
     Result := column:Block:Eval( ::FBlockParam )
-  CATCH
-    Result := "<error on block>"
-  END
+  ENDIF
 
   IF picture != NIL
     Result := Transform( Result, picture )

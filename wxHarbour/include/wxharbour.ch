@@ -69,17 +69,19 @@
           [<oMB> := ] wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 
 #xcommand DEFINE MENU <cLabel> ;
+          [VAR <menu>];
           => ;
-          wxh_MenuBegin( <cLabel> )
+          [<menu> :=] wxh_MenuBegin( <cLabel> )
 
 #xcommand ADD MENUITEM <cLabel> ;
+              [VAR <menu>] ;
               [ID <nID>] ;
               [HELPLINE <cHelpString>] ;
               [<kind: CHECK,RADIO>] ;
               [ACTION <bAction> ] ;
               [ENABLED <bEnabled> ] ;
           => ;
-          wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
+          [<menu> :=] wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
 
 #xcommand ADD MENUSEPARATOR ;
           => ;
@@ -181,7 +183,8 @@
 /*
   BROWSEDB
 */
-#xcommand @ BROWSE [ [VAR] <wxBrw> ] ;
+#xcommand @ BROWSE [ VAR <wxBrw> ] ;
+            [ [LABEL] <label> ] ;
             [ DATASOURCE <dataSource> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -193,6 +196,7 @@
               [<dataSource>],;
               [<window>],;
               [<id>],;
+              [<label>],;
               ,;
               [{<nWidth>,<nHeight>}],;
               [<style>],;

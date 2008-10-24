@@ -27,19 +27,19 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
-  DATA FCurRow  EXPORTED
+  DATA FCurRow
   DATA FDataSource
   DATA FDataSourceType
-  DATA FRecNo           INIT -1
+  DATA FRecNo           INIT 0
   DATA FRowIndexGetValue
   DATA FRowIndexSetValue
   DATA FRowList
   DATA FRowListSize     INIT 0
   DATA FTmpRowPos
-  DATA gridTableBase
   METHOD FillRowList( index ) EXPORTED /* TODO: remove EXPORTED here */
   METHOD GetColCount INLINE Len( ::gridTableBase:ColumnList )
   METHOD GetColPos
+  METHOD GetRecNo
   METHOD GetRowCount
   METHOD GetRowListSize
   METHOD GetRowPos
@@ -50,6 +50,9 @@ PRIVATE:
   METHOD SetRowPos( rowPos )
 PROTECTED:
 PUBLIC:
+
+  DATA grid
+  DATA gridTableBase
 
   CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
   METHOD wxNew( window, id, pos, size, style, name )
@@ -84,12 +87,13 @@ PUBLIC:
   METHOD EventManager
   METHOD Initialized INLINE ::FRowList != NIL
   METHOD SelectRowIndex( rowIndex )
+  METHOD SetColWidth( col, width ) /* in pointSize * width */
 
   PROPERTY BlockParam READ gridTableBase:GetBlockParam WRITE gridTableBase:SetBlockParam
   PROPERTY ColumnList READ gridTableBase:GetColumnList WRITE gridTableBase:SetColumnList
   PROPERTY ColumnZero READ gridTableBase:GetColumnZero WRITE gridTableBase:SetColumnZero
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
-  PROPERTY RecNo READ FRecNo
+  PROPERTY RecNo READ GetRecNo
   PROPERTY RowList READ FRowList
   PROPERTY RowListSize READ GetRowListSize WRITE SetRowListSize
 
@@ -100,11 +104,12 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( dataSource, window, id, pos, size, style, name ) CLASS wxhBrowse
+METHOD New( dataSource, window, id, label, pos, size, style, name ) CLASS wxhBrowse
 
   /* TODO: Optimize this many calls: remove this New method, implement it in c++ */
+  ::grid := wxhGridBrowse() /* no New() because we want to create the c++ object in wxNew and attach this hb obj*/
   ::gridTableBase := wxhBrowseTableBase():New( Self )
-  ::wxNew( ::gridTableBase, window, id, pos, size, style, name )
+  ::wxNew( ::grid, ::gridTableBase, window, id, label, pos, size, style, name )
 
   IF dataSource != NIL
     ::SetDataSource( dataSource )
@@ -139,6 +144,10 @@ RETURN
 METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowse
   AAdd( ::gridTableBase:ColumnList, column )
   ::gridTableBase:AppendCols( 1 )
+  IF column:Width != NIL
+    ::SetColWidth( Len( ::gridTableBase:ColumnList ), column:Width )
+  ENDIF
+  //::grid:AutoSizeColumn( Len( ::gridTableBase:ColumnList ) - 1 )
 RETURN
 
 /*
@@ -196,8 +205,6 @@ METHOD PROCEDURE FillRowList CLASS wxhBrowse
   LOCAL direction
   LOCAL totalSkipped := 0
   LOCAL topRecord
-
-  AltD()
 
   /* start at first index row */
   ::FCurRow := 0
@@ -284,6 +291,16 @@ METHOD PROCEDURE FillRowList CLASS wxhBrowse
 RETURN
 
 /*
+  GetRecNo
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GetRecNo CLASS wxhBrowse
+  IF ::FDataSourceType = "O"
+    RETURN ::FDataSource:RecNo
+  ENDIF
+RETURN ::FRecNo
+
+/*
   GetRowListSize
   Teo. Mexico 2008
 */
@@ -299,7 +316,7 @@ RETURN ::FRowListSize
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
 
-  ::FRecNo := ::GoBottomBlock:Eval()
+  ::GoBottomBlock:Eval()
   ::FTmpRowPos := ::RowCount
   ::RowPos := ::RowCount
 
@@ -313,7 +330,7 @@ RETURN Self
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
 
-  ::FRecNo := ::GoTopBlock:Eval()
+  ::GoTopBlock:Eval()
   ::FTmpRowPos := 1
   ::RowPos := 1
 
@@ -397,30 +414,17 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   LOCAL oldPos
   LOCAL vt := ValType( dataSource )
 
-  ::FDataSource := dataSource
   ::FDataSourceType := NIL
   ::ColumnList := {}
   ::ColumnZero := NIL
   ::BlockParam := NIL
 
-  DO CASE
-  CASE vt == "C"        /* path/filename for a database browse */
-    table := TTable():New()
-    table:TableName := dataSource
-    table:Open()
-    ::FDataSource := table
-    ::BlockParam := table:DisplayFields()
-    ::FDataSourceType := "O"
+  ::FDataSource := NIL
 
-    ::GoTopBlock    := {|| table:DbGoTop() }
-    ::GoBottomBlock := {|| table:DbGoBottom() }
-    ::SkipBlock     := {|n| table:SkipBrowse( n ) }
-
-    ::FRowIndexSetValue := {|n| table:RecNo := ::FRowList[ n ] }
-    ::FRowIndexGetValue := {|| table:RecNo }
-
-  CASE vt == "A"        /* Array browse */
+  SWITCH vt
+  CASE 'A'        /* Array browse */
     ::FDataSource := dataSource
+    ::FDataSourceType := "A"
 
     ::GoTopBlock    := {|| ::FRecNo := 1 }
     ::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
@@ -429,11 +433,39 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::FRowIndexSetValue := {|n| ::FRecNo := ::FRowList[ n ] }
     ::FRowIndexGetValue := NIL
 
-  CASE vt == "H"        /* Hash browse */
+    EXIT
+
+  CASE 'C'        /* path/filename for a database browse */
+    table := TTable():New()
+    table:TableName := dataSource
+    table:Open()
+
+    ::SetDataSource( table )
+
+    EXIT
+
+  CASE 'H'        /* Hash browse */
+    /* TODO: Implement this */
     ::FDataSource := dataSource
-  OTHERWISE
-    ::FDataSource := NIL
-  ENDCASE
+    ::FDataSourceType := "H"
+
+    EXIT
+
+  CASE 'O'
+    ::FDataSource := dataSource
+    ::FDataSourceType := "O"
+    ::BlockParam := dataSource:DisplayFields()
+
+    ::GoTopBlock    := {|| dataSource:DbGoTop() }
+    ::GoBottomBlock := {|| dataSource:DbGoBottom() }
+    ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
+
+    ::FRowIndexSetValue := {|n| dataSource:RecNo := ::FRowList[ n ] }
+    ::FRowIndexGetValue := {|| dataSource:RecNo }
+
+    EXIT
+
+  END
 
 RETURN
 
