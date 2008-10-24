@@ -20,6 +20,7 @@
 #include "wxh.h"
 
 #include "wxbase/wx_frame.h"
+#include "wxbase/wx_menu.h"
 
 using namespace std;
 
@@ -178,6 +179,33 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) )
     wnd->MakeModal( hb_parl( 1 ) );
+}
+
+HB_FUNC( WXWINDOW_POPUPMENU )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
+  wxWindow* wnd;
+
+  if( !( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) ) )
+  {
+    return;
+  }
+
+  if( hb_pcount() == 1 )
+  {
+    hb_retl( wnd->PopupMenu( menu ) );
+    return;
+  }
+
+  if( hb_pcount() == 2 )
+  {
+    hb_retl( wnd->PopupMenu( menu, hb_par_wxPoint( 2 ) ) );
+    return;
+  }
+
+  hb_retl( wnd->PopupMenu( menu, hb_parni( 2 ), hb_parni( 3 ) ) );
+
 }
 
 HB_FUNC( WXWINDOW_RAISE )

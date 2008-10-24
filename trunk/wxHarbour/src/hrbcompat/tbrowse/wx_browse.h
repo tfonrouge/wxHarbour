@@ -29,8 +29,8 @@ private:
 protected:
   wxGridSelection  *m_selection;
 public:
-  wxhGridBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = -1; }
-  wxhGridBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhGridBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = -1; }
+  wxhGridBrowse() : wx_Grid() { m_rowCount = -1; m_gridWindowHeight = -1; }
+  wxhGridBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhGridBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = -1; m_gridWindowHeight = -1; }
 
   wxhBrowse *m_browse;
 

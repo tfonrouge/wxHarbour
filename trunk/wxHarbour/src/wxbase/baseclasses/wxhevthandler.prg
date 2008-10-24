@@ -102,8 +102,8 @@ METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
 
   FOR EACH itm IN ::FEventHashList[ eventType ]
 //     ? "Testing:",itm[1],itm[2]
-    IF id >= itm[1] .AND. id <= itm[2]
-      itm[3]:Eval( Self )
+    IF itm[ 1 ] = -1 .OR. ( id >= itm[ 1 ] .AND. id <= itm[ 2 ] )
+      itm[ 3 ]:Eval( Self )
       EXIT
     ENDIF
   NEXT

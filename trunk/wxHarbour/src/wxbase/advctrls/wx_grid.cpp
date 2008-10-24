@@ -53,6 +53,20 @@ HB_FUNC( WXGRID_NEW )
   hb_itemReturn( pSelf );
 }
 
+/*
+  AutoSizeColumn
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_AUTOSIZECOLUMN )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  int col = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+  bool setAsMin = ISNIL( 2 ) ? true : hb_parl( 2 );
+  if( pSelf && grid )
+    grid->AutoSizeColumn( col, setAsMin );
+}
+
 HB_FUNC( WXGRID_CREATEGRID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -161,6 +175,20 @@ HB_FUNC( WXGRID_SETCOLLABELVALUE )
   wxString value = wxString( hb_parcx(2), wxConvLocal );
   if( pSelf && grid )
     grid->SetColLabelValue( col, value );
+}
+
+/*
+  SetColSize
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_SETCOLSIZE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  int col = hb_parni( 1 );
+  int width = hb_parni( 2 );
+  if( pSelf && grid )
+    grid->SetColSize( col, width );
 }
 
 HB_FUNC( WXGRID_SETDEFAULTCOLSIZE )

@@ -14,9 +14,9 @@ PRIVATE:
   DATA FEof       INIT .T.
   DATA FFound     INIT .F.
   DATA FName      INIT ""
+  DATA FnWorkArea INIT 0
   DATA FRecNo     INIT 0
   DATA FTable
-  METHOD GetName INLINE ::FName
   METHOD GetRecNo INLINE ::SyncFromRecNo(),::FRecNo
   METHOD SetRecNo( RecNo ) INLINE ::DbGoTo( RecNo )
 PROTECTED:
@@ -27,25 +27,25 @@ PUBLIC:
   METHOD DbGoTo( RecNo )
   METHOD DbGoTop( indexName )
   METHOD DbSkip( nRecords, indexName )
-  METHOD DbStruct INLINE (::FName)->(DbStruct())
+  METHOD DbStruct INLINE (::FnWorkArea)->(DbStruct())
   METHOD DbOpen
   METHOD Eval( codeBlock )
   METHOD ExistKey( KeyValue, IndexName, RecNo )
-  METHOD FCount INLINE (::FName)->(FCount())
-  METHOD FieldPos( FieldName ) INLINE (::FName)->( FieldPos( FieldName ) )
+  METHOD FCount INLINE (::FnWorkArea)->(FCount())
+  METHOD FieldPos( FieldName ) INLINE (::FnWorkArea)->( FieldPos( FieldName ) )
   METHOD FieldValue( fieldName )
   METHOD Get4Seek( xField, cKey, indexName, softSeek )
   METHOD Get4SeekLast( xField, cKey, indexName, softSeek )
   METHOD IsLocked( RecNo )
   METHOD KeyVal( indexName )
-  METHOD LastRec INLINE (::FName)->( LastRec() )
+  METHOD LastRec INLINE (::FnWorkArea)->( LastRec() )
   METHOD OrdCustom( Name, cBag, KeyVal )
   METHOD OrdKeyAdd( Name, cBag, KeyVal )
   METHOD OrdKeyDel( Name, cBag, KeyVal )
   METHOD OrdSetFocus( Name, cBag )
-  METHOD PopWS INLINE (::FName)->(PopWS())
-  METHOD PushWS INLINE (::FName)->(PushWS())
-  METHOD RecCount INLINE (::FName)->( RecCount() )
+  METHOD PopWS INLINE (::FnWorkArea)->(PopWS())
+  METHOD PushWS INLINE (::FnWorkArea)->(PushWS())
+  METHOD RecCount INLINE (::FnWorkArea)->( RecCount() )
   METHOD RecLock( RecNo )
   METHOD RecUnLock( RecNo )
   METHOD Seek( cKey, indexName, softSeek )
@@ -58,11 +58,13 @@ PUBLIC:
    */
   PROPERTY Alias READ FName
 
+  PROPERTY nWorkArea READ FnWorkArea
+
 PUBLISHED:
   PROPERTY Bof READ FBof
   PROPERTY Eof READ FEof
   PROPERTY Found READ FFound
-  PROPERTY Name READ GetName
+  PROPERTY Name READ FName
   PROPERTY RecNo READ GetRecNo WRITE SetRecNo
   PROPERTY Table READ FTable
 ENDCLASS
@@ -99,7 +101,7 @@ RETURN Self
 */
 METHOD FUNCTION AddRec( index ) CLASS TAlias
   LOCAL Result
-  Result := (::FName)->( AddRec(,index) )
+  Result := (::FnWorkArea)->( AddRec(,index) )
   ::SyncFromAlias()
 RETURN Result
 
@@ -110,9 +112,9 @@ RETURN Result
 METHOD FUNCTION DbGoBottom( indexName ) CLASS TAlias
   LOCAL Result
   IF Empty( indexName )
-    Result := (::FName)->( DbGoBottom() )
+    Result := (::FnWorkArea)->( DbGoBottom() )
   ELSE
-    Result := (::FName)->( DbGoBottomX( indexName ) )
+    Result := (::FnWorkArea)->( DbGoBottomX( indexName ) )
   ENDIF
   ::SyncFromAlias()
 RETURN Result
@@ -123,7 +125,7 @@ RETURN Result
 */
 METHOD FUNCTION DbGoTo( RecNo ) CLASS TAlias
   LOCAL Result
-  Result := (::FName)->( DbGoTo( RecNo ) )
+  Result := (::FnWorkArea)->( DbGoTo( RecNo ) )
   ::SyncFromAlias()
 RETURN Result
 
@@ -134,9 +136,9 @@ RETURN Result
 METHOD FUNCTION DbGoTop( indexName ) CLASS TAlias
   LOCAL Result
   IF Empty( indexName )
-    Result := (::FName)->( DbGoTop() )
+    Result := (::FnWorkArea)->( DbGoTop() )
   ELSE
-    Result := (::FName)->( DbGoTopX( indexName ) )
+    Result := (::FnWorkArea)->( DbGoTopX( indexName ) )
   ENDIF
   ::SyncFromAlias()
 RETURN Result
@@ -146,20 +148,31 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD DbOpen CLASS TAlias
+  LOCAL n
 
-  /* Check for a previously open database */
-  IF !Empty( ::FName ) .AND. Select( ::FName ) > 0
+  /* Check for a previously open workarea */
+  n := Select( ::FTable:TableName )
+  IF n > 0
+    ::FName := ::FTable:TableName
+    ::FnWorkArea := n
     RETURN .T.
   ENDIF
 
   IF ::FTable:DataBase:OpenBlock != NIL
+    IF !::FTable:DataBase:OpenBlock:Eval( ::FTable:TableName )
+      ::FName := ""
+      ::FnWorkArea := 0
+      RETURN .F.
+    ENDIF
     ::FName := ::FTable:TableName
-    RETURN ::FTable:DataBase:OpenBlock:Eval( ::FTable:TableName )
+    ::FnWorkArea := Select( ::FTable:TableName )
+    RETURN .T.
   ENDIF
 
   USE ( ::FTable:FullFileName ) NEW SHARED
 
   ::FName := Alias()
+  ::FnWorkArea := Select()
 
 RETURN !NetErr()
 
@@ -171,9 +184,9 @@ METHOD FUNCTION DbSkip( nRecords, indexName ) CLASS TAlias
   LOCAL Result
   ::SyncFromRecNo()
   IF Empty( indexName )
-    Result := (::FName)->( DbSkip( nRecords ) )
+    Result := (::FnWorkArea)->( DbSkip( nRecords ) )
   ELSE
-    Result := (::FName)->( DbSkipX( nRecords, indexName ) )
+    Result := (::FnWorkArea)->( DbSkipX( nRecords, indexName ) )
   ENDIF
   ::SyncFromAlias()
 RETURN Result
@@ -184,14 +197,14 @@ RETURN Result
 */
 METHOD FUNCTION Eval( codeBlock, p1, p2, p3 ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->(codeBlock:Eval( p1, p2, p3 ) )
+RETURN (::FnWorkArea)->(codeBlock:Eval( p1, p2, p3 ) )
 
 /*
   ExistKey
   Teo. Mexico 2007
 */
 METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
-RETURN (::FName) -> ( ExistKey( KeyValue, IndexName, RecNo ) )
+RETURN (::FnWorkArea)->( ExistKey( KeyValue, IndexName, RecNo ) )
 
 /*
   FieldValue
@@ -199,28 +212,28 @@ RETURN (::FName) -> ( ExistKey( KeyValue, IndexName, RecNo ) )
 */
 METHOD FUNCTION FieldValue( fieldName ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( FieldGet( FieldPos( fieldName ) ) )
+RETURN (::FnWorkArea)->( FieldGet( FieldPos( fieldName ) ) )
 
 /*
   Get4Seek
   Teo. Mexico 2008
 */
 METHOD FUNCTION Get4Seek( xField, cKey, indexName, softSeek ) CLASS TAlias
-RETURN (::FName) -> ( Get4Seek( xField, cKey, indexName, softSeek ) )
+RETURN (::FnWorkArea)->( Get4Seek( xField, cKey, indexName, softSeek ) )
 
 /*
   Get4SeekLast
   Teo. Mexico 2007
 */
 METHOD FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
-RETURN (::FName) -> ( Get4SeekLast( xField, cKey, indexName, softSeek ) )
+RETURN (::FnWorkArea)->( Get4SeekLast( xField, cKey, indexName, softSeek ) )
 
 /*
   IsLocked
   Teo. Mexico 2007
 */
 METHOD FUNCTION IsLocked( RecNo ) CLASS TAlias
-RETURN (::FName) -> ( IsLocked( iif( RecNo = NIL, ::FRecNo, RecNo ) ) )
+RETURN (::FnWorkArea)->( IsLocked( iif( RecNo = NIL, ::FRecNo, RecNo ) ) )
 
 /*
   KeyVal
@@ -228,7 +241,7 @@ RETURN (::FName) -> ( IsLocked( iif( RecNo = NIL, ::FRecNo, RecNo ) ) )
 */
 METHOD FUNCTION KeyVal( indexName ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName) -> ( KeyVal( indexName ) )
+RETURN (::FnWorkArea)->( KeyVal( indexName ) )
 
 /*
   OrdCustom
@@ -236,7 +249,7 @@ RETURN (::FName) -> ( KeyVal( indexName ) )
 */
 METHOD FUNCTION OrdCustom( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( OrdCustom( Name, cBag, KeyVal ) )
+RETURN (::FnWorkArea)->( OrdCustom( Name, cBag, KeyVal ) )
 
 /*
   OrdKeyAdd
@@ -244,7 +257,7 @@ RETURN (::FName)->( OrdCustom( Name, cBag, KeyVal ) )
 */
 METHOD FUNCTION OrdKeyAdd( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( OrdKeyAdd( Name, cBag, KeyVal ) )
+RETURN (::FnWorkArea)->( OrdKeyAdd( Name, cBag, KeyVal ) )
 
 /*
   OrdKeyDel
@@ -252,7 +265,7 @@ RETURN (::FName)->( OrdKeyAdd( Name, cBag, KeyVal ) )
 */
 METHOD FUNCTION OrdKeyDel( Name, cBag, KeyVal ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( OrdKeyDel( Name, cBag, KeyVal ) )
+RETURN (::FnWorkArea)->( OrdKeyDel( Name, cBag, KeyVal ) )
 
 /*
   OrdSetFocus
@@ -260,7 +273,7 @@ RETURN (::FName)->( OrdKeyDel( Name, cBag, KeyVal ) )
 */
 METHOD FUNCTION OrdSetFocus( Name, cBag ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( OrdSetFocus( Name, cBag ) )
+RETURN (::FnWorkArea)->( OrdSetFocus( Name, cBag ) )
 
 /*
   RecLock
@@ -268,7 +281,7 @@ RETURN (::FName)->( OrdSetFocus( Name, cBag ) )
 */
 METHOD FUNCTION RecLock( RecNo ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( RecLock( RecNo ) )
+RETURN (::FnWorkArea)->( RecLock( RecNo ) )
 
 /*
   RecUnLock
@@ -276,7 +289,7 @@ RETURN (::FName)->( RecLock( RecNo ) )
 */
 METHOD FUNCTION RecUnLock( RecNo ) CLASS TAlias
   ::SyncFromRecNo()
-RETURN (::FName)->( RecUnLock( RecNo ) )
+RETURN (::FnWorkArea)->( RecUnLock( RecNo ) )
 
 /*
   Seek
@@ -284,7 +297,7 @@ RETURN (::FName)->( RecUnLock( RecNo ) )
 */
 METHOD FUNCTION Seek( cKey, indexName, softSeek ) CLASS TAlias
   LOCAL Result
-  Result := (::FName) -> ( Seek( cKey, indexName, softSeek ) )
+  Result := (::FnWorkArea)->( Seek( cKey, indexName, softSeek ) )
   ::SyncFromAlias()
 RETURN Result
 
@@ -294,7 +307,7 @@ RETURN Result
 */
 METHOD FUNCTION SeekLast( cKey, indexName, softSeek ) CLASS TAlias
   LOCAL Result
-  Result := (::FName) -> ( SeekLast( cKey, indexName, softSeek ) )
+  Result := (::FnWorkArea)->( SeekLast( cKey, indexName, softSeek ) )
   ::SyncFromAlias()
 RETURN Result
 
@@ -303,13 +316,13 @@ RETURN Result
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromAlias CLASS TAlias
-/*  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
+/*  IF !DbIsOpen::FnWorkArea .AND. !DBF_OPEN::FnWorkArea
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
   ENDIF*/
-  ::FBof   := (::FName)->( Bof() )
-  ::FEof   := (::FName)->( Eof() )
-  ::FFound := (::FName)->( Found() )
-  ::FRecNo := iif( ::FEof, 0 , (::FName)->( RecNo() ) ) /* sure Eof even if dbf grows */
+  ::FBof   := (::FnWorkArea)->( Bof() )
+  ::FEof   := (::FnWorkArea)->( Eof() )
+  ::FFound := (::FnWorkArea)->( Found() )
+  ::FRecNo := iif( ::FEof, 0 , (::FnWorkArea)->( RecNo() ) ) /* sure Eof even if dbf grows */
 RETURN
 
 /*
@@ -317,14 +330,14 @@ RETURN
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromRecNo CLASS TAlias
-/*  IF !DbIsOpen(::FName) .AND. !DBF_OPEN(::FName)
+/*  IF !DbIsOpen::FnWorkArea .AND. !DBF_OPEN::FnWorkArea
     RAISE ERROR "Cannot open [" + ::FName + "] database..."
   ENDIF*/
-  IF (::FName)->(RecNo()) != ::FRecNo
-    (::FName)->(DbGoTo( ::FRecNo ) )
-    ::FBof   := (::FName)->( Bof() )
-    ::FEof   := (::FName)->( Eof() )
-    ::FFound := (::FName)->( Found() )
+  IF (::FnWorkArea)->(RecNo()) != ::FRecNo
+    (::FnWorkArea)->(DbGoTo( ::FRecNo ) )
+    ::FBof   := (::FnWorkArea)->( Bof() )
+    ::FEof   := (::FnWorkArea)->( Eof() )
+    ::FFound := (::FnWorkArea)->( Found() )
   ENDIF
 RETURN
 

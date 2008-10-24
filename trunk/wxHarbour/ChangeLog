@@ -2,6 +2,62 @@
  *
  */
 
+2008-10-24 00:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + src/hrbcompat/tbrowse/wxhgridbrowse.prg
+    + added wxhGridBrowse hb class
+
+  * include/defs.ch
+    % added all standard Id's
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    % added VAR clause to DEFINE MENU (needed to allow PopupMenu calls on it)
+    % added VAR clause to ADD MENUITEM
+    % added LABEL clause to @ BROWSE
+
+  * include/wxh.h
+    + added hbEvtHandler<T>::OnGridEvent
+    * added wxEVT_GRID_CELL_RIGHT_CLICK event handler (PopupMenu on grid cell's)
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+    % added grid & gridTable hb class vars
+    ! Fixed CalcRowCount on wrong calculation on cell height
+      (GetNumberRows() == 0)
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    % added ::FIgnoreCellEvalError, useful to catch errors on wrong column
+      blocks constructs
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    + added hb grid/gridTable classes
+    % improved RecNo on TTable DataSources
+    ! Fixed wrong RecNo assign on GoTop/GoBottom methods
+
+  * src/raddox/talias.prg
+    % using numeric work area code instead of alias (string) name
+    ! Fixed DbOpen method to reuse work area opened
+
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    + added:
+      + AutoSizeColumn
+      + SetColSize
+
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    ! Fixed to accept wxID_ANY ( -1 ) id.
+
+  * src/wxbase/baseclasses/wxhwindow.prg
+  * src/wxbase/baseclasses/wx_window.cpp
+    + added:
+      + PopupMenu
+
+  * src/wxbase/books/wx_auinotebook.cpp
+    * casting
+
 2008-10-21 18:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/event.ch
     * enabling as default WXWIN_COMPATIBILITY_EVENT_TYPES

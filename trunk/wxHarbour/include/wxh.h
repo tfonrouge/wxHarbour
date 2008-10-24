@@ -28,6 +28,8 @@ extern "C"
 #include "hbapierr.h"
 }
 
+#include "wx/grid.h"
+
 #include <iostream>
 
 using namespace std;
@@ -55,6 +57,7 @@ class hbEvtHandler : public T
 {
 public:
   void OnCommandEvent( wxCommandEvent& event );
+  void OnGridEvent( wxGridEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
   void wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler );
 
@@ -75,7 +78,23 @@ void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
   hb_itemPutNI( pEventType, event.GetEventType() );
 
   hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
-};
+}
+
+/*
+  OnGridEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
+{
+  PHB_ITEM pId = hb_itemNew( NULL );
+  PHB_ITEM pEventType = hb_itemNew( NULL );
+
+  hb_itemPutNI( pId, event.GetId() );
+  hb_itemPutNI( pEventType, event.GetEventType() );
+
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
+}
 
 /*
   OnMouseEvent
@@ -91,7 +110,7 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
   hb_itemPutNI( pEventType, event.GetEventType() );
 
   hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
-};
+}
 
 /*
   wxConnect
@@ -100,5 +119,15 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 template <class T>
 void hbEvtHandler<T>::wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler )
 {
-      evtHandler->Connect( id, lastId, eventType, wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent ) );
-};
+
+  if( eventType == wxEVT_GRID_CELL_RIGHT_CLICK )
+  {
+    cout << "";
+    cout << "Connecting wxEVT_GRID_CELL_RIGHT_CLICK" << endl;
+    cout << "";
+    evtHandler->Connect( wxID_ANY, wxEVT_GRID_CELL_RIGHT_CLICK, wxGridEventHandler( hbEvtHandler<T>::OnGridEvent ) );
+    return;
+  }
+  evtHandler->Connect( id, lastId, eventType, wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent ) );
+}
+

@@ -112,14 +112,14 @@ RETURN sizer
   wxh_Browse
   Teo. Mexico 2008
  */
-FUNCTION wxh_Browse( dataSource, window, id, pos, size, style, name )
+FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name )
   LOCAL wxhBrw
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhBrw := wxhBrowse():New( dataSource, window, id, pos, size, style, name )
+  wxhBrw := wxhBrowse():New( dataSource, window, id, label, pos, size, style, name )
 
   containerObj():SetLastChild( wxhBrw )
 
@@ -296,18 +296,20 @@ RETURN menuData:g_menuBar
   wxh_MenuBegin
   Teo. Mexico 2006
 */
-PROCEDURE wxh_MenuBegin( title )
+FUNCTION wxh_MenuBegin( title )
   LOCAL hData := {=>}
+  LOCAL menu
 
   IF menuData:g_menuList = NIL
     menuData:g_menuList := {}
   ENDIF
 
-  hData["menu"] := wxMenu():New()
+  menu := wxMenu():New()
+  hData["menu"] := menu
   hData["title"] := title
   AAdd( menuData:g_menuList, hData )
 
-RETURN
+RETURN menu
 
 /*
   wxh_MenuEnd

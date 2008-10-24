@@ -21,12 +21,12 @@
 #include "wx_browse.h"
 
 BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
-    EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
-    EVT_SIZE( wxhGridBrowse::OnSize )
+  EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
+  EVT_SIZE( wxhGridBrowse::OnSize )
 END_EVENT_TABLE()
 
 BEGIN_EVENT_TABLE( wxhBrowse, wx_Panel )
-    EVT_GRID_SELECT_CELL( wxhBrowse::OnSelectCell )
+  EVT_GRID_SELECT_CELL( wxhBrowse::OnSelectCell )
 END_EVENT_TABLE()
 
 /*
@@ -35,6 +35,7 @@ END_EVENT_TABLE()
 */
 wxhBrowse::~wxhBrowse()
 {
+  wxh_ItemListDel( this->m_gridBrowse );
   wxh_ItemListDel( this );
 }
 
@@ -68,24 +69,20 @@ void wxhBrowse::OnSelectCell( wxGridEvent& event )
 }
 
 /*
-  OnSize
+  CalcRowCount
   Teo. Mexico 2008
 */
-void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
-{
-  if (m_targetWindow != this)
-  {
-    CalcDimensions();
-    CalcRowCount();
-  }
-}
-
 void wxhGridBrowse::CalcRowCount()
 {
+
   wxSize size = GetGridWindow()->GetSize();
 
   if( size.GetHeight() == m_gridWindowHeight )
     return;
+
+  /* needed to calculate cell row height */
+  if( GetNumberRows() == 0 )
+    AppendRows( 1 );
 
   m_gridWindowHeight = size.GetHeight();
 
@@ -118,6 +115,23 @@ void wxhGridBrowse::CalcRowCount()
 
   m_maxRows = GetNumberRows();
 
+  cout << endl;
+  cout << "m_rowCount: " << m_rowCount;
+  cout << "";
+
+}
+
+/*
+  OnSize
+  Teo. Mexico 2008
+*/
+void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
+{
+  if (m_targetWindow != this)
+  {
+    CalcDimensions();
+    CalcRowCount();
+  }
 }
 
 /*
@@ -311,17 +325,28 @@ wxhGridBrowse::~wxhGridBrowse()
 HB_FUNC( WXHBROWSE_WXNEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 1 );
-  wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
-  wxWindowID id = ISNIL( 3 ) ? wxID_ANY : hb_parni( 3 );
-  wxPoint pos = hb_par_wxPoint( 4 );
-  wxSize size = hb_par_wxSize( 5 );
-  long style = ISNIL( 6 ) ? wxWANTS_CHARS : hb_parnl( 6 );
-  wxString name = wxString( hb_parcx( 7 ), wxConvLocal );
 
+  /* get harbour params */
+  PHB_ITEM pGridBrowse = hb_param( 1, HB_IT_OBJECT );
+  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2 );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 3 );
+  wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
+  const wxString &label = wxString( hb_parcx( 5 ), wxConvLocal );
+  wxPoint pos = hb_par_wxPoint( 6 );
+  wxSize size = hb_par_wxSize( 7 );
+  long style = ISNIL( 8 ) ? wxWANTS_CHARS : hb_parnl( 8 );
+  wxString name = wxString( hb_parcx( 9 ), wxConvLocal );
+
+  /* the main window container */
   wxhBrowse *browse = new wxhBrowse( parent, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name );
 
-  wxBoxSizer *boxSizer = new wxBoxSizer( wxHORIZONTAL );
+  /* the browse window controls: sizer, browse, scrollbar */
+  wxBoxSizer *boxSizer;
+  if( ISNIL( 5 ) )
+    boxSizer = new wxBoxSizer( wxHORIZONTAL );
+  else
+    boxSizer = new wxStaticBoxSizer( wxHORIZONTAL, browse, label );
+
   browse->SetSizer( boxSizer );
   browse->m_gridBrowse = new wxhGridBrowse( browse, id, wxDefaultPosition, wxDefaultSize, style, _T("wxhGridBrowse") );
   boxSizer->Add( browse->m_gridBrowse, 1, wxGROW|wxALL, 5 );
@@ -338,6 +363,7 @@ HB_FUNC( WXHBROWSE_WXNEW )
 
   // Add object's to hash list
   wxh_ItemListAdd( browse, pSelf );
+  wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse );
 
   hb_itemReturn( pSelf );
 }
@@ -421,6 +447,24 @@ HB_FUNC( WXHBROWSE_SETCOLPOS )
     browse->m_gridBrowse->SetGridCursor( row, col - 1 );
   }
 }
+
+/*
+  SetColWidth
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_SETCOLWIDTH )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  int col = hb_parni( 1 ) - 1;
+  int width = hb_parni( 2 );
+  if( pSelf && browse )
+  {
+    int pointSize = ( browse->m_gridBrowse->GetCellFont( 0, col ) ).GetPointSize();
+    browse->m_gridBrowse->SetColSize( col, pointSize * width );
+  }
+}
+
 /*
   SetRowCount
   Teo. Mexico 2008
@@ -458,3 +502,8 @@ HB_FUNC( WXHBROWSE_SETROWPOS )
     browse->m_gridBrowse->SetGridCursor( row - 1, col );
   }
 }
+
+
+/*
+  IOAMEX: 3766 904888 02004 0511 5137
+*/

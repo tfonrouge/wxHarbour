@@ -131,6 +131,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhcolumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowse.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowsedbprovider.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhgridbrowse.obj \
 	$(__BUILDDIR__)\wxHarbour_dba.obj \
 	$(__BUILDDIR__)\wxHarbour_talias.obj \
 	$(__BUILDDIR__)\wxHarbour_tdatabase.obj \
@@ -346,6 +347,9 @@ $(__BUILDDIR__)\wxHarbour_wxhbrowse.obj: .\src\hrbcompat\tbrowse\wxhbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhbrowsedbprovider.obj: .\src\hrbcompat\tbrowse\wxhbrowsedbprovider.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhgridbrowse.obj: .\src\hrbcompat\tbrowse\wxhgridbrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_dba.obj: .\src\raddox\dba.prg
