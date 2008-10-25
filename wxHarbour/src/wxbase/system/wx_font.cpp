@@ -10,43 +10,44 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-
 /*
-  wxWindow
+  wx_Font: Implementation
   Teo. Mexico 2006
 */
-CLASS wxWindow FROM wxEvtHandler
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  METHOD Centre( direction )
-  METHOD Close( force )
-  METHOD Destroy
-  METHOD FindWindowById( id, parent )
-  METHOD FindWindowByName( name, parent )
-  METHOD FindWindowByLabel( label, parent )
-  METHOD GetFont
-  METHOD GetId
-  METHOD GetLabel
-  METHOD GetName
-  METHOD GetParent
-  METHOD GetSizer
-  METHOD Hide( Value )
-  METHOD IsShown
-  METHOD MakeModal( flag )
-  METHOD PopupMenu( menu, pos )
-      /* PopupMenu( menu, x, y ) */
-  METHOD Raise
-  METHOD SetFocus
-  METHOD SetId( id )
-  METHOD SetLabel( label )
-  METHOD SetName( name )
-  METHOD SetSizer( sizer, deleteOld )
-  METHOD Show( Value /* defaults to TRUE */ )
-PUBLISHED:
-ENDCLASS
+
+#include "wx/wx.h"
+#include "wxh.h"
+
+#include "wx_font.h"
+
 /*
-  End Class wxWindow
+  ~wx_Font
+  Teo. Mexico 2006
 */
+wx_Font::~wx_Font()
+{
+  wxh_ItemListDel( this );
+}
+
+/*
+  Constructor: wxFont Object
+  Teo. Mexico 2006
+*/
+HB_FUNC( WXFONT_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Font* menu = new wx_Font();
+
+  // Add object's to hash list
+  wxh_ItemListAdd( menu, pSelf );
+
+  hb_itemReturn( pSelf );
+}
+
+HB_FUNC( WXFONT_GETPOINTSIZE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Font* font;
+  if( pSelf && (font = (wx_Font *) wxh_ItemListGetWX( pSelf ) ) )
+    hb_retni( font->GetPointSize() );
+}
