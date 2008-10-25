@@ -83,6 +83,10 @@ ENDCLASS
 */
 METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTextCtrl
 
+  IF pos = NIL
+    //pos := { wxhGet:AsString * window:GetFont():GetPointSize() , -1 }
+  ENDIF
+
   Super:New( window, id, wxhGet:AsString(), pos, size, style, validator, name )
 
   IF name = NIL

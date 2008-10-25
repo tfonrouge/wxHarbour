@@ -189,6 +189,27 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
         // Help events
     case 1050 : evtNumber = wxEVT_HELP; break;
     case 1051 : evtNumber = wxEVT_DETAILED_HELP; break;
+
+    /* grid events */
+    case 1580 : evtNumber = wxEVT_GRID_CELL_LEFT_CLICK; break;
+    case 1581 : evtNumber = wxEVT_GRID_CELL_RIGHT_CLICK; break;
+    case 1582 : evtNumber = wxEVT_GRID_CELL_LEFT_DCLICK; break;
+    case 1583 : evtNumber = wxEVT_GRID_CELL_RIGHT_DCLICK; break;
+    case 1584 : evtNumber = wxEVT_GRID_LABEL_LEFT_CLICK; break;
+    case 1585 : evtNumber = wxEVT_GRID_LABEL_RIGHT_CLICK; break;
+    case 1586 : evtNumber = wxEVT_GRID_LABEL_LEFT_DCLICK; break;
+    case 1587 : evtNumber = wxEVT_GRID_LABEL_RIGHT_DCLICK; break;
+    case 1588 : evtNumber = wxEVT_GRID_ROW_SIZE; break;
+    case 1589 : evtNumber = wxEVT_GRID_COL_SIZE; break;
+    case 1590 : evtNumber = wxEVT_GRID_RANGE_SELECT; break;
+    case 1591 : evtNumber = wxEVT_GRID_CELL_CHANGE; break;
+    case 1592 : evtNumber = wxEVT_GRID_SELECT_CELL; break;
+    case 1593 : evtNumber = wxEVT_GRID_EDITOR_SHOWN; break;
+    case 1594 : evtNumber = wxEVT_GRID_EDITOR_HIDDEN; break;
+    case 1595 : evtNumber = wxEVT_GRID_EDITOR_CREATED; break;
+    case 1596 : evtNumber = wxEVT_GRID_CELL_BEGIN_DRAG; break;
+    case 1597 : evtNumber = wxEVT_GRID_COL_MOVE; break;
+
     default : evtNumber = 0;
   }
 

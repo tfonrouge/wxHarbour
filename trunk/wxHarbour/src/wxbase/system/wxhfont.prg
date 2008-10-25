@@ -14,39 +14,16 @@
 #include "property.ch"
 
 /*
-  wxWindow
+  wxFont
   Teo. Mexico 2006
 */
-CLASS wxWindow FROM wxEvtHandler
+CLASS wxFont FROM wxObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD Centre( direction )
-  METHOD Close( force )
-  METHOD Destroy
-  METHOD FindWindowById( id, parent )
-  METHOD FindWindowByName( name, parent )
-  METHOD FindWindowByLabel( label, parent )
-  METHOD GetFont
-  METHOD GetId
-  METHOD GetLabel
-  METHOD GetName
-  METHOD GetParent
-  METHOD GetSizer
-  METHOD Hide( Value )
-  METHOD IsShown
-  METHOD MakeModal( flag )
-  METHOD PopupMenu( menu, pos )
-      /* PopupMenu( menu, x, y ) */
-  METHOD Raise
-  METHOD SetFocus
-  METHOD SetId( id )
-  METHOD SetLabel( label )
-  METHOD SetName( name )
-  METHOD SetSizer( sizer, deleteOld )
-  METHOD Show( Value /* defaults to TRUE */ )
+  METHOD GetPointSize
 PUBLISHED:
 ENDCLASS
 /*
-  End Class wxWindow
+  End Class wxFont
 */

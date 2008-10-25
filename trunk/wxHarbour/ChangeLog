@@ -2,6 +2,24 @@
  *
  */
 
+2008-10-25 09:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * src/wxbase/baseclasses/wxhwindow.prg
+  * src/wxbase/baseclasses/wx_window.cpp
+  + src/wxbase/system
+  + src/wxbase/system/wx_font.cpp
+  + src/wxbase/system/wx_font.h
+  + src/wxbase/system/wxhfont.prg
+  * wxharbour.bkl
+    + added wxFont
+
+  * include/event.ch
+  * src/common/sysdefs.cpp
+    + added Grid events
+
+  * src/hrbcompat/misc/wxGET.prg
+    * adding font point size as base for size parameter
+
 2008-10-24 00:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

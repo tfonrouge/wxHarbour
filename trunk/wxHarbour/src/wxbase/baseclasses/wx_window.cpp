@@ -21,6 +21,7 @@
 
 #include "wxbase/wx_frame.h"
 #include "wxbase/wx_menu.h"
+#include "wxbase/wx_font.h"
 
 using namespace std;
 
@@ -97,6 +98,31 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 
   if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) && ( result =  wnd->FindWindowByName( name, parent ) ) )
     hb_itemReturn( wxh_ItemListGetHB( result ) );
+  else
+    hb_ret();
+}
+
+/*
+  GetFont
+  Teo. Mexico 2008
+*/
+
+HB_FUNC_EXTERN( WXFONT );
+
+HB_FUNC( WXWINDOW_GETFONT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd;
+  if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) )
+  {
+    wx_Font font = new wx_Font;
+    //wnd->GetFont();
+    PHB_ITEM pFont = hb_itemNew( NULL );
+    HB_FUNC_EXEC( WXFONT );
+    hb_itemCopy( pFont, hb_stackReturnItem() );
+    wxh_ItemListAdd( &font, pFont );
+    hb_itemReturn( pFont );
+  }
   else
     hb_ret();
 }
