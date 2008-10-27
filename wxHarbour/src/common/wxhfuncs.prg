@@ -246,7 +246,7 @@ FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, na
     ENDIF
   ENDIF
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, size, style, validator, name )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window ), style, validator, name )
 
   containerObj():SetLastChild( Result )
 
@@ -687,6 +687,19 @@ FUNCTION wxh_StaticLine( window, id, pos, orient, name )
   containerObj():SetLastChild( sl )
 
 RETURN sl
+
+/*
+  wxh_TransSize
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_TransSize( size, window )
+  IF Empty( size ) .OR. !HB_ISARRAY( size )
+    RETURN size
+  ENDIF
+  IF HB_ISCHAR( size[ 1 ] )
+    size[ 1 ] := window:GetFont():GetPointSize() * Val( size[ 1 ] )
+  ENDIF
+RETURN size
 
 /*
   wxh_TreeCtrl

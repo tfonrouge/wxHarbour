@@ -115,12 +115,11 @@ HB_FUNC( WXWINDOW_GETFONT )
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) )
   {
-    wx_Font font = new wx_Font;
-    //wnd->GetFont();
+    wxFont *font = new wxFont( wnd->GetFont() );
     PHB_ITEM pFont = hb_itemNew( NULL );
     HB_FUNC_EXEC( WXFONT );
     hb_itemCopy( pFont, hb_stackReturnItem() );
-    wxh_ItemListAdd( &font, pFont );
+    wxh_ItemListAdd( font, pFont );
     hb_itemReturn( pFont );
   }
   else

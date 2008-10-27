@@ -2,6 +2,22 @@
  *
  */
 
+2008-10-27 11:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + include/wxbase/wx_font.h
+  * src/wxbase/system/wx_font.cpp
+    * moved header to common place
+
+  * src/common/wxhfuncs.prg
+    + added wxh_TransSize( size, parent ) to allow to give a string parameter
+      to the size value (i.e. : { "40", -1 }  for 40 * font point size width )
+      implemented currently on @ GET
+
+  * src/hrbcompat/misc/wxGET.prg
+    * removed unneeded code
+
+  * src/wxbase/baseclasses/wx_window.cpp
+    ! Fixed creation of wxFont hb class on ::GetFont
+
 2008-10-25 09:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * src/wxbase/baseclasses/wxhwindow.prg

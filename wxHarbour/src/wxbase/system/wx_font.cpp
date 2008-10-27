@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wx_font.h"
+#include "wxbase/wx_font.h"
 
 /*
   ~wx_Font
