@@ -138,6 +138,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhwindow.o \
@@ -180,6 +181,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_app.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wx_keyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wx_window.o \
@@ -369,6 +371,9 @@ $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)/wxHarbour_wxhevthandler.o: ./src/wxbase/baseclasses/wxhevthandler.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -493,6 +498,9 @@ $(__BUILDDIR__)/wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/baseclasses/wx_evthandler.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_object.o: ./src/wxbase/baseclasses/wx_object.cpp

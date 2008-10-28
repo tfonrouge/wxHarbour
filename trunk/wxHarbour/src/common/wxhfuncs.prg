@@ -112,14 +112,14 @@ RETURN sizer
   wxh_Browse
   Teo. Mexico 2008
  */
-FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name )
+FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKey )
   LOCAL wxhBrw
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhBrw := wxhBrowse():New( dataSource, window, id, label, pos, size, style, name )
+  wxhBrw := wxhBrowse():New( dataSource, window, id, label, pos, size, style, name, onKey )
 
   containerObj():SetLastChild( wxhBrw )
 
@@ -246,7 +246,7 @@ FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, na
     ENDIF
   ENDIF
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window ), style, validator, name )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name )
 
   containerObj():SetLastChild( Result )
 
@@ -692,12 +692,14 @@ RETURN sl
   wxh_TransSize
   Teo. Mexico 2008
 */
-FUNCTION wxh_TransSize( size, window )
-  IF Empty( size ) .OR. !HB_ISARRAY( size )
-    RETURN size
+FUNCTION wxh_TransSize( size, window, defaultWidth )
+  IF !HB_ISARRAY( size )
+    size := { -1, -1 }
   ENDIF
   IF HB_ISCHAR( size[ 1 ] )
     size[ 1 ] := window:GetFont():GetPointSize() * Val( size[ 1 ] )
+  ELSEIF ( HB_ISNIL( size[ 1 ] ) .OR. ( HB_ISNUMERIC( size[ 1 ] ) .AND. size[ 1 ] = -1 ) ) .AND. !HB_ISNIL( defaultWidth )
+    size[ 1 ] := window:GetFont():GetPointSize() * defaultWidth
   ENDIF
 RETURN size
 

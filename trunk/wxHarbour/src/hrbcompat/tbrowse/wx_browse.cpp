@@ -20,6 +20,8 @@
 
 #include "wx_browse.h"
 
+HB_FUNC_EXTERN( WXKEYEVENT);
+
 BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
   EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
   EVT_SIZE( wxhGridBrowse::OnSize )
@@ -140,145 +142,173 @@ void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
 */
 void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 {
-    if ( m_inOnKeyDown )
+  if ( m_inOnKeyDown )
+  {
+    // shouldn't be here - we are going round in circles...
+    //
+    wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
+  }
+
+  m_inOnKeyDown = true;
+
+  /* process event on OnKeyEvent block , returns true if processed */
+  PHB_ITEM pGridBrowse = wxh_ItemListGetHB( this->m_browse );
+  if( pGridBrowse )
+  {
+    PHB_ITEM pKeyEvent = hb_itemNew( NULL );
+    HB_FUNC_EXEC( WXKEYEVENT );
+    hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
+    wxKeyEvent *evt1 = new wxKeyEvent( event );
+    wxh_ItemListAdd( evt1, pKeyEvent );
+
+    PHB_ITEM pOnKeyEvent = hb_objSendMsg( pGridBrowse, "OnKeyEvent", 0 );
+    bool result = false;
+
+    if( pOnKeyEvent )
     {
-        // shouldn't be here - we are going round in circles...
-        //
-        wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
+      result = hb_itemGetL( hb_vmEvalBlockV( pOnKeyEvent, 2, pGridBrowse, pKeyEvent ) );
     }
 
-    m_inOnKeyDown = true;
+    hb_itemRelease( pKeyEvent );
+    delete evt1; /* TODO: fix for possible pKeyEvent hb variable active, we need (wx_KeyEvent) ?*/
 
-    // propagate the event up and see if it gets processed
-    wxWindow *parent = GetParent();
-    wxKeyEvent keyEvt( event );
-    keyEvt.SetEventObject( parent );
-
-    if ( !parent->GetEventHandler()->ProcessEvent( keyEvt ) )
+    if( result )
     {
-        if (GetLayoutDirection() == wxLayout_RightToLeft)
-        {
-            if (event.GetKeyCode() == WXK_RIGHT)
-                event.m_keyCode = WXK_LEFT;
-            else if (event.GetKeyCode() == WXK_LEFT)
-                event.m_keyCode = WXK_RIGHT;
-        }
+      m_inOnKeyDown = false;
+      return;
+    }
+  }
 
-        // try local handlers
-        switch ( event.GetKeyCode() )
-        {
-            case WXK_UP:
-                if ( event.ControlDown() )
-                    MoveCursorUpBlock( event.ShiftDown() );
-                else
-                    MoveCursorUp( event.ShiftDown() );
-                break;
+  // propagate the event up and see if it gets processed
+  wxWindow *parent = GetParent();
+  wxKeyEvent keyEvt( event );
+  keyEvt.SetEventObject( parent );
 
-            case WXK_DOWN:
-                if ( event.ControlDown() )
-                    MoveCursorDownBlock( event.ShiftDown() );
-                else
-                    MoveCursorDown( event.ShiftDown() );
-                break;
+  if ( !parent->GetEventHandler()->ProcessEvent( keyEvt ) )
+  {
+    if (GetLayoutDirection() == wxLayout_RightToLeft)
+    {
+      if (event.GetKeyCode() == WXK_RIGHT)
+        event.m_keyCode = WXK_LEFT;
+      else if (event.GetKeyCode() == WXK_LEFT)
+        event.m_keyCode = WXK_RIGHT;
+    }
 
-            case WXK_LEFT:
-                if ( event.ControlDown() )
-                    MoveCursorLeftBlock( event.ShiftDown() );
-                else
-                    MoveCursorLeft( event.ShiftDown() );
-                break;
+    // try local handlers
+    switch ( event.GetKeyCode() )
+    {
+      case WXK_UP:
+        if ( event.ControlDown() )
+            MoveCursorUpBlock( event.ShiftDown() );
+        else
+            MoveCursorUp( event.ShiftDown() );
+        break;
 
-            case WXK_RIGHT:
-                if ( event.ControlDown() )
-                    MoveCursorRightBlock( event.ShiftDown() );
-                else
-                    MoveCursorRight( event.ShiftDown() );
-                break;
+      case WXK_DOWN:
+          if ( event.ControlDown() )
+              MoveCursorDownBlock( event.ShiftDown() );
+          else
+              MoveCursorDown( event.ShiftDown() );
+          break;
 
-            case WXK_RETURN:
-            case WXK_NUMPAD_ENTER:
-                if ( event.ControlDown() )
-                {
-                    event.Skip();  // to let the edit control have the return
-                }
-                else
-                {
-                    if ( GetGridCursorRow() < GetNumberRows()-1 )
-                    {
-                        MoveCursorDown( event.ShiftDown() );
-                    }
-                    else
-                    {
-                        // at the bottom of a column
-                        DisableCellEditControl();
-                    }
-                }
-                break;
+      case WXK_LEFT:
+          if ( event.ControlDown() )
+              MoveCursorLeftBlock( event.ShiftDown() );
+          else
+              MoveCursorLeft( event.ShiftDown() );
+          break;
 
-            case WXK_ESCAPE:
-                ClearSelection();
-                break;
+      case WXK_RIGHT:
+          if ( event.ControlDown() )
+              MoveCursorRightBlock( event.ShiftDown() );
+          else
+              MoveCursorRight( event.ShiftDown() );
+          break;
 
-            case WXK_TAB:
-                if (event.ShiftDown())
-                {
-                    if ( GetGridCursorCol() > 0 )
-                    {
-                        MoveCursorLeft( false );
-                    }
-                    else
-                    {
-                        // at left of grid
-                        DisableCellEditControl();
-                    }
-                }
-                else
-                {
-                    if ( GetGridCursorCol() < GetNumberCols() - 1 )
-                    {
-                        MoveCursorRight( false );
-                    }
-                    else
-                    {
-                        // at right of grid
-                        DisableCellEditControl();
-                    }
-                }
-                break;
+      case WXK_RETURN:
+      case WXK_NUMPAD_ENTER:
+          if ( event.ControlDown() )
+          {
+              event.Skip();  // to let the edit control have the return
+          }
+          else
+          {
+              if ( GetGridCursorRow() < GetNumberRows()-1 )
+              {
+                  MoveCursorDown( event.ShiftDown() );
+              }
+              else
+              {
+                  // at the bottom of a column
+                  DisableCellEditControl();
+              }
+          }
+          break;
 
-            case WXK_HOME:
-                if ( event.ControlDown() )
-                {
-                    MakeCellVisible( 0, 0 );
-                    SetCurrentCell( 0, 0 );
-                }
-                else
-                {
-                    event.Skip();
-                }
-                break;
+      case WXK_ESCAPE:
+          ClearSelection();
+          break;
 
-            case WXK_END:
-                if ( event.ControlDown() )
-                {
-                    MakeCellVisible( m_numRows - 1, m_numCols - 1 );
-                    SetCurrentCell( m_numRows - 1, m_numCols - 1 );
-                }
-                else
-                {
-                    event.Skip();
-                }
-                break;
+      case WXK_TAB:
+          if (event.ShiftDown())
+          {
+              if ( GetGridCursorCol() > 0 )
+              {
+                  MoveCursorLeft( false );
+              }
+              else
+              {
+                  // at left of grid
+                  DisableCellEditControl();
+              }
+          }
+          else
+          {
+              if ( GetGridCursorCol() < GetNumberCols() - 1 )
+              {
+                  MoveCursorRight( false );
+              }
+              else
+              {
+                  // at right of grid
+                  DisableCellEditControl();
+              }
+          }
+          break;
 
-            case WXK_PAGEUP:
-                MovePageUp();
-                break;
+      case WXK_HOME:
+          if ( event.ControlDown() )
+          {
+              MakeCellVisible( 0, 0 );
+              SetCurrentCell( 0, 0 );
+          }
+          else
+          {
+              event.Skip();
+          }
+          break;
 
-            case WXK_PAGEDOWN:
-                MovePageDown();
-                break;
+      case WXK_END:
+          if ( event.ControlDown() )
+          {
+              MakeCellVisible( m_numRows - 1, m_numCols - 1 );
+              SetCurrentCell( m_numRows - 1, m_numCols - 1 );
+          }
+          else
+          {
+              event.Skip();
+          }
+          break;
 
-            case WXK_SPACE:
+      case WXK_PAGEUP:
+          MovePageUp();
+          break;
+
+      case WXK_PAGEDOWN:
+          MovePageDown();
+          break;
+
+      case WXK_SPACE:
 //                 if ( event.ControlDown() )
 //                 {
 //                     if ( m_selection )
@@ -294,19 +324,19 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 //                     break;
 //                 }
 
-                if ( !IsEditable() )
-                    MoveCursorRight( false );
-                else
-                    event.Skip();
-                break;
+          if ( !IsEditable() )
+              MoveCursorRight( false );
+          else
+              event.Skip();
+          break;
 
-            default:
-                event.Skip();
-                break;
-        }
+      default:
+          event.Skip();
+          break;
     }
+  }
 
-    m_inOnKeyDown = false;
+  m_inOnKeyDown = false;
 }
 
 /*
