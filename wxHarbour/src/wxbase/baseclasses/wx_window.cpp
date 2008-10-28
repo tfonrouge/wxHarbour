@@ -120,7 +120,7 @@ HB_FUNC( WXWINDOW_GETFONT )
     HB_FUNC_EXEC( WXFONT );
     hb_itemCopy( pFont, hb_stackReturnItem() );
     wxh_ItemListAdd( font, pFont );
-    hb_itemReturn( pFont );
+    hb_itemReturnRelease( pFont );
   }
   else
     hb_ret();

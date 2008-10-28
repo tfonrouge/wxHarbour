@@ -2,6 +2,30 @@
  *
  */
 
+2008-10-27 18:26 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + src/wxbase/baseclasses/wxhkeyevent.prg
+  + src/wxbase/baseclasses/wx_keyevent.cpp
+    + added wxKeyEvent
+
+  * include/wxharbour.ch
+    + added #define for wxhMessageBoxYesNo()
+    + added ONKEY clause to @ BROWSE
+  * src/common/wxhfuncs.prg
+    ! Fixed wxh_TransSize() to use correctly default params
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+    + added capability to specify a data (:OnKeyEvent) block to process
+      keys, on exit , true/false indicates that event was processed.
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    + added OnKeyEvent to hold code block to process event keys
+
+  * src/wxbase/baseclasses/wx_window.cpp
+    ! Fixed release of created item
+
 2008-10-27 11:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + include/wxbase/wx_font.h
   * src/wxbase/system/wx_font.cpp

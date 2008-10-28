@@ -30,6 +30,7 @@ PRIVATE:
   DATA FCurRow
   DATA FDataSource
   DATA FDataSourceType
+  DATA FOnKey
   DATA FRecNo           INIT 0
   DATA FRowIndexGetValue
   DATA FRowIndexSetValue
@@ -82,6 +83,7 @@ PUBLIC:
   /* End TBrowse compatible */
 
   DATA BottomFirst INIT .F.
+  DATA OnKeyEvent INIT {|| .F. }
 
   METHOD AddAllColumns
   METHOD EventManager
@@ -104,12 +106,16 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( dataSource, window, id, label, pos, size, style, name ) CLASS wxhBrowse
+METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
 
   /* TODO: Optimize this many calls: remove this New method, implement it in c++ */
   ::grid := wxhGridBrowse() /* no New() because we want to create the c++ object in wxNew and attach this hb obj*/
   ::gridTableBase := wxhBrowseTableBase():New( Self )
   ::wxNew( ::grid, ::gridTableBase, window, id, label, pos, size, style, name )
+
+  IF !onKey = NIL
+    ::OnKeyEvent := onKey
+  ENDIF
 
   IF dataSource != NIL
     ::SetDataSource( dataSource )

@@ -144,6 +144,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhevthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhkeyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhwindow.obj \
@@ -172,6 +173,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticline.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhfont.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhvalidator.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhxmldocument.obj \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
@@ -185,6 +187,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_statusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_app.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_keyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_object.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_window.obj \
@@ -215,6 +218,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_sizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticline.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_font.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
@@ -388,6 +392,9 @@ $(__BUILDDIR__)\wxHarbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
 $(__BUILDDIR__)\wxHarbour_wxhevthandler.obj: .\src\wxbase\baseclasses\wxhevthandler.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhkeyevent.obj: .\src\wxbase\baseclasses\wxhkeyevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhobject.obj: .\src\wxbase\baseclasses\wxhobject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -472,6 +479,9 @@ $(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj: .\src\wxbase\sizers\wxhstaticbo
 $(__BUILDDIR__)\wxHarbour_wxhstaticline.obj: .\src\wxbase\static\wxhstaticline.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhfont.obj: .\src\wxbase\system\wxhfont.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhvalidator.obj: .\src\wxbase\validators\wxhvalidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -510,6 +520,9 @@ $(__BUILDDIR__)\wxHarbour_wx_app.obj: .\src\wxbase\app\wx_app.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_evthandler.obj: .\src\wxbase\baseclasses\wx_evthandler.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_evthandler.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_keyevent.obj: .\src\wxbase\baseclasses\wx_keyevent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_keyevent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_object.obj: .\src\wxbase\baseclasses\wx_object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_object.cpp
@@ -600,6 +613,9 @@ $(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj: .\src\wxbase\sizers\wx_staticbo
 
 $(__BUILDDIR__)\wxHarbour_wx_staticline.obj: .\src\wxbase\static\wx_staticline.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\static\wx_staticline.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_font.obj: .\src\wxbase\system\wx_font.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_font.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_validator.obj: .\src\wxbase\validators\wx_validator.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\validators\wx_validator.cpp

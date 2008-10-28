@@ -23,10 +23,15 @@
 #include "raddox.ch"
 #include "wx.ch"
 
+/*
+  MessageBox
+*/
+#define wxhMessageBoxYesNo( title, mess, parent ) ;
+        wxMessageBox( mess, title, HB_BITOR(wxYES_NO,wxICON_QUESTION), parent )
+
 /*!
  * Frame/Dialog
  */
-
 #xcommand CREATE [<type: MDIPARENT,MDICHILD>] FRAME <oFrame> ;
           [ CLASS <fromClass> ] ;
           [ PARENT <oParent> ] ;
@@ -191,6 +196,7 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
+            [ ONKEY <onKey> ] ;
           => ;
             [<wxBrw>:=]wxh_Browse( ;
               [<dataSource>],;
@@ -200,7 +206,8 @@
               ,;
               [{<nWidth>,<nHeight>}],;
               [<style>],;
-              [<name>] ;
+              [<name>],;
+              [<onKey>] ;
             )
 
 #xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
