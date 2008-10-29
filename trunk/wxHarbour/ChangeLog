@@ -2,6 +2,21 @@
  *
  */
 
+2008-10-28 18:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * changed optional label clause LABEL to required
+
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    % general optimizations:
+      + now using buffering of data
+      + removed unneeded code and cleaned
+      + moved some methods to wxhbrowsedbprovider
+
 2008-10-27 18:26 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

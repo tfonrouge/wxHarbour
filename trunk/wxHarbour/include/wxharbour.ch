@@ -189,7 +189,7 @@
   BROWSEDB
 */
 #xcommand @ BROWSE [ VAR <wxBrw> ] ;
-            [ [LABEL] <label> ] ;
+            [ LABEL <label> ] ;
             [ DATASOURCE <dataSource> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
