@@ -27,27 +27,17 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
-  DATA FCurRow
   DATA FDataSource
   DATA FDataSourceType
-  DATA FOnKey
   DATA FRecNo           INIT 0
-  DATA FRowIndexGetValue
-  DATA FRowIndexSetValue
-  DATA FRowList
-  DATA FRowListSize     INIT 0
-  DATA FTmpRowPos
-  METHOD FillRowList( index ) EXPORTED /* TODO: remove EXPORTED here */
   METHOD GetColCount INLINE Len( ::gridTableBase:ColumnList )
   METHOD GetColPos
   METHOD GetRecNo
   METHOD GetRowCount
-  METHOD GetRowListSize
   METHOD GetRowPos
   METHOD SetColPos( colPos )
   METHOD SetDataSource( dataSource )
   METHOD SetRowCount( rowCount )
-  METHOD SetRowListSize( size )
   METHOD SetRowPos( rowPos )
 PROTECTED:
 PUBLIC:
@@ -86,9 +76,6 @@ PUBLIC:
   DATA OnKeyEvent INIT {|| .F. }
 
   METHOD AddAllColumns
-  METHOD EventManager
-  METHOD Initialized INLINE ::FRowList != NIL
-  METHOD SelectRowIndex( rowIndex )
   METHOD SetColWidth( col, width ) /* in pointSize * width */
 
   PROPERTY BlockParam READ gridTableBase:GetBlockParam WRITE gridTableBase:SetBlockParam
@@ -96,8 +83,6 @@ PUBLIC:
   PROPERTY ColumnZero READ gridTableBase:GetColumnZero WRITE gridTableBase:SetColumnZero
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
   PROPERTY RecNo READ GetRecNo
-  PROPERTY RowList READ FRowList
-  PROPERTY RowListSize READ GetRowListSize WRITE SetRowListSize
 
 PUBLISHED:
 ENDCLASS
@@ -177,124 +162,18 @@ RETURN column
   Teo. Mexico 2008
 */
 METHOD FUNCTION Down CLASS wxhBrowse
-  LOCAL n
 
   IF ::RowPos < ::RowCount
     ::RowPos += 1
   ELSE
-    n := ::SkipBlock:Eval( 1 )
-    ::RefreshAll()
+    IF ::SkipBlock:Eval( 1 ) = 1
+      ADel( ::gridTableBase:GridBuffer, 1 )
+      ::gridTableBase:GetGridRowData( ::RowCount )
+      ::RefreshAll()
+    ENDIF
   ENDIF
 
 RETURN Self
-
-/*
-  EventManager
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE EventManager( nKey ) CLASS wxhBrowse
-
-  DO CASE
-  CASE nKey = K_PGUP
-
-  ENDCASE
-
-RETURN
-
-/*
-  FillRowList
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE FillRowList CLASS wxhBrowse
-  LOCAL i
-  LOCAL n
-  LOCAL direction
-  LOCAL totalSkipped := 0
-  LOCAL topRecord
-
-  /* start at first index row */
-  ::FCurRow := 0
-
-  ::FTmpRowPos := ::RowPos
-
-  IF ::FRowListSize != ::RowCount
-    ::SetRowListSize( ::RowCount )
-  ENDIF
-
-  IF Empty( ::FRowList )
-    ::SetRowListSize( 1 ) /* allow to give a try on next call on FillRowList */
-    RETURN
-  ENDIF
-
-  /* search first top row reference */
-  IF ::FRowList[ 1 ] = NIL
-
-    IF ::BottomFirst
-      ::GoBottom()
-    ELSE
-      ::GoTop()
-    ENDIF
-
-    IF ::FRowIndexGetValue = NIL
-      ::FRowList[ 1 ] := ::FRecNo
-    ELSE
-      ::FRowList[ 1 ] := ::FRowIndexGetValue:Eval()
-    ENDIF
-
-  ENDIF
-
-  ::FRowIndexSetValue:Eval( 1 )
-  n := ::SkipBlock:Eval( -1 )
-  topRecord := n = 0
-  ::SkipBlock:Eval( n )
-
-  direction := 1
-  i := 2
-
-  WHILE i <= ::RowCount
-    n := ::SkipBlock:Eval( direction )
-    totalSkipped += n
-    IF n != direction
-      IF direction = 1
-        /* check if we are filling from right after GoTop */
-        IF topRecord
-          ::SetRowListSize( i - 1 )
-          EXIT
-        ENDIF
-        direction := -1
-        ::FRowIndexSetValue:Eval( i - 1 ) /* */
-        LOOP
-      ELSE /* we are at an premature bof */
-        ::SetRowListSize( i - 1 )
-        EXIT
-      ENDIF
-    ENDIF
-    IF direction = 1
-      n := i
-    ELSE
-      n := 1
-      AIns( ::FRowList, 1 )
-    ENDIF
-    IF ::FRowIndexGetValue = NIL
-      ::FRowList[ n ] := ::FRecNo
-    ELSE
-      ::FRowList[ n ] := ::FRowIndexGetValue:Eval()
-    ENDIF
-    i++
-  ENDDO
-
-  /* normal fill (top-down) requiere repos at rowIndex 1 */
-  IF direction = 1
-    ::SkipBlock:Eval( - totalSkipped )
-  ENDIF
-
-  IF ::FTmpRowPos > ::RowCount
-    ::RowPos := ::RowCount
-  ELSE
-    ::RowPos := ::FTmpRowPos
-  ENDIF
-
-RETURN
 
 /*
   GetRecNo
@@ -307,23 +186,13 @@ METHOD FUNCTION GetRecNo CLASS wxhBrowse
 RETURN ::FRecNo
 
 /*
-  GetRowListSize
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION GetRowListSize CLASS wxhBrowse
-  IF ::FRowListSize = 0 //.OR. !::FRowListSize != ::RowCount
-    ::GoBottom()
-  ENDIF
-RETURN ::FRowListSize
-
-/*
   GoBottom
   Teo. Mexico 2008
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
 
   ::GoBottomBlock:Eval()
-  ::FTmpRowPos := ::RowCount
+  ::gridTableBase:FillGridBuffer()
   ::RowPos := ::RowCount
 
   ::RefreshAll()
@@ -337,7 +206,7 @@ RETURN Self
 METHOD FUNCTION GoTop CLASS wxhBrowse
 
   ::GoTopBlock:Eval()
-  ::FTmpRowPos := 1
+  ::gridTableBase:FillGridBuffer()
   ::RowPos := 1
 
   ::RefreshAll()
@@ -349,20 +218,11 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION PageDown CLASS wxhBrowse
-  LOCAL n
 
-  n := ::SkipBlock:Eval( ::RowCount )
-  IF n = ::RowCount
-    n := ::SkipBlock:Eval( ::RowCount )
-    IF n = ::RowCount
-      ::SkipBlock:Eval( - n )
-      ::RefreshAll()
-    ELSE
-      ::GoBottom()
-    ENDIF
-  ELSE
-    ::GoBottom()
-  ENDIF
+  ::SkipBlock:Eval( ::RowCount - ::RowPos + 1 )
+  ::gridTableBase:FillGridBuffer()
+
+  ::RefreshAll()
 
 RETURN Self
 
@@ -371,45 +231,13 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION PageUp CLASS wxhBrowse
-  LOCAL n
 
-  n := ::SkipBlock:Eval( - ::RowCount )
-  IF n = - ::RowCount
-    ::RefreshAll()
-  ELSE
-    ::GoTop()
-  ENDIF
+  ::SkipBlock:Eval( -::RowPos - ::RowCount + 1)
+  ::gridTableBase:FillGridBuffer()
+
+  ::RefreshAll()
 
 RETURN Self
-
-/*
-  SelectRowIndex
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION SelectRowIndex( rowIndex, fromEvent ) CLASS wxhBrowse
-  LOCAL n
-
-  IF fromEvent == .T.
-    ? "SelectRowIndex:",rowIndex
-  ENDIF
-
-  IF Empty( ::FRowList )
-    ::FillRowList()
-  ENDIF
-
-  IF rowIndex >= ::RowCount
-    RETURN .F.
-  ENDIF
-
-  IF rowIndex == ::FCurRow
-    RETURN .T.
-  ENDIF
-
-  n := ::SkipBlock:Eval( rowIndex - ::FCurRow )
-
-  ::FCurRow := rowIndex
-
-RETURN .T.
 
 /*
   SetDataSource
@@ -435,9 +263,6 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::GoTopBlock    := {|| ::FRecNo := 1 }
     ::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
     ::SkipBlock     := {|n| oldPos := ::FRecNo, ::FRecNo := iif( n < 0, Max( 1, ::FRecNo + n ), Min( Len( dataSource ), ::FRecNo + n ) ), ::FRecNo - oldPos }
-
-    ::FRowIndexSetValue := {|n| ::FRecNo := ::FRowList[ n ] }
-    ::FRowIndexGetValue := NIL
 
     EXIT
 
@@ -466,30 +291,10 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     ::GoBottomBlock := {|| dataSource:DbGoBottom() }
     ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
 
-    ::FRowIndexSetValue := {|n| dataSource:RecNo := ::FRowList[ n ] }
-    ::FRowIndexGetValue := {|| dataSource:RecNo }
-
     EXIT
 
   END
 
-RETURN
-
-/*
-  SetRowListSize
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE SetRowListSize( size ) CLASS wxhBrowse
-  IF ::FRowList = NIL
-    ::FRowList := Array( size )
-  ELSE
-    ASize( ::FRowList, size )
-  ENDIF
-  ::FRowListSize := size
-  IF ::RowCount != size
-    ::SetRowCount( size )
-  ENDIF
-  ::RefreshAll()
 RETURN
 
 /*
@@ -501,8 +306,11 @@ METHOD FUNCTION Up CLASS wxhBrowse
   IF ::RowPos > 1
     ::RowPos -= 1
   ELSE
-    ::SkipBlock:Eval( -1 )
-    ::RefreshAll()
+    IF ::SkipBlock:Eval( -1 ) = -1
+      AIns( ::gridTableBase:GridBuffer, 1 )
+      ::gridTableBase:GetGridRowData( 1 )
+      ::RefreshAll()
+    ENDIF
   ENDIF
 
 RETURN Self
