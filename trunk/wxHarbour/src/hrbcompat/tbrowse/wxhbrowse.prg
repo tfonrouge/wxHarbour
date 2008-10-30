@@ -19,8 +19,6 @@
 #include "inkey.ch"
 #include "wxharbour.ch"
 
-#define WXHBROWSE_FILL_FROM_TOP         1
-
 /*
   wxhBrowse
   Teo. Mexico 2008
@@ -35,6 +33,7 @@ PRIVATE:
   METHOD GetRecNo
   METHOD GetRowCount
   METHOD GetRowPos
+  METHOD SelectRowIndex( rowIndex )
   METHOD SetColPos( colPos )
   METHOD SetDataSource( dataSource )
   METHOD SetRowCount( rowCount )
@@ -64,19 +63,26 @@ PUBLIC:
   METHOD AddColumn( column )
   METHOD DelColumn( pos )
   METHOD Down
+  METHOD End
   METHOD GoBottom
   METHOD GoTop
+  METHOD Home
+  METHOD Left
   METHOD PageDown
   METHOD PageUp
   METHOD RefreshAll
+  METHOD Right
   METHOD Up
   /* End TBrowse compatible */
 
   DATA BottomFirst INIT .F.
-  DATA OnKeyEvent INIT {|| .F. }
+  DATA KeyEventBlock INIT {|| .F. }
+  DATA SelectCellBlock
 
   METHOD AddAllColumns
   METHOD SetColWidth( col, width ) /* in pointSize * width */
+  METHOD OnKeyDown( event )
+  METHOD OnSelectCell( event )
 
   PROPERTY BlockParam READ gridTableBase:GetBlockParam WRITE gridTableBase:SetBlockParam
   PROPERTY ColumnList READ gridTableBase:GetColumnList WRITE gridTableBase:SetColumnList
@@ -99,7 +105,7 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
   ::wxNew( ::grid, ::gridTableBase, window, id, label, pos, size, style, name )
 
   IF !onKey = NIL
-    ::OnKeyEvent := onKey
+    ::KeyEventBlock := onKey
   ENDIF
 
   IF dataSource != NIL
@@ -170,9 +176,19 @@ METHOD FUNCTION Down CLASS wxhBrowse
       ADel( ::gridTableBase:GridBuffer, 1 )
       ::gridTableBase:GetGridRowData( ::RowCount )
       ::RefreshAll()
+      ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
     ENDIF
   ENDIF
 
+RETURN Self
+
+/*
+  End
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION End CLASS wxhBrowse
+  ::SetColPos( ::ColCount() )
+  ::grid:MakeCellVisible( ::grid:GetGridCursorRow(), ::grid:GetNumberCols() - 1 )
 RETURN Self
 
 /*
@@ -214,6 +230,101 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
 RETURN Self
 
 /*
+  Home
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Home CLASS wxhBrowse
+  ::SetColPos( 1 ) /* no freeze cols yet implemented */
+  ::grid:MakeCellVisible( ::grid:GetGridCursorRow(), 0 )
+RETURN Self
+
+/*
+  Left
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Left CLASS wxhBrowse
+  ::grid:MoveCursorLeft()
+RETURN Self
+
+/*
+  OnKeyDown
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
+
+  SWITCH keyEvent:GetKeyCode()
+  CASE WXK_UP
+    ::Up()
+    EXIT
+  CASE WXK_DOWN
+    ::Down()
+    EXIT
+  CASE WXK_LEFT
+    ::Left()
+    EXIT
+  CASE WXK_RIGHT
+    IF keyEvent:GetModifiers() = wxMOD_CONTROL
+      keyEvent:Skip( .F. )
+    ELSE
+      ::Right()
+    ENDIF
+    EXIT
+  CASE WXK_HOME
+    IF keyEvent:GetModifiers() = wxMOD_CONTROL
+      ::Home()
+    ELSE
+      ::RowPos := 1
+    ENDIF
+    EXIT
+  CASE WXK_END
+    IF keyEvent:GetModifiers() = wxMOD_CONTROL
+      ::End()
+    ELSE
+      ::RowPos := ::RowCount
+    ENDIF
+    EXIT
+  CASE WXK_PAGEUP
+    IF keyEvent:GetModifiers() = wxMOD_CONTROL
+      ::GoTop()
+    ELSE
+      ::PageUp()
+    ENDIF
+    EXIT
+  CASE WXK_PAGEDOWN
+    IF keyEvent:GetModifiers() = wxMOD_CONTROL
+      ::GoBottom()
+    ELSE
+      ::PageDown()
+    ENDIF
+    EXIT
+  OTHERWISE
+    keyEvent:Skip()
+  END
+
+RETURN
+
+/*
+  OnSelectCell
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
+
+  IF !gridEvent:Selecting()
+    gridEvent:Skip()
+    RETURN
+  ENDIF
+
+  ::SelectRowIndex( gridEvent:GetRow() )
+
+  IF ::SelectCellBlock != NIL
+    ::SelectCellBlock:Eval( Self, gridEvent )
+  ENDIF
+
+  gridEvent:Skip()
+
+RETURN
+
+/*
   PageDown
   Teo. Mexico 2008
 */
@@ -238,6 +349,36 @@ METHOD FUNCTION PageUp CLASS wxhBrowse
   ::RefreshAll()
 
 RETURN Self
+
+/*
+  Right
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Right CLASS wxhBrowse
+  ::grid:MoveCursorRight()
+RETURN Self
+
+/*
+  SelectRowIndex
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE SelectRowIndex( rowIndex ) CLASS wxhBrowse
+
+  IF rowIndex >= ::RowCount
+    RETURN
+  ENDIF
+
+  IF Empty( ::gridTableBase:GridBuffer )
+    IF ::BottomFirst
+      ::GoBottom()
+    ELSE
+      ::GoTop()
+    ENDIF
+  ENDIF
+
+  ::gridTableBase:CurRowIndex := rowIndex
+
+RETURN
 
 /*
   SetDataSource
@@ -310,6 +451,7 @@ METHOD FUNCTION Up CLASS wxhBrowse
       AIns( ::gridTableBase:GridBuffer, 1 )
       ::gridTableBase:GetGridRowData( 1 )
       ::RefreshAll()
+      ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
     ENDIF
   ENDIF
 

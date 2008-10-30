@@ -19,21 +19,6 @@
 #include "wx.ch"
 
 /*
-  wEvent
-  Teo. Mexico 2008
-*/
-CLASS wxEvent FROM wxObject
-PRIVATE:
-PROTECTED:
-PUBLIC:
-PUBLISHED:
-ENDCLASS
-
-/*
-  End Class wxEvent
-*/
-
-/*
   wxKeyEvent
   Teo. Mexico 2008
 */
@@ -41,7 +26,9 @@ CLASS wxKeyEvent FROM wxEvent
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  METHOD ControlDown
   METHOD GetKeyCode
+  METHOD GetModifiers
 PUBLISHED:
 ENDCLASS
 

@@ -143,7 +143,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhpanel.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhevthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhgridevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhkeyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj \
@@ -186,7 +188,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_panel.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_statusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_app.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_event.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_gridevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_keyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_object.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj \
@@ -389,7 +393,13 @@ $(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj: .\src\wxbase\advctrls\wxhstatusbar.p
 $(__BUILDDIR__)\wxHarbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhevent.obj: .\src\wxbase\baseclasses\wxhevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhevthandler.obj: .\src\wxbase\baseclasses\wxhevthandler.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhgridevent.obj: .\src\wxbase\baseclasses\wxhgridevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhkeyevent.obj: .\src\wxbase\baseclasses\wxhkeyevent.prg
@@ -518,8 +528,14 @@ $(__BUILDDIR__)\wxHarbour_wx_statusbar.obj: .\src\wxbase\advctrls\wx_statusbar.c
 $(__BUILDDIR__)\wxHarbour_wx_app.obj: .\src\wxbase\app\wx_app.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\app\wx_app.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_event.obj: .\src\wxbase\baseclasses\wx_event.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_event.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_evthandler.obj: .\src\wxbase\baseclasses\wx_evthandler.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_evthandler.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_gridevent.obj: .\src\wxbase\baseclasses\wx_gridevent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_gridevent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_keyevent.obj: .\src\wxbase\baseclasses\wx_keyevent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_keyevent.cpp

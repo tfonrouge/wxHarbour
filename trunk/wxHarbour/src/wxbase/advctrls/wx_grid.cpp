@@ -97,6 +97,38 @@ HB_FUNC( WXGRID_FORCEREFRESH )
 }
 
 /*
+  GetGridCursorCol
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_GETGRIDCURSORCOL )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+  {
+    hb_retni( grid->GetGridCursorCol() );
+  }
+  else
+    hb_ret();
+}
+
+/*
+  GetGridCursorRow
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_GETGRIDCURSORROW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+  {
+    hb_retni( grid->GetGridCursorRow() );
+  }
+  else
+    hb_ret();
+}
+
+/*
   GetNumberCols
   Teo. Mexico 2008
 */
@@ -158,6 +190,50 @@ HB_FUNC( WXGRID_ISVISIBLE )
     hb_ret();
 }
 
+/*
+  MakeCellVisible
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_MAKECELLVISIBLE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+    grid->MakeCellVisible( hb_parni( 1 ), hb_parni( 2 ) );
+}
+
+/*
+  MoveCursorLeft
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_MOVECURSORLEFT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+  {
+    hb_retl( grid->MoveCursorLeft( hb_parl( 1 ) ) );
+  }
+  else
+    hb_ret();
+}
+
+/*
+  MoveCursorRight
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_MOVECURSORRIGHT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+  {
+    hb_retl( grid->MoveCursorRight( hb_parl( 1 ) ) );
+  }
+  else
+    hb_ret();
+}
+
 HB_FUNC( WXGRID_SETCOLLABELSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -209,6 +285,17 @@ HB_FUNC( WXGRID_SETDEFAULTROWSIZE )
   bool resizeExistingRows = hb_parl( 2 );
   if( pSelf && grid )
     grid->SetDefaultRowSize( height, resizeExistingRows );
+}
+
+/*
+  SetGridCursor
+*/
+HB_FUNC( WXGRID_SETGRIDCURSOR )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && grid )
+    grid->SetGridCursor( hb_parni( 1 ), hb_parni( 2 ) );
 }
 
 HB_FUNC( WXGRID_SETROWLABELSIZE )

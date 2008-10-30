@@ -29,6 +29,12 @@
 #define wxhMessageBoxYesNo( title, mess, parent ) ;
         wxMessageBox( mess, title, HB_BITOR(wxYES_NO,wxICON_QUESTION), parent )
 
+/*
+  NTrim
+*/
+#define NTrim( n ) ;
+        LTrim( Str( n ) )
+
 /*!
  * Frame/Dialog
  */
@@ -332,7 +338,8 @@
           @ SAY [<clauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
 
-#xcommand @ GET <var> ;
+#xcommand @ GET <dataVar> ;
+            [ VAR <var> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -346,10 +353,10 @@
             [ HELPLINE <helpLine> ] ;
             [ <refreshAll: REFRESH ALL> ] ;
           => ;
-          wxh_Get(;
+          [<var> :=] wxh_Get(;
             [<window>],;
             [<id>],;
-            wxhGET():New( <"var">, <var>, {|__localVal| iif( PCount()>0, <var> := __localVal, <var> ) } ),;
+            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<.mline.>],;

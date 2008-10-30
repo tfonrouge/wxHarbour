@@ -53,6 +53,20 @@ HB_FUNC( WXTEXTCTRL_NEW )
 }
 
 /*
+  wxTextCtrl:AppendText
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXTEXTCTRL_APPENDTEXT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTextCtrl* textCtrl;
+  const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
+
+  if( pSelf && (textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf ) ) )
+    textCtrl->AppendText( text );
+}
+
+/*
   wxTextCtrl:GetValue
   Teo. Mexico 2007
 */

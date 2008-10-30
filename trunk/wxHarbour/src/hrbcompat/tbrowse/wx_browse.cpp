@@ -20,6 +20,7 @@
 
 #include "wx_browse.h"
 
+HB_FUNC_EXTERN( WXGRIDEVENT);
 HB_FUNC_EXTERN( WXKEYEVENT);
 
 BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
@@ -45,28 +46,22 @@ wxhBrowse::~wxhBrowse()
   OnSelectCell
   Teo. Mexico 2008
 */
-void wxhBrowse::OnSelectCell( wxGridEvent& event )
+void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
 {
 
-  if( event.Selecting() )
-  {
-    PHB_ITEM hbwxhBrowse = wxh_ItemListGetHB( this->m_gridBrowse->GetTable() );
-    if( hbwxhBrowse )
-    {
-      if( hb_objSendMsg( hbwxhBrowse, "Initialized", 0 )->item.asLogical.value )
-      {
-        PHB_ITEM pRow = hb_itemPutNI( NULL, event.GetRow() );
-        PHB_ITEM pFlag = hb_itemPutL( NULL, true );
-        hb_objSendMsg( hbwxhBrowse, "SelectRowIndex", 2, pRow, pFlag );
-        hb_itemRelease( pRow );
-        hb_itemRelease( pFlag );
-      }
-    }
-  }
-//   else
-//     wxLogMessage( wxT("%s"), wxT("De-Selecting") );
+  PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this );
 
-  event.Skip();
+  if( pWxhBrowse )
+  {
+    PHB_ITEM pGridEvent = hb_itemNew( NULL );
+    HB_FUNC_EXEC( WXGRIDEVENT );
+    hb_itemCopy( pGridEvent, hb_stackReturnItem() );
+    wxh_ItemListAdd( &gridEvent, pGridEvent );
+    hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
+    hb_itemRelease( pGridEvent );
+  }
+  else
+    gridEvent.Skip();
 
 }
 
@@ -110,10 +105,7 @@ void wxhGridBrowse::CalcRowCount()
     DeleteRows( 0, GetNumberRows() );
 
   PHB_ITEM pBrowseTableBase = wxh_ItemListGetHB( this->GetTable() );
-  if( pBrowseTableBase && hb_objSendMsg( pBrowseTableBase, "Initialized", 0 )->item.asLogical.value )
-  {
-    hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
-  }
+  hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
 
   m_maxRows = GetNumberRows();
 
@@ -151,46 +143,6 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
   m_inOnKeyDown = true;
 
-  /* process event on OnKeyEvent block , returns true if processed */
-  PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this->m_browse );
-  if( pWxhBrowse )
-  {
-    PHB_ITEM pKeyEvent = hb_itemNew( NULL );
-    HB_FUNC_EXEC( WXKEYEVENT );
-    hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
-    wxKeyEvent *evt1 = new wxKeyEvent( event );
-    wxh_ItemListAdd( evt1, pKeyEvent );
-
-    PHB_ITEM pOnKeyEvent = hb_itemNew( hb_objSendMsg( pWxhBrowse, "OnKeyEvent", 0 ) );
-    bool result = false;
-
-    PHB_ITEM pBrowseTableBase = wxh_ItemListGetHB( this->GetTable() );
-
-    if( pOnKeyEvent && pBrowseTableBase )
-    {
-      cout << endl;
-      cout << "Positioning on: " << GetGridCursorRow();
-      cout << endl;
-      PHB_ITEM pRow = hb_itemPutNI( NULL, GetGridCursorRow() );
-      PHB_ITEM pFlag = hb_itemPutL( NULL, true );
-      hb_objSendMsg( pBrowseTableBase, "SelectRowIndex", 1, pRow, pFlag );
-      hb_itemRelease( pRow );
-      hb_itemRelease( pFlag );
-      result = hb_itemGetL( hb_vmEvalBlockV( pOnKeyEvent, 2, pWxhBrowse, pKeyEvent ) );
-    }
-
-    hb_itemRelease( pOnKeyEvent );
-
-    hb_itemRelease( pKeyEvent );
-    delete evt1; /* TODO: fix for possible pKeyEvent hb variable active, we need (wx_KeyEvent) ?*/
-
-    if( result )
-    {
-      m_inOnKeyDown = false;
-      return;
-    }
-  }
-
   // propagate the event up and see if it gets processed
   wxWindow *parent = GetParent();
   wxKeyEvent keyEvt( event );
@@ -206,146 +158,22 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
         event.m_keyCode = WXK_RIGHT;
     }
 
-    // try local handlers
-    switch ( event.GetKeyCode() )
+    /* process event on our hbclass wxhBrowse:OnKeyDown, returns true if processed */
+    PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this->m_browse );
+    if( pWxhBrowse )
     {
-      case WXK_UP:
-        if ( event.ControlDown() )
-          MoveCursorUpBlock( event.ShiftDown() );
-        else
-          MoveCursorUp( event.ShiftDown() );
-        break;
 
-      case WXK_DOWN:
-        if ( event.ControlDown() )
-          MoveCursorDownBlock( event.ShiftDown() );
-        else
-          MoveCursorDown( event.ShiftDown() );
-        break;
+      PHB_ITEM pKeyEvent = hb_itemNew( NULL );
+      HB_FUNC_EXEC( WXKEYEVENT );
+      hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
+      wxh_ItemListAdd( &event, pKeyEvent );
 
-      case WXK_LEFT:
-        if ( event.ControlDown() )
-          MoveCursorLeftBlock( event.ShiftDown() );
-        else
-          MoveCursorLeft( event.ShiftDown() );
-        break;
+      hb_itemNew( hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent ) );
 
-      case WXK_RIGHT:
-        if ( event.ControlDown() )
-          MoveCursorRightBlock( event.ShiftDown() );
-        else
-          MoveCursorRight( event.ShiftDown() );
-        break;
+      hb_itemRelease( pKeyEvent );
 
-      case WXK_RETURN:
-      case WXK_NUMPAD_ENTER:
-        if ( event.ControlDown() )
-        {
-          event.Skip();  // to let the edit control have the return
-        }
-        else
-        {
-          if ( GetGridCursorRow() < GetNumberRows()-1 )
-          {
-            MoveCursorDown( event.ShiftDown() );
-          }
-          else
-          {
-            // at the bottom of a column
-            DisableCellEditControl();
-          }
-        }
-        break;
-
-      case WXK_ESCAPE:
-        ClearSelection();
-        break;
-
-      case WXK_TAB:
-        if (event.ShiftDown())
-        {
-          if ( GetGridCursorCol() > 0 )
-          {
-            MoveCursorLeft( false );
-          }
-          else
-          {
-            // at left of grid
-            DisableCellEditControl();
-          }
-        }
-        else
-        {
-          if ( GetGridCursorCol() < GetNumberCols() - 1 )
-          {
-            MoveCursorRight( false );
-          }
-          else
-          {
-            // at right of grid
-            DisableCellEditControl();
-          }
-        }
-        break;
-
-      case WXK_HOME:
-        if ( event.ControlDown() )
-        {
-          MakeCellVisible( 0, 0 );
-          SetCurrentCell( 0, 0 );
-        }
-        else
-        {
-          event.Skip();
-        }
-        break;
-
-      case WXK_END:
-        if ( event.ControlDown() )
-        {
-          MakeCellVisible( m_numRows - 1, m_numCols - 1 );
-          SetCurrentCell( m_numRows - 1, m_numCols - 1 );
-        }
-        else
-        {
-          event.Skip();
-        }
-        break;
-
-      case WXK_PAGEUP:
-        MovePageUp();
-        break;
-
-      case WXK_PAGEDOWN:
-        MovePageDown();
-        break;
-
-      case WXK_SPACE:
-//                 if ( event.ControlDown() )
-//                 {
-//                     if ( m_selection )
-//                     {
-//                         m_selection->ToggleCellSelection(
-//                             m_currentCellCoords.GetRow(),
-//                             m_currentCellCoords.GetCol(),
-//                             event.ControlDown(),
-//                             event.ShiftDown(),
-//                             event.AltDown(),
-//                             event.MetaDown() );
-//                     }
-//                     break;
-//                 }
-
-        if ( !IsEditable() )
-          MoveCursorRight( false );
-        else
-          event.Skip();
-        break;
-
-      default:
-        event.Skip();
-        break;
     }
+
   }
 
   m_inOnKeyDown = false;

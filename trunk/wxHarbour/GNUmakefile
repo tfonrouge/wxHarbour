@@ -137,7 +137,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhpanel.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
+	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wxhgridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
@@ -180,7 +182,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_panel.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_app.o \
+	$(__BUILDDIR__)/wxHarbour_wx_event.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wx_gridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_keyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
@@ -368,7 +372,13 @@ $(__BUILDDIR__)/wxHarbour_wxhstatusbar.o: ./src/wxbase/advctrls/wxhstatusbar.prg
 $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhevthandler.o: ./src/wxbase/baseclasses/wxhevthandler.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
@@ -497,7 +507,13 @@ $(__BUILDDIR__)/wxHarbour_wx_statusbar.o: ./src/wxbase/advctrls/wx_statusbar.cpp
 $(__BUILDDIR__)/wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)/wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/baseclasses/wx_evthandler.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_gridevent.o: ./src/wxbase/baseclasses/wx_gridevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cpp

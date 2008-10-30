@@ -30,12 +30,12 @@ PRIVATE:
   DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
-  DATA FCurRow
+  DATA FCurRowIndex
   DATA FGridBuffer
   DATA FGridBufferSize     INIT 0
   DATA FIgnoreCellEvalError INIT .F.
   METHOD GetCellValue( column )
-  METHOD SelectRowIndex( rowIndex ) EXPORTED
+  METHOD SetCurRowIndex( rowIndex )
   METHOD SetGridBufferSize( size )
 PROTECTED:
 PUBLIC:
@@ -58,6 +58,7 @@ PUBLIC:
 
   PROPERTY BlockParam READ FBlockParam WRITE SetBlockParam
   PROPERTY Browse READ FBrowse
+  PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
   PROPERTY ColumnList READ FColumnList WRITE SetColumnList
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
   PROPERTY GridBuffer READ FGridBuffer
@@ -87,7 +88,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   LOCAL oldRowPos
 
   /* start at first index row */
-  ::FCurRow := 0
+  ::FCurRowIndex := 0
 
   oldRowPos := ::FBrowse:RowPos
 
@@ -96,7 +97,6 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   ENDIF
 
   IF Empty( ::FGridBuffer )
-    ::SetGridBufferSize( 1 ) /* allow to give a try on next call on FillGridBuffer */
     RETURN
   ENDIF
 
@@ -247,11 +247,13 @@ RETURN
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
 
-  IF !::SelectRowIndex( row )
+  ++row
+
+  IF row > Len( ::FGridBuffer )
     RETURN ""
   ENDIF
 
-RETURN ::FGridBuffer[ ++row, 0 ]
+RETURN ::FGridBuffer[ row, 0 ]
 
 /*
   GetValue
@@ -259,43 +261,14 @@ RETURN ::FGridBuffer[ ++row, 0 ]
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
 
-  IF !::SelectRowIndex( row )
+  ++row
+  ++col
+
+  IF row > Len( ::FGridBuffer )
     RETURN ""
   ENDIF
 
-RETURN ::FGridBuffer[ ++row, ++col ]
-
-/*
-  SelectRowIndex
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION SelectRowIndex( rowIndex, fromEvent ) CLASS wxhBrowseTableBase
-
-  IF Empty( ::FGridBuffer )
-    IF ::FBrowse:BottomFirst
-      ::FBrowse:GoBottom()
-    ELSE
-      ::FBrowse:GoTop()
-    ENDIF
-  ENDIF
-
-  IF rowIndex >= ::FBrowse:RowCount
-    RETURN .F.
-  ENDIF
-
-  IF rowIndex == ::FCurRow
-    RETURN .T.
-  ENDIF
-
-  ::FBrowse:SkipBlock:Eval( rowIndex - ::FCurRow )
-
-  ::FCurRow := rowIndex
-
-  IF fromEvent == .T.
-    RETURN .T.
-  ENDIF
-
-RETURN .T.
+RETURN ::FGridBuffer[ row, col ]
 
 /*
   SetColumnList
@@ -305,6 +278,22 @@ METHOD PROCEDURE SetColumnList( columnList ) CLASS wxhBrowseTableBase
   ::FColumnList := columnList
   ::DeleteCols( 0, ::GetNumberCols() )
   ::AppendCols( Len( columnList ) )
+RETURN
+
+/*
+  SetCurRowIndex
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
+
+  IF rowIndex == ::FCurRowIndex
+    RETURN
+  ENDIF
+
+  ::FBrowse:SkipBlock:Eval( rowIndex - ::FCurRowIndex )
+
+  ::FCurRowIndex := rowIndex
+
 RETURN
 
 /*
