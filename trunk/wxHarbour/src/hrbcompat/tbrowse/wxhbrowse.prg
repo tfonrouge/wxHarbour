@@ -55,7 +55,7 @@ PUBLIC:
   DATA SkipBlock
 
   PROPERTY ColCount READ GetColCount
-  PROPERTY RowCount READ GetRowCount
+  PROPERTY RowCount READ GetRowCount WRITE SetRowCount
   PROPERTY ColPos READ GetColPos WRITE SetColPos
   PROPERTY RowPos READ GetRowPos WRITE SetRowPos
 

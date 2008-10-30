@@ -308,7 +308,7 @@ METHOD PROCEDURE SetGridBufferSize( size ) CLASS wxhBrowseTableBase
   ENDIF
   ::FGridBufferSize := size
   IF ::FBrowse:RowCount != size
-    ::FBrowse:SetRowCount( size )
+    ::FBrowse:RowCount := size
   ENDIF
   ::FBrowse:RefreshAll()
 RETURN
