@@ -2,6 +2,13 @@
  *
  */
 
+2008-10-29 21:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/wxbase/baseclasses/wx_event.cpp
+  + src/wxbase/baseclasses/wx_gridevent.cpp
+  + src/wxbase/baseclasses/wxhevent.prg
+  + src/wxbase/baseclasses/wxhgridevent.prg
+    * added missing sources on previous commit
+
 2008-10-29 19:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
