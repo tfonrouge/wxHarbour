@@ -55,7 +55,8 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL auiNb
-  LOCAL text := Space(20)
+  LOCAL text := ""
+  LOCAL textCtrl
   LOCAL b
 
   CREATE FRAME oWnd ;
@@ -96,7 +97,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
       END SIZER
     END SIZER
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
-      @ GET text MULTILINE SIZERINFO ALIGN EXPAND STRETCH
+      @ GET text VAR textCtrl MULTILINE SIZERINFO ALIGN EXPAND STRETCH
       BEGIN BOXSIZER HORIZONTAL
         @ BUTTON "GoTop" ACTION b:GoTop()
         @ BUTTON "GoBottom" ACTION b:GoBottom()
@@ -111,6 +112,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   END SIZER
 
 //   b:Fit()
+
+  b:SelectCellBlock := {|| textCtrl:AppendText( b:DataSource:Field_First:AsString + E"\n" ) }
 
   b:AddAllColumns()
 

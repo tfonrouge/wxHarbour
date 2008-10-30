@@ -19,12 +19,44 @@
 
 #include "wxh.h"
 
+/*
+  GetKeyCode
+  Teo. Mexico 2008
+*/
 HB_FUNC( WXKEYEVENT_GETKEYCODE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxKeyEvent * keyEvent;
   if( pSelf && (keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf ) ) )
     hb_retni( keyEvent->GetKeyCode() );
+  else
+    hb_ret();
+}
+
+/*
+  GetModifiers
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXKEYEVENT_GETMODIFIERS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxKeyEvent * keyEvent;
+  if( pSelf && (keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf ) ) )
+    hb_retni( keyEvent->GetModifiers() );
+  else
+    hb_ret();
+}
+
+/*
+  ControlDown
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXKEYEVENT_CONTROLDOWN )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxKeyEvent * keyEvent;
+  if( pSelf && (keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf ) ) )
+    hb_retl( keyEvent->ControlDown() );
   else
     hb_ret();
 }

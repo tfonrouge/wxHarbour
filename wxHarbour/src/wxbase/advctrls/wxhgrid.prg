@@ -44,15 +44,21 @@ PUBLIC:
   METHOD CreateGrid( numRows, numCols, selmode )
   METHOD Fit
   METHOD ForceRefresh
+  METHOD GetGridCursorCol
+  METHOD GetGridCursorRow
   METHOD GetNumberCols
   METHOD GetNumberRows
   METHOD GetTable
   METHOD IsVisible( row, col, wholeCellVisible )
+  METHOD MakeCellVisible( row, col )
+  METHOD MoveCursorLeft( expandSelection )
+  METHOD MoveCursorRight( expandSelection )
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
   METHOD SetColSize( col, width )
   METHOD SetDefaultColSize( width, resizeExistingCols )
   METHOD SetDefaultRowSize( height, resizeExistingRows )
+  METHOD SetGridCursor( row, col )
   METHOD SetRowLabelSize( width )
   METHOD SetTable( table, takeOwnership, selmode )
 PUBLISHED:

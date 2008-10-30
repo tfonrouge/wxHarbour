@@ -2,6 +2,68 @@
  *
  */
 
+2008-10-29 19:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    + Added:
+      + wxEvent
+      + wxGridEvent
+
+  * include/defs.ch
+    + Added all virtual key codes
+    + Added all constant modifiers in wxKeyEvent
+
+  * include/wxharbour.ch
+    + added NTrim as a #define function
+    + added VAR clause to @ GET
+
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+    + Added hb method OnSelectCell( gridEvent )
+    + Added processing of event keys on hb method OnKeyDown( keyEvent )
+
+  * src/hrbcompat/tbrowse/wx_browse.h
+    * changed init value of m_rowCount menber
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    % general improvements, code simplification, speed optimization
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    + Added methods
+      + End
+      + Home
+      + Left
+      + Right
+    + Added hb data SelectCellBlock, to contain a code block to be evaluated
+      on OnSelectCell events.
+    + Added basic browse navigation keys on OnKeyDown
+
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    + Added methods
+      + GetGridCursorCol
+      + GetGridCursorRow
+      + MakeCellVisible
+      + MoveCursorLeft
+      + MoveCursorRight
+      + SetGridCursor
+
+  * src/wxbase/baseclasses/wxhkeyevent.prg
+    * moved wxEvent to their own source file
+
+  * src/wxbase/baseclasses/wx_keyevent.cpp
+    + Added methods
+      + GetModifiers
+      + ControlDown
+
+  * src/wxbase/controls/wxhtextctrl.prg
+  * src/wxbase/controls/wx_textctrl.cpp
+    + Added method
+      + AppendText
+
 2008-10-28 18:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     * changed optional label clause LABEL to required
