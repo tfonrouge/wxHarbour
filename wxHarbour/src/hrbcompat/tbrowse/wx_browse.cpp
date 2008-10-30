@@ -90,7 +90,7 @@ void wxhGridBrowse::CalcRowCount()
   bottom = cellRect.GetBottom();
 
   m_rowCount = max( 0, ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 );
-  
+
   // TODO: Need to calculate the exact rows available
 //   if( m_rowCount > 0 )
 //   {
@@ -116,10 +116,6 @@ void wxhGridBrowse::CalcRowCount()
   hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
 
   m_maxRows = GetNumberRows();
-
-  cout << endl;
-  cout << "m_rowCount: " << m_rowCount;
-  cout << "";
 
 }
 
