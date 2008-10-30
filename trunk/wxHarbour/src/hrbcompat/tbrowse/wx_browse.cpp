@@ -89,7 +89,15 @@ void wxhGridBrowse::CalcRowCount()
   top = cellRect.GetTop();
   bottom = cellRect.GetBottom();
 
-  m_rowCount = ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 ;
+  m_rowCount = max( 0, ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 );
+  
+  // TODO: Need to calculate the exact rows available
+//   if( m_rowCount > 0 )
+//   {
+//     MakeCellVisible( 0, GetGridCursorCol() );
+//     if( !IsVisible( m_rowCount - 1, 0, false ) )
+//       --m_rowCount;
+//   }
 
   if( m_rowCount == GetNumberRows() )
     return;
