@@ -121,7 +121,9 @@ WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
+	$(__BUILDDIR__)/wxHarbour_wxherrorsys.o \
 	$(__BUILDDIR__)/wxHarbour_wxGET.o \
+	$(__BUILDDIR__)/wxHarbour_wxhfunctions.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcolumn.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbrowse.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbrowsedbprovider.o \
@@ -154,6 +156,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhtextctrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtreectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhfiledialog.o \
+	$(__BUILDDIR__)/wxHarbour_wxhmessagedialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhdialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhframe.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmenu.o \
@@ -198,6 +201,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_textctrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_treectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_filedialog.o \
+	$(__BUILDDIR__)/wxHarbour_wx_messagedialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o \
@@ -221,9 +225,11 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_xmldocument.o
 WXHARBOUR_HEADERS =  \
 	include/defs.ch \
+	include/dialog.ch \
 	include/event.ch \
 	include/property.ch \
 	include/raddox.ch \
+	include/toplevel.ch \
 	include/wx.ch \
 	include/wx_hbcompat.ch \
 	include/wxharbour.ch \
@@ -324,7 +330,13 @@ $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 $(__BUILDDIR__)/wxHarbour_wxhutils.o: ./src/common/wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxherrorsys.o: ./src/hrbcompat/errorsys/wxherrorsys.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxGET.o: ./src/hrbcompat/misc/wxGET.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhfunctions.o: ./src/hrbcompat/misc/wxhfunctions.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
@@ -421,6 +433,9 @@ $(__BUILDDIR__)/wxHarbour_wxhtreectrl.o: ./src/wxbase/controls/wxhtreectrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhfiledialog.o: ./src/wxbase/comdialogs/wxhfiledialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhmessagedialog.o: ./src/wxbase/comdialogs/wxhmessagedialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhdialog.o: ./src/wxbase/manwindows/wxhdialog.prg
@@ -553,6 +568,9 @@ $(__BUILDDIR__)/wxHarbour_wx_treectrl.o: ./src/wxbase/controls/wx_treectrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_filedialog.o: ./src/wxbase/comdialogs/wx_filedialog.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_messagedialog.o: ./src/wxbase/comdialogs/wx_messagedialog.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_dialog.o: ./src/wxbase/manwindows/wx_dialog.cpp

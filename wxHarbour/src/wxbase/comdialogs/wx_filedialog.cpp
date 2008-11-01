@@ -296,4 +296,3 @@ HB_FUNC( WXFILEDIALOG_SHOWMODAL )
   else
     hb_ret();
 }
-

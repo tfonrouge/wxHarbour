@@ -130,6 +130,18 @@ METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
       wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
     NEXT
 
+  CASE ValType( ::FDataSource ) = "A"
+
+    wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
+
+    IF ValType( ::FDataSource[ 1 ] ) = "A"
+      FOR EACH fld IN ::FDataSource[ 1 ]
+        wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), {|| ::FDataSource[ ::RecNo, ::ColPos ] } )
+      NEXT
+    ELSE
+      wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
+    ENDIF
+
   ENDCASE
 
 RETURN
@@ -287,14 +299,22 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
     IF keyEvent:GetModifiers() = wxMOD_CONTROL
       ::GoTop()
     ELSE
-      ::PageUp()
+      IF ::RowPos = 1
+        ::PageUp()
+      ELSE
+        ::RowPos := 1
+      ENDIF
     ENDIF
     EXIT
   CASE WXK_PAGEDOWN
     IF keyEvent:GetModifiers() = wxMOD_CONTROL
       ::GoBottom()
     ELSE
-      ::PageDown()
+      IF ::RowPos = ::RowCount
+        ::PageDown()
+      ELSE
+        ::RowPos := ::RowCount
+      ENDIF
     ENDIF
     EXIT
   OTHERWISE

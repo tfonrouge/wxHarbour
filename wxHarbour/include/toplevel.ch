@@ -10,54 +10,30 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "wx/wx.h"
-#include "wxh.h"
-
 /*
-  wxExit
+  toplevel.ch
   Teo. Mexico 2008
 */
-HB_FUNC( WXEXIT )
-{
-  wxExit();
-}
 
-/*
-  wxGetUserId
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXGETUSERID )
-{
-  hb_retc( wxGetUserId().mb_str() );
-}
+#ifndef _WX_TOPLEVEL_H_
+#define _WX_TOPLEVEL_H_
 
-/*
-  wxGetUserName
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXGETUSERNAME )
-{
-  hb_retc( wxGetUserName().mb_str() );
-}
+// ----------------------------------------------------------------------------
+// constants
+// ----------------------------------------------------------------------------
 
-/*
-  wxGetOsDescription
-  Teo. Mexico 2007
-*/
-HB_FUNC( WXGETOSDESCRIPTION )
-{
+// style common to both wxFrame and wxDialog
+#define wxSTAY_ON_TOP           0x8000
+#define wxICONIZE               0x4000
+#define wxMINIMIZE              wxICONIZE
+#define wxMAXIMIZE              0x2000
+#define wxCLOSE_BOX             0x1000
 
-  hb_retc( wxGetOsDescription().mb_str() );
+#define wxSYSTEM_MENU           0x0800
+#define wxMINIMIZE_BOX          0x0400
+#define wxMAXIMIZE_BOX          0x0200
+#define wxTINY_CAPTION_HORIZ    0x0100
+#define wxTINY_CAPTION_VERT     0x0080
+#define wxRESIZE_BORDER         0x0040
 
-};
-
-/*
-  wxNow
-  Teo. Mexico 2007
-*/
-HB_FUNC( WXNOW )
-{
-  hb_retc( wxNow().mb_str() );
-}
-
-
+#endif

@@ -20,7 +20,22 @@
 
 #include "wxbase/wx_app.h"
 
+HB_FUNC_EXTERN( __QUIT );
+HB_FUNC_EXTERN( WXHERRORSYS );
+
 static PHB_ITEM hb_wxApp;
+
+/*
+  OnExit
+  Teo. Mexico 2008
+*/
+int wx_App::OnExit()
+{
+  cout << endl << "OnExit";
+  cout << endl;
+  HB_FUNC_EXEC( __QUIT );
+  return 0;
+}
 
 /*
   OnInit
@@ -28,6 +43,8 @@ static PHB_ITEM hb_wxApp;
 */
 bool wx_App::OnInit()
 {
+  /* set our error handler */
+  HB_FUNC_EXEC( WXHERRORSYS );
   return hb_retl( hb_objSendMsg( hb_wxApp, "OnInit", 0 )->item.asLogical.value );
 }
 
@@ -51,6 +68,19 @@ HB_FUNC( IMPLEMENT_APP )
   char **p_args = NULL;
 
   wxEntry( i_args, p_args );
+}
+
+/*
+  wxApp::GetTopWindow
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXAPP_GETTOPWINDOW )
+{
+  wxWindow *window = wxGetApp().GetTopWindow();
+  if( window )
+    hb_itemReturn( wxh_ItemListGetHB( window ) );
+  else
+    hb_ret();
 }
 
 /*

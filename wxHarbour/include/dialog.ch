@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,57 +7,27 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "wx/wx.h"
-#include "wxh.h"
-
 /*
-  wxExit
+  dialog.ch
   Teo. Mexico 2008
 */
-HB_FUNC( WXEXIT )
-{
-  wxExit();
-}
 
-/*
-  wxGetUserId
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXGETUSERID )
-{
-  hb_retc( wxGetUserId().mb_str() );
-}
+#ifndef _WX_DIALOG_H_
+#define _WX_DIALOG_H_
 
-/*
-  wxGetUserName
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXGETUSERNAME )
-{
-  hb_retc( wxGetUserName().mb_str() );
-}
+#include "defs.ch"
+//#include "containr.ch"
+#include "toplevel.ch"
 
-/*
-  wxGetOsDescription
-  Teo. Mexico 2007
-*/
-HB_FUNC( WXGETOSDESCRIPTION )
-{
+#define wxDIALOG_NO_PARENT      0x0001  // Don't make owned by apps top window
 
-  hb_retc( wxGetOsDescription().mb_str() );
+#ifdef __WXWINCE__
+#define wxDEFAULT_DIALOG_STYLE  HB_BITOR(wxCAPTION, wxMAXIMIZE, wxCLOSE_BOX, wxNO_BORDER )
+#else
+#define wxDEFAULT_DIALOG_STYLE  HB_BITOR(wxCAPTION, wxSYSTEM_MENU, wxCLOSE_BOX )
+#endif
 
-};
-
-/*
-  wxNow
-  Teo. Mexico 2007
-*/
-HB_FUNC( WXNOW )
-{
-  hb_retc( wxNow().mb_str() );
-}
-
-
+#endif

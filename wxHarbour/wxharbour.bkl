@@ -11,6 +11,7 @@
     </headers>
     <sources-at>
       src/common
+      src/hrbcompat/errorsys
       src/hrbcompat/misc
       src/hrbcompat/tbcolumn
       src/hrbcompat/tbrowse
