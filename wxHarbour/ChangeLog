@@ -2,6 +2,20 @@
  *
  */
 
+2008-11-01 12:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * samples/arrbrowser/GNUmakefile
+    * generated with bakefile 0.2.5-1
+
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    * killed the GUI before we go on QUIT
+
+  + src/wxbase/miscfuncs/procctrlfuncs.cpp
+    + added wxKill(), wxGetProcessId()
+
+  * wxharbour.spec
+    * added some missing include files
+
 2008-11-01 11:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + samples/arrbrowser
   + samples/arrbrowser/arrbrowser.bkl
