@@ -2,6 +2,18 @@
  *
  */
 
+2008-11-01 11:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/arrbrowser
+  + samples/arrbrowser/arrbrowser.bkl
+  + samples/arrbrowser/arrbrowser.prg
+  + samples/arrbrowser/GNUmakefile
+  + samples/arrbrowser/makefile.gcc
+  + samples/arrbrowser/makefile.vc
+    + added sample for browsing a array
+
+  * samples/dbbrowser/dbbrowser.prg
+    * added missing include
+
 2008-10-31 19:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   + include/dialog.ch
