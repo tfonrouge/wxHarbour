@@ -112,6 +112,7 @@ STATIC FUNCTION wxhDefError( oError )
   wxExit() /* TODO: Fix gpf at exit */
 
   ErrorLevel( 1 )
+  wxKill( wxGetProcessId() )
   QUIT
 
 
