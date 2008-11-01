@@ -125,7 +125,9 @@ WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include -W -Wall -O2
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.o \
+	$(__BUILDDIR__)\wxHarbour_wxherrorsys.o \
 	$(__BUILDDIR__)\wxHarbour_wxGET.o \
+	$(__BUILDDIR__)\wxHarbour_wxhfunctions.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcolumn.o \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowse.o \
 	$(__BUILDDIR__)\wxHarbour_wxhbrowsedbprovider.o \
@@ -158,6 +160,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhtextctrl.o \
 	$(__BUILDDIR__)\wxHarbour_wxhtreectrl.o \
 	$(__BUILDDIR__)\wxHarbour_wxhfiledialog.o \
+	$(__BUILDDIR__)\wxHarbour_wxhmessagedialog.o \
 	$(__BUILDDIR__)\wxHarbour_wxhdialog.o \
 	$(__BUILDDIR__)\wxHarbour_wxhframe.o \
 	$(__BUILDDIR__)\wxHarbour_wxhmenu.o \
@@ -202,6 +205,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_textctrl.o \
 	$(__BUILDDIR__)\wxHarbour_wx_treectrl.o \
 	$(__BUILDDIR__)\wxHarbour_wx_filedialog.o \
+	$(__BUILDDIR__)\wxHarbour_wx_messagedialog.o \
 	$(__BUILDDIR__)\wxHarbour_wx_dialog.o \
 	$(__BUILDDIR__)\wxHarbour_wx_frame.o \
 	$(__BUILDDIR__)\wxHarbour_wx_mdichildframe.o \
@@ -314,9 +318,11 @@ install_wxHarbour_headers:
 	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
 	if not exist $(PREFIX)\include/wxh mkdir $(PREFIX)\include/wxh
 	copy include\defs.ch $(PREFIX)\include
+	copy include\dialog.ch $(PREFIX)\include
 	copy include\event.ch $(PREFIX)\include
 	copy include\property.ch $(PREFIX)\include
 	copy include\raddox.ch $(PREFIX)\include
+	copy include\toplevel.ch $(PREFIX)\include
 	copy include\wx.ch $(PREFIX)\include
 	copy include\wx_hbcompat.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
@@ -326,9 +332,11 @@ install_wxHarbour_headers:
 
 uninstall_wxHarbour_headers: 
 	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\dialog.ch -del $(PREFIX)\include\dialog.ch
 	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
 	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
 	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
+	-if exist $(PREFIX)\include\toplevel.ch -del $(PREFIX)\include\toplevel.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
 	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
@@ -345,7 +353,13 @@ $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 $(__BUILDDIR__)\wxHarbour_wxhutils.o: ./src/common/wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxherrorsys.o: ./src/hrbcompat/errorsys/wxherrorsys.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxGET.o: ./src/hrbcompat/misc/wxGET.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhfunctions.o: ./src/hrbcompat/misc/wxhfunctions.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhcolumn.o: ./src/hrbcompat/tbcolumn/wxhcolumn.prg
@@ -442,6 +456,9 @@ $(__BUILDDIR__)\wxHarbour_wxhtreectrl.o: ./src/wxbase/controls/wxhtreectrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhfiledialog.o: ./src/wxbase/comdialogs/wxhfiledialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhmessagedialog.o: ./src/wxbase/comdialogs/wxhmessagedialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhdialog.o: ./src/wxbase/manwindows/wxhdialog.prg
@@ -574,6 +591,9 @@ $(__BUILDDIR__)\wxHarbour_wx_treectrl.o: ./src/wxbase/controls/wx_treectrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_filedialog.o: ./src/wxbase/comdialogs/wx_filedialog.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_messagedialog.o: ./src/wxbase/comdialogs/wx_messagedialog.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_dialog.o: ./src/wxbase/manwindows/wx_dialog.cpp

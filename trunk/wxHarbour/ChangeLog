@@ -2,6 +2,47 @@
  *
  */
 
+2008-10-31 19:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + include/dialog.ch
+  + include/toplevel.ch
+  + include/wxbase/wx_messagedialog.h
+  + src/hrbcompat/errorsys
+  + src/hrbcompat/errorsys/wxherrorsys.prg
+  + src/hrbcompat/misc/wxhfunctions.prg
+  + src/wxbase/comdialogs/wxhmessagedialog.prg
+  + src/wxbase/comdialogs/wx_messagedialog.cpp
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+    + added wxhErrorSys prg, to handle/show errors
+    + added wxhfunctions prg (we need to do a general name cleaning)
+    + added wxMessageDialog class
+    + added dialog.ch, toplevel.ch includes.
+
+
+  * include/wxbase/wx_app.h
+    + added wx_App:OnExit() c++ method
+
+  * include/wxharbour.ch
+    + added some define labels to use in wxherrorsys.prg
+
+  * src/hrbcompat/misc/wx_functions.cpp
+    + added wxExit() function
+
+  * src/hrbcompat/misc/wxGET.prg
+    * minor cleanup
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * added array handle to AddAllColumns()
+    * minor change on handling of WXK_PAGEUP/WXK_PAGEDOWN
+
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/app/wxhapp.prg
+    + added wx_App::OnExit(), trying to execute hb QUIT command in here.
+    * added on wx_App::OnInit our errorsys handle.
+    + added wx_App::GetTopWindow()
+
 2008-10-30 14:01 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wx_browse.cpp
   * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg

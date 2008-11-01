@@ -12,12 +12,12 @@
 
 #include "hbclass.ch"
 #include "property.ch"
-#include "wx.ch"
 
 #include "wxharbour.ch"
 
 /*
   wxhGET
+  Teo. Mexico 2008
 */
 CLASS wxhGET
 PRIVATE:

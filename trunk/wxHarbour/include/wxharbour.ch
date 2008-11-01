@@ -23,6 +23,10 @@
 #include "raddox.ch"
 #include "wx.ch"
 
+#define wxhLABEL_QUIT           "Quit"
+#define wxhLABEL_RETRY          "Retry"
+#define wxhLABEL_DEFAULT        "Default"
+
 /*
   MessageBox
 */

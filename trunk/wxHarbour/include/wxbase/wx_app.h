@@ -21,6 +21,7 @@ private:
   DECLARE_CLASS( wx_App )
 public:
   virtual bool OnInit();
+  virtual int OnExit();
 };
 
 DECLARE_APP( wx_App )

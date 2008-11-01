@@ -23,6 +23,8 @@ PROTECTED:
 PUBLIC:
 
   METHOD ExitMainLoop
+  METHOD GetTopWindow
+
   METHOD OnInit VIRTUAL
 
 PUBLISHED:
