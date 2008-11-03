@@ -2,6 +2,17 @@
  *
  */
 
+2008-11-03 10:28 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/misc/wx_functions.cpp
+    * moved wxExit() to procctrlfuncs.prg
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    ! Fixed AddAllColumns() for array dataSources
+
+  * src/wxbase/miscfuncs/procctrlfuncs.cpp
+    * moved here wxExit()
+    + added wxShell()
+
 2008-11-01 12:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * samples/arrbrowser/GNUmakefile

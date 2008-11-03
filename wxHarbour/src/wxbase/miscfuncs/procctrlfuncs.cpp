@@ -15,7 +15,17 @@
   Teo. Mexico 2008
 */
 
+#include "wx/wx.h"
 #include "wxh.h"
+
+/*
+  wxExit
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXEXIT )
+{
+  wxExit();
+}
 
 /*
   wxGetProcessId
@@ -41,4 +51,14 @@ HB_FUNC( WXKILL )
   {
     hb_storni( (int &) rc, 3 );
   }
+}
+
+/*
+  wxShell
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXSHELL )
+{
+  const wxString &command = wxString( hb_parcx( 1 ), wxConvLocal );
+  hb_retl( wxShell( command ) );
 }

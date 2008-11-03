@@ -118,6 +118,9 @@ RETURN Self
   AddAllColumns
   Teo. Mexico 2008
 */
+  STATIC FUNCTION buildBlock( Self, col )
+  RETURN {|| ::DataSource[ ::RecNo, col ] }
+
 METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
   LOCAL fld
 
@@ -133,10 +136,10 @@ METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
   CASE ValType( ::FDataSource ) = "A"
 
     wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
-
+    
     IF ValType( ::FDataSource[ 1 ] ) = "A"
       FOR EACH fld IN ::FDataSource[ 1 ]
-        wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), {|| ::FDataSource[ ::RecNo, ::ColPos ] } )
+        wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
       NEXT
     ELSE
       wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
@@ -336,7 +339,7 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 
   ::SelectRowIndex( gridEvent:GetRow() )
 
-  IF ::SelectCellBlock != NIL
+  IF ::SelectCellBlock != NIL .AND. ::RowCount > 0
     ::SelectCellBlock:Eval( Self, gridEvent )
   ENDIF
 
