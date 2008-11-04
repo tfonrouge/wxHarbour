@@ -1598,8 +1598,10 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
     ENDDO
   ELSE
     WHILE num_skipped > n
+      recNo := ::RecNo
       ::DbSkip( -1 )
       IF ::Bof()
+        ::RecNo := recNo
         EXIT
       ENDIF
       num_skipped--

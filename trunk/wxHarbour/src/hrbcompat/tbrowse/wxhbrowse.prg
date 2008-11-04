@@ -136,13 +136,15 @@ METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
   CASE ValType( ::FDataSource ) = "A"
 
     wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
-    
-    IF ValType( ::FDataSource[ 1 ] ) = "A"
-      FOR EACH fld IN ::FDataSource[ 1 ]
-        wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
-      NEXT
-    ELSE
-      wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
+
+    IF !Empty( ::FDataSource )
+      IF ValType( ::FDataSource[ 1 ] ) = "A"
+        FOR EACH fld IN ::FDataSource[ 1 ]
+          wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
+        NEXT
+      ELSE
+        wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
+      ENDIF
     ENDIF
 
   ENDCASE
