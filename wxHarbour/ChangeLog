@@ -2,6 +2,38 @@
  *
  */
 
+2008-11-04 14:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.gcc
+  * makefile.vc
+  * samples/arrbrowser/GNUmakefile
+  * samples/arrbrowser/makefile.gcc
+  * samples/arrbrowser/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/helloworld1/GNUmakefile
+  * samples/helloworld1/makefile.gcc
+  * samples/helloworld1/makefile.vc
+  * samples/helloworld/GNUmakefile
+  * samples/helloworld/makefile.gcc
+  * samples/helloworld/makefile.vc
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+    * generated makefiles with bakefile 0.2.5
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * removed GetColPos, GetRowPos, now this are HB vars calculated
+      on wxhBrowse:OnSelectCell
+    * removed wxhBrowse:SelectRowIndex
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    * added code from the previous wxhBrowse:SelectRowIndex
+
 2008-11-04 13:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wxhbrowse.prg
     ! checking for a empty array on AddAllColumns()

@@ -243,22 +243,6 @@ HB_FUNC( WXHBROWSE_WXNEW )
 }
 
 /*
-  GetColPos
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_GETCOLPOS )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && browse )
-  {
-    hb_retni( browse->m_gridBrowse->GetGridCursorCol() + 1 );
-  }
-  else
-    hb_ret();
-}
-
-/*
   GetRowCount
   Teo. Mexico 2008
 */
@@ -272,22 +256,6 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
     rowCount = browse->m_gridBrowse->m_rowCount;
   }
   hb_retnl( rowCount );
-}
-
-/*
-  GetRowPos
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_GETROWPOS )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && browse )
-  {
-    hb_retni( browse->m_gridBrowse->GetGridCursorRow() + 1 );
-  }
-  else
-    hb_ret();
 }
 
 /*
