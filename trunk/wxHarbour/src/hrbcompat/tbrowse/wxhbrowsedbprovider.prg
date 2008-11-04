@@ -286,6 +286,18 @@ RETURN
 */
 METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
 
+  IF rowIndex >= ::FBrowse:RowCount
+    RETURN
+  ENDIF
+
+  IF Empty( ::GridBuffer )
+    IF ::FBrowse:BottomFirst
+      ::FBrowse:GoBottom()
+    ELSE
+      ::FBrowse:GoTop()
+    ENDIF
+  ENDIF
+
   IF rowIndex == ::FCurRowIndex
     RETURN
   ENDIF

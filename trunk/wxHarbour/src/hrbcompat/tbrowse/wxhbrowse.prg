@@ -25,15 +25,14 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
+  DATA FColPos          INIT 0
   DATA FDataSource
   DATA FDataSourceType
   DATA FRecNo           INIT 0
+  DATA FRowPos          INIT 0
   METHOD GetColCount INLINE Len( ::gridTableBase:ColumnList )
-  METHOD GetColPos
   METHOD GetRecNo
   METHOD GetRowCount
-  METHOD GetRowPos
-  METHOD SelectRowIndex( rowIndex )
   METHOD SetColPos( colPos )
   METHOD SetDataSource( dataSource )
   METHOD SetRowCount( rowCount )
@@ -56,8 +55,8 @@ PUBLIC:
 
   PROPERTY ColCount READ GetColCount
   PROPERTY RowCount READ GetRowCount WRITE SetRowCount
-  PROPERTY ColPos READ GetColPos WRITE SetColPos
-  PROPERTY RowPos READ GetRowPos WRITE SetRowPos
+  PROPERTY ColPos READ FColPos WRITE SetColPos
+  PROPERTY RowPos READ FRowPos WRITE SetRowPos
 
   /* TBrowse compatible methods */
   METHOD AddColumn( column )
@@ -339,7 +338,10 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
     RETURN
   ENDIF
 
-  ::SelectRowIndex( gridEvent:GetRow() )
+  ::gridTableBase:CurRowIndex := gridEvent:GetRow()
+
+  ::FColPos := gridEvent:GetCol() + 1
+  ::FRowPos := gridEvent:GetRow() + 1
 
   IF ::SelectCellBlock != NIL .AND. ::RowCount > 0
     ::SelectCellBlock:Eval( Self, gridEvent )
@@ -382,28 +384,6 @@ RETURN Self
 METHOD FUNCTION Right CLASS wxhBrowse
   ::grid:MoveCursorRight()
 RETURN Self
-
-/*
-  SelectRowIndex
-  Teo. Mexico 2008
-*/
-METHOD PROCEDURE SelectRowIndex( rowIndex ) CLASS wxhBrowse
-
-  IF rowIndex >= ::RowCount
-    RETURN
-  ENDIF
-
-  IF Empty( ::gridTableBase:GridBuffer )
-    IF ::BottomFirst
-      ::GoBottom()
-    ELSE
-      ::GoTop()
-    ENDIF
-  ENDIF
-
-  ::gridTableBase:CurRowIndex := rowIndex
-
-RETURN
 
 /*
   SetDataSource
