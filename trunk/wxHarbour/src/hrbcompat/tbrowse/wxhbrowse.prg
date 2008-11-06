@@ -31,6 +31,7 @@ PRIVATE:
   DATA FRecNo           INIT 0
   DATA FRowPos          INIT 0
   METHOD GetColCount INLINE Len( ::gridTableBase:ColumnList )
+  METHOD GetMaxRows
   METHOD GetRecNo
   METHOD GetRowCount
   METHOD SetColPos( colPos )
@@ -54,8 +55,9 @@ PUBLIC:
   DATA SkipBlock
 
   PROPERTY ColCount READ GetColCount
-  PROPERTY RowCount READ GetRowCount WRITE SetRowCount
   PROPERTY ColPos READ FColPos WRITE SetColPos
+  PROPERTY MaxRows READ GetMaxRows
+  PROPERTY RowCount READ GetRowCount WRITE SetRowCount
   PROPERTY RowPos READ FRowPos WRITE SetRowPos
 
   /* TBrowse compatible methods */

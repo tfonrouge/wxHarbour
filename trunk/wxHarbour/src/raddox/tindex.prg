@@ -43,6 +43,9 @@ PRIVATE:
   METHOD SetField( nIndex, XField )
   METHOD SetForKey( ForKey ) INLINE ::FForKey := ForKey
   METHOD SetName( Name ) INLINE ::FName := Name
+  METHOD SetScope( value )
+  METHOD SetScopeBottom( value )
+  METHOD SetScopeTop( value )
 PROTECTED:
 PUBLIC:
   METHOD New( Table ) CONSTRUCTOR
@@ -57,9 +60,10 @@ PUBLIC:
   METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
   METHOD RawSeek( Value )
   METHOD Seek( keyValue )
-  METHOD SetScope( value )
 
   PROPERTY Scope READ GetScope WRITE SetScope
+  PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
+  PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
 
 PUBLISHED:
   PROPERTY AutoIncrement READ GetAutoIncrement
@@ -418,6 +422,28 @@ METHOD FUNCTION SetScope( value ) CLASS TIndex
 
   ::FScopeTop := value
   ::FScopeBottom := value
+
+RETURN oldValue
+
+/*
+  SetScopeBottom
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SetScopeBottom( value ) CLASS TIndex
+  LOCAL oldValue := ::FScopeBottom
+
+  ::FScopeBottom := value
+
+RETURN oldValue
+
+/*
+  SetScopeTop
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SetScopeTop( value ) CLASS TIndex
+  LOCAL oldValue := ::FScopeTop
+
+  ::FScopeTop := value
 
 RETURN oldValue
 
