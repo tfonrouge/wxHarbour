@@ -2,6 +2,50 @@
  *
  */
 
+2008-11-06 00:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    * added TO clause on ADD BCOLUMN
+
+  * src/common/wx_harbour.cpp
+    * removeed unneeded code
+    + added hb function WXH_ObjGetDataValue()
+      ; TODO: check this
+
+  * src/common/wxhfuncs.prg
+    + added wxhInspectVar()
+      ; TODO: check this, fails when inspecting a TField obj
+
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    * moved here the wxhShowError() function, added oError 3rd parameter
+    % improved wxhShowError() to show oError data
+
+  * src/hrbcompat/misc/wxhfunctions.prg
+    * removed from here wxhShowError()
+      ; TODO: remove this now empty file
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    ! added missing evaluation for KeyEventBlock data in OnKeyDown
+
+  * src/raddox/tfield.prg
+    % improved error messages
+    * renamed data FieldName to FieldExpression
+    * using contains of FieldExpression on Calculated fields
+    * added checking for a empty FieldExpression and FieldName values on TField
+      creation
+
+
+  * src/raddox/tindex.prg
+    % added scope handling, currently the scope is checked on:
+      * DbGoTop/DbGoBottom
+      * DbSkip
+    + added InsideScope method
+    + added capability to use null fields (returns a empty string), this is
+      primary used for empty MASTERKEYFIELD's (on index declarations)
+  
+  * src/raddox/ttable.prg
+    * code cleanup
+    * Using InsideScope in the TIndex obj for the TTable:InsideScope method
+
 2008-11-04 14:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.gcc
   * makefile.vc

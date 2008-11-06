@@ -26,11 +26,16 @@ PRIVATE:
   DATA FKeyField
   DATA FName INIT ""
   DATA FMasterKeyField
+  DATA FScopeBottom
+  DATA FScopeTop
   DATA FTable
   DATA FUniqueKeyField
   METHOD DbGoBottomTop( n )
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyField != NIL
   METHOD GetField
+  METHOD GetScope INLINE iif( ::FScopeBottom == NIL .AND. ::FScopeTop == NIL, NIL, { ::FScopeTop, ::FScopeBottom } )
+  METHOD GetScopeBottom INLINE iif( !Empty( ::FScopeBottom ), ::FScopeBottom, "" )
+  METHOD GetScopeTop INLINE iif( !Empty( ::FScopeTop ), ::FScopeTop, "" )
   METHOD GetUnique INLINE ::FUniqueKeyField != NIL
   METHOD SetCaseSensitive( CaseSensitive ) INLINE ::FCaseSensitive := CaseSensitive
   METHOD SetCustom( Custom )
@@ -48,9 +53,14 @@ PUBLIC:
   METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
   METHOD DbSkip( numRecs )
   METHOD ExistKey( keyValue )
+  METHOD InsideScope
   METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
   METHOD RawSeek( Value )
   METHOD Seek( keyValue )
+  METHOD SetScope( value )
+
+  PROPERTY Scope READ GetScope WRITE SetScope
+
 PUBLISHED:
   PROPERTY AutoIncrement READ GetAutoIncrement
   PROPERTY AutoIncrementKeyField INDEX 1 READ GetField WRITE SetField
@@ -181,23 +191,12 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
-  LOCAL masterKeyString
+  LOCAL masterKeyString := ::MasterKeyString
 
-  IF Empty( masterKeyString := ::MasterKeyString )
-
-    /*
-     * Force a EOF
-     */
-    ::FTable:Alias:DbGoTo( 0 )
-
+  IF n = 0
+    ::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName )
   ELSE
-
-    IF n = 0
-      ::FTable:Alias:Seek( masterKeyString, ::FName )
-    ELSE
-      ::FTable:Alias:SeekLast( masterKeyString, ::FName )
-    ENDIF
-
+    ::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName )
   ENDIF
 
   ::FTable:GetCurrentRecord()
@@ -211,6 +210,10 @@ RETURN ::FTable:Found()
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
   ::FTable:Alias:DbSkip( numRecs, ::FName )
+
+  IF !::InsideScope()
+    ::FTable:DbGoTo( 0 )
+  ENDIF
 
   ::FTable:GetCurrentRecord()
 
@@ -250,6 +253,30 @@ METHOD FUNCTION GetField( nIndex ) CLASS TIndex
   END
 
 RETURN AField
+
+/*
+  InsideScope
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION InsideScope CLASS TIndex
+  LOCAL masterKeyString
+  LOCAL scopeVal
+  LOCAL keyValue
+
+  IF ::FTable:Alias:Eof()
+    RETURN .F.
+  ENDIF
+
+  masterKeyString := ::MasterKeyString
+  keyValue := ::FTable:Alias:KeyVal( ::FName )
+  scopeVal := ::GetScope()
+  
+  IF scopeVal = NIL
+    RETURN Empty( masterKeyString ) .OR. keyValue = masterKeyString
+  ENDIF
+
+RETURN keyValue >= ( masterKeyString + ::GetScopeTop() ) .AND. ;
+       keyValue <= ( masterKeyString + ::GetScopeBottom() )
 
 /*
   RawSeek
@@ -306,7 +333,12 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 
   SWITCH ValType( XField )
   CASE 'C'
-    AField := ::FTable:FieldByName( XField )
+    IF Empty( XField ) /* A null field (always returns "") */
+      AField := TStringField():New( ::FTable )
+      AField:FieldMethod := {|| "" }
+    ELSE
+      AField := ::FTable:FieldByName( XField )
+    ENDIF
     IF AField = NIL
       RAISE ERROR "Declared Index Field '" + XField + "' doesn't exist..."
       RETURN
@@ -376,6 +408,18 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
   END
 
 RETURN
+
+/*
+  SetScope
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SetScope( value ) CLASS TIndex
+  LOCAL oldValue := { ::FScopeTop, ::FScopeBottom }
+
+  ::FScopeTop := value
+  ::FScopeBottom := value
+
+RETURN oldValue
 
 /*
   End Class TIndex

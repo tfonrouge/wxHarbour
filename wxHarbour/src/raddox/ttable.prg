@@ -538,8 +538,6 @@ RETURN .F.
 METHOD DbGoTo( RecNo ) CLASS TTable
   LOCAL Result
 
-  /* TODO: Check if RecNo has a valid Primary Key Value */
-
   Result := ::Alias:DbGoTo( RecNo )
 
   ::GetCurrentRecord()
@@ -1193,25 +1191,21 @@ METHOD PROCEDURE InsertRecord( origin ) CLASS TTable
 
 RETURN
 
-/* TODO: Eliminate this Function */
 /*
   InsideScope
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
 METHOD FUNCTION InsideScope CLASS TTable
-  LOCAL keyString
 
   IF ::Eof()
     RETURN .F.
   ENDIF
 
-  IF ::PrimaryMasterKeyField=NIL
+  IF ::FPrimaryIndex = NIL
     RETURN .T.
   ENDIF
 
-  keyString := ::PrimaryMasterKeyString
-
-RETURN Empty( keyString ) .OR. ::Alias:KeyVal(::PrimaryIndex:Name) = keyString
+RETURN ::PrimaryIndex:InsideScope()
 
 /*
   MasterSourceClassName

@@ -12,13 +12,17 @@
 #include "raddox.ch"
 #include "xerror.ch"
 
+/*
+  TODO: Check for a correct validation for FieldExpression, it can contain any valid
+        Harbour statement/formula, and loose checking is done on SetFieldMethod
+*/
+
 #xcommand RAISE TFIELD <name> ERROR <cDescription> => ;
-          RAISE ERROR ";Table: <" + ::FTable:TableName + ">, FieldName: <" + <name> + ">" + ;
-                      ";" + ;
-                      ";" + ;
-                      <cDescription> + ";;" ;
+          RAISE ERROR E"\nTable: <" + ::FTable:TableName + ">, FieldExpression: <" + <name> + ">" + ;
+                      E"\n" + ;
+                      <cDescription> + E"\n" ;
                 SUBSYSTEM ::ClassName + "<" + ::Name + ">"  ;
-                OPERATION ";" + ProcName(0)+"(" + LTrim(Str(ProcLine(0))) + ")"
+                OPERATION E"\n" + ProcName(0)+"(" + LTrim(Str(ProcLine(0))) + ")"
 
 /*
   TField
@@ -30,18 +34,18 @@ PRIVATE:
   DATA FActive  INIT .F.
   DATA FAutoIncrementKeyIndex
   DATA FDescription INIT ""
-  DATA FFieldCodeBlock                // Code Block
-  DATA FFieldWriteBlock               // Code Block to do WRITE
-  DATA FFieldName                     // Database Field Name
-  DATA FGetItPick                     // codeblock to help to pick a value
-  DATA FGroup                         // A Text label for grouping
+  DATA FFieldCodeBlock                  // Code Block
+  DATA FFieldWriteBlock                 // Code Block to do WRITE
+  DATA FFieldExpression                 // Literal Field expression on the Database
+  DATA FGetItPick                       // codeblock to help to pick a value
+  DATA FGroup                           // A Text label for grouping
   DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField only 'C' TFields
-  DATA FIsTheMasterSource INIT .F.    // Field is TObjectField type and is the MasterSource Table
+  DATA FIsTheMasterSource INIT .F.      // Field is TObjectField type and is the MasterSource Table
   DATA FKeyIndex
   DATA FLabel
-  DATA FModStamp  INIT .F.            // Field is automatically mantained (dbf layer)
-  DATA FPrimaryKeyComponent INIT .F.  // Field is included in a Array of fields for a Primary Index Key
-  DATA FPublished INIT .T.            // Logical: Appears in user field selection
+  DATA FModStamp  INIT .F.              // Field is automatically mantained (dbf layer)
+  DATA FPrimaryKeyComponent INIT .F.    // Field is included in a Array of fields for a Primary Index Key
+  DATA FPublished INIT .T.              // Logical: Appears in user field selection
   DATA FReadOnly  INIT .F.
   DATA FRequired INIT .F.
   DATA FUniqueKeyIndex
@@ -146,7 +150,7 @@ PUBLISHED:
   PROPERTY Description READ FDescription WRITE SetDescription
   PROPERTY FieldArray READ FFieldArray WRITE SetFieldMethod
   PROPERTY FieldCodeBlock READ FFieldCodeBlock WRITE SetFieldMethod
-  PROPERTY FieldName READ FFieldName WRITE SetFieldMethod
+  PROPERTY FieldExpression READ FFieldExpression WRITE SetFieldMethod
   PROPERTY FieldMethod READ GetFieldMethod WRITE SetFieldMethod
   PROPERTY FieldMethodType READ FFieldMethodType
   PROPERTY FieldReadBlock READ FFieldReadBlock
@@ -283,7 +287,11 @@ METHOD FUNCTION GetAsVariant CLASS TField
             IF __ObjHasMsg( Self:FTable:MasterSource, "Field_" + ::FName )
               ::FFieldReadBlock := &("{|o|" + "o:MasterSource:Field_" + ::FName + ":GetAsVariant() }")
             ELSE
-              RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+              IF Empty( ::FFieldExpression )
+                RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+              ELSE
+                ::FFieldReadBlock := &("{||" + ::FFieldExpression + " }")
+              ENDIF
             ENDIF
           ENDIF
         ENDIF
@@ -412,7 +420,7 @@ METHOD FUNCTION GetFieldMethod CLASS TField
   CASE 'B'
     RETURN ::FFieldCodeBlock
   CASE 'C'
-    RETURN ::FFieldName
+    RETURN ::FFieldExpression
   END
 RETURN NIL
 
@@ -867,17 +875,17 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
         ::TStringField:FSize += Len( AField )
       ENDIF
     NEXT
-    ::FFieldCodeBlock := NIL
+    ::FFieldCodeBlock  := NIL
     ::FFieldReadBlock  := NIL
     ::FFieldWriteBlock := NIL
-    ::FFieldName  := NIL
+    ::FFieldExpression := NIL
     EXIT
   CASE "B"
     ::FFieldArray := NIL
-    ::FFieldCodeBlock := FieldMethod
+    ::FFieldCodeBlock  := FieldMethod
     ::FFieldReadBlock  := NIL
     ::FFieldWriteBlock := NIL
-    ::FFieldName  := NIL
+    ::FFieldExpression := NIL
     EXIT
   CASE "C"
 
@@ -886,12 +894,12 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
     FieldMethod := LTrim( RTrim( FieldMethod ) )
 
-    /* Check if the same FieldName is declared redeclared in the same table baseclass */
+    /* Check if the same FieldExpression is declared redeclared in the same table baseclass */
     FOR EACH AField IN ::FTable:FieldList
-      IF !Empty( AField:FieldName ) .AND. ;
-         Upper( AField:FieldName ) == Upper( FieldMethod ) .AND. ;
+      IF !Empty( AField:FieldExpression ) .AND. ;
+         Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
          AField:FTableBaseClass == ::FTableBaseClass
-        RAISE TFIELD ::Name ERROR "Atempt to Re-Declare FieldName <" + ::ClassName + ":" + FieldMethod + ">"
+        RAISE TFIELD ::Name ERROR "Atempt to Re-Declare FieldExpression <" + ::ClassName + ":" + FieldMethod + ">"
       ENDIF
     NEXT
 
@@ -916,8 +924,12 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
     fieldName := iif( Empty( ::FName ), FieldMethod, ::FName )
 
-    // Check if FieldName is re-declared in parent class
-    IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldName) .AND. Upper( AField:FieldName ) == Upper( fieldName ) }) > 0
+    IF Empty( fieldName )
+      RAISE TFIELD "<Empty>" ERROR "Empty field name and field method."
+    ENDIF
+
+    // Check if FieldExpression is re-declared in parent class
+    IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldExpression) .AND. Upper( AField:FieldExpression ) == Upper( fieldName ) }) > 0
       n := AScan( ::FTable:FieldList, {|AField| AField == Self } )
       IF n > 0
         ADel( ::FTable:FieldList, n )
@@ -926,7 +938,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
       RETURN /* ok, we don't need this now repeated parent field */
     ENDIF
 
-    ::FFieldName  := FieldMethod
+    ::FFieldExpression := FieldMethod
     ::Name := FieldMethod
 
     EXIT

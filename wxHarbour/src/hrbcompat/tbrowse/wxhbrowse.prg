@@ -75,7 +75,7 @@ PUBLIC:
   /* End TBrowse compatible */
 
   DATA BottomFirst INIT .F.
-  DATA KeyEventBlock INIT {|| .F. }
+  DATA KeyEventBlock
   DATA SelectCellBlock
 
   METHOD AddAllColumns
@@ -267,6 +267,12 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
+
+  IF ::KeyEventBlock != NIL
+    IF ::KeyEventBlock:Eval( Self, keyEvent )
+      RETURN /* event key processed */
+    ENDIF
+  ENDIF
 
   SWITCH keyEvent:GetKeyCode()
   CASE WXK_UP
