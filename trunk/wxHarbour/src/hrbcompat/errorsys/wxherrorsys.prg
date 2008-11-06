@@ -83,7 +83,7 @@ STATIC FUNCTION wxhDefError( oError )
   nChoice := 0
   DO WHILE nChoice == 0
 
-    nChoice := wxhShowError( cMessage, aOptions )
+    nChoice := wxhShowError( cMessage, aOptions, oError )
 
   ENDDO
 
@@ -151,3 +151,78 @@ STATIC FUNCTION ErrorMessage( oError )
    ENDCASE
 
    RETURN cMessage
+
+#include "dialog.ch"
+
+/*
+  wxhShowError
+  Teo. Mexico 2008
+*/
+STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
+  LOCAL retVal := 0
+  LOCAL dlg
+  LOCAL itm
+  LOCAL i,id
+  LOCAL brwErrObj,brwCallStack
+  LOCAL aStack := {}
+  LOCAL s
+
+  /*
+    TODO: Check if we have enough resources to do this
+  */
+
+  i := 2
+  WHILE ! Empty( s := ProcName( ++i ) )
+    AAdd( aStack, { s, ProcLine( i ), ProcFile( i ) } )
+  ENDDO
+
+  CREATE DIALOG dlg ;
+         WIDTH 640 HEIGHT 400 ;
+         TITLE "Error System" ;
+         STYLE HB_BITOR( wxDEFAULT_DIALOG_STYLE, wxSTAY_ON_TOP )
+
+  BEGIN BOXSIZER VERTICAL
+    BEGIN BOXSIZER HORIZONTAL "" ALIGN EXPAND
+      @ SAY cMessage
+    END SIZER
+    BEGIN NOTEBOOK SIZERINFO ALIGN EXPAND STRETCH
+      ADD BOOK PAGE "Call Stack" FROM
+        @ BROWSE VAR brwCallStack DATASOURCE aStack //SIZERINFO ALIGN EXPAND STRETCH
+      ADD BOOK PAGE "Error Object" FROM
+        @ BROWSE VAR brwErrObj DATASOURCE __objGetValueList( oErr, .T., 0 )
+    END NOTEBOOK
+    BEGIN BOXSIZER HORIZONTAL
+      FOR EACH itm IN aOptions
+        i := itm:__enumIndex()
+        DO CASE
+        CASE itm == wxhLABEL_QUIT
+          id := wxID_CANCEL
+          itm := NIL
+        CASE itm == wxhLABEL_RETRY
+          id := wxID_REDO
+          itm := NIL
+        CASE itm == wxhLABEL_DEFAULT
+          id := wxID_DEFAULT
+          itm := NIL
+        OTHERWISE
+          id := wxID_ANY
+        ENDCASE
+        @ BUTTON itm ID id ACTION {|| retVal := i, dlg:Close() }
+//         @ BUTTON "Fit" ACTION brwCallStack:grid:Fit()
+      NEXT
+    END SIZER
+  END SIZER
+
+  brwCallStack:grid:Fit()
+  brwErrObj:Grid:Fit()
+
+  ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK aStack[ brwCallStack:RecNo, 1 ] WIDTH 30
+  ADD BCOLUMN TO brwCallStack TITLE "ProcLine" BLOCK aStack[ brwCallStack:RecNo, 2 ] PICTURE "99999"
+  ADD BCOLUMN TO brwCallStack TITLE "ProcFile" BLOCK aStack[ brwCallStack:RecNo, 3 ] WIDTH 20
+
+  ADD BCOLUMN TO brwErrObj "MsgName" BLOCK brwErrObj:DataSource[ brwErrObj:RecNo, 1 ] WIDTH 30
+  ADD BCOLUMN TO brwErrObj "Value" BLOCK brwErrObj:DataSource[ brwErrObj:RecNo, 2 ] WIDTH 20
+
+  SHOW WINDOW dlg MODAL //FIT
+
+RETURN retVal

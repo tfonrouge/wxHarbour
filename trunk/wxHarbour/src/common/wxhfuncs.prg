@@ -721,6 +721,67 @@ FUNCTION wxh_TreeCtrl( window, id, pos, size, style, validator, name )
 RETURN Result
 
 /*
+  wxhInspectVar
+  Teo. Mexico 2008
+*/
+PROCEDURE wxhInspectVar( xVar )
+  LOCAL oDlg
+  LOCAL b
+  LOCAL aMsg
+  LOCAL value
+  LOCAL cMsg,msgAccs
+  LOCAL a,aMethods
+  LOCAL oErr
+
+  SWITCH ValType( xVar )
+  CASE 'O'
+    aMsg := xVar:ClassSel()
+    ASort( aMsg,,, {|x,y| PadR( x, 64 ) < PadR( y, 64 ) } )
+    a := {}
+    aMethods := {}
+    FOR EACH cMsg IN aMsg
+      msgAccs := SubStr( cMsg, 2 )
+      IF cMsg = "_" .AND. AScan( aMsg, msgAccs,,, .T. ) != 0
+        BEGIN SEQUENCE WITH {|oErr| break( oErr ) }
+          //value := AsString( wxh_objGetDataValue( xVar, msgAccs ) )
+          value := "xVar:msgAccs"
+        RECOVER USING oErr
+          value := oErr:Description
+        END SEQUENCE
+        AAdd( a, { msgAccs, value })
+      ELSEIF AScan( aMsg, "_" + msgAccs,,, .T. ) = 0
+        AAdd( aMethods, msgAccs )
+      ENDIF
+    NEXT
+    a := __objGetValueList( xVar, .T., 0 )
+    ? "Finalizando..."
+    EXIT
+  END
+
+  IF Empty( a )
+    wxMessageBox("Cannot inspect value.","wxhInspectVar", wxICON_EXCLAMATION )
+    RETURN
+  ENDIF
+
+  CREATE DIALOG oDlg ;
+         HEIGHT 800 WIDTH 600 ;
+         TITLE "Inspecting Var: "
+
+  BEGIN BOXSIZER VERTICAL
+    @ BROWSE VAR b DATASOURCE a ;
+      SIZERINFO ALIGN EXPAND STRETCH
+    BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
+      @ BUTTON ID wxID_CLOSE ACTION oDlg:Close()
+    END SIZER
+  END SIZER
+
+  b:AddAllColumns()
+
+  SHOW WINDOW oDlg MODAL CENTRE
+
+RETURN
+
+/*
   TContainerObj
   Teo. Mexico 2008
 */

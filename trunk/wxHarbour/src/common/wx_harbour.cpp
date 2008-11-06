@@ -170,31 +170,11 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
   hb_itemReturn( lastTopLevelWindow );
 }
 
-#if 0
 /*
-  TRACEOUT
+  wxh_objGetDataValue
   Teo. Mexico 2008
 */
-void TRACEOUT( const char* fmt, const void* val)
+HB_FUNC( WXH_OBJGETDATAVALUE )
 {
-  char buff[ 50 ];
-  int n;
-
-  n = sprintf( buff, fmt, val );
-  hb_gtOutStd( (BYTE *) buff, n );
+  hb_itemReturn( hb_objSendMsg( hb_param( 1, HB_IT_OBJECT ), hb_parcx( 2 ), 0 ) );
 }
-
-/*
-  TRACEOUT
-  Teo. Mexico 2008
-*/
-
-void TRACEOUT( const char* fmt, long int val)
-{
-  char buff[ 50 ];
-  int n;
-
-  n = sprintf( buff, fmt, val );
-  hb_gtOutStd( (BYTE *) buff, n );
-}
-#endif
