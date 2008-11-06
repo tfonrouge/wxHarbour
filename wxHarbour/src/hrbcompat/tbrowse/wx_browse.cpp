@@ -112,10 +112,10 @@ void wxhGridBrowse::CalcRowCount()
   else
     DeleteRows( 0, GetNumberRows() );
 
+  m_maxRows = GetNumberRows();
+
   PHB_ITEM pBrowseTableBase = wxh_ItemListGetHB( this->GetTable() );
   hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
-
-  m_maxRows = GetNumberRows();
 
 }
 
@@ -240,6 +240,22 @@ HB_FUNC( WXHBROWSE_WXNEW )
   wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse );
 
   hb_itemReturn( pSelf );
+}
+
+/*
+  GetMaxRows
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHBROWSE_GETMAXROWS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  int rowCount = 0;
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && browse )
+  {
+    rowCount = browse->m_gridBrowse->m_maxRows;
+  }
+  hb_retnl( rowCount );
 }
 
 /*

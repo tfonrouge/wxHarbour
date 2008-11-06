@@ -120,6 +120,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
           ::SetGridBufferSize( i - 1 )
           EXIT
         ENDIF
+        skipblock again here to go first row
         direction := -1
         LOOP
       ELSE /* we are at an premature bof */
@@ -140,7 +141,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 
   ENDDO
 
-  /* normal fill (top-down) requiere repos at rowIndex 1 */
+  /* normal fill (top-down) require repos at rowIndex 1 */
   IF direction = 1
     ::FBrowse:SkipBlock:Eval( - totalSkipped )
   ENDIF
