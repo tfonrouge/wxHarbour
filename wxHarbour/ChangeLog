@@ -2,6 +2,36 @@
  *
  */
 
+2008-11-07 09:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * added ONSELECTCELL clause to @ BROWSE command
+    * added TO clause to @ STATUSBAR command
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+    * removed c++ WXHBROWSE_REFRESHALL hb function, now is a pure HB func
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    ! Fixes in FillGridBuffer():
+      * repos to record on first row
+      * using ::Browse:MaxRows to have available max rows
+      * go to record on first row when changind scan direction
+    * removed browse first positioning (GoTop/GoBottom) on SerCurIndex()
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * added GoFirstPos() to do the first repos with GoTop/GoBottom
+    * changed all references for ::RefreshAll to ::grid:ForceRefresh
+
+  * src/wxbase/advctrls/wxhstatusbar.prg
+  * src/wxbase/advctrls/wx_statusbar.cpp
+    + added:
+      + SetStatusText
+    * code cleanup
+    * setting default value for 'name' parameter
+
+  * src/wxbase/baseclasses/wx_keyevent.cpp
+    * code cleanup
+
 2008-11-06 11:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wx_browse.cpp
   * src/hrbcompat/tbrowse/wxhbrowse.prg

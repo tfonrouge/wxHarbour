@@ -28,6 +28,7 @@ PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, style, name )
   METHOD SetFieldsCount( number, widths )
+  METHOD SetStatusText( text, n )
 PUBLISHED:
 ENDCLASS
 

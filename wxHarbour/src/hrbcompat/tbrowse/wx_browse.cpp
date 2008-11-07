@@ -275,22 +275,6 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
 }
 
 /*
-  RefreshAll
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_REFRESHALL )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && browse )
-  {
-    browse->m_gridBrowse->SetFocus();
-    browse->m_gridBrowse->MakeCellVisible( browse->m_gridBrowse->GetGridCursorRow(), browse->m_gridBrowse->GetGridCursorCol() );
-    browse->m_gridBrowse->ForceRefresh();
-  }
-}
-
-/*
   SetColPos
   Teo. Mexico 2008
 */

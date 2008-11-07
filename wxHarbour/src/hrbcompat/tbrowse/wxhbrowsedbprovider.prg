@@ -30,7 +30,7 @@ PRIVATE:
   DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
-  DATA FCurRowIndex
+  DATA FCurRowIndex INIT 0
   DATA FGridBuffer
   DATA FGridBufferSize     INIT 0
   DATA FIgnoreCellEvalError INIT .F.
@@ -87,13 +87,19 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   LOCAL topRecord
   LOCAL oldRowPos
 
+  /* repos to first row */
+  ::FBrowse:SkipBlock:Eval( - ::FCurRowIndex )
+  IF ::FBrowse:DataSource:Eof()
+    ::FBrowse:GoFirstPos()
+  ENDIF
+
   /* start at first index row */
   ::FCurRowIndex := 0
 
   oldRowPos := ::FBrowse:RowPos
 
-  IF ::FGridBufferSize != ::FBrowse:RowCount
-    ::SetGridBufferSize( ::FBrowse:RowCount )
+  IF ::FGridBufferSize != ::FBrowse:MaxRows()
+    ::SetGridBufferSize( ::FBrowse:MaxRows() )
   ENDIF
 
   IF Empty( ::FGridBuffer )
@@ -110,7 +116,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   direction := 1
   i := 2
 
-  WHILE i <= ::FBrowse:RowCount
+  WHILE i <= ::FBrowse:MaxRows()
     n := ::FBrowse:SkipBlock:Eval( direction )
     totalSkipped += n
     IF n != direction
@@ -120,7 +126,8 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
           ::SetGridBufferSize( i - 1 )
           EXIT
         ENDIF
-        skipblock again here to go first row
+        /* go to first record */
+        ::FBrowse:SkipBlock:Eval( - totalSkipped )
         direction := -1
         LOOP
       ELSE /* we are at an premature bof */
@@ -291,16 +298,8 @@ METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
     RETURN
   ENDIF
 
-  IF Empty( ::GridBuffer )
-    IF ::FBrowse:BottomFirst
-      ::FBrowse:GoBottom()
-    ELSE
-      ::FBrowse:GoTop()
-    ENDIF
-  ENDIF
-
   IF rowIndex == ::FCurRowIndex
-    RETURN
+//     RETURN
   ENDIF
 
   ::FBrowse:SkipBlock:Eval( rowIndex - ::FCurRowIndex )
@@ -323,7 +322,7 @@ METHOD PROCEDURE SetGridBufferSize( size ) CLASS wxhBrowseTableBase
   IF ::FBrowse:RowCount != size
     ::FBrowse:RowCount := size
   ENDIF
-  ::FBrowse:RefreshAll()
+  ::FBrowse:grid:ForceRefresh()
 RETURN
 
 /*
