@@ -207,6 +207,7 @@
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
             [ ONKEY <onKey> ] ;
+            [ ONSELECTCELL <onSelectCell> ] ;
           => ;
             [<wxBrw>:=]wxh_Browse( ;
               [<dataSource>],;
@@ -217,7 +218,8 @@
               [{<nWidth>,<nHeight>}],;
               [<style>],;
               [<name>],;
-              [<onKey>] ;
+              [<onKey>],;
+              [<onSelectCell>] ;
             )
 
 #xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
@@ -447,7 +449,7 @@
 /*
   StatusBar
 */
-#xcommand @ STATUSBAR [<oSB>] ;
+#xcommand @ STATUSBAR [ VAR <oSB> ] ;
             [ ID <nID> ] ;
             [ STYLE <nStyle> ] ;
             [ NAME <cName> ] ;

@@ -36,10 +36,10 @@ wx_StatusBar::~wx_StatusBar()
 HB_FUNC( WXSTATUSBAR_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX(1);
-  wxWindowID id = (wxWindowID) hb_parni(2);
-  long style = ISNIL(3) ? wxST_SIZEGRIP : hb_parnl(3);
-  const wxString& name = wxString( hb_parcx(4), wxConvLocal );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  wxWindowID id = (wxWindowID) hb_parni( 2 );
+  long style = ISNIL( 3 ) ? wxST_SIZEGRIP : hb_parnl( 3 );
+  const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxString( hb_parcx( 4 ), wxConvLocal );
 
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
@@ -72,9 +72,24 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
   }
   //else
     //if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
-  if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
+  if( pSelf && statusBar )
+    statusBar->SetFieldsCount( number, widths );
 
   /* TODO: Check if this frees correctly the array */
   delete[] widths;
 
+}
+
+/*
+  SetStatusText
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXSTATUSBAR_SETSTATUSTEXT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGetWX( pSelf );
+  const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
+  int i = hb_parni( 2 );
+  if( pSelf && statusBar )
+    statusBar->SetStatusText( text, i );
 }

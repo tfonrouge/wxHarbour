@@ -81,6 +81,7 @@ PUBLIC:
   DATA SelectCellBlock
 
   METHOD AddAllColumns
+  METHOD GoFirstPos
   METHOD SetColWidth( col, width ) /* in pointSize * width */
   METHOD OnKeyDown( event )
   METHOD OnSelectCell( event )
@@ -193,7 +194,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
     IF ::SkipBlock:Eval( 1 ) = 1
       ADel( ::gridTableBase:GridBuffer, 1 )
       ::gridTableBase:GetGridRowData( ::RowCount )
-      ::RefreshAll()
+      ::grid:ForceRefresh()
       ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
     ENDIF
   ENDIF
@@ -229,8 +230,20 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
   ::gridTableBase:FillGridBuffer()
   ::RowPos := ::RowCount
 
-  ::RefreshAll()
+  ::grid:ForceRefresh()
 
+RETURN Self
+
+/*
+  GoFirstPos
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GoFirstPos CLASS wxhBrowse
+  IF ::BottomFirst
+    ::GoBottomBlock:Eval()
+  ELSE
+    ::GoTopBlock:Eval()
+  ENDIF
 RETURN Self
 
 /*
@@ -243,7 +256,7 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
   ::gridTableBase:FillGridBuffer()
   ::RowPos := 1
 
-  ::RefreshAll()
+  ::grid:ForceRefresh()
 
 RETURN Self
 
@@ -368,7 +381,7 @@ METHOD FUNCTION PageDown CLASS wxhBrowse
   ::SkipBlock:Eval( ::RowCount - ::RowPos + 1 )
   ::gridTableBase:FillGridBuffer()
 
-  ::RefreshAll()
+  ::grid:ForceRefresh()
 
 RETURN Self
 
@@ -381,7 +394,22 @@ METHOD FUNCTION PageUp CLASS wxhBrowse
   ::SkipBlock:Eval( -::RowPos - ::RowCount + 1)
   ::gridTableBase:FillGridBuffer()
 
-  ::RefreshAll()
+  ::grid:ForceRefresh()
+
+RETURN Self
+
+/*
+  RefreshAll
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION RefreshAll CLASS wxhBrowse
+  LOCAL oldRowPos
+
+  oldRowPos := ::RowPos
+  ::RowPos := 1
+  ::gridTableBase:FillGridBuffer()
+  ::grid:ForceRefresh()
+  ::RowPos := oldRowPos
 
 RETURN Self
 
@@ -463,7 +491,7 @@ METHOD FUNCTION Up CLASS wxhBrowse
     IF ::SkipBlock:Eval( -1 ) = -1
       AIns( ::gridTableBase:GridBuffer, 1 )
       ::gridTableBase:GetGridRowData( 1 )
-      ::RefreshAll()
+      ::grid:ForceRefresh()
       ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
     ENDIF
   ENDIF
