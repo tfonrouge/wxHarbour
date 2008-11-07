@@ -239,12 +239,16 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION GoFirstPos CLASS wxhBrowse
+  LOCAL rowPos
+
   IF ::BottomFirst
     ::GoBottomBlock:Eval()
+    rowPos :=::RowCount
   ELSE
     ::GoTopBlock:Eval()
+    rowPos := 1
   ENDIF
-RETURN Self
+RETURN rowPos
 
 /*
   GoTop
@@ -403,13 +407,13 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION RefreshAll CLASS wxhBrowse
-  LOCAL oldRowPos
+//   LOCAL oldRowPos
 
-  oldRowPos := ::RowPos
-  ::RowPos := 1
+//   oldRowPos := ::RowPos
+//   ::RowPos := 1
   ::gridTableBase:FillGridBuffer()
   ::grid:ForceRefresh()
-  ::RowPos := oldRowPos
+//   ::RowPos := oldRowPos
 
 RETURN Self
 

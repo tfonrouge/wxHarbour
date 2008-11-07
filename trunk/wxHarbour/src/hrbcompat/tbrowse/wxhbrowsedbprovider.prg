@@ -87,16 +87,19 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   LOCAL topRecord
   LOCAL oldRowPos
 
+  /* keep the current RowPos */
+  oldRowPos := ::FBrowse:RowPos
+
   /* repos to first row */
-  ::FBrowse:SkipBlock:Eval( - ::FCurRowIndex )
-  IF ::FBrowse:DataSource:Eof()
-    ::FBrowse:GoFirstPos()
-  ENDIF
+//   ::FBrowse:SkipBlock:Eval( - ::FCurRowIndex )
 
   /* start at first index row */
-  ::FCurRowIndex := 0
+  ::CurRowIndex := 0
 
-  oldRowPos := ::FBrowse:RowPos
+  IF ::FBrowse:DataSource:Eof()
+    oldRowPos := ::FBrowse:GoFirstPos()
+  ELSE
+  ENDIF
 
   IF ::FGridBufferSize != ::FBrowse:MaxRows()
     ::SetGridBufferSize( ::FBrowse:MaxRows() )
@@ -293,18 +296,20 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
+  LOCAL n
 
   IF rowIndex >= ::FBrowse:RowCount
     RETURN
   ENDIF
 
-  IF rowIndex == ::FCurRowIndex
-//     RETURN
+  n := rowIndex - ::FCurRowIndex
+
+  IF ::FBrowse:SkipBlock:Eval( n ) != n
+    ::FCurRowIndex := 0
+    ::FBrowse:DataSource:DbGoTo( 0 ) /* force Bof/Eof */
+  ELSE
+    ::FCurRowIndex := rowIndex
   ENDIF
-
-  ::FBrowse:SkipBlock:Eval( rowIndex - ::FCurRowIndex )
-
-  ::FCurRowIndex := rowIndex
 
 RETURN
 
