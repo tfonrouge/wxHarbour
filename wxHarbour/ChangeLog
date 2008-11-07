@@ -2,6 +2,11 @@
  *
  */
 
+2008-11-07 12:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * wxharbour.spec
+
 2008-11-07 09:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * src/common/wxhfuncs.prg
