@@ -2,6 +2,25 @@
  *
  */
 
+2008-11-10 21:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * Now using a array to contain wxDialog/wxFrame objs as Parents
+      a new item is added to the array on each object of above defined
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    % Improved to keep the current record and using it as reference to
+      fill the data rows
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * clean up
+    ! Fixed PageDown method
+
+  * src/raddox/tfield.prg
+    ! Fixed to use ::FTable:Alias:Eval to keep alias used on code block
+
+  * wxharbour.spec
+    * changed build flag to 'release'
+
 2008-11-07 12:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
   * src/hrbcompat/tbrowse/wxhbrowse.prg

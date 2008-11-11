@@ -290,14 +290,14 @@ METHOD FUNCTION GetAsVariant CLASS TField
               IF Empty( ::FFieldExpression )
                 RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
               ELSE
-                ::FFieldReadBlock := &("{||" + ::FFieldExpression + " }")
+                ::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
               ENDIF
             ENDIF
           ENDIF
         ENDIF
       ENDIF
-      //Result := ::Table:&(::FFieldReadBlock)( ::FTable )
-      Result := ::FFieldReadBlock:Eval( ::FTable )
+      //Result := ::FFieldReadBlock:Eval( ::FTable )
+      Result := ::FTable:Alias:Eval( ::FFieldReadBlock, ::FTable )
     ELSE
       Result := ::GetBuffer()
     ENDIF

@@ -90,6 +90,7 @@ PUBLIC:
   PROPERTY ColumnList READ gridTableBase:GetColumnList WRITE gridTableBase:SetColumnList
   PROPERTY ColumnZero READ gridTableBase:GetColumnZero WRITE gridTableBase:SetColumnZero
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
+  PROPERTY DataSourceType READ FDataSourceType
   PROPERTY RecNo READ GetRecNo
 
 PUBLISHED:
@@ -238,17 +239,13 @@ RETURN Self
   GoFirstPos
   Teo. Mexico 2008
 */
-METHOD FUNCTION GoFirstPos CLASS wxhBrowse
-  LOCAL rowPos
-
+METHOD PROCEDURE GoFirstPos CLASS wxhBrowse
   IF ::BottomFirst
     ::GoBottomBlock:Eval()
-    rowPos :=::RowCount
   ELSE
     ::GoTopBlock:Eval()
-    rowPos := 1
   ENDIF
-RETURN rowPos
+RETURN
 
 /*
   GoTop
@@ -381,11 +378,12 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD FUNCTION PageDown CLASS wxhBrowse
+  LOCAL rowPos := ::RowPos
 
   ::SkipBlock:Eval( ::RowCount - ::RowPos + 1 )
   ::gridTableBase:FillGridBuffer()
-
   ::grid:ForceRefresh()
+  ::RowPos := rowPos
 
 RETURN Self
 
@@ -407,14 +405,8 @@ RETURN Self
   Teo. Mexico 2008
 */
 METHOD FUNCTION RefreshAll CLASS wxhBrowse
-//   LOCAL oldRowPos
-
-//   oldRowPos := ::RowPos
-//   ::RowPos := 1
   ::gridTableBase:FillGridBuffer()
   ::grid:ForceRefresh()
-//   ::RowPos := oldRowPos
-
 RETURN Self
 
 /*
