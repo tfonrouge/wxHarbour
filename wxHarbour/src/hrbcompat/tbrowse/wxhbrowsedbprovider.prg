@@ -30,7 +30,7 @@ PRIVATE:
   DATA FBrowse
   DATA FColumnList INIT {}
   DATA FColumnZero
-  DATA FCurRowIndex INIT 0
+  DATA FCurRowIndex //INIT 0
   DATA FGridBuffer
   DATA FGridBufferSize     INIT 0
   DATA FIgnoreCellEvalError INIT .F.
@@ -60,7 +60,6 @@ PUBLIC:
   PROPERTY Browse READ FBrowse
   PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
   PROPERTY ColumnList READ FColumnList WRITE SetColumnList
-  PROPERTY DataSource READ FDataSource WRITE SetDataSource
   PROPERTY GridBuffer READ FGridBuffer
 
 PUBLISHED:
@@ -85,21 +84,15 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   LOCAL direction
   LOCAL totalSkipped := 0
   LOCAL topRecord
-  LOCAL oldRowPos
+  LOCAL rowPos
 
-  /* keep the current RowPos */
-  oldRowPos := ::FBrowse:RowPos
+  ::FBrowse:SkipBlock:Eval( 0 )
 
-  /* repos to first row */
-//   ::FBrowse:SkipBlock:Eval( - ::FCurRowIndex )
-
-  /* start at first index row */
-  ::CurRowIndex := 0
-
-  IF ::FBrowse:DataSource:Eof()
-    oldRowPos := ::FBrowse:GoFirstPos()
-  ELSE
+  IF ::FCurRowIndex = NIL .OR. ( ::FBrowse:DataSourceType = "O" .AND. ::FBrowse:DataSource:Eof() )
+    ::FBrowse:GoFirstPos()
   ENDIF
+
+  ::FCurRowIndex := 0
 
   IF ::FGridBufferSize != ::FBrowse:MaxRows()
     ::SetGridBufferSize( ::FBrowse:MaxRows() )
@@ -111,10 +104,15 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 
   n := ::FBrowse:SkipBlock:Eval( -1 )
   topRecord := n = 0
-  ::FBrowse:SkipBlock:Eval( -n )
+
+  IF !topRecord
+    ::FBrowse:SkipBlock:Eval( -n )
+  ENDIF
 
   /* Fill in the First row */
   ::GetGridRowData( 1 )
+
+  rowPos := 1
 
   direction := 1
   i := 2
@@ -143,6 +141,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
     ELSE
       n := 1
       AIns( ::FGridBuffer, 1 )
+      ++rowPos
     ENDIF
 
     ::GetGridRowData( n )
@@ -156,11 +155,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
     ::FBrowse:SkipBlock:Eval( - totalSkipped )
   ENDIF
 
-  IF oldRowPos > ::FBrowse:RowCount
-    ::FBrowse:RowPos := ::FBrowse:RowCount
-  ELSE
-    ::FBrowse:RowPos := oldRowPos
-  ENDIF
+  ::FBrowse:RowPos := rowPos /* the very first record from where scan was started */
 
 RETURN
 
@@ -305,8 +300,8 @@ METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
   n := rowIndex - ::FCurRowIndex
 
   IF ::FBrowse:SkipBlock:Eval( n ) != n
-    ::FCurRowIndex := 0
-    ::FBrowse:DataSource:DbGoTo( 0 ) /* force Bof/Eof */
+    ::FCurRowIndex := NIL
+    ::FBrowse:SkipBlock:Eval( 0 ) /* forces state at Eof/Bof */
   ELSE
     ::FCurRowIndex := rowIndex
   ENDIF

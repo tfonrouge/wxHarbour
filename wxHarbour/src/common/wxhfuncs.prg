@@ -789,8 +789,10 @@ RETURN
 */
 CLASS TContainerObj
 PRIVATE:
-  DATA FParentList
+  DATA FMainContainerStack INIT {}
+  METHOD GetParentList INLINE ATail( ::FMainContainerStack )
 PROTECTED:
+  PROPERTY ParentList READ GetParentList
 PUBLIC:
   DATA BookCtrls INIT { "wxNotebook", "wxListbook", "wxAuiNotebook" }
   METHOD AddSizerInfoToLastItem( sizerInfo )
@@ -817,13 +819,13 @@ ENDCLASS
 METHOD PROCEDURE AddSizerInfoToLastItem( sizerInfo ) CLASS TContainerObj
 
   /* if has not child yet defined then is a parent ctrl */
-  IF ATail( ::FParentList )[ "lastChild" ][ "child" ] == NIL
+  IF ATail( ::ParentList )[ "lastChild" ][ "child" ] == NIL
     /* control is in lastChild in the previuos Parent list */
     IF ::GetLastParent( -1 ) != NIL
       ::GetLastParent( -1 )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
     ENDIF
   ELSE
-    ATail( ::FParentList )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
+    ATail( ::ParentList )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
   ENDIF
 
 RETURN
@@ -847,7 +849,7 @@ METHOD PROCEDURE AddToNextBookPage( hInfo ) CLASS TContainerObj
     RETURN
   ENDIF
 
-  ATail( ::FParentList )[ "pageInfo" ] := hInfo
+  ATail( ::ParentList )[ "pageInfo" ] := hInfo
 
 RETURN
 
@@ -857,16 +859,13 @@ RETURN
 */
 METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
   IF parent:IsDerivedFrom( "wxFrame" ) .OR. parent:IsDerivedFrom( "wxDialog" )
-    IF !Empty( ::FParentList )
-      Alert("ParentList stack not empty, please review your code.",{"ACCEPT"})
-    ENDIF
-    ::FParentList := {}
+    AAdd( ::FMainContainerStack, {} )
   ENDIF
   IF parent == NIL
     Alert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
     ::QUIT()
   ENDIF
-  AAdd( ::FParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL } } )
+  AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL } } )
 RETURN
 
 /*
@@ -874,7 +873,7 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE AddToSizerList( sizer ) CLASS TContainerObj
-  AAdd( ATail( ::FParentList )[ "sizers" ], sizer )
+  AAdd( ATail( ::ParentList )[ "sizers" ], sizer )
 RETURN
 
 /*
@@ -882,7 +881,7 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE ClearData CLASS TContainerObj
-  ::FParentList := NIL
+  HB_ADel( ::FMainContainerStack, Len( ::FMainContainerStack ), .T. )
 RETURN
 
 /*
@@ -901,10 +900,10 @@ METHOD PROCEDURE CheckForAddPage( window ) CLASS TContainerObj
   NEXT
 
   IF IsParentBook
-    hInfo := ATail( ::FParentList )[ "pageInfo" ]
+    hInfo := ATail( ::ParentList )[ "pageInfo" ]
     IF  hInfo != NIL
       ::LastParent():AddPage( window, hInfo["title"], hInfo["select"], hInfo["imageId"] )
-      ATail( ::FParentList )[ "pageInfo" ] := NIL
+      ATail( ::ParentList )[ "pageInfo" ] := NIL
     ELSE
       ::LastParent():AddPage( window, "Tab" )
     ENDIF
@@ -917,7 +916,7 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetLastChild CLASS TContainerObj
-RETURN ATail( ::FParentList )[ "lastChild" ]
+RETURN ATail( ::ParentList )[ "lastChild" ]
 
 /*
   GetLastParent
@@ -925,30 +924,30 @@ RETURN ATail( ::FParentList )[ "lastChild" ]
 */
 METHOD FUNCTION GetLastParent( index ) CLASS TContainerObj
   IF Empty( index )
-    RETURN ATail( ::FParentList )
+    RETURN ATail( ::ParentList )
   ENDIF
-  index := Len( ::FParentList ) + index
-  IF index < 1 .OR. index > Len( ::FParentList )
+  index := Len( ::ParentList ) + index
+  IF index < 1 .OR. index > Len( ::ParentList )
     RETURN NIL
   ENDIF
-RETURN ::FParentList[ index ]
+RETURN ::ParentList[ index ]
 
 /*
   LastParent
   Teo. Mexico 2008
 */
 METHOD FUNCTION LastParent CLASS TContainerObj
-RETURN ATail( ::FParentList )[ "parent" ]
+RETURN ATail( ::ParentList )[ "parent" ]
 
 /*
   LastSizer
   Teo. Mexico 2008
 */
 METHOD FUNCTION LastSizer CLASS TContainerObj
-  IF Empty( ::FParentList )
+  IF Empty( ::ParentList )
     RETURN NIL
   ENDIF
-RETURN ATail( ATail( ::FParentList )[ "sizers" ] )
+RETURN ATail( ATail( ::ParentList )[ "sizers" ] )
 
 /*
   RemoveLastParent
@@ -958,13 +957,13 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
 
   /* do some checking */
   IF className != NIL
-    IF !Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) == Upper( className )
-      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::FParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
+    IF !Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) == Upper( className )
+      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
       ::QUIT()
     ENDIF
   ENDIF
 
-  ASize( ::FParentList, Len( ::FParentList ) - 1 )
+  ASize( ::ParentList, Len( ::ParentList ) - 1 )
 
   ::SizerAddOnLastChild()
 
@@ -976,7 +975,7 @@ RETURN
 */
 METHOD PROCEDURE RemoveLastSizer CLASS TContainerObj
   LOCAL a
-  a := ATail( ::FParentList )[ "sizers" ]
+  a := ATail( ::ParentList )[ "sizers" ]
   IF Empty( a )
     Alert("Attempt to remove a Sizer on a empty sizers stack.",{"QUIT"})
     //::QUIT()

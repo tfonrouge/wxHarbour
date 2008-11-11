@@ -80,7 +80,7 @@ HBEXITSL ?= 2
 HB_INC_PATH ?= /usr/include/$(HBCOMPILER)
 
 # Where to search for Harbour libs 
-HB_LIB_PATH ?= /usr/lib/$(HBCOMPILER)
+HB_LIB_PATH ?= /usr/lib64/$(HBCOMPILER)
 
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj/gcc-unix
