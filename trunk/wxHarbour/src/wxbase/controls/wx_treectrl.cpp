@@ -45,7 +45,7 @@ HB_FUNC( WXTREECTRL_NEW )
   const wxSize& size = hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxTR_HAS_BUTTONS : hb_parnl( 5 );
   const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX( 6 ))) ;
-  const wxString& name = wxString( hb_parcx( 7 ), wxConvLocal );
+  const wxString& name = wxh_parc( 7 );
   wx_TreeCtrl* treeCtrl = new wx_TreeCtrl( parent, id, pos, size, style, validator, name );
 
   // Add object's to hash list
@@ -62,7 +62,7 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
-  const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& text = wxh_parc( 1 );
   int image = ISNIL( 2 ) ? -1 : hb_parni( 2 );
   int selImage = ISNIL( 3 ) ? -1 : hb_parni( 3 );
   wxTreeItemData* data = (wxTreeItemData *) hb_par_WX( 4 );
@@ -88,7 +88,7 @@ HB_FUNC( WXTREECTRL_APPENDITEM )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGetWX( pSelf );
   wxTreeItemId parent = wxTreeItemId( (void *) hb_parnl( 1 ) );
-  const wxString& text = wxString( hb_parcx( 2 ), wxConvLocal );
+  const wxString& text = wxh_parc( 2 );
   int image = ISNIL( 3 ) ? -1 : hb_parni( 3 );
   int selImage = ISNIL( 4 ) ? -1 : hb_parni( 4 );
   wxTreeItemData* data = (wxTreeItemData *) hb_par_WX( 5 );

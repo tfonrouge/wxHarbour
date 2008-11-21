@@ -44,7 +44,7 @@ HB_FUNC( WXPANEL_NEW )
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? wxTAB_TRAVERSAL : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? _T("panel") : wxString( hb_parcx( 6 ), wxConvLocal );
+    const wxString& name = ISNIL( 6 ) ? _T("panel") : wxh_parc( 6 );
     panel = new wx_Panel( parent, id, pos, size, style, name );
   }
   else

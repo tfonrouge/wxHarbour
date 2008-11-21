@@ -47,13 +47,13 @@ HB_FUNC( WXMENU_NEW )
 HB_FUNC( WX_MENU_APPEND1 )
 {
   wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
-  menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), wxString( hb_parcx(4), wxConvLocal ), hb_parnl(5) );
+  menu->Append( hb_parnl(2), wxh_parc( 3 ), wxh_parc( 4 ), hb_parnl(5) );
 }
 
 HB_FUNC( WX_MENU_APPEND2 )
 {
   wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
-  menu->Append( hb_parnl(2), wxString( hb_parcx(3), wxConvLocal ), (wx_Menu *) hb_par_WX( 4 ), wxString( hb_parcx(5), wxConvLocal ) );  };
+  menu->Append( hb_parnl(2), wxh_parc( 3 ), (wx_Menu *) hb_par_WX( 4 ), wxh_parc( 5 ) );  };
 
 HB_FUNC( WX_MENU_APPEND3 )
 {

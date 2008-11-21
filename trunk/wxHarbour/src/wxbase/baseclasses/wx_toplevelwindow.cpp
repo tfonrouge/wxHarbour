@@ -42,7 +42,7 @@ HB_FUNC( WXTOPLEVELWINDOW_SETTITLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxTopLevelWindow* tlWnd;
-  const wxString& title = wxString( hb_parcx(1), wxConvLocal );
+  const wxString& title = wxh_parc( 1 );
   if( pSelf && (tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf ) ) )
     tlWnd->SetTitle( title );
 }

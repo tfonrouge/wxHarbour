@@ -38,8 +38,8 @@ HB_FUNC( WXMENUITEM_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxMenu* parentMenu = (wxMenu *) hb_par_WX(1);
   int id = hb_parni(2);
-  const wxString& text = wxString( hb_parcx(3), wxConvLocal );
-  const wxString& helpString = wxString( hb_parcx(4), wxConvLocal );
+  const wxString& text = wxh_parc( 3 );
+  const wxString& helpString = wxh_parc( 4 );
   wxItemKind kind = (wxItemKind) hb_parni(5);
   wxMenu* subMenu = (wxMenu *) hb_par_WX(6);
 

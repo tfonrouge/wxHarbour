@@ -42,7 +42,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
   else
   {
     wxWindow* parent = (wxStaticBox *) hb_par_WX( 2 );
-    const wxString& label = wxString( hb_parcx( 3 ), wxConvLocal );
+    const wxString& label = wxh_parc( 3 );
     boxSizer = new wx_StaticBoxSizer( hb_parni( 1 ), parent, label );
   }
 

@@ -59,6 +59,6 @@ HB_FUNC( WXKILL )
 */
 HB_FUNC( WXSHELL )
 {
-  const wxString &command = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString &command = wxh_parc( 1 );
   hb_retl( wxShell( command ) );
 }

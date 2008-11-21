@@ -148,6 +148,16 @@ wxSize hb_par_wxSize( int param )
 }
 
 /*
+  wxh_parc
+  Teo. Mexico 2008
+*/
+wxString wxh_parc( int param )
+{
+  return wxString( hb_parc( param ), wxConvUTF8 );
+}
+
+
+/*
   wxObject:ClassP Read Method
   Teo. Mexico 2006
 */

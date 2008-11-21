@@ -38,7 +38,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
-  const wxString& value = wxString( hb_parcx(3), wxConvLocal );
+  const wxString& value = wxh_parc( 3 );
   const wxPoint& pos = hb_par_wxPoint(4);
   const wxSize& size = hb_par_wxSize(5);
   long style = hb_parnl(6);
@@ -59,10 +59,10 @@ HB_FUNC( WXTEXTCTRL_NEW )
 HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl;
-  const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
+  const wxString& text = wxString( hb_parcx( 1 ), wxConvUTF8 );
 
-  if( pSelf && (textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && textCtrl )
     textCtrl->AppendText( text );
 }
 
@@ -73,9 +73,9 @@ HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 HB_FUNC( WXTEXTCTRL_GETVALUE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl;
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && textCtrl )
     hb_retc( textCtrl->GetValue().mb_str() );
   else
     hb_ret();

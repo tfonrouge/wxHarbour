@@ -56,6 +56,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL itemStaticText6
   LOCAL statusBar
   LOCAL textCtrl
+  LOCAL text1
 
   oWnd := wxFrame():New( , 999, "Hello World Sample 1", {10,10}, {400,400} )
 
@@ -93,11 +94,14 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   boxSizer:Add( boxSizer1, 0, HB_BITOR( wxGROW, wxALL ), 5 )
 
-  itemStaticText6 := wxStaticText():New( panel, -1, "Enter Your Name:" )
+  itemStaticText6 := wxStaticText():New( panel, -1, "Enter Your Name NIÑO:" )
 
   boxSizer1:Add( itemStaticText6, 0, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
-  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, "<your name here> ������" ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
+  text1 := "NI" + Chr( 165 ) + "OS"
+  text1 := _( text1 )
+
+  boxSizer1:Add( textCtrl := wxTextCtrl():New( panel, -1, text1 ), 1, HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL ), 5 )
 
   button1 := wxButton():New( panel , 100 )
   buttonOk := wxButton():New( panel, wxID_OK )
@@ -123,3 +127,6 @@ RETURN .T.
 PROCEDURE PrintValue( textCtrl )
   ? textCtrl:GetValue()
 RETURN
+
+FUNCTION _( s )
+RETURN HB_StrToUTF8( s )

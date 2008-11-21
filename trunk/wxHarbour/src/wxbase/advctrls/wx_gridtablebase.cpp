@@ -138,9 +138,9 @@ wxString wx_GridTableBase::GetValue( int row, int col )
 
 #ifdef __XHARBOUR__
   hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
-  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+  return wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
 #else
-  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvUTF7 );
 #endif
 }
 

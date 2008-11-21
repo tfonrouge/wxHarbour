@@ -48,7 +48,7 @@ HB_FUNC( WXNOTEBOOK_NEW )
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? wxNotebookNameStr : wxString( hb_parcx( 6 ), wxConvLocal );
+    const wxString& name = ISNIL( 6 ) ? wxNotebookNameStr : wxh_parc( 6 );
     noteBook = new wx_Notebook( parent, id, pos, size, style, name );
   }
   else
@@ -72,5 +72,5 @@ HB_FUNC( WXNOTEBOOK_ADDPAGE )
   bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
   int imageld = ISNIL( 4 ) ? -1 : hb_parni( 4 );
   if( pSelf && Notebook && page )
-    Notebook->AddPage( page, wxString( hb_parcx( 2 ), wxConvLocal), select, imageld );
+    Notebook->AddPage( page, wxh_parc( 2 ), select, imageld );
 }

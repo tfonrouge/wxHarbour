@@ -32,14 +32,14 @@ HB_FUNC( WXFILEDIALOG_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-  const wxString& message = ISNIL( 2 ) ? _T("Choose a file") : wxString( hb_parcx( 2 ), wxConvLocal );
-  const wxString& defaultDir = ISNIL( 3 ) ? _T("") : wxString( hb_parcx( 3 ), wxConvLocal );
-  const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxString( hb_parcx( 4 ), wxConvLocal );
-  const wxString& wildcard = ISNIL( 5 ) ? _T("*.*") : wxString( hb_parcx( 5 ), wxConvLocal );
+  const wxString& message = ISNIL( 2 ) ? _T("Choose a file") : wxh_parc( 2 );
+  const wxString& defaultDir = ISNIL( 3 ) ? _T("") : wxh_parc( 3 );
+  const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxh_parc( 4 );
+  const wxString& wildcard = ISNIL( 5 ) ? _T("*.*") : wxh_parc( 5 );
   long style = ISNIL( 6 )  ? wxFD_DEFAULT_STYLE : hb_parni( 6 );
   wxPoint pos = hb_par_wxPoint( 7 );
   wxSize size = hb_par_wxSize( 8 );
-  const wxString& name = ISNIL( 9 ) ? _T("FileDlg") : wxString( hb_parcx( 9 ), wxConvLocal );
+  const wxString& name = ISNIL( 9 ) ? _T("FileDlg") : wxh_parc( 9 );
 
   wxFileDialog* fileDlg = new wx_FileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name );
 
@@ -205,7 +205,7 @@ HB_FUNC( WXFILEDIALOG_GETWILDCARD )
 HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& directory = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& directory = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && fileDlg )
@@ -219,7 +219,7 @@ HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 HB_FUNC( WXFILEDIALOG_SETFILENAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& filename = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& filename = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && fileDlg )
@@ -247,7 +247,7 @@ HB_FUNC( WXFILEDIALOG_SETFILTERINDEX )
 HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& message = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& message = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && fileDlg )
@@ -261,7 +261,7 @@ HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 HB_FUNC( WXFILEDIALOG_SETPATH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& path = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& path = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && fileDlg )
@@ -275,7 +275,7 @@ HB_FUNC( WXFILEDIALOG_SETPATH )
 HB_FUNC( WXFILEDIALOG_SETWILDCARD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& wildcard = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& wildcard = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && fileDlg )

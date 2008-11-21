@@ -41,7 +41,7 @@ HB_FUNC( WXSTATICLINE_NEW )
   const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
   const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-  const wxString& name = wxString( hb_parcx( 6 ), wxConvLocal );
+  const wxString& name = wxh_parc( 6 );
   wx_StaticLine* staticLine = new wx_StaticLine( parent, id, pos, size, style, name );
 
   // Add object's to hash list

@@ -53,7 +53,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL boxSizer,staticBoxSizer,noteBook,panel,button
 
   edtNombre := wxGetUserId()
-  edtPassword := ""
+  edtPassword := Space( 20 )
 
   CREATE FRAME oWnd ;
          TITLE "Hello World Sample"

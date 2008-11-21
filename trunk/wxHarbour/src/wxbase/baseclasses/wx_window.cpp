@@ -74,7 +74,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  const wxString& label = wxString( hb_parcx(1), wxConvLocal );
+  const wxString& label = wxh_parc( 1 );
   wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
 
   wxWindow* wnd;
@@ -90,7 +90,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  const wxString& name = wxString( hb_parcx(1), wxConvLocal );
+  const wxString& name = wxh_parc( 1 );
   wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
 
   wxWindow* wnd;
@@ -260,7 +260,7 @@ HB_FUNC( WXWINDOW_SETID )
 HB_FUNC( WXWINDOW_SETLABEL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& label = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& label = wxh_parc( 1 );
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) )
     wnd->SetLabel( label );
@@ -269,7 +269,7 @@ HB_FUNC( WXWINDOW_SETLABEL )
 HB_FUNC( WXWINDOW_SETNAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& name = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& name = wxh_parc( 1 );
   wxWindow* wnd;
   if( pSelf && (wnd = (wxWindow *) wxh_ItemListGetWX( pSelf ) ) )
     wnd->SetName( name );

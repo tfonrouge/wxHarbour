@@ -38,11 +38,11 @@ HB_FUNC( WXSTATICBOX_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-  const wxString& label = wxString( hb_parcx(3), wxConvLocal );
+  const wxString& label = wxh_parc( 3 );
   const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : hb_par_wxPoint( 4 );
   const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : hb_par_wxSize( 5 );
   long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
-  const wxString& name = wxString( hb_parcx( 7 ), wxConvLocal );
+  const wxString& name = wxh_parc( 7 );
   wx_StaticBox* staticBox = new wx_StaticBox( parent, id, label, pos, size, style, name );
 
   // Add object's to hash list
