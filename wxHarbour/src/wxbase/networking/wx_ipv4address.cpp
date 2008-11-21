@@ -64,7 +64,7 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
       hb_retc( ipv4Address->Hostname().mb_str() );
     else
     {
-      wxString hostname = wxString( hb_parcx(1), wxConvLocal );
+      wxString hostname = wxh_parc( 1 );
       hb_retl( ipv4Address->Hostname( hostname ) );
     }
   }
@@ -95,7 +95,7 @@ HB_FUNC( WXIPV4ADDRESS_SERVICE )
   if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
   {
     if( ISCHAR( 1 ) )
-      hb_retl( ipv4Address->Service( wxString( hb_parcx(1), wxConvLocal ) ) );
+      hb_retl( ipv4Address->Service( wxh_parc( 1 ) ) );
     if( ISNUM( 1 ) )
       hb_retl( ipv4Address->Service( hb_parnl( 1 ) ) );
     if( hb_pcount() == 0 )

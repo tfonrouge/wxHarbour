@@ -2,6 +2,40 @@
  *
  */
 
+2008-11-21 15:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * samples/arrbrowser/GNUmakefile
+  * samples/helloworld1/helloworld1.prg
+  * samples/helloworld/helloworld.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/advctrls/wx_panel.cpp
+  * src/wxbase/baseclasses/wx_toplevelwindow.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/books/wx_auinotebook.cpp
+  * src/wxbase/books/wx_listbook.cpp
+  * src/wxbase/books/wx_notebook.cpp
+  * src/wxbase/comdialogs/wx_filedialog.cpp
+  * src/wxbase/comdialogs/wx_messagedialog.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_treectrl.cpp
+  * src/wxbase/manwindows/wx_dialog.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/manwindows/wx_mdichildframe.cpp
+  * src/wxbase/manwindows/wx_mdiparentframe.cpp
+  * src/wxbase/menu/wx_menubar.cpp
+  * src/wxbase/menu/wx_menu.cpp
+  * src/wxbase/menu/wx_menuitem.cpp
+  * src/wxbase/miscfuncs/procctrlfuncs.cpp
+  * src/wxbase/miscfuncs/wx_dialogfuncs.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/range/wx_scrollbar.cpp
+  * src/wxbase/sizers/wx_staticboxsizer.cpp
+  * src/wxbase/static/wx_staticline.cpp
+
 2008-11-10 21:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * Now using a array to contain wxDialog/wxFrame objs as Parents

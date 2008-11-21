@@ -32,8 +32,8 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
-  const wxString& message = wxString( hb_parcx( 2 ), wxConvLocal );
-  const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxString( hb_parcx( 3 ), wxConvLocal );
+  const wxString& message = wxh_parc( 2 );
+  const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxh_parc( 3 );
   long style = ISNIL( 4 ) ? wxOK | wxCANCEL : hb_parni( 4 );
   wxPoint pos = hb_par_wxPoint( 5 );
 

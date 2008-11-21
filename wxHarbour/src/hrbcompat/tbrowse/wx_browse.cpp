@@ -205,11 +205,11 @@ HB_FUNC( WXHBROWSE_WXNEW )
   wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2 );
   wxWindow* parent = (wxWindow *) hb_par_WX( 3 );
   wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
-  const wxString &label = wxString( hb_parcx( 5 ), wxConvLocal );
+  const wxString &label = wxh_parc( 5 );
   wxPoint pos = hb_par_wxPoint( 6 );
   wxSize size = hb_par_wxSize( 7 );
   long style = ISNIL( 8 ) ? wxWANTS_CHARS : hb_parnl( 8 );
-  wxString name = wxString( hb_parcx( 9 ), wxConvLocal );
+  wxString name = wxh_parc( 9 );
 
   /* the main window container */
   wxhBrowse *browse = new wxhBrowse( parent, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name );

@@ -53,5 +53,5 @@ HB_FUNC( WXMENUBAR_APPEND )
   if( pSelf &&
         ( menuBar = (wx_MenuBar *) wxh_ItemListGetWX( pSelf ) ) &&
         ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
-    menuBar->Append( menu, wxString( hb_parcx(2), wxConvLocal ) );
+    menuBar->Append( menu, wxh_parc( 2 ) );
 }

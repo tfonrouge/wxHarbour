@@ -48,6 +48,9 @@ PWXH_ITEM     wxh_ItemListGetWX( PHB_ITEM pSelf );
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
+/* string manipulation */
+wxString wxh_parc( int param );
+
 /*
   template for send event handling to harbour objects
   Teo. Mexico 2008

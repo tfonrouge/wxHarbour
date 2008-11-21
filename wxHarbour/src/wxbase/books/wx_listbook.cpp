@@ -45,7 +45,7 @@ HB_FUNC( WXLISTBOOK_NEW )
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? _T("Listbook") : wxString( hb_parcx( 6 ), wxConvLocal );
+    const wxString& name = ISNIL( 6 ) ? _T("Listbook") : wxh_parc( 6 );
     listBook = new wx_Listbook( parent, id, pos, size, style, name );
   }
   else
@@ -69,5 +69,5 @@ HB_FUNC( WXLISTBOOK_ADDPAGE )
   bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
   int imageld = ISNIL( 4 ) ? -1 : hb_parni( 4 );
   if( pSelf && Listbook && page )
-    Listbook->AddPage( page, wxString( hb_parcx( 2 ), wxConvLocal), select, imageld );
+    Listbook->AddPage( page, wxh_parc( 2 ), select, imageld );
 }

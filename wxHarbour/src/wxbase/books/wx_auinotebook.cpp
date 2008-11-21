@@ -71,5 +71,5 @@ HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
   bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
   //const wxBitmap& bitmap = hb_par_WX( 4 );
   if( pSelf && auiNotebook && page )
-    auiNotebook->AddPage( page, wxString( hb_parcx( 2 ), wxConvLocal), select/*, bitmap*/ );
+    auiNotebook->AddPage( page, wxh_parc( 2 ), select/*, bitmap*/ );
 }

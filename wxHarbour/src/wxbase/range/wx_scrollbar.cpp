@@ -42,7 +42,7 @@ HB_FUNC( WXSCROLLBAR_NEW )
   wxSize size = hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxSB_HORIZONTAL : hb_parni( 5 );
   const wxValidator& validator = ISNIL(7) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX(7))) ;
-  const wxString& name = wxString( hb_parcx( 7 ), wxConvLocal );
+  const wxString& name = wxh_parc( 7 );
 
   wx_ScrollBar* sb = new wx_ScrollBar( parent, id, pos, size, style, validator, name );
 
