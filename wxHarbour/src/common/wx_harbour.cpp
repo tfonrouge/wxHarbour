@@ -21,11 +21,12 @@
 
 /* PHB_ITEM keys */
 WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, HBITEMLIST );
+
 /* PWXH_ITEM keys */
-WX_DECLARE_HASH_MAP( PWXH_ITEM, PHB_ITEM, wxPointerHash, wxPointerEqual, WXHITEMLIST );
+WX_DECLARE_HASH_MAP( PWXH_ITEM, PHB_ITEM, wxPointerHash, wxPointerEqual, WXITEMLIST );
 
 static HBITEMLIST hbItemList;
-static WXHITEMLIST wxItemList;
+static WXITEMLIST wxItemList;
 
 static PHB_ITEM lastTopLevelWindow;
 
@@ -40,7 +41,7 @@ void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf )
 
   hb_itemCopy( p, pSelf );
 
-  if(hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+  if( hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
   {
     lastTopLevelWindow = p;
   }
@@ -48,6 +49,20 @@ void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf )
   hbItemList[ p->item.asArray.value ] = wxObj;
   wxItemList[ wxObj ] = p;
 
+}
+
+/*
+  wxh_ItemListReleaseAll
+  Teo. Mexico 2008
+*/
+void wxh_ItemListReleaseAll()
+{
+  WXITEMLIST::iterator it;
+  while( ! wxItemList.empty() )
+  {
+    it = wxItemList.begin();
+    wxh_ItemListDel( it->first );
+  }
 }
 
 /*

@@ -24,18 +24,19 @@
   wxConnect
   Teo. Mexico 2008
 */
-HB_FUNC( WXEVTHANDLER_WXCONNECT )
+HB_FUNC( WXEVTHANDLER_WXHCONNECT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   int id = hb_parni( 1 );
   int lastId = hb_parni( 2 );
   wxEventType eventType = hb_parni( 3 );
+  PHB_ITEM pBlock = hb_param( 4, HB_IT_BLOCK );
 
-  hbEvtHandler<wxEvtHandler>* evtHandler;
+  hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGetWX( pSelf );
 
-  if( !( pSelf && (evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGetWX( pSelf ) ) ) )
+  if( !( pSelf && evtHandler ) )
     return;
 
-  evtHandler->wxConnect( id, lastId, eventType, evtHandler );
+  evtHandler->wxhConnect( id, lastId, eventType );
 
 }

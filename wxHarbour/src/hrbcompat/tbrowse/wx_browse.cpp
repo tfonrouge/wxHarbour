@@ -57,7 +57,10 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
     HB_FUNC_EXEC( WXGRIDEVENT );
     hb_itemCopy( pGridEvent, hb_stackReturnItem() );
     wxh_ItemListAdd( &gridEvent, pGridEvent );
+
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
+
+    wxh_ItemListDel( &gridEvent );
     hb_itemRelease( pGridEvent );
   }
   else
@@ -172,8 +175,9 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
       hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
       wxh_ItemListAdd( &event, pKeyEvent );
 
-      hb_itemNew( hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent ) );
+      hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
+      wxh_ItemListDel( &event );
       hb_itemRelease( pKeyEvent );
 
     }
@@ -343,6 +347,7 @@ HB_FUNC( WXHBROWSE_SETROWPOS )
     browse->m_gridBrowse->MakeCellVisible( row - 1, col );
     browse->m_gridBrowse->SetGridCursor( row - 1, col );
   }
+  hb_ret();
 }
 
 

@@ -143,6 +143,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhpanel.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.o \
+	$(__BUILDDIR__)\wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhevthandler.o \
 	$(__BUILDDIR__)\wxHarbour_wxhgridevent.o \
@@ -189,6 +190,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_panel.o \
 	$(__BUILDDIR__)\wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wx_app.o \
+	$(__BUILDDIR__)\wxHarbour_wx_commandevent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_event.o \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.o \
 	$(__BUILDDIR__)\wxHarbour_wx_gridevent.o \
@@ -408,6 +410,9 @@ $(__BUILDDIR__)\wxHarbour_wxhstatusbar.o: ./src/wxbase/advctrls/wxhstatusbar.prg
 $(__BUILDDIR__)\wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -544,6 +549,9 @@ $(__BUILDDIR__)\wxHarbour_wx_statusbar.o: ./src/wxbase/advctrls/wx_statusbar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp

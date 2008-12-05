@@ -695,14 +695,24 @@ RETURN sl
   Teo. Mexico 2008
 */
 FUNCTION wxh_TransSize( size, window, defaultWidth )
+  LOCAL oFont
+
   IF !HB_ISARRAY( size )
     size := { -1, -1 }
   ENDIF
+
+  if .t.
+    return size
+  endif
+
+  oFont := window:GetFont()
+
   IF HB_ISCHAR( size[ 1 ] )
-    size[ 1 ] := window:GetFont():GetPointSize() * Val( size[ 1 ] )
+    size[ 1 ] := oFont:GetPointSize() * Val( size[ 1 ] )
   ELSEIF ( HB_ISNIL( size[ 1 ] ) .OR. ( HB_ISNUMERIC( size[ 1 ] ) .AND. size[ 1 ] = -1 ) ) .AND. !HB_ISNIL( defaultWidth )
-    size[ 1 ] := window:GetFont():GetPointSize() * defaultWidth
+    size[ 1 ] := oFont:GetPointSize() * defaultWidth
   ENDIF
+
 RETURN size
 
 /*

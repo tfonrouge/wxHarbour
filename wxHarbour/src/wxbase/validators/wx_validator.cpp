@@ -38,7 +38,6 @@ HB_FUNC( WXVALIDATOR_NEW )
   // Add object's to hash list
   wxh_ItemListAdd( validator, pSelf );
 
-
   hb_itemReturn( pSelf );
 }
 

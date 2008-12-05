@@ -22,7 +22,7 @@
 
 /*
   ~wx_Font
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
 wx_Font::~wx_Font()
 {
@@ -31,23 +31,40 @@ wx_Font::~wx_Font()
 
 /*
   Constructor: wxFont Object
-  Teo. Mexico 2006
+  Teo. Mexico 2008
 */
 HB_FUNC( WXFONT_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Font* menu = new wx_Font();
+  wx_Font* font = new wx_Font();
 
   // Add object's to hash list
-  wxh_ItemListAdd( menu, pSelf );
+  wxh_ItemListAdd( font, pSelf );
 
   hb_itemReturn( pSelf );
+
 }
 
+/*
+  GetFaceName
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXFONT_GETFACENAME )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && font )
+    hb_retc( font->GetFaceName().mb_str() );
+}
+
+/*
+  GetPointSize
+  Teo. Mexico 2008
+*/
 HB_FUNC( WXFONT_GETPOINTSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Font* font;
-  if( pSelf && (font = (wx_Font *) wxh_ItemListGetWX( pSelf ) ) )
+  wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && font )
     hb_retni( font->GetPointSize() );
 }

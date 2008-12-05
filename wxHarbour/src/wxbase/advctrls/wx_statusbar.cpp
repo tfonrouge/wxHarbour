@@ -46,7 +46,6 @@ HB_FUNC( WXSTATUSBAR_NEW )
   // Add object's to hash list
   wxh_ItemListAdd( statusBar, pSelf );
 
-
   hb_itemReturn( pSelf );
 
 }
