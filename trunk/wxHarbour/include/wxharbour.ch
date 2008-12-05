@@ -18,6 +18,8 @@
 #ifndef _WXHARBOUR_H_
 #define _WXHARBOUR_H_
 
+#xcommand IMPLEMENT_APP( <app> ) => <app>:Implement()
+
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"

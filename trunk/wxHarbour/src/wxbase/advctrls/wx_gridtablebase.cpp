@@ -134,14 +134,21 @@ bool wx_GridTableBase::InsertRows( size_t pos, size_t numRows )
 */
 wxString wx_GridTableBase::GetValue( int row, int col )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("GetValue");
+  PHB_ITEM pRow = hb_itemPutNI( NULL, row );
+  PHB_ITEM pCol = hb_itemPutNI( NULL, col );
+  wxString value = _T("");
 
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
-  return wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "GetValue", 2, pRow, pCol );
+  value = wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
 #else
-  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvUTF7 );
+  value = wxString( hb_objSendMsg( wxh_ItemListGetHB( this ), "GetValue", 2, pRow, pCol )->item.asString.value, wxConvUTF7 );
 #endif
+
+  hb_itemRelease( pRow );
+  hb_itemRelease( pCol );
+
+  return value;
 }
 
 /*
@@ -150,35 +157,55 @@ wxString wx_GridTableBase::GetValue( int row, int col )
 */
 bool wx_GridTableBase::IsEmptyCell( int row, int col )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("IsEmptyCell");
+  PHB_ITEM pRow = hb_itemPutNI( NULL, row );
+  PHB_ITEM pCol = hb_itemPutNI( NULL, col );
+  bool emptyCell;
+
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) );
-  return hb_stackReturnItem()->item.asLogical.value;
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "IsEmptyCell", 2, pRow, pCol );
+  emptyCell = hb_stackReturnItem()->item.asLogical.value;
 #else
-  return hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 2, hb_itemPutNI( NULL, row ), hb_itemPutNI( NULL, col ) )->item.asLogical.value;
+  emptyCell = hb_objSendMsg( wxh_ItemListGetHB( this ), "IsEmptyCell", 2, pRow, pCol )->item.asLogical.value;
 #endif
+
+  hb_itemRelease( pRow );
+  hb_itemRelease( pCol );
+
+  return emptyCell;
 }
 
 wxString wx_GridTableBase::GetColLabelValue( int col )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("GetColLabelValue");
+  PHB_ITEM pCol = hb_itemPutNI( NULL, col );
+  wxString labelValue = _T("");
+
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, col ) );
-  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "GetColLabelValue", 1, pCol );
+  labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, col ) )->item.asString.value, wxConvLocal );
+  labelValue = wxString( hb_objSendMsg( wxh_ItemListGetHB( this ), "GetColLabelValue", 1, pCol )->item.asString.value, wxConvLocal );
 #endif
+
+  hb_itemRelease( pCol );
+
+  return labelValue;
 }
 
 wxString wx_GridTableBase::GetRowLabelValue( int row )
 {
-  static PHB_DYNS pDyns = hb_dynsymFindName("GetRowLabelValue");
+  PHB_ITEM pRow = hb_itemPutNI( NULL, row );
+  wxString labelValue = _T("");
+
 #ifdef __XHARBOUR__
-  hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, row ) );
-  return wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "GetRowLabelValue", 1, pRow );
+  labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  return wxString( hb_objSendMessage( wxh_ItemListGetHB( this ), pDyns, 1, hb_itemPutNI( NULL, row ) )->item.asString.value, wxConvLocal );
+  labelValue = wxString( hb_objSendMsg( wxh_ItemListGetHB( this ), "GetRowLabelValue", 1, pRow )->item.asString.value, wxConvLocal );
 #endif
+
+  hb_itemRelease( pRow );
+
+  return labelValue;
 }
 
 /*
@@ -196,6 +223,10 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
   hb_itemPutC( hbStr, value.mb_str() );
 
   hb_objSendMsg( wxh_ItemListGetHB( this ), "SetValue", 3, hbRow, hbCol, hbStr );
+
+  hb_itemRelease( hbRow );
+  hb_itemRelease( hbCol );
+  hb_itemRelease( hbStr );
 }
 
 HB_FUNC( WXGRIDTABLEBASE_NEW )

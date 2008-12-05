@@ -19,6 +19,34 @@
 
 #include "wxh.h"
 
+/*
+  wxEvent::GetEventType
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXEVENT_GETEVENTTYPE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxEvent *event = (wxEvent *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && event  )
+    hb_retni( event->GetEventType() );
+}
+
+/*
+  wxEvent::GetId
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXEVENT_GETID )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxEvent *event = (wxEvent *) wxh_ItemListGetWX( pSelf );
+  if( pSelf && event  )
+    hb_retni( event->GetId() );
+}
+
+/*
+  wxEvent::Skip
+  Teo. Mexico 2008
+*/
 HB_FUNC( WXEVENT_SKIP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();

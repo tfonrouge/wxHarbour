@@ -13,6 +13,11 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
+HB_FUNC( WXEVT_FIRST )
+{
+  hb_retnl( wxEVT_COMMAND_BUTTON_CLICKED + hb_parnl(1) - 1 );
+}
+
 /*
   wxGetUserId
   Teo. Mexico 2008
@@ -50,5 +55,3 @@ HB_FUNC( WXNOW )
 {
   hb_retc( wxNow().mb_str() );
 }
-
-

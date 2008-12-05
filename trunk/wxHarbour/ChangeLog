@@ -2,6 +2,74 @@
  *
  */
 
+2008-12-05 11:28 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    + added:
+      + wxCommandEvent
+      
+  * include/wxharbour.ch
+    * changed command IMPLEMENT_APP() to be a method of wxApp (HB) class: wxApp:Implement
+
+  * include/wxh.h
+    * changed HASH MAP to contain wxObject* instead of void* items
+    * renamed wxConnect to wxhConnect, and removed unneeded params
+    * changed hbEvtHandler<T>:: OnCommandEvent, OnGridEvent, OnMouseEvent to
+      send a wxEvent... object to the harbour processing events method
+
+  * samples/helloworld/helloworld.prg
+    * updated sample
+
+  * src/common/wx_harbour.cpp
+    + added wxh_ItemListReleaseAll() to be executed on wxApp::OnExit()
+    * code cleanup
+
+  * src/common/wxhfuncs.prg
+    ! added temporary HACK to fix a memoty leak on wxWindow:GetFont()
+
+  * src/hrbcompat/misc/wx_functions.cpp
+    * moved here WXEVT_FIRST() function
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+    ! Fixed memory leak by using hb_itemRelease()
+
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+    ! Fixed several memory leacks (also using now hb_itemRelease() )
+
+  * src/wxbase/advctrls/wx_statusbar.cpp
+    * minor code cleanup
+
+  * src/wxbase/app/wx_app.cpp
+    * now creating hb object on NEW
+    * using hb_ItemListReleaseAll() and releasing the HB wxApp item on wxApp::onExit()
+  * src/wxbase/app/wxhapp.prg
+    + added wxApp:Implement HB method
+
+  * src/wxbase/baseclasses/wx_event.cpp
+  * src/wxbase/baseclasses/wxhevent.prg
+    + added:
+      + GetEventType
+      + GetId
+    * minor code cleanup
+
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+    * renamed wxEvtHandler:wxConnect to wxEvtHandler:wxhConnect
+    * removed unneeded param on ::wxhConnect
+
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    * changed OnCommandEvent have only one parameter: a wxEvent object
+    * minor code cleanup
+
+  * src/wxbase/system/wx_font.cpp
+  * src/wxbase/system/wxhfont.prg
+    + added:
+      + GetFaceName
+    * minor code cleanup
+    
+  * src/wxbase/validators/wx_validator.cpp
+    * minor code cleanup
+
 2008-11-21 15:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/arrbrowser/GNUmakefile

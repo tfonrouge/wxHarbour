@@ -19,13 +19,15 @@
 #include "wx.ch"
 
 /*
-  wEvent
+  wxEvent
   Teo. Mexico 2008
 */
 CLASS wxEvent FROM wxObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  METHOD GetEventType
+  METHOD GetId
   METHOD Skip( skip )
 PUBLISHED:
 ENDCLASS

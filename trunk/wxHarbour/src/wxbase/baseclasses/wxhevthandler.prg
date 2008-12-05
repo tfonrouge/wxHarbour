@@ -26,7 +26,7 @@ PRIVATE:
   DATA FEventHashList INIT HB_HSetCaseMatch( {=>}, .F. )
   DATA FEventTypeValue
 PROTECTED:
-  METHOD wxConnect( id, lastId, eventType )
+  METHOD wxhConnect( id, lastId, eventType )
 PUBLIC:
   METHOD Connect( p1, p2, p3, p4 )
   METHOD OnCommandEvent( event )
@@ -75,7 +75,7 @@ METHOD PROCEDURE Connect( p1, p2, p3, p4 ) CLASS wxEvtHandler
 
   AAdd( ::FEventHashList[ eventType ], { id, lastId, bAction } )
 
-  ::wxConnect( id, lastId, eventType )
+  ::wxhConnect( id, lastId, eventType )
 
 RETURN
 
@@ -83,16 +83,12 @@ RETURN
   OnCommandEvent
   Teo. Mexico 2006
 */
-METHOD PROCEDURE OnCommandEvent( id, eventType ) CLASS wxEvtHandler
+METHOD PROCEDURE OnCommandEvent( commandEvent ) CLASS wxEvtHandler
   LOCAL itm
+  LOCAL id,eventType
 
-//   ? ::ClassName
-//   ?? " Id: "+LTrim(Str(::GetId()))
-//   ?? ", Event #: "+LTrim(Str(id))
-//   ?? " type: "+LTrim(Str(eventType))
-//   IF ::IsDerivedFrom("wxFrame")
-//     ? ::GetTitle()
-//   ENDIF
+  id := commandEvent:GetId()
+  eventType := commandEvent:GetEventType()
 
   IF !HB_HHasKey( ::FEventHashList, eventType )
     //::Skip() ?

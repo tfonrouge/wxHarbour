@@ -32,9 +32,13 @@ extern "C"
 
 #include <iostream>
 
+HB_FUNC_EXTERN( WXCOMMANDEVENT );
+HB_FUNC_EXTERN( WXGRIDEVENT );
+HB_FUNC_EXTERN( WXMOUSEEVENT );
+
 using namespace std;
 
-typedef void * PWXH_ITEM;
+typedef wxObject* PWXH_ITEM;
 
 PWXH_ITEM     hb_par_WX( int param );
 wxPoint       hb_par_wxPoint( int param );
@@ -45,6 +49,7 @@ void          wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf );
 void          wxh_ItemListDel( PWXH_ITEM wxObj );
 PHB_ITEM      wxh_ItemListGetHB( PWXH_ITEM wxObj );
 PWXH_ITEM     wxh_ItemListGetWX( PHB_ITEM pSelf );
+void	      wxh_ItemListReleaseAll();
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
@@ -62,7 +67,7 @@ public:
   void OnCommandEvent( wxCommandEvent& event );
   void OnGridEvent( wxGridEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
-  void wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler );
+  void wxhConnect( int id, int lastId, wxEventType eventType );
 
   ~hbEvtHandler<T>() { wxh_ItemListDel( this ); }
 };
@@ -74,13 +79,16 @@ public:
 template <class T>
 void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
 {
-  PHB_ITEM pId = hb_itemNew( NULL );
-  PHB_ITEM pEventType = hb_itemNew( NULL );
+  HB_FUNC_EXEC( WXCOMMANDEVENT );
+  PHB_ITEM pEvent = hb_itemNew( NULL );
+  hb_itemMove( pEvent, hb_stackReturnItem() );
+  wxh_ItemListAdd( &event, pEvent );
 
-  hb_itemPutNI( pId, event.GetId() );
-  hb_itemPutNI( pEventType, event.GetEventType() );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
 
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
+  wxh_ItemListDel( &event );
+  hb_itemRelease( pEvent );
+
 }
 
 /*
@@ -90,13 +98,16 @@ void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
 template <class T>
 void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 {
-  PHB_ITEM pId = hb_itemNew( NULL );
-  PHB_ITEM pEventType = hb_itemNew( NULL );
+  HB_FUNC_EXEC( WXGRIDEVENT );
+  PHB_ITEM pEvent = hb_itemNew( NULL );
+  hb_itemMove( pEvent, hb_stackReturnItem() );
+  wxh_ItemListAdd( &event, pEvent );
 
-  hb_itemPutNI( pId, event.GetId() );
-  hb_itemPutNI( pEventType, event.GetEventType() );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
 
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
+  wxh_ItemListDel( &event );
+  hb_itemRelease( pEvent );
+
 }
 
 /*
@@ -106,13 +117,16 @@ void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 template <class T>
 void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 {
-  PHB_ITEM pId = hb_itemNew( NULL );
-  PHB_ITEM pEventType = hb_itemNew( NULL );
+  HB_FUNC_EXEC( WXMOUSEEVENT );
+  PHB_ITEM pEvent = hb_itemNew( NULL );
+  hb_itemMove( pEvent, hb_stackReturnItem() );
+  wxh_ItemListAdd( &event, pEvent );
 
-  hb_itemPutNI( pId, event.GetId() );
-  hb_itemPutNI( pEventType, event.GetEventType() );
+  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
 
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 2, pId, pEventType );
+  wxh_ItemListDel( &event );
+  hb_itemRelease( pEvent );
+
 }
 
 /*
@@ -120,7 +134,7 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
   Teo. Mexico 2008
 */
 template <class T>
-void hbEvtHandler<T>::wxConnect( int id, int lastId, wxEventType eventType, wxEvtHandler* evtHandler )
+void hbEvtHandler<T>::wxhConnect( int id, int lastId, wxEventType eventType )
 {
 
   if( eventType == wxEVT_GRID_CELL_RIGHT_CLICK )
@@ -128,9 +142,11 @@ void hbEvtHandler<T>::wxConnect( int id, int lastId, wxEventType eventType, wxEv
     cout << "";
     cout << "Connecting wxEVT_GRID_CELL_RIGHT_CLICK" << endl;
     cout << "";
-    evtHandler->Connect( wxID_ANY, wxEVT_GRID_CELL_RIGHT_CLICK, wxGridEventHandler( hbEvtHandler<T>::OnGridEvent ) );
+    this->Connect( wxID_ANY, wxEVT_GRID_CELL_RIGHT_CLICK, wxGridEventHandler( hbEvtHandler<T>::OnGridEvent ) );
     return;
   }
-  evtHandler->Connect( id, lastId, eventType, wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent ) );
+
+  this->Connect( id, lastId, eventType, wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent ) );
+
 }
 

@@ -22,6 +22,12 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
+  CONSTRUCTOR New
+
+  /* wxHarbour */
+  METHOD Implement
+
+  /* wxWidgets */
   METHOD ExitMainLoop
   METHOD GetTopWindow
 

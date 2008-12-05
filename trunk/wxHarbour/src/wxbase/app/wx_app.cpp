@@ -20,10 +20,19 @@
 
 #include "wxbase/wx_app.h"
 
+static PHB_ITEM hb_App;
+
+/*
+  wxGetApp
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGETAPP )
+{
+  hb_itemReturn( hb_App );
+}
+
 HB_FUNC_EXTERN( __QUIT );
 HB_FUNC_EXTERN( WXHERRORSYS );
-
-static PHB_ITEM hb_wxApp;
 
 /*
   OnExit
@@ -33,6 +42,8 @@ int wx_App::OnExit()
 {
   cout << endl << "OnExit";
   cout << endl;
+  wxh_ItemListReleaseAll();
+  hb_itemRelease( hb_App );
   HB_FUNC_EXEC( __QUIT );
   return 0;
 }
@@ -45,7 +56,7 @@ bool wx_App::OnInit()
 {
   /* set our error handler */
   HB_FUNC_EXEC( WXHERRORSYS );
-  return hb_retl( hb_objSendMsg( hb_wxApp, "OnInit", 0 )->item.asLogical.value );
+  return hb_retl( hb_objSendMsg( hb_App, "OnInit", 0 )->item.asLogical.value );
 }
 
 /*
@@ -55,19 +66,34 @@ bool wx_App::OnInit()
 IMPLEMENT_APP_NO_MAIN( wx_App )
 IMPLEMENT_CLASS( wx_App, wxApp )
 
+/*
+  New
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXAPP_NEW )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  hb_App = hb_itemNew( NULL );
+  hb_itemCopy( hb_App, pSelf );
+
+  hb_itemReturn( pSelf );
+
+}
+
 /*! \brief wxApp initializacion, we don't link here the wxApp c++ because we can get it right from the wxGetApp function
     \param wxApp HBCLASS
     \return The wxApp Harbour object
   Constructor: wxApp Object
   Teo. Mexico 2006
 */
-HB_FUNC( IMPLEMENT_APP )
+HB_FUNC( WXAPP_IMPLEMENT )
 {
-  hb_wxApp = hb_param( 1, HB_IT_OBJECT );
   int i_args = 0;
   char **p_args = NULL;
 
   wxEntry( i_args, p_args );
+
 }
 
 /*
@@ -90,18 +116,4 @@ HB_FUNC( WXAPP_GETTOPWINDOW )
 HB_FUNC( WXAPP_EXITMAINLOOP )
 {
   wxGetApp().ExitMainLoop();
-}
-
-/*!
-  wxGetApp
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXGETAPP )
-{
-  hb_itemReturn( hb_wxApp );
-}
-
-HB_FUNC( WXEVT_FIRST )
-{
-  hb_retnl( wxEVT_COMMAND_BUTTON_CLICKED + hb_parnl(1) - 1 );
 }
