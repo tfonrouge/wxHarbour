@@ -415,9 +415,9 @@ RETURN Str2Date( cDate, "YYYYMMDD" )
   Teo. USA 1995
 */
 FUNCTION Str2Date( sDate , sTemplate , sReturn )
-  LOCAL tDay,sDay
+  LOCAL sDay
   LOCAL tMonth,sMonth,nMonth
-  LOCAL tYear,sYear
+  LOCAL sYear
   LOCAL s,i,j
   LOCAL d
 
@@ -440,23 +440,19 @@ FUNCTION Str2Date( sDate , sTemplate , sReturn )
       s := Token(sTemplate,,i)
       DO CASE
       CASE s="D"
-        tDay := s
         sDay := Token(sDate,,i)
       CASE s="M"
         tMonth := s
         sMonth := Token(sDate,,i)
       CASE s="Y"
-        tYear := s
         sYear := Token(sDate,,i)
       ENDCASE
     NEXT
   ELSE
 
     IF (i:=At("YYYY",sTemplate))>0
-      tYear := "YYYY"
       sYear := SubStr(sDate,i,4)
     ELSEIF (i:=At("YY",sTemplate))>0
-      tYear := "YY"
       sYear := SubStr(sDate,i,2)
     ENDIF
 
@@ -469,7 +465,6 @@ FUNCTION Str2Date( sDate , sTemplate , sReturn )
     ENDIF
 
     IF (i:=At("DD",sTemplate))>0
-      tDay := "DD"
       sDay := SubStr(sDate,i,2)
     ENDIF
 

@@ -40,7 +40,6 @@ ENDCLASS
 */
 METHOD PROCEDURE Connect( p1, p2, p3, p4 ) CLASS wxEvtHandler
   LOCAL id, lastId, eventType, bAction
-  LOCAL vtP1 := ValType( p1 )
   LOCAL vtP2 := ValType( p2 )
   LOCAL vtP3 := ValType( p3 )
   LOCAL vtP4 := ValType( p4 )

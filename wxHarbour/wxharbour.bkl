@@ -7,6 +7,7 @@
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/*.ch"))
+      $(fileList("include/*.h"))
       $(fileList("include/wxh/*.ch"))
     </headers>
     <sources-at>

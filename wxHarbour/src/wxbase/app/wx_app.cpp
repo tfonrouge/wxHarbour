@@ -56,7 +56,7 @@ bool wx_App::OnInit()
 {
   /* set our error handler */
   HB_FUNC_EXEC( WXHERRORSYS );
-  return hb_retl( hb_objSendMsg( hb_App, "OnInit", 0 )->item.asLogical.value );
+  return hb_objSendMsg( hb_App, "OnInit", 0 )->item.asLogical.value;
 }
 
 /*

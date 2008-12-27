@@ -50,15 +50,41 @@ HB_FUNC( WXIPV4ADDRESS_NEW )
 }
 
 /*
+  bool AnyAddress
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXIPV4ADDRESS_ANYADDRESS )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
+
+  if( pSelf && ipv4Address )
+    hb_retl( ipv4Address->AnyAddress() );
+}
+
+/*
+  void Clear
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXIPV4ADDRESS_CLEAR )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
+
+  if( pSelf && ipv4Address )
+    ipv4Address->Clear();
+}
+
+/*
   bool Hostname
   Teo. Mexico 2008
 */
 HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && ipv4Address )
   {
     if( hb_pcount() == 0 )
       hb_retc( ipv4Address->Hostname().mb_str() );
@@ -77,56 +103,10 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
 HB_FUNC( WXIPV4ADDRESS_IPADDRESS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && ipv4Address )
     hb_retc( ipv4Address->IPAddress().mb_str() );
-}
-
-/*
-  bool Service
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXIPV4ADDRESS_SERVICE )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
-
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
-  {
-    if( ISCHAR( 1 ) )
-      hb_retl( ipv4Address->Service( wxh_parc( 1 ) ) );
-    if( ISNUM( 1 ) )
-      hb_retl( ipv4Address->Service( hb_parnl( 1 ) ) );
-    if( hb_pcount() == 0 )
-      hb_retnl( ipv4Address->Service() );
-  }
-}
-
-/*
-  bool AnyAddress
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXIPV4ADDRESS_ANYADDRESS )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
-
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
-    hb_retl( ipv4Address->AnyAddress() );
-}
-
-/*
-  bool LocalHost
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXIPV4ADDRESS_LOCALHOST )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
-
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
-    hb_retl( ipv4Address->LocalHost() );
 }
 
 /*
@@ -136,36 +116,41 @@ HB_FUNC( WXIPV4ADDRESS_LOCALHOST )
 HB_FUNC( WXIPV4ADDRESS_ISLOCALHOST )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && ipv4Address )
     hb_retl( ipv4Address->IsLocalHost() );
 }
 
 /*
-  void Clear
+  bool LocalHost
   Teo. Mexico 2008
 */
-HB_FUNC( WXIPV4ADDRESS_CLEAR )
+HB_FUNC( WXIPV4ADDRESS_LOCALHOST )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
-    ipv4Address->Clear();
+  if( pSelf && ipv4Address )
+    hb_retl( ipv4Address->LocalHost() );
 }
 
 /*
-  int SockAddrLen
+  bool Service
   Teo. Mexico 2008
 */
-/*
-HB_FUNC( WXIPV4ADDRESS_SOCKADDRLEN )
+HB_FUNC( WXIPV4ADDRESS_SERVICE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_IPV4address* ipv4Address;
+  wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && (ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf ) ) )
-    hb_retni( ipv4Address->SockAddrLen() );
+  if( pSelf && ipv4Address )
+  {
+    if( ISCHAR( 1 ) )
+      hb_retl( ipv4Address->Service( wxh_parc( 1 ) ) );
+    if( ISNUM( 1 ) )
+      hb_retl( ipv4Address->Service( hb_parnl( 1 ) ) );
+    if( hb_pcount() == 0 )
+      hb_retnl( ipv4Address->Service() );
+  }
 }
-*/

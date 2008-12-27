@@ -133,6 +133,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_tdatabase.o \
 	$(__BUILDDIR__)/wxHarbour_tfield.o \
 	$(__BUILDDIR__)/wxHarbour_tindex.o \
+	$(__BUILDDIR__)/wxHarbour_trdoclient.o \
+	$(__BUILDDIR__)/wxHarbour_trdoserver.o \
 	$(__BUILDDIR__)/wxHarbour_ttable.o \
 	$(__BUILDDIR__)/wxHarbour_wxhgrid.o \
 	$(__BUILDDIR__)/wxHarbour_wxhgridtablebase.o \
@@ -181,6 +183,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_harbour.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_browse.o \
+	$(__BUILDDIR__)/wxHarbour_ttable_c.o \
 	$(__BUILDDIR__)/wxHarbour_wx_grid.o \
 	$(__BUILDDIR__)/wxHarbour_wx_gridtablebase.o \
 	$(__BUILDDIR__)/wxHarbour_wx_panel.o \
@@ -237,6 +240,9 @@ WXHARBOUR_HEADERS =  \
 	include/wx_hbcompat.ch \
 	include/wxharbour.ch \
 	include/xerror.ch \
+	include/defs.h \
+	include/rdodefs.h \
+	include/wxh.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
@@ -367,6 +373,12 @@ $(__BUILDDIR__)/wxHarbour_tfield.o: ./src/raddox/tfield.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_tindex.o: ./src/raddox/tindex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_trdoclient.o: ./src/raddox/trdoclient.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_trdoserver.o: ./src/raddox/trdoserver.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_ttable.o: ./src/raddox/ttable.prg
@@ -511,6 +523,9 @@ $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_browse.o: ./src/hrbcompat/tbrowse/wx_browse.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_ttable_c.o: ./src/raddox/ttable_c.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_grid.o: ./src/wxbase/advctrls/wx_grid.cpp

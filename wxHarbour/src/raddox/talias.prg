@@ -79,16 +79,21 @@ METHOD New( table ) CLASS TAlias
     RAISE ERROR "TAlias: Empty Table parameter."
   ENDIF
 
+  /* Check if this is a remote request */
+  IF table:RDOClient != NIL
+    RETURN table:Alias
+  ENDIF
+
   ::FTable := table
 
   ::FRecNo := 0
 
-  IF Empty( table:TableName )
+  IF Empty( table:TableFileName )
     RAISE ERROR "TAlias: Empty Table Name..."
   ENDIF
 
   IF !::DbOpen()
-    RAISE ERROR "TAlias: Cannot Open Table '" + table:TableName + "'"
+    RAISE ERROR "TAlias: Cannot Open Table '" + table:TableFileName + "'"
   ENDIF
 
   ::SyncFromRecNo()
@@ -151,21 +156,21 @@ METHOD DbOpen CLASS TAlias
   LOCAL n
 
   /* Check for a previously open workarea */
-  n := Select( ::FTable:TableName )
+  n := Select( ::FTable:TableFileName )
   IF n > 0
-    ::FName := ::FTable:TableName
+    ::FName := ::FTable:TableFileName
     ::FnWorkArea := n
     RETURN .T.
   ENDIF
 
   IF ::FTable:DataBase:OpenBlock != NIL
-    IF !::FTable:DataBase:OpenBlock:Eval( ::FTable:TableName )
+    IF !::FTable:DataBase:OpenBlock:Eval( ::FTable:TableFileName )
       ::FName := ""
       ::FnWorkArea := 0
       RETURN .F.
     ENDIF
-    ::FName := ::FTable:TableName
-    ::FnWorkArea := Select( ::FTable:TableName )
+    ::FName := ::FTable:TableFileName
+    ::FnWorkArea := Select( ::FTable:TableFileName )
     RETURN .T.
   ENDIF
 
@@ -182,13 +187,17 @@ RETURN !NetErr()
 */
 METHOD FUNCTION DbSkip( nRecords, indexName ) CLASS TAlias
   LOCAL Result
+
   ::SyncFromRecNo()
+
   IF Empty( indexName )
     Result := (::FnWorkArea)->( DbSkip( nRecords ) )
   ELSE
     Result := (::FnWorkArea)->( DbSkipX( nRecords, indexName ) )
   ENDIF
+
   ::SyncFromAlias()
+
 RETURN Result
 
 /*

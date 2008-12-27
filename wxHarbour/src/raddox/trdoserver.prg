@@ -1,0 +1,171 @@
+/*
+  TRDOServer
+  Teo. Mexico 2008
+*/
+
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
+#endif
+
+#include "hbclass.ch"
+#include "property.ch"
+#include "raddox.ch"
+#include "xerror.ch"
+
+STATIC FSocketServer := NIL
+
+CLASS TRDOServer FROM wxSocketServer
+PRIVATE:
+
+  DATA FMapTable	INIT {=>}
+  DATA FThreadServerId
+
+PROTECTED:
+PUBLIC:
+
+  DATA DefaultTimeOut INIT 10
+  DATA StopRequest INIT .F.
+
+  CONSTRUCTOR New( address, port )
+
+  METHOD AddTable( table )
+  METHOD Start
+  METHOD Stop
+
+PUBLISHED:
+ENDCLASS
+
+/*
+  New
+  Teo. Mexico 2008
+*/
+METHOD New( address, port ) CLASS TRDOServer
+  LOCAL ipv4
+
+  IF FSocketServer != NIL
+    ::Error_RDO_Server_Already_Created()
+  ENDIF
+
+  ipv4 := wxIPV4address():New()
+  ipv4:HostName( address )
+  ipv4:Service( port )
+
+  Super:New( ipv4 )
+
+  ::SetTimeOut( ::DefaultTimeOut )
+
+  IF !::IsOk
+    ::Error_Could_Not_Create_RDO_Server()
+  ENDIF
+
+  IF !HB_MTVM()
+    ::Error_Not_VM_MT()
+  ENDIF
+
+  FSocketServer := Self
+
+RETURN Self
+
+/*
+  AddTable
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION AddTable( table ) CLASS TRDOServer
+
+  IF HB_HHasKey( ::FMapTable, table:TableFileName )
+    ::Error_TableFileName_Already_Exists()
+  ENDIF
+
+  ::FMapTable[ table:TableFileName ] := table
+
+RETURN .T.
+
+/*
+  RDO_DataBaseThread
+  Teo. Mexico 2008
+*/
+STATIC FUNCTION RDO_DataBaseThread
+  LOCAL ipv4Addr := wxIPV4Address():New()
+  LOCAL socketServer
+  LOCAL s
+
+  socketServer := FSocketServer:Accept( .F. )
+
+  IF socketServer == NIL
+    ? "Failed connection."
+    RETURN .F.
+  ENDIF
+
+  ? socketServer:ClassName()
+  socketServer:GetPeer( ipv4Addr )
+
+  ? "Incomming Connection from:",ipv4Addr:HostName()
+
+  s := "Connected to this Server."
+
+  socketServer:WriteMsg( s, len( s ) )
+
+  WHILE .T.
+  ENDDO
+
+  socketServer:Destroy()
+
+RETURN .T.
+
+/*
+  RDO_ServerStart
+  Teo. Mexico 2008
+*/
+STATIC FUNCTION RDO_ServerStart
+
+  ? "Starting Server Thread..."
+
+  WHILE ! FSocketServer == NIL .AND. FSocketServer:StopRequest == .F.
+
+    ?? "."
+
+    IF FSocketServer:WaitForAccept()
+
+      HB_ThreadStart( @RDO_DataBaseThread() )
+
+    ENDIF
+
+  ENDDO
+
+  ? "Finishing Server Thread..."
+
+RETURN .T.
+
+/*
+  Start : Start a Thread to listen for clients
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Start CLASS TRDOServer
+
+  IF ::FThreadServerId != NIL
+    RETURN .F. /* Server already started */
+  ENDIF
+
+  ::FThreadServerId := HB_ThreadStart( @RDO_ServerStart() )
+
+  ? "Server Thread Id:", ::FThreadServerId
+
+RETURN .T.
+
+/*
+  Stop
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION Stop CLASS TRDOServer
+
+  ? "RDO_ServerStop"
+
+  ::Destroy()
+
+  ::StopRequest := .T.
+
+RETURN .T.
+
+/*
+  EndClass TRDOServer
+*/

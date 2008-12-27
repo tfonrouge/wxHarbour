@@ -103,6 +103,7 @@ RETURN .T.
 STATIC PROCEDURE DoStuff( oWnd )
   LOCAL i
   LOCAL frame
+  LOCAL s
 
   FOR i:=1 TO 10
 
@@ -112,7 +113,10 @@ STATIC PROCEDURE DoStuff( oWnd )
 
     SHOW WINDOW frame
 
-    wxGetApp():NoRelease()
+    //wxGetApp():NoRelease()
+    //s := HB_Serialize( "Esta es uns Prueba. # " + NTrim( i ) )
+    s := HB_Serialize( frame )
+    ? "Serialize",i,Len( s ),s, "=", HB_DeSerialize( s ):ClassName
 
   NEXT
 

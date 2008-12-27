@@ -32,22 +32,30 @@ PRIVATE:
 
   CLASSDATA FFieldTypes
   CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
+  CLASSDATA FNumInstances INIT 0
+  CLASSDATA FServerObject
 
   DATA FActive        INIT .F.
+  DATA FAddress
   DATA FAlias
   DATA FDisplayFields                   // Contains a Object
   DATA FIndex                           // Current TIndex in Table
   DATA FIndexList
   DATA FMasterList    INIT .F.  // Needed to tell when listing a Detail DataSource.
   DATA FMasterSource
+  DATA FPort
   DATA FPrimaryIndex
+  DATA FRDOClient
   DATA FRecNo         INIT 0
+  DATA FRemote	      INIT .F.
   DATA FState INIT dsInactive
   DATA FSubState INIT dssNone
+  DATA FTableFileName
   DATA FTimer INIT 0
   DATA FUndoList INIT HB_HSetCaseMatch( {=>}, .F. )
 
   METHOD DbGoBottomTop( type )
+  METHOD GetAlias
   METHOD GetBof INLINE ::Alias:Bof
   METHOD GetDbStruct
   METHOD GetEof INLINE ::Alias:Eof
@@ -62,6 +70,7 @@ PRIVATE:
   METHOD SetMasterSource( MasterSource )
   METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField = NIL, "", ::GetPrimaryMasterKeyField:AsString )
   METHOD GetPublishedFieldList
+  METHOD SendToServer
   METHOD SetPrimaryIndex( AIndex )
 
 PROTECTED:
@@ -150,7 +159,7 @@ PUBLIC:
   EVENT OnBeforeInsert VIRTUAL
   EVENT OnBeforePost VIRTUAL
 
-  PROPERTY Alias READ FAlias
+  PROPERTY Alias READ GetAlias
   PROPERTY AsString READ GetAsString WRITE SetAsString
   PROPERTY BaseClass READ FBaseClass
   PROPERTY Bof READ GetBof
@@ -163,9 +172,11 @@ PUBLIC:
   PROPERTY Instances READ FInstances
   PROPERTY MasterList READ FMasterList WRITE SetMasterList
   PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
+  PROPERTY RDOClient READ FRDOClient
   PROPERTY RecNo READ FRecNo WRITE DbGoTo
   PROPERTY State READ FState
   PROPERTY SubState READ FSubState
+  PROPERTY TableFileName READ FTableFileName
 
 PUBLISHED:
 
@@ -190,6 +201,8 @@ ENDCLASS
   Teo. Mexico 2006
 */
 METHOD New( MasterSource ) CLASS TTable
+
+  ::FNumInstances++
 
   ::OnCreate( Self )
 
@@ -817,7 +830,17 @@ METHOD FUNCTION FullFileName CLASS TTable
     Result := ""
   ENDIF
 
-RETURN Result + ::TableName
+RETURN Result + ::TableFileName
+
+/*
+  GetAlias
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GetAlias CLASS TTable
+  IF ::FRDOClient != NIL .AND. ::FAlias == NIL
+    ::FAlias := ::SendToServer()
+  ENDIF
+RETURN ::FAlias
 
 /*
   GetCurrentRecord
@@ -1231,10 +1254,48 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD FUNCTION Open CLASS TTable
+  LOCAL tableName
+  LOCAL s
+  LOCAL sHostPort
+
+  tableName := Upper( ::TableName )
+
+  /*
+    Process tableName to check if we need a Client or Server
+  */
+  IF tableName = "RDO"
+
+    s := HB_TokenGet( ::TableName, 2, "://" )
+    sHostPort := HB_TokenGet( s, 1, "/" )
+    ::FTableFileName := SubStr( s, At( "/", s ) + 1 )
+
+    ::FAddress := HB_TokenGet( sHostPort, 1, ":" )
+    ::FPort := HB_TokenGet( sHostPort, 2, ":" )
+
+    /*
+      Checks if RDO Client is required
+    */
+    IF tableName = "RDO://"
+      ::FRDOClient := TRDOClient():New( ::FAddress, ::FPort )
+      IF !::FRDOClient:Connect()
+	::Error_ConnectToServer_Failed()
+	RETURN .F.
+      ENDIF
+    ELSE
+      ::Error_Faulty_TableName_Syntax()
+    ENDIF
+
+    ::SendToServer()
+
+  ELSE
+
+    ::FTableFileName := ::TableName
+
+  ENDIF
 
   /*!
-   * Make sure that database is open here
-   */
+  * Make sure that database is open here
+  */
   IF ::FAlias = NIL
     ::FAlias := TAlias():New( Self )
   ENDIF
@@ -1268,6 +1329,7 @@ METHOD FUNCTION Open CLASS TTable
     ::FFieldList := {}
     ::DefineFields()
   ENDIF
+
   IF Empty( ::FIndexList )
     ::FIndexList := {}
     ::DefineIndexes()
@@ -1504,6 +1566,28 @@ METHOD FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
   ENDSWITCH
 
 RETURN AIndex:Seek( Value, lSoftSeek )
+
+/*
+  SendToServer
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION SendToServer( ... ) CLASS TTable
+  LOCAL s,a,i
+
+  IF PCount() > 0
+    a := {}
+    FOR i:=1 TO PCount()
+      AAdd( a, HB_PValue( i ) )
+    NEXT
+  ENDIF
+
+  a := HB_Serialize( a )
+
+  s := ProcName( 1 )
+
+  ? "SendToServer",s,a
+
+RETURN ::FRDOClient:SendMsg( s, a )
 
 /*
   SetIndexName
