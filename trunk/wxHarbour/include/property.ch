@@ -9,7 +9,7 @@
 #ifndef __XHARBOUR__
 #xcommand PRIVATE: => HIDDEN:
 #xcommand PUBLIC: => EXPORTED:
-#xcommand PUBLISHED: => nScope := HB_OO_CLSTP_PERSIST
+#xcommand PUBLISHED: => EXPORTED:
 #endif
 
 // With INDEX

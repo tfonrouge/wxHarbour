@@ -4,8 +4,9 @@
 */
 
 #ifndef _RADDOX_H_
-
 #define _RADDOX_H_
+
+#include "rdodefs.h"
 
 #define dsInactive  0
 #define dsBrowse    1

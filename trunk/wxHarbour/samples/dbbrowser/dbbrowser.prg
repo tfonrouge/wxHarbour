@@ -14,15 +14,76 @@
 
 #include "wxh/filedlg.ch"
 
-FUNCTION Main()
+FUNCTION Main( ... )
   LOCAL profiler := HBProfile():New()
+  LOCAL i
   LOCAL MyApp
+  LOCAL csPort,csServerName,csType
+  LOCAL p
+  LOCAL lRunServer := .F.
+
+  FOR i:=1 TO PCount()
+    p := HB_PValue( i )
+    IF ValType( p ) = "C"
+      IF Upper( p ) == "--CLIENT"
+        csType := "RDO"
+      ENDIF
+      IF Upper( p ) == "--RUNSERVER"
+        lRunServer := .T.
+      ENDIF
+      IF Upper( p ) = "--PORT="
+        csPort := SubStr( p, 8 )
+      ENDIF
+      IF Upper( p ) = "--SERVER-AT="
+        csServerName := SubStr( p, 13 )
+      ENDIF
+    ENDIF
+  NEXT
+
+  /*
+    RDO://localhost/main:8000
+    RDO_RUNSERVER://localhost/main:8000
+  */
+
+  IF Empty( PCount() )
+    ? "dbbrowser can be run also as either client or server"
+    ?
+    ? "if using as server, then the following arguments are allowed:"
+    ? "  dbbrowser --runserver [ --port=port ]"
+    ? "  'port' defaults to 9000."
+    ?
+    ? "if using as client, then the following arguments are allowed:"
+    ? "  dbbrowser --client [ --server-at=servername ] ][ --port=port ]"
+    ? " 'server-at' defaults to 'localhost', 'port' defaults to 9000."
+    ?
+  ENDIF
 
   MyApp := MyApp():New()
 
+  IF !Empty( csType )
+    MyApp:RDO_TYPE := csType
+    IF !Empty( csServerName )
+      MyApp:RDO_SERVERNAME := csServerName
+    ENDIF
+    IF !Empty( csPort )
+      MyApp:RDO_PORT := csPort
+    ENDIF
+  ENDIF
+
   __setProfiler( .T. )
 
+  IF lRunServer
+    MyApp:RDOServer := TRDOServer():New( "localhost", MyApp:RDO_PORT )
+    MyApp:RDOServer:Start()
+  ENDIF
+
   IMPLEMENT_APP( MyApp )
+
+  IF lRunServer
+    MyApp:RDOServer:Stop()
+  ENDIF
+
+  //RDOServerStop()
 
   //profiler:Gather()
   ? HBProfileReportToString():new( profiler:timeSort() ):generate( {|o| o:nTicks > 10000 } )
@@ -41,6 +102,10 @@ CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  DATA RDO_PORT 	INIT "9000"
+  DATA RDO_SERVERNAME 	INIT "localhost"
+  DATA RDO_TYPE 	INIT ""
+  DATA RDOServer
   METHOD OnInit
 PUBLISHED:
 ENDCLASS
@@ -57,6 +122,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL text := ""
   LOCAL textCtrl
   LOCAL b
+  LOCAL dbName
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -75,8 +141,16 @@ METHOD FUNCTION OnInit() CLASS MyApp
     ENDMENU
   ENDMENU
 
+  IF Empty( ::RDO_TYPE )
+    dbName := "main"
+  ELSE
+    IF ::RDO_TYPE == "RDO"
+      dbName := ::RDO_TYPE + "://" + ::RDO_SERVERNAME + ":" + ::RDO_PORT + "/main"
+    ENDIF
+  ENDIF
+
   BEGIN BOXSIZER VERTICAL
-    @ BROWSE VAR b DATASOURCE "main" ;
+    @ BROWSE VAR b DATASOURCE dbName ;
       ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
       SIZERINFO ALIGN EXPAND STRETCH
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
@@ -89,6 +163,9 @@ METHOD FUNCTION OnInit() CLASS MyApp
         @ BUTTON "Up" ACTION b:Up()
         @ BUTTON "Down" ACTION b:Down()
         @ BUTTON "RefreshAll" ACTION b:RefreshAll()
+      END SIZER
+      BEGIN BOXSIZER HORIZONTAL
+        @ BUTTON "Stop Server" ACTION wxGetApp():RDOServer:Stop()
       END SIZER
       @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
     END SIZER
@@ -105,6 +182,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
   SHOW WINDOW oWnd CENTRE
 
 RETURN .T.
+
+/*
+  btnTest
+  Teo. Mexico 2008
+*/
+STATIC PROCEDURE btnTest
+RETURN
 
 /*
   k_Process

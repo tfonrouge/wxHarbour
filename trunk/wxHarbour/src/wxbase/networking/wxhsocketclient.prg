@@ -28,7 +28,7 @@ PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( flags )
   METHOD Connect( address, wait )
-      // Connect( address, local, wait )
+      // Connect( address, local, wait ) /*  included too */
   METHOD WaitOnConnect( seconds, milliseconds )
 PUBLISHED:
 ENDCLASS

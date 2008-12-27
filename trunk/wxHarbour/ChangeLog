@@ -2,6 +2,80 @@
  *
  */
 
+2008-12-27 01:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/property.ch
+    * Temporary change on PUBLISHED: property
+
+  * include/raddox.ch
+  + include/rdodefs.h
+    + added rdodefs.h include
+
+  * include/wxh.h
+    * changed include file "hbvmopt.h" for "hbvmint.h"
+
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/dbbrowser/GNUmakefile
+  * samples/helloworld/helloworld.prg
+    * updated samples
+
+  * src/common/wxhutils.prg
+    * removed unused vars
+
+  * src/raddox/talias.prg
+    * added logic to return object in case of a Table:RDOClient
+    * using TableFileName to contain the file name of the database
+
+  * src/raddox/tfield.prg
+    * removing Custom Index related methods and data
+
+  + src/raddox/trdoserver.prg
+    + added TRDOServer class to listening for incoming remote clients
+      + ::Start : initiate the Thread for listening incoming clients
+      + ::Stop : stops listening
+
+  + src/raddox/ttable_c.cpp
+    * to contain optimized C functions for client/server
+
+  * src/raddox/ttable.prg
+    + added CLASSDATA FServerObject to contain the RDOServer class
+    + added FAdress to contain the server hostname
+    + added FPort to contain the server listening port
+    + added FRDOClient to contain the Client class
+    + added GetAlias method to return the Server side Alias object
+    + added SendToServer method to send client requests to RDOServer
+    + added logic to Open method to detect a RDO client request:
+      ; "RDO://servername:port/database"
+    
+  * src/raddox/xdoutils.c
+    * added LGPL licence header
+
+  * src/wxbase/app/wx_app.cpp
+    ! Fixed wrong return value on ::OnInit
+
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    * removed unused var
+
+  * src/wxbase/networking/wxhsocketclient.prg
+    * minor cleanup
+
+  * src/wxbase/networking/wx_ipv4address.cpp
+    * code cleanup
+    * removed deprecated func SockAddrLen
+
+  * src/wxbase/networking/wx_socketbase.cpp
+    * code cleanup
+    
+  * src/wxbase/networking/wx_socketclient.cpp
+    ! Fixed default value for mode Connection
+
+  * src/wxbase/networking/wx_socketserver.cpp
+    * code cleanup
+    ! Fixed default value for milliseconds on WaitForAccept
+
+  * wxharbour.bkl
+    + added "include/*.h" files to include list
+
 2008-12-09 09:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/baseclasses/wx_commandevent.cpp
   + src/wxbase/baseclasses/wxhcommandevent.prg

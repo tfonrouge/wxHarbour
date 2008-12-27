@@ -49,8 +49,6 @@ PRIVATE:
   DATA FReadOnly  INIT .F.
   DATA FRequired INIT .F.
   DATA FUniqueKeyIndex
-  METHOD CustomIndexed INLINE ::Indexed( .T. )
-  METHOD CustomIndexUpdate
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
   METHOD GetAutoIncrementValue
   METHOD GetFieldMethod
@@ -59,7 +57,6 @@ PRIVATE:
   METHOD GetLabel INLINE iif( ::FLabel = NIL, ::FName, ::FLabel )
   METHOD GetReadOnly INLINE ::FReadOnly
   METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
-  METHOD Indexed( OnlyCustom )
   METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
   METHOD SetDescription( Description ) INLINE ::FDescription := Description
   METHOD SetFieldMethod( FieldMethod )
@@ -199,24 +196,6 @@ METHOD New( Table ) CLASS TField
   ::FActive := .T.
 
 RETURN Self
-
-/*
-  CustomIndexUpdate
-  Teo. Mexico 2006
-*/
-METHOD PROCEDURE CustomIndexUpdate CLASS TField
-  LOCAL AIndex
-  LOCAL Name
-
-  FOR EACH AIndex IN ::FTable:IndexList
-    IF AIndex:Name == Name
-      IF AIndex:Custom
-        AIndex:CustomKeyUpdate()
-      ENDIF
-    ENDIF
-  NEXT
-
-RETURN
 
 /*
   Delete
@@ -429,37 +408,14 @@ RETURN NIL
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetItDoPick CLASS TField
-  LOCAL Result
 
   IF ::FGetItPick = NIL .OR. !HB_IsBLOCK( ::FGetItPick )
     RETURN NIL
   ENDIF
 
-  Result := ::FGetItPick:Eval( Self )
+  ::FGetItPick:Eval( Self )
 
 RETURN ::Value
-
-/*
-  Indexed
-  Teo. Mexico 2006
-*/
-METHOD FUNCTION Indexed( OnlyCustom ) CLASS TField
-  LOCAL AIndex
-  LOCAL Name
-
-  FOR EACH AIndex IN ::FTable:IndexList
-    IF AIndex:Name == Name
-      IF OnlyCustom = .T.
-        IF AIndex:Custom
-          RETURN .T.
-        ENDIF
-      ELSE
-        RETURN .T.
-      ENDIF
-    ENDIF
-  NEXT
-
-RETURN .F.
 
 /*
   IsValid
@@ -806,7 +762,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
     /* Check if has to update Custom Index */
     //IF ::CustomIndexed
-      ::CustomIndexUpdate()
+      //::CustomIndexUpdate()
     //ENDIF
 
     /*

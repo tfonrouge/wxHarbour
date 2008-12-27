@@ -86,9 +86,9 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
   if( pSelf && (socketClient = (wx_SocketClient*) wxh_ItemListGetWX( pSelf ) ) )
   {
     if( callingMode == 1 )
-      hb_retl( socketClient->Connect( *address, hb_parl( 2 ) ) );
+      hb_retl( socketClient->Connect( *address, ISLOG( 2 ) ? hb_parl( 2 ) : true ) );
     else
-      hb_retl( socketClient->Connect( *address, *local, hb_parl( 3 ) ) );
+      hb_retl( socketClient->Connect( *address, *local, ISLOG( 3 ) ? hb_parl( 3 ) : true ) );
   }
 }
 
