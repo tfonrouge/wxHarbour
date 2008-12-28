@@ -2,6 +2,26 @@
  *
  */
 
+2008-12-28 00:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.vc
+    ! Fixed bad bakefile created
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * Changed method of cretion of TTable object
+
+  * src/raddox/ttable_c.cpp
+    + added TTable:SendToServer method
+
+  * src/raddox/ttable.prg
+    * Changed TableName to TableNameValue, this data can contain
+      the tablename on inherited TTable classes
+    + Added Process_TableName method to check for a Client conn request
+    * Added parameter on New method to give a tablename
+      ; Open method can be Protected now ?
+
+  * wxharbour.spec
+    * added "include/*.h" include files
+
 2008-12-27 02:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/raddox/trdoclient.prg
     + added trdoclient.prg source

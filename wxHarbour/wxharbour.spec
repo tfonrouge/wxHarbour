@@ -47,6 +47,9 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 %files
 %defattr(-,root,root)
+/usr/local/include/defs.h
+/usr/local/include/rdodefs.h
+/usr/local/include/wxh.h
 /usr/local/include/defs.ch
 /usr/local/include/dialog.ch
 /usr/local/include/event.ch

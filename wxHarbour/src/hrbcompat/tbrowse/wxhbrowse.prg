@@ -445,9 +445,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     EXIT
 
   CASE 'C'        /* path/filename for a database browse */
-    table := TTable():New()
-    table:TableName := dataSource
-    table:Open()
+    table := TTable():New( , dataSource )
 
     ::SetDataSource( table )
 

@@ -32,7 +32,6 @@ PRIVATE:
 
   CLASSDATA FFieldTypes
   CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
-  CLASSDATA FNumInstances INIT 0
   CLASSDATA FServerObject
 
   DATA FActive        INIT .F.
@@ -70,6 +69,8 @@ PRIVATE:
   METHOD SetMasterSource( MasterSource )
   METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField = NIL, "", ::GetPrimaryMasterKeyField:AsString )
   METHOD GetPublishedFieldList
+  METHOD GetTableName INLINE ::TableNameValue
+  METHOD Process_TableName( tableName )
   METHOD SendToServer
   METHOD SetPrimaryIndex( AIndex )
 
@@ -77,6 +78,7 @@ PROTECTED:
 
   DATA FBaseClass
   DATA FFieldList
+  DATA TableNameValue //VIRTUAL, to be assigned (INIT) on inherited classes
 
   METHOD AddRec
   METHOD FindDetailSourceField( masterField )
@@ -92,7 +94,6 @@ PUBLIC:
   DATA DetailSourceList INIT HB_HSetCaseMatch( {=>}, .F. )
   DATA FieldNamePrefix  INIT "Field_"   // Table Field Name prefix
   DATA LinkedObjField
-  DATA TableName //VIRTUAL
 
   CONSTRUCTOR New( MasterSource )
 
@@ -192,6 +193,7 @@ PUBLISHED:
   PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
   PROPERTY PrimaryIndex READ FPrimaryIndex WRITE SetPrimaryIndex
   PROPERTY PublishedFieldList READ GetPublishedFieldList
+  PROPERTY TableName READ GetTableName
   PROPERTY Value READ GetAsVariant WRITE SetAsVariant
 
 ENDCLASS
@@ -200,9 +202,13 @@ ENDCLASS
   New
   Teo. Mexico 2006
 */
-METHOD New( MasterSource ) CLASS TTable
+METHOD New( MasterSource, tableName ) CLASS TTable
 
-  ::FNumInstances++
+  ::Process_TableName( tableName )
+
+  IF ::FRDOClient != NIL
+    RETURN ::SendToServer( MasterSource, ::TableFileName )
+  ENDIF
 
   ::OnCreate( Self )
 
@@ -248,9 +254,11 @@ METHOD New( MasterSource ) CLASS TTable
 
   ENDIF
 
-  IF !Empty( ::TableName )
-    ::Open()
+  IF Empty( ::TableName )
+    ::Error_Empty_TableName()
   ENDIF
+
+  ::Open()
 
 RETURN Self
 
@@ -1254,44 +1262,6 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD FUNCTION Open CLASS TTable
-  LOCAL tableName
-  LOCAL s
-  LOCAL sHostPort
-
-  tableName := Upper( ::TableName )
-
-  /*
-    Process tableName to check if we need a Client or Server
-  */
-  IF tableName = "RDO"
-
-    s := HB_TokenGet( ::TableName, 2, "://" )
-    sHostPort := HB_TokenGet( s, 1, "/" )
-    ::FTableFileName := SubStr( s, At( "/", s ) + 1 )
-
-    ::FAddress := HB_TokenGet( sHostPort, 1, ":" )
-    ::FPort := HB_TokenGet( sHostPort, 2, ":" )
-
-    /*
-      Checks if RDO Client is required
-    */
-    IF tableName = "RDO://"
-      ::FRDOClient := TRDOClient():New( ::FAddress, ::FPort )
-      IF !::FRDOClient:Connect()
-	::Error_ConnectToServer_Failed()
-	RETURN .F.
-      ENDIF
-    ELSE
-      ::Error_Faulty_TableName_Syntax()
-    ENDIF
-
-    ::SendToServer()
-
-  ELSE
-
-    ::FTableFileName := ::TableName
-
-  ENDIF
 
   /*!
   * Make sure that database is open here
@@ -1421,6 +1391,52 @@ METHOD FUNCTION Post CLASS TTable
   ::OnAfterPost( Self )
 
 RETURN .T.
+
+/*
+  Process_TableName
+  Teo. Mexico 2008
+*/
+METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
+  LOCAL s, sHostPort
+
+  IF tableName = NIL
+    tableName := ::TableNameValue
+  ELSE
+    ::TableNameValue := tableName
+  ENDIF
+
+  IF Empty( tableName )
+    ::Error_Empty_TableName()
+  ENDIF
+
+  /*
+    Process tableName to check if we need a RDOClient to an RDOServer
+  */
+  IF Upper( tableName ) = "RDO://"
+
+    s := HB_TokenGet( ::TableName, 2, "://" )
+    sHostPort := HB_TokenGet( s, 1, "/" )
+    ::FTableFileName := SubStr( s, At( "/", s ) + 1 )
+
+    ::FAddress := HB_TokenGet( sHostPort, 1, ":" )
+    ::FPort := HB_TokenGet( sHostPort, 2, ":" )
+
+    /*
+      Checks if RDO Client is required
+    */
+    ::FRDOClient := TRDOClient():New( ::FAddress, ::FPort )
+    IF !::FRDOClient:Connect()
+      ::Error_ConnectToServer_Failed()
+      RETURN
+    ENDIF
+
+  ELSE
+
+    ::FTableFileName := ::TableName
+
+  ENDIF
+
+RETURN
 
 /*
   RawSeek
@@ -1566,28 +1582,6 @@ METHOD FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
   ENDSWITCH
 
 RETURN AIndex:Seek( Value, lSoftSeek )
-
-/*
-  SendToServer
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION SendToServer( ... ) CLASS TTable
-  LOCAL s,a,i
-
-  IF PCount() > 0
-    a := {}
-    FOR i:=1 TO PCount()
-      AAdd( a, HB_PValue( i ) )
-    NEXT
-  ENDIF
-
-  a := HB_Serialize( a )
-
-  s := ProcName( 1 )
-
-  ? "SendToServer",s,a
-
-RETURN ::FRDOClient:SendMsg( s, a )
 
 /*
   SetIndexName
