@@ -10,10 +10,31 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbapi.h"
-#include "hbdate.h"
+#include "wxh.h"
+
+#define SND_BUFFERSIZE  1000
 
 /*
   TTable:SendToServer
   Teo. Mexico 2008
 */
+HB_FUNC( TTABLE_SENDTOSERVER )
+{
+  char pBuffer[ SND_BUFFERSIZE ];
+  ULONG bufSize;
+  hb_procname( 1, pBuffer, FALSE );
+  bufSize = strlen( pBuffer ) + 1;
+
+  int iPCount = hb_pcount();
+
+  if( iPCount )
+  {
+    ULONG ulSize;
+    for( int i = 1; i <= iPCount; i++ )
+    {
+      ulSize = hb_serializeItem( hb_param( i, HB_IT_ANY ) );
+    }
+  }
+
+  cout << pBuffer << "@" << endl;
+}

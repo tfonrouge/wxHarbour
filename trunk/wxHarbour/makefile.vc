@@ -332,18 +332,18 @@ install_wxHarbour_headers:
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
-	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
-	-if exist $(PREFIX)\include\dialog.ch -del $(PREFIX)\include\dialog.ch
-	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
-	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
-	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
-	-if exist $(PREFIX)\include\toplevel.ch -del $(PREFIX)\include\toplevel.ch
+	-if exist $(PREFIX)\include\defs.ch del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\dialog.ch del $(PREFIX)\include\dialog.ch
+	-if exist $(PREFIX)\include\event.ch del $(PREFIX)\include\event.ch
+	-if exist $(PREFIX)\include\property.ch del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\raddox.ch del $(PREFIX)\include\raddox.ch
+	-if exist $(PREFIX)\include\toplevel.ch del $(PREFIX)\include\toplevel.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
-	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
-	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
-	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
-	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
-	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
+	-if exist $(PREFIX)\include\wx_hbcompat.ch del $(PREFIX)\include\wx_hbcompat.ch
+	-if exist $(PREFIX)\include\wxharbour.ch del $(PREFIX)\include\wxharbour.ch
+	-if exist $(PREFIX)\include\xerror.ch del $(PREFIX)\include\xerror.ch
+	-if exist $(PREFIX)\include\wxh\filedlg.ch del $(PREFIX)\include\wxh\filedlg.ch
+	-if exist $(PREFIX)\include\wxh\textctrl.ch del $(PREFIX)\include\wxh\textctrl.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
