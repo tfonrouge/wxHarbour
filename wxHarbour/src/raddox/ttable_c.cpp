@@ -12,7 +12,9 @@
 
 #include "wxh.h"
 
-#define SND_BUFFERSIZE  1000
+#include "wxbase/wx_socketbase.h"
+
+#include "rdodefs.h"
 
 /*
   TTable:SendToServer
@@ -20,21 +22,59 @@
 */
 HB_FUNC( TTABLE_SENDTOSERVER )
 {
-  char pBuffer[ SND_BUFFERSIZE ];
-  ULONG bufSize;
-  hb_procname( 1, pBuffer, FALSE );
-  bufSize = strlen( pBuffer ) + 1;
+  PHB_ITEM pSelf = hb_stackSelfItem();
 
-  int iPCount = hb_pcount();
+  char pBuffer[ SND_BUFFERSIZE ];
+  ULONG bufSize, ulLen;
+
+  bufSize = sizeof( ULONG );
+  ulLen = sizeof( pSelf->item.asArray.value );
+
+  memcpy( pBuffer + bufSize, &( pSelf->item.asArray.value ), ulLen );
+  bufSize += ulLen;
+
+  hb_procname( 1, pBuffer + bufSize + 1, FALSE );
+  ulLen = strlen( pBuffer + bufSize + 1 );
+  pBuffer[ bufSize ] = BYTE( ulLen + 1 );
+  bufSize += ulLen + 2;
+
+  USHORT iPCount = hb_pcount();
+
+  memcpy( pBuffer + bufSize, &iPCount, sizeof( iPCount ) );
+  bufSize += sizeof( iPCount );
 
   if( iPCount )
   {
+    char* pBuf;
     ULONG ulSize;
     for( int i = 1; i <= iPCount; i++ )
     {
-      ulSize = hb_serializeItem( hb_param( i, HB_IT_ANY ) );
+      pBuf = hb_itemSerialize( hb_param( i, HB_IT_ANY ), FALSE, &ulSize );
+      memcpy( pBuffer + bufSize, &ulSize, sizeof( ulSize ) );
+      bufSize += sizeof( ulSize );
+      memcpy( pBuffer + bufSize, pBuf, ulSize );
+      bufSize += ulSize;
+      hb_xfree( pBuf );
     }
   }
 
-  cout << pBuffer << "@" << endl;
+  memcpy( pBuffer, &bufSize, sizeof( bufSize ) );
+
+  hb_objSendMsg( pSelf, "RDOClient", 0 );
+  PHB_ITEM pRDOClient = hb_stackReturnItem();
+  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGetWX( pRDOClient );
+
+  if( socketBase )
+  {
+    socketBase->Write( pBuffer, bufSize );
+  }
+  else
+    hb_objSendMsg( pSelf, "Error_SocketBase", 0 );
+
+  socketBase->Read( &bufSize, sizeof( bufSize ) );
+  socketBase->Read( pBuffer, bufSize );
+
+  const char *p = pBuffer;
+  hb_itemReturnRelease( hb_itemDeserialize( &p, &bufSize ) );
+
 }

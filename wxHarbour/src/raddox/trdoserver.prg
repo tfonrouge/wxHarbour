@@ -14,6 +14,28 @@
 
 STATIC FSocketServer := NIL
 
+/*
+  TRDOSocketBase
+  Teo. Mexico 2008
+*/
+CLASS TRDOSocketBase FROM wxSocketBase
+PRIVATE:
+PROTECTED:
+PUBLIC:
+
+  METHOD ProcessClientRequests
+
+PUBLISHED:
+ENDCLASS
+
+/*
+  EndClass TRDOSocketBase
+*/
+
+/*
+  TRDOServer
+  Teo. Mexico 2008
+*/
 CLASS TRDOServer FROM wxSocketServer
 PRIVATE:
 
@@ -28,6 +50,7 @@ PUBLIC:
 
   CONSTRUCTOR New( address, port )
 
+  METHOD Accept( flag ) /* returns an TRDOSocketBase object */
   METHOD AddTable( table )
   METHOD Start
   METHOD Stop
@@ -92,21 +115,17 @@ STATIC FUNCTION RDO_DataBaseThread
   socketServer := FSocketServer:Accept( .F. )
 
   IF socketServer == NIL
-    ? "Failed connection."
     RETURN .F.
   ENDIF
 
-  ? socketServer:ClassName()
   socketServer:GetPeer( ipv4Addr )
-
-  ? "Incomming Connection from:",ipv4Addr:HostName()
 
   s := "Connected to this Server."
 
   socketServer:WriteMsg( s, len( s ) )
 
-  WHILE .T.
-  ENDDO
+  /* loop here until client disconnects */
+  socketServer:ProcessClientRequests()
 
   socketServer:Destroy()
 
@@ -118,11 +137,7 @@ RETURN .T.
 */
 STATIC FUNCTION RDO_ServerStart
 
-  ? "Starting Server Thread..."
-
   WHILE ! FSocketServer == NIL .AND. FSocketServer:StopRequest == .F.
-
-    ?? "."
 
     IF FSocketServer:WaitForAccept()
 
@@ -131,8 +146,6 @@ STATIC FUNCTION RDO_ServerStart
     ENDIF
 
   ENDDO
-
-  ? "Finishing Server Thread..."
 
 RETURN .T.
 
@@ -148,8 +161,6 @@ METHOD FUNCTION Start CLASS TRDOServer
 
   ::FThreadServerId := HB_ThreadStart( @RDO_ServerStart() )
 
-  ? "Server Thread Id:", ::FThreadServerId
-
 RETURN .T.
 
 /*
@@ -157,8 +168,6 @@ RETURN .T.
   Teo. Mexico 2008
 */
 METHOD FUNCTION Stop CLASS TRDOServer
-
-  ? "RDO_ServerStop"
 
   ::Destroy()
 

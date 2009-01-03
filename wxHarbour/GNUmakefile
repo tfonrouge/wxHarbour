@@ -183,6 +183,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_harbour.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_browse.o \
+	$(__BUILDDIR__)/wxHarbour_trdoserver_c.o \
 	$(__BUILDDIR__)/wxHarbour_ttable_c.o \
 	$(__BUILDDIR__)/wxHarbour_wx_grid.o \
 	$(__BUILDDIR__)/wxHarbour_wx_gridtablebase.o \
@@ -523,6 +524,9 @@ $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_browse.o: ./src/hrbcompat/tbrowse/wx_browse.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_trdoserver_c.o: ./src/raddox/trdoserver_c.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_ttable_c.o: ./src/raddox/ttable_c.cpp

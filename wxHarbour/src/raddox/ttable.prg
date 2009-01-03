@@ -32,7 +32,6 @@ PRIVATE:
 
   CLASSDATA FFieldTypes
   CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
-  CLASSDATA FServerObject
 
   DATA FActive        INIT .F.
   DATA FAddress
@@ -44,7 +43,10 @@ PRIVATE:
   DATA FMasterSource
   DATA FPort
   DATA FPrimaryIndex
+
+  /* TODO: Check if we can re-use a client socket */
   DATA FRDOClient
+
   DATA FRecNo         INIT 0
   DATA FRemote	      INIT .F.
   DATA FState INIT dsInactive
@@ -67,6 +69,7 @@ PRIVATE:
   METHOD SetIndexName( IndexName )
   METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
   METHOD SetMasterSource( MasterSource )
+  METHOD GetInstance EXPORTED
   METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField = NIL, "", ::GetPrimaryMasterKeyField:AsString )
   METHOD GetPublishedFieldList
   METHOD GetTableName INLINE ::TableNameValue
@@ -170,6 +173,7 @@ PUBLIC:
   PROPERTY FieldList READ FFieldList
   PROPERTY Found READ GetFound
   PROPERTY FieldTypes READ GetFieldTypes
+  PROPERTY Instance READ GetInstance
   PROPERTY Instances READ FInstances
   PROPERTY MasterList READ FMasterList WRITE SetMasterList
   PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
@@ -203,11 +207,26 @@ ENDCLASS
   Teo. Mexico 2006
 */
 METHOD New( MasterSource, tableName ) CLASS TTable
+  LOCAL rdoClient
 
   ::Process_TableName( tableName )
 
   IF ::FRDOClient != NIL
-    RETURN ::SendToServer( MasterSource, ::TableFileName )
+
+    AltD()
+
+    rdoClient := ::FRDOClient
+
+    Self := ::SendToServer( MasterSource, ::TableFileName )
+
+    ::FRDOClient := rdoClient
+
+    IF !HB_HHasKey( ::FInstances, ::TableName )
+      ::FInstances[ ::TableName ] := ::GetInstance()
+    ENDIF
+
+    RETURN Self
+
   ENDIF
 
   ::OnCreate( Self )
@@ -759,7 +778,7 @@ RETURN NIL
 METHOD FUNCTION FindDetailSourceField( masterField ) CLASS TTable
   LOCAL Result
 
-  IF hb_HHasKey( ::MasterDetailFieldList, masterField:Name )
+  IF HB_HHasKey( ::MasterDetailFieldList, masterField:Name )
     Result := ::FieldByName( ::MasterDetailFieldList[ masterField:Name ] )
   ELSE
     Result := ::FieldByName( masterField:Name )
@@ -1044,6 +1063,10 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL MessageName
   LOCAL AField
 
+  IF ::FRDOClient != NIL
+    AltD()
+  ENDIF
+
   IF ::FDisplayFields = NIL
 
     IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] = NIL
@@ -1120,6 +1143,20 @@ METHOD FUNCTION GetFieldTypes CLASS TTable
   ENDIF
 
 RETURN ::FFieldTypes
+
+/*
+  GetInstance
+  Teo. Mexico 2008
+*/
+METHOD FUNCTION GetInstance CLASS TTable
+  LOCAL instance
+
+  IF ::FRDOClient != NIL //.AND. !HB_HHasKey( ::FInstances, ::TableClass )
+    instance := ::SendToServer()
+    RETURN instance
+  ENDIF
+
+RETURN ::FInstances[ ::TableClass ]
 
 /*
   GetPublishedFieldList
@@ -1262,6 +1299,10 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD FUNCTION Open CLASS TTable
+
+  IF ::FRDOClient != NIL
+    AltD()
+  ENDIF
 
   /*!
   * Make sure that database is open here
