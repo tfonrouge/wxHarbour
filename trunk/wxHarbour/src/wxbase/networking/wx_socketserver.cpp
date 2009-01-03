@@ -81,7 +81,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
     if(socketBase)
     {
       PHB_ITEM p = hb_itemNew( NULL );
-      HB_FUN_WXSOCKETBASE();
+      HB_FUNC_EXEC( WXSOCKETBASE );
       hb_itemCopy( p, hb_stackReturnItem() );
       wxh_ItemListAdd( socketBase, p );
       hb_itemReturnRelease( p );

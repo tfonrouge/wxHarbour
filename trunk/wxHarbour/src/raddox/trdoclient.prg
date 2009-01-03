@@ -60,8 +60,6 @@ METHOD FUNCTION Connect CLASS TRDOClient
   ENDIF
 
   ::ReadMsg( @s, 100 )
-  ? s
-  ? "LastCount",::LastCount()
 
 RETURN Result
 

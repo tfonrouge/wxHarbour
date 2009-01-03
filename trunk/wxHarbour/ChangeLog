@@ -2,6 +2,35 @@
  *
  */
 
+2009-01-02 19:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+    + added trdoserver_c.cpp
+
+  * include/rdodefs.h
+    + added buffersize def (SND_BUFFERSIZE) and seting it to 4096 bytes
+
+  * src/raddox/trdoclient.prg
+    * removed debug outputs
+
+  + src/raddox/trdoserver_c.cpp
+    + added TRDOServer:Accept method to return a TRDOSocketBase object
+    + added TRDOSocketBase:ProcessClientRequests to process all the incoming
+      Client requests.
+
+  * src/raddox/trdoserver.prg
+    * using now the TRDOSocketBase:ProcessClientRequests
+    * removed debug outputs
+
+  * src/raddox/ttable_c.cpp
+    % Optimized sending of message request (and params if any)
+
+  * src/raddox/ttable.prg
+    * Added first method calls to the Server side
+    ; work in progress
+
+  * src/wxbase/networking/wx_socketserver.cpp
+    ! Fixed wrong call for HB wxSocketBase object creation
+
 2008-12-28 00:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.vc
     ! Fixed bad bakefile created

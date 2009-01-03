@@ -10,4 +10,11 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
+#ifndef _WX_RDODEFS_H_
+#define _WX_RDODEFS_H_
+
 #define RDO_OPEN		1
+
+#define SND_BUFFERSIZE  4096
+
+#endif
