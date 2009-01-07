@@ -2,6 +2,14 @@
  *
  */
 
+2009-01-06 23:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/trdoserver_c.cpp
+    * removed debug output
+    * added message in case of a invalid object
+
+  * src/raddox/ttable_c.cpp
+    * removed debug output
+
 2009-01-03 14:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
     + added trdoserver_c.cpp

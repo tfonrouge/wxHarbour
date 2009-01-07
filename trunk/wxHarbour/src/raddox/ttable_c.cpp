@@ -30,6 +30,7 @@ HB_FUNC( TTABLE_SENDTOSERVER )
   bufSize = sizeof( ULONG );
   ulLen = sizeof( pSelf->item.asArray.value );
 
+  cout << endl << "*** " << pSelf->item.asArray.value << " ***" << endl;
   memcpy( pBuffer + bufSize, &( pSelf->item.asArray.value ), ulLen );
   bufSize += ulLen;
 
