@@ -149,6 +149,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
           continue;
         }
         socketBase->Read( &bufHeader, bufSize );
+        cout << endl << "*** " << bufHeader.pObjHandle << " ***" << endl;
         char* sep = strchr( bufHeader.pBuffer, ':' );
         nameClass = bufHeader.pBuffer;
         sep[ 0 ] = '\0';
@@ -178,6 +179,12 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
         else /* get the object from the hash map */
         {
           pItmObj = rdo_ItmObjListGet( rdo_itmObjList, bufHeader.pObjHandle );
+        }
+
+        if( !pItmObj )
+        {
+          wxLogMessage( _T("Invalid Object Handler.") );
+          continue;
         }
 
         /* the Message to be called */
