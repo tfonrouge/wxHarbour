@@ -34,12 +34,12 @@ static PHB_ITEM lastTopLevelWindow;
   wxh_ItemListAdd: Add wxObject & PHB_ITEM objects to hash list
   Teo. Mexico 2006
 */
-void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf )
+void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pObject )
 {
 
   PHB_ITEM p = hb_itemNew( NULL );
 
-  hb_itemCopy( p, pSelf );
+  hb_itemCopy( p, pObject );
 
   if( hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
   {

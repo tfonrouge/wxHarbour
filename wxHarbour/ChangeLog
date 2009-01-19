@@ -2,6 +2,29 @@
  *
  */
 
+2009-01-18 21:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+    * updated sample
+
+  * src/common/wx_harbour.cpp
+    * renamed var
+
+  * src/raddox/trdoserver_c.cpp
+    ! Fixed capability to send private/protected messages to objects
+      (thanks Przemek)
+    + added harbour function __RDOSENDMESSAGE to process Client messages, even
+      private/protected ones.
+
+  * src/raddox/trdoserver.prg
+    * added REQUEST to __RDOSENDMESSAGE (needed to be known for the HVM stack)
+
+  * src/raddox/ttable_c.cpp
+    * added small debug output
+
+  * src/raddox/ttable.prg
+    * added code to send messages from Client to Server
+    ; WORK IN PROGRESS
+
 2009-01-06 23:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/trdoserver_c.cpp
     * removed debug output

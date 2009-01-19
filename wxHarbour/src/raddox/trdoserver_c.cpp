@@ -120,6 +120,8 @@ HB_FUNC( TRDOSERVER_ACCEPT )
 HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  static PHB_DYNS s___rdoSendMsg = NULL;
+
   wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGetWX( pSelf );
 
   ULONG bufSize;
@@ -135,6 +137,9 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
     BYTE   msgLen;
     char   pBuffer[ SND_BUFFERSIZE ];
   } bufHeader;
+
+  if( s___rdoSendMsg == NULL )
+    s___rdoSendMsg = hb_dynsymGetCase( "__RDOSENDMESSAGE" );
 
   if( socketBase )
     while( socketBase->IsOk() && !socketBase->IsDisconnected() )
@@ -174,7 +179,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
           hb_vmPushDynSym( pDynSym );
           hb_vmPushNil();
           hb_vmDo( 0 );
-          pItmObj = hb_stackReturnItem();
+          pItmObj = rdo_ItmObjListAdd( rdo_itmObjList, bufHeader.pObjHandle, hb_stackReturnItem() );
         }
         else /* get the object from the hash map */
         {
@@ -187,12 +192,17 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
           continue;
         }
 
+        hb_vmPushDynSym( s___rdoSendMsg );
+        hb_vmPushNil();
+
         /* the Message to be called */
-        hb_vmPushSymbol( hb_dynsymGet( nameMsg )->pSymbol );
         hb_vmPush( pItmObj );
+        hb_vmPushSymbol( hb_dynsymGetCase( nameMsg )->pSymbol );
+        //hb_vmPushDynSym( hb_dynsymGetCase( "NEW" ) );
+        //hb_vmPush( hb_itemPutC( NULL, "NEW" ) );
 
         /* the Params */
-        if( iPCount )
+        if( iPCount > 0 )
         {
           ULONG ulNode,ulResult,uIndex;
           PHB_ITEM pItm;
@@ -213,8 +223,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
           }
         }
 
-        /* TODO: Allow to bypass class scope checking */
-        hb_vmSend( iPCount ); /* the Message call */
+        hb_vmDo( 2 + iPCount ); /* the Message call */
 
         char *pReturn = hb_itemSerialize( hb_stackReturnItem(), FALSE, &bufSize );
 
@@ -231,4 +240,16 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
     /* free table objects */
     rdo_ItmObjListFree( rdo_itmObjList );
 
+}
+
+/*
+  __RDOSENDMESSAGE
+  Teo. Mexico 2009
+*/
+HB_FUNC( __RDOSENDMESSAGE )
+{
+  PHB_ITEM pObject = hb_param( 1, HB_IT_ANY );
+  PHB_ITEM pMessage = hb_param( 2, HB_IT_SYMBOL | HB_IT_STRING );
+
+  hb_dbgObjSendMessage( 0, pObject, pMessage, 2 );
 }
