@@ -81,7 +81,7 @@ PROTECTED:
 
   DATA FBaseClass
   DATA FFieldList
-  DATA TableNameValue //VIRTUAL, to be assigned (INIT) on inherited classes
+  DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 
   METHOD AddRec
   METHOD FindDetailSourceField( masterField )
@@ -208,16 +208,25 @@ ENDCLASS
 */
 METHOD New( MasterSource, tableName ) CLASS TTable
   LOCAL rdoClient
+  LOCAL Result,itm
 
   ::Process_TableName( tableName )
 
   IF ::FRDOClient != NIL
 
-    AltD()
-
     rdoClient := ::FRDOClient
 
-    Self := ::SendToServer( MasterSource, ::TableFileName )
+    Result := ::SendToServer( MasterSource, ::TableFileName )
+
+    AltD()
+
+    ? "Result from Server:"
+    ? "ClassName:",Result:ClassName,":",Result
+    ? "Alias",Result:Alias:Name
+
+    FOR EACH itm IN Result
+      Self[ itm:__enumIndex() ] := itm
+    NEXT
 
     ::FRDOClient := rdoClient
 
@@ -865,7 +874,7 @@ RETURN Result + ::TableFileName
 */
 METHOD FUNCTION GetAlias CLASS TTable
   IF ::FRDOClient != NIL .AND. ::FAlias == NIL
-    ::FAlias := ::SendToServer()
+    //::FAlias := ::SendToServer()
   ENDIF
 RETURN ::FAlias
 
@@ -1149,12 +1158,12 @@ RETURN ::FFieldTypes
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetInstance CLASS TTable
-  LOCAL instance
+//   LOCAL instance
 
-  IF ::FRDOClient != NIL //.AND. !HB_HHasKey( ::FInstances, ::TableClass )
-    instance := ::SendToServer()
-    RETURN instance
-  ENDIF
+//   IF ::FRDOClient != NIL //.AND. !HB_HHasKey( ::FInstances, ::TableClass )
+//     instance := ::SendToServer()
+//     RETURN instance
+//   ENDIF
 
 RETURN ::FInstances[ ::TableClass ]
 

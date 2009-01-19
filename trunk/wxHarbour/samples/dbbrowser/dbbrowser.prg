@@ -14,6 +14,8 @@
 
 #include "wxh/filedlg.ch"
 
+//REQUEST RDOSENDMESSAGE
+
 FUNCTION Main( ... )
   LOCAL profiler := HBProfile():New()
   LOCAL i

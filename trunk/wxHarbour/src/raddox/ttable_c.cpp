@@ -75,6 +75,9 @@ HB_FUNC( TTABLE_SENDTOSERVER )
   socketBase->Read( &bufSize, sizeof( bufSize ) );
   socketBase->Read( pBuffer, bufSize );
 
+  cout << endl;
+  cout << pBuffer;
+
   const char *p = pBuffer;
   hb_itemReturnRelease( hb_itemDeserialize( &p, &bufSize ) );
 

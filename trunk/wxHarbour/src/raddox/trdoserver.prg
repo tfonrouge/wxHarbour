@@ -12,6 +12,8 @@
 #include "raddox.ch"
 #include "xerror.ch"
 
+REQUEST __RDOSENDMESSAGE
+
 STATIC FSocketServer := NIL
 
 /*
