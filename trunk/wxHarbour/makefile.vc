@@ -139,6 +139,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_tdatabase.obj \
 	$(__BUILDDIR__)\wxHarbour_tfield.obj \
 	$(__BUILDDIR__)\wxHarbour_tindex.obj \
+	$(__BUILDDIR__)\wxHarbour_trdoclient.obj \
+	$(__BUILDDIR__)\wxHarbour_trdoserver.obj \
 	$(__BUILDDIR__)\wxHarbour_ttable.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhgrid.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhgridtablebase.obj \
@@ -187,6 +189,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_browse.obj \
+	$(__BUILDDIR__)\wxHarbour_trdoserver_c.obj \
+	$(__BUILDDIR__)\wxHarbour_ttable_c.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_grid.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_gridtablebase.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_panel.obj \
@@ -328,22 +332,28 @@ install_wxHarbour_headers:
 	copy include\wx_hbcompat.ch $(PREFIX)\include
 	copy include\wxharbour.ch $(PREFIX)\include
 	copy include\xerror.ch $(PREFIX)\include
+	copy include\defs.h $(PREFIX)\include
+	copy include\rdodefs.h $(PREFIX)\include
+	copy include\wxh.h $(PREFIX)\include
 	copy include\wxh\filedlg.ch $(PREFIX)\include\wxh
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
-	-if exist $(PREFIX)\include\defs.ch del $(PREFIX)\include\defs.ch
-	-if exist $(PREFIX)\include\dialog.ch del $(PREFIX)\include\dialog.ch
-	-if exist $(PREFIX)\include\event.ch del $(PREFIX)\include\event.ch
-	-if exist $(PREFIX)\include\property.ch del $(PREFIX)\include\property.ch
-	-if exist $(PREFIX)\include\raddox.ch del $(PREFIX)\include\raddox.ch
-	-if exist $(PREFIX)\include\toplevel.ch del $(PREFIX)\include\toplevel.ch
+	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
+	-if exist $(PREFIX)\include\dialog.ch -del $(PREFIX)\include\dialog.ch
+	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
+	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
+	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
+	-if exist $(PREFIX)\include\toplevel.ch -del $(PREFIX)\include\toplevel.ch
 	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
-	-if exist $(PREFIX)\include\wx_hbcompat.ch del $(PREFIX)\include\wx_hbcompat.ch
-	-if exist $(PREFIX)\include\wxharbour.ch del $(PREFIX)\include\wxharbour.ch
-	-if exist $(PREFIX)\include\xerror.ch del $(PREFIX)\include\xerror.ch
-	-if exist $(PREFIX)\include\wxh\filedlg.ch del $(PREFIX)\include\wxh\filedlg.ch
-	-if exist $(PREFIX)\include\wxh\textctrl.ch del $(PREFIX)\include\wxh\textctrl.ch
+	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
+	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
+	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
+	-if exist $(PREFIX)\include\defs.h -del $(PREFIX)\include\defs.h
+	-if exist $(PREFIX)\include\rdodefs.h -del $(PREFIX)\include\rdodefs.h
+	-if exist $(PREFIX)\include\wxh.h -del $(PREFIX)\include\wxh.h
+	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
+	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd samples
@@ -390,6 +400,12 @@ $(__BUILDDIR__)\wxHarbour_tfield.obj: .\src\raddox\tfield.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_tindex.obj: .\src\raddox\tindex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_trdoclient.obj: .\src\raddox\trdoclient.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_trdoserver.obj: .\src\raddox\trdoserver.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_ttable.obj: .\src\raddox\ttable.prg
@@ -535,6 +551,12 @@ $(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cp
 
 $(__BUILDDIR__)\wxHarbour_wx_browse.obj: .\src\hrbcompat\tbrowse\wx_browse.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_browse.cpp
+
+$(__BUILDDIR__)\wxHarbour_trdoserver_c.obj: .\src\raddox\trdoserver_c.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\raddox\trdoserver_c.cpp
+
+$(__BUILDDIR__)\wxHarbour_ttable_c.obj: .\src\raddox\ttable_c.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\raddox\ttable_c.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_grid.obj: .\src\wxbase\advctrls\wx_grid.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\advctrls\wx_grid.cpp

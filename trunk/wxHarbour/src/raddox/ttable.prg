@@ -157,11 +157,11 @@ PUBLIC:
 
   METHOD ValidateFields
 
-  EVENT OnCreate VIRTUAL
-  EVENT OnAfterInsert VIRTUAL
-  EVENT OnAfterPost VIRTUAL
-  EVENT OnBeforeInsert VIRTUAL
-  EVENT OnBeforePost VIRTUAL
+  METHOD OnCreate VIRTUAL
+  METHOD OnAfterInsert VIRTUAL
+  METHOD OnAfterPost VIRTUAL
+  METHOD OnBeforeInsert VIRTUAL
+  METHOD OnBeforePost VIRTUAL
 
   PROPERTY Alias READ GetAlias
   PROPERTY AsString READ GetAsString WRITE SetAsString

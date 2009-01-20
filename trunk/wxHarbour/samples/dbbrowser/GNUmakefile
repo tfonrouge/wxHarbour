@@ -111,7 +111,7 @@ ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(HBCOMPILER),harbour)
-__LIB_VM_p = -lhbvmmt
+__LIB_VM_p = -lhbvm
 endif
 ifeq ($(HBCOMPILER),xharbour)
 __LIB_VM_p = -lvm
@@ -315,7 +315,7 @@ clean:
 	$(CXX) -o $@ $(DBBROWSER_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) -Wl,--end-group `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
-	./dbbrowser --runserver
+	./dbbrowser
 
 $(__BUILDDIR__)/dbbrowser_dbbrowser.o: ./dbbrowser.prg
 	$(HBCC) $(DBBROWSER_HBFLAGS) -o$@ $<
