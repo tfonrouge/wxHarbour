@@ -23,7 +23,7 @@ CLASS wxhGET
 PRIVATE:
   DATA FBlock EXPORTED
   DATA FName
-  DATA FVar EXPORTED
+  DATA FVar
 PROTECTED:
 PUBLIC:
 
@@ -32,6 +32,7 @@ PUBLIC:
   METHOD AsString
 
   PROPERTY Name READ FName
+  PROPERTY Var READ FVar
 
 PUBLISHED:
 ENDCLASS
@@ -56,7 +57,7 @@ METHOD FUNCTION AsString CLASS wxhGET
     IF ::FVar:IsDerivedFrom( "TField" )
       value := ::FVar:AsString()
     ELSE
-      value := "<unknown>"
+      value := "Object: " + ::FVar:ClassName
     ENDIF
   ELSE
     value := ::FBlock:Eval()
@@ -72,6 +73,8 @@ RETURN value
 */
 CLASS wxHBTextCtrl FROM wxTextCtrl
 PRIVATE:
+  DATA FWXHGet
+  METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
@@ -90,7 +93,31 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTe
     ::SetLabel( wxhGet:Name )
   ENDIF
 
+  ::FWXHGet := wxhGet
+
+  /* the update to VAR event */
+  ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event| ::UpdateVar( event ) } )
+
 RETURN Self
+
+/*
+  UpdateVar
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
+  IF ::FWXHGet == NIL
+    RETURN
+  ENDIF
+  IF event:GetEventType() = wxEVT_KILL_FOCUS
+    IF  HB_IsObject( ::FWXHGet:Var )
+      IF ::FWXHGet:Var:IsDerivedFrom( "TField" )
+        ::FWXHGet:Var:Value := ::GetValue()
+      ENDIF
+    ELSE
+      ::FWXHGet:FBlock:Eval( ::GetValue() )
+    ENDIF
+  ENDIF
+RETURN
 
 /*
   End Class wxHBTextCtrl

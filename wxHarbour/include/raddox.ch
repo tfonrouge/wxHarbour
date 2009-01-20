@@ -121,7 +121,6 @@
 #xtranslate END MASTERDETAIL FIELDS => ;
             RETURN
 
-#xtranslate EVENT <evtName> => METHOD <evtName>
 #xtranslate CALCFIELD <calcField> => METHOD CalcField_<calcField>
 
 #xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX <cName> ;

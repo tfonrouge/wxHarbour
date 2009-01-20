@@ -198,7 +198,7 @@
 */
 
 /*
-  BROWSEDB
+  BROWSE
 */
 #xcommand @ BROWSE [ VAR <wxBrw> ] ;
             [ LABEL <label> ] ;

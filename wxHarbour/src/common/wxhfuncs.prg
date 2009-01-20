@@ -159,7 +159,7 @@ FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bActi
   button := wxButton():New( window, id, label, pos, size, style, validator, name )
 
   IF bAction != NIL
-    button:Connect( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+    button:ConnectCommandEvt( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
   ENDIF
 
   containerObj():SetLastChild( button )
@@ -365,7 +365,7 @@ FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   menuData:g_menuList[ nLast ]["menu"]:Append( menuItem )
 
   IF bAction != NIL
-    menuData:g_window:Connect( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
+    menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
   IF bEnabled != NIL
@@ -439,7 +439,7 @@ FUNCTION wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, b
   sb:SetScrollbar( 0, 1, 100, 1)
 
   IF bAction != NIL
-    sb:Connect( sb:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+    sb:ConnectCommandEvt( sb:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
   ENDIF
 
   containerObj():SetLastChild( sb )

@@ -144,6 +144,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhgridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
@@ -193,6 +194,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_commandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_event.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
+	$(__BUILDDIR__)/wxHarbour_wx_focusevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_gridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_keyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
@@ -244,6 +246,7 @@ WXHARBOUR_HEADERS =  \
 	include/defs.h \
 	include/rdodefs.h \
 	include/wxh.h \
+	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
@@ -409,6 +412,9 @@ $(__BUILDDIR__)/wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
 $(__BUILDDIR__)/wxHarbour_wxhevthandler.o: ./src/wxbase/baseclasses/wxhevthandler.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o: ./src/wxbase/baseclasses/wxhfocusevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -554,6 +560,9 @@ $(__BUILDDIR__)/wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/baseclasses/wx_evthandler.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_focusevent.o: ./src/wxbase/baseclasses/wx_focusevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_gridevent.o: ./src/wxbase/baseclasses/wx_gridevent.cpp

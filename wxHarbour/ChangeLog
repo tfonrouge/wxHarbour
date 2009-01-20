@@ -2,6 +2,47 @@
  *
  */
 
+2009-01-19 22:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + src/wxbase/baseclasses/wx_focusevent.cpp
+  + src/wxbase/baseclasses/wxhfocusevent.prg
+    + added wxFocusEvent class sources for Harbour and C++
+
+  * include/raddox.ch
+  * src/raddox/ttable.prg
+    * removed stupid EVENT command
+
+  * include/wxharbour.ch
+    * renamed name in comment
+
+  + include/wxhevtdefs.h
+  * wxharbour.spec
+    + defines needed for wx*Event's in Harbour/C++
+
+  * include/wxh.h
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    ! Removed ::Connect from wxEvtHandler, now each event class has their
+      own call: ::ConnectCommandEvt, ::ConnectGridEvt, ...
+      This simplifies the evt management and allows to easily add the
+      missing event handlers (i.e., wxSocketEvent).
+    + added __OnEvent to handle all the events fired from C++ classes
+
+  * samples/dbbrowser/GNUmakefile
+    * updated sample
+
+  * samples/helloworld1/helloworld1.prg
+  * src/common/wxhfuncs.prg
+    * Changed ::Connect to ConnectCommandEvt
+
+  * src/hrbcompat/misc/wxGET.prg
+    * Added event on wxEVT_KILL_FOCUS on wxTextCtrl to allow update the
+      var in the GET (also handles now the TField's vars)
+
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+    * wxhConnect now receives as 1st param the event class (on wxhevtdefs.h)
+
 2009-01-18 21:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
     * updated sample

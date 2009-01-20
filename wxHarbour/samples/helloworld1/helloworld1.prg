@@ -71,7 +71,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   menu2:Append( 20, "About..." )
   menuBar:Append( menu1, "&File" )
   menuBar:Append( menu2, "Help" )
-  oWnd:Connect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, {|| oWnd:Close } )
+  oWnd:ConnectCommandEvt( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, {|| oWnd:Close } )
   oWnd:SetMenuBar( menuBar )
 
   panel := wxPanel():New( oWnd, , , , HB_BITOR( wxSUNKEN_BORDER, wxTAB_TRAVERSAL) )
@@ -109,8 +109,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   boxSizer:Add( button1, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
   boxSizer:Add( buttonOk, 0, HB_BITOR( wxALIGN_RIGHT, wxALL ), 5 )
 
-  oWnd:Connect( 100, wxEVT_COMMAND_BUTTON_CLICKED, {|| PrintValue( textCtrl ) } )
-  oWnd:Connect( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
+  oWnd:ConnectCommandEvt( 100, wxEVT_COMMAND_BUTTON_CLICKED, {|| PrintValue( textCtrl ) } )
+  oWnd:ConnectCommandEvt( wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, {|| oWnd:Close() } )
 
   statusBar := wxStatusBar():New( oWnd )
   statusBar:SetFieldsCount( 5 )

@@ -29,10 +29,12 @@ extern "C"
 }
 
 #include "wx/grid.h"
+#include "wxhevtdefs.h"
 
 #include <iostream>
 
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
+HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
@@ -63,14 +65,37 @@ wxString wxh_parc( int param );
 template <class T>
 class hbEvtHandler : public T
 {
+  void call__OnEvent( int evtClass, wxEvent &event );
 public:
   void OnCommandEvent( wxCommandEvent& event );
+  void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
-  void wxhConnect( int id, int lastId, wxEventType eventType );
+  void wxhConnect( int evtClass, int id, int lastId, wxEventType eventType );
 
   ~hbEvtHandler<T>() { wxh_ItemListDel( this ); }
 };
+
+/*
+  call__OnEvent
+  Teo. Mexico 2009
+*/
+template <class T>
+void hbEvtHandler<T>::call__OnEvent( int evtClass, wxEvent &event )
+{
+  PHB_ITEM pSelf = wxh_ItemListGetHB( this );
+  PHB_ITEM pEvtClass = hb_itemPutNI( NULL, evtClass );
+  PHB_ITEM pEvent = hb_itemNew( NULL );
+  hb_itemMove( pEvent, hb_stackReturnItem() );
+  wxh_ItemListAdd( &event, pEvent );
+
+  if( pSelf )
+    hb_objSendMsg( pSelf, "__OnEvent", 2, pEvtClass, pEvent );
+
+  wxh_ItemListDel( &event );
+  hb_itemRelease( pEvent );
+  hb_itemRelease( pEvtClass );
+}
 
 /*
   OnCommandEvent
@@ -80,15 +105,18 @@ template <class T>
 void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
 {
   HB_FUNC_EXEC( WXCOMMANDEVENT );
-  PHB_ITEM pEvent = hb_itemNew( NULL );
-  hb_itemMove( pEvent, hb_stackReturnItem() );
-  wxh_ItemListAdd( &event, pEvent );
+  call__OnEvent( WXH_COMMANDEVENT, event );
+}
 
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
-
-  wxh_ItemListDel( &event );
-  hb_itemRelease( pEvent );
-
+/*
+  OnFocusEvent
+  Teo. Mexico 2009
+*/
+template <class T>
+void hbEvtHandler<T>::OnFocusEvent( wxFocusEvent& event )
+{
+  HB_FUNC_EXEC( WXFOCUSEVENT );
+  call__OnEvent( WXH_FOCUSEVENT, event );
 }
 
 /*
@@ -99,15 +127,7 @@ template <class T>
 void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 {
   HB_FUNC_EXEC( WXGRIDEVENT );
-  PHB_ITEM pEvent = hb_itemNew( NULL );
-  hb_itemMove( pEvent, hb_stackReturnItem() );
-  wxh_ItemListAdd( &event, pEvent );
-
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
-
-  wxh_ItemListDel( &event );
-  hb_itemRelease( pEvent );
-
+  call__OnEvent( WXH_GRIDEVENT, event );
 }
 
 /*
@@ -118,15 +138,7 @@ template <class T>
 void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 {
   HB_FUNC_EXEC( WXMOUSEEVENT );
-  PHB_ITEM pEvent = hb_itemNew( NULL );
-  hb_itemMove( pEvent, hb_stackReturnItem() );
-  wxh_ItemListAdd( &event, pEvent );
-
-  hb_objSendMsg( wxh_ItemListGetHB( this ), "OnCommandEvent", 1, pEvent );
-
-  wxh_ItemListDel( &event );
-  hb_itemRelease( pEvent );
-
+  call__OnEvent( event );
 }
 
 /*
@@ -134,19 +146,27 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
   Teo. Mexico 2008
 */
 template <class T>
-void hbEvtHandler<T>::wxhConnect( int id, int lastId, wxEventType eventType )
+void hbEvtHandler<T>::wxhConnect( int evtClass, int id, int lastId, wxEventType eventType )
 {
 
-  if( eventType == wxEVT_GRID_CELL_RIGHT_CLICK )
+  wxObjectEventFunction objFunc;
+
+  switch( evtClass )
   {
-    cout << "";
-    cout << "Connecting wxEVT_GRID_CELL_RIGHT_CLICK" << endl;
-    cout << "";
-    this->Connect( wxID_ANY, wxEVT_GRID_CELL_RIGHT_CLICK, wxGridEventHandler( hbEvtHandler<T>::OnGridEvent ) );
-    return;
+    case WXH_FOCUSEVENT:
+      objFunc = wxFocusEventHandler( hbEvtHandler<T>::OnFocusEvent );
+      break;
+    case WXH_GRIDEVENT:
+      objFunc = wxGridEventHandler( hbEvtHandler<T>::OnGridEvent );
+      break;
+    case WXH_COMMANDEVENT:
+      objFunc = wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent );
+      break;
+    default:
+      objFunc = NULL;
   }
 
-  this->Connect( id, lastId, eventType, wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent ) );
+  if( objFunc )
+    this->Connect( id, lastId, eventType, objFunc );
 
 }
-
