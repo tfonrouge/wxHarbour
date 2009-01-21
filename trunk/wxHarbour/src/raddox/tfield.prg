@@ -407,13 +407,13 @@ RETURN NIL
   GetItDoPick
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetItDoPick CLASS TField
+METHOD FUNCTION GetItDoPick( param ) CLASS TField
 
-  IF ::FGetItPick = NIL .OR. !HB_IsBLOCK( ::FGetItPick )
+  IF ::FGetItPick = NIL .OR. !HB_IsBlock( ::FGetItPick )
     RETURN NIL
   ENDIF
 
-  ::FGetItPick:Eval( Self )
+  ::FGetItPick:Eval( param )
 
 RETURN ::Value
 
