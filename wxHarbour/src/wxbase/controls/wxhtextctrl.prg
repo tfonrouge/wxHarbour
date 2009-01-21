@@ -31,6 +31,7 @@ PUBLIC:
 
   METHOD AppendText( text )
   METHOD GetValue AS STRING
+  METHOD SetValue( value )
 PUBLISHED:
 ENDCLASS
 

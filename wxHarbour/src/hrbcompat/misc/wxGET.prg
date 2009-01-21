@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,7 +7,7 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 #include "hbclass.ch"
@@ -17,13 +17,13 @@
 
 /*
   wxhGET
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 CLASS wxhGET
 PRIVATE:
-  DATA FBlock EXPORTED
+  DATA FBlock
+  DATA FField
   DATA FName
-  DATA FVar
 PROTECTED:
 PUBLIC:
 
@@ -31,36 +31,40 @@ PUBLIC:
 
   METHOD AsString
 
+  PROPERTY Block READ FBlock
+  PROPERTY Field READ FField
   PROPERTY Name READ FName
-  PROPERTY Var READ FVar
 
-PUBLISHED:
+  PUBLISHED:
 ENDCLASS
 
 /*
   New
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD New( name, var, block )
+
   ::FName  := name
-  ::FVar   := var
+
+  IF HB_IsObject( var ) .AND. var:IsDerivedFrom("TField")
+    ::FField := var
+    block := {|__localVal| iif( PCount() > 0, ::FField:Value := __localVal, ::FField:Value ) }
+  ENDIF
+
   ::FBlock := block
+
 RETURN Self
 
 /*
   AsString
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsString CLASS wxhGET
   LOCAL value
-  IF HB_ISOBJECT( ::FVar )
-    IF ::FVar:IsDerivedFrom( "TField" )
-      value := ::FVar:AsString()
-    ELSE
-      value := "Object: " + ::FVar:ClassName
-    ENDIF
+  IF ::FField != NIL
+    value := ::FField:AsString()
   ELSE
-    value := ::FBlock:Eval()
+    value := AsString( ::FBlock:Eval() )
   ENDIF
 RETURN value
 
@@ -78,6 +82,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
+  METHOD PickList
 PUBLISHED:
 ENDCLASS
 
@@ -101,6 +106,29 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTe
 RETURN Self
 
 /*
+  PickList
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE PickList CLASS wxHBTextCtrl
+  LOCAL s
+
+  IF ::FWXHGet:Field == NIL
+    RETURN
+  ENDIF
+
+  ::FWXHGet:Field:GetItDoPick( ::GetParent() )
+
+  s := ::FWXHGet:Field:Value
+
+  IF ::GetValue() == s
+    RETURN /* no changes */
+  ENDIF
+
+  ::SetValue( s )
+
+RETURN
+
+/*
   UpdateVar
   Teo. Mexico 2009
 */
@@ -109,13 +137,7 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
     RETURN
   ENDIF
   IF event:GetEventType() = wxEVT_KILL_FOCUS
-    IF  HB_IsObject( ::FWXHGet:Var )
-      IF ::FWXHGet:Var:IsDerivedFrom( "TField" )
-        ::FWXHGet:Var:Value := ::GetValue()
-      ENDIF
-    ELSE
-      ::FWXHGet:FBlock:Eval( ::GetValue() )
-    ENDIF
+    ::FWXHGet:Block:Eval( ::GetValue() )
   ENDIF
 RETURN
 

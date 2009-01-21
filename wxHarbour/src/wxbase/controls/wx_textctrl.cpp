@@ -80,3 +80,17 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
   else
     hb_ret();
 }
+
+/*
+  wxTextCtrl:SetValue
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXTEXTCTRL_SETVALUE )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
+  const wxString& text = wxString( hb_parcx( 1 ), wxConvUTF8 );
+
+  if( pSelf && textCtrl )
+    textCtrl->SetValue( text );
+}

@@ -544,7 +544,7 @@ PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorde
 
   IF parentSizer = NIL
     //Alert( "No parent Sizer available.", {"QUIT"})
-    TRACE "Child:", child:ClassName, "No parent Sizer available"
+    //TRACE "Child:", child:ClassName, "No parent Sizer available"
     RETURN
   ENDIF
 

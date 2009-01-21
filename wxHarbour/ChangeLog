@@ -2,6 +2,25 @@
  *
  */
 
+2009-01-21 11:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * commented out TRACE command
+
+  * src/hrbcompat/misc/wxGET.prg
+    * removed unneeded FVar
+    * added Field, Block PROPERTY's
+    * Added codeblock to FBlock to deal with TField's
+    % Simplified wxhGet:AsString method
+    * added PickList method to wxHBTextCtrl
+    % Simplified wxHBTextCtrl:UpdateVar method
+
+  * src/raddox/tfield.prg
+    * added param in GetItDoPick to sendit to block to eval
+
+  * src/wxbase/controls/wxhtextctrl.prg
+  * src/wxbase/controls/wx_textctrl.cpp
+    + added ::SetValue method
+
 2009-01-19 22:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
