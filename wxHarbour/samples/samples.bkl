@@ -11,5 +11,6 @@
   <subproject id="helloworld1" template="sub"/>
   <subproject id="networking" template="sub"/>
   <subproject id="sizers" template="sub"/>
+  <subproject id="test" template="sub"/>
 
 </makefile>

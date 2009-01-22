@@ -19,11 +19,18 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
+typedef struct _PWXH_ITEM
+{
+  wxObject* wxObj;
+  bool lAssigned;
+} * PWXH_ITEM;
+
+
 /* PHB_ITEM keys */
 WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, HBITEMLIST );
 
 /* PWXH_ITEM keys */
-WX_DECLARE_HASH_MAP( PWXH_ITEM, PHB_ITEM, wxPointerHash, wxPointerEqual, WXITEMLIST );
+WX_DECLARE_HASH_MAP( wxObject*, PHB_ITEM, wxPointerHash, wxPointerEqual, WXITEMLIST );
 
 static HBITEMLIST hbItemList;
 static WXITEMLIST wxItemList;
@@ -34,21 +41,18 @@ static PHB_ITEM lastTopLevelWindow;
   wxh_ItemListAdd: Add wxObject & PHB_ITEM objects to hash list
   Teo. Mexico 2006
 */
-void wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pObject )
+void wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pObject )
 {
+  PWXH_ITEM pWxhItem = new _PWXH_ITEM;
+  pWxhItem->wxObj = wxObj;
 
-  PHB_ITEM p = hb_itemNew( NULL );
-
-  hb_itemCopy( p, pObject );
-
-  if( hb_clsIsParent( p->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+  if( hb_clsIsParent( pObject->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
   {
-    lastTopLevelWindow = p;
+    lastTopLevelWindow = pObject;
   }
 
-  hbItemList[ p->item.asArray.value ] = wxObj;
-  wxItemList[ wxObj ] = p;
-
+  hbItemList[ pObject->item.asArray.value ] = pWxhItem;
+  wxItemList[ wxObj ] = pObject;
 }
 
 /*
@@ -69,55 +73,57 @@ void wxh_ItemListReleaseAll()
   wxh_ItemListDel
   Teo. Mexico 2006
 */
-void wxh_ItemListDel( PWXH_ITEM wxObj )
+void wxh_ItemListDel( wxObject* wxObj, bool lDelete )
 {
   PHB_ITEM pSelf = wxh_ItemListGetHB( wxObj );
 
-  if(pSelf)
+  if( pSelf )
   {
-    hbItemList.erase( pSelf->item.asArray.value );
-    hb_itemRelease( pSelf );
+    if( hbItemList.find( pSelf->item.asArray.value ) != hbItemList.end() )
+    {
+      hbItemList.erase( pSelf->item.asArray.value );
+    }
   }
 
   wxItemList.erase( wxObj );
 
-  if( wxObj )
+  if( wxObj && lDelete )
   {
-    //delete wxObj;
-    wxObj = NULL;
+    delete wxObj;
+    //wxObj = NULL;
   }
-
 }
 
 /*
   wxh_ItemListGetHB
   Teo. Mexico 2006
 */
-PHB_ITEM wxh_ItemListGetHB( PWXH_ITEM wxObj )
+PHB_ITEM wxh_ItemListGetHB( wxObject* wxObj )
 {
 
   if(!wxObj || (wxItemList.find( wxObj ) == wxItemList.end()) )
     return NULL;
-  return wxItemList[ wxObj ];
 
+  return wxItemList[ wxObj ];
 }
 
 /*
   wxh_ItemListGetWX
   Teo. Mexico 2006
 */
-PWXH_ITEM wxh_ItemListGetWX( PHB_ITEM pSelf )
+wxObject* wxh_ItemListGetWX( PHB_ITEM pSelf )
 {
   if(!pSelf || (hbItemList.find( pSelf->item.asArray.value ) == hbItemList.end()) )
     return NULL;
-  return hbItemList[ pSelf->item.asArray.value ];
+
+  return hbItemList[ pSelf->item.asArray.value ]->wxObj;
 }
 
 /*
   hb_par_WX
   Teo. Mexico 2006
 */
-PWXH_ITEM hb_par_WX( const int param )
+wxObject* hb_par_WX( const int param )
 {
   return wxh_ItemListGetWX( hb_param( param, HB_IT_OBJECT ) );
 }
@@ -171,20 +177,6 @@ wxString wxh_parc( int param )
   return wxString( hb_parc( param ), wxConvUTF8 );
 }
 
-
-/*
-  wxObject:ClassP Read Method
-  Teo. Mexico 2006
-*/
-HB_FUNC( WXOBJECT_GETCLASSP )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  PWXH_ITEM wxObj = wxh_ItemListGetWX( pSelf );
-  if(wxObj)
-    hb_retptr( wxObj );
-  else
-    hb_ret();
-}
 
 /*
  * wxh_LastTopLevelWindow

@@ -121,8 +121,10 @@ HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
+
   long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
-  long millisecond = ( hb_pcount() == 2 ) ? hb_parnl( 2 ) : NULL;
+  long millisecond = ( ISNUM( 2 ) ) ? hb_parnl( 2 ) : 0;
+
   if( pSelf && socketServer )
     hb_retl( socketServer->WaitForAccept( seconds, millisecond ) );
 }
