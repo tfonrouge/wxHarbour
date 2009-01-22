@@ -111,12 +111,16 @@ RETURN Self
 */
 METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   LOCAL s
+  LOCAL parentWnd
 
   IF ::FWXHGet:Field == NIL
     RETURN
   ENDIF
 
-  ::FWXHGet:Field:GetItDoPick( ::GetParent() )
+  parentWnd := ::GetParent()
+  ? "parentWnd, textCtrl:",parentWnd:ObjectH, ::ObjectH
+
+  ::FWXHGet:Field:GetItDoPick( parentWnd )
 
   s := ::FWXHGet:Field:Value
 

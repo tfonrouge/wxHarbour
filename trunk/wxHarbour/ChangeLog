@@ -2,6 +2,45 @@
  *
  */
 
+2009-01-22 10:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls.sh
+    * using bash (to fix error script on ubuntu)
+
+  * include/wxh.h
+    * declaring PWXH_ITEM as struct to contain a wxObject*
+    * added bool param on wxh_ItemListDel to imply a delete of object
+
+  * makefile.gcc
+  * makefile.vc
+    * updated makefiles
+
+  * src/common/wx_harbour.cpp
+    * using a struct of type _WXH_ITEM to hold wxObjects and a bool flag
+      this is used in a map to contain the data
+    * using explicitly wxObject* on functions
+    - removed WXOBJECT_GETCLASSP
+    * code cleanup
+    ; WORK IN PROGRESS:
+      now the C++ objs are tied to the Harbour vars scope
+    ; TODO: Finish the above
+
+  * src/hrbcompat/misc/wxGET.prg
+    * added small debug output info
+
+  * src/raddox/ttable.prg
+    * removed AltD()
+
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+    * removed GetClassP, ClassP
+    * added ObjectH, ObjectP methods to return the object handle
+
+  * src/wxbase/baseclasses/wx_window.cpp
+    * code cleanup
+
+  * src/wxbase/networking/wx_socketserver.cpp
+    * checking numeric val on 2nd param (millisecond) on WaitForAccept
+
 2009-01-21 11:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * commented out TRACE command

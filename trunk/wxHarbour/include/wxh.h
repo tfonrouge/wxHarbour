@@ -40,17 +40,15 @@ HB_FUNC_EXTERN( WXMOUSEEVENT );
 
 using namespace std;
 
-typedef wxObject* PWXH_ITEM;
-
-PWXH_ITEM     hb_par_WX( int param );
+wxObject*     hb_par_WX( int param );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 //void          SetxHObj( unsigned int* ptr, PHB_ITEM xHObjFrom, PHB_ITEM* xHObjTo );
 
-void          wxh_ItemListAdd( PWXH_ITEM wxObj, PHB_ITEM pSelf );
-void          wxh_ItemListDel( PWXH_ITEM wxObj );
-PHB_ITEM      wxh_ItemListGetHB( PWXH_ITEM wxObj );
-PWXH_ITEM     wxh_ItemListGetWX( PHB_ITEM pSelf );
+void          wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf );
+void          wxh_ItemListDel( wxObject* wxObj, bool lDelete = FALSE );
+PHB_ITEM      wxh_ItemListGetHB( wxObject* wxObj );
+wxObject*     wxh_ItemListGetWX( PHB_ITEM pSelf );
 void	      wxh_ItemListReleaseAll();
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);

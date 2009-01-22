@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wx_object: Implementation
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -33,9 +33,31 @@ HB_FUNC( TBASECLASS_WXDESTRUCT )
 
   if( wxObj )
   {
-//     cout << "\n*** ::wxDestruct ***";
-    wxh_ItemListDel( wxObj );
-    cout << endl << "***DESTROYING***" << endl;
-    delete wxObj;
+    cout << endl << "***DESTROYING***";
+    wxh_ItemListDel( wxObj, TRUE ); /*  TRUE: delete wxObj */
+    cout << " ***DESTROYED***" << endl;
   }
+}
+
+/*
+  wxObject:ObjectH
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXOBJECT_OBJECTH )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  if( pSelf )
+    hb_retptr( pSelf->item.asArray.value );
+}
+
+/*
+  wxObject:ObjectP
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXOBJECT_OBJECTP )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxObject* wxObj = wxh_ItemListGetWX( pSelf );
+  if(wxObj)
+    hb_retptr( wxObj );
 }

@@ -218,8 +218,6 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 
     Result := ::SendToServer( MasterSource, ::TableFileName )
 
-    AltD()
-
     ? "Result from Server:"
     ? "ClassName:",Result:ClassName,":",Result
     ? "Alias",Result:Alias:Name

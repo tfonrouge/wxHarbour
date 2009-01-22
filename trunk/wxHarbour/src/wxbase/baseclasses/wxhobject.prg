@@ -21,8 +21,11 @@ CLASS TBaseClass
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
   DESTRUCTOR OnDestruct()
+
   METHOD wxDestruct
+
 PUBLISHED:
 ENDCLASS
 /*
@@ -35,6 +38,7 @@ ENDCLASS
 */
 METHOD PROCEDURE OnDestruct CLASS TBaseClass
 
+  ? "Destroying:",::ClassName()
   ::wxDestruct()
 
 RETURN
@@ -45,11 +49,11 @@ RETURN
 */
 CLASS wxObject FROM TBaseClass
 PRIVATE:
-  METHOD GetClassP
 PROTECTED:
 PUBLIC:
+  METHOD ObjectH        /* handle */
+  METHOD ObjectP        /* pointer */
 PUBLISHED:
-  PROPERTY ClassP READ GetClassP
 ENDCLASS
 
 /*
