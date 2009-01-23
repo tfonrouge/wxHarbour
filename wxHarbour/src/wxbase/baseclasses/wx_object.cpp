@@ -33,9 +33,7 @@ HB_FUNC( TBASECLASS_WXDESTRUCT )
 
   if( wxObj )
   {
-    cout << endl << "***DESTROYING***";
-    wxh_ItemListDel( wxObj, TRUE ); /*  TRUE: delete wxObj */
-    cout << " ***DESTROYED***" << endl;
+    wxh_ItemListDel( wxObj, false ); /*  TRUE: delete wxObj */
   }
 }
 

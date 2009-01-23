@@ -81,7 +81,7 @@
 /*
   Menues
 */
-#xcommand DEFINE MENUBAR [<oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
+#xcommand DEFINE MENUBAR [ VAR <oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
           [<oMB> := ] wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 

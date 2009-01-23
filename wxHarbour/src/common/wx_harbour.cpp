@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,30 +7,29 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wxharbour:
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
 #include "wx/hashset.h"
 #include "wxh.h"
 
-typedef struct _PWXH_ITEM
+typedef struct _PHBITM_REF
 {
-  wxObject* wxObj;
-  bool lAssigned;
-} * PWXH_ITEM;
-
+  PHB_ITEM pLocal;
+  PHB_ITEM pStatic;
+} HBITM_REF, *PHBITM_REF;
 
 /* PHB_ITEM keys */
-WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, HBITEMLIST );
+WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxObject*, wxPointerHash, wxPointerEqual, HBITEMLIST );
 
 /* PWXH_ITEM keys */
-WX_DECLARE_HASH_MAP( wxObject*, PHB_ITEM, wxPointerHash, wxPointerEqual, WXITEMLIST );
+WX_DECLARE_HASH_MAP( wxObject*, PHBITM_REF, wxPointerHash, wxPointerEqual, WXITEMLIST );
 
 static HBITEMLIST hbItemList;
 static WXITEMLIST wxItemList;
@@ -39,25 +38,42 @@ static PHB_ITEM lastTopLevelWindow;
 
 /*
   wxh_ItemListAdd: Add wxObject & PHB_ITEM objects to hash list
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
-void wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pObject )
+void wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf )
 {
-  PWXH_ITEM pWxhItem = new _PWXH_ITEM;
-  pWxhItem->wxObj = wxObj;
+  PHBITM_REF pItmRef = new HBITM_REF;
+  pItmRef->pLocal = pSelf;
+  pItmRef->pStatic = NULL;
 
-  if( hb_clsIsParent( pObject->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+  if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
   {
-    lastTopLevelWindow = pObject;
+    lastTopLevelWindow = pSelf;
   }
 
-  hbItemList[ pObject->item.asArray.value ] = pWxhItem;
-  wxItemList[ wxObj ] = pObject;
+  cout << endl; cout << "HB_IS_ARRAY: " << HB_IS_ARRAY( pSelf );
+
+  hbItemList[ pSelf->item.asArray.value ] = wxObj;
+  wxItemList[ wxObj ] = pItmRef;
+  cout << endl ; cout << "*** wxh_ItemListAdd *** " << pSelf;
+}
+
+/*
+  wxh_ItemListAssignPSelf
+  Teo. Mexico 2009
+*/
+void wxh_ItemListAssignPSelf( PHB_ITEM pSelf )
+{
+  if(!pSelf || (hbItemList.find( pSelf->item.asArray.value ) == hbItemList.end()) )
+    return;
+
+/*  if( ! hbItemList[ pSelf->item.asArray.value ]->pSelf )
+    hbItemList[ pSelf->item.asArray.value ]->pSelf = hb_itemNew( pSelf );*/
 }
 
 /*
   wxh_ItemListReleaseAll
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 void wxh_ItemListReleaseAll()
 {
@@ -71,7 +87,7 @@ void wxh_ItemListReleaseAll()
 
 /*
   wxh_ItemListDel
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 void wxh_ItemListDel( wxObject* wxObj, bool lDelete )
 {
@@ -96,32 +112,41 @@ void wxh_ItemListDel( wxObject* wxObj, bool lDelete )
 
 /*
   wxh_ItemListGetHB
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 PHB_ITEM wxh_ItemListGetHB( wxObject* wxObj )
 {
+  PHBITM_REF pItmRef;
 
   if(!wxObj || (wxItemList.find( wxObj ) == wxItemList.end()) )
     return NULL;
 
-  return wxItemList[ wxObj ];
+  pItmRef = wxItemList[ wxObj ];
+
+  if( ! pItmRef )
+    return NULL;
+
+  if( pItmRef->pStatic )
+    return pItmRef->pStatic;
+
+  return pItmRef->pLocal;
 }
 
 /*
   wxh_ItemListGetWX
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wxObject* wxh_ItemListGetWX( PHB_ITEM pSelf )
 {
   if(!pSelf || (hbItemList.find( pSelf->item.asArray.value ) == hbItemList.end()) )
     return NULL;
 
-  return hbItemList[ pSelf->item.asArray.value ]->wxObj;
+  return hbItemList[ pSelf->item.asArray.value ];
 }
 
 /*
   hb_par_WX
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wxObject* hb_par_WX( const int param )
 {
@@ -130,7 +155,7 @@ wxObject* hb_par_WX( const int param )
 
 /*
   hb_par_wxPoint
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wxPoint hb_par_wxPoint( int param )
 {
@@ -150,7 +175,7 @@ wxPoint hb_par_wxPoint( int param )
 
 /*
   hb_par_wxSize
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wxSize hb_par_wxSize( int param )
 {
@@ -170,7 +195,7 @@ wxSize hb_par_wxSize( int param )
 
 /*
   wxh_parc
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 wxString wxh_parc( int param )
 {
@@ -180,18 +205,9 @@ wxString wxh_parc( int param )
 
 /*
  * wxh_LastTopLevelWindow
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 {
   hb_itemReturn( lastTopLevelWindow );
-}
-
-/*
-  wxh_objGetDataValue
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXH_OBJGETDATAVALUE )
-{
-  hb_itemReturn( hb_objSendMsg( hb_param( 1, HB_IT_OBJECT ), hb_parcx( 2 ), 0 ) );
 }

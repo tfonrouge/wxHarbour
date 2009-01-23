@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <include file="../../config/tmpl_hrb.bkl"/>
+
+  <wxharbour-exe id="menu">
+    <sources-at>
+      .
+    </sources-at>
+    <include>../../include</include>
+    <lib-path>../../$(__BUILDDIR__)</lib-path>
+  </wxharbour-exe>
+  
+  <action id="run">
+    <if cond="TOOLSET=='win32'">
+      <command>
+        .\menu.exe
+      </command>
+    </if>
+    <if cond="TOOLSET=='unix'">
+      <command>
+        ./menu
+      </command>
+    </if>
+    <depends>
+      all
+    </depends>
+  </action>
+
+</makefile>
