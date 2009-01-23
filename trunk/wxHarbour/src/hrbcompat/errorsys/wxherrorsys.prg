@@ -19,7 +19,7 @@
 #include "error.ch"
 
 PROCEDURE wxhErrorSys()
-  ErrorBlock( {|oError| wxhDefError( oError ) } )
+  //ErrorBlock( {|oError| wxhDefError( oError ) } )
 RETURN
 
 STATIC FUNCTION wxhDefError( oError )

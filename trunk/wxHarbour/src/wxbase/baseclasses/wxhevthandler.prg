@@ -32,9 +32,9 @@ PROTECTED:
   METHOD wxhConnect( evtClass, id, lastId, eventType )
 PUBLIC:
   METHOD __OnEvent( evtClass, event )
-  METHOD ConnectCommandEvt( p1, p2, p3, p4 ) INLINE ::ParseConnectParams( WXH_COMMANDEVENT, p1, p2, p3, p4 )
-  METHOD ConnectFocusEvt( p1, p2, p3, p4 ) INLINE ::ParseConnectParams( WXH_FOCUSEVENT, p1, p2, p3, p4 )
-  METHOD ConnectGridEvt( p1, p2, p3, p4 ) INLINE ::ParseConnectParams( WXH_GRIDEVENT, p1, p2, p3, p4 )
+  METHOD ConnectCommandEvt( p1, p2, p3, p4 ) //INLINE ::ParseConnectParams( WXH_COMMANDEVENT, p1, p2, p3, p4 )
+  METHOD ConnectFocusEvt( p1, p2, p3, p4 ) //INLINE ::ParseConnectParams( WXH_FOCUSEVENT, p1, p2, p3, p4 )
+  METHOD ConnectGridEvt( p1, p2, p3, p4 ) //INLINE ::ParseConnectParams( WXH_GRIDEVENT, p1, p2, p3, p4 )
 PUBLISHED:
 ENDCLASS
 
@@ -45,6 +45,8 @@ ENDCLASS
 METHOD PROCEDURE __OnEvent( evtClass, event ) CLASS wxEvtHandler
   LOCAL itm
   LOCAL id,eventType
+
+  ? "__OnEvent",::ClassName()
 
   id := event:GetId()
   eventType := event:GetEventType()
@@ -73,6 +75,8 @@ METHOD PROCEDURE ParseConnectParams( evtClass, p1, p2, p3, p4 ) CLASS wxEvtHandl
   LOCAL vtP2 := ValType( p2 )
   LOCAL vtP3 := ValType( p3 )
   LOCAL vtP4 := ValType( p4 )
+
+  ? "ParseConnectParams:",::ClassName()
 
   IF !HB_HHasKey( ::FEventList, evtClass )
     ::FEventList[ evtClass ] := HB_HSetCaseMatch( {=>}, .F. )

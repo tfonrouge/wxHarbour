@@ -2,6 +2,26 @@
  *
  */
 
+2009-01-22 22:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * include/wxh.h
+  + samples/menu
+  + samples/menu/GNUmakefile
+  + samples/menu/menu.bkl
+  + samples/menu/menu.prg
+  + samples/text
+  + samples/text/GNUmakefile
+  + samples/text/text.bkl
+  + samples/text/text.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+  * src/wxbase/baseclasses/wxhevthandler.prg
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+    ! Work in progress: scoping c++ vars on harbour vars,
+      moving event register (Connect) and executing to C++
+
 2009-01-22 10:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_bkls.sh
     * using bash (to fix error script on ubuntu)

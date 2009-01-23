@@ -46,6 +46,7 @@ wxSize        hb_par_wxSize( int param );
 //void          SetxHObj( unsigned int* ptr, PHB_ITEM xHObjFrom, PHB_ITEM* xHObjTo );
 
 void          wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf );
+void          wxh_ItemListAssignPSelf( PHB_ITEM pSelf );
 void          wxh_ItemListDel( wxObject* wxObj, bool lDelete = FALSE );
 PHB_ITEM      wxh_ItemListGetHB( wxObject* wxObj );
 wxObject*     wxh_ItemListGetWX( PHB_ITEM pSelf );
@@ -63,7 +64,8 @@ wxString wxh_parc( int param );
 template <class T>
 class hbEvtHandler : public T
 {
-  void call__OnEvent( int evtClass, wxEvent &event );
+private:
+  void __OnEvent( int evtClass, wxEvent &event );
 public:
   void OnCommandEvent( wxCommandEvent& event );
   void OnFocusEvent( wxFocusEvent& event );
@@ -75,11 +77,11 @@ public:
 };
 
 /*
-  call__OnEvent
+  __OnEvent
   Teo. Mexico 2009
 */
 template <class T>
-void hbEvtHandler<T>::call__OnEvent( int evtClass, wxEvent &event )
+void hbEvtHandler<T>::__OnEvent( int evtClass, wxEvent &event )
 {
   PHB_ITEM pSelf = wxh_ItemListGetHB( this );
   PHB_ITEM pEvtClass = hb_itemPutNI( NULL, evtClass );
@@ -88,7 +90,10 @@ void hbEvtHandler<T>::call__OnEvent( int evtClass, wxEvent &event )
   wxh_ItemListAdd( &event, pEvent );
 
   if( pSelf )
+  {
+    cout << endl ; cout << "*** __OnEvent *** " << pSelf;
     hb_objSendMsg( pSelf, "__OnEvent", 2, pEvtClass, pEvent );
+  }
 
   wxh_ItemListDel( &event );
   hb_itemRelease( pEvent );
@@ -103,7 +108,7 @@ template <class T>
 void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
 {
   HB_FUNC_EXEC( WXCOMMANDEVENT );
-  call__OnEvent( WXH_COMMANDEVENT, event );
+  __OnEvent( WXH_COMMANDEVENT, event );
 }
 
 /*
@@ -114,7 +119,7 @@ template <class T>
 void hbEvtHandler<T>::OnFocusEvent( wxFocusEvent& event )
 {
   HB_FUNC_EXEC( WXFOCUSEVENT );
-  call__OnEvent( WXH_FOCUSEVENT, event );
+  __OnEvent( WXH_FOCUSEVENT, event );
 }
 
 /*
@@ -125,7 +130,7 @@ template <class T>
 void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 {
   HB_FUNC_EXEC( WXGRIDEVENT );
-  call__OnEvent( WXH_GRIDEVENT, event );
+  __OnEvent( WXH_GRIDEVENT, event );
 }
 
 /*
@@ -136,7 +141,7 @@ template <class T>
 void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 {
   HB_FUNC_EXEC( WXMOUSEEVENT );
-  call__OnEvent( event );
+  __OnEvent( event );
 }
 
 /*
@@ -146,6 +151,10 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 template <class T>
 void hbEvtHandler<T>::wxhConnect( int evtClass, int id, int lastId, wxEventType eventType )
 {
+  PHB_ITEM pSelf = hb_stackSelfItem();
+
+  hb_objSendMsg( pSelf, "OnWXHConnect", 0 );
+  wxh_ItemListAssignPSelf( pSelf );
 
   wxObjectEventFunction objFunc;
 
