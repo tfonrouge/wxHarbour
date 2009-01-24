@@ -38,8 +38,8 @@ END_EVENT_TABLE()
 */
 wxhBrowse::~wxhBrowse()
 {
-  wxh_ItemListDel( this->m_gridBrowse );
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this->m_gridBrowse );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -56,11 +56,11 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
     PHB_ITEM pGridEvent = hb_itemNew( NULL );
     HB_FUNC_EXEC( WXGRIDEVENT );
     hb_itemCopy( pGridEvent, hb_stackReturnItem() );
-    wxh_ItemListAdd( &gridEvent, pGridEvent );
+    wxh_ItemListAdd( &gridEvent, pGridEvent, NULL );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
-    wxh_ItemListDel( &gridEvent );
+    wxh_ItemListDel_WX( &gridEvent );
     hb_itemRelease( pGridEvent );
   }
   else
@@ -173,11 +173,11 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
       PHB_ITEM pKeyEvent = hb_itemNew( NULL );
       HB_FUNC_EXEC( WXKEYEVENT );
       hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
-      wxh_ItemListAdd( &event, pKeyEvent );
+      wxh_ItemListAdd( &event, pKeyEvent, NULL );
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
-      wxh_ItemListDel( &event );
+      wxh_ItemListDel_WX( &event );
       hb_itemRelease( pKeyEvent );
 
     }
@@ -193,7 +193,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 */
 wxhGridBrowse::~wxhGridBrowse()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -204,10 +204,12 @@ HB_FUNC( WXHBROWSE_WXNEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
+  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+
   /* get harbour params */
   PHB_ITEM pGridBrowse = hb_param( 1, HB_IT_OBJECT );
-  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2 );
-  wxWindow* parent = (wxWindow *) hb_par_WX( 3 );
+  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2, pLocalList );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 3, pLocalList );
   wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
   const wxString &label = wxh_parc( 5 );
   wxPoint pos = hb_par_wxPoint( 6 );
@@ -240,8 +242,8 @@ HB_FUNC( WXHBROWSE_WXNEW )
   browse->m_gridBrowse->m_browse = browse;
 
   // Add object's to hash list
-  wxh_ItemListAdd( browse, pSelf );
-  wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse );
+  wxh_ItemListAdd( browse, pSelf, pLocalList );
+  wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse, pLocalList );
 
   hb_itemReturn( pSelf );
 }

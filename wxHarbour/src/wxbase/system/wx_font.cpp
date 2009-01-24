@@ -26,7 +26,7 @@
 */
 wx_Font::~wx_Font()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

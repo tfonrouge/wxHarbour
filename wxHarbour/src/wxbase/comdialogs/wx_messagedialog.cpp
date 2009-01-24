@@ -21,7 +21,7 @@
 */
 wx_MessageDialog::~wx_MessageDialog()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

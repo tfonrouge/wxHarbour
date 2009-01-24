@@ -31,7 +31,7 @@
 */
 wx_Notebook::~wx_Notebook()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 /*
   wxNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr)

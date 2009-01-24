@@ -107,7 +107,7 @@ HB_FUNC( TRDOSERVER_ACCEPT )
       PHB_ITEM p = hb_itemNew( NULL );
       HB_FUNC_EXEC( TRDOSOCKETBASE );
       hb_itemCopy( p, hb_stackReturnItem() );
-      wxh_ItemListAdd( socketBase, p );
+      wxh_ItemListAdd( socketBase, p, NULL );
       hb_itemReturnRelease( p );
     }
   }

@@ -2,6 +2,50 @@
  *
  */
 
+2009-01-24 09:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * samples/menu/menu.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/raddox/trdoserver_c.cpp
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/advctrls/wx_panel.cpp
+  * src/wxbase/advctrls/wx_statusbar.cpp
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+  * src/wxbase/baseclasses/wxhevthandler.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/books/wx_auinotebook.cpp
+  * src/wxbase/books/wx_listbook.cpp
+  * src/wxbase/books/wx_notebook.cpp
+  * src/wxbase/comdialogs/wx_filedialog.cpp
+  * src/wxbase/comdialogs/wx_messagedialog.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_treectrl.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/menu/wx_menubar.cpp
+  * src/wxbase/menu/wx_menu.cpp
+  * src/wxbase/menu/wx_menuitem.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/range/wx_scrollbar.cpp
+  * src/wxbase/sizers/wx_boxsizer.cpp
+  * src/wxbase/sizers/wx_gridsizer.cpp
+  * src/wxbase/sizers/wx_staticboxsizer.cpp
+  * src/wxbase/static/wx_staticline.cpp
+  * src/wxbase/system/wx_font.cpp
+  * src/wxbase/validators/wx_validator.cpp
+    ; Work in Progress:
+      changing scope of HB vars to live in the c++ objects created
+      this will eliminate the hash maps in wx_harbour.cpp
+
 2009-01-22 22:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * include/wxh.h

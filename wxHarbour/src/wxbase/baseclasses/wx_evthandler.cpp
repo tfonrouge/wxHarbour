@@ -20,22 +20,16 @@
 
 #include "wxbase/wx_frame.h"
 
-typedef struct _CONN_PARAMS
-{
-  int id,lastId,eventType;
-  PHB_ITEM pItmActionBlock;
-} CONN_PARAMS, * PCONN_PARAMS;
-
-void ParseConnectParams( PCONN_PARAMS pConnParams );
+static void ParseConnectParams( PCONN_PARAMS pConnParams );
 
 /*
   Connect
   Teo. Mexico 2009
 */
-void Connect( int evtClass )
+static void Connect( int evtClass )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  PCONN_PARAMS pConnParams = new _CONN_PARAMS;
+  PCONN_PARAMS pConnParams = new CONN_PARAMS;
 
   ParseConnectParams( pConnParams );
 
@@ -44,7 +38,7 @@ void Connect( int evtClass )
   if( !( pSelf && evtHandler ) )
     return;
 
-  evtHandler->wxhConnect( evtClass, pConnParams->id, pConnParams->lastId, pConnParams->eventType );
+  evtHandler->wxhConnect( evtClass, pConnParams );
 
 }
 
@@ -52,31 +46,28 @@ void Connect( int evtClass )
   ParseConnectParams
   Teo. Mexico 2009
 */
-void ParseConnectParams( PCONN_PARAMS pConnParams )
+static void ParseConnectParams( PCONN_PARAMS pConnParams )
 {
-  //PHB_ITEM p1 = hb_param( 1, HB_IT_ANY );
-  PHB_ITEM p2 = hb_param( 2, HB_IT_ANY );
-  PHB_ITEM p3 = hb_param( 3, HB_IT_ANY );
-  PHB_ITEM p4 = hb_param( 4, HB_IT_ANY );
+  int iParams = hb_pcount();
 
-  if( HB_IS_BLOCK( p4 ) )
+  if( iParams == 4 )
   {
     pConnParams->id = hb_parni( 1 );
     pConnParams->lastId = hb_parni( 2 );
     pConnParams->eventType = hb_parni( 3 );
-    pConnParams->pItmActionBlock = hb_param( 4, HB_IT_BLOCK );
-  }else if( HB_IS_BLOCK( p3 ) )
+    pConnParams->pItmActionBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK ) );
+  }else if( iParams == 3 )
   {
     pConnParams->id = hb_parni( 1 );
     pConnParams->lastId = hb_parni( 1 );
     pConnParams->eventType = hb_parni( 2 );
-    pConnParams->pItmActionBlock = hb_param( 3, HB_IT_BLOCK );
-  }else if( HB_IS_BLOCK( p2 ) )
+    pConnParams->pItmActionBlock = hb_itemNew( hb_param( 3, HB_IT_BLOCK ) );
+  }else if( iParams == 2 )
   {
     pConnParams->id = wxID_ANY;
     pConnParams->lastId = wxID_ANY;
     pConnParams->eventType = hb_parni( 1 );
-    pConnParams->pItmActionBlock = hb_param( 2, HB_IT_BLOCK );
+    pConnParams->pItmActionBlock = hb_itemNew( hb_param( 2, HB_IT_BLOCK ) );
   }
 }
 
@@ -86,26 +77,25 @@ void ParseConnectParams( PCONN_PARAMS pConnParams )
 */
 HB_FUNC( WXEVTHANDLER_CONNECTCOMMANDEVT )
 {
+
   Connect( WXH_COMMANDEVENT );
+
 }
 
 /*
-  wxConnect
-  Teo. Mexico 2008
+  ConnectCommandEvt
+  Teo. Mexico 2009
 */
-HB_FUNC( WXEVTHANDLER_WXHCONNECT )
+HB_FUNC( WXEVTHANDLER_CONNECTFOCUSEVT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  int evtClass = hb_parni( 1 );
-  int id = hb_parni( 2 );
-  int lastId = hb_parni( 3 );
-  wxEventType eventType = hb_parni( 4 );
+  Connect( WXH_FOCUSEVENT );
+}
 
-  hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGetWX( pSelf );
-
-  if( !( pSelf && evtHandler ) )
-    return;
-
-  evtHandler->wxhConnect( evtClass, id, lastId, eventType );
-
+/*
+  ConnectCommandEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTGRIDEVT )
+{
+  Connect( WXH_GRIDEVENT );
 }

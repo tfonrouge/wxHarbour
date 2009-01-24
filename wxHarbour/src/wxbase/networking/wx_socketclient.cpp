@@ -28,7 +28,7 @@ using namespace std;
 */
 wx_SocketClient::~wx_SocketClient()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

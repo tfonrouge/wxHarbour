@@ -28,7 +28,7 @@
 */
 wx_Grid::~wx_Grid()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -38,7 +38,10 @@ wx_Grid::~wx_Grid()
 HB_FUNC( WXGRID_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+
+  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1, pLocalList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
@@ -48,7 +51,7 @@ HB_FUNC( WXGRID_NEW )
   wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );
 
   // Add object's to hash list
-  wxh_ItemListAdd( grid, pSelf );
+  wxh_ItemListAdd( grid, pSelf, pLocalList );
 
   hb_itemReturn( pSelf );
 }
@@ -310,10 +313,16 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 HB_FUNC( WXGRID_SETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
+  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX(1);
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX( 1, pLocalList );
   bool takeOwnership = hb_parl(2);
   wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl(3);
   if( pSelf && grid )
+  {
     grid->SetTable( gridTable, takeOwnership, selmode );
+    wxh_SetLocalList( pSelf, pLocalList );
+  }
 }

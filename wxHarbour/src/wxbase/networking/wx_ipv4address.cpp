@@ -28,7 +28,7 @@ using namespace std;
 */
 wx_IPV4address::~wx_IPV4address()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

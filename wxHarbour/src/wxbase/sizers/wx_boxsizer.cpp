@@ -26,7 +26,7 @@
 */
 wx_BoxSizer::~wx_BoxSizer()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXBOXSIZER_NEW )

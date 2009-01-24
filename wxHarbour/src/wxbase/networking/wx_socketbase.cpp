@@ -36,7 +36,7 @@ wx_SocketBase::wx_SocketBase()
 */
 wx_SocketBase::~wx_SocketBase()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
