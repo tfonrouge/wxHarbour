@@ -29,12 +29,9 @@ HB_FUNC( TBASECLASS_WXDESTRUCT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wxObject* wxObj = (wxObject *) wxh_ItemListGetWX( pSelf );
-
-  if( wxObj )
-  {
-    wxh_ItemListDel( wxObj, false ); /*  TRUE: delete wxObj */
-  }
+  /* 1: delete the C++ wxObject */
+  /* 2: dont try to release event codeblocks because they are already released */
+  wxh_ItemListDel_HB( pSelf, true, false );
 }
 
 /*

@@ -26,7 +26,7 @@
 */
 wx_GridSizer::~wx_GridSizer()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXGRIDSIZER_NEW )

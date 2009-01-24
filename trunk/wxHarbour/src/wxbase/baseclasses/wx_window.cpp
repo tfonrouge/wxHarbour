@@ -61,7 +61,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 
   if( pSelf && wnd )
   {
-    wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+    wxWindow* parent = (wxWindow *) hb_par_WX( 2, NULL );
     wxWindow* result = wnd->FindWindowById( id, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGetHB( result ) );
@@ -77,7 +77,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 
   if( pSelf && wnd )
   {
-    wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+    wxWindow* parent = (wxWindow *) hb_par_WX( 2, NULL );
     wxWindow* result =  wnd->FindWindowByLabel( label, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGetHB( result ) );
@@ -93,7 +93,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 
   if( pSelf && wnd )
   {
-    wxWindow* parent = (wxWindow *) hb_par_WX( 2 );
+    wxWindow* parent = (wxWindow *) hb_par_WX( 2, NULL );
     wxWindow* result =  wnd->FindWindowByName( name, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGetHB( result ) );
@@ -114,7 +114,7 @@ HB_FUNC( WXWINDOW_GETFONT )
     PHB_ITEM pFont = hb_itemNew( NULL );
     HB_FUNC_EXEC( WXFONT );
     hb_itemCopy( pFont, hb_stackReturnItem() );
-    wxh_ItemListAdd( font, pFont );
+    wxh_ItemListAdd( font, pFont, NULL );
     hb_itemReturnRelease( pFont );
   }
 }
@@ -196,14 +196,20 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
+  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+
   wxWindow* wnd = (wxWindow *) wxh_ItemListGetWX( pSelf );
 
-  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1 );
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1, pLocalList );
 
   if( !( pSelf && wnd ) )
   {
+    delete pLocalList;
     return;
   }
+
+  wxh_SetLocalList( wnd, pLocalList );
 
   if( hb_pcount() == 1 )
   {
@@ -273,13 +279,19 @@ HB_FUNC( WXWINDOW_SETNAME )
 HB_FUNC( WXWINDOW_SETSIZER )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
+  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+
   wxWindow* wnd = (wxWindow *) wxh_ItemListGetWX( pSelf );
 
   if( pSelf && wnd )
   {
-    wxSizer* sizer = (wxSizer *) hb_par_WX( 1 );
+    wxSizer* sizer = (wxSizer *) hb_par_WX( 1, pLocalList );
     if( sizer )
-      wnd->SetSizer( sizer, hb_parl(2) );
+    {
+      wnd->SetSizer( sizer, hb_parl( 2 ) );
+      wxh_SetLocalList( wnd, pLocalList );
+    }
   }
 }
 

@@ -26,7 +26,7 @@
 */
 wx_Menu::~wx_Menu()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -40,6 +40,7 @@ HB_FUNC( WXMENU_NEW )
 
   // Add object's to hash list
   wxh_ItemListAdd( menu, pSelf );
+//   wxh_ItemListSetStaticItm( menu );
 
   hb_itemReturn( pSelf );
 }

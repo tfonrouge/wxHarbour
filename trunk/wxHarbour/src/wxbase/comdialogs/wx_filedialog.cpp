@@ -21,7 +21,7 @@
 */
 wx_FileDialog::~wx_FileDialog()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

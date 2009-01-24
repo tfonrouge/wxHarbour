@@ -33,7 +33,7 @@ extern "C"
 */
 wx_TreeCtrl::~wx_TreeCtrl()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXTREECTRL_NEW )

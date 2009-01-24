@@ -29,7 +29,7 @@
 */
 wx_GridTableBase::~wx_GridTableBase()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -232,10 +232,11 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 HB_FUNC( WXGRIDTABLEBASE_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_GridTableBase* gridTable = new wx_GridTableBase;
 
   // Add object's to hash list
-  wxh_ItemListAdd( gridTable, pSelf );
+  wxh_ItemListAdd( gridTable, pSelf, NULL );
 
   hb_itemReturn( pSelf );
 }

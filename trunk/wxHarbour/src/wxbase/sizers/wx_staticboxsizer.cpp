@@ -26,7 +26,7 @@
 */
 wx_StaticBoxSizer::~wx_StaticBoxSizer()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )

@@ -26,7 +26,7 @@
 */
 wx_Validator::~wx_Validator()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXVALIDATOR_NEW )

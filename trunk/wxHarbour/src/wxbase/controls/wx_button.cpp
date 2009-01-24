@@ -26,7 +26,7 @@
 */
 wx_Button::~wx_Button()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXBUTTON_NEW )

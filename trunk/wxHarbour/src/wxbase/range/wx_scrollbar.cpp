@@ -26,7 +26,7 @@
 */
 wx_ScrollBar::~wx_ScrollBar()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

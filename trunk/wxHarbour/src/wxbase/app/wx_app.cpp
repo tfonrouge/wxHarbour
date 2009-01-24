@@ -42,7 +42,7 @@ int wx_App::OnExit()
 {
   cout << endl << "OnExit";
   cout << endl;
-  wxh_ItemListReleaseAll();
+//   wxh_ItemListReleaseAll();
   hb_itemRelease( hb_App );
   HB_FUNC_EXEC( __QUIT );
   return 0;

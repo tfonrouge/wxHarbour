@@ -33,7 +33,7 @@ using namespace std;
 */
 wx_SocketServer::~wx_SocketServer()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

@@ -26,7 +26,7 @@
 */
 wx_StaticText::~wx_StaticText()
 {
-  wxh_ItemListDel( this );
+  wxh_ItemListDel_WX( this );
 }
 
 /*

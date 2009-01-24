@@ -22,8 +22,6 @@
 #include "wxbase/wx_menubar.h"
 #include "wxbase/wx_frame.h"
 
-using namespace std;
-
 /*
   Constructor
   Teo. Mexico 2006
@@ -45,12 +43,13 @@ HB_FUNC( WXFRAME_NEW )
 
   if(hb_pcount())
   {
-    wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
+    TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+    wxWindow* parent = (wxFrame *) hb_par_WX( 1, pLocalList );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
-    wxPoint point = hb_par_wxPoint(4);
-    wxSize size = hb_par_wxSize(5);
-    long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
+    wxPoint point = hb_par_wxPoint( 4 );
+    wxSize size = hb_par_wxSize( 5 );
+    long style = ISNIL( 6 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 6 );
     wxString name = wxh_parc( 7 );
     frame = new wx_Frame( parent, id, title, point, size, style, name );
   }
@@ -58,26 +57,24 @@ HB_FUNC( WXFRAME_NEW )
     frame = new wx_Frame( NULL );
 
   // Add object's to hash list
-  wxh_ItemListAdd( frame, pSelf );
+  wxh_ItemListAdd( frame, pSelf, pLocalList );
 
   // OnCreate...
   hb_objSendMsg( pSelf, "OnCreate", 0 );
 
   hb_itemReturn( pSelf );
-
 }
 
 /*
   wxFrame::Centre( int direction = wxBOTH )
-  RETURN void
   Teo. Mexico 2006
 */
 HB_FUNC( WXFRAME_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
-  wx_Frame* frame;
-  if( pSelf && (frame = (wx_Frame*) wxh_ItemListGetWX( pSelf ) ) )
+  wx_Frame* frame = (wx_Frame*) wxh_ItemListGetWX( pSelf );
+  if( pSelf && frame )
     frame->Centre( direction );
 }
 
@@ -88,9 +85,9 @@ HB_FUNC( WXFRAME_CENTRE )
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame;
+  wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
   wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && frame )
     frame->SetMenuBar( menuBar );
 }
 
@@ -101,8 +98,8 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame;
+  wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
   wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-  if( pSelf && (frame = (wx_Frame *) wxh_ItemListGetWX( pSelf ) ) )
+  if( pSelf && frame )
     frame->SetStatusBar( statusBar );
 }
