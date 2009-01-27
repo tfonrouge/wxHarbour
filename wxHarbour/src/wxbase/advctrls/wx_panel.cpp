@@ -36,13 +36,13 @@ bool Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxD
 HB_FUNC( WXPANEL_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-
-  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_Panel* panel;
+
   if( hb_pcount() )
   {
-    wxWindow* parent = (wxWindow *) hb_par_WX( 1, pLocalList );
+    wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
@@ -54,7 +54,8 @@ HB_FUNC( WXPANEL_NEW )
     panel = new wx_Panel();
 
   // Add object's to hash list
-  wxh_ItemListAdd( panel, pSelf, pLocalList );
+  //wxh_ItemListAdd( panel, pSelf, wxhScopeList );
+  wxh_SetScopeList( panel, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }

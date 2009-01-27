@@ -37,11 +37,13 @@ wx_MenuBar::~wx_MenuBar()
 HB_FUNC( WXMENUBAR_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl(1) );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
+  wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl( 1 ) );
 
   // Add object's to hash list
-  wxh_ItemListAdd( menuBar, pSelf );
-//   wxh_ItemListSetStaticItm( menuBar );
+  //wxh_ItemListAdd( menuBar, pSelf );
+  wxh_SetScopeList( menuBar, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }
@@ -49,10 +51,13 @@ HB_FUNC( WXMENUBAR_NEW )
 HB_FUNC( WXMENUBAR_APPEND )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_MenuBar* menuBar;
-  wx_Menu* menu;
-  if( pSelf &&
-        ( menuBar = (wx_MenuBar *) wxh_ItemListGetWX( pSelf ) ) &&
-        ( menu = (wx_Menu *) hb_par_WX( 1 ) ) )
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_ItemListGetWX( pSelf );
+
+  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1, &wxhScopeList );
+
+  if( menuBar && menu )
+  {
     menuBar->Append( menu, wxh_parc( 2 ) );
+  }
 }

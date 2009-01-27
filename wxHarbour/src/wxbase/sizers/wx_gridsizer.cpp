@@ -32,10 +32,13 @@ wx_GridSizer::~wx_GridSizer()
 HB_FUNC( WXGRIDSIZER_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
   wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
 
   // Add object's to hash list
-  wxh_ItemListAdd( gridSizer, pSelf );
+  //wxh_ItemListAdd( gridSizer, pSelf );
+  wxh_SetScopeList( gridSizer, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -48,11 +51,10 @@ HB_FUNC( WXGRIDSIZER_NEW )
 HB_FUNC( WXGRIDSIZER_GETCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     hb_retni( gridSizer->GetCols() );
-  else
-    hb_ret();
 }
 
 /*
@@ -62,11 +64,10 @@ HB_FUNC( WXGRIDSIZER_GETCOLS )
 HB_FUNC( WXGRIDSIZER_GETHGAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     hb_retni( gridSizer->GetHGap() );
-  else
-    hb_ret();
 }
 
 /*
@@ -76,11 +77,10 @@ HB_FUNC( WXGRIDSIZER_GETHGAP )
 HB_FUNC( WXGRIDSIZER_GETROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     hb_retni( gridSizer->GetRows() );
-  else
-    hb_ret();
 }
 
 /*
@@ -90,11 +90,10 @@ HB_FUNC( WXGRIDSIZER_GETROWS )
 HB_FUNC( WXGRIDSIZER_GETVGAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+  
+  if( gridSizer )
     hb_retni( gridSizer->GetVGap() );
-  else
-    hb_ret();
 }
 
 /*
@@ -104,8 +103,9 @@ HB_FUNC( WXGRIDSIZER_GETVGAP )
 HB_FUNC( WXGRIDSIZER_SETCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     gridSizer->SetCols( hb_parni( 1 ) );
 }
 
@@ -116,8 +116,9 @@ HB_FUNC( WXGRIDSIZER_SETCOLS )
 HB_FUNC( WXGRIDSIZER_SETHGAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     gridSizer->SetHGap( hb_parni( 1 ) );
 }
 
@@ -128,8 +129,9 @@ HB_FUNC( WXGRIDSIZER_SETHGAP )
 HB_FUNC( WXGRIDSIZER_SETROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     gridSizer->SetRows( hb_parni( 1 ) );
 }
 
@@ -140,7 +142,8 @@ HB_FUNC( WXGRIDSIZER_SETROWS )
 HB_FUNC( WXGRIDSIZER_SETVGAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridSizer* gridSizer;
-  if( pSelf && (gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( gridSizer )
     gridSizer->SetVGap( hb_parni( 1 ) );
 }

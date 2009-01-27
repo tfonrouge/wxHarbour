@@ -53,15 +53,17 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
 
   if( pWxhBrowse )
   {
-    PHB_ITEM pGridEvent = hb_itemNew( NULL );
     HB_FUNC_EXEC( WXGRIDEVENT );
-    hb_itemCopy( pGridEvent, hb_stackReturnItem() );
-    wxh_ItemListAdd( &gridEvent, pGridEvent, NULL );
+    PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
+    WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pGridEvent );
+    wxh_SetScopeList( &gridEvent, &wxhScopeList );
+    //wxh_ItemListAdd( &gridEvent, pGridEvent, NULL );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
-    wxh_ItemListDel_WX( &gridEvent );
-    hb_itemRelease( pGridEvent );
+    wxh_ItemListDel_HB( pGridEvent, false );
+    //wxh_ItemListDel_WX( &gridEvent );
+    //hb_itemRelease( pGridEvent );
   }
   else
     gridEvent.Skip();
@@ -169,16 +171,17 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
     PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this->m_browse );
     if( pWxhBrowse )
     {
-
-      PHB_ITEM pKeyEvent = hb_itemNew( NULL );
       HB_FUNC_EXEC( WXKEYEVENT );
-      hb_itemCopy( pKeyEvent, hb_stackReturnItem() );
-      wxh_ItemListAdd( &event, pKeyEvent, NULL );
+      PHB_ITEM pKeyEvent = hb_itemNew( hb_stackReturnItem() );
+      WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pKeyEvent );
+      wxh_SetScopeList( &event, &wxhScopeList );
+      //wxh_ItemListAdd( &event, pKeyEvent, NULL );
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
-      wxh_ItemListDel_WX( &event );
-      hb_itemRelease( pKeyEvent );
+      //wxh_ItemListDel_WX( &event );
+      wxh_ItemListDel_HB( pKeyEvent, false );
+      //hb_itemRelease( pKeyEvent );
 
     }
 
@@ -203,13 +206,14 @@ wxhGridBrowse::~wxhGridBrowse()
 HB_FUNC( WXHBROWSE_WXNEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-
-  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+  WXH_SCOPELIST wxhScopeList1 = WXH_SCOPELIST( pSelf );
 
   /* get harbour params */
   PHB_ITEM pGridBrowse = hb_param( 1, HB_IT_OBJECT );
-  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2, pLocalList );
-  wxWindow* parent = (wxWindow *) hb_par_WX( 3, pLocalList );
+  WXH_SCOPELIST wxhScopeList2 = WXH_SCOPELIST( pGridBrowse );
+
+  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2, &wxhScopeList2 );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 3, &wxhScopeList1 );
   wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
   const wxString &label = wxh_parc( 5 );
   wxPoint pos = hb_par_wxPoint( 6 );
@@ -242,8 +246,10 @@ HB_FUNC( WXHBROWSE_WXNEW )
   browse->m_gridBrowse->m_browse = browse;
 
   // Add object's to hash list
-  wxh_ItemListAdd( browse, pSelf, pLocalList );
-  wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse, pLocalList );
+//   wxh_ItemListAdd( browse, pSelf, wxhScopeList );
+//   wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse, wxhScopeList );
+  wxh_SetScopeList( browse, &wxhScopeList1 );
+  wxh_SetScopeList( browse->m_gridBrowse, &wxhScopeList2 );
 
   hb_itemReturn( pSelf );
 }

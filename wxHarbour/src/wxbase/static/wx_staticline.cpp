@@ -36,7 +36,9 @@ wx_StaticLine::~wx_StaticLine()
 HB_FUNC( WXSTATICLINE_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
   const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
@@ -45,7 +47,8 @@ HB_FUNC( WXSTATICLINE_NEW )
   wx_StaticLine* staticLine = new wx_StaticLine( parent, id, pos, size, style, name );
 
   // Add object's to hash list
-  wxh_ItemListAdd( staticLine, pSelf );
+  //wxh_ItemListAdd( staticLine, pSelf );
+  wxh_SetScopeList( staticLine, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }
@@ -58,12 +61,11 @@ HB_FUNC( WXSTATICLINE_ISVERTICAL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && staticLine )
+
+  if( staticLine )
   {
     hb_retl( staticLine->IsVertical() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -74,10 +76,9 @@ HB_FUNC( WXSTATICLINE_GETDEFAULTSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && staticLine )
+
+  if( staticLine )
   {
     hb_retni( staticLine->GetDefaultSize() );
   }
-  else
-    hb_ret();
 }

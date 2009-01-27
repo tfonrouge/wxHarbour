@@ -60,18 +60,21 @@ static int ChkFlagInArray( int iParam )
 HB_FUNC( WXSIZER_ADD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wxSizer* sizer = (wxSizer *) wxh_ItemListGetWX( pSelf );
 
   if( ISOBJECT( 1 ) )
   {
-    wxObject* obj = (wxObject *) hb_par_WX( 1 );
+    wxObject* obj = (wxObject *) hb_par_WX( 1, &wxhScopeList );
     if( obj->IsKindOf( CLASSINFO( wxWindow ) ) )
+    {
       if( hb_pcount() == 2 )
         /*wxSizerItem* Add(wxWindow* window, const wxSizerFlags& flags)*/
         sizer->Add( (wxWindow *) obj, ChkFlagInArray( 2 ) ) ;
       else
         /*wxSizerItem* Add(wxWindow* window, int proportion = 0,int flag = 0, int border = 0, wxObject* userData = NULL)*/
-        sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
+        sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5, &wxhScopeList ) );
+    }
     else
       if( obj->IsKindOf( CLASSINFO( wxSizer ) ) )
       {
@@ -80,13 +83,13 @@ HB_FUNC( WXSIZER_ADD )
           sizer->Add( (wxSizer *) obj, ChkFlagInArray( 2 ) ) ;
         else
           /*wxSizerItem* Add(wxSizer* sizer, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-          sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5 ) );
+          sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) hb_par_WX( 5, &wxhScopeList ) );
       }
   }
   else
     if( ISNUM( 1 ) )
       /*wxSizerItem* Add(int width, int height, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-      sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) hb_par_WX( 6 ) );
+      sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) hb_par_WX( 6, &wxhScopeList ) );
 }
 
 /*
@@ -96,8 +99,12 @@ HB_FUNC( WXSIZER_ADD )
 HB_FUNC( WXSIZER_SETSIZEHINTS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxSizer* sizer;
-  wxWindow* wnd = (wxWindow *) hb_par_WX( 1 );
-  if( pSelf && (sizer = (wxSizer *) wxh_ItemListGetWX( pSelf ) ) && wnd )
-    sizer->SetSizeHints( wnd );
+  wxSizer* sizer = (wxSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( sizer )
+  {
+    wxWindow* wnd = (wxWindow *) hb_par_WX( 1, NULL );
+    if( wnd )
+      sizer->SetSizeHints( wnd );
+  }
 }

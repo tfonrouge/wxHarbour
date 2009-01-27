@@ -38,13 +38,13 @@ wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 HB_FUNC( WXFRAME_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_Frame* frame;
 
   if(hb_pcount())
   {
-    TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
-    wxWindow* parent = (wxFrame *) hb_par_WX( 1, pLocalList );
+    wxWindow* parent = (wxFrame *) hb_par_WX( 1, &wxhScopeList );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
     wxPoint point = hb_par_wxPoint( 4 );
@@ -57,7 +57,8 @@ HB_FUNC( WXFRAME_NEW )
     frame = new wx_Frame( NULL );
 
   // Add object's to hash list
-  wxh_ItemListAdd( frame, pSelf, pLocalList );
+  //wxh_ItemListAdd( frame, pSelf, pLocalList );
+  wxh_SetScopeList( frame, &wxhScopeList );
 
   // OnCreate...
   hb_objSendMsg( pSelf, "OnCreate", 0 );
@@ -72,10 +73,13 @@ HB_FUNC( WXFRAME_NEW )
 HB_FUNC( WXFRAME_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
   wx_Frame* frame = (wx_Frame*) wxh_ItemListGetWX( pSelf );
-  if( pSelf && frame )
+
+  if( frame )
+  {
+    int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
     frame->Centre( direction );
+  }
 }
 
 /*
@@ -85,10 +89,15 @@ HB_FUNC( WXFRAME_CENTRE )
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
-  wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1 );
-  if( pSelf && frame )
+
+  wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1, &wxhScopeList );
+
+  if( frame && menuBar )
+  {
     frame->SetMenuBar( menuBar );
+  }
 }
 
 /*
@@ -98,8 +107,13 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
-  wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1 );
-  if( pSelf && frame )
+
+  wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1, &wxhScopeList );
+
+  if( frame && statusBar )
+  {
     frame->SetStatusBar( statusBar );
+  }
 }

@@ -38,12 +38,13 @@ wx_MDIParentFrame::wx_MDIParentFrame( wxWindow* parent, wxWindowID id, const wxS
 HB_FUNC( WXMDIPARENTFRAME_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_MDIParentFrame* frame;
 
   if(hb_pcount())
   {
-    wxWindow* parent = (wxFrame *) hb_par_WX( 1 );
+    wxWindow* parent = (wxFrame *) hb_par_WX( 1, &wxhScopeList );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxString title = wxh_parc( 3 );
     wxPoint point = hb_par_wxPoint(4);
@@ -56,7 +57,8 @@ HB_FUNC( WXMDIPARENTFRAME_NEW )
     frame = new wx_MDIParentFrame( NULL );
 
   // Add object's to hash list
-  wxh_ItemListAdd( frame, pSelf );
+  //wxh_ItemListAdd( frame, pSelf );
+  wxh_SetScopeList( frame, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -69,7 +71,8 @@ HB_FUNC( WXMDIPARENTFRAME_NEW )
 HB_FUNC( WXMDIPARENTFRAME_CASCADE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_MDIParentFrame* frame;
-  if( pSelf && (frame = (wx_MDIParentFrame *) wxh_ItemListGetWX( pSelf ) ) )
+  wx_MDIParentFrame* frame = (wx_MDIParentFrame *) wxh_ItemListGetWX( pSelf );
+
+  if( frame )
     frame->Cascade();
 }

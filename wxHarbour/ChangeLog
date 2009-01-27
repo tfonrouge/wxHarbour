@@ -2,6 +2,65 @@
  *
  */
 
+2009-01-26 21:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+  + src/common/wxh_scopelist.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/raddox/trdoserver_c.cpp
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/advctrls/wx_panel.cpp
+  * src/wxbase/advctrls/wx_statusbar.cpp
+  * src/wxbase/baseclasses/wx_commandevent.cpp
+  * src/wxbase/baseclasses/wx_event.cpp
+  * src/wxbase/baseclasses/wx_focusevent.cpp
+  * src/wxbase/baseclasses/wx_gridevent.cpp
+  * src/wxbase/baseclasses/wx_keyevent.cpp
+  * src/wxbase/baseclasses/wx_object.cpp
+  * src/wxbase/baseclasses/wx_toplevelwindow.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/books/wx_auinotebook.cpp
+  * src/wxbase/books/wx_listbook.cpp
+  * src/wxbase/books/wx_notebook.cpp
+  * src/wxbase/comdialogs/wx_filedialog.cpp
+  * src/wxbase/comdialogs/wx_messagedialog.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_treectrl.cpp
+  * src/wxbase/manwindows/wx_dialog.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/manwindows/wx_mdichildframe.cpp
+  * src/wxbase/manwindows/wx_mdiparentframe.cpp
+  * src/wxbase/menu/wxhmenu.prg
+  * src/wxbase/menu/wx_menubar.cpp
+  * src/wxbase/menu/wx_menu.cpp
+  * src/wxbase/menu/wx_menuitem.cpp
+  * src/wxbase/miscfuncs/wx_dialogfuncs.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/range/wx_scrollbar.cpp
+  * src/wxbase/sizers/wx_boxsizer.cpp
+  * src/wxbase/sizers/wx_gridsizer.cpp
+  * src/wxbase/sizers/wx_sizer.cpp
+  * src/wxbase/sizers/wx_staticboxsizer.cpp
+  * src/wxbase/static/wx_staticline.cpp
+  * src/wxbase/system/wx_font.cpp
+  * src/wxbase/validators/wx_validator.cpp
+  * src/wxbase/xmlclasses/wx_xmldocument.cpp
+  + tests
+  + tests/test1
+  + tests/test1/GNUmakefile
+  + tests/test1/test1.bkl
+  + tests/test1/test1.prg
+    * finished the code changing for the new scope var management
+    ; TODO: tests
+
 2009-01-24 09:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/menu/menu.prg

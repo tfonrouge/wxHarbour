@@ -43,34 +43,28 @@ typedef struct _CONN_PARAMS
   int lastId;
   wxEventType eventType;
   PHB_ITEM pItmActionBlock;
-} CONN_PARAMS, * PCONN_PARAMS;
+} CONN_PARAMS, *PCONN_PARAMS;
 
-typedef struct _PHBITM_REF
+/* PHB_ITEM key, wxObject* values */
+WX_DECLARE_HASH_MAP( PHB_ITEM, wxObject*, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
+
+typedef struct _WXH_ITEM
 {
-  PHB_ITEM pLocal;
-  PHB_ITEM pStatic;
+  wxObject* wxObj;
   vector<PCONN_PARAMS> evtList;
-} HBITM_REF, *PHBITM_REF;
+  MAP_PHB_ITEM map_childList;
+  MAP_PHB_ITEM map_parentList;
+  PHB_ITEM pSelf;
+} WXH_ITEM, *PWXH_ITEM;
 
-/*
-  Class to hold HB items associated on a C++ object
-*/
-class TLOCAL_ITM_LIST
+class WXH_SCOPELIST
 {
-private:
-  vector<PHB_ITEM> itmList;
 public:
-  void AddItm( PHB_ITEM pSelf ) { itmList.push_back( hb_itemNew( pSelf ) ); }
-
-  ~TLOCAL_ITM_LIST()
-  {
-    vector<PHB_ITEM>::iterator it;
-    for( it = itmList.begin(); it < itmList.end(); it++ )
-    {
-      PHB_ITEM itm = *it;
-      hb_itemRelease( itm );
-    }
-  }
+  MAP_PHB_ITEM itmList;
+  PHB_ITEM pSelf;
+  WXH_SCOPELIST( PHB_ITEM pSelf );
+  ~WXH_SCOPELIST();
+  void AddItm( PHB_ITEM pSelf, wxObject* wxObj );
 };
 
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
@@ -78,20 +72,17 @@ HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
-wxObject*     hb_par_WX( int param, TLOCAL_ITM_LIST* pLocalList );
+wxObject*     hb_par_WX( int param, WXH_SCOPELIST* pLocalList );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
-//void          SetxHObj( unsigned int* ptr, PHB_ITEM xHObjFrom, PHB_ITEM* xHObjTo );
 
-void          wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf, TLOCAL_ITM_LIST* pLocalList );
-void          wxh_ItemListSetStaticItm( wxObject* wxObj, PHB_ITEM pSelf );
 void          wxh_ItemListDel_WX( wxObject* wxObj );
 void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE, bool lReleaseCodeblockItm = FALSE );
+PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
 PHB_ITEM      wxh_ItemListGetHB( wxObject* wxObj );
-PHBITM_REF    wxh_ItemListGetHBREF( wxObject* wxObj );
 wxObject*     wxh_ItemListGetWX( PHB_ITEM pSelf );
-void	      wxh_ItemListReleaseAll();
-void          wxh_SetWXLocalList( wxObject* wxObj, TLOCAL_ITM_LIST* pLocalList );
+void          wxh_ItemListReleaseAll();
+void          wxh_SetScopeList( wxObject* wxObj, WXH_SCOPELIST* pLocalList );
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
@@ -139,21 +130,18 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 {
   PHB_ITEM pEvent = hb_itemNew( NULL );
   hb_itemMove( pEvent, hb_stackReturnItem() );
-  wxh_ItemListAdd( &event, pEvent, NULL );
+  WXH_SCOPELIST* wxhScopeList = new WXH_SCOPELIST( pEvent );
+  wxh_SetScopeList( &event, wxhScopeList );
+  //wxh_ItemListAdd( &event, pEvent, NULL );
 
-  PHBITM_REF pItmRef = wxh_ItemListGetHBREF( this );
-  PCONN_PARAMS pConnParams;
-  vector<PCONN_PARAMS> v = pItmRef->evtList;
+  vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( this )->evtList;
 
-  vector<PCONN_PARAMS>::iterator it;
-  for( it = v.begin(); it < v.end(); it++ )
+  for( vector<PCONN_PARAMS>::iterator it = evtList.begin(); it < evtList.end(); it++ )
   {
-    pConnParams = *it;
-    int id;
+    PCONN_PARAMS pConnParams = *it;
     if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
     {
-      id = event.GetId();
-      if( id == wxID_ANY || ( id >= pConnParams->id && id <= pConnParams->lastId ) )
+      if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
       {
         hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
       }
@@ -161,7 +149,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
   }
 
   wxh_ItemListDel_HB( pEvent );
-  hb_itemRelease( pEvent );
+  //hb_itemRelease( pEvent ); this has to be done on above line
 }
 
 /*
@@ -234,10 +222,10 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
   if( objFunc )
   {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    PHBITM_REF pItmRef = wxh_ItemListGetHBREF( wxh_ItemListGetWX( pSelf ) );
+    /* pLocalList not needed here, we will just send the event as parameter to the codeblock */
+    vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( this )->evtList;
 
-    pItmRef->evtList.push_back( pConnParams );
+    evtList.push_back( pConnParams );
 
     this->Connect( pConnParams->id, pConnParams->lastId, pConnParams->eventType, objFunc );
   }

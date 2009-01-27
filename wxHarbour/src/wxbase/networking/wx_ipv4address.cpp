@@ -20,8 +20,6 @@
 
 #include "wxbase/wx_ipv4address.h"
 
-using namespace std;
-
 /*
   ~wx_IPV4address
   Teo. Mexico 2008
@@ -38,12 +36,15 @@ wx_IPV4address::~wx_IPV4address()
 HB_FUNC( WXIPV4ADDRESS_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
   wx_IPV4address* ipv4Address;
 
   ipv4Address = new wx_IPV4address();
 
   // Add object's to hash list
-  wxh_ItemListAdd( ipv4Address, pSelf );
+  //wxh_ItemListAdd( ipv4Address, pSelf );
+  wxh_SetScopeList( ipv4Address, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -58,7 +59,7 @@ HB_FUNC( WXIPV4ADDRESS_ANYADDRESS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
     hb_retl( ipv4Address->AnyAddress() );
 }
 
@@ -71,7 +72,7 @@ HB_FUNC( WXIPV4ADDRESS_CLEAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
     ipv4Address->Clear();
 }
 
@@ -84,7 +85,7 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
   {
     if( hb_pcount() == 0 )
       hb_retc( ipv4Address->Hostname().mb_str() );
@@ -105,7 +106,7 @@ HB_FUNC( WXIPV4ADDRESS_IPADDRESS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
     hb_retc( ipv4Address->IPAddress().mb_str() );
 }
 
@@ -118,7 +119,7 @@ HB_FUNC( WXIPV4ADDRESS_ISLOCALHOST )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
     hb_retl( ipv4Address->IsLocalHost() );
 }
 
@@ -131,7 +132,7 @@ HB_FUNC( WXIPV4ADDRESS_LOCALHOST )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
     hb_retl( ipv4Address->LocalHost() );
 }
 
@@ -144,7 +145,7 @@ HB_FUNC( WXIPV4ADDRESS_SERVICE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && ipv4Address )
+  if( ipv4Address )
   {
     if( ISCHAR( 1 ) )
       hb_retl( ipv4Address->Service( wxh_parc( 1 ) ) );

@@ -27,10 +27,9 @@ HB_FUNC( WXGRIDEVENT_GETCOL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && gridEvent )
+
+  if( gridEvent )
     hb_retni( gridEvent->GetCol() );
-  else
-    hb_ret();
 }
 
 /*
@@ -41,10 +40,9 @@ HB_FUNC( WXGRIDEVENT_GETROW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && gridEvent )
+
+  if( gridEvent )
     hb_retni( gridEvent->GetRow() );
-  else
-    hb_ret();
 }
 
 /*
@@ -55,8 +53,7 @@ HB_FUNC( WXGRIDEVENT_SELECTING )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && gridEvent )
+
+  if( gridEvent )
     hb_retl( gridEvent->Selecting() );
-  else
-    hb_ret();
 }

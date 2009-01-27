@@ -36,18 +36,21 @@ wx_ScrollBar::~wx_ScrollBar()
 HB_FUNC( WXSCROLLBAR_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxSB_HORIZONTAL : hb_parni( 5 );
-  const wxValidator& validator = ISNIL(7) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX(7))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX( 7, &wxhScopeList ))) ;
   const wxString& name = wxh_parc( 7 );
 
   wx_ScrollBar* sb = new wx_ScrollBar( parent, id, pos, size, style, validator, name );
 
   // Add object's to hash list
-  wxh_ItemListAdd( sb, pSelf );
+  //wxh_ItemListAdd( sb, pSelf );
+  wxh_SetScopeList( sb, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }
@@ -59,13 +62,13 @@ HB_FUNC( WXSCROLLBAR_NEW )
 HB_FUNC( WXSCROLLBAR_GETRANGE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && sb )
+
+  if( sb )
   {
     hb_retni( sb->GetRange() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -75,13 +78,13 @@ HB_FUNC( WXSCROLLBAR_GETRANGE )
 HB_FUNC( WXSCROLLBAR_GETPAGESIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && sb )
+
+  if( sb )
   {
     hb_retni( sb->GetPageSize() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -91,13 +94,13 @@ HB_FUNC( WXSCROLLBAR_GETPAGESIZE )
 HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && sb )
+  
+  if( sb )
   {
     hb_retni( sb->GetThumbPosition() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -107,13 +110,13 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
 HB_FUNC( WXSCROLLBAR_GETTHUMBSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && sb )
+
+  if( sb )
   {
     hb_retni( sb->GetThumbSize() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -123,10 +126,12 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBSIZE )
 HB_FUNC( WXSCROLLBAR_SETTHUMBPOSITION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  int viewStart = hb_parni( 1 );
-  if( pSelf && sb )
+
+  if( sb )
   {
+    int viewStart = hb_parni( 1 );
     sb->SetThumbPosition( viewStart );
   }
 }
@@ -138,14 +143,17 @@ HB_FUNC( WXSCROLLBAR_SETTHUMBPOSITION )
 HB_FUNC( WXSCROLLBAR_SETSCROLLBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+
   wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
-  int position = hb_parni( 1 );
-  int thumbSize = hb_parni( 2 );
-  int range = hb_parni( 3 );
-  int pageSize = hb_parni( 4 );
-  const bool refresh = ISNIL( 5 ) ? true : hb_parnl( 5 );
-  if( pSelf && sb )
+
+  if( sb )
   {
+    int position = hb_parni( 1 );
+    int thumbSize = hb_parni( 2 );
+    int range = hb_parni( 3 );
+    int pageSize = hb_parni( 4 );
+    const bool refresh = ISNIL( 5 ) ? true : hb_parnl( 5 );
+
     sb->SetScrollbar( position, thumbSize, range, pageSize, refresh );
   }
 }

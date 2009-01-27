@@ -36,10 +36,13 @@ wx_Font::~wx_Font()
 HB_FUNC( WXFONT_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
   wx_Font* font = new wx_Font();
 
   // Add object's to hash list
-  wxh_ItemListAdd( font, pSelf );
+  //wxh_ItemListAdd( font, pSelf );
+  wxh_SetScopeList( font, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -53,7 +56,8 @@ HB_FUNC( WXFONT_GETFACENAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && font )
+
+  if( font )
     hb_retc( font->GetFaceName().mb_str() );
 }
 
@@ -65,6 +69,7 @@ HB_FUNC( WXFONT_GETPOINTSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && font )
+
+  if( font )
     hb_retni( font->GetPointSize() );
 }

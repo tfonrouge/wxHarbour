@@ -38,10 +38,9 @@ wx_Grid::~wx_Grid()
 HB_FUNC( WXGRID_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
-
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, pLocalList );
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
@@ -51,7 +50,8 @@ HB_FUNC( WXGRID_NEW )
   wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );
 
   // Add object's to hash list
-  wxh_ItemListAdd( grid, pSelf, pLocalList );
+  //wxh_ItemListAdd( grid, pSelf, wxhScopeList );
+  wxh_SetScopeList( grid, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }
@@ -64,8 +64,10 @@ HB_FUNC( WXGRID_AUTOSIZECOLUMN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+
   int col = ISNIL( 1 ) ? 1 : hb_parni( 1 );
   bool setAsMin = ISNIL( 2 ) ? true : hb_parl( 2 );
+
   if( pSelf && grid )
     grid->AutoSizeColumn( col, setAsMin );
 }
@@ -74,9 +76,12 @@ HB_FUNC( WXGRID_CREATEGRID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+
   int numRows = hb_parnl( 1 );
   int numCols = hb_parnl( 2 );
-  wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl(3);
+
+  wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
+
   if( pSelf && grid )
     hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
   else
@@ -165,16 +170,12 @@ HB_FUNC( WXGRID_GETNUMBERROWS )
 
 HB_FUNC( WXGRID_GETTABLE )
 {
-  PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
+  PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
   wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
-  if( pSelf && grid && gridTable )
-    pReturn = wxh_ItemListGetHB( gridTable );
 
-  if(pReturn)
-    hb_itemReturn( pReturn );
-  else
-    hb_ret();
+  if( pSelf && grid && gridTable )
+    hb_itemReturn( wxh_ItemListGetHB( gridTable ) );
 }
 
 /*
@@ -313,16 +314,15 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 HB_FUNC( WXGRID_SETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-
-  TLOCAL_ITM_LIST* pLocalList = new TLOCAL_ITM_LIST();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX( 1, pLocalList );
-  bool takeOwnership = hb_parl(2);
-  wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl(3);
-  if( pSelf && grid )
+
+  if( grid ) /* gridTable can be NULL */
   {
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX( 1, &wxhScopeList );
+    bool takeOwnership = hb_parl( 2 );
+    wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
     grid->SetTable( gridTable, takeOwnership, selmode );
-    wxh_SetLocalList( pSelf, pLocalList );
   }
 }

@@ -32,10 +32,13 @@ wx_BoxSizer::~wx_BoxSizer()
 HB_FUNC( WXBOXSIZER_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
   wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
   // Add object's to hash list
-  wxh_ItemListAdd( boxSizer, pSelf );
+  //wxh_ItemListAdd( boxSizer, pSelf );
+  wxh_SetScopeList( boxSizer, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -48,9 +51,10 @@ HB_FUNC( WXBOXSIZER_NEW )
 HB_FUNC( WXBOXSIZER_GETORIENTATION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxBoxSizer* boxSizer;
-  if( pSelf && (boxSizer = (wxBoxSizer *) wxh_ItemListGetWX( pSelf ) ) )
+  wxBoxSizer* boxSizer = (wxBoxSizer *) wxh_ItemListGetWX( pSelf );
+
+  if( boxSizer )
+  {
     hb_retni( boxSizer->GetOrientation() );
-  else
-    hb_retni( 0 );
+  }
 }
