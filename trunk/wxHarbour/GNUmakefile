@@ -182,6 +182,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_xdoutils.o \
 	$(__BUILDDIR__)/wxHarbour_sysdefs.o \
 	$(__BUILDDIR__)/wxHarbour_wx_harbour.o \
+	$(__BUILDDIR__)/wxHarbour_wxh_scopelist.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_browse.o \
 	$(__BUILDDIR__)/wxHarbour_trdoserver_c.o \
@@ -246,6 +247,7 @@ WXHARBOUR_HEADERS =  \
 	include/defs.h \
 	include/rdodefs.h \
 	include/wxh.h \
+	include/wxh_scopelist.h \
 	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
@@ -524,6 +526,9 @@ $(__BUILDDIR__)/wxHarbour_sysdefs.o: ./src/common/sysdefs.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_harbour.o: ./src/common/wx_harbour.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wxh_scopelist.o: ./src/common/wxh_scopelist.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp

@@ -104,11 +104,13 @@ HB_FUNC( TRDOSERVER_ACCEPT )
     socketBase = socketServer->Accept( wait );
     if(socketBase)
     {
-      PHB_ITEM p = hb_itemNew( NULL );
       HB_FUNC_EXEC( TRDOSOCKETBASE );
-      hb_itemCopy( p, hb_stackReturnItem() );
-      wxh_ItemListAdd( socketBase, p, NULL );
-      hb_itemReturnRelease( p );
+      PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
+      WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( p );
+      wxh_SetScopeList( socketBase, &wxhScopeList );
+      //wxh_ItemListAdd( socketBase, p, NULL );
+      //hb_itemReturnRelease( p );
+      hb_itemReturn( p );
     }
   }
 }

@@ -43,11 +43,13 @@ wx_SocketServer::~wx_SocketServer()
 HB_FUNC( WXSOCKETSERVER_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
   wx_SocketServer* socketServer;
   wxSockAddress* address;
   wxSocketFlags flags = ISNUM( 2 ) ? hb_parni( 2 ) : wxSOCKET_NONE;
 
-  address = (wxSockAddress *) hb_par_WX( 1 );
+  address = (wxSockAddress *) hb_par_WX( 1, &wxhScopeList );
 
   if( !address )
   {
@@ -57,7 +59,8 @@ HB_FUNC( WXSOCKETSERVER_NEW )
   socketServer = new wx_SocketServer( *address, flags );
 
   // Add object's to hash list
-  wxh_ItemListAdd( socketServer, pSelf );
+  //wxh_ItemListAdd( socketServer, pSelf );
+  wxh_SetScopeList( socketServer, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -80,10 +83,11 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
     socketBase = socketServer->Accept( wait );
     if(socketBase)
     {
-      PHB_ITEM p = hb_itemNew( NULL );
       HB_FUNC_EXEC( WXSOCKETBASE );
-      hb_itemCopy( p, hb_stackReturnItem() );
-      wxh_ItemListAdd( socketBase, p );
+      PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
+      WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( p );
+      //wxh_ItemListAdd( socketBase, p );
+      wxh_SetScopeList( socketBase, &wxhScopeList );
       hb_itemReturnRelease( p );
     }
   }
@@ -96,12 +100,14 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
+
   wxSocketBase* socket;
 
   bool wait = ISLOG( 2 ) ? hb_parl( 2 ) : true;
 
-  socket = (wxSocketBase *) hb_par_WX( 1 );
+  socket = (wxSocketBase *) hb_par_WX( 1, &wxhScopeList );
 
   if( !socket )
   {
@@ -109,8 +115,10 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
     return;
   }
 
-  if( pSelf && socketServer )
+  if( socketServer )
+  {
     hb_retl( socketServer->AcceptWith( *socket, wait ) );
+  }
 }
 
 /*
@@ -122,9 +130,10 @@ HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
 
-  long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
-  long millisecond = ( ISNUM( 2 ) ) ? hb_parnl( 2 ) : 0;
-
-  if( pSelf && socketServer )
+  if( socketServer )
+  {
+    long seconds = ISNUM( 1 ) ? hb_parnl( 1 ) : -1;
+    long millisecond = ( ISNUM( 2 ) ) ? hb_parnl( 2 ) : 0;
     hb_retl( socketServer->WaitForAccept( seconds, millisecond ) );
+  }
 }

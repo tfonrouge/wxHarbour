@@ -19,35 +19,17 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
-/* PHB_ITEM keys */
-WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxObject*, wxPointerHash, wxPointerEqual, HBITEMLIST );
+/* PHB_BASEARRAY keys, PWXH_ITEM values */
+WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, MAP_PHB_BASEARRAY );
 
-/* PWXH_ITEM keys */
-WX_DECLARE_HASH_MAP( wxObject*, PHBITM_REF, wxPointerHash, wxPointerEqual, WXITEMLIST );
+/* wxObject* keys, PHBITM_REF values */
+WX_DECLARE_HASH_MAP( wxObject*, PHB_BASEARRAY, wxPointerHash, wxPointerEqual, MAP_WXOBJECT );
 
-static HBITEMLIST hbItemList;
-static WXITEMLIST wxItemList;
+static MAP_PHB_BASEARRAY map_phbBaseArr;
+static MAP_WXOBJECT map_wxObject;
+static MAP_PHB_ITEM map_phbItem;
 
 static PHB_ITEM lastTopLevelWindow;
-
-/*
-  wxh_ItemListAdd: Add wxObject & PHB_ITEM objects to hash list
-  Teo. Mexico 2009
-*/
-void wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf )
-{
-  PHBITM_REF pItmRef = new HBITM_REF;
-  pItmRef->pLocal = pSelf;
-  pItmRef->pStatic = NULL;
-
-  if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
-  {
-    lastTopLevelWindow = pSelf;
-  }
-
-  hbItemList[ pSelf->item.asArray.value ] = wxObj;
-  wxItemList[ wxObj ] = pItmRef;
-}
 
 /*
   wxh_ItemListDel_HB
@@ -55,29 +37,30 @@ void wxh_ItemListAdd( wxObject* wxObj, PHB_ITEM pSelf )
 */
 void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblockItm )
 {
-  if( pSelf )
+  if( pSelf && map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() )
   {
-    wxObject* wxObj = wxh_ItemListGetWX( pSelf );
+    PWXH_ITEM pwxhItm = map_phbBaseArr[ pSelf->item.asArray.value ];
 
-    if( hbItemList.find( pSelf->item.asArray.value ) != hbItemList.end() )
+   /* removes child PHB_ITEMS (if any) */
+    while( !pwxhItm->map_childList.empty() )
     {
-      hbItemList.erase( pSelf->item.asArray.value );
+      wxh_ItemListDel_HB( pwxhItm->map_childList.begin()->first, false );
     }
+
+    map_phbBaseArr.erase( pSelf->item.asArray.value );
+
+    wxObject* wxObj = wxh_ItemListGetWX( pSelf );
 
     if( wxObj )
     {
-      PHBITM_REF pItmRef = wxh_ItemListGetHBREF( wxObj );
+      vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( wxObj )->evtList;
 
       /* release codeblocks stored in event list */
-      if( pItmRef )
+      if( ! evtList.empty() )
       {
-        PCONN_PARAMS pConnParams;
-        vector<PCONN_PARAMS> v = pItmRef->evtList;
-
-        vector<PCONN_PARAMS>::iterator it;
-        for( it = v.begin(); it < v.end(); it++ )
+        for( vector<PCONN_PARAMS>::iterator it = evtList.begin(); it < evtList.end(); it++ )
         {
-          pConnParams = *it;
+          PCONN_PARAMS pConnParams = *it;
           if( pConnParams->pItmActionBlock && lReleaseCodeblockItm )
           {
             hb_itemRelease( pConnParams->pItmActionBlock );
@@ -87,9 +70,9 @@ void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblo
         }
       }
 
-      wxItemList.erase( wxObj );
+      //map_wxObject.erase( wxObj );
 
-      if( wxObj && lDeleteWxObj )
+      if( lDeleteWxObj )
       {
         delete wxObj;
         wxObj = NULL;
@@ -118,31 +101,17 @@ void wxh_ItemListDel_WX( wxObject* wxObj )
 */
 PHB_ITEM wxh_ItemListGetHB( wxObject* wxObj )
 {
-  PHBITM_REF pItmRef;
   PHB_ITEM pSelf = NULL;
 
-  pItmRef = wxh_ItemListGetHBREF( wxObj );
-
-  if( pItmRef )
+  if( wxObj && ( map_wxObject.find( wxObj ) != map_wxObject.end() ) )
   {
-    if( pItmRef->pStatic )
-      pSelf = pItmRef->pStatic;
-    else
-      pSelf = pItmRef->pLocal;
+    PHB_BASEARRAY hbObjH = map_wxObject[ wxObj ];
+    if( hbObjH && ( map_phbBaseArr.find( hbObjH ) != map_phbBaseArr.end() ) )
+    {
+      pSelf = map_phbBaseArr[ hbObjH ]->pSelf;
+    }
   }
   return pSelf;
-}
-
-/*
-  wxh_ItemListGetHBREF
-  Teo. Mexico 2009
-*/
-PHBITM_REF wxh_ItemListGetHBREF( wxObject* wxObj )
-{
-  if( !wxObj || ( wxItemList.find( wxObj ) == wxItemList.end() ) )
-    return NULL;
-
-  return wxItemList[ wxObj ];
 }
 
 /*
@@ -151,24 +120,27 @@ PHBITM_REF wxh_ItemListGetHBREF( wxObject* wxObj )
 */
 wxObject* wxh_ItemListGetWX( PHB_ITEM pSelf )
 {
-  if(!pSelf || (hbItemList.find( pSelf->item.asArray.value ) == hbItemList.end()) )
+  if(!pSelf || (map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end()) )
     return NULL;
 
-  return hbItemList[ pSelf->item.asArray.value ];
+  return map_phbBaseArr[ pSelf->item.asArray.value ]->wxObj;
 }
 
 /*
-  wxh_ItemListSetStaticItm
+  wxh_ItemListGet_PWXH_ITEM
   Teo. Mexico 2009
 */
-void wxh_ItemListSetStaticItm( wxObject* wxObj, PHB_ITEM pSelf )
+PWXH_ITEM wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj )
 {
-  PHBITM_REF pItmRef = wxh_ItemListGetHBREF( wxObj );
-
-  if( pItmRef && pItmRef->pStatic == NULL )
+  if( wxObj && ( map_wxObject.find( wxObj ) != map_wxObject.end() ) )
   {
-    pItmRef->pStatic = hb_itemNew( pSelf );
+    PHB_BASEARRAY pHbObjH = map_wxObject[ wxObj ];
+    if( pHbObjH && ( map_phbBaseArr.find( pHbObjH ) != map_phbBaseArr.end() ) )
+    {
+      return map_phbBaseArr[ pHbObjH ];
+    }
   }
+  return NULL;
 }
 
 /*
@@ -177,34 +149,60 @@ void wxh_ItemListSetStaticItm( wxObject* wxObj, PHB_ITEM pSelf )
 */
 void wxh_ItemListReleaseAll()
 {
-  WXITEMLIST::iterator it;
-  while( ! wxItemList.empty() )
+  MAP_WXOBJECT::iterator it;
+  while( ! map_wxObject.empty() )
   {
-    it = wxItemList.begin();
-    wxh_ItemListDel_WX( it->first );
+    it = map_wxObject.begin();
+    //wxh_ItemListDel_WX( it->first );
   }
 }
 
 /*
-  wxh_SetWXLocalList
+  wxh_SetScopeList
   Teo. Mexico 2009
 */
-void wxh_SetWXLocalList( wxObject* wxObj, TLOCAL_ITM_LIST* pLocalList )
+void wxh_SetScopeList( wxObject* wxObj, WXH_SCOPELIST* wxhScopeList )
 {
+  PHB_ITEM pSelf = wxhScopeList->pSelf;
+
+  /* checks for a valid new pSelf object */
+  if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
+  {
+    if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+    {
+      lastTopLevelWindow = pSelf;
+    }
+
+    PWXH_ITEM pwxhItm = new WXH_ITEM;
+    pwxhItm->wxObj = wxObj;
+    pwxhItm->pSelf = pSelf;
+
+    for( MAP_PHB_ITEM::iterator it = wxhScopeList->itmList.begin(); it != wxhScopeList->itmList.end(); it++ )
+    {
+      PHB_ITEM pItm = hb_itemNew( it->first );
+      pwxhItm->map_parentList[ pItm ] = it->second;
+
+      if( map_wxObject.find( it->second ) != map_wxObject.end() )
+      {
+        map_wxObject[ it->second ] = pItm->item.asArray.value;
+      }
+    }
+    map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
+  }
 }
+
 /*
   hb_par_WX
   Teo. Mexico 2009
 */
-wxObject* hb_par_WX( const int param, TLOCAL_ITM_LIST* pLocalList )
+wxObject* hb_par_WX( const int param, WXH_SCOPELIST* wxhScopeList )
 {
   PHB_ITEM pSelf = hb_param( param, HB_IT_OBJECT );
   wxObject* wxObj = wxh_ItemListGetWX( pSelf );
 
-  if( wxObj && pLocalList )
+  if( wxObj && wxhScopeList )
   {
-    //wxh_ItemListSetStaticItm( wxObj, pSelf );
-    pLocalList->AddItm( pSelf );
+    wxhScopeList->AddItm( pSelf, wxObj );
   }
   return wxObj;
 }

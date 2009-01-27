@@ -232,11 +232,13 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 HB_FUNC( WXGRIDTABLEBASE_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_GridTableBase* gridTable = new wx_GridTableBase;
 
   // Add object's to hash list
-  wxh_ItemListAdd( gridTable, pSelf, NULL );
+  //wxh_ItemListAdd( gridTable, pSelf, NULL );
+  wxh_SetScopeList( gridTable, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 }
@@ -249,7 +251,9 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+
   if( pSelf && gridTable )
     hb_retl( gridTable->AppendCols( numCols ) );
   else
@@ -264,7 +268,9 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+
   if( pSelf && gridTable )
     hb_retl( gridTable->AppendRows( numRows ) );
   else
@@ -279,8 +285,10 @@ HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+
   if( pSelf && gridTable )
     hb_retl( gridTable->DeleteCols( pos, numCols ) );
   else
@@ -295,8 +303,10 @@ HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+
   if( pSelf && gridTable )
     hb_retl( gridTable->DeleteRows( pos, numRows ) );
   else
@@ -311,6 +321,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   if( pSelf && gridTable )
   {
     hb_retnl( gridTable->GetNumberCols() );
@@ -327,6 +338,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   if( pSelf && gridTable )
   {
     hb_retnl( gridTable->GetNumberRows() );
@@ -341,19 +353,15 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 */
 HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 {
-  PHB_ITEM pReturn = NULL, pSelf = hb_stackSelfItem();
+  PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   if( pSelf && gridTable )
   {
     wx_Grid* grid = (wx_Grid *) gridTable->GetView();
     if( grid )
-      pReturn = wxh_ItemListGetHB( grid );
+      hb_itemReturn( wxh_ItemListGetHB( grid ) );
   }
-
-  if(pReturn)
-    hb_itemReturn( pReturn );
-  else
-    hb_ret();
 }
 
 /*
@@ -364,8 +372,10 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
+
   if( pSelf && gridTable )
     hb_retl( gridTable->InsertCols( pos, numCols ) );
   else
@@ -380,8 +390,10 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGetWX( pSelf );
+
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
+
   if( pSelf && gridTable )
     hb_retl( gridTable->InsertRows( pos, numRows ) );
   else

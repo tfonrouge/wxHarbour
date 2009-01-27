@@ -27,6 +27,9 @@
 CLASS wxMenu FROM wxEvtHandler
 PRIVATE:
 PROTECTED:
+  METHOD Append1
+  METHOD Append2
+  METHOD Append3
 PUBLIC:
   CONSTRUCTOR New()
   METHOD Append( /* overloaded */ )
@@ -43,11 +46,11 @@ METHOD FUNCTION Append( p1, p2, p3, p4 ) CLASS wxMenu
   /* Simulates overloaded method */
   DO CASE
   CASE ValType(p3)="O" .AND. p3:IsDerivedFrom("wxMenu")
-    RETURN wx_Menu_Append2( Self, p1, p2, p3, p4 )
+    RETURN ::Menu_Append2( p1, p2, p3, p4 )
   CASE ValType(p1)="O" .AND. p1:IsDerivedFrom("wxMenuItem")
-    RETURN wx_Menu_Append3( Self, p1 )
+    RETURN ::Menu_Append3( p1 )
   OTHERWISE
-    RETURN wx_Menu_Append1( Self, p1, p2, p3, p4 )
+    RETURN ::Menu_Append1( p1, p2, p3, p4 )
   ENDCASE
 
 RETURN NIL

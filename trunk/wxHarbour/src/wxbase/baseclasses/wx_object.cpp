@@ -31,6 +31,9 @@ HB_FUNC( TBASECLASS_WXDESTRUCT )
 
   /* 1: delete the C++ wxObject */
   /* 2: dont try to release event codeblocks because they are already released */
+
+  /* As we are here, it means that there not exist another PHB_ITEM's of this HB class
+     So, we just need to call the C++ destructor of this object */
   wxh_ItemListDel_HB( pSelf, true, false );
 }
 
@@ -53,6 +56,7 @@ HB_FUNC( WXOBJECT_OBJECTP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxObject* wxObj = wxh_ItemListGetWX( pSelf );
-  if(wxObj)
+
+  if( wxObj )
     hb_retptr( wxObj );
 }

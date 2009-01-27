@@ -27,13 +27,15 @@
 HB_FUNC( XMLDOCUMENT_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_XmlDocument* xmlDocument;
 
   xmlDocument = new wx_XmlDocument;
 
   // Add object's to hash list
-  wxh_ItemListAdd( xmlDocument, pSelf );
+  //wxh_ItemListAdd( xmlDocument, pSelf );
+  wxh_SetScopeList( xmlDocument, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 

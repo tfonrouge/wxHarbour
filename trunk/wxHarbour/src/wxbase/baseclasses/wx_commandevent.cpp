@@ -23,6 +23,7 @@ HB_FUNC( WXCOMMANDEVENT_ISCHECKED )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxCommandEvent *event = (wxCommandEvent *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && event  )
+
+  if( event  )
     hb_retl( event->IsChecked() );
 }

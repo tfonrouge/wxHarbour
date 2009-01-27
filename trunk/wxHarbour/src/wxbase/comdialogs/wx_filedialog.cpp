@@ -31,7 +31,9 @@ wx_FileDialog::~wx_FileDialog()
 HB_FUNC( WXFILEDIALOG_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1 );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+
+  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
   const wxString& message = ISNIL( 2 ) ? _T("Choose a file") : wxh_parc( 2 );
   const wxString& defaultDir = ISNIL( 3 ) ? _T("") : wxh_parc( 3 );
   const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxh_parc( 4 );
@@ -44,7 +46,8 @@ HB_FUNC( WXFILEDIALOG_NEW )
   wxFileDialog* fileDlg = new wx_FileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name );
 
   // Add object's to hash list
-  wxh_ItemListAdd( fileDlg, pSelf );
+  //wxh_ItemListAdd( fileDlg, pSelf );
+  wxh_SetScopeList( fileDlg, &wxhScopeList );
 
   hb_itemReturn( pSelf );
 
@@ -59,10 +62,8 @@ HB_FUNC( WXFILEDIALOG_GETDIRECTORY )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retc( fileDlg->GetDirectory().mb_str() );
-  else
-    hb_ret();
 }
 
 /*
@@ -74,10 +75,8 @@ HB_FUNC( WXFILEDIALOG_GETFILENAME )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retc( fileDlg->GetFilename().mb_str() );
-  else
-    hb_ret();
 }
 
 /*
@@ -88,9 +87,10 @@ HB_FUNC( WXFILEDIALOG_GETFILENAMES )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
+
   wxArrayString filenames;
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
   {
     PHB_ITEM pResult = hb_itemArrayNew( 0 );
     fileDlg->GetFilenames( filenames );
@@ -106,7 +106,6 @@ HB_FUNC( WXFILEDIALOG_GETFILENAMES )
     }
     hb_itemRelease( pResult );
   }
-  hb_ret();
 }
 
 /*
@@ -118,10 +117,8 @@ HB_FUNC( WXFILEDIALOG_GETFILTERINDEX )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retni( fileDlg->GetFilterIndex() );
-  else
-    hb_ret();
 }
 
 /*
@@ -133,10 +130,8 @@ HB_FUNC( WXFILEDIALOG_GETMESSAGE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retc( fileDlg->GetMessage().mb_str() );
-  else
-    hb_ret();
 }
 
 /*
@@ -148,10 +143,8 @@ HB_FUNC( WXFILEDIALOG_GETPATH )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retc( fileDlg->GetPath().mb_str() );
-  else
-    hb_ret();
 }
 
 /*
@@ -162,9 +155,10 @@ HB_FUNC( WXFILEDIALOG_GETPATHS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
+
   wxArrayString paths;
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
   {
     PHB_ITEM pResult = hb_itemArrayNew( 0 );
     fileDlg->GetPaths( paths );
@@ -180,7 +174,6 @@ HB_FUNC( WXFILEDIALOG_GETPATHS )
     }
     hb_itemRelease( pResult );
   }
-  hb_ret();
 }
 
 /*
@@ -192,10 +185,8 @@ HB_FUNC( WXFILEDIALOG_GETWILDCARD )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retc( fileDlg->GetWildcard().mb_str() );
-  else
-    hb_ret();
 }
 
 /*
@@ -205,11 +196,13 @@ HB_FUNC( WXFILEDIALOG_GETWILDCARD )
 HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& directory = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    const wxString& directory = wxh_parc( 1 );
     fileDlg->SetDirectory( directory );
+  }
 }
 
 /*
@@ -219,11 +212,13 @@ HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 HB_FUNC( WXFILEDIALOG_SETFILENAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& filename = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    const wxString& filename = wxh_parc( 1 );
     fileDlg->SetFilename( filename );
+  }
 }
 
 /*
@@ -233,11 +228,13 @@ HB_FUNC( WXFILEDIALOG_SETFILENAME )
 HB_FUNC( WXFILEDIALOG_SETFILTERINDEX )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  int filterIndex = hb_parni( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    int filterIndex = hb_parni( 1 );
     fileDlg->SetFilterIndex( filterIndex );
+  }
 }
 
 /*
@@ -247,11 +244,13 @@ HB_FUNC( WXFILEDIALOG_SETFILTERINDEX )
 HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& message = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    const wxString& message = wxh_parc( 1 );
     fileDlg->SetMessage( message );
+  }
 }
 
 /*
@@ -261,11 +260,13 @@ HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 HB_FUNC( WXFILEDIALOG_SETPATH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& path = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    const wxString& path = wxh_parc( 1 );
     fileDlg->SetPath( path );
+  }
 }
 
 /*
@@ -275,11 +276,13 @@ HB_FUNC( WXFILEDIALOG_SETPATH )
 HB_FUNC( WXFILEDIALOG_SETWILDCARD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  const wxString& wildcard = wxh_parc( 1 );
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
+  {
+    const wxString& wildcard = wxh_parc( 1 );
     fileDlg->SetWildcard( wildcard );
+  }
 }
 
 /*
@@ -291,8 +294,6 @@ HB_FUNC( WXFILEDIALOG_SHOWMODAL )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGetWX( pSelf );
 
-  if( pSelf && fileDlg )
+  if( fileDlg )
     hb_retni( fileDlg->ShowModal() );
-  else
-    hb_ret();
 }

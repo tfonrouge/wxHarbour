@@ -11,22 +11,43 @@
 */
 
 /*
-  wx_FocusEvent: Implementation
+  ScopeList class
   Teo. Mexico 2009
 */
 
-#include "wx/wx.h"
 
+// #include "wx/wx.h"
+// #include "wx/hashset.h"
 #include "wxh.h"
 
-HB_FUNC( WXFOCUSEVENT_GETWINDOW )
+/*
+  constructor
+  Teo. Mexico 2009
+*/
+WXH_SCOPELIST::WXH_SCOPELIST( PHB_ITEM pSelf )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGetWX( pSelf );
+  this->pSelf = pSelf;
+}
 
-  if( event )
+/*
+  destructor
+  Teo. Mexico 2009
+*/
+WXH_SCOPELIST::~WXH_SCOPELIST()
+{
+  MAP_PHB_ITEM::iterator it;
+  for( it = itmList.begin(); it != itmList.end(); it++ )
   {
-    PHB_ITEM pWnd = wxh_ItemListGetHB( event->GetWindow() );
-    hb_itemReturn( pWnd );
+    PHB_ITEM itm = it->first;
+    hb_itemRelease( itm );
   }
+}
+
+/*
+  AddItm
+  Teo. Mexico 2009
+*/
+void WXH_SCOPELIST::AddItm( PHB_ITEM pSelf, wxObject* wxObj )
+{
+  itmList[ pSelf ] = wxObj;
 }

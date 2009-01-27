@@ -21,28 +21,29 @@
 HB_FUNC( WXTOPLEVELWINDOW_CANSETTRANSPARENT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTopLevelWindow* tlWnd;
-  if( pSelf && (tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf ) ) )
+  wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf );
+
+  if( tlWnd )
     hb_retl( tlWnd->CanSetTransparent() );
-  else
-    hb_ret();
 }
 
 HB_FUNC( WXTOPLEVELWINDOW_GETTITLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTopLevelWindow* tlWnd;
-  if( pSelf && (tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf ) ) )
+  wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf );
+
+  if( tlWnd )
     hb_retc( tlWnd->GetTitle().mb_str() );
-  else
-    hb_ret();
 }
 
 HB_FUNC( WXTOPLEVELWINDOW_SETTITLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTopLevelWindow* tlWnd;
-  const wxString& title = wxh_parc( 1 );
-  if( pSelf && (tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf ) ) )
+  wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_ItemListGetWX( pSelf );
+
+  if( tlWnd )
+  {
+    const wxString& title = wxh_parc( 1 );
     tlWnd->SetTitle( title );
+  }
 }
