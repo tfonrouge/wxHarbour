@@ -42,7 +42,7 @@ HB_FUNC( WXFONT_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( font, pSelf );
-  wxh_SetScopeList( font, &wxhScopeList );
+  wxhScopeList.PushObject( font );
 
   hb_itemReturn( pSelf );
 
@@ -55,7 +55,7 @@ HB_FUNC( WXFONT_NEW )
 HB_FUNC( WXFONT_GETFACENAME )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
+  wx_Font* font = (wx_Font *) wxh_ItemListGet_WX( pSelf );
 
   if( font )
     hb_retc( font->GetFaceName().mb_str() );
@@ -68,7 +68,7 @@ HB_FUNC( WXFONT_GETFACENAME )
 HB_FUNC( WXFONT_GETPOINTSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Font* font = (wx_Font *) wxh_ItemListGetWX( pSelf );
+  wx_Font* font = (wx_Font *) wxh_ItemListGet_WX( pSelf );
 
   if( font )
     hb_retni( font->GetPointSize() );

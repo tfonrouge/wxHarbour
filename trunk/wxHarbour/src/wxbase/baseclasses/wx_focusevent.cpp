@@ -22,11 +22,11 @@
 HB_FUNC( WXFOCUSEVENT_GETWINDOW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGetWX( pSelf );
+  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGet_WX( pSelf );
 
   if( event )
   {
-    PHB_ITEM pWnd = wxh_ItemListGetHB( event->GetWindow() );
+    PHB_ITEM pWnd = wxh_ItemListGet_HB( event->GetWindow() );
     hb_itemReturn( pWnd );
   }
 }

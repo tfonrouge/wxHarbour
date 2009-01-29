@@ -40,7 +40,7 @@ HB_FUNC( WXGRID_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
@@ -51,7 +51,7 @@ HB_FUNC( WXGRID_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( grid, pSelf, wxhScopeList );
-  wxh_SetScopeList( grid, &wxhScopeList );
+  wxhScopeList.PushObject( grid );
 
   hb_itemReturn( pSelf );
 }
@@ -63,26 +63,26 @@ HB_FUNC( WXGRID_NEW )
 HB_FUNC( WXGRID_AUTOSIZECOLUMN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
 
   int col = ISNIL( 1 ) ? 1 : hb_parni( 1 );
   bool setAsMin = ISNIL( 2 ) ? true : hb_parl( 2 );
 
-  if( pSelf && grid )
+  if( grid )
     grid->AutoSizeColumn( col, setAsMin );
 }
 
 HB_FUNC( WXGRID_CREATEGRID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
 
   int numRows = hb_parnl( 1 );
   int numCols = hb_parnl( 2 );
 
   wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
 
-  if( pSelf && grid )
+  if( grid )
     hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
   else
     hb_ret();
@@ -91,16 +91,18 @@ HB_FUNC( WXGRID_CREATEGRID )
 HB_FUNC( WXGRID_FIT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
     grid->Fit();
 }
 
 HB_FUNC( WXGRID_FORCEREFRESH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
     grid->ForceRefresh();
 }
 
@@ -111,13 +113,12 @@ HB_FUNC( WXGRID_FORCEREFRESH )
 HB_FUNC( WXGRID_GETGRIDCURSORCOL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
   {
     hb_retni( grid->GetGridCursorCol() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -127,13 +128,12 @@ HB_FUNC( WXGRID_GETGRIDCURSORCOL )
 HB_FUNC( WXGRID_GETGRIDCURSORROW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
   {
     hb_retni( grid->GetGridCursorRow() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -143,13 +143,12 @@ HB_FUNC( WXGRID_GETGRIDCURSORROW )
 HB_FUNC( WXGRID_GETNUMBERCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid && grid->GetTable() )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid && grid->GetTable() )
   {
     hb_retnl( grid->GetTable()->GetNumberCols() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -159,23 +158,22 @@ HB_FUNC( WXGRID_GETNUMBERCOLS )
 HB_FUNC( WXGRID_GETNUMBERROWS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid && grid->GetTable() )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid && grid->GetTable() )
   {
     hb_retnl( grid->GetTable()->GetNumberRows() );
   }
-  else
-    hb_ret();
 }
 
 HB_FUNC( WXGRID_GETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
   wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
 
-  if( pSelf && grid && gridTable )
-    hb_itemReturn( wxh_ItemListGetHB( gridTable ) );
+  if( grid && gridTable )
+    hb_itemReturn( wxh_ItemListGet_HB( gridTable ) );
 }
 
 /*
@@ -185,13 +183,12 @@ HB_FUNC( WXGRID_GETTABLE )
 HB_FUNC( WXGRID_ISVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
   {
     hb_retl( grid->IsVisible( hb_parni( 1 ), hb_parni( 2 ), hb_parl( 3 ) ) );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -201,8 +198,9 @@ HB_FUNC( WXGRID_ISVISIBLE )
 HB_FUNC( WXGRID_MAKECELLVISIBLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
     grid->MakeCellVisible( hb_parni( 1 ), hb_parni( 2 ) );
 }
 
@@ -213,13 +211,12 @@ HB_FUNC( WXGRID_MAKECELLVISIBLE )
 HB_FUNC( WXGRID_MOVECURSORLEFT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
   {
     hb_retl( grid->MoveCursorLeft( hb_parl( 1 ) ) );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -229,32 +226,37 @@ HB_FUNC( WXGRID_MOVECURSORLEFT )
 HB_FUNC( WXGRID_MOVECURSORRIGHT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
   {
     hb_retl( grid->MoveCursorRight( hb_parl( 1 ) ) );
   }
-  else
-    hb_ret();
 }
 
 HB_FUNC( WXGRID_SETCOLLABELSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int height = hb_parni(1);
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    int height = hb_parni( 1 );
     grid->SetColLabelSize( height );
+  }
 }
 
 HB_FUNC( WXGRID_SETCOLLABELVALUE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int col = hb_parni(1);
-  wxString value = wxString( hb_parcx(2), wxConvLocal );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    int col = hb_parni( 1 );
+    wxString value = wxString( hb_parcx( 2 ), wxConvLocal );
     grid->SetColLabelValue( col, value );
+  }
 }
 
 /*
@@ -264,31 +266,40 @@ HB_FUNC( WXGRID_SETCOLLABELVALUE )
 HB_FUNC( WXGRID_SETCOLSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int col = hb_parni( 1 );
-  int width = hb_parni( 2 );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    int col = hb_parni( 1 );
+    int width = hb_parni( 2 );
     grid->SetColSize( col, width );
+  }
 }
 
 HB_FUNC( WXGRID_SETDEFAULTCOLSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int width = hb_parni(1);
-  bool resizeExistingCols = hb_parl( 2 );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    int width = hb_parni( 1 );
+    bool resizeExistingCols = hb_parl( 2 );
     grid->SetDefaultColSize( width, resizeExistingCols );
+  }
 }
 
 HB_FUNC( WXGRID_SETDEFAULTROWSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int height = hb_parni(1);
-  bool resizeExistingRows = hb_parl( 2 );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    int height = hb_parni(1);
+    bool resizeExistingRows = hb_parl( 2 );
     grid->SetDefaultRowSize( height, resizeExistingRows );
+  }
 }
 
 /*
@@ -297,18 +308,21 @@ HB_FUNC( WXGRID_SETDEFAULTROWSIZE )
 HB_FUNC( WXGRID_SETGRIDCURSOR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && grid )
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
     grid->SetGridCursor( hb_parni( 1 ), hb_parni( 2 ) );
 }
 
 HB_FUNC( WXGRID_SETROWLABELSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
-  int width = hb_parni(1);
-  if( pSelf && grid )
-    grid->SetRowLabelSize( width );
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+
+  if( grid )
+  {
+    grid->SetRowLabelSize( hb_parni( 1 ) );
+  }
 }
 
 HB_FUNC( WXGRID_SETTABLE )
@@ -316,11 +330,11 @@ HB_FUNC( WXGRID_SETTABLE )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGetWX( pSelf );
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
 
   if( grid ) /* gridTable can be NULL */
   {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) hb_par_WX( 1, &wxhScopeList );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_param_WX_Parent( 1, &wxhScopeList );
     bool takeOwnership = hb_parl( 2 );
     wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
     grid->SetTable( gridTable, takeOwnership, selmode );

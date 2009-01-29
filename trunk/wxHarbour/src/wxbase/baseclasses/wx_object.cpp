@@ -55,7 +55,7 @@ HB_FUNC( WXOBJECT_OBJECTH )
 HB_FUNC( WXOBJECT_OBJECTP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxObject* wxObj = wxh_ItemListGetWX( pSelf );
+  wxObject* wxObj = wxh_ItemListGet_WX( pSelf );
 
   if( wxObj )
     hb_retptr( wxObj );

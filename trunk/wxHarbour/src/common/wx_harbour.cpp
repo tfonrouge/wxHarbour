@@ -32,33 +32,74 @@ static MAP_PHB_ITEM map_phbItem;
 static PHB_ITEM lastTopLevelWindow;
 
 /*
+  constructor
+  Teo. Mexico 2009
+*/
+WXH_SCOPELIST::WXH_SCOPELIST( PHB_ITEM pSelf )
+{
+  this->pSelf = pSelf;
+}
+
+/*
+  PushObject
+  Teo. Mexico 2009
+*/
+void WXH_SCOPELIST::PushObject( wxObject* wxObj )
+{
+
+  /* checks for a valid new pSelf object */
+  if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
+  {
+    if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+    {
+      lastTopLevelWindow = pSelf;
+    }
+
+    PWXH_ITEM pwxhItm = new WXH_ITEM;
+    pwxhItm->wxObj = wxObj;
+    pwxhItm->pSelf = pSelf; /* this object is the Harbour var created in the ::New() method
+                               and the Harbour programmer is responsible to keep it alive */
+    map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
+    map_wxObject[ wxObj ] = pSelf->item.asArray.value;
+  }
+}
+/*
   wxh_ItemListDel_HB
   Teo. Mexico 2009
 */
 void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblockItm )
 {
+  char s[100];
   if( pSelf && map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() )
   {
     PWXH_ITEM pwxhItm = map_phbBaseArr[ pSelf->item.asArray.value ];
+    wxObject* wxObj = wxh_ItemListGet_WX( pSelf );
+
+    sprintf( s, "%s: pSelf: %p, wxObj: %p", hb_clsName( pSelf->item.asArray.value->uiClass ), pSelf, wxObj );
+    qout( s );
 
    /* removes child PHB_ITEMS (if any) */
-    while( !pwxhItm->map_childList.empty() )
+    while( pwxhItm->map_childList.size() > 0 )
     {
-      wxh_ItemListDel_HB( pwxhItm->map_childList.begin()->first, false );
+      MAP_PHB_ITEM::iterator it = pwxhItm->map_childList.begin();
+      sprintf( s, "Deleting childList, size: %d", pwxhItm->map_childList.size() );
+      qout( s );
+      PHB_ITEM pItm = it->first;
+      hb_itemRelease( pItm );
+      pwxhItm->map_childList.erase( it );
+      wxh_ItemListDel_HB( pItm, false );
     }
 
-    map_phbBaseArr.erase( pSelf->item.asArray.value );
-
-    wxObject* wxObj = wxh_ItemListGetWX( pSelf );
+    //map_phbBaseArr.erase( pSelf->item.asArray.value );
 
     if( wxObj )
     {
-      vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( wxObj )->evtList;
+      PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
       /* release codeblocks stored in event list */
-      if( ! evtList.empty() )
+      if( pwxhItm && ( pwxhItm->evtList.size() > 0 ) )
       {
-        for( vector<PCONN_PARAMS>::iterator it = evtList.begin(); it < evtList.end(); it++ )
+        for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
         {
           PCONN_PARAMS pConnParams = *it;
           if( pConnParams->pItmActionBlock && lReleaseCodeblockItm )
@@ -74,6 +115,7 @@ void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblo
 
       if( lDeleteWxObj )
       {
+        qout( "! Delete...!" );
         delete wxObj;
         wxObj = NULL;
       }
@@ -87,7 +129,7 @@ void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblo
 */
 void wxh_ItemListDel_WX( wxObject* wxObj )
 {
-  PHB_ITEM pSelf = wxh_ItemListGetHB( wxObj );
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( wxObj );
 
   if( pSelf )
   {
@@ -96,10 +138,10 @@ void wxh_ItemListDel_WX( wxObject* wxObj )
 }
 
 /*
-  wxh_ItemListGetHB
+  wxh_ItemListGet_HB
   Teo. Mexico 2009
 */
-PHB_ITEM wxh_ItemListGetHB( wxObject* wxObj )
+PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 {
   PHB_ITEM pSelf = NULL;
 
@@ -112,18 +154,6 @@ PHB_ITEM wxh_ItemListGetHB( wxObject* wxObj )
     }
   }
   return pSelf;
-}
-
-/*
-  wxh_ItemListGetWX
-  Teo. Mexico 2009
-*/
-wxObject* wxh_ItemListGetWX( PHB_ITEM pSelf )
-{
-  if(!pSelf || (map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end()) )
-    return NULL;
-
-  return map_phbBaseArr[ pSelf->item.asArray.value ]->wxObj;
 }
 
 /*
@@ -144,6 +174,22 @@ PWXH_ITEM wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj )
 }
 
 /*
+  wxh_ItemListGet_WX
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ItemListGet_WX( PHB_ITEM pSelf )
+{
+  wxObject* wxObj = NULL;
+
+  if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() ) )
+  {
+    wxObj = map_phbBaseArr[ pSelf->item.asArray.value ]->wxObj;
+  }
+
+  return wxObj;
+}
+
+/*
   wxh_ItemListReleaseAll
   Teo. Mexico 2009
 */
@@ -158,52 +204,67 @@ void wxh_ItemListReleaseAll()
 }
 
 /*
-  wxh_SetScopeList
+  SetParentChildKey
   Teo. Mexico 2009
 */
-void wxh_SetScopeList( wxObject* wxObj, WXH_SCOPELIST* wxhScopeList )
+void SetParentChildKey( PHB_ITEM pParentItm, PHB_ITEM pChildItm, wxObject* wxObj )
 {
-  PHB_ITEM pSelf = wxhScopeList->pSelf;
 
-  /* checks for a valid new pSelf object */
-  if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
+  if( wxObj )
   {
-    if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+    if( map_phbBaseArr.find( pParentItm->item.asArray.value ) != map_phbBaseArr.end() )
     {
-      lastTopLevelWindow = pSelf;
-    }
-
-    PWXH_ITEM pwxhItm = new WXH_ITEM;
-    pwxhItm->wxObj = wxObj;
-    pwxhItm->pSelf = pSelf;
-
-    for( MAP_PHB_ITEM::iterator it = wxhScopeList->itmList.begin(); it != wxhScopeList->itmList.end(); it++ )
+      PWXH_ITEM pwxhItm = map_phbBaseArr[ pParentItm->item.asArray.value ];
+      pwxhItm->map_childList[ hb_itemNew( pChildItm ) ] = wxObj;
+    }else
     {
-      PHB_ITEM pItm = hb_itemNew( it->first );
-      pwxhItm->map_parentList[ pItm ] = it->second;
-
-      if( map_wxObject.find( it->second ) != map_wxObject.end() )
-      {
-        map_wxObject[ it->second ] = pItm->item.asArray.value;
-      }
+      qout( "FATAL: Parent doesn't exist." );
     }
-    map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
   }
 }
 
 /*
-  hb_par_WX
+  wxh_param_WX
   Teo. Mexico 2009
 */
-wxObject* hb_par_WX( const int param, WXH_SCOPELIST* wxhScopeList )
+wxObject* wxh_param_WX( const int param )
 {
-  PHB_ITEM pSelf = hb_param( param, HB_IT_OBJECT );
-  wxObject* wxObj = wxh_ItemListGetWX( pSelf );
+  return wxh_ItemListGet_WX( hb_param( param, HB_IT_OBJECT ) );
+}
+
+/*
+  wxh_param_WX_Child
+  Teo. Mexico 2009
+*/
+wxObject* wxh_param_WX_Child( const int param, WXH_SCOPELIST *wxhScopeList )
+{
+  PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
+  wxObject* wxObj = wxh_ItemListGet_WX( pChildItm );
 
   if( wxObj && wxhScopeList )
   {
-    wxhScopeList->AddItm( pSelf, wxObj );
+    PHB_ITEM pParentItm = wxhScopeList->pSelf;
+    SetParentChildKey( pParentItm, pChildItm, wxObj );
   }
+
+  return wxObj;
+}
+
+/*
+  wxh_param_WX_Parent
+  Teo. Mexico 2009
+*/
+wxObject* wxh_param_WX_Parent( const int param, WXH_SCOPELIST* wxhScopeList )
+{
+  PHB_ITEM pParentItm = hb_param( param, HB_IT_OBJECT );
+  wxObject* wxObj = wxh_ItemListGet_WX( pParentItm );
+
+  if( wxObj && wxhScopeList )
+  {
+    PHB_ITEM pChildItm = wxhScopeList->pSelf;
+    SetParentChildKey( pParentItm, pChildItm, wxObj );
+  }
+
   return wxObj;
 }
 

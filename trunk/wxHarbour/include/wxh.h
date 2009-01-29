@@ -53,18 +53,18 @@ typedef struct _WXH_ITEM
   wxObject* wxObj;
   vector<PCONN_PARAMS> evtList;
   MAP_PHB_ITEM map_childList;
-  MAP_PHB_ITEM map_parentList;
   PHB_ITEM pSelf;
 } WXH_ITEM, *PWXH_ITEM;
 
 class WXH_SCOPELIST
 {
 public:
-  MAP_PHB_ITEM itmList;
+
   PHB_ITEM pSelf;
+
   WXH_SCOPELIST( PHB_ITEM pSelf );
-  ~WXH_SCOPELIST();
-  void AddItm( PHB_ITEM pSelf, wxObject* wxObj );
+
+  void PushObject( wxObject* wxObj );
 };
 
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
@@ -72,17 +72,18 @@ HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
-wxObject*     hb_par_WX( int param, WXH_SCOPELIST* pLocalList );
+wxObject*     wxh_param_WX( int param );
+wxObject*     wxh_param_WX_Parent( int param, WXH_SCOPELIST* pLocalList );
+wxObject*     wxh_param_WX_Child( int param, WXH_SCOPELIST* pLocalList );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 
 void          wxh_ItemListDel_WX( wxObject* wxObj );
 void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE, bool lReleaseCodeblockItm = FALSE );
 PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
-PHB_ITEM      wxh_ItemListGetHB( wxObject* wxObj );
-wxObject*     wxh_ItemListGetWX( PHB_ITEM pSelf );
+PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
+wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
-void          wxh_SetScopeList( wxObject* wxObj, WXH_SCOPELIST* pLocalList );
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
@@ -118,6 +119,7 @@ public:
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler<T>()
 {
+  qout("On C++ destructor.");
   wxh_ItemListDel_WX( this );
 }
 
@@ -128,22 +130,25 @@ hbEvtHandler<T>::~hbEvtHandler<T>()
 template <class T>
 void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 {
-  PHB_ITEM pEvent = hb_itemNew( NULL );
-  hb_itemMove( pEvent, hb_stackReturnItem() );
-  WXH_SCOPELIST* wxhScopeList = new WXH_SCOPELIST( pEvent );
-  wxh_SetScopeList( &event, wxhScopeList );
-  //wxh_ItemListAdd( &event, pEvent, NULL );
+  PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pEvent );
 
-  vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( this )->evtList;
+  wxhScopeList.PushObject( &event );
 
-  for( vector<PCONN_PARAMS>::iterator it = evtList.begin(); it < evtList.end(); it++ )
+  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
+
+  if( pwxhItm )
   {
-    PCONN_PARAMS pConnParams = *it;
-    if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
+
+    for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
     {
-      if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
+      PCONN_PARAMS pConnParams = *it;
+      if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
       {
-        hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
+        if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
+        {
+          hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
+        }
       }
     }
   }
@@ -222,11 +227,12 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
   if( objFunc )
   {
-    /* pLocalList not needed here, we will just send the event as parameter to the codeblock */
-    vector<PCONN_PARAMS> evtList = wxh_ItemListGet_PWXH_ITEM( this )->evtList;
+    PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
 
-    evtList.push_back( pConnParams );
-
-    this->Connect( pConnParams->id, pConnParams->lastId, pConnParams->eventType, objFunc );
+    if( pwxhItm )
+    {
+      pwxhItm->evtList.push_back( pConnParams );
+      this->Connect( pConnParams->id, pConnParams->lastId, pConnParams->eventType, objFunc );
+    }
   }
 }

@@ -42,9 +42,9 @@ HB_FUNC( WXFRAME_NEW )
 
   wx_Frame* frame;
 
-  if(hb_pcount())
+  if( hb_pcount() > 0 )
   {
-    wxWindow* parent = (wxFrame *) hb_par_WX( 1, &wxhScopeList );
+    wxWindow* parent = (wxFrame *) wxh_param_WX_Parent( 1, &wxhScopeList );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
     wxPoint point = hb_par_wxPoint( 4 );
@@ -58,7 +58,8 @@ HB_FUNC( WXFRAME_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( frame, pSelf, pLocalList );
-  wxh_SetScopeList( frame, &wxhScopeList );
+  //wxhScopeList.PushObject( frame );
+  wxhScopeList.PushObject( frame );
 
   // OnCreate...
   hb_objSendMsg( pSelf, "OnCreate", 0 );
@@ -73,7 +74,7 @@ HB_FUNC( WXFRAME_NEW )
 HB_FUNC( WXFRAME_CENTRE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame = (wx_Frame*) wxh_ItemListGetWX( pSelf );
+  wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( pSelf );
 
   if( frame )
   {
@@ -90,9 +91,9 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
+  wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
 
-  wx_MenuBar* menuBar = (wx_MenuBar *) hb_par_WX( 1, &wxhScopeList );
+  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Parent( 1, &wxhScopeList );
 
   if( frame && menuBar )
   {
@@ -108,9 +109,9 @@ HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_Frame* frame = (wx_Frame *) wxh_ItemListGetWX( pSelf );
+  wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
 
-  wx_StatusBar* statusBar = (wx_StatusBar *) hb_par_WX( 1, &wxhScopeList );
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX_Parent( 1, &wxhScopeList );
 
   if( frame && statusBar )
   {

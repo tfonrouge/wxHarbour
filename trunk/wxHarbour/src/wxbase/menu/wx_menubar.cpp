@@ -43,7 +43,7 @@ HB_FUNC( WXMENUBAR_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( menuBar, pSelf );
-  wxh_SetScopeList( menuBar, &wxhScopeList );
+  wxhScopeList.PushObject( menuBar );
 
   hb_itemReturn( pSelf );
 }
@@ -52,9 +52,9 @@ HB_FUNC( WXMENUBAR_APPEND )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_ItemListGetWX( pSelf );
+  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_ItemListGet_WX( pSelf );
 
-  wx_Menu* menu = (wx_Menu *) hb_par_WX( 1, &wxhScopeList );
+  wx_Menu* menu = (wx_Menu *) wxh_param_WX_Parent( 1, &wxhScopeList );
 
   if( menuBar && menu )
   {

@@ -39,7 +39,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxString& label = wxString( hb_parcx(3), wxConvLocal );
   const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : hb_par_wxPoint( 4 );
@@ -50,7 +50,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( staticText, pSelf );
-  wxh_SetScopeList( staticText, &wxhScopeList );
+  wxhScopeList.PushObject( staticText );
 
   hb_itemReturn( pSelf );
 }
@@ -63,7 +63,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
 HB_FUNC( WXSTATICTEXT_WRAP )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGetWX( pSelf );
+  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( pSelf );
 
   staticText->Wrap( hb_parnl( 1 ) );
 }

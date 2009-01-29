@@ -34,19 +34,18 @@ HB_FUNC( WXBUTTON_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
-  wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxString& label = wxh_parc( 3 );
   const wxPoint& pos = hb_par_wxPoint( 4 );
   const wxSize& size = hb_par_wxSize( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX( 7, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 7, &wxhScopeList ))) ;
   const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
   wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
 
   // Add object's to hash list
-  //wxh_ItemListAdd( button, pSelf );
-  wxh_SetScopeList( button, &wxhScopeList );
+  wxhScopeList.PushObject( button );
 
   hb_itemReturn( pSelf );
 }

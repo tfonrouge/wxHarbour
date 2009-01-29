@@ -38,19 +38,19 @@ HB_FUNC( WXSCROLLBAR_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxSB_HORIZONTAL : hb_parni( 5 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX( 7, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 7, &wxhScopeList ))) ;
   const wxString& name = wxh_parc( 7 );
 
   wx_ScrollBar* sb = new wx_ScrollBar( parent, id, pos, size, style, validator, name );
 
   // Add object's to hash list
   //wxh_ItemListAdd( sb, pSelf );
-  wxh_SetScopeList( sb, &wxhScopeList );
+  wxhScopeList.PushObject( sb );
 
   hb_itemReturn( pSelf );
 }
@@ -63,7 +63,7 @@ HB_FUNC( WXSCROLLBAR_GETRANGE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
 
   if( sb )
   {
@@ -79,7 +79,7 @@ HB_FUNC( WXSCROLLBAR_GETPAGESIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
 
   if( sb )
   {
@@ -95,7 +95,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
   
   if( sb )
   {
@@ -111,7 +111,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBSIZE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
 
   if( sb )
   {
@@ -127,7 +127,7 @@ HB_FUNC( WXSCROLLBAR_SETTHUMBPOSITION )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
 
   if( sb )
   {
@@ -144,7 +144,7 @@ HB_FUNC( WXSCROLLBAR_SETSCROLLBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGetWX( pSelf );
+  wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
 
   if( sb )
   {

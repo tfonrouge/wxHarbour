@@ -37,7 +37,7 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD PROCEDURE OnDestruct CLASS TBaseClass
-  ? "Destroying:",::ClassName()
+  ? "HB Destroying:",::ClassName()
   ::wxDestruct()
 RETURN
 
