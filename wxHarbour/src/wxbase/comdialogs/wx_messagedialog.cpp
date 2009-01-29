@@ -33,7 +33,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   const wxString& message = wxh_parc( 2 );
   const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxh_parc( 3 );
   long style = ISNIL( 4 ) ? wxOK | wxCANCEL : hb_parni( 4 );
@@ -43,7 +43,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( msgDlg, pSelf );
-  wxh_SetScopeList( msgDlg, &wxhScopeList );
+  wxhScopeList.PushObject( msgDlg );
 
   hb_itemReturn( pSelf );
 
@@ -56,7 +56,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 HB_FUNC( WXMESSAGEDIALOG_SHOWMODAL )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_MessageDialog* msgDlg = (wx_MessageDialog *) wxh_ItemListGetWX( pSelf );
+  wx_MessageDialog* msgDlg = (wx_MessageDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( msgDlg )
     hb_retni( msgDlg->ShowModal() );

@@ -49,15 +49,15 @@ wxhBrowse::~wxhBrowse()
 void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
 {
 
-  PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this );
+  PHB_ITEM pWxhBrowse = wxh_ItemListGet_HB( this );
 
   if( pWxhBrowse )
   {
     HB_FUNC_EXEC( WXGRIDEVENT );
     PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pGridEvent );
-    wxh_SetScopeList( &gridEvent, &wxhScopeList );
-    //wxh_ItemListAdd( &gridEvent, pGridEvent, NULL );
+    
+    wxhScopeList.PushObject( &gridEvent );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
@@ -119,7 +119,7 @@ void wxhGridBrowse::CalcRowCount()
 
   m_maxRows = GetNumberRows();
 
-  PHB_ITEM pBrowseTableBase = wxh_ItemListGetHB( this->GetTable() );
+  PHB_ITEM pBrowseTableBase = wxh_ItemListGet_HB( this->GetTable() );
   hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
 
 }
@@ -147,7 +147,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
   {
     // shouldn't be here - we are going round in circles...
     //
-    wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
+    //wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
   }
 
   m_inOnKeyDown = true;
@@ -168,14 +168,14 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
     }
 
     /* process event on our hbclass wxhBrowse:OnKeyDown, returns true if processed */
-    PHB_ITEM pWxhBrowse = wxh_ItemListGetHB( this->m_browse );
+    PHB_ITEM pWxhBrowse = wxh_ItemListGet_HB( this->m_browse );
     if( pWxhBrowse )
     {
       HB_FUNC_EXEC( WXKEYEVENT );
       PHB_ITEM pKeyEvent = hb_itemNew( hb_stackReturnItem() );
       WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pKeyEvent );
-      wxh_SetScopeList( &event, &wxhScopeList );
-      //wxh_ItemListAdd( &event, pKeyEvent, NULL );
+
+      wxhScopeList.PushObject( &event );
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
@@ -212,8 +212,8 @@ HB_FUNC( WXHBROWSE_WXNEW )
   PHB_ITEM pGridBrowse = hb_param( 1, HB_IT_OBJECT );
   WXH_SCOPELIST wxhScopeList2 = WXH_SCOPELIST( pGridBrowse );
 
-  wx_GridTableBase *tableBase = (wx_GridTableBase *) hb_par_WX( 2, &wxhScopeList2 );
-  wxWindow* parent = (wxWindow *) hb_par_WX( 3, &wxhScopeList1 );
+  wx_GridTableBase *tableBase = (wx_GridTableBase *) wxh_param_WX_Parent( 2, &wxhScopeList2 );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 3, &wxhScopeList1 );
   wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
   const wxString &label = wxh_parc( 5 );
   wxPoint pos = hb_par_wxPoint( 6 );
@@ -245,11 +245,8 @@ HB_FUNC( WXHBROWSE_WXNEW )
 
   browse->m_gridBrowse->m_browse = browse;
 
-  // Add object's to hash list
-//   wxh_ItemListAdd( browse, pSelf, wxhScopeList );
-//   wxh_ItemListAdd( browse->m_gridBrowse, pGridBrowse, wxhScopeList );
-  wxh_SetScopeList( browse, &wxhScopeList1 );
-  wxh_SetScopeList( browse->m_gridBrowse, &wxhScopeList2 );
+  wxhScopeList1.PushObject( browse );
+  wxhScopeList2.PushObject( browse->m_gridBrowse );
 
   hb_itemReturn( pSelf );
 }
@@ -260,13 +257,15 @@ HB_FUNC( WXHBROWSE_WXNEW )
 */
 HB_FUNC( WXHBROWSE_GETMAXROWS )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
   int rowCount = 0;
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
-  if( pSelf && browse )
+
+  if( browse )
   {
     rowCount = browse->m_gridBrowse->m_maxRows;
   }
+
   hb_retnl( rowCount );
 }
 
@@ -278,7 +277,7 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   int rowCount = 0;
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
   if( pSelf && browse )
   {
     rowCount = browse->m_gridBrowse->m_rowCount;
@@ -293,7 +292,7 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
 HB_FUNC( WXHBROWSE_SETCOLPOS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
   int col = hb_parni( 1 );
   if( pSelf && browse )
   {
@@ -309,7 +308,7 @@ HB_FUNC( WXHBROWSE_SETCOLPOS )
 HB_FUNC( WXHBROWSE_SETCOLWIDTH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
   int col = hb_parni( 1 ) - 1;
   int width = hb_parni( 2 );
   if( pSelf && browse )
@@ -327,7 +326,7 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   int rowCount = hb_parni( 1 );
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
   if( pSelf && browse && ( rowCount != browse->m_gridBrowse->m_rowCount ) )
   {
     if( rowCount > browse->m_gridBrowse->m_rowCount )
@@ -345,7 +344,7 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
 HB_FUNC( WXHBROWSE_SETROWPOS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGetWX( pSelf );
+  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
   int row = hb_parni( 1 );
 
   if( pSelf && browse )
@@ -357,8 +356,3 @@ HB_FUNC( WXHBROWSE_SETROWPOS )
   }
   hb_ret();
 }
-
-
-/*
-  IOAMEX: 3766 904888 02004 0511 5137
-*/

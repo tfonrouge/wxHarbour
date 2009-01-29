@@ -38,7 +38,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   wxWindowID id = (wxWindowID) hb_parni( 2 );
   long style = ISNIL( 3 ) ? wxST_SIZEGRIP : hb_parnl( 3 );
   const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxString( hb_parcx( 4 ), wxConvLocal );
@@ -47,7 +47,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( statusBar, pSelf, wxhScopeList );
-  wxh_SetScopeList( statusBar, &wxhScopeList );
+  wxhScopeList.PushObject( statusBar );
 
   hb_itemReturn( pSelf );
 
@@ -60,7 +60,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
 HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGetWX( pSelf );
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGet_WX( pSelf );
 
   int number = hb_parni(1);
   int* widths = NULL;
@@ -91,7 +91,7 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 HB_FUNC( WXSTATUSBAR_SETSTATUSTEXT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGetWX( pSelf );
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGet_WX( pSelf );
 
   const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
   int i = hb_parni( 2 );

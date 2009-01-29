@@ -49,7 +49,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
   wxSockAddress* address;
   wxSocketFlags flags = ISNUM( 2 ) ? hb_parni( 2 ) : wxSOCKET_NONE;
 
-  address = (wxSockAddress *) hb_par_WX( 1, &wxhScopeList );
+  address = (wxSockAddress *) wxh_param_WX_Parent( 1, &wxhScopeList );
 
   if( !address )
   {
@@ -60,7 +60,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( socketServer, pSelf );
-  wxh_SetScopeList( socketServer, &wxhScopeList );
+  wxhScopeList.PushObject( socketServer );
 
   hb_itemReturn( pSelf );
 
@@ -73,7 +73,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 HB_FUNC( WXSOCKETSERVER_ACCEPT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
+  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
   wxSocketBase* socketBase;
 
   bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
@@ -87,7 +87,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
       PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
       WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( p );
       //wxh_ItemListAdd( socketBase, p );
-      wxh_SetScopeList( socketBase, &wxhScopeList );
+      wxhScopeList.PushObject( socketBase );
       hb_itemReturnRelease( p );
     }
   }
@@ -101,13 +101,13 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
+  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
 
   wxSocketBase* socket;
 
   bool wait = ISLOG( 2 ) ? hb_parl( 2 ) : true;
 
-  socket = (wxSocketBase *) hb_par_WX( 1, &wxhScopeList );
+  socket = (wxSocketBase *) wxh_param_WX_Parent( 1, &wxhScopeList );
 
   if( !socket )
   {
@@ -128,7 +128,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGetWX( pSelf );
+  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
 
   if( socketServer )
   {

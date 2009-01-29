@@ -104,7 +104,7 @@ HB_FUNC( WXAPP_GETTOPWINDOW )
 {
   wxWindow *window = wxGetApp().GetTopWindow();
   if( window )
-    hb_itemReturn( wxh_ItemListGetHB( window ) );
+    hb_itemReturn( wxh_ItemListGet_HB( window ) );
   else
     hb_ret();
 }

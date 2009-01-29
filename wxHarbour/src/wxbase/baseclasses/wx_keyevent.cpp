@@ -26,7 +26,7 @@
 HB_FUNC( WXKEYEVENT_GETKEYCODE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf );
+  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
 
   if( keyEvent )
     hb_retni( keyEvent->GetKeyCode() );
@@ -39,7 +39,7 @@ HB_FUNC( WXKEYEVENT_GETKEYCODE )
 HB_FUNC( WXKEYEVENT_GETMODIFIERS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf );
+  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
 
   if( keyEvent )
     hb_retni( keyEvent->GetModifiers() );
@@ -52,7 +52,7 @@ HB_FUNC( WXKEYEVENT_GETMODIFIERS )
 HB_FUNC( WXKEYEVENT_CONTROLDOWN )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGetWX( pSelf );
+  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
 
   if( keyEvent )
     hb_retl( keyEvent->ControlDown() );

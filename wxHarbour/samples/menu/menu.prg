@@ -45,6 +45,7 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
+//   STATIC oWnd
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -69,9 +70,14 @@ RETURN .T.
 */
 STATIC PROCEDURE Open( parentWnd )
   LOCAL oDlg
+  parentWnd := NIL
 
   CREATE DIALOG oDlg ;
          PARENT parentWnd
+
+  BEGIN BOXSIZER VERTICAL
+    @ BUTTON "Cerrar" ID wxID_CLOSE
+  END SIZER
 
   SHOW WINDOW oDlg MODAL
 

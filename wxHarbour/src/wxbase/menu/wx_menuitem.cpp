@@ -38,18 +38,18 @@ HB_FUNC( WXMENUITEM_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxMenu* parentMenu = (wxMenu *) hb_par_WX( 1, &wxhScopeList );
+  wxMenu* parentMenu = (wxMenu *) wxh_param_WX_Parent( 1, &wxhScopeList );
   int id = hb_parni( 2 );
   const wxString& text = wxh_parc( 3 );
   const wxString& helpString = wxh_parc( 4 );
   wxItemKind kind = (wxItemKind) hb_parni( 5 );
-  wxMenu* subMenu = (wxMenu *) hb_par_WX( 6, &wxhScopeList );
+  wxMenu* subMenu = (wxMenu *) wxh_param_WX_Parent( 6, &wxhScopeList );
 
   wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
 
   // Add object's to hash list
   //wxh_ItemListAdd( menuItem, pSelf );
-  wxh_SetScopeList( menuItem, &wxhScopeList );
+  wxhScopeList.PushObject( menuItem );
 
   hb_itemReturn( pSelf );
 }
@@ -61,7 +61,7 @@ HB_FUNC( WXMENUITEM_NEW )
 HB_FUNC( WXMENUITEM_ENABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGetWX( pSelf );
+  wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( pSelf );
 
   if( menuItem )
     menuItem->Enable( hb_parl( 1 ) );

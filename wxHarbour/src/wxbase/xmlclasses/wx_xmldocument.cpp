@@ -35,7 +35,7 @@ HB_FUNC( XMLDOCUMENT_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( xmlDocument, pSelf );
-  wxh_SetScopeList( xmlDocument, &wxhScopeList );
+  wxhScopeList.PushObject( xmlDocument );
 
   hb_itemReturn( pSelf );
 

@@ -28,7 +28,7 @@ HB_FUNC( WXMESSAGEBOX )
   const wxString& message = wxh_parc( 1 );
   const wxString& caption = wxh_parc( 2 );
   int style = ISNIL(3) ? wxOK : hb_parni(3);
-  wxWindow* window = (wxWindow *) hb_par_WX( 4, NULL );
+  wxWindow* window = (wxWindow *) wxh_param_WX_Parent( 4, NULL );
   int x = ISNIL(5) ? -1 : hb_parni(5);
   int y = ISNIL(6) ? -1 : hb_parni(6);
 

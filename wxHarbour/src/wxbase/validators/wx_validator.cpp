@@ -38,7 +38,7 @@ HB_FUNC( WXVALIDATOR_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( validator, pSelf );
-  wxh_SetScopeList( validator, &wxhScopeList );
+  wxhScopeList.PushObject( validator );
 
   hb_itemReturn( pSelf );
 }

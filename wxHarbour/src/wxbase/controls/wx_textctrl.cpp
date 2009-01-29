@@ -38,19 +38,19 @@ HB_FUNC( WXTEXTCTRL_NEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
-  wxWindow* parent = (wxWindow *) hb_par_WX( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   const wxString& value = wxh_parc( 3 );
   const wxPoint& pos = hb_par_wxPoint( 4 );
   const wxSize& size = hb_par_wxSize( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) hb_par_WX( 7, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 7, &wxhScopeList ))) ;
   const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
   wx_TextCtrl* textCtrl = new wx_TextCtrl( parent, id, value, pos, size, style, validator, name );
 
   // Add object's to hash list
   //wxh_ItemListAdd( textCtrl, pSelf );
-  wxh_SetScopeList( textCtrl, &wxhScopeList );
+  wxhScopeList.PushObject( textCtrl );
 
   hb_itemReturn( pSelf );
 }
@@ -62,7 +62,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
 HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
 
   if( textCtrl )
   {
@@ -78,7 +78,7 @@ HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 HB_FUNC( WXTEXTCTRL_GETVALUE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
 
   if( textCtrl )
     hb_retc( textCtrl->GetValue().mb_str() );
@@ -91,7 +91,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
 HB_FUNC( WXTEXTCTRL_SETVALUE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGetWX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
 
   if( textCtrl )
   {

@@ -33,7 +33,7 @@ static void Connect( int evtClass )
 
   ParseConnectParams( pConnParams );
 
-  hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGetWX( pSelf );
+  hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGet_WX( pSelf );
 
   if( !( pSelf && evtHandler ) )
     return;

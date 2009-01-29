@@ -38,19 +38,19 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 
   if( ISOBJECT( 1 ) )
   {
-    wxStaticBox* staticBox = (wxStaticBox *) hb_par_WX( 1, &wxhScopeList );
+    wxStaticBox* staticBox = (wxStaticBox *) wxh_param_WX_Parent( 1, &wxhScopeList );
     boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );
   }
   else
   {
-    wxWindow* parent = (wxStaticBox *) hb_par_WX( 2, &wxhScopeList );
+    wxWindow* parent = (wxStaticBox *) wxh_param_WX_Parent( 2, &wxhScopeList );
     const wxString& label = wxh_parc( 3 );
     boxSizer = new wx_StaticBoxSizer( hb_parni( 1 ), parent, label );
   }
 
   // Add object's to hash list
   //wxh_ItemListAdd( boxSizer, pSelf );
-  wxh_SetScopeList( boxSizer, &wxhScopeList );
+  wxhScopeList.PushObject( boxSizer );
 
   hb_itemReturn( pSelf );
 
@@ -67,8 +67,8 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 //   wx_StaticBoxSizer* sbSizer;
 //   wxStaticBox* staticBox;
 //
-//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wxh_ItemListGetWX( pSelf ) ) )
-//     pResult = wxh_ItemListGetHB( staticBox );
+//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wxh_ItemListGet_WX( pSelf ) ) )
+//     pResult = wxh_ItemListGet_HB( staticBox );
 //
 //   if(pResult)
 //     hb_itemReturn( pResult );
