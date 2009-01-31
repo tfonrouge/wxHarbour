@@ -42,6 +42,7 @@ HB_FUNC( WXBUTTON_NEW )
   long style = hb_parnl( 6 );
   const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 7, &wxhScopeList ))) ;
   const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
+
   wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
 
   // Add object's to hash list

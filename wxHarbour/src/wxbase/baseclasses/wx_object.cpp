@@ -25,7 +25,7 @@
   TBaseClass::OnDestruct
   Teo. Mexico 2008
 */
-HB_FUNC( TBASECLASS_WXDESTRUCT )
+HB_FUNC( TBASECLASS_HB_DESTRUCT )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
@@ -34,7 +34,7 @@ HB_FUNC( TBASECLASS_WXDESTRUCT )
 
   /* As we are here, it means that there not exist another PHB_ITEM's of this HB class
      So, we just need to call the C++ destructor of this object */
-  wxh_ItemListDel_HB( pSelf, true, false );
+  wxh_ItemListDel_HB( pSelf, true );
 }
 
 /*

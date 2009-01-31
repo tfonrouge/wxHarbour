@@ -63,7 +63,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
   if( wnd )
   {
     long id = hb_parnl(1);
-    wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 2, NULL );
+    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
     wxWindow* result = wnd->FindWindowById( id, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -78,7 +78,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
   if( wnd )
   {
     const wxString& label = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 2, NULL );
+    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
     wxWindow* result =  wnd->FindWindowByLabel( label, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -93,7 +93,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
   if( wnd )
   {
     const wxString& name = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 2, NULL );
+    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
     wxWindow* result =  wnd->FindWindowByName( name, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -295,8 +295,8 @@ HB_FUNC( WXWINDOW_SETSIZER )
   if( wnd )
   {
 //     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-//     wxSizer* sizer = (wxSizer *) wxh_param_WX_Child( 1, &wxhScopeList );
-    wxSizer* sizer = (wxSizer *) wxh_param_WX( 1 );
+    wxSizer* sizer = (wxSizer *) wxh_param_WX_Child( 1, pSelf );
+//     wxSizer* sizer = (wxSizer *) wxh_param_WX( 1 );
 
     if( sizer )
     {

@@ -56,14 +56,12 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
     HB_FUNC_EXEC( WXGRIDEVENT );
     PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pGridEvent );
-    
+
     wxhScopeList.PushObject( &gridEvent );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
-    wxh_ItemListDel_HB( pGridEvent, false );
-    //wxh_ItemListDel_WX( &gridEvent );
-    //hb_itemRelease( pGridEvent );
+    hb_itemRelease( pGridEvent );
   }
   else
     gridEvent.Skip();
@@ -120,6 +118,9 @@ void wxhGridBrowse::CalcRowCount()
   m_maxRows = GetNumberRows();
 
   PHB_ITEM pBrowseTableBase = wxh_ItemListGet_HB( this->GetTable() );
+  qout("Checking HB_IT_OBJECT");
+  if( pBrowseTableBase && hb_itemType( pBrowseTableBase ) != HB_IT_OBJECT )
+    qout("ERROR GetTable()");
   hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
 
 }
@@ -179,9 +180,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
-      //wxh_ItemListDel_WX( &event );
-      wxh_ItemListDel_HB( pKeyEvent, false );
-      //hb_itemRelease( pKeyEvent );
+      hb_itemRelease( pKeyEvent );
 
     }
 
@@ -212,8 +211,10 @@ HB_FUNC( WXHBROWSE_WXNEW )
   PHB_ITEM pGridBrowse = hb_param( 1, HB_IT_OBJECT );
   WXH_SCOPELIST wxhScopeList2 = WXH_SCOPELIST( pGridBrowse );
 
-  wx_GridTableBase *tableBase = (wx_GridTableBase *) wxh_param_WX_Parent( 2, &wxhScopeList2 );
+//   wx_GridTableBase *tableBase = (wx_GridTableBase *) wxh_param_WX_Parent( 2, &wxhScopeList2 );
+
   wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 3, &wxhScopeList1 );
+
   wxWindowID id = ISNIL( 4 ) ? wxID_ANY : hb_parni( 4 );
   const wxString &label = wxh_parc( 5 );
   wxPoint pos = hb_par_wxPoint( 6 );
@@ -233,15 +234,15 @@ HB_FUNC( WXHBROWSE_WXNEW )
 
   browse->SetSizer( boxSizer );
   browse->m_gridBrowse = new wxhGridBrowse( browse, id, wxDefaultPosition, wxDefaultSize, style, _T("wxhGridBrowse") );
-  boxSizer->Add( browse->m_gridBrowse, 1, wxGROW|wxALL, 5 );
+  boxSizer->Add( browse->m_gridBrowse, 1, wxGROW | wxALL, 5 );
   wxStaticLine* staticLine = new wxStaticLine( browse, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
   boxSizer->Add( staticLine, 0, wxGROW, 5 );
   wxScrollBar* scrollBar = new wxScrollBar( browse, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL );
   scrollBar->SetScrollbar(0, 1, 100, 1);
-  boxSizer->Add( scrollBar, 0, wxGROW|wxLEFT|wxRIGHT, 5 );
+  boxSizer->Add( scrollBar, 0, wxGROW | wxLEFT | wxRIGHT, 5 );
 
-  if( tableBase )
-    browse->m_gridBrowse->SetTable( tableBase, true );
+//   if( tableBase )
+//     browse->m_gridBrowse->SetTable( tableBase, true );
 
   browse->m_gridBrowse->m_browse = browse;
 

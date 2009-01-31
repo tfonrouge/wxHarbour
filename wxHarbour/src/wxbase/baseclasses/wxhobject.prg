@@ -24,7 +24,7 @@ PUBLIC:
 
   DESTRUCTOR OnDestruct()
 
-  METHOD wxDestruct
+  METHOD HB_Destruct
 
 PUBLISHED:
 ENDCLASS
@@ -37,8 +37,8 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD PROCEDURE OnDestruct CLASS TBaseClass
-  ? "HB Destroying:",::ClassName()
-  ::wxDestruct()
+//   ? "HB Destroying:",::ClassName()
+  ::HB_Destruct()
 RETURN
 
 /*

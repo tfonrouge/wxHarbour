@@ -46,19 +46,23 @@ typedef struct _CONN_PARAMS
 } CONN_PARAMS, *PCONN_PARAMS;
 
 /* PHB_ITEM key, wxObject* values */
-WX_DECLARE_HASH_MAP( PHB_ITEM, wxObject*, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
+WX_DECLARE_HASH_MAP( PHB_ITEM, bool, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
 
 typedef struct _WXH_ITEM
 {
   wxObject* wxObj;
+  PHB_BASEARRAY objHandle;
   vector<PCONN_PARAMS> evtList;
   MAP_PHB_ITEM map_childList;
+  MAP_PHB_ITEM map_refList;
   PHB_ITEM pSelf;
 } WXH_ITEM, *PWXH_ITEM;
 
 class WXH_SCOPELIST
 {
 public:
+
+  MAP_PHB_ITEM map_paramList;
 
   PHB_ITEM pSelf;
 
@@ -73,14 +77,16 @@ HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
 wxObject*     wxh_param_WX( int param );
-wxObject*     wxh_param_WX_Parent( int param, WXH_SCOPELIST* pLocalList );
-wxObject*     wxh_param_WX_Child( int param, WXH_SCOPELIST* pLocalList );
+wxObject*     wxh_param_WX_Child( int param, PHB_ITEM pParentItm );
+//wxObject*     wxh_param_WX_Parent( int param, PHB_ITEM pChildItm );
+wxObject*     wxh_param_WX_Parent( int param, WXH_SCOPELIST* wxhScopeList );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 
 void          wxh_ItemListDel_WX( wxObject* wxObj );
-void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE, bool lReleaseCodeblockItm = FALSE );
+void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE );
 PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
+PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
@@ -119,7 +125,6 @@ public:
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler<T>()
 {
-  qout("On C++ destructor.");
   wxh_ItemListDel_WX( this );
 }
 

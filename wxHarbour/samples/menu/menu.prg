@@ -44,8 +44,8 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
-//   STATIC oWnd
+//   LOCAL oWnd
+  STATIC oWnd
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -59,7 +59,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
     DEFINE MENU "Help"
       ADD MENUITEM "About..."
     ENDMENU
+/*    DEFINE MENU "File"
+    ENDMENU*/
   ENDMENU
+
+  @ STATUSBAR
+
+//   oWnd:SetStatusBar( wxStatusBar():New( oWnd ) )
 
   SHOW WINDOW oWnd
 
@@ -70,7 +76,7 @@ RETURN .T.
 */
 STATIC PROCEDURE Open( parentWnd )
   LOCAL oDlg
-  parentWnd := NIL
+//   parentWnd := NIL
 
   CREATE DIALOG oDlg ;
          PARENT parentWnd
@@ -79,6 +85,10 @@ STATIC PROCEDURE Open( parentWnd )
     @ BUTTON "Cerrar" ID wxID_CLOSE
   END SIZER
 
+//   wxButton():New( oDlg, wxID_ANY, "CloseT" )
+
   SHOW WINDOW oDlg MODAL
+
+  oDlg:Destroy()
 
 RETURN
