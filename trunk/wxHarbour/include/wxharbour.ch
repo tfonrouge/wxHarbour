@@ -85,8 +85,7 @@
           => ;
           [<oMB> := ] wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 
-#xcommand DEFINE MENU <cLabel> ;
-          [VAR <menu>];
+#xcommand DEFINE MENU <cLabel> [VAR <menu>];
           => ;
           [<menu> :=] wxh_MenuBegin( <cLabel> )
 

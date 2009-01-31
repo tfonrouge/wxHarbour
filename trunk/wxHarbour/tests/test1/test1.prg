@@ -1,55 +1,92 @@
+/*
+  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+*/
+
+/*
+  menu sample
+  Teo. Mexico 2009
+*/
 
 #include "hbclass.ch"
+#include "wxharbour.ch"
 
-FUNCTION Main
-  LOCAL i
+/*
+  Main
+  Teo. Mexico 2009
+*/
+FUNCTION Main()
+  LOCAL MyApp
 
-  MyFunc1()
+  MyApp := MyApp():New()
 
-  FOR i:=1 TO 10000
-  NEXT
-
-  ? "Exiting..."
-
-RETURN NIL
-
-STATIC FUNCTION MyFunc1
-  LOCAL ipv4
-  LOCAL socketServer,socket
-  LOCAL nsecs
-
-  nsecs := 5
-
-  ipv4 := wxIPV4Address():New()
-//   ipv4:Hostname( "localhost" )
-  ipv4:Service( "2000" )
-  ? ipv4:IPAddress(), ipv4:Service()
-
-  socketServer := wxSocketServer():New( ipv4 )
-
-  ? "Waiting for a connection (" + LTrim( Str( nsecs ) ) +  ")"
-  socketServer:SetTimeOut( nsecs )
-
-  ? "Looping."
-
-  socket := socketServer:Accept( .T. )
-
-  IF socket != NIL
-    ? "Connection made."
-  ELSE
-    ? "Connection failed."
-  ENDIF
-
-  ? socket:ClassName()
-
-  Class1():New()
+  IMPLEMENT_APP( MyApp )
 
 RETURN NIL
 
-CLASS Class1
-  DESTRUCTOR OnDestruct
+/*
+  MyApp
+  Teo. Mexico 2009
+*/
+CLASS MyApp FROM wxApp
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  METHOD OnInit
+PUBLISHED:
 ENDCLASS
 
-PROCEDURE OnDestruct CLASS Class1
-  ? "Destroying:",::ClassName()
+/*
+  EndClass MyApp
+*/
+
+/*
+  OnInit
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION OnInit() CLASS MyApp
+  STATIC oWnd
+  LOCAL menuBar
+  LOCAL menu
+  LOCAL sb
+
+  CREATE FRAME oWnd ;
+         WIDTH 800 HEIGHT 600 ;
+         TITLE "Menu Sample"
+
+  menuBar := wxMenubar():New()
+  menu := wxMenu():New()
+
+  menu:Append( wxID_CLOSE, "Opcion 1" )
+  menu:Append( wxID_CLOSE, "Opcion 2" )
+
+  menuBar:Append( menu, "Archivo" )
+
+  oWnd:SetMenuBar( menuBar )
+
+  sb := wxStatusBar():New( oWnd )
+
+  oWnd:SetStatusBar( sb )
+
+  SHOW WINDOW oWnd
+
+RETURN .T.
+
+/*
+  Open a new Dialog MODAL
+*/
+STATIC PROCEDURE Open( parentWnd )
+  LOCAL oDlg
+  parentWnd := NIL
+
+  CREATE DIALOG oDlg ;
+         PARENT parentWnd
+
+//   BEGIN BOXSIZER VERTICAL
+    @ BUTTON "Cerrar" ID wxID_CLOSE
+//   END SIZER
+
+//   wxButton():New( oDlg, wxID_ANY, "CloseT" )
+
+  SHOW WINDOW oDlg MODAL
+
 RETURN

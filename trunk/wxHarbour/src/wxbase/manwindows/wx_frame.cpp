@@ -90,10 +90,9 @@ HB_FUNC( WXFRAME_CENTRE )
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
 
-  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Child( 1, pSelf );
 
   if( frame && menuBar )
   {
@@ -108,10 +107,10 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
 
-  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX_Parent( 1, &wxhScopeList );
+//   wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX_Child( 1, pSelf );
+  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX( 1 );
 
   if( frame && statusBar )
   {

@@ -103,7 +103,7 @@ HB_FUNC( WXSIZER_SETSIZEHINTS )
 
   if( sizer )
   {
-    wxWindow* wnd = (wxWindow *) wxh_param_WX_Parent( 1, NULL );
+    wxWindow* wnd = (wxWindow *) wxh_param_WX( 1 );
     if( wnd )
       sizer->SetSizeHints( wnd );
   }

@@ -32,7 +32,7 @@ wx_BoxSizer::~wx_BoxSizer()
 HB_FUNC( WXBOXSIZER_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( hb_itemNew( pSelf ) );
+  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
 
   wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 

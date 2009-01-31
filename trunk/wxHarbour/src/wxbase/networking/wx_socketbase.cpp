@@ -137,7 +137,7 @@ HB_FUNC( WXSOCKETBASE_GETLOCAL )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
 
-  wxObject* object = (wxObject *) wxh_param_WX_Parent( 1, NULL );
+  wxObject* object = (wxObject *) wxh_param_WX( 1 );
 
   if( socketBase && object )
     hb_retl( socketBase->GetLocal( (wxSockAddress &) *object ) );
@@ -165,7 +165,7 @@ HB_FUNC( WXSOCKETBASE_GETPEER )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
 
-  wxObject* object = (wxObject *) wxh_param_WX_Parent( 1, NULL );
+  wxObject* object = (wxObject *) wxh_param_WX( 1 );
 
   if( socketBase && object )
     hb_retl( socketBase->GetPeer( (wxSockAddress &) *object ) );
@@ -356,7 +356,7 @@ HB_FUNC( WXSOCKETBASE_SETLOCAL )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
 
-  wxIPV4address* local = (wxIPV4address *) wxh_param_WX_Parent( 1, NULL );
+  wxIPV4address* local = (wxIPV4address *) wxh_param_WX( 1 );
 
   if( socketBase && local )
   {

@@ -51,10 +51,9 @@ HB_FUNC( WXMENUBAR_NEW )
 HB_FUNC( WXMENUBAR_APPEND )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_MenuBar* menuBar = (wx_MenuBar *) wxh_ItemListGet_WX( pSelf );
 
-  wx_Menu* menu = (wx_Menu *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wx_Menu* menu = (wx_Menu *) wxh_param_WX_Child( 1, pSelf );
 
   if( menuBar && menu )
   {

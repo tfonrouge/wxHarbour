@@ -328,13 +328,11 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 HB_FUNC( WXGRID_SETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
 
   if( grid ) /* gridTable can be NULL */
   {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_param_WX_Child( 1, pSelf );
     bool takeOwnership = hb_parl( 2 );
     wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
     grid->SetTable( gridTable, takeOwnership, selmode );

@@ -22,14 +22,32 @@
 /* PHB_BASEARRAY keys, PWXH_ITEM values */
 WX_DECLARE_HASH_MAP( PHB_BASEARRAY, PWXH_ITEM, wxPointerHash, wxPointerEqual, MAP_PHB_BASEARRAY );
 
-/* wxObject* keys, PHBITM_REF values */
-WX_DECLARE_HASH_MAP( wxObject*, PHB_BASEARRAY, wxPointerHash, wxPointerEqual, MAP_WXOBJECT );
+/* wxObject* keys, PWXH_ITEM values */
+WX_DECLARE_HASH_MAP( wxObject*, PWXH_ITEM, wxPointerHash, wxPointerEqual, MAP_WXOBJECT );
 
 static MAP_PHB_BASEARRAY map_phbBaseArr;
 static MAP_WXOBJECT map_wxObject;
-static MAP_PHB_ITEM map_phbItem;
 
 static PHB_ITEM lastTopLevelWindow;
+
+/*
+  SetParentChildKey
+  Teo. Mexico 2009
+*/
+static void SetParentChildKey( PWXH_ITEM pwxhItm, PHB_ITEM pParentItm, PHB_ITEM pChildItm )
+{
+  PWXH_ITEM pwxhParentItm = wxh_ItemListGet_PWXH_ITEM( pParentItm );
+  PWXH_ITEM pwxhChildItm;
+
+  if( pwxhParentItm )
+  {
+    PHB_ITEM pRefItm = hb_itemNew( pChildItm );
+
+    pwxhItm->map_refList[ pRefItm ] = true;
+    pwxhParentItm->map_childList[ pRefItm ] = true;
+    pwxhChildItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
+  }
+}
 
 /*
   constructor
@@ -57,69 +75,36 @@ void WXH_SCOPELIST::PushObject( wxObject* wxObj )
 
     PWXH_ITEM pwxhItm = new WXH_ITEM;
     pwxhItm->wxObj = wxObj;
+    pwxhItm->objHandle = pSelf->item.asArray.value;
     pwxhItm->pSelf = pSelf; /* this object is the Harbour var created in the ::New() method
                                and the Harbour programmer is responsible to keep it alive */
     map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
-    map_wxObject[ wxObj ] = pSelf->item.asArray.value;
+    map_wxObject[ wxObj ] = pwxhItm;
+
+    /* add the Parent objects to the child/parent lists */
+    while( map_paramList.size() > 0 )
+    {
+      MAP_PHB_ITEM::iterator it = map_paramList.begin();
+      SetParentChildKey( pwxhItm, it->first, pSelf );
+      map_paramList.erase( it );
+    }
   }
 }
 /*
   wxh_ItemListDel_HB
   Teo. Mexico 2009
 */
-void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblockItm )
+void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj )
 {
-  char s[100];
-  if( pSelf && map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() )
+  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( pSelf );
+
+  if( pwxhItm && pwxhItm->wxObj && lDeleteWxObj )
   {
-    PWXH_ITEM pwxhItm = map_phbBaseArr[ pSelf->item.asArray.value ];
-    wxObject* wxObj = wxh_ItemListGet_WX( pSelf );
-
-    sprintf( s, "%s: pSelf: %p, wxObj: %p", hb_clsName( pSelf->item.asArray.value->uiClass ), pSelf, wxObj );
-    qout( s );
-
-   /* removes child PHB_ITEMS (if any) */
-    while( pwxhItm->map_childList.size() > 0 )
-    {
-      MAP_PHB_ITEM::iterator it = pwxhItm->map_childList.begin();
-      sprintf( s, "Deleting childList, size: %d", pwxhItm->map_childList.size() );
-      qout( s );
-      PHB_ITEM pItm = it->first;
-      hb_itemRelease( pItm );
-      pwxhItm->map_childList.erase( it );
-      wxh_ItemListDel_HB( pItm, false );
-    }
-
-    //map_phbBaseArr.erase( pSelf->item.asArray.value );
-
-    if( wxObj )
-    {
-      PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
-
-      /* release codeblocks stored in event list */
-      if( pwxhItm && ( pwxhItm->evtList.size() > 0 ) )
-      {
-        for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
-        {
-          PCONN_PARAMS pConnParams = *it;
-          if( pConnParams->pItmActionBlock && lReleaseCodeblockItm )
-          {
-            hb_itemRelease( pConnParams->pItmActionBlock );
-            pConnParams->pItmActionBlock = NULL;
-          }
-          delete pConnParams;
-        }
-      }
-
-      //map_wxObject.erase( wxObj );
-
-      if( lDeleteWxObj )
-      {
-        qout( "! Delete...!" );
-        delete wxObj;
-        wxObj = NULL;
-      }
-    }
+//     qout( "In wxh_ItemListDel_HB." );
+    //map_wxObject.erase( wxObj );
+//     delete pwxhItm->wxObj;
+//     pwxhItm->wxObj = NULL;
+//     qout( "Out wxh_ItemListDel_HB." );
   }
 }
 
@@ -129,11 +114,49 @@ void wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj, bool lReleaseCodeblo
 */
 void wxh_ItemListDel_WX( wxObject* wxObj )
 {
-  PHB_ITEM pSelf = wxh_ItemListGet_HB( wxObj );
+  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
-  if( pSelf )
+
+  if( pwxhItm )
   {
-    wxh_ItemListDel_HB( pSelf, false, false );
+//     qout( "In wxh_ItemListDel_WX.");
+
+    map_phbBaseArr.erase( pwxhItm->objHandle );
+    map_wxObject.erase( pwxhItm->wxObj  );
+
+    /* scan a map_childList to release hb items */
+    for( MAP_PHB_ITEM::iterator it = pwxhItm->map_childList.begin(); it != pwxhItm->map_childList.end(); it++ )
+    {
+      PWXH_ITEM pwxhChildItm = wxh_ItemListGet_PWXH_ITEM( it->first );
+
+      if( pwxhChildItm )
+      {
+        wxh_ItemListDel_WX( pwxhChildItm->wxObj );
+      }
+
+      if( it->second )
+      {
+        it->second = false;
+        hb_itemRelease( it->first );
+      }
+    }
+
+    /* release codeblocks stored in event list */
+    if( pwxhItm && ( pwxhItm->evtList.size() > 0 ) )
+    {
+      for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
+      {
+        PCONN_PARAMS pConnParams = *it;
+        if( pConnParams->pItmActionBlock )
+        {
+          hb_itemRelease( pConnParams->pItmActionBlock );
+          pConnParams->pItmActionBlock = NULL;
+        }
+        delete pConnParams;
+      }
+    }
+    delete pwxhItm;
+//     qout( "Out wxh_ItemListDel_WX.");
   }
 }
 
@@ -144,15 +167,18 @@ void wxh_ItemListDel_WX( wxObject* wxObj )
 PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 {
   PHB_ITEM pSelf = NULL;
+  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
-  if( wxObj && ( map_wxObject.find( wxObj ) != map_wxObject.end() ) )
+  if( pwxhItm )
   {
-    PHB_BASEARRAY hbObjH = map_wxObject[ wxObj ];
-    if( hbObjH && ( map_phbBaseArr.find( hbObjH ) != map_phbBaseArr.end() ) )
+    /* search on the parent objects for a reference on his childList */
+    if( pwxhItm->map_refList.size() > 0 )
     {
-      pSelf = map_phbBaseArr[ hbObjH ]->pSelf;
-    }
+      pSelf = pwxhItm->map_refList.begin()->first;
+    }else
+      pSelf = pwxhItm->pSelf;
   }
+//   qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
   return pSelf;
 }
 
@@ -162,15 +188,30 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 */
 PWXH_ITEM wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj )
 {
+  PWXH_ITEM pwxhItm = NULL;
+
   if( wxObj && ( map_wxObject.find( wxObj ) != map_wxObject.end() ) )
   {
-    PHB_BASEARRAY pHbObjH = map_wxObject[ wxObj ];
-    if( pHbObjH && ( map_phbBaseArr.find( pHbObjH ) != map_phbBaseArr.end() ) )
-    {
-      return map_phbBaseArr[ pHbObjH ];
-    }
+    pwxhItm = map_wxObject[ wxObj ];
   }
-  return NULL;
+
+  return pwxhItm;
+}
+
+/*
+  wxh_ItemListGet_PWXH_ITEM
+  Teo. Mexico 2009
+*/
+PWXH_ITEM wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf )
+{
+  PWXH_ITEM pwxhItm = NULL;
+
+  if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() ) )
+  {
+    pwxhItm = map_phbBaseArr[ pSelf->item.asArray.value ];
+  }
+
+  return pwxhItm;
 }
 
 /*
@@ -204,26 +245,6 @@ void wxh_ItemListReleaseAll()
 }
 
 /*
-  SetParentChildKey
-  Teo. Mexico 2009
-*/
-void SetParentChildKey( PHB_ITEM pParentItm, PHB_ITEM pChildItm, wxObject* wxObj )
-{
-
-  if( wxObj )
-  {
-    if( map_phbBaseArr.find( pParentItm->item.asArray.value ) != map_phbBaseArr.end() )
-    {
-      PWXH_ITEM pwxhItm = map_phbBaseArr[ pParentItm->item.asArray.value ];
-      pwxhItm->map_childList[ hb_itemNew( pChildItm ) ] = wxObj;
-    }else
-    {
-      qout( "FATAL: Parent doesn't exist." );
-    }
-  }
-}
-
-/*
   wxh_param_WX
   Teo. Mexico 2009
 */
@@ -236,18 +257,18 @@ wxObject* wxh_param_WX( const int param )
   wxh_param_WX_Child
   Teo. Mexico 2009
 */
-wxObject* wxh_param_WX_Child( const int param, WXH_SCOPELIST *wxhScopeList )
+wxObject* wxh_param_WX_Child( const int param, PHB_ITEM pParentItm )
 {
   PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
-  wxObject* wxObj = wxh_ItemListGet_WX( pChildItm );
+  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
 
-  if( wxObj && wxhScopeList )
+  if( pwxhItm && pParentItm )
   {
-    PHB_ITEM pParentItm = wxhScopeList->pSelf;
-    SetParentChildKey( pParentItm, pChildItm, wxObj );
+    SetParentChildKey( pwxhItm, pParentItm, pChildItm );
+    return pwxhItm->wxObj;
   }
 
-  return wxObj;
+  return NULL;
 }
 
 /*
@@ -259,10 +280,9 @@ wxObject* wxh_param_WX_Parent( const int param, WXH_SCOPELIST* wxhScopeList )
   PHB_ITEM pParentItm = hb_param( param, HB_IT_OBJECT );
   wxObject* wxObj = wxh_ItemListGet_WX( pParentItm );
 
-  if( wxObj && wxhScopeList )
+  if( wxObj )
   {
-    PHB_ITEM pChildItm = wxhScopeList->pSelf;
-    SetParentChildKey( pParentItm, pChildItm, wxObj );
+    wxhScopeList->map_paramList[ pParentItm ] = wxObj;
   }
 
   return wxObj;

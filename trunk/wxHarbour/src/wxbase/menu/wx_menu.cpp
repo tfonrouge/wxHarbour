@@ -41,7 +41,6 @@ HB_FUNC( WXMENU_NEW )
   wx_Menu* menu = new wx_Menu();
 
   // Add object's to hash list
-  //wxh_ItemListAdd( menu, pSelf );
   wxhScopeList.PushObject( menu );
 
   hb_itemReturn( pSelf );
@@ -58,19 +57,17 @@ HB_FUNC( WXMENU_APPEND1 )
 HB_FUNC( WXMENU_APPEND2 )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( pSelf );
 
-  menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), (wx_Menu *) wxh_param_WX_Parent( 3, &wxhScopeList ), wxh_parc( 4 ) );
+  menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), (wx_Menu *) wxh_param_WX_Child( 3, pSelf ), wxh_parc( 4 ) );
 }
 
 HB_FUNC( WXMENU_APPEND3 )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( pSelf );
 
-  menu->Append( (wxMenuItem *) wxh_param_WX_Parent( 1, &wxhScopeList ) );
+  menu->Append( (wxMenuItem *) wxh_param_WX_Child( 1, pSelf ) );
 }
 
 HB_FUNC( WXMENU_APPENDSEPARATOR )

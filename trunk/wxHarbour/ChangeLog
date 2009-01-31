@@ -2,6 +2,28 @@
  *
  */
 
+2009-01-31 10:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * include/wxh.h
+  * samples/menu/menu.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/menu/wx_menubar.cpp
+  * src/wxbase/menu/wx_menu.cpp
+  * src/wxbase/miscfuncs/wx_dialogfuncs.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/sizers/wx_boxsizer.cpp
+  * src/wxbase/sizers/wx_sizer.cpp
+  * tests/test1/test1.prg
+    * work in progress: still testing
+
 2009-01-28 23:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/menu/menu.prg

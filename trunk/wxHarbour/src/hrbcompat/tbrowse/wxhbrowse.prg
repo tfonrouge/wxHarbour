@@ -107,6 +107,8 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
   ::gridTableBase := wxhBrowseTableBase():New( Self )
   ::wxNew( ::grid, ::gridTableBase, window, id, label, pos, size, style, name )
 
+  ::grid:SetTable( ::gridTableBase )
+
   IF !onKey = NIL
     ::KeyEventBlock := onKey
   ENDIF
