@@ -247,7 +247,6 @@ WXHARBOUR_HEADERS =  \
 	include/defs.h \
 	include/rdodefs.h \
 	include/wxh.h \
-	include/wxh_scopelist.h \
 	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch

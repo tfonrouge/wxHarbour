@@ -2,6 +2,12 @@
  *
  */
 
+2009-02-04 13:16 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+    * updated makefile
+  * src/raddox/trdoserver_c.cpp
+    * renamed hb_dbgObjSendMessage() to hb_dbg_objSendMessage()
+
 2009-01-31 10:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * include/wxh.h
