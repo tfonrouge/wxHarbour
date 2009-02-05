@@ -55,12 +55,14 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
   {
     HB_FUNC_EXEC( WXGRIDEVENT );
     PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
+//     PHB_ITEM pGridEvent = hb_stackReturnItem();
     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pGridEvent );
 
     wxhScopeList.PushObject( &gridEvent );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
+    wxh_ItemListDel_WX( &gridEvent );
     hb_itemRelease( pGridEvent );
   }
   else
@@ -118,10 +120,10 @@ void wxhGridBrowse::CalcRowCount()
   m_maxRows = GetNumberRows();
 
   PHB_ITEM pBrowseTableBase = wxh_ItemListGet_HB( this->GetTable() );
-  qout("Checking HB_IT_OBJECT");
-  if( pBrowseTableBase && hb_itemType( pBrowseTableBase ) != HB_IT_OBJECT )
-    qout("ERROR GetTable()");
-  hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
+  if( pBrowseTableBase && hb_itemType( pBrowseTableBase ) == HB_IT_OBJECT )
+    hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
+  else
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 
 }
 

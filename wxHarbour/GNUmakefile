@@ -247,6 +247,7 @@ WXHARBOUR_HEADERS =  \
 	include/defs.h \
 	include/rdodefs.h \
 	include/wxh.h \
+	include/wxh_scopelist.h \
 	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
@@ -337,6 +338,9 @@ uninstall_wxHarbour_headers:
 
 samples: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	(cd samples && $(MAKE) all)
+
+sudoinstall: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
+	sudo make install
 
 $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<

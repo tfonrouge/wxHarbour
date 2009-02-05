@@ -47,5 +47,10 @@
     <depends>wxHarbour</depends>
     <installable>no</installable>
   </subproject>
+  
+  <action id="sudoinstall">
+    <depends>wxHarbour</depends>
+    <command>sudo make install</command>
+  </action>
 
 </makefile>

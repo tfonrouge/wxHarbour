@@ -2,6 +2,32 @@
  *
  */
 
+2009-02-05 07:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * wxharbour.bkl
+    * added "sudoinstall" as target
+
+  * include/wxh.h
+    * added define WXH_ERRBASE to start enum of wxHarbour errors
+
+  * src/common/wx_harbour.cpp
+    ! created new item of PHB_ITEM when pushed in WXH_ITEM structure
+      (this fixes GPF on OnSelectCell wxGrid)
+      TODO: check this hack
+
+  * src/hrbcompat/misc/wxGET.prg
+    * RTrim'ed the values in the TextCtrl edit control
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+    * added wxh_ItemListDel_WX after sending the wxGridEvent to the "OnSelectCell" hb method
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * code cleanup
+
+  * src/wxbase/baseclasses/wx_gridevent.cpp
+    * added hb RT error if invalid gridEvent object
+
+
 2009-02-04 13:16 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
     * updated makefile
