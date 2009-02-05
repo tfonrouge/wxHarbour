@@ -356,16 +356,19 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
+  LOCAL row
 
   IF !gridEvent:Selecting()
     gridEvent:Skip()
     RETURN
   ENDIF
 
-  ::gridTableBase:CurRowIndex := gridEvent:GetRow()
+  row := gridEvent:GetRow()
+
+  ::gridTableBase:CurRowIndex := row
 
   ::FColPos := gridEvent:GetCol() + 1
-  ::FRowPos := gridEvent:GetRow() + 1
+  ::FRowPos := row + 1
 
   IF ::SelectCellBlock != NIL .AND. ::RowCount > 0
     ::SelectCellBlock:Eval( Self, gridEvent )

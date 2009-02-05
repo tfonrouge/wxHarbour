@@ -35,6 +35,8 @@ extern "C"
 
 #include <vector>
 
+#define WXH_ERRBASE     3000
+
 using namespace std;
 
 typedef struct _CONN_PARAMS

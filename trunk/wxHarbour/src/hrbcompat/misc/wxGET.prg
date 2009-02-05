@@ -91,7 +91,7 @@ ENDCLASS
 */
 METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTextCtrl
 
-  Super:New( window, id, wxhGet:AsString(), pos, size, style, validator, name )
+  Super:New( window, id, RTrim( wxhGet:AsString() ), pos, size, style, validator, name )
 
   IF name = NIL
     ::SetName( wxhGet:Name )
@@ -122,9 +122,9 @@ METHOD PROCEDURE PickList CLASS wxHBTextCtrl
 
   ::FWXHGet:Field:GetItDoPick( parentWnd )
 
-  s := ::FWXHGet:Field:Value
+  s := RTrim( ::FWXHGet:Field:Value )
 
-  IF ::GetValue() == s
+  IF RTrim( ::GetValue() ) == s
     RETURN /* no changes */
   ENDIF
 

@@ -76,8 +76,12 @@ void WXH_SCOPELIST::PushObject( wxObject* wxObj )
     PWXH_ITEM pwxhItm = new WXH_ITEM;
     pwxhItm->wxObj = wxObj;
     pwxhItm->objHandle = pSelf->item.asArray.value;
-    pwxhItm->pSelf = pSelf; /* this object is the Harbour var created in the ::New() method
-                               and the Harbour programmer is responsible to keep it alive */
+
+    /* this object is the Harbour var created in the ::New() method
+       and the Harbour programmer is responsible to keep it alive */
+//     pwxhItm->pSelf = pSelf;
+    pwxhItm->pSelf = hb_itemNew( pSelf );
+
     map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
     map_wxObject[ wxObj ] = pwxhItm;
 
@@ -155,8 +159,8 @@ void wxh_ItemListDel_WX( wxObject* wxObj )
         delete pConnParams;
       }
     }
+
     delete pwxhItm;
-//     qout( "Out wxh_ItemListDel_WX.");
   }
 }
 
