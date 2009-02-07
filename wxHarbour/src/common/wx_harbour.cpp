@@ -293,6 +293,32 @@ wxObject* wxh_param_WX_Parent( const int param, WXH_SCOPELIST* wxhScopeList )
 }
 
 /*
+  hb_par_wxArrayString
+  Teo. Mexico 2009
+*/
+wxArrayString hb_par_wxArrayString( int param )
+{
+  wxArrayString arrayString;
+
+  if( ISARRAY( param ) )
+  {
+    PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
+    PHB_ITEM pItm;
+    ULONG ulLen = pArray->item.asArray.value->ulLen;
+    for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
+    {
+      pItm = hb_arrayGetItemPtr( pArray, ulI );
+      if( hb_itemType( pItm ) && ( HB_IT_STRING || HB_IT_MEMO ) )
+      {
+        arrayString.Add( wxString( pItm->item.asString.value, wxConvLocal) );
+      }
+    }
+  }
+
+  return arrayString;
+}
+
+/*
   hb_par_wxPoint
   Teo. Mexico 2009
 */

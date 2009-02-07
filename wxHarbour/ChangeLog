@@ -2,6 +2,33 @@
  *
  */
 
+2009-02-06 23:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + include/wxbase/wx_checkbox.h
+  + include/wxbase/wx_radiobox.h
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  + src/wxbase/baseclasses/wxhcontrolwithitems.prg
+  + src/wxbase/controls/wx_checkbox.cpp
+  + src/wxbase/controls/wxhcheckbox.prg
+  + src/wxbase/controls/wxhradiobox.prg
+  + src/wxbase/controls/wx_radiobox.cpp
+    + added wxCheckBox, fully implemented.
+    + added wxRadioBox, partially implemented, only:
+      + GetSelction, SetSelection
+
+  * include/wxh/textctrl.ch
+    * addde if3define
+
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+    + added hb_par_wxStringArray, to create wxStringObject from HB array
+
+  * src/raddox/ttable.prg
+    ! Fixed wrong bind for Field_Name to ::FieldList item, now using
+      ::FieldByName
+      TODO: optimize this
+
 2009-02-05 07:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * wxharbour.bkl

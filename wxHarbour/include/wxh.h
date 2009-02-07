@@ -84,6 +84,7 @@ wxObject*     wxh_param_WX_Child( int param, PHB_ITEM pParentItm );
 wxObject*     wxh_param_WX_Parent( int param, WXH_SCOPELIST* wxhScopeList );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
+wxArrayString hb_par_wxArrayString( int param );
 
 void          wxh_ItemListDel_WX( wxObject* wxObj );
 void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE );

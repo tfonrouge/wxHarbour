@@ -142,6 +142,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
 	$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o \
@@ -154,7 +155,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhlistbook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhnotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhbutton.o \
+	$(__BUILDDIR__)/wxHarbour_wxhcheckbox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcontrol.o \
+	$(__BUILDDIR__)/wxHarbour_wxhradiobox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstaticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstatictext.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtextctrl.o \
@@ -205,6 +208,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_listbook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_notebook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_button.o \
+	$(__BUILDDIR__)/wxHarbour_wx_checkbox.o \
+	$(__BUILDDIR__)/wxHarbour_wx_radiobox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statictext.o \
 	$(__BUILDDIR__)/wxHarbour_wx_textctrl.o \
@@ -411,6 +416,9 @@ $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)/wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o: ./src/wxbase/baseclasses/wxhcontrolwithitems.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -447,7 +455,13 @@ $(__BUILDDIR__)/wxHarbour_wxhnotebook.o: ./src/wxbase/books/wxhnotebook.prg
 $(__BUILDDIR__)/wxHarbour_wxhbutton.o: ./src/wxbase/controls/wxhbutton.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhcheckbox.o: ./src/wxbase/controls/wxhcheckbox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhcontrol.o: ./src/wxbase/controls/wxhcontrol.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhradiobox.o: ./src/wxbase/controls/wxhradiobox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhstaticbox.o: ./src/wxbase/controls/wxhstaticbox.prg
@@ -598,6 +612,12 @@ $(__BUILDDIR__)/wxHarbour_wx_notebook.o: ./src/wxbase/books/wx_notebook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_checkbox.o: ./src/wxbase/controls/wx_checkbox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_radiobox.o: ./src/wxbase/controls/wx_radiobox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_staticbox.o: ./src/wxbase/controls/wx_staticbox.cpp
