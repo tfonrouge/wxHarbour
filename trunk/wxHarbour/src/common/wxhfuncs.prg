@@ -167,6 +167,48 @@ FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bActi
 RETURN button
 
 /*
+  wxh_CheckBox
+  Teo. Mexico 2009
+*/
+FUNCTION wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, name, bAction )
+  LOCAL checkBox
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  checkBox := wxHBCheckBox():New( window, id, label, wxhGet, pos, size, style, validator, name )
+
+  IF bAction != NIL
+    checkBox:ConnectCommandEvt( checkBox:GetID(), wxEVT_COMMAND_CHECKBOX_CLICKED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( checkBox )
+
+RETURN checkBox
+
+/*
+  wxh_RadioBox
+  Teo. Mexico 2009
+*/
+FUNCTION wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet, bAction )
+  LOCAL checkBox
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  checkBox := wxHBRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet )
+
+  IF bAction != NIL
+    checkBox:ConnectCommandEvt( checkBox:GetID(), wxEVT_COMMAND_CHECKBOX_CLICKED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( checkBox )
+
+RETURN checkBox
+
+/*
   wxh_Dialog
   Teo. Mexico 2008
 */

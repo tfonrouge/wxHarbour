@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------
 // wxTextCtrl style flags
 // ----------------------------------------------------------------------------
+#ifndef _WXH_TEXTCTRL_CH_
+#define _WXH_TEXTCTRL_CH_
 
 #define wxTE_NO_VSCROLL     0x0002
 #define wxTE_AUTO_SCROLL    0x0008
@@ -69,3 +71,4 @@
 #define wxTE_CAPITALIZE     0
 #endif
 
+#endif

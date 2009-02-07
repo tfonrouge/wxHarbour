@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wxHarbour.ch
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 
 #ifndef _WXHARBOUR_H_
@@ -25,9 +25,16 @@
 #include "raddox.ch"
 #include "wx.ch"
 
+#include "wxh/textctrl.ch"
+
 #define wxhLABEL_QUIT           "Quit"
 #define wxhLABEL_RETRY          "Retry"
 #define wxhLABEL_DEFAULT        "Default"
+
+/* CheckBox 3 states */
+#define wxCHK_UNCHECKED         0
+#define wxCHK_CHECKED           1
+#define wxCHK_UNDETERMINED      2
 
 /*
   MessageBox
@@ -237,7 +244,7 @@
 
 /*
  * Button
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 #xcommand @ BUTTON [<label>] ;
             [ VAR <btn> ] ;
@@ -263,6 +270,72 @@
 #xcommand @ BUTTON [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
           => ;
           @ BUTTON [<btnclauses>] ;;
+          @ SIZERINFO [<wxsizerclauses>]
+
+/*
+ * CheckBox
+ * Teo. Mexico 2009
+ */
+#xcommand @ CHECKBOX <dataVar> [ LABEL <label> ] ;
+            [ VAR <checkBox> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <checkBox> := ]wxh_CheckBox( ;
+            [<window>],;
+            [<id>],;
+            [<label>],;
+            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ CHECKBOX [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+          => ;
+          @ CHECKBOX [<btnclauses>] ;;
+          @ SIZERINFO [<wxsizerclauses>]
+
+/*
+ * RadioBox
+ * Teo. Mexico 2009
+ */
+#xcommand @ RADIOBOX <dataVar> [ LABEL <label> ] ;
+            [ ITEMS <choices> ] ;
+            [ MAJORDIM <majorDimension> ] ;
+            [ VAR <radioBox> ] ;
+            [ ON <parent> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <radioBox> := ]wxh_RadioBox( ;
+            [<parent>],;
+            [<id>],;
+            [<label>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<choices>],;
+            [<majorDimension>],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
+            [<{bAction}>] )
+
+#xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+          => ;
+          @ RADIOBOX [<btnclauses>] ;;
           @ SIZERINFO [<wxsizerclauses>]
 
 /*
@@ -397,7 +470,7 @@
 
 /*
   ScrollBar
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 #xcommand @ SCROLLBAR <orient: HORIZONTAL, VERTICAL>;
             [ VAR <sb> ] ;
@@ -427,7 +500,7 @@
 
 /*
   StaticLine
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 #xcommand @ STATICLINE <orient: HORIZONTAL, VERTICAL>;
             [ VAR <sl> ] ;
@@ -468,7 +541,7 @@
 
 /*
  * TreeCtrl
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 #xcommand @ TREECTRL [<label>] ;
             [ VAR <btn> ] ;

@@ -314,9 +314,10 @@ METHOD PROCEDURE AddMessageField( MessageName, AField ) CLASS TTable
     RETURN
   ENDIF
 
-  MessageName := ::FieldNamePrefix + MessageName
+  //MessageName := ::FieldNamePrefix + MessageName
+  //EXTEND OBJECT Self WITH MESSAGE MessageName INLINE ::FFieldList[n]
 
-  EXTEND OBJECT Self WITH MESSAGE MessageName INLINE ::FFieldList[n]
+  EXTEND OBJECT Self WITH MESSAGE ::FieldNamePrefix + MessageName INLINE ::FieldByName( MessageName )
 
 RETURN
 
