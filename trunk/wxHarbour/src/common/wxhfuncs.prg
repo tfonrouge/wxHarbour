@@ -192,21 +192,21 @@ RETURN checkBox
   Teo. Mexico 2009
 */
 FUNCTION wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet, bAction )
-  LOCAL checkBox
+  LOCAL radioBox
 
   IF parent = NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  checkBox := wxHBRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet )
+  radioBox := wxHBRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet )
 
   IF bAction != NIL
-    checkBox:ConnectCommandEvt( checkBox:GetID(), wxEVT_COMMAND_CHECKBOX_CLICKED, bAction )
+    radioBox:ConnectCommandEvt( radioBox:GetID(), wxEVT_COMMAND_RADIOBOX_SELECTED, bAction )
   ENDIF
 
-  containerObj():SetLastChild( checkBox )
+  containerObj():SetLastChild( radioBox )
 
-RETURN checkBox
+RETURN radioBox
 
 /*
   wxh_Dialog
