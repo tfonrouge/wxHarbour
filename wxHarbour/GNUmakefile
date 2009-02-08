@@ -141,6 +141,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhpanel.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
+	$(__BUILDDIR__)/wxHarbour_wxchoice.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
@@ -196,6 +197,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_app.o \
 	$(__BUILDDIR__)/wxHarbour_wx_commandevent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_controlwithitems.o \
 	$(__BUILDDIR__)/wxHarbour_wx_event.o \
 	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
 	$(__BUILDDIR__)/wxHarbour_wx_focusevent.o \
@@ -209,6 +211,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_notebook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_button.o \
 	$(__BUILDDIR__)/wxHarbour_wx_checkbox.o \
+	$(__BUILDDIR__)/wxHarbour_wx_choice.o \
 	$(__BUILDDIR__)/wxHarbour_wx_radiobox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statictext.o \
@@ -413,6 +416,9 @@ $(__BUILDDIR__)/wxHarbour_wxhstatusbar.o: ./src/wxbase/advctrls/wxhstatusbar.prg
 $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -578,6 +584,9 @@ $(__BUILDDIR__)/wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
 $(__BUILDDIR__)/wxHarbour_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)/wxHarbour_wx_controlwithitems.o: ./src/wxbase/baseclasses/wx_controlwithitems.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)/wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -615,6 +624,9 @@ $(__BUILDDIR__)/wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_checkbox.o: ./src/wxbase/controls/wx_checkbox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_choice.o: ./src/wxbase/controls/wx_choice.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_radiobox.o: ./src/wxbase/controls/wx_radiobox.cpp

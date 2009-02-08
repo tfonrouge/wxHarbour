@@ -19,10 +19,42 @@
 */
 CLASS wxControlWithItems FROM wxControl
 PRIVATE:
+  METHOD Append1( string )
+  METHOD Append2( arrayOfStrings )
 PROTECTED:
 PUBLIC:
+  METHOD Append
+  METHOD Clear
+  METHOD Delete( n )
+  METHOD FindString( string, caseSensitive )
+  METHOD GetCount
+  METHOD GetSelection
+  METHOD GetString( n )
+  METHOD GetStrings
+  METHOD GetStringSelection
+  METHOD Insert( item, pos )
+  METHOD IsEmpty
+  METHOD Select( n ) INLINE ::SetSelection( n )
+  METHOD SetSelection( n )
+  METHOD SetString( n, string )
+  METHOD SetStringSelection( string )
 PUBLISHED:
 ENDCLASS
+
+/*
+  Append
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION Append( p1 ) CLASS wxControlWithItems
+  LOCAL Result
+
+  IF HB_IsString( p1 )
+    Result := ::Append1( p1 )
+  ELSEIF HB_IsArray( p1 )
+    ::Append2( p1 )
+  ENDIF
+
+RETURN Result
 
 /*
   End Class wxControlWithItems

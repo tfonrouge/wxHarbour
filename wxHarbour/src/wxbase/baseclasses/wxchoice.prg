@@ -11,7 +11,7 @@
 */
 
 /*
-  wxRadioBox
+  wxChoice
   Teo. Mexico 2009
 */
 
@@ -20,37 +20,36 @@
 #include "wx.ch"
 
 /*
-  wxRadioBox
+  wxChoice
   Teo. Mexico 2009
 */
-CLASS wxRadioBox FROM wxControlWithItems
+CLASS wxChoice FROM wxControlWithItems
 PRIVATE:
 PROTECTED:
 PUBLIC:
 
-  CONSTRUCTOR New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+  CONSTRUCTOR New( parent, id, pos, size, choices, style, validator, name )
 
-  METHOD GetSelection
-  METHOD SetSelection( n )
+  METHOD GetCurrentSelection
 
 PUBLISHED:
 ENDCLASS
 
 /*
-  EndClass wxRadioBox
+  EndClass wxChoice
 */
 
 /*
-  wxHBRadioBox
+  wxHBChoice
   Teo. Mexico 2009
 */
-CLASS wxHBRadioBox FROM wxRadioBox
+CLASS wxHBChoice FROM wxChoice
 PRIVATE:
   DATA FWXHGet
   METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet )
+  CONSTRUCTOR New( parent, id, pos, size, choices, style, validator, name, wxhGet )
   PROPERTY WXHGet READ FWXHGet
 PUBLISHED:
 ENDCLASS
@@ -59,20 +58,16 @@ ENDCLASS
   New
   Teo. Mexico 2009
 */
-METHOD New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet ) CLASS wxHBRadioBox
+METHOD New( parent, id, pos, size, choices, style, validator, name, wxhGet ) CLASS wxHBChoice
 
   IF choices = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
 
-  Super:New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+  Super:New( parent, id, pos, size, choices, style, validator, name )
 
   IF name = NIL
     ::SetName( wxhGet:Name )
-  ENDIF
-
-  IF label = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL .AND. wxhGet:Field:Label != NIL
-    ::SetLabel( wxhGet:Field:Label )
   ENDIF
 
   ::FWXHGet := wxhGet
@@ -80,7 +75,7 @@ METHOD New( parent, id, label, point, size, choices, majorDimension, style, vali
   ::SetSelection( ::FWXHGet:GetSelection() )
 
   /* the update to VAR event */
-  ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
+  ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
 
 RETURN Self
 
@@ -88,14 +83,14 @@ RETURN Self
   UpdateVar
   Teo. Mexico 2009
 */
-METHOD PROCEDURE UpdateVar( event ) CLASS wxHBRadioBox
+METHOD PROCEDURE UpdateVar( event ) CLASS wxHBChoice
   LOCAL value
 
   IF ::FWXHGet == NIL
     RETURN
   ENDIF
 
-  IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
+  IF event:GetEventType() = wxEVT_COMMAND_CHOICE_SELECTED
     value := ::FWXHGet:GetKeyValue( ::GetSelection() )
     IF value != NIL
       ::FWXHGet:Block:Eval( value )
@@ -105,5 +100,5 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxHBRadioBox
 RETURN
 
 /*
-  End Class wxHBRadioBox
+  End Class wxHBChoice
 */

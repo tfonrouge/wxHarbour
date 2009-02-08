@@ -339,6 +339,38 @@
           @ SIZERINFO [<wxsizerclauses>]
 
 /*
+ * Choice
+ * Teo. Mexico 2009
+ */
+#xcommand @ CHOICE <dataVar> ;
+            [ ITEMS <choices> ] ;
+            [ VAR <choice> ] ;
+            [ ON <parent> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <choice> := ]wxh_Choice( ;
+            [<parent>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<choices>],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
+            [<{bAction}>] )
+
+#xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+          => ;
+          @ CHOICE [<btnclauses>] ;;
+          @ SIZERINFO [<wxsizerclauses>]
+
+/*
   Notebook|Listbook
 */
 #xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> ;

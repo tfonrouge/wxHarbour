@@ -451,7 +451,7 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
       ENDIF
       EXIT
     CASE 'H'
-      IF AScan( hb_HKeys( ::ValidValues ), {|e| e == Value } ) = 0
+      IF AScan( HB_HKeys( ::ValidValues ), {|e| e == Value } ) = 0
         RETURN .F.
       ENDIF
       EXIT

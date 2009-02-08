@@ -1071,10 +1071,6 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL MessageName
   LOCAL AField
 
-  IF ::FRDOClient != NIL
-    AltD()
-  ENDIF
-
   IF ::FDisplayFields = NIL
 
     IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] = NIL
@@ -1307,10 +1303,6 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD FUNCTION Open CLASS TTable
-
-  IF ::FRDOClient != NIL
-    AltD()
-  ENDIF
 
   /*!
   * Make sure that database is open here

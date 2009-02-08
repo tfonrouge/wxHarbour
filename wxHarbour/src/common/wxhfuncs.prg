@@ -209,6 +209,27 @@ FUNCTION wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, 
 RETURN radioBox
 
 /*
+  wxh_Choice
+  Teo. Mexico 2009
+*/
+FUNCTION wxh_Choice( parent, id, point, size, choices, style, validator, name, wxhGet, bAction )
+  LOCAL choice
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  choice := wxHBChoice():New( parent, id, point, size, choices, style, validator, name, wxhGet )
+
+  IF bAction != NIL
+    choice:ConnectCommandEvt( choice:GetID(), wxEVT_COMMAND_CHOICE_SELECTED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( choice )
+
+RETURN choice
+
+/*
   wxh_Dialog
   Teo. Mexico 2008
 */
