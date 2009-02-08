@@ -31,6 +31,10 @@ PUBLIC:
 
   METHOD AsString
 
+  METHOD GetChoices             /* returns a array of values */
+  METHOD GetKeyValue            /* returns key of ValidValues on TField (if any) */
+  METHOD GetSelection           /* returns numeric index of ValidValues on TField (if any) */
+
   PROPERTY Block READ FBlock
   PROPERTY Field READ FField
   PROPERTY Name READ FName
@@ -67,6 +71,106 @@ METHOD FUNCTION AsString CLASS wxhGET
     value := AsString( ::FBlock:Eval() )
   ENDIF
 RETURN value
+
+/*
+  GetChoices
+  Teo. Mexico 2009
+*/
+METHOD GetChoices CLASS wxhGET
+  LOCAL Result
+  LOCAL itm
+
+  IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+
+    SWITCH ValType( ::FField:ValidValues )
+    CASE 'A'
+      Result := {}
+      FOR EACH itm IN ::FField:ValidValues
+        IF HB_IsArray( itm )
+          AAdd( Result, itm[ 1 ] )
+        ELSE
+          AAdd( Result, itm )
+        ENDIF
+      NEXT
+      EXIT
+    CASE 'H'
+      Result := {}
+      FOR EACH itm IN ::FField:ValidValues
+        AAdd( Result, itm:__enumValue() )
+      NEXT
+      EXIT
+    END
+
+  ENDIF
+
+RETURN Result
+
+/*
+  GetKeyValue
+  Teo. Mexico 2009
+*/
+METHOD GetKeyValue( n ) CLASS wxhGET
+  LOCAL itm
+
+  IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+
+    SWITCH ValType( ::FField:ValidValues )
+    CASE 'A'
+      IF n > 0 .AND. n <= Len( ::FField:ValidValues )
+        itm := ::FField:ValidValues[ n ]
+        IF HB_IsArray( itm )
+          RETURN itm[ 1 ]
+        ELSE
+          RETURN itm
+        ENDIF
+      ENDIF
+      EXIT
+    CASE 'H'
+      itm := HB_HKeys( ::FField:ValidValues )
+      IF n > 0 .AND. n <= len( itm )
+        RETURN itm[ n ]
+      ENDIF
+      EXIT
+    END
+
+  ENDIF
+
+RETURN NIL
+
+/*
+  GetSelection
+  Teo. Mexico 2009
+*/
+METHOD GetSelection CLASS wxhGET
+  LOCAL n := 0
+  LOCAL itm
+  LOCAL key
+
+  key := ::FBlock:Eval()
+
+  IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+
+    SWITCH ValType( ::FField:ValidValues )
+    CASE 'A'    /* Array */
+      FOR EACH itm IN ::FField:ValidValues
+        IF HB_IsArray( itm )
+          IF ValType( itm[ 1 ] ) == ValType( key ) .AND. itm[ 1 ] == key
+            RETURN itm:__enumIndex()
+          ENDIF
+        ELSE
+        ENDIF
+      NEXT
+      EXIT
+    CASE 'H'    /* Hash */
+      n := HB_HScan( ::FField:ValidValues, key )
+      EXIT
+    OTHERWISE
+      EXIT
+    END
+
+  ENDIF
+
+RETURN n
 
 /*
   End Class wxGET
