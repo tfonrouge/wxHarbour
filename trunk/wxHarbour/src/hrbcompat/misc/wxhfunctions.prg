@@ -14,3 +14,5 @@
 #include "property.ch"
 
 #include "wxharbour.ch"
+
+REQUEST wxGetApp

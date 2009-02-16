@@ -182,18 +182,26 @@ RETURN n
 CLASS wxHBTextCtrl FROM wxTextCtrl
 PRIVATE:
   DATA FWXHGet
+  DATA dontUpdateVar INIT .F.
   METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
+  DATA Picture
+  DATA WarnBlock
+
   CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
+
   METHOD PickList
+
+  PROPERTY WXHGet READ FWXHGet
+
 PUBLISHED:
 ENDCLASS
 
 /*
   New
 */
-METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTextCtrl
+METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip ) CLASS wxHBTextCtrl
 
   Super:New( window, id, RTrim( wxhGet:AsString() ), pos, size, style, validator, name )
 
@@ -205,7 +213,23 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name ) CLASS wxHBTe
   ::FWXHGet := wxhGet
 
   /* the update to VAR event */
-  ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event| ::UpdateVar( event ) } )
+  ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event|  event:GetEventObject():UpdateVar( event ) } )
+
+  IF picture != NIL
+    ::Picture := picture
+  ENDIF
+
+  IF warn != NIL
+    ::WarnBlock := warn
+  ENDIF
+
+  IF ::FWXHGet != NIL .AND. ::FWXHGet:Field != NIL .AND. HB_IsBlock( ::FWXHGet:Field:GetItPick )
+    ::ConnectMouseEvt( ::GetId(), wxEVT_LEFT_DCLICK, {|event| event:GetEventObject():PickList() } )
+  ENDIF
+
+  IF toolTip != NIL
+    ::SetToolTip( toolTip )
+  ENDIF
 
 RETURN Self
 
@@ -222,9 +246,10 @@ METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   ENDIF
 
   parentWnd := ::GetParent()
-  ? "parentWnd, textCtrl:",parentWnd:ObjectH, ::ObjectH
 
+  ::dontUpdateVar := .T.
   ::FWXHGet:Field:GetItDoPick( parentWnd )
+  ::dontUpdateVar := .F.
 
   s := RTrim( ::FWXHGet:Field:Value )
 
@@ -241,11 +266,12 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
-  IF ::FWXHGet == NIL
+  IF ::FWXHGet == NIL .OR. ::dontUpdateVar
     RETURN
   ENDIF
   IF event:GetEventType() = wxEVT_KILL_FOCUS
     ::FWXHGet:Block:Eval( ::GetValue() )
+    ::SetValue( RTrim( ::FWXHGet:Block:Eval() ) )
   ENDIF
 RETURN
 

@@ -99,3 +99,12 @@ HB_FUNC( WXEVTHANDLER_CONNECTGRIDEVT )
 {
   Connect( WXH_GRIDEVENT );
 }
+
+/*
+  ConnectMouseEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTMOUSEEVT )
+{
+  Connect( WXH_MOUSEEVENT );
+}

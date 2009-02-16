@@ -409,7 +409,7 @@ RETURN NIL
 */
 METHOD FUNCTION GetItDoPick( param ) CLASS TField
 
-  IF ::FGetItPick = NIL .OR. !HB_IsBlock( ::FGetItPick )
+  IF !HB_IsBlock( ::FGetItPick )
     RETURN NIL
   ENDIF
 
@@ -428,17 +428,17 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
   ENDIF
 
   IF ::FRequired .AND. Empty( Value )
-    Alert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
+    wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
     RETURN .F.
   ENDIF
 
   IF ::Unique
     IF Empty( Value )
-      Alert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
+      wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
       RETURN .F.
     ENDIF
     IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
-      Alert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( Value ) + "'")
+      wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( Value ) + "'")
       RETURN .F.
     ENDIF
   ENDIF
@@ -460,7 +460,7 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
     #else
     OTHERWISE
     #endif
-      Alert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( Value ) + "'")
+      wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( Value ) + "'")
     ENDSWITCH
   ENDIF
 
@@ -501,7 +501,7 @@ METHOD PROCEDURE Reset CLASS TField
 
 #ifdef _DEBUG_
     IF ::FDefaultValue != NIL
-      Alert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
+      wxhAlert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
     ENDIF
 #endif
   ELSE
@@ -726,7 +726,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
   /* Check if field is a masterkey in child tables */
   IF ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
     IF ::FTable:HasChilds()
-      Alert( "Can't modify key <"+::FName+"> with "+Value+";Has dependant child tables.")
+      wxhAlert( "Can't modify key <"+::FName+"> with "+Value+";Has dependant child tables.")
       RETURN
     ENDIF
   ENDIF

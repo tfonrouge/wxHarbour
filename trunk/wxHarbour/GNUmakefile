@@ -149,6 +149,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhgridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhmouseevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhwindow.o \
@@ -255,7 +256,6 @@ WXHARBOUR_HEADERS =  \
 	include/defs.h \
 	include/rdodefs.h \
 	include/wxh.h \
-	include/wxh_scopelist.h \
 	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
 	include/wxh/textctrl.ch
@@ -438,6 +438,9 @@ $(__BUILDDIR__)/wxHarbour_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg

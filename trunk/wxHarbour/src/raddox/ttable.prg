@@ -655,7 +655,7 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
 
   IF ::HasChilds()
     IF !lDeleteChilds == .T.
-      Alert("Error_Table_Has_Childs")
+      wxhAlert("Error_Table_Has_Childs")
       RETURN .F.
     ENDIF
     IF !::DeleteChilds()

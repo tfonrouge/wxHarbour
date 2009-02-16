@@ -229,6 +229,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
     case WXH_COMMANDEVENT:
       objFunc = wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent );
       break;
+    case WXH_MOUSEEVENT:
+      objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
+      break;
     default:
       objFunc = NULL;
   }

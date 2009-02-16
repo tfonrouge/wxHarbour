@@ -26,6 +26,7 @@ CLASS wxEvent FROM wxObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  METHOD GetEventObject
   METHOD GetEventType
   METHOD GetId
   METHOD Skip( skip )
