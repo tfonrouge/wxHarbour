@@ -2,6 +2,9 @@
  *
  */
 
+2009-02-16 14:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/wxbase/baseclasses/wxhmouseevent.prg
+
 2009-02-16 14:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * include/property.ch
