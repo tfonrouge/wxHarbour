@@ -368,7 +368,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 #else
   OTHERWISE
 #endif
-    Alert("! : Not a Valid Field Identifier...")
+    wxhAlert("! : Not a Valid Field Identifier...")
     RETURN
   END
 

@@ -20,6 +20,23 @@
 #include "wxh.h"
 
 /*
+  wxEvent::GetEventObject
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXEVENT_GETEVENTOBJECT )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( pSelf );
+
+  if( event )
+  {
+    PHB_ITEM pObject = wxh_ItemListGet_HB( event->GetEventObject() );
+    if( pObject )
+      hb_itemReturn( pObject );
+  }
+}
+
+/*
   wxEvent::GetEventType
   Teo. Mexico 2008
 */

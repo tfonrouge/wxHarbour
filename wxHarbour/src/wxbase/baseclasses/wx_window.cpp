@@ -305,6 +305,17 @@ HB_FUNC( WXWINDOW_SETSIZER )
   }
 }
 
+HB_FUNC( WXWINDOW_SETTOOLTIP )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+
+  if( wnd )
+  {
+    wnd->SetToolTip( wxh_parc( 1 ) );
+  }
+}
+
 HB_FUNC( WXWINDOW_SHOW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();

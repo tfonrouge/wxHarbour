@@ -296,7 +296,7 @@ RETURN oWnd
  * wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name )
+FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip )
   LOCAL Result
 
   IF window = NIL
@@ -311,7 +311,7 @@ FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, na
     ENDIF
   ENDIF
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip )
 
   containerObj():SetLastChild( Result )
 
@@ -524,7 +524,7 @@ PROCEDURE wxh_SetSizer( window, sizer )
   NEXT
 
   IF IsWindowBook
-    Alert( "Sizer cannot be a direct child of a " + window:ClassName() + " control.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
+    wxhAlert( "Sizer cannot be a direct child of a " + window:ClassName() + " control.;Check your Sizer definition at line " + LTrim(Str(ProcLine(2))) + " on " + ProcName( 2 ) )
   ENDIF
 
   window:SetSizer( sizer )
@@ -606,7 +606,7 @@ PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorde
   ENDIF
 
   IF parentSizer = NIL
-    //Alert( "No parent Sizer available.", {"QUIT"})
+    //wxhAlert( "No parent Sizer available.", {"QUIT"})
     //TRACE "Child:", child:ClassName, "No parent Sizer available"
     RETURN
   ENDIF
@@ -679,7 +679,7 @@ PROCEDURE wxh_Spacer( width, height, strech, align, border )
   lastSizer := containerObj():LastSizer()
 
   IF lastSizer == NIL
-    Alert( "No Sizer available to add a Spacer",{"QUIT"})
+    wxhAlert( "No Sizer available to add a Spacer",{"QUIT"})
     RETURN
   ENDIF
 
@@ -918,7 +918,7 @@ METHOD PROCEDURE AddToNextBookPage( hInfo ) CLASS TContainerObj
   NEXT
 
   IF !IsParentBook
-    Alert( "Previuos page not a " + bookCtrl + " control" )
+    wxhAlert( "Previuos page not a " + bookCtrl + " control" )
     RETURN
   ENDIF
 
@@ -935,7 +935,7 @@ METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
     AAdd( ::FMainContainerStack, {} )
   ENDIF
   IF parent == NIL
-    Alert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
+    wxhAlert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
     ::QUIT()
   ENDIF
   AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL } } )
@@ -1031,7 +1031,7 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
   /* do some checking */
   IF className != NIL
     IF !Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) == Upper( className )
-      Alert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
+      wxhAlert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
       ::QUIT()
     ENDIF
   ENDIF
@@ -1050,7 +1050,7 @@ METHOD PROCEDURE RemoveLastSizer CLASS TContainerObj
   LOCAL a
   a := ATail( ::ParentList )[ "sizers" ]
   IF Empty( a )
-    Alert("Attempt to remove a Sizer on a empty sizers stack.",{"QUIT"})
+    wxhAlert("Attempt to remove a Sizer on a empty sizers stack.",{"QUIT"})
     //::QUIT()
   ENDIF
   ::SizerAddOnLastChild()

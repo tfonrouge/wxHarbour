@@ -461,8 +461,7 @@
             [ NAME <name> ] ;
             [ PICTURE <picture> ] ;
             [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
-            [ HELP <help> ] ;
-            [ HELPLINE <helpLine> ] ;
+            [ TOOLTIP <toolTip> ] ;
             [ <refreshAll: REFRESH ALL> ] ;
           => ;
           [<var> :=] wxh_Get(;
@@ -477,8 +476,7 @@
             [<name>],;
             [<picture>],;
             [{<{warnWhen}>,<warnMsg>}],;
-            [<{help}>],;
-            [<{helpLine}>],;
+            [<{toolTip}>],;
             [<.refreshAll.>] )
 
 #xcommand @ GET [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
@@ -490,14 +488,21 @@
           => ;
           BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
           @ SAY [<sayclauses>] STYLE RIGHT ;;
-          @ GET [<getclauses>] ;;
+          @ GET [<getclauses>] SIZERINFO STRETCH ;;
           END SIZER
 
 #xcommand @ SAY ABOVE [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
           BEGIN BOXSIZER VERTICAL ALIGN EXPAND ;;
-          @ SAY [<sayclauses>] ;;
-          @ GET [<getclauses>] ;;
+          @ SAY [<sayclauses>] SIZERINFO ALIGN LEFT ;;
+          @ GET [<getclauses>] SIZERINFO ALIGN EXPAND ;;
+          END SIZER
+
+#xcommand @ SAY [<sayclauses,...>] CHOICE [<choiceclauses,...>] ;
+          => ;
+          BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
+          @ SAY [<sayclauses>] STYLE RIGHT ;;
+          @ CHOICE [<choiceclauses>] ;;
           END SIZER
 
 /*

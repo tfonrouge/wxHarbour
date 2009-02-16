@@ -45,7 +45,7 @@ FUNCTION AddRec(nrec,index)
     InKey(.5) //** Espera 1/2 segundo
 
     IF LastKey()==K_ESC .AND. ;
-      Alert( "Si cancela, el Sistema puede no completar el proceso iniciado;" + ;
+      wxhAlert( "Si cancela, el Sistema puede no completar el proceso iniciado;" + ;
              "*;" + ;
              "Puede verificar que otro usuario, en otra estacion de trabajo;" + ;
              "no tenga detenido algun proceso inadvertidamente (o no).;" + ;
@@ -343,7 +343,7 @@ FUNCTION RecLock(nr,n)
 
   IF nr>lastrec()
     //mess_open("!","Locking error: End Of File...",-1,C_ERROR,,0)
-    Alert( "Locking error: End of file..." )
+    wxhAlert( "Locking error: End of file..." )
     RETURN .F.
   ENDIF
   IF IsLocked(nr)
@@ -359,7 +359,7 @@ FUNCTION RecLock(nr,n)
     DbGoTo(n)
     InKey(.5) //** Espera 1/2 segundo
     IF LastKey()==K_ESC .AND. ;
-      Alert( "Si cancela, el Sistema puede no completar el proceso iniciado;" + ;
+      wxhAlert( "Si cancela, el Sistema puede no completar el proceso iniciado;" + ;
              "*;" + ;
              "Puede verificar que otro usuario, en otra estacion de trabajo;" + ;
              "no tenga detenido algun proceso inadvertidamente (o no).;" + ;

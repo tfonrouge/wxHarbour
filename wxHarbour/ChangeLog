@@ -2,6 +2,27 @@
  *
  */
 
+2009-02-16 14:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/property.ch
+  * include/wxharbour.ch
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  * src/common/wxhfuncs.prg
+  * src/common/wxhutils.prg
+  * src/hrbcompat/misc/wxGET.prg
+  * src/hrbcompat/misc/wxhfunctions.prg
+  * src/raddox/dba.prg
+  * src/raddox/tfield.prg
+  * src/raddox/tindex.prg
+  * src/raddox/ttable.prg
+  * src/wxbase/baseclasses/wx_event.cpp
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+  * src/wxbase/baseclasses/wxhevent.prg
+  * src/wxbase/baseclasses/wxhevthandler.prg
+  * src/wxbase/baseclasses/wxhwindow.prg
+  * src/wxbase/baseclasses/wx_window.cpp
+
 2009-02-08 11:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   + include/wxbase/wx_choice.h

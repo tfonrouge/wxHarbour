@@ -532,3 +532,18 @@ FUNCTION SwapToken( cString, cDelims, nOccur, cSwapStr )
   TokenExit()
 
 RETURN cString
+
+/*
+  wxhAlert
+  Teo. Mexico 2009
+*/
+FUNCTION wxhAlert( cMessage, aOptions )
+  LOCAL Result := 0
+
+  IF wxGetApp() = NIL
+    Alert( cMessage, aOptions )
+  ELSE
+    wxMessageBox( cMessage, "Message", aOptions )
+  ENDIF
+
+RETURN Result

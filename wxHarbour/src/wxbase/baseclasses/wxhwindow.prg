@@ -44,6 +44,7 @@ PUBLIC:
   METHOD SetLabel( label )
   METHOD SetName( name )
   METHOD SetSizer( sizer, deleteOld )
+  METHOD SetToolTip
   METHOD Show( Value /* defaults to TRUE */ )
 PUBLISHED:
 ENDCLASS
