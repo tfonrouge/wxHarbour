@@ -2,6 +2,11 @@
  *
  */
 
+2009-02-18 15:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/property.ch
+    * changed PUBLISHED to use PUBLIC scope
+    * PERSISTENT must be explicitly declared on DATA's
+
 2009-02-16 14:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/baseclasses/wxhmouseevent.prg
 
