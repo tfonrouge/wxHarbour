@@ -2,6 +2,15 @@
  *
  */
 
+2009-02-28 11:10 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/wxbase/baseclasses/wx_object.cpp
+  * tests/test1/test1.prg
+    % Optimizing the memory handling
+    ! Fixing memory leaks
+    ; work in progress
+
 2009-02-18 15:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/property.ch
     * changed PUBLISHED to use PUBLIC scope

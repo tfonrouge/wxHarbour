@@ -29,6 +29,7 @@ RETURN NIL
 */
 CLASS MyApp FROM wxApp
 PRIVATE:
+  DATA oWnd
 PROTECTED:
 PUBLIC:
   METHOD OnInit
@@ -44,12 +45,12 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  STATIC oWnd
+//   LOCAL oWnd
   LOCAL menuBar
   LOCAL menu
-  LOCAL sb
+//   LOCAL sb
 
-  CREATE FRAME oWnd ;
+  CREATE FRAME ::oWnd ;
          WIDTH 800 HEIGHT 600 ;
          TITLE "Menu Sample"
 
@@ -61,13 +62,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   menuBar:Append( menu, "Archivo" )
 
-  oWnd:SetMenuBar( menuBar )
+  ::oWnd:SetMenuBar( menuBar )
 
-  sb := wxStatusBar():New( oWnd )
+//   sb := wxStatusBar():New( ::oWnd )
 
-  oWnd:SetStatusBar( sb )
+//   ::oWnd:SetStatusBar( sb )
 
-  SHOW WINDOW oWnd
+  SHOW WINDOW ::oWnd
 
 RETURN .T.
 
