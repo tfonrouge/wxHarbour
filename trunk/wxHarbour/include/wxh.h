@@ -50,15 +50,24 @@ typedef struct _CONN_PARAMS
 /* PHB_ITEM key, wxObject* values */
 WX_DECLARE_HASH_MAP( PHB_ITEM, bool, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
 
-typedef struct _WXH_ITEM
+/*
+  wxh_Item class : Holds PHB_ITEM's and the wxObject associated
+*/
+class wxh_Item
 {
+public:
   wxObject* wxObj;
+  bool delete_WX;
   PHB_BASEARRAY objHandle;
   vector<PCONN_PARAMS> evtList;
   MAP_PHB_ITEM map_childList;
   MAP_PHB_ITEM map_refList;
   PHB_ITEM pSelf;
-} WXH_ITEM, *PWXH_ITEM;
+
+  wxh_Item() { delete_WX = true; }
+  ~wxh_Item();
+
+};
 
 class WXH_SCOPELIST
 {
@@ -87,9 +96,8 @@ wxSize        hb_par_wxSize( int param );
 wxArrayString hb_par_wxArrayString( int param );
 
 void          wxh_ItemListDel_WX( wxObject* wxObj );
-void          wxh_ItemListDel_HB( PHB_ITEM pSelf, bool lDeleteWxObj = FALSE );
-PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
-PWXH_ITEM     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
+wxh_Item*     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
+wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
@@ -128,7 +136,12 @@ public:
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler<T>()
 {
-  wxh_ItemListDel_WX( this );
+  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
+  if( pwxhItm )
+  {
+    pwxhItm->delete_WX = false;
+    delete pwxhItm;
+  }
 }
 
 /*
@@ -143,7 +156,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 
   wxhScopeList.PushObject( &event );
 
-  PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
+  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
 
   if( pwxhItm )
   {
@@ -161,8 +174,8 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
     }
   }
 
-  wxh_ItemListDel_HB( pEvent );
-  //hb_itemRelease( pEvent ); this has to be done on above line
+  //wxh_ItemListDel_HB( pEvent );
+  hb_itemRelease( pEvent ); //this has to be done on above line
 }
 
 /*
@@ -238,7 +251,7 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
   if( objFunc )
   {
-    PWXH_ITEM pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
+    wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
 
     if( pwxhItm )
     {

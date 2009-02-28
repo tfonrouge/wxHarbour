@@ -34,7 +34,14 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 
   /* As we are here, it means that there not exist another PHB_ITEM's of this HB class
      So, we just need to call the C++ destructor of this object */
-  wxh_ItemListDel_HB( pSelf, true );
+  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pSelf );
+
+  if( pwxhItm )
+  {
+    qout( "In wxh_ItemListDel_HB." );
+    delete pwxhItm;
+    qout( "Out wxh_ItemListDel_HB." );
+  }
 }
 
 /*
