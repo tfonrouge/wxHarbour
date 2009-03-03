@@ -114,8 +114,9 @@ WXH_SCOPELIST::WXH_SCOPELIST( PHB_ITEM pSelf )
   PushObject
   Teo. Mexico 2009
 */
-void WXH_SCOPELIST::PushObject( wxObject* wxObj )
+wxh_Item* WXH_SCOPELIST::PushObject( wxObject* wxObj )
 {
+  wxh_Item* pWxh_Item = NULL;
 
   /* checks for a valid new pSelf object */
   if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
@@ -125,27 +126,29 @@ void WXH_SCOPELIST::PushObject( wxObject* wxObj )
       lastTopLevelWindow = pSelf;
     }
 
-    wxh_Item* pwxhItm = new wxh_Item;
-    pwxhItm->wxObj = wxObj;
-    pwxhItm->objHandle = pSelf->item.asArray.value;
+    pWxh_Item = new wxh_Item;
+    pWxh_Item->wxObj = wxObj;
+    pWxh_Item->objHandle = pSelf->item.asArray.value;
 
     /* this object is the Harbour var created in the ::New() method
        and the Harbour programmer is responsible to keep it alive */
-    pwxhItm->pSelf = pSelf;
+    pWxh_Item->pSelf = pSelf;
 //     pwxhItm->pSelf = hb_itemNew( pSelf );
 
-    map_phbBaseArr[ pSelf->item.asArray.value ] = pwxhItm;
-    map_wxObject[ wxObj ] = pwxhItm;
+    map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
+    map_wxObject[ wxObj ] = pWxh_Item;
 
     /* add the Parent objects to the child/parent lists */
     while( map_paramList.size() > 0 )
     {
       qout("adding map_paramList");
       MAP_PHB_ITEM::iterator it = map_paramList.begin();
-      SetParentChildKey( pwxhItm, it->first, pSelf );
+      SetParentChildKey( pWxh_Item, it->first, pSelf );
       map_paramList.erase( it );
     }
   }
+
+  return pWxh_Item;
 }
 
 /*

@@ -79,7 +79,7 @@ public:
 
   WXH_SCOPELIST( PHB_ITEM pSelf );
 
-  void PushObject( wxObject* wxObj );
+  wxh_Item* PushObject( wxObject* wxObj );
 };
 
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
@@ -154,23 +154,28 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
   PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
   WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pEvent );
 
-  wxhScopeList.PushObject( &event );
+  wxh_Item* pWXHIE = wxhScopeList.PushObject( &event );
 
-  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
-
-  if( pwxhItm )
+  if( pWXHIE )
   {
+    pWXHIE->delete_WX = false;
+    wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( this );
 
-    for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
+    if( pwxhItm )
     {
-      PCONN_PARAMS pConnParams = *it;
-      if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
+
+      for( vector<PCONN_PARAMS>::iterator it = pwxhItm->evtList.begin(); it < pwxhItm->evtList.end(); it++ )
       {
-        if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
-        {
-          hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
-        }
+	PCONN_PARAMS pConnParams = *it;
+	if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
+	{
+	  if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
+	  {
+	    hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
+	  }
+	}
       }
+
     }
   }
 

@@ -2,6 +2,16 @@
  *
  */
 
+2009-03-03 12:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * samples/arrbrowser/arrbrowser.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/wxbase/sizers/wx_sizer.cpp
+    ; still work in progress
+    ; seems that this is the way
+    ; more testing.
+
 2009-03-03 09:26 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/arrbrowser/arrbrowser.prg

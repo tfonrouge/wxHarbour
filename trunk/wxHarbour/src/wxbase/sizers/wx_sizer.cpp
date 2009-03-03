@@ -60,12 +60,11 @@ static int ChkFlagInArray( int iParam )
 HB_FUNC( WXSIZER_ADD )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
   wxSizer* sizer = (wxSizer *) wxh_ItemListGet_WX( pSelf );
 
   if( ISOBJECT( 1 ) )
   {
-    wxObject* obj = (wxObject *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxObject* obj = (wxObject *) wxh_param_WX( 1 );
     if( obj->IsKindOf( CLASSINFO( wxWindow ) ) )
     {
       if( hb_pcount() == 2 )
@@ -73,23 +72,24 @@ HB_FUNC( WXSIZER_ADD )
         sizer->Add( (wxWindow *) obj, ChkFlagInArray( 2 ) ) ;
       else
         /*wxSizerItem* Add(wxWindow* window, int proportion = 0,int flag = 0, int border = 0, wxObject* userData = NULL)*/
-        sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) wxh_param_WX_Parent( 5, &wxhScopeList ) );
+        sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) wxh_param_WX( 5 ) );
     }
     else
       if( obj->IsKindOf( CLASSINFO( wxSizer ) ) )
       {
+	wxh_param_WX_Child( 1, pSelf );
         if( hb_pcount() == 2 )
           /*wxSizerItem* Add(wxSizer* sizer, const wxSizerFlags& flags)*/
           sizer->Add( (wxSizer *) obj, ChkFlagInArray( 2 ) ) ;
         else
           /*wxSizerItem* Add(wxSizer* sizer, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-          sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) wxh_param_WX_Parent( 5, &wxhScopeList ) );
+          sizer->Add( (wxSizer *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) wxh_param_WX( 5 ) );
       }
   }
   else
     if( ISNUM( 1 ) )
       /*wxSizerItem* Add(int width, int height, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-      sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) wxh_param_WX_Parent( 6, &wxhScopeList ) );
+      sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) wxh_param_WX( 6 ) );
 }
 
 /*
