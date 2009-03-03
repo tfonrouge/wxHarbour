@@ -181,6 +181,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 
+      wxh_ItemListDel_WX( &event );
       hb_itemRelease( pKeyEvent );
 
     }
