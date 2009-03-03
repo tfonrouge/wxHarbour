@@ -94,7 +94,10 @@ wxh_Item::~wxh_Item()
   }
 
   if( delete_WX )
+  {
+    qout("deleting wxObj...");
     delete this->wxObj;
+  }
 
 }
 
@@ -149,14 +152,16 @@ void WXH_SCOPELIST::PushObject( wxObject* wxObj )
   wxh_ItemListDel_WX
   Teo. Mexico 2009
 */
-void wxh_ItemListDel_WX( wxObject* wxObj )
+void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 {
   wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
   if( pwxhItm )
   {
     qout( "In wxh_ItemListDel_WX.");
+    pwxhItm->delete_WX = bDeleteWxObj;
     delete pwxhItm;
+    qout( "Out wxh_ItemListDel_WX.");
   }
 }
 
@@ -260,12 +265,16 @@ wxObject* wxh_param_WX( const int param )
 wxObject* wxh_param_WX_Child( const int param, PHB_ITEM pParentItm )
 {
   PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
-  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
 
-  if( pwxhItm && pParentItm )
+  if( pChildItm )
   {
-    SetParentChildKey( pwxhItm, pParentItm, pChildItm );
-    return pwxhItm->wxObj;
+    wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
+
+    if( pwxhItm && pParentItm )
+    {
+      SetParentChildKey( pwxhItm, pParentItm, pChildItm );
+      return pwxhItm->wxObj;
+    }
   }
 
   return NULL;

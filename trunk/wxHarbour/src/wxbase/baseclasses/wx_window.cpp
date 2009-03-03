@@ -294,10 +294,7 @@ HB_FUNC( WXWINDOW_SETSIZER )
 
   if( wnd )
   {
-//     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
     wxSizer* sizer = (wxSizer *) wxh_param_WX_Child( 1, pSelf );
-//     wxSizer* sizer = (wxSizer *) wxh_param_WX( 1 );
-
     if( sizer )
     {
       wnd->SetSizer( sizer, hb_parl( 2 ) );
