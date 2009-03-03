@@ -55,7 +55,6 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
   {
     HB_FUNC_EXEC( WXGRIDEVENT );
     PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
-//     PHB_ITEM pGridEvent = hb_stackReturnItem();
     WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pGridEvent );
 
     wxhScopeList.PushObject( &gridEvent );

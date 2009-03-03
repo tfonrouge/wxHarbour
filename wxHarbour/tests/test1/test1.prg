@@ -46,23 +46,40 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
 //   LOCAL oWnd
-  LOCAL menuBar
-  LOCAL menu
+//   LOCAL menuBar
+//   LOCAL menu
 //   LOCAL sb
 
   CREATE FRAME ::oWnd ;
          WIDTH 800 HEIGHT 600 ;
          TITLE "Menu Sample"
 
-  menuBar := wxMenubar():New()
-  menu := wxMenu():New()
+  DEFINE MENUBAR
+    DEFINE MENU "Program"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+    ENDMENU
+    DEFINE MENU "Program"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+      ADD MENUITEM "Option 1"
+    ENDMENU
+  ENDMENU
 
-  menu:Append( wxID_CLOSE, "Opcion 1" )
-  menu:Append( wxID_CLOSE, "Opcion 2" )
-
-  menuBar:Append( menu, "Archivo" )
-
-  ::oWnd:SetMenuBar( menuBar )
+//   menuBar := wxMenubar():New()
+//   menu := wxMenu():New()
+//
+//   menu:Append( wxID_CLOSE, "Opcion 1" )
+//   menu:Append( wxID_CLOSE, "Opcion 2" )
+//
+//   menuBar:Append( menu, "Archivo" )
+//
+//   ::oWnd:SetMenuBar( menuBar )
 
 //   sb := wxStatusBar():New( ::oWnd )
 

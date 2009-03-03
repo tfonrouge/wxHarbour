@@ -39,6 +39,7 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
   if( pwxhItm )
   {
     qout( "In wxh_ItemListDel_HB." );
+    qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
     delete pwxhItm;
     qout( "Out wxh_ItemListDel_HB." );
   }

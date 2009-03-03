@@ -92,11 +92,13 @@ HB_FUNC( WXFRAME_SETMENUBAR )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
 
-  wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Child( 1, pSelf );
-
-  if( frame && menuBar )
+  if( frame )
   {
-    frame->SetMenuBar( menuBar );
+    wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Child( 1, pSelf );
+    if( menuBar )
+    {
+      frame->SetMenuBar( menuBar );
+    }
   }
 }
 
