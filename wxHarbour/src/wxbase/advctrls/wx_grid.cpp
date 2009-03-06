@@ -179,7 +179,7 @@ HB_FUNC( WXGRID_GETTABLE )
     if( gridTable )
     {
       hb_itemReturn( wxh_ItemListGet_HB( gridTable ) );
-      qoutf( "%p", gridTable );
+      qoutf( "GetTable: %p", gridTable );
     }
   }
 }
