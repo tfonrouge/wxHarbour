@@ -2,6 +2,11 @@
  *
  */
 
+2009-03-06 17:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/hrbcompat/tbrowse/wx_gridbrowse.cpp
+  * src/wxbase/advctrls/wx_grid.cpp
+    * added forgotten sources in previous commit
+
 2009-03-06 17:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
     * locally changed to build with debug info (-ggdb)
