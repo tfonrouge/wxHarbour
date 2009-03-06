@@ -57,13 +57,13 @@ HB_FUNC( WXWINDOW_DESTROY )
 
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
   if( wnd )
   {
     long id = hb_parnl(1);
-    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
+    wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result = wnd->FindWindowById( id, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -72,13 +72,13 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
   if( wnd )
   {
     const wxString& label = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
+    wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result =  wnd->FindWindowByLabel( label, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -87,13 +87,13 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 
 HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
   if( wnd )
   {
     const wxString& name = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) wxh_param_WX( 2 );
+    wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result =  wnd->FindWindowByName( name, parent );
     if( result )
       hb_itemReturn( wxh_ItemListGet_HB( result ) );
@@ -114,9 +114,9 @@ HB_FUNC( WXWINDOW_GETFONT )
     wxFont *font = new wxFont( wnd->GetFont() );
     HB_FUNC_EXEC( WXFONT );
     PHB_ITEM pFont = hb_itemNew( hb_stackReturnItem() );
-    WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pFont );
+    wxh_ObjParams objParams = wxh_ObjParams( pFont );
     //wxh_ItemListAdd( font, pFont, NULL );
-    wxhScopeList.PushObject( font );
+    objParams.PushObject( font );
     //hb_itemReturnRelease( pFont );
     hb_itemReturn( pFont );
   }
@@ -208,12 +208,11 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
 
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  wx_Menu* menu = (wx_Menu *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wx_Menu* menu = (wx_Menu *) objParams.paramParent( 1 );
 
   if( !( wnd && menu ) )
   {
@@ -289,12 +288,12 @@ HB_FUNC( WXWINDOW_SETNAME )
 
 HB_FUNC( WXWINDOW_SETSIZER )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
   if( wnd )
   {
-    wxSizer* sizer = (wxSizer *) wxh_param_WX_Child( 1, pSelf );
+    wxSizer* sizer = (wxSizer *) objParams.paramChild( 1 );
     if( sizer )
     {
       wnd->SetSizer( sizer, hb_parl( 2 ) );

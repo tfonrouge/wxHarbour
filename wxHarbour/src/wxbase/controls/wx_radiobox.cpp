@@ -31,10 +31,9 @@ wx_RadioBox::~wx_RadioBox()
 
 HB_FUNC( WXRADIOBOX_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxString& label = wxh_parc( 3 );
   const wxPoint& pos = hb_par_wxPoint( 4 );
@@ -42,15 +41,15 @@ HB_FUNC( WXRADIOBOX_NEW )
   const wxArrayString& choices = hb_par_wxArrayString( 6 );
   int majorDimension = hb_parni( 7 );
   long style = hb_parnl( 8 );
-  const wxValidator& validator = ISNIL( 9 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 9, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 9 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 9 ))) ;
   const wxString& name = wxString( hb_parcx( 10 ), wxConvLocal );
 
   wx_RadioBox* radioBox = new wx_RadioBox( parent, id, label, pos, size, choices, majorDimension, style, validator, name );
 
   // Add object's to hash list
-  wxhScopeList.PushObject( radioBox );
+  objParams.PushObject( radioBox );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*

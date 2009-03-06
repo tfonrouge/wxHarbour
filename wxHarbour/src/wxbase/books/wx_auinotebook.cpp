@@ -39,14 +39,13 @@ wx_AuiNotebook::~wx_AuiNotebook()
 */
 HB_FUNC( WXAUINOTEBOOK_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_AuiNotebook* auiNotebook;
 
   if( hb_pcount() )
   {
-    wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
@@ -57,10 +56,10 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
     auiNotebook = new wx_AuiNotebook();
 
   // Add object's to hash list
-//   wxh_ItemListAdd( auiNotebook, pSelf, wxhScopeList );
-  wxhScopeList.PushObject( auiNotebook );
+//   wxh_ItemListAdd( auiNotebook, pSelf, objParams );
+  objParams.PushObject( auiNotebook );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -69,14 +68,13 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
 */
 HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
-  //const wxBitmap& bitmap = wxh_param_WX_Parent( 4 );
+  //const wxBitmap& bitmap = objParam.paramParent( 4 );
   if( auiNotebook )
   {
-    wxWindow* page = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxWindow* page = (wxWindow *) objParams.paramParent( 1 );
     if( page )
     {
       bool select = ISNIL( 3 ) ? false : hb_parl( 3 );

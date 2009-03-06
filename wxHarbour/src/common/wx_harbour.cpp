@@ -31,31 +31,11 @@ static MAP_WXOBJECT map_wxObject;
 static PHB_ITEM lastTopLevelWindow;
 
 /*
-  SetParentChildKey
-  Teo. Mexico 2009
-*/
-static void SetParentChildKey( wxh_Item* pwxhItm, PHB_ITEM pParentItm, PHB_ITEM pChildItm )
-{
-  wxh_Item* pwxhParentItm = wxh_ItemListGet_PWXH_ITEM( pParentItm );
-  wxh_Item* pwxhChildItm;
-
-  if( pwxhParentItm )
-  {
-    PHB_ITEM pRefItm = hb_itemNew( pChildItm );
-
-    pwxhItm->map_refList[ pRefItm ] = true;
-    pwxhParentItm->map_childList[ pRefItm ] = true;
-    pwxhChildItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
-  }
-}
-
-/*
   destructor
   Teo. Mexico 2009
 */
 wxh_Item::~wxh_Item()
 {
-
   map_phbBaseArr.erase( this->objHandle );
   map_wxObject.erase( this->wxObj  );
 
@@ -95,7 +75,6 @@ wxh_Item::~wxh_Item()
 
   if( delete_WX )
   {
-    qout("deleting wxObj...");
     delete this->wxObj;
   }
 
@@ -105,18 +84,130 @@ wxh_Item::~wxh_Item()
   constructor
   Teo. Mexico 2009
 */
-WXH_SCOPELIST::WXH_SCOPELIST( PHB_ITEM pSelf )
+wxh_ObjParams::wxh_ObjParams()
 {
-  this->pSelf = pSelf;
+//   hb_itemCopyFromRef( pSelf, hb_stackSelfItem() );
+//   pSelf = hb_itemNew( hb_stackSelfItem() );
+  /*hb_itemCopy( pSelf, hb_stackSelfItem() );*/
+  pSelf = hb_stackSelfItem();
+  pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
+}
+
+/*
+  constructor
+  Teo. Mexico 2009
+*/
+wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
+{
+  pSelf = pHbObj ;
+  pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
+}
+
+/*
+  destructor
+  Teo. Mexico 2009
+*/
+wxh_ObjParams::~wxh_ObjParams()
+{
+  ProcessParamLists();
+  //hb_itemRelease( pSelf );
+}
+
+/*
+  Get_wxObject
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::Get_wxObject()
+{
+  return wxh_ItemListGet_WX( pSelf );
+}
+
+/*
+  param
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::param( const int param )
+{
+  return wxh_param_WX( param );
+}
+
+/*
+  paramChild
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::paramChild( const int param )
+{
+  PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
+  wxObject* wxObj = NULL;
+
+  if( pChildItm )
+  {
+    wxObj = wxh_ItemListGet_WX( pChildItm );
+
+    if( wxObj )
+    {
+      map_paramListChild[ pChildItm ] = wxObj;
+    }
+  }
+
+  return wxObj;
+}
+
+/*
+  paramParent
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::paramParent( const int param )
+{
+  PHB_ITEM pParentItm = hb_param( param, HB_IT_OBJECT );
+  wxObject* wxObj = NULL;
+
+  if( pParentItm )
+  {
+    wxObj = wxh_ItemListGet_WX( pParentItm );
+
+    if( wxObj )
+    {
+      map_paramListParent[ pParentItm ] = wxObj;
+    }
+  }
+
+  return wxObj;
+}
+
+/*
+  ProcessParamLists
+  Teo. Mexico 2009
+*/
+void wxh_ObjParams::ProcessParamLists()
+{
+  /* add the Parent objects to the child/parent lists */
+  while( map_paramListParent.size() > 0 )
+  {
+    MAP_PHB_ITEM::iterator it = map_paramListParent.begin();
+    SetParentChildKey( it->first, pSelf );
+    map_paramListParent.erase( it );
+  }
+
+  /* add the Child objects to the child/parent lists */
+#if 1
+  while( map_paramListChild.size() > 0 )
+  {
+    MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
+    SetParentChildKey( pSelf, it->first );
+    map_paramListChild.erase( it );
+  }
+#endif
+
 }
 
 /*
   PushObject
   Teo. Mexico 2009
 */
-wxh_Item* WXH_SCOPELIST::PushObject( wxObject* wxObj )
+void wxh_ObjParams::PushObject( wxObject* wxObj )
 {
-  wxh_Item* pWxh_Item = NULL;
+  pWxh_Item = NULL;
 
   /* checks for a valid new pSelf object */
   if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
@@ -133,23 +224,37 @@ wxh_Item* WXH_SCOPELIST::PushObject( wxObject* wxObj )
     /* this object is the Harbour var created in the ::New() method
        and the Harbour programmer is responsible to keep it alive */
     pWxh_Item->pSelf = pSelf;
-//     pwxhItm->pSelf = hb_itemNew( pSelf );
 
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
 
-    /* add the Parent objects to the child/parent lists */
-    while( map_paramList.size() > 0 )
-    {
-      qout("adding map_paramList");
-      MAP_PHB_ITEM::iterator it = map_paramList.begin();
-      SetParentChildKey( pWxh_Item, it->first, pSelf );
-      map_paramList.erase( it );
-    }
-  }
+    ProcessParamLists();
 
-  return pWxh_Item;
+  }else
+    qoutf("Problemas.");
+
 }
+
+/*
+  SetParentChildKey
+  Teo. Mexico 2009
+*/
+void wxh_ObjParams::SetParentChildKey( const PHB_ITEM pParentItm, const PHB_ITEM pChildItm )
+{
+  wxh_Item* pwxhParentItm = wxh_ItemListGet_PWXH_ITEM( pParentItm );
+
+  if( pwxhParentItm )
+  {
+    PHB_ITEM pRefItm = hb_itemNew( pChildItm );
+
+    pWxh_Item->map_refList[ pRefItm ] = true;
+    pwxhParentItm->map_childList[ pRefItm ] = true;
+  }
+}
+
+/*
+  End Class wxh_ObjParams
+*/
 
 /*
   wxh_ItemListDel_WX
@@ -157,14 +262,13 @@ wxh_Item* WXH_SCOPELIST::PushObject( wxObject* wxObj )
 */
 void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 {
-  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
+  wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
-  if( pwxhItm )
+  if( pWxh_Item )
   {
-    qout( "In wxh_ItemListDel_WX.");
-    pwxhItm->delete_WX = bDeleteWxObj;
-    delete pwxhItm;
-    qout( "Out wxh_ItemListDel_WX.");
+    cout << bDeleteWxObj;
+    pWxh_Item->delete_WX = bDeleteWxObj;
+    delete pWxh_Item;
   }
 }
 
@@ -175,16 +279,16 @@ void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 {
   PHB_ITEM pSelf = NULL;
-  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( wxObj );
+  wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( wxObj );
 
-  if( pwxhItm )
+  if( pWxh_Item )
   {
     /* search on the parent objects for a reference on his childList */
-    if( pwxhItm->map_refList.size() > 0 )
+    if( pWxh_Item->map_refList.size() > 0 )
     {
-      pSelf = pwxhItm->map_refList.begin()->first;
+      pSelf = pWxh_Item->map_refList.begin()->first;
     }else
-      pSelf = pwxhItm->pSelf;
+      pSelf = pWxh_Item->pSelf;
   }
 //   qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
   return pSelf;
@@ -196,14 +300,14 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 */
 wxh_Item* wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj )
 {
-  wxh_Item* pwxhItm = NULL;
+  wxh_Item* pWxh_Item = NULL;
 
   if( wxObj && ( map_wxObject.find( wxObj ) != map_wxObject.end() ) )
   {
-    pwxhItm = map_wxObject[ wxObj ];
+    pWxh_Item = map_wxObject[ wxObj ];
   }
 
-  return pwxhItm;
+  return pWxh_Item;
 }
 
 /*
@@ -212,14 +316,14 @@ wxh_Item* wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj )
 */
 wxh_Item* wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf )
 {
-  wxh_Item* pwxhItm = NULL;
+  wxh_Item* pWxh_Item = NULL;
 
   if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() ) )
   {
-    pwxhItm = map_phbBaseArr[ pSelf->item.asArray.value ];
+    pWxh_Item = map_phbBaseArr[ pSelf->item.asArray.value ];
   }
 
-  return pwxhItm;
+  return pWxh_Item;
 }
 
 /*
@@ -259,45 +363,6 @@ void wxh_ItemListReleaseAll()
 wxObject* wxh_param_WX( const int param )
 {
   return wxh_ItemListGet_WX( hb_param( param, HB_IT_OBJECT ) );
-}
-
-/*
-  wxh_param_WX_Child
-  Teo. Mexico 2009
-*/
-wxObject* wxh_param_WX_Child( const int param, PHB_ITEM pParentItm )
-{
-  PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
-
-  if( pChildItm )
-  {
-    wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pChildItm );
-
-    if( pwxhItm && pParentItm )
-    {
-      SetParentChildKey( pwxhItm, pParentItm, pChildItm );
-      return pwxhItm->wxObj;
-    }
-  }
-
-  return NULL;
-}
-
-/*
-  wxh_param_WX_Parent
-  Teo. Mexico 2009
-*/
-wxObject* wxh_param_WX_Parent( const int param, WXH_SCOPELIST* wxhScopeList )
-{
-  PHB_ITEM pParentItm = hb_param( param, HB_IT_OBJECT );
-  wxObject* wxObj = wxh_ItemListGet_WX( pParentItm );
-
-  if( wxObj )
-  {
-    wxhScopeList->map_paramList[ pParentItm ] = wxObj;
-  }
-
-  return wxObj;
 }
 
 /*
@@ -375,7 +440,6 @@ wxString wxh_parc( int param )
   return wxString( hb_parc( param ), wxConvUTF8 );
 }
 
-
 /*
  * wxh_LastTopLevelWindow
  * Teo. Mexico 2009
@@ -386,18 +450,24 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
-  qout
+  qoutf
   Teo. Mexico 2009
 */
-void qout( const char* text )
+void qoutf( const char* format, ... )
 {
   static PHB_DYNS s___qout = NULL;
+  static char text[512];
+
+  va_list argp;
+
+  va_start( argp, format );
+  sprintf( text, format, argp );
+  va_end( argp );
 
   if( s___qout == NULL )
   {
     s___qout = hb_dynsymGetCase( "QOUT" );
   }
-
   hb_vmPushDynSym( s___qout );
   hb_vmPushNil();
   hb_vmPushString( text, strlen( text ) );

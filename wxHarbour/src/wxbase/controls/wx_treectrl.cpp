@@ -38,23 +38,22 @@ wx_TreeCtrl::~wx_TreeCtrl()
 
 HB_FUNC( WXTREECTRL_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxPoint& pos = hb_par_wxPoint( 3 );
   const wxSize& size = hb_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxTR_HAS_BUTTONS : hb_parnl( 5 );
-  const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 6, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 6 ))) ;
   const wxString& name = wxh_parc( 7 );
   wx_TreeCtrl* treeCtrl = new wx_TreeCtrl( parent, id, pos, size, style, validator, name );
 
   // Add object's to hash list
   //wxh_ItemListAdd( treeCtrl, pSelf );
-  wxhScopeList.PushObject( treeCtrl );
+  objParams.PushObject( treeCtrl );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -63,14 +62,13 @@ HB_FUNC( WXTREECTRL_NEW )
 */
 HB_FUNC( WXTREECTRL_ADDROOT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
 
   const wxString& text = wxh_parc( 1 );
   int image = ISNIL( 2 ) ? -1 : hb_parni( 2 );
   int selImage = ISNIL( 3 ) ? -1 : hb_parni( 3 );
-  wxTreeItemData* data = (wxTreeItemData *) wxh_param_WX_Parent( 4, &wxhScopeList );
+  wxTreeItemData* data = (wxTreeItemData *) objParams.paramParent( 4 );
 
   if( treeCtrl )
   {
@@ -88,15 +86,14 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 */
 HB_FUNC( WXTREECTRL_APPENDITEM )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
 
   wxTreeItemId parent = wxTreeItemId( (void *) hb_parnl( 1 ) );
   const wxString& text = wxh_parc( 2 );
   int image = ISNIL( 3 ) ? -1 : hb_parni( 3 );
   int selImage = ISNIL( 4 ) ? -1 : hb_parni( 4 );
-  wxTreeItemData* data = (wxTreeItemData *) wxh_param_WX_Parent( 5, &wxhScopeList );
+  wxTreeItemData* data = (wxTreeItemData *) objParams.paramParent( 5 );
 
   if( treeCtrl && parent )
   {

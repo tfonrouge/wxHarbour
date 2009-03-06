@@ -64,7 +64,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
          ID 999 ;
          TITLE "Array Browser Sample"
 
-  DEFINE MENUBAR STYLE 1 ON oWnd
+  DEFINE MENUBAR STYLE 1
     DEFINE MENU "&File"
       ADD MENUSEPARATOR
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
@@ -103,7 +103,6 @@ METHOD FUNCTION OnInit() CLASS MyApp
   b:AddAllColumns()
 
 //   @ STATUSBAR
-
-  SHOW WINDOW oWnd CENTRE
+  SHOW WINDOW oWnd //CENTRE
 
 RETURN .T.

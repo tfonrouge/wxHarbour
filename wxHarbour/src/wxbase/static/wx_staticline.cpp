@@ -35,10 +35,9 @@ wx_StaticLine::~wx_StaticLine()
 */
 HB_FUNC( WXSTATICLINE_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
   const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
@@ -48,9 +47,9 @@ HB_FUNC( WXSTATICLINE_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( staticLine, pSelf );
-  wxhScopeList.PushObject( staticLine );
+  objParams.PushObject( staticLine );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*

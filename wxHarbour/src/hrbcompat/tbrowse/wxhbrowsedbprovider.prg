@@ -35,6 +35,7 @@ PRIVATE:
   DATA FGridBufferSize     INIT 0
   DATA FIgnoreCellEvalError INIT .F.
   METHOD GetCellValue( column )
+  METHOD SetBrowse( browse )
   METHOD SetCurRowIndex( rowIndex )
   METHOD SetGridBufferSize( size )
 PROTECTED:
@@ -57,7 +58,7 @@ PUBLIC:
   METHOD SetValue( row, col, value )
 
   PROPERTY BlockParam READ FBlockParam WRITE SetBlockParam
-  PROPERTY Browse READ FBrowse
+  PROPERTY Browse READ FBrowse WRITE SetBrowse
   PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
   PROPERTY ColumnList READ FColumnList WRITE SetColumnList
   PROPERTY GridBuffer READ FGridBuffer
@@ -67,7 +68,7 @@ ENDCLASS
 
 /*
   New
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD New( browse ) CLASS wxhBrowseTableBase
   Super:New()
@@ -275,6 +276,16 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
   ENDIF
 
 RETURN ::FGridBuffer[ row, col ]
+
+/*
+  SetBrowse
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetBrowse( browse ) CLASS wxhBrowseTableBase
+  IF ::FBrowse == NIL
+    ::FBrowse := browse
+  ENDIF
+RETURN
 
 /*
   SetColumnList

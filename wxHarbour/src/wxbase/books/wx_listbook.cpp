@@ -36,14 +36,13 @@ wx_Listbook::~wx_Listbook()
 */
 HB_FUNC( WXLISTBOOK_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Listbook* listBook;
 
   if( hb_pcount() )
   {
-    wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
@@ -56,9 +55,9 @@ HB_FUNC( WXLISTBOOK_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( listBook, pSelf );
-  wxhScopeList.PushObject( listBook );
+  objParams.PushObject( listBook );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -67,11 +66,10 @@ HB_FUNC( WXLISTBOOK_NEW )
 */
 HB_FUNC( WXLISTBOOK_ADDPAGE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wxListbook* Listbook = (wxListbook *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wxListbook* Listbook = (wxListbook *) objParams.Get_wxObject();
 
-  wxNotebookPage* page = (wxNotebookPage *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 1 );
 
   if( Listbook && page )
   {

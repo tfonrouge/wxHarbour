@@ -1,3 +1,5 @@
+STATIC a1 := {}
+
 /*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
@@ -403,6 +405,7 @@ PROCEDURE wxh_MenuEnd
   ELSE                /* Append SubMenu */
     menuItem := wxMenuItem():New( menuData:g_menuList[ nLast -1 ]["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
     menuData:g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )
+//     AAdd( a1, hData["menu"] )
   ENDIF
 
   ASize( menuData:g_menuList, menuListSize - 1)

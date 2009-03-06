@@ -21,6 +21,7 @@ CLASS wxhGridBrowse FROM wxGrid
 PRIVATE:
 PROTECTED:
 PUBLIC:
+  CONSTRUCTOR New( parent, id, pos, size, style, name )
 PUBLISHED:
 ENDCLASS
 

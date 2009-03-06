@@ -44,7 +44,7 @@ HB_FUNC( WXGRIDEVENT_GETROW )
   if( gridEvent )
     hb_retni( gridEvent->GetRow() );
   else
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 }
 
 /*

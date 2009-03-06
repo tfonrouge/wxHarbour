@@ -26,8 +26,7 @@
 */
 HB_FUNC( XMLDOCUMENT_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_XmlDocument* xmlDocument;
 
@@ -35,8 +34,8 @@ HB_FUNC( XMLDOCUMENT_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( xmlDocument, pSelf );
-  wxhScopeList.PushObject( xmlDocument );
+  objParams.PushObject( xmlDocument );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }

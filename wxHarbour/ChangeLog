@@ -2,6 +2,67 @@
  *
  */
 
+2009-03-06 17:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+    * locally changed to build with debug info (-ggdb)
+    + added wxGridBrowse sources
+
+  * include/wxh.h
+  * samples/arrbrowser/arrbrowser.prg
+  * src/common/wx_harbour.cpp
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/hrbcompat/tbrowse/wxhgridbrowse.prg
+  * src/raddox/trdoserver_c.cpp
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/advctrls/wx_panel.cpp
+  * src/wxbase/advctrls/wx_statusbar.cpp
+  * src/wxbase/baseclasses/wx_gridevent.cpp
+  * src/wxbase/baseclasses/wx_object.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/books/wx_auinotebook.cpp
+  * src/wxbase/books/wx_listbook.cpp
+  * src/wxbase/books/wx_notebook.cpp
+  * src/wxbase/comdialogs/wx_filedialog.cpp
+  * src/wxbase/comdialogs/wx_messagedialog.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_checkbox.cpp
+  * src/wxbase/controls/wx_choice.cpp
+  * src/wxbase/controls/wx_radiobox.cpp
+  * src/wxbase/controls/wx_staticbox.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_treectrl.cpp
+  * src/wxbase/manwindows/wx_dialog.cpp
+  * src/wxbase/manwindows/wx_frame.cpp
+  * src/wxbase/manwindows/wx_mdichildframe.cpp
+  * src/wxbase/manwindows/wx_mdiparentframe.cpp
+  * src/wxbase/menu/wx_menubar.cpp
+  * src/wxbase/menu/wx_menu.cpp
+  * src/wxbase/menu/wx_menuitem.cpp
+  * src/wxbase/networking/wx_ipv4address.cpp
+  * src/wxbase/networking/wx_socketbase.cpp
+  * src/wxbase/networking/wx_socketclient.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+  * src/wxbase/range/wx_scrollbar.cpp
+  * src/wxbase/sizers/wx_boxsizer.cpp
+  * src/wxbase/sizers/wx_gridsizer.cpp
+  * src/wxbase/sizers/wx_sizer.cpp
+  * src/wxbase/sizers/wx_staticboxsizer.cpp
+  * src/wxbase/static/wx_staticline.cpp
+  * src/wxbase/system/wx_font.cpp
+  * src/wxbase/validators/wx_validator.cpp
+  * src/wxbase/xmlclasses/wx_xmldocument.cpp
+  * tests/test1/test1.prg
+    * renamed C++ classs WXH_SCOPELIST to wxh_ObjParams
+    * added to the wxh_ObjParams class methods to get wx objects from HB objs (params)
+    * updated on all funcs the above
+    ; TODO: check wxh_ObjParams::paramChild(), it fails to keep the hb object tied to wx one
+
+
 2009-03-03 12:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/arrbrowser/arrbrowser.prg

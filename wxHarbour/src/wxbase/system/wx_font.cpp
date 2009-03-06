@@ -35,16 +35,15 @@ wx_Font::~wx_Font()
 */
 HB_FUNC( WXFONT_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Font* font = new wx_Font();
 
   // Add object's to hash list
   //wxh_ItemListAdd( font, pSelf );
-  wxhScopeList.PushObject( font );
+  objParams.PushObject( font );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

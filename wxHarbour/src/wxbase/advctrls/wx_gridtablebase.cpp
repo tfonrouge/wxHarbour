@@ -183,7 +183,11 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
   labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
 #else
-  labelValue = wxString( hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol )->item.asString.value, wxConvLocal );
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( this );
+  if( pSelf )
+    labelValue = wxString( hb_objSendMsg( pSelf, "GetColLabelValue", 1, pCol )->item.asString.value, wxConvLocal );
+  else
+    qoutf("aqui esta el pedo.");
 #endif
 
   hb_itemRelease( pCol );
@@ -229,18 +233,19 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
   hb_itemRelease( hbStr );
 }
 
+/*
+  New
+  Teo. Mexico 2009
+*/
 HB_FUNC( WXGRIDTABLEBASE_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams( hb_stackSelfItem() );
 
   wx_GridTableBase* gridTable = new wx_GridTableBase;
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( gridTable, pSelf, NULL );
-  wxhScopeList.PushObject( gridTable );
+  objParams.PushObject( gridTable );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -360,7 +365,10 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
   {
     wx_Grid* grid = (wx_Grid *) gridTable->GetView();
     if( grid )
+    {
+      qoutf( "wxGetView: %p, HB: %p", grid, wxh_ItemListGet_HB( grid ) );
       hb_itemReturn( wxh_ItemListGet_HB( grid ) );
+    }
   }
 }
 

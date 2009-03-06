@@ -31,16 +31,15 @@ wx_GridSizer::~wx_GridSizer()
 
 HB_FUNC( WXGRIDSIZER_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
 
   // Add object's to hash list
   //wxh_ItemListAdd( gridSizer, pSelf );
-  wxhScopeList.PushObject( gridSizer );
+  objParams.PushObject( gridSizer );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

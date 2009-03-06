@@ -35,8 +35,7 @@ wx_SocketClient::~wx_SocketClient()
 */
 HB_FUNC( WXSOCKETCLIENT_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_SocketClient* socketClient;
   wxSocketFlags flags = ISNUM( 1 ) ? hb_parni( 1 ) : wxSOCKET_NONE;
@@ -45,9 +44,9 @@ HB_FUNC( WXSOCKETCLIENT_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( socketClient, pSelf );
-  wxhScopeList.PushObject( socketClient );
+  objParams.PushObject( socketClient );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 
@@ -57,16 +56,15 @@ HB_FUNC( WXSOCKETCLIENT_NEW )
 */
 HB_FUNC( WXSOCKETCLIENT_CONNECT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_SocketClient* socketClient = (wx_SocketClient*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketClient* socketClient = (wx_SocketClient*) objParams.Get_wxObject();
 
   wxSockAddress* local = NULL;
   bool paramFail;
 
   char callingMode;
 
-  wxSockAddress* address = (wxSockAddress *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxSockAddress* address = (wxSockAddress *) objParams.paramParent( 1 );
 
   if( ISLOG( 2 ) || ISNIL( 2 ) )
   {
@@ -76,7 +74,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
   else
   {
     callingMode = 2;
-    local = (wxSockAddress *) wxh_param_WX_Parent( 2, &wxhScopeList );
+    local = (wxSockAddress *) objParams.paramParent( 2 );
     paramFail = !address && !local;
   }
 

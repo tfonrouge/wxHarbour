@@ -37,10 +37,10 @@ wx_Grid::~wx_Grid()
 */
 HB_FUNC( WXGRID_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+//   PHB_ITEM pSelf = hb_stackSelfItem();
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
   wxPoint pos = hb_par_wxPoint( 3 );
   wxSize size = hb_par_wxSize( 4 );
@@ -50,10 +50,10 @@ HB_FUNC( WXGRID_NEW )
   wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );
 
   // Add object's to hash list
-  //wxh_ItemListAdd( grid, pSelf, wxhScopeList );
-  wxhScopeList.PushObject( grid );
+  //wxh_ItemListAdd( grid, pSelf, objParams );
+  objParams.PushObject( grid );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -166,14 +166,22 @@ HB_FUNC( WXGRID_GETNUMBERROWS )
   }
 }
 
+static PHB_ITEM pGridTableBase;
+
 HB_FUNC( WXGRID_GETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
-  wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
 
-  if( grid && gridTable )
-    hb_itemReturn( wxh_ItemListGet_HB( gridTable ) );
+  if( grid )
+  {
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
+    if( gridTable )
+    {
+      hb_itemReturn( wxh_ItemListGet_HB( gridTable ) );
+      qoutf( "%p", gridTable );
+    }
+  }
 }
 
 /*
@@ -327,14 +335,16 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 
 HB_FUNC( WXGRID_SETTABLE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_Grid* grid = (wx_Grid *) objParams.Get_wxObject();
 
   if( grid ) /* gridTable can be NULL */
   {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_param_WX_Child( 1, pSelf );
-    bool takeOwnership = hb_parl( 2 );
-    wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
-    grid->SetTable( gridTable, takeOwnership, selmode );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.param( 1 );
+    if( gridTable )
+    {
+      grid->SetTable( gridTable, hb_parl( 2 ), (wxGrid::wxGridSelectionModes) hb_parnl( 3 ) );
+      qoutf( "SetTable: %p == %p", gridTable, (wxObject *) grid->GetTable() );
+    }
   }
 }
