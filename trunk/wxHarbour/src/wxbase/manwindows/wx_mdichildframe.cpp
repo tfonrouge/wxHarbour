@@ -39,12 +39,11 @@ wx_MDIChildFrame::wx_MDIChildFrame( wxMDIParentFrame* parent, wxWindowID id, con
 */
 HB_FUNC( WXMDICHILDFRAME_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_MDIChildFrame* frame;
 
-  wxMDIParentFrame* parent = (wxMDIParentFrame *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxMDIParentFrame* parent = (wxMDIParentFrame *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   wxString title = wxh_parc ( 3 );
   wxPoint point = hb_par_wxPoint(4);
@@ -55,9 +54,9 @@ HB_FUNC( WXMDICHILDFRAME_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( frame, pSelf );
-  wxhScopeList.PushObject( frame );
+  objParams.PushObject( frame );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

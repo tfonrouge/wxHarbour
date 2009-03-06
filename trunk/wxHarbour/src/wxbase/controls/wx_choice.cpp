@@ -31,24 +31,23 @@ wx_Choice::~wx_Choice()
 
 HB_FUNC( WXCHOICE_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxPoint& pos = hb_par_wxPoint( 3 );
   const wxSize& size = hb_par_wxSize( 4 );
   const wxArrayString& choices = hb_par_wxArrayString( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) wxh_param_WX_Parent( 7, &wxhScopeList ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
   const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
 
   wx_Choice* choice = new wx_Choice( parent, id, pos, size, choices, style, validator, name );
 
   // Add object's to hash list
-  wxhScopeList.PushObject( choice );
+  objParams.PushObject( choice );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*

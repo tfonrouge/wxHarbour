@@ -35,8 +35,7 @@ wx_IPV4address::~wx_IPV4address()
 */
 HB_FUNC( WXIPV4ADDRESS_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_IPV4address* ipv4Address;
 
@@ -44,9 +43,9 @@ HB_FUNC( WXIPV4ADDRESS_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( ipv4Address, pSelf );
-  wxhScopeList.PushObject( ipv4Address );
+  objParams.PushObject( ipv4Address );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

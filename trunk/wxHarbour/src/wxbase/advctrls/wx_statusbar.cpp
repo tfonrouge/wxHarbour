@@ -35,10 +35,9 @@ wx_StatusBar::~wx_StatusBar()
 */
 HB_FUNC( WXSTATUSBAR_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = (wxWindowID) hb_parni( 2 );
   long style = ISNIL( 3 ) ? wxST_SIZEGRIP : hb_parnl( 3 );
   const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxString( hb_parcx( 4 ), wxConvLocal );
@@ -46,10 +45,10 @@ HB_FUNC( WXSTATUSBAR_NEW )
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
   // Add object's to hash list
-  //wxh_ItemListAdd( statusBar, pSelf, wxhScopeList );
-  wxhScopeList.PushObject( statusBar );
+  //wxh_ItemListAdd( statusBar, pSelf, objParams );
+  objParams.PushObject( statusBar );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

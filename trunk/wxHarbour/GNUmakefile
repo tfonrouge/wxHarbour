@@ -190,6 +190,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxh_scopelist.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_browse.o \
+	$(__BUILDDIR__)/wxHarbour_wx_gridbrowse.o \
 	$(__BUILDDIR__)/wxHarbour_trdoserver_c.o \
 	$(__BUILDDIR__)/wxHarbour_ttable_c.o \
 	$(__BUILDDIR__)/wxHarbour_wx_grid.o \
@@ -290,7 +291,7 @@ WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_2 = -g
+__WX_DEBUG_INFO_2 = -ggdb
 endif
 ifeq ($(WX_ENCODING),unicode)
 __D_WX_UNICODE_p = -D_UNICODE
@@ -561,6 +562,9 @@ $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_browse.o: ./src/hrbcompat/tbrowse/wx_browse.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_gridbrowse.o: ./src/hrbcompat/tbrowse/wx_gridbrowse.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_trdoserver_c.o: ./src/raddox/trdoserver_c.cpp

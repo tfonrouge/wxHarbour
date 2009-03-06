@@ -35,23 +35,20 @@ wx_MenuItem::~wx_MenuItem()
 */
 HB_FUNC( WXMENUITEM_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxMenu* parentMenu = (wxMenu *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxMenu* parentMenu = (wxMenu *) objParams.paramParent( 1 );
   int id = hb_parni( 2 );
   const wxString& text = wxh_parc( 3 );
   const wxString& helpString = wxh_parc( 4 );
   wxItemKind kind = (wxItemKind) hb_parni( 5 );
-  wxMenu* subMenu = (wxMenu *) wxh_param_WX_Parent( 6, &wxhScopeList );
+  wxMenu* subMenu = (wxMenu *) objParams.paramChild( 6 );
 
   wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( menuItem, pSelf );
-  wxhScopeList.PushObject( menuItem );
+  objParams.PushObject( menuItem );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*

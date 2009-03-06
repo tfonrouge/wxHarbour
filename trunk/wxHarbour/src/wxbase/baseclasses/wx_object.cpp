@@ -36,13 +36,18 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
      So, we just need to call the C++ destructor of this object */
   wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pSelf );
 
+  qoutf("In HB_DESTRUCT");
+
   if( pwxhItm )
   {
-    qout( "In wxh_ItemListDel_HB." );
-    qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
+    qoutf( "In wxh_ItemListDel_HB." );
+    qoutf( hb_clsName( pSelf->item.asArray.value->uiClass ) );
     delete pwxhItm;
-    qout( "Out wxh_ItemListDel_HB." );
+    qoutf( "Out wxh_ItemListDel_HB." );
   }
+
+  qoutf("Out HB_DESTRUCT");
+
 }
 
 /*

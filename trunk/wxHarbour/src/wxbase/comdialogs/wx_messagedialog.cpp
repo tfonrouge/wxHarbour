@@ -30,10 +30,9 @@ wx_MessageDialog::~wx_MessageDialog()
 */
 HB_FUNC( WXMESSAGEDIALOG_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   const wxString& message = wxh_parc( 2 );
   const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxh_parc( 3 );
   long style = ISNIL( 4 ) ? wxOK | wxCANCEL : hb_parni( 4 );
@@ -43,9 +42,9 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( msgDlg, pSelf );
-  wxhScopeList.PushObject( msgDlg );
+  objParams.PushObject( msgDlg );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

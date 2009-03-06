@@ -106,9 +106,9 @@ HB_FUNC( TRDOSERVER_ACCEPT )
     {
       HB_FUNC_EXEC( TRDOSOCKETBASE );
       PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
-      WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( p );
+      wxh_ObjParams objParams = wxh_ObjParams( p );
 
-      wxhScopeList.PushObject( socketBase );
+      objParams.PushObject( socketBase );
       //wxh_ItemListAdd( socketBase, p, NULL );
       //hb_itemReturnRelease( p );
       hb_itemReturn( p );

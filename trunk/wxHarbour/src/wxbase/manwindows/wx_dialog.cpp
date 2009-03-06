@@ -37,14 +37,13 @@ wx_Dialog::wx_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, co
 */
 HB_FUNC( WXDIALOG_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Dialog* dialog;
 
   if(hb_pcount())
   {
-    wxWindow* parent = (wxDialog *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxWindow* parent = (wxDialog *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
     wxPoint point = hb_par_wxPoint(4);
@@ -58,9 +57,9 @@ HB_FUNC( WXDIALOG_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( dialog, pSelf );
-  wxhScopeList.PushObject( dialog );
+  objParams.PushObject( dialog );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*

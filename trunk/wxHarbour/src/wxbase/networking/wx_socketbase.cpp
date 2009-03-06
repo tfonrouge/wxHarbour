@@ -45,8 +45,7 @@ wx_SocketBase::~wx_SocketBase()
 */
 HB_FUNC( WXSOCKETBASE_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_SocketBase* socketBase;
 
@@ -54,9 +53,9 @@ HB_FUNC( WXSOCKETBASE_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( socketBase, pSelf );
-  wxhScopeList.PushObject( socketBase );
+  objParams.PushObject( socketBase );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 
@@ -134,10 +133,10 @@ HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_GETLOCAL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
-  wxObject* object = (wxObject *) wxh_param_WX( 1 );
+  wxObject* object = (wxObject *) objParams.param( 1 );
 
   if( socketBase && object )
     hb_retl( socketBase->GetLocal( (wxSockAddress &) *object ) );
@@ -162,10 +161,10 @@ HB_FUNC( WXSOCKETBASE_GETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_GETPEER )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
-  wxObject* object = (wxObject *) wxh_param_WX( 1 );
+  wxObject* object = (wxObject *) objParams.param( 1 );
 
   if( socketBase && object )
     hb_retl( socketBase->GetPeer( (wxSockAddress &) *object ) );
@@ -320,11 +319,10 @@ HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
-  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxEvtHandler* evtHandler = (wxEvtHandler *) objParams.paramParent( 1 );
 
   if( socketBase && evtHandler )
   {
@@ -353,10 +351,10 @@ HB_FUNC( WXSOCKETBASE_SETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_SETLOCAL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
-  wxIPV4address* local = (wxIPV4address *) wxh_param_WX( 1 );
+  wxIPV4address* local = (wxIPV4address *) objParams.param( 1 );
 
   if( socketBase && local )
   {

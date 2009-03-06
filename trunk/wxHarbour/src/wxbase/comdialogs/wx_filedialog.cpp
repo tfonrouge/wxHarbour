@@ -30,10 +30,9 @@ wx_FileDialog::~wx_FileDialog()
 */
 HB_FUNC( WXFILEDIALOG_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* parent = (wxWindow *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   const wxString& message = ISNIL( 2 ) ? _T("Choose a file") : wxh_parc( 2 );
   const wxString& defaultDir = ISNIL( 3 ) ? _T("") : wxh_parc( 3 );
   const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxh_parc( 4 );
@@ -47,9 +46,9 @@ HB_FUNC( WXFILEDIALOG_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( fileDlg, pSelf );
-  wxhScopeList.PushObject( fileDlg );
+  objParams.PushObject( fileDlg );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

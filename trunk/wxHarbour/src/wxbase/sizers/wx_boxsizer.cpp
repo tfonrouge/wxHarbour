@@ -31,16 +31,15 @@ wx_BoxSizer::~wx_BoxSizer()
 
 HB_FUNC( WXBOXSIZER_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
   // Add object's to hash list
   //wxh_ItemListAdd( boxSizer, pSelf );
-  wxhScopeList.PushObject( boxSizer );
+  objParams.PushObject( boxSizer );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 

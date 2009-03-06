@@ -37,14 +37,13 @@ wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 */
 HB_FUNC( WXFRAME_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Frame* frame;
 
   if( hb_pcount() > 0 )
   {
-    wxWindow* parent = (wxFrame *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxWindow* parent = (wxFrame *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
     wxPoint point = hb_par_wxPoint( 4 );
@@ -58,13 +57,13 @@ HB_FUNC( WXFRAME_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( frame, pSelf, pLocalList );
-  //wxhScopeList.PushObject( frame );
-  wxhScopeList.PushObject( frame );
+  //objParams.PushObject( frame );
+  objParams.PushObject( frame );
 
   // OnCreate...
-  hb_objSendMsg( pSelf, "OnCreate", 0 );
+  hb_objSendMsg( objParams.pSelf, "OnCreate", 0 );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 
 /*
@@ -89,12 +88,12 @@ HB_FUNC( WXFRAME_CENTRE )
 */
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
 
   if( frame )
   {
-    wx_MenuBar* menuBar = (wx_MenuBar *) wxh_param_WX_Child( 1, pSelf );
+    wx_MenuBar* menuBar = (wx_MenuBar *) objParams.paramChild( 1 );
     if( menuBar )
     {
       frame->SetMenuBar( menuBar );
@@ -108,14 +107,15 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 */
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame = (wx_Frame *) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
 
-//   wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX_Child( 1, pSelf );
-  wx_StatusBar* statusBar = (wx_StatusBar *) wxh_param_WX( 1 );
-
-  if( frame && statusBar )
+  if( frame )
   {
-    frame->SetStatusBar( statusBar );
+    wx_StatusBar* statusBar = (wx_StatusBar *) objParams.paramChild( 1 );
+    if( statusBar )
+    {
+      frame->SetStatusBar( statusBar );
+    }
   }
 }

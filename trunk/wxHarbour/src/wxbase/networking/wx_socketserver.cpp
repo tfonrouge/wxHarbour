@@ -42,14 +42,13 @@ wx_SocketServer::~wx_SocketServer()
 */
 HB_FUNC( WXSOCKETSERVER_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_SocketServer* socketServer;
   wxSockAddress* address;
   wxSocketFlags flags = ISNUM( 2 ) ? hb_parni( 2 ) : wxSOCKET_NONE;
 
-  address = (wxSockAddress *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  address = (wxSockAddress *) objParams.paramParent( 1 );
 
   if( !address )
   {
@@ -60,9 +59,9 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 
   // Add object's to hash list
   //wxh_ItemListAdd( socketServer, pSelf );
-  wxhScopeList.PushObject( socketServer );
+  objParams.PushObject( socketServer );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 
@@ -85,9 +84,9 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
     {
       HB_FUNC_EXEC( WXSOCKETBASE );
       PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
-      WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( p );
+      wxh_ObjParams objParams = wxh_ObjParams( p );
       //wxh_ItemListAdd( socketBase, p );
-      wxhScopeList.PushObject( socketBase );
+      objParams.PushObject( socketBase );
       hb_itemReturnRelease( p );
     }
   }
@@ -99,15 +98,14 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 */
 HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
-  wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
+  wx_SocketServer* socketServer = (wx_SocketServer*) objParams.Get_wxObject();
 
   wxSocketBase* socket;
 
   bool wait = ISLOG( 2 ) ? hb_parl( 2 ) : true;
 
-  socket = (wxSocketBase *) wxh_param_WX_Parent( 1, &wxhScopeList );
+  socket = (wxSocketBase *) objParams.paramParent( 1 );
 
   if( !socket )
   {

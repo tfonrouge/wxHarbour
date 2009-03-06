@@ -31,15 +31,14 @@ wx_Validator::~wx_Validator()
 
 HB_FUNC( WXVALIDATOR_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Validator* validator = new wx_Validator;
 
   // Add object's to hash list
   //wxh_ItemListAdd( validator, pSelf );
-  wxhScopeList.PushObject( validator );
+  objParams.PushObject( validator );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 }
 

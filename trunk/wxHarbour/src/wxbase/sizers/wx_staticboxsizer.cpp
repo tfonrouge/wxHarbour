@@ -31,28 +31,27 @@ wx_StaticBoxSizer::~wx_StaticBoxSizer()
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  WXH_SCOPELIST wxhScopeList = WXH_SCOPELIST( pSelf );
+  wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_StaticBoxSizer* boxSizer;
 
   if( ISOBJECT( 1 ) )
   {
-    wxStaticBox* staticBox = (wxStaticBox *) wxh_param_WX_Parent( 1, &wxhScopeList );
+    wxStaticBox* staticBox = (wxStaticBox *) objParams.paramParent( 1 );
     boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );
   }
   else
   {
-    wxWindow* parent = (wxStaticBox *) wxh_param_WX_Parent( 2, &wxhScopeList );
+    wxWindow* parent = (wxStaticBox *) objParams.paramParent( 2 );
     const wxString& label = wxh_parc( 3 );
     boxSizer = new wx_StaticBoxSizer( hb_parni( 1 ), parent, label );
   }
 
   // Add object's to hash list
   //wxh_ItemListAdd( boxSizer, pSelf );
-  wxhScopeList.PushObject( boxSizer );
+  objParams.PushObject( boxSizer );
 
-  hb_itemReturn( pSelf );
+  hb_itemReturn( objParams.pSelf );
 
 }
 
