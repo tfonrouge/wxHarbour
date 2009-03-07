@@ -41,12 +41,7 @@ HB_FUNC( WXIPV4ADDRESS_NEW )
 
   ipv4Address = new wx_IPV4address();
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( ipv4Address, pSelf );
-  objParams.PushObject( ipv4Address );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( ipv4Address );
 }
 
 /*

@@ -35,10 +35,6 @@ HB_FUNC( WXVALIDATOR_NEW )
 
   wx_Validator* validator = new wx_Validator;
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( validator, pSelf );
-  objParams.PushObject( validator );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( validator );
 }
 

@@ -132,8 +132,14 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
 
   ::grid:SetTable( ::browseTableBase )
 
-  ? "grid:GetTable", ::grid:GetTable():ClassName, "==", ::browseTableBase:ClassName
+  ? "::grid:GetTable", ::grid:GetTable():ClassName, "==", ::browseTableBase:ClassName
   ? "browseTableBase:GetView", ::browseTableBase:GetView():ClassName, "==", ::grid:ClassName
+
+  //? "::grid:SelfReference()", ::grid:SelfReference():ClassName()
+
+  //? "X_UNREF( ::grid )",X_UNREF( ::grid ):ClassName()
+
+  ? "UNREF HB:", ::grid:ClassName
 
   IF !onKey = NIL
     ::KeyEventBlock := onKey
@@ -142,6 +148,8 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
   IF dataSource != NIL
     ::SetDataSource( dataSource )
   ENDIF
+
+  ? "OK"
 
 RETURN Self
 

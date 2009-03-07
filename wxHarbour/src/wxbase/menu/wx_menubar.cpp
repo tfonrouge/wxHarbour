@@ -40,11 +40,7 @@ HB_FUNC( WXMENUBAR_NEW )
 
   wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl( 1 ) );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( menuBar, pSelf );
-  objParams.PushObject( menuBar );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( menuBar );
 }
 
 HB_FUNC( WXMENUBAR_APPEND )

@@ -243,9 +243,7 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
 
   wx_GridTableBase* gridTable = new wx_GridTableBase;
 
-  objParams.PushObject( gridTable );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( gridTable );
 }
 
 /*

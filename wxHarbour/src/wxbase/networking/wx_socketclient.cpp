@@ -42,12 +42,7 @@ HB_FUNC( WXSOCKETCLIENT_NEW )
 
   socketClient = new wx_SocketClient( flags );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( socketClient, pSelf );
-  objParams.PushObject( socketClient );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( socketClient );
 }
 
 /*

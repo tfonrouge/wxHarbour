@@ -53,11 +53,7 @@ HB_FUNC( WXLISTBOOK_NEW )
   else
     listBook = new wx_Listbook();
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( listBook, pSelf );
-  objParams.PushObject( listBook );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( listBook );
 }
 
 /*

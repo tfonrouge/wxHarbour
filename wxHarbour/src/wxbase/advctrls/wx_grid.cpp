@@ -49,11 +49,7 @@ HB_FUNC( WXGRID_NEW )
 
   wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( grid, pSelf, objParams );
-  objParams.PushObject( grid );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( grid );
 }
 
 /*
@@ -166,8 +162,6 @@ HB_FUNC( WXGRID_GETNUMBERROWS )
   }
 }
 
-static PHB_ITEM pGridTableBase;
-
 HB_FUNC( WXGRID_GETTABLE )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -178,8 +172,9 @@ HB_FUNC( WXGRID_GETTABLE )
     wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
     if( gridTable )
     {
-      hb_itemReturn( wxh_ItemListGet_HB( gridTable ) );
-      qoutf( "GetTable: %p", gridTable );
+      PHB_ITEM pGridTableBase = wxh_ItemListGet_HB( gridTable );
+      qoutf( "GetTable: WX: %p, HB: %p:", gridTable, pGridTableBase );
+      hb_itemReturn( pGridTableBase );
     }
   }
 }
@@ -340,11 +335,13 @@ HB_FUNC( WXGRID_SETTABLE )
 
   if( grid ) /* gridTable can be NULL */
   {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.param( 1 );
+    PHB_ITEM pGridTableBase = hb_param( 1, HB_IT_OBJECT );
+    //wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.param( 1 );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pGridTableBase );
     if( gridTable )
     {
+      qoutf( "SetTable: WX: %p, HB: %p:%p", gridTable, pGridTableBase, pGridTableBase->item.asArray.value );
       grid->SetTable( gridTable, hb_parl( 2 ), (wxGrid::wxGridSelectionModes) hb_parnl( 3 ) );
-      qoutf( "SetTable: %p == %p", gridTable, (wxObject *) grid->GetTable() );
     }
   }
 }

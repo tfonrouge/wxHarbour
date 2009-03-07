@@ -55,11 +55,7 @@ HB_FUNC( WXDIALOG_NEW )
   else
     dialog = new wx_Dialog( NULL );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( dialog, pSelf );
-  objParams.PushObject( dialog );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( dialog );
 }
 
 /*

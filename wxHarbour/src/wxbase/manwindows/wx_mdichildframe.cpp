@@ -52,12 +52,7 @@ HB_FUNC( WXMDICHILDFRAME_NEW )
   wxString name = wxh_parc( 7 );
   frame = new wx_MDIChildFrame( parent, id, title, point, size, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( frame, pSelf );
-  objParams.PushObject( frame );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( frame );
 }
 
 /*

@@ -46,9 +46,7 @@ HB_FUNC( WXMENUITEM_NEW )
 
   wx_MenuItem* menuItem = new wx_MenuItem( parentMenu, id, text, helpString, kind, subMenu );
 
-  objParams.PushObject( menuItem );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( menuItem );
 }
 
 /*

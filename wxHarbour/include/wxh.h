@@ -87,7 +87,7 @@ public:
 
   void ProcessParamLists();
 
-  void PushObject( wxObject* wxObj );
+  void Return( wxObject* wxObj );
 
   wxObject* param( int param );
   wxObject* paramChild( int param );
@@ -117,6 +117,7 @@ void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
 /* generic qout for debug output */
+void qout( const char* text );
 void qoutf( const char* format, ... );
 
 /* string manipulation */
@@ -166,7 +167,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
   PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
   wxh_ObjParams objParams = wxh_ObjParams( pEvent );
 
-  objParams.PushObject( &event );
+  objParams.Return( &event );
 
   if( objParams.pWxh_Item )
   {

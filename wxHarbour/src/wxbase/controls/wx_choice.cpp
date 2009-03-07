@@ -44,10 +44,7 @@ HB_FUNC( WXCHOICE_NEW )
 
   wx_Choice* choice = new wx_Choice( parent, id, pos, size, choices, style, validator, name );
 
-  // Add object's to hash list
-  objParams.PushObject( choice );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( choice );
 }
 
 /*

@@ -51,12 +51,7 @@ HB_FUNC( WXSOCKETBASE_NEW )
 
   socketBase = new wx_SocketBase;
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( socketBase, pSelf );
-  objParams.PushObject( socketBase );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( socketBase );
 }
 
 /*

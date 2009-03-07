@@ -44,8 +44,5 @@ HB_FUNC( WXBUTTON_NEW )
 
   wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );
 
-  // Add object's to hash list
-  objParams.PushObject( button );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( button );
 }

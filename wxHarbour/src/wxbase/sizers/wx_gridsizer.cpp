@@ -35,12 +35,7 @@ HB_FUNC( WXGRIDSIZER_NEW )
 
   wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( gridSizer, pSelf );
-  objParams.PushObject( gridSizer );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( gridSizer );
 }
 
 /*

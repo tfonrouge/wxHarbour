@@ -56,11 +56,7 @@ HB_FUNC( WXNOTEBOOK_NEW )
   else
     noteBook = new wx_Notebook();
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( noteBook, pSelf );
-  objParams.PushObject( noteBook );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( noteBook );
 }
 
 /*

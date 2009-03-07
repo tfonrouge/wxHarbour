@@ -32,10 +32,5 @@ HB_FUNC( XMLDOCUMENT_NEW )
 
   xmlDocument = new wx_XmlDocument;
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( xmlDocument, pSelf );
-  objParams.PushObject( xmlDocument );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( xmlDocument );
 }

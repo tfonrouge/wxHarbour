@@ -57,12 +57,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
   }
   socketServer = new wx_SocketServer( *address, flags );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( socketServer, pSelf );
-  objParams.PushObject( socketServer );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( socketServer );
 }
 
 /*
@@ -86,7 +81,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
       PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
       wxh_ObjParams objParams = wxh_ObjParams( p );
       //wxh_ItemListAdd( socketBase, p );
-      objParams.PushObject( socketBase );
+      objParams.Return( socketBase );
       hb_itemReturnRelease( p );
     }
   }
