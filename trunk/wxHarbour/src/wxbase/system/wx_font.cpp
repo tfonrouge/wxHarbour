@@ -39,12 +39,7 @@ HB_FUNC( WXFONT_NEW )
 
   wx_Font* font = new wx_Font();
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( font, pSelf );
-  objParams.PushObject( font );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( font );
 }
 
 /*

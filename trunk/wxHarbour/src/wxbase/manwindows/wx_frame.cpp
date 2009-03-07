@@ -55,15 +55,10 @@ HB_FUNC( WXFRAME_NEW )
   else
     frame = new wx_Frame( NULL );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( frame, pSelf, pLocalList );
-  //objParams.PushObject( frame );
-  objParams.PushObject( frame );
+  objParams.Return( frame );
 
   // OnCreate...
   hb_objSendMsg( objParams.pSelf, "OnCreate", 0 );
-
-  hb_itemReturn( objParams.pSelf );
 }
 
 /*

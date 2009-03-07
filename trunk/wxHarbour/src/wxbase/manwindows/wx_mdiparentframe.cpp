@@ -55,12 +55,7 @@ HB_FUNC( WXMDIPARENTFRAME_NEW )
   else
     frame = new wx_MDIParentFrame( NULL );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( frame, pSelf );
-  objParams.PushObject( frame );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( frame );
 }
 
 /*

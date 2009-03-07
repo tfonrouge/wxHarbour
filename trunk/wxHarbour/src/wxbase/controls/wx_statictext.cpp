@@ -47,11 +47,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
   const wxString& name = wxString( hb_parcx( 7 ), wxConvLocal );
   wx_StaticText* staticText = new wx_StaticText( parent, id, label, pos, size, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( staticText, pSelf );
-  objParams.PushObject( staticText );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( staticText );
 }
 
 /*

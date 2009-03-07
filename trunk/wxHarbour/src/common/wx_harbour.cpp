@@ -78,6 +78,11 @@ wxh_Item::~wxh_Item()
     delete this->wxObj;
   }
 
+  if( pSelf )
+  {
+    hb_itemRelease( pSelf );
+  }
+
 }
 
 /*
@@ -202,10 +207,10 @@ void wxh_ObjParams::ProcessParamLists()
 }
 
 /*
-  PushObject
+  Return
   Teo. Mexico 2009
 */
-void wxh_ObjParams::PushObject( wxObject* wxObj )
+void wxh_ObjParams::Return( wxObject* wxObj )
 {
   pWxh_Item = NULL;
 
@@ -221,14 +226,17 @@ void wxh_ObjParams::PushObject( wxObject* wxObj )
     pWxh_Item->wxObj = wxObj;
     pWxh_Item->objHandle = pSelf->item.asArray.value;
 
-    /* this object is the Harbour var created in the ::New() method
-       and the Harbour programmer is responsible to keep it alive */
-    pWxh_Item->pSelf = pSelf;
-
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
 
+    /* this object is the Harbour var created in the ::New() method
+       and the Harbour programmer is responsible to keep it alive */
+    //pWxh_Item->pSelf = hb_objSendMsg( pSelf, "SelfReference", 0 );
+    hb_objSendMsg( pSelf, "SelfReference", 0 );
+
     ProcessParamLists();
+
+    hb_itemReturn( pSelf );
 
   }else
     qoutf("Problemas.");
@@ -289,6 +297,11 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
       pSelf = pWxh_Item->map_refList.begin()->first;
     }else
       pSelf = pWxh_Item->pSelf;
+
+    if( hb_itemType( pSelf ) != HB_IT_OBJECT )
+    {
+      pSelf = NULL;
+    }
   }
 //   qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
   return pSelf;
@@ -450,19 +463,12 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
-  qoutf
+  qout
   Teo. Mexico 2009
 */
-void qoutf( const char* format, ... )
+void qout( const char* text )
 {
   static PHB_DYNS s___qout = NULL;
-  static char text[512];
-
-  va_list argp;
-
-  va_start( argp, format );
-  sprintf( text, format, argp );
-  va_end( argp );
 
   if( s___qout == NULL )
   {
@@ -472,4 +478,90 @@ void qoutf( const char* format, ... )
   hb_vmPushNil();
   hb_vmPushString( text, strlen( text ) );
   hb_vmDo( 1 );
+}
+
+/*
+  qoutf
+  Teo. Mexico 2009
+*/
+void qoutf( const char* format, ... )
+{
+  static char text[512];
+
+  va_list argp;
+
+  va_start( argp, format );
+  vsprintf( text, format, argp );
+  va_end( argp );
+
+  qout( text );
+}
+
+static void hb_arrayCloneBody( PHB_BASEARRAY pSrcBaseArray, PHB_BASEARRAY pDstBaseArray, PHB_NESTED_CLONED pClonedList )
+{
+   PHB_ITEM pSrcItem, pDstItem;
+   ULONG ulLen;
+
+   HB_TRACE(HB_TR_DEBUG, ("hb_arrayCloneBody(%p, %p, %p)", pSrcBaseArray, pDstBaseArray, pClonedList));
+
+   pSrcItem = pSrcBaseArray->pItems;
+   pDstItem = pDstBaseArray->pItems;
+
+   pDstBaseArray->uiClass = pSrcBaseArray->uiClass;
+
+   for( ulLen = pSrcBaseArray->ulLen; ulLen; --ulLen, ++pSrcItem, ++pDstItem )
+      hb_cloneNested( pDstItem, pSrcItem, pClonedList );
+}
+
+PHB_ITEM hb_aClone( PHB_BASEARRAY pSrcBaseArray )
+{
+   PHB_ITEM pDstArray;
+
+   HB_TRACE(HB_TR_DEBUG, ("hb_arrayClone(%p)", pSrcArray));
+
+   pDstArray = hb_itemNew( NULL );
+   if( pSrcBaseArray )
+   {
+      PHB_NESTED_CLONED pClonedList, pCloned;
+      ULONG ulSrcLen = pSrcBaseArray->ulLen;
+
+      hb_arrayNew( pDstArray, ulSrcLen );
+      pClonedList = ( PHB_NESTED_CLONED ) hb_xgrab( sizeof( HB_NESTED_CLONED ) );
+      pClonedList->value = ( void * ) pSrcBaseArray;
+      pClonedList->pDest = pDstArray;
+      pClonedList->pNext = NULL;
+
+      hb_arrayCloneBody( pSrcBaseArray, pDstArray->item.asArray.value, pClonedList );
+
+      do
+      {
+         pCloned = pClonedList;
+         pClonedList = pClonedList->pNext;
+         hb_xfree( pCloned );
+      }
+      while( pClonedList );
+   }
+   return pDstArray;
+}
+
+HB_FUNC( X_UNREF )
+{
+  PHB_ITEM pParam = hb_param( 1, HB_IT_OBJECT );
+
+  qoutf( "VALUE: %p, %d", pParam, pParam->item.asArray.value );
+
+  for( int i = -6; i <= 6 ; i++ )
+  {
+    int j = i;
+    PHB_ITEM pLocal = hb_stackLocalVariable( &j );
+    qoutf( "value (%d): %p, %d", i, pLocal, pLocal->item.asArray.value );
+  }
+
+  if( pParam )
+  {
+    int j = 1;
+    PHB_ITEM pSelf = hb_stackLocalVariable( &j );
+    //hb_itemClear( pSelf );
+    hb_itemReturnRelease( pSelf );
+  }
 }

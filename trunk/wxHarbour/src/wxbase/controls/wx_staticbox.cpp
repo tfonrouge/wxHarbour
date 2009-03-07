@@ -46,9 +46,5 @@ HB_FUNC( WXSTATICBOX_NEW )
   const wxString& name = wxh_parc( 7 );
   wx_StaticBox* staticBox = new wx_StaticBox( parent, id, label, pos, size, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( staticBox, pSelf );
-  objParams.PushObject( staticBox );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( staticBox );
 }

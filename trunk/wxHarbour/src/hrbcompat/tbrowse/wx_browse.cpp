@@ -57,7 +57,7 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
     PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
     wxh_ObjParams objParams = wxh_ObjParams( pGridEvent );
 
-    objParams.PushObject( &gridEvent );
+    objParams.Return( &gridEvent );
 
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
@@ -119,7 +119,7 @@ void wxhGridBrowse::CalcRowCount()
   m_maxRows = GetNumberRows();
 
   PHB_ITEM pBrowseTableBase = wxh_ItemListGet_HB( this->GetTable() );
-  if( pBrowseTableBase && hb_itemType( pBrowseTableBase ) == HB_IT_OBJECT )
+  if( pBrowseTableBase )
     hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
   else
     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
@@ -177,7 +177,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
       PHB_ITEM pKeyEvent = hb_itemNew( hb_stackReturnItem() );
       wxh_ObjParams objParams = wxh_ObjParams( pKeyEvent );
 
-      objParams.PushObject( &event );
+      objParams.Return( &event );
 
       hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
 

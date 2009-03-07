@@ -40,12 +40,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 
   wx_MessageDialog* msgDlg = new wx_MessageDialog( parent, message, caption, style, pos );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( msgDlg, pSelf );
-  objParams.PushObject( msgDlg );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( msgDlg );
 }
 
 /*

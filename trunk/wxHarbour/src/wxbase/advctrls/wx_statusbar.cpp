@@ -44,12 +44,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
 
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( statusBar, pSelf, objParams );
-  objParams.PushObject( statusBar );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( statusBar );
 }
 
 /*

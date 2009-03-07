@@ -47,11 +47,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
   const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
   wx_TextCtrl* textCtrl = new wx_TextCtrl( parent, id, value, pos, size, style, validator, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( textCtrl, pSelf );
-  objParams.PushObject( textCtrl );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( textCtrl );
 }
 
 /*

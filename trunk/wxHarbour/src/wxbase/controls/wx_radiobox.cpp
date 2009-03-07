@@ -46,10 +46,7 @@ HB_FUNC( WXRADIOBOX_NEW )
 
   wx_RadioBox* radioBox = new wx_RadioBox( parent, id, label, pos, size, choices, majorDimension, style, validator, name );
 
-  // Add object's to hash list
-  objParams.PushObject( radioBox );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( radioBox );
 }
 
 /*

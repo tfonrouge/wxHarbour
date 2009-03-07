@@ -39,7 +39,5 @@ HB_FUNC( WXHGRIDBROWSE_NEW )
 
   browse->m_gridBrowse->m_browse = browse;
 
-  objParams.PushObject( browse->m_gridBrowse );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( browse->m_gridBrowse );
 }

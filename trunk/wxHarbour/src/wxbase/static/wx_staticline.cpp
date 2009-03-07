@@ -45,11 +45,7 @@ HB_FUNC( WXSTATICLINE_NEW )
   const wxString& name = wxh_parc( 6 );
   wx_StaticLine* staticLine = new wx_StaticLine( parent, id, pos, size, style, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( staticLine, pSelf );
-  objParams.PushObject( staticLine );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( staticLine );
 }
 
 /*

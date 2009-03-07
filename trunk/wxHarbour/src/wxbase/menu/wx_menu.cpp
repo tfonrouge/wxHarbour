@@ -39,10 +39,7 @@ HB_FUNC( WXMENU_NEW )
 
   wx_Menu* menu = new wx_Menu();
 
-  // Add object's to hash list
-  objParams.PushObject( menu );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( menu );
 }
 
 HB_FUNC( WXMENU_APPEND1 )

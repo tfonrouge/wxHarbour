@@ -47,11 +47,7 @@ HB_FUNC( WXSCROLLBAR_NEW )
 
   wx_ScrollBar* sb = new wx_ScrollBar( parent, id, pos, size, style, validator, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( sb, pSelf );
-  objParams.PushObject( sb );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( sb );
 }
 
 /*

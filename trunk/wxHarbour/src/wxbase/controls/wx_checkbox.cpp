@@ -44,10 +44,7 @@ HB_FUNC( WXCHECKBOX_NEW )
 
   wx_CheckBox* checkBox = new wx_CheckBox( parent, id, label, pos, size, style, validator, name );
 
-  // Add object's to hash list
-  objParams.PushObject( checkBox );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( checkBox );
 }
 
 /*

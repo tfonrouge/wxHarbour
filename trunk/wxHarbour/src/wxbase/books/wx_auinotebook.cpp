@@ -55,11 +55,7 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
   else
     auiNotebook = new wx_AuiNotebook();
 
-  // Add object's to hash list
-//   wxh_ItemListAdd( auiNotebook, pSelf, objParams );
-  objParams.PushObject( auiNotebook );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( auiNotebook );
 }
 
 /*

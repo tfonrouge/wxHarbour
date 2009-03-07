@@ -52,9 +52,5 @@ HB_FUNC( WXPANEL_NEW )
   else
     panel = new wx_Panel();
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( panel, pSelf, objParams );
-  objParams.PushObject( panel );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( panel );
 }

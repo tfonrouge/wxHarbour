@@ -49,11 +49,7 @@ HB_FUNC( WXTREECTRL_NEW )
   const wxString& name = wxh_parc( 7 );
   wx_TreeCtrl* treeCtrl = new wx_TreeCtrl( parent, id, pos, size, style, validator, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( treeCtrl, pSelf );
-  objParams.PushObject( treeCtrl );
-
-  hb_itemReturn( objParams.pSelf );
+  objParams.Return( treeCtrl );
 }
 
 /*

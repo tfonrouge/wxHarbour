@@ -108,10 +108,7 @@ HB_FUNC( TRDOSERVER_ACCEPT )
       PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
       wxh_ObjParams objParams = wxh_ObjParams( p );
 
-      objParams.PushObject( socketBase );
-      //wxh_ItemListAdd( socketBase, p, NULL );
-      //hb_itemReturnRelease( p );
-      hb_itemReturn( p );
+      objParams.Return( socketBase );
     }
   }
 }

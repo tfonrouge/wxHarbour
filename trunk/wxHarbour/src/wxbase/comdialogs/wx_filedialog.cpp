@@ -44,12 +44,7 @@ HB_FUNC( WXFILEDIALOG_NEW )
 
   wxFileDialog* fileDlg = new wx_FileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( fileDlg, pSelf );
-  objParams.PushObject( fileDlg );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( fileDlg );
 }
 
 /*

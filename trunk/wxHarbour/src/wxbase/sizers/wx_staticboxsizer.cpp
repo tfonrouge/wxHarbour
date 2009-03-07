@@ -47,12 +47,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
     boxSizer = new wx_StaticBoxSizer( hb_parni( 1 ), parent, label );
   }
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( boxSizer, pSelf );
-  objParams.PushObject( boxSizer );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( boxSizer );
 }
 
 /*! IMPLEMENT THIS (SEE .prg SOURCE)

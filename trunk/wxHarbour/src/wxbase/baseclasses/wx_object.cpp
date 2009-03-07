@@ -36,18 +36,43 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
      So, we just need to call the C++ destructor of this object */
   wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pSelf );
 
-  qoutf("In HB_DESTRUCT");
+  qoutf( "In HB_DESTRUCT: %s", hb_clsName( pSelf->item.asArray.value->uiClass ) );
 
   if( pwxhItm )
   {
     qoutf( "In wxh_ItemListDel_HB." );
-    qoutf( hb_clsName( pSelf->item.asArray.value->uiClass ) );
     delete pwxhItm;
     qoutf( "Out wxh_ItemListDel_HB." );
   }
 
   qoutf("Out HB_DESTRUCT");
+}
 
+/*
+  TBaseClass:SelfReferenceCall
+  Teo. Mexico 2009
+*/
+HB_FUNC( TBASECLASS_SELFREFERENCECALL )
+{
+  PHB_ITEM pSelfRef = hb_param( 1, HB_IT_OBJECT );
+
+  //if( ISBYREF( 1 ) )
+  if( HB_IS_BYREF( pSelfRef ) )
+  {
+    qout("***REFERENCED***");
+    PHB_ITEM pSelf2 = hb_itemNew( NULL );
+//     PHB_ITEM pSelf2 = pSelfRef;
+    hb_itemMoveToRef( pSelf2, pSelfRef );
+    wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelfRef );
+    if( pWxh_Item )
+    {
+      pWxh_Item->pSelf = pSelf2;
+      qoutf("<<<PSELF2>>>: %p:%p", pSelf2, pSelf2->item.asArray.value );
+//       hb_itemReturnRelease( pSelf2 );
+    }
+  }
+  else
+    qout("No referenced.");
 }
 
 /*

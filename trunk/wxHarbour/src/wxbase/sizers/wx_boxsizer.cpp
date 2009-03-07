@@ -35,12 +35,7 @@ HB_FUNC( WXBOXSIZER_NEW )
 
   wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
-  // Add object's to hash list
-  //wxh_ItemListAdd( boxSizer, pSelf );
-  objParams.PushObject( boxSizer );
-
-  hb_itemReturn( objParams.pSelf );
-
+  objParams.Return( boxSizer );
 }
 
 /*
