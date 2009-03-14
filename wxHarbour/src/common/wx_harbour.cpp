@@ -39,25 +39,6 @@ wxh_Item::~wxh_Item()
   map_phbBaseArr.erase( this->objHandle );
   map_wxObject.erase( this->wxObj  );
 
-  /* scan the map_childList to release hb items */
-  for( MAP_PHB_ITEM::iterator it = this->map_childList.begin(); it != this->map_childList.end(); it++ )
-  {
-    wxh_Item* pwxhChildItm = wxh_ItemListGet_PWXH_ITEM( it->first );
-
-    if( pwxhChildItm )
-    {
-      //wxh_ItemListDel_WX( pwxhChildItm->wxObj );
-      pwxhChildItm->delete_WX = false;
-      delete pwxhChildItm;
-    }
-
-    if( it->second )
-    {
-      it->second = false;
-      hb_itemRelease( it->first );
-    }
-  }
-
   /* release codeblocks stored in event list */
   if( this->evtList.size() > 0 )
   {
@@ -75,12 +56,14 @@ wxh_Item::~wxh_Item()
 
   if( delete_WX )
   {
+    qoutf("deleting wx...");
     delete this->wxObj;
   }
 
   if( pSelf )
   {
     hb_itemRelease( pSelf );
+    pSelf = NULL;
   }
 
 }
@@ -91,9 +74,6 @@ wxh_Item::~wxh_Item()
 */
 wxh_ObjParams::wxh_ObjParams()
 {
-//   hb_itemCopyFromRef( pSelf, hb_stackSelfItem() );
-//   pSelf = hb_itemNew( hb_stackSelfItem() );
-  /*hb_itemCopy( pSelf, hb_stackSelfItem() );*/
   pSelf = hb_stackSelfItem();
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -115,7 +95,6 @@ wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
 wxh_ObjParams::~wxh_ObjParams()
 {
   ProcessParamLists();
-  //hb_itemRelease( pSelf );
 }
 
 /*
@@ -190,7 +169,7 @@ void wxh_ObjParams::ProcessParamLists()
   while( map_paramListParent.size() > 0 )
   {
     MAP_PHB_ITEM::iterator it = map_paramListParent.begin();
-    SetParentChildKey( it->first, pSelf );
+    SetParentChildKey( pSelf );
     map_paramListParent.erase( it );
   }
 
@@ -199,7 +178,7 @@ void wxh_ObjParams::ProcessParamLists()
   while( map_paramListChild.size() > 0 )
   {
     MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
-    SetParentChildKey( pSelf, it->first );
+    SetParentChildKey( it->first );
     map_paramListChild.erase( it );
   }
 #endif
@@ -229,11 +208,6 @@ void wxh_ObjParams::Return( wxObject* wxObj )
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
 
-    /* this object is the Harbour var created in the ::New() method
-       and the Harbour programmer is responsible to keep it alive */
-    //pWxh_Item->pSelf = hb_objSendMsg( pSelf, "SelfReference", 0 );
-    hb_objSendMsg( pSelf, "SelfReference", 0 );
-
     ProcessParamLists();
 
     hb_itemReturn( pSelf );
@@ -247,17 +221,18 @@ void wxh_ObjParams::Return( wxObject* wxObj )
   SetParentChildKey
   Teo. Mexico 2009
 */
-void wxh_ObjParams::SetParentChildKey( const PHB_ITEM pParentItm, const PHB_ITEM pChildItm )
+void wxh_ObjParams::SetParentChildKey( const PHB_ITEM pChildItm )
 {
-  wxh_Item* pwxhParentItm = wxh_ItemListGet_PWXH_ITEM( pParentItm );
+  wxh_Item* pWxh_ItemChild = wxh_ItemListGet_PWXH_ITEM( pChildItm );
 
-  if( pwxhParentItm )
+  if( pWxh_ItemChild )
   {
-    PHB_ITEM pRefItm = hb_itemNew( pChildItm );
-
-    pWxh_Item->map_refList[ pRefItm ] = true;
-    pwxhParentItm->map_childList[ pRefItm ] = true;
-  }
+    if( pWxh_ItemChild->pSelf == NULL )
+      pWxh_ItemChild->pSelf = hb_itemNew( pChildItm );
+    else
+      pWxh_ItemChild->uiRefCount++;
+  }else
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 }
 
 /*
@@ -274,7 +249,6 @@ void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 
   if( pWxh_Item )
   {
-    cout << bDeleteWxObj;
     pWxh_Item->delete_WX = bDeleteWxObj;
     delete pWxh_Item;
   }
@@ -291,18 +265,12 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 
   if( pWxh_Item )
   {
-    /* search on the parent objects for a reference on his childList */
-    if( pWxh_Item->map_refList.size() > 0 )
-    {
-      pSelf = pWxh_Item->map_refList.begin()->first;
-    }else
-      pSelf = pWxh_Item->pSelf;
-
+    pSelf = pWxh_Item->pSelf;
     if( hb_itemType( pSelf ) != HB_IT_OBJECT )
-    {
       pSelf = NULL;
-    }
   }
+  else
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 //   qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
   return pSelf;
 }
@@ -463,12 +431,19 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
-  qout
+  qoutf
   Teo. Mexico 2009
 */
-void qout( const char* text )
+void qoutf( const char* format, ... )
 {
+  static char text[512];
   static PHB_DYNS s___qout = NULL;
+
+  va_list argp;
+
+  va_start( argp, format );
+  vsprintf( text, format, argp );
+  va_end( argp );
 
   if( s___qout == NULL )
   {
@@ -478,90 +453,4 @@ void qout( const char* text )
   hb_vmPushNil();
   hb_vmPushString( text, strlen( text ) );
   hb_vmDo( 1 );
-}
-
-/*
-  qoutf
-  Teo. Mexico 2009
-*/
-void qoutf( const char* format, ... )
-{
-  static char text[512];
-
-  va_list argp;
-
-  va_start( argp, format );
-  vsprintf( text, format, argp );
-  va_end( argp );
-
-  qout( text );
-}
-
-static void hb_arrayCloneBody( PHB_BASEARRAY pSrcBaseArray, PHB_BASEARRAY pDstBaseArray, PHB_NESTED_CLONED pClonedList )
-{
-   PHB_ITEM pSrcItem, pDstItem;
-   ULONG ulLen;
-
-   HB_TRACE(HB_TR_DEBUG, ("hb_arrayCloneBody(%p, %p, %p)", pSrcBaseArray, pDstBaseArray, pClonedList));
-
-   pSrcItem = pSrcBaseArray->pItems;
-   pDstItem = pDstBaseArray->pItems;
-
-   pDstBaseArray->uiClass = pSrcBaseArray->uiClass;
-
-   for( ulLen = pSrcBaseArray->ulLen; ulLen; --ulLen, ++pSrcItem, ++pDstItem )
-      hb_cloneNested( pDstItem, pSrcItem, pClonedList );
-}
-
-PHB_ITEM hb_aClone( PHB_BASEARRAY pSrcBaseArray )
-{
-   PHB_ITEM pDstArray;
-
-   HB_TRACE(HB_TR_DEBUG, ("hb_arrayClone(%p)", pSrcArray));
-
-   pDstArray = hb_itemNew( NULL );
-   if( pSrcBaseArray )
-   {
-      PHB_NESTED_CLONED pClonedList, pCloned;
-      ULONG ulSrcLen = pSrcBaseArray->ulLen;
-
-      hb_arrayNew( pDstArray, ulSrcLen );
-      pClonedList = ( PHB_NESTED_CLONED ) hb_xgrab( sizeof( HB_NESTED_CLONED ) );
-      pClonedList->value = ( void * ) pSrcBaseArray;
-      pClonedList->pDest = pDstArray;
-      pClonedList->pNext = NULL;
-
-      hb_arrayCloneBody( pSrcBaseArray, pDstArray->item.asArray.value, pClonedList );
-
-      do
-      {
-         pCloned = pClonedList;
-         pClonedList = pClonedList->pNext;
-         hb_xfree( pCloned );
-      }
-      while( pClonedList );
-   }
-   return pDstArray;
-}
-
-HB_FUNC( X_UNREF )
-{
-  PHB_ITEM pParam = hb_param( 1, HB_IT_OBJECT );
-
-  qoutf( "VALUE: %p, %d", pParam, pParam->item.asArray.value );
-
-  for( int i = -6; i <= 6 ; i++ )
-  {
-    int j = i;
-    PHB_ITEM pLocal = hb_stackLocalVariable( &j );
-    qoutf( "value (%d): %p, %d", i, pLocal, pLocal->item.asArray.value );
-  }
-
-  if( pParam )
-  {
-    int j = 1;
-    PHB_ITEM pSelf = hb_stackLocalVariable( &j );
-    //hb_itemClear( pSelf );
-    hb_itemReturnRelease( pSelf );
-  }
 }

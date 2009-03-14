@@ -60,11 +60,10 @@ public:
   bool delete_WX;
   PHB_BASEARRAY objHandle;
   vector<PCONN_PARAMS> evtList;
-  MAP_PHB_ITEM map_childList;
-  MAP_PHB_ITEM map_refList;
   PHB_ITEM pSelf;
+  USHORT uiRefCount;
 
-  wxh_Item() { delete_WX = true; }
+  wxh_Item() { delete_WX = true; pSelf = NULL ; uiRefCount = 0; }
   ~wxh_Item();
 
 };
@@ -72,7 +71,7 @@ public:
 class wxh_ObjParams
 {
 private:
-  void SetParentChildKey( const PHB_ITEM pParentItm, const PHB_ITEM pChildItem );
+  void SetParentChildKey( const PHB_ITEM pChildItem );
 public:
 
   MAP_PHB_ITEM map_paramListParent;
@@ -116,8 +115,7 @@ void          wxh_ItemListReleaseAll();
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
-/* generic qout for debug output */
-void qout( const char* text );
+/* generic qoutf for debug output */
 void qoutf( const char* format, ... );
 
 /* string manipulation */
@@ -147,7 +145,7 @@ public:
   Teo. Mexico 2009
 */
 template <class T>
-hbEvtHandler<T>::~hbEvtHandler<T>()
+hbEvtHandler<T>::~hbEvtHandler()
 {
   wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
   if( pWxh_Item )

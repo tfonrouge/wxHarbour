@@ -46,57 +46,56 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
 //   LOCAL menuBar
 //   LOCAL menu
 //   LOCAL sb
 
-  CREATE FRAME oWnd ;
+  CREATE FRAME ::oWnd ;
          WIDTH 800 HEIGHT 600 ;
          TITLE "Menu Sample"
 
-//   DEFINE MENUBAR
-//     DEFINE MENU "Pro&grama"
-//       ADD MENUITEM "Configuracion de Arel" ENABLED .F.
-//       ADD MENUITEM "Seguridad " ENABLED .F.
-//       ADD MENUSEPARATOR
-//       ADD MENUITEM "Impresoras disponibles" ENABLED .F.
-//       ADD MENUSEPARATOR
-//       ADD MENUITEM E"Salir \tAlt+X" ID wxID_EXIT ACTION ::oWnd:Close() ;
-//           HELPLINE "Termina la sesión de Arel..."
-//     ENDMENU
-//     DEFINE MENU "&Administración"
-//       DEFINE MENU "Inventario"
-//         ADD MENUITEM "Catálogo General de Inventario" ACTION ::AX_Show_Inventario()
-//       ENDMENU
-//       ADD MENUITEM "Almacén" ENABLED .F.
-//       ADD MENUITEM "Compras" ENABLED .F.
-//       ADD MENUITEM "Ventas" ENABLED .F.
-//       ADD MENUSEPARATOR
-//       ADD MENUITEM "Cuentas por Pagar" ENABLED .F.
-//       ADD MENUITEM "Cuentas por Cobrar" ENABLED .F.
-//       ADD MENUSEPARATOR
-//     ENDMENU
-//     DEFINE MENU E"&Producción"
-//       ADD MENUITEM "Ordenes de Producción" //ACTION Produccion()
-//       ADD MENUITEM "Productos" //ACTION Productos()
-//       ADD MENUITEM "Componentes" //ACTION Componentes()
-//       DEFINE MENU "Configuración"
-//         ADD MENUITEM "Operaciones de Producción" ACTION ::AX_Show_OperacionesProduccion()
-//         ADD MENUITEM "Maquinaria y Equipo" ACTION ::AX_Show_MaquinariaYEquipo()
-//         ADD MENUITEM "Recursos Humanos" ACTION ::AX_Show_RecursoHumano()
-//       ENDMENU
-//     ENDMENU
-//     DEFINE MENU "Help"
-//       ADD MENUITEM "About..." ACTION wxMessageBox( "ArelX: Prototipo funcional de Produccion v0.1", "About", wxICON_INFORMATION, ::oWnd )
-//     ENDMENU
-//   ENDMENU
-// 
-//   BEGIN BOXSIZER VERTICAL
-//     @ BUTTON "Hola"
-//   END SIZER
-// 
-//   @ STATUSBAR
+  DEFINE MENUBAR
+    DEFINE MENU "Pro&grama"
+      ADD MENUITEM "Configuracion de Arel" ENABLED .F.
+      ADD MENUITEM "Seguridad " ENABLED .F.
+      ADD MENUSEPARATOR
+      ADD MENUITEM "Impresoras disponibles" ENABLED .F.
+      ADD MENUSEPARATOR
+      ADD MENUITEM E"Salir \tAlt+X" ID wxID_EXIT ACTION ::oWnd:Close() ;
+          HELPLINE "Termina la sesión de Arel..."
+    ENDMENU
+    DEFINE MENU "&Administración"
+      DEFINE MENU "Inventario"
+        ADD MENUITEM "Catálogo General de Inventario" ACTION ::AX_Show_Inventario()
+      ENDMENU
+      ADD MENUITEM "Almacén" ENABLED .F.
+      ADD MENUITEM "Compras" ENABLED .F.
+      ADD MENUITEM "Ventas" ENABLED .F.
+      ADD MENUSEPARATOR
+      ADD MENUITEM "Cuentas por Pagar" ENABLED .F.
+      ADD MENUITEM "Cuentas por Cobrar" ENABLED .F.
+      ADD MENUSEPARATOR
+    ENDMENU
+    DEFINE MENU E"&Producción"
+      ADD MENUITEM "Ordenes de Producción" //ACTION Produccion()
+      ADD MENUITEM "Productos" //ACTION Productos()
+      ADD MENUITEM "Componentes" //ACTION Componentes()
+      DEFINE MENU "Configuración"
+        ADD MENUITEM "Operaciones de Producción" ACTION ::AX_Show_OperacionesProduccion()
+        ADD MENUITEM "Maquinaria y Equipo" ACTION ::AX_Show_MaquinariaYEquipo()
+        ADD MENUITEM "Recursos Humanos" ACTION ::AX_Show_RecursoHumano()
+      ENDMENU
+    ENDMENU
+    DEFINE MENU "Help"
+      ADD MENUITEM "About..." ACTION wxMessageBox( "ArelX: Prototipo funcional de Produccion v0.1", "About", wxICON_INFORMATION, ::oWnd )
+    ENDMENU
+  ENDMENU
+
+  BEGIN BOXSIZER VERTICAL
+    @ BUTTON "Hola"
+  END SIZER
+
+  @ STATUSBAR
 
   //SHOW WINDOW ::oWnd FIT CENTRE
 
@@ -120,7 +119,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 //
 //   ? "***", ::grid:GetTable():ClassName(), "==", ::gridTableBase:ClassName()
 
-  SHOW WINDOW oWnd
+  SHOW WINDOW ::oWnd CENTRE
 
 RETURN .T.
 

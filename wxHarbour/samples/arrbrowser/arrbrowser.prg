@@ -67,7 +67,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   DEFINE MENUBAR STYLE 1
     DEFINE MENU "&File"
       ADD MENUSEPARATOR
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close();
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
@@ -102,7 +102,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   b:AddAllColumns()
 
-//   @ STATUSBAR
-  SHOW WINDOW oWnd //CENTRE
+  @ STATUSBAR
+  SHOW WINDOW oWnd CENTRE
 
 RETURN .T.

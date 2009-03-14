@@ -187,7 +187,6 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
   if( pSelf )
     labelValue = wxString( hb_objSendMsg( pSelf, "GetColLabelValue", 1, pCol )->item.asString.value, wxConvLocal );
   else
-    qoutf("aqui esta el pedo.");
 #endif
 
   hb_itemRelease( pCol );
@@ -364,7 +363,6 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
     wx_Grid* grid = (wx_Grid *) gridTable->GetView();
     if( grid )
     {
-      qoutf( "wxGetView: %p, HB: %p", grid, wxh_ItemListGet_HB( grid ) );
       hb_itemReturn( wxh_ItemListGet_HB( grid ) );
     }
   }
