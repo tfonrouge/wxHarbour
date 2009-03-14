@@ -145,12 +145,15 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhpanel.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.o \
+	$(__BUILDDIR__)\wxHarbour_wxchoice.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcommandevent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)\wxHarbour_wxhevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhevthandler.o \
 	$(__BUILDDIR__)\wxHarbour_wxhfocusevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhgridevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhkeyevent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhmouseevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)\wxHarbour_wxhwindow.o \
@@ -158,7 +161,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhlistbook.o \
 	$(__BUILDDIR__)\wxHarbour_wxhnotebook.o \
 	$(__BUILDDIR__)\wxHarbour_wxhbutton.o \
+	$(__BUILDDIR__)\wxHarbour_wxhcheckbox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrol.o \
+	$(__BUILDDIR__)\wxHarbour_wxhradiobox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticbox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstatictext.o \
 	$(__BUILDDIR__)\wxHarbour_wxhtextctrl.o \
@@ -186,8 +191,10 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.o \
 	$(__BUILDDIR__)\wxHarbour_sysdefs.o \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.o \
+	$(__BUILDDIR__)\wxHarbour_wxh_scopelist.o \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)\wxHarbour_wx_browse.o \
+	$(__BUILDDIR__)\wxHarbour_wx_gridbrowse.o \
 	$(__BUILDDIR__)\wxHarbour_trdoserver_c.o \
 	$(__BUILDDIR__)\wxHarbour_ttable_c.o \
 	$(__BUILDDIR__)\wxHarbour_wx_grid.o \
@@ -196,6 +203,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wx_app.o \
 	$(__BUILDDIR__)\wxHarbour_wx_commandevent.o \
+	$(__BUILDDIR__)\wxHarbour_wx_controlwithitems.o \
 	$(__BUILDDIR__)\wxHarbour_wx_event.o \
 	$(__BUILDDIR__)\wxHarbour_wx_evthandler.o \
 	$(__BUILDDIR__)\wxHarbour_wx_focusevent.o \
@@ -208,6 +216,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_listbook.o \
 	$(__BUILDDIR__)\wxHarbour_wx_notebook.o \
 	$(__BUILDDIR__)\wxHarbour_wx_button.o \
+	$(__BUILDDIR__)\wxHarbour_wx_checkbox.o \
+	$(__BUILDDIR__)\wxHarbour_wx_choice.o \
+	$(__BUILDDIR__)\wxHarbour_wx_radiobox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_staticbox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_statictext.o \
 	$(__BUILDDIR__)\wxHarbour_wx_textctrl.o \
@@ -364,6 +375,9 @@ uninstall_wxHarbour_headers:
 samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all
 
+sudoinstall: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
+	sudo make install
+
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -430,7 +444,13 @@ $(__BUILDDIR__)\wxHarbour_wxhstatusbar.o: ./src/wxbase/advctrls/wxhstatusbar.prg
 $(__BUILDDIR__)\wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.o: ./src/wxbase/baseclasses/wxhcontrolwithitems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
@@ -446,6 +466,9 @@ $(__BUILDDIR__)\wxHarbour_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg
@@ -469,7 +492,13 @@ $(__BUILDDIR__)\wxHarbour_wxhnotebook.o: ./src/wxbase/books/wxhnotebook.prg
 $(__BUILDDIR__)\wxHarbour_wxhbutton.o: ./src/wxbase/controls/wxhbutton.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhcheckbox.o: ./src/wxbase/controls/wxhcheckbox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhcontrol.o: ./src/wxbase/controls/wxhcontrol.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhradiobox.o: ./src/wxbase/controls/wxhradiobox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhstaticbox.o: ./src/wxbase/controls/wxhstaticbox.prg
@@ -553,10 +582,16 @@ $(__BUILDDIR__)\wxHarbour_sysdefs.o: ./src/common/sysdefs.cpp
 $(__BUILDDIR__)\wxHarbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)\wxHarbour_wxh_scopelist.o: ./src/common/wxh_scopelist.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)\wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_browse.o: ./src/hrbcompat/tbrowse/wx_browse.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_gridbrowse.o: ./src/hrbcompat/tbrowse/wx_gridbrowse.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_trdoserver_c.o: ./src/raddox/trdoserver_c.cpp
@@ -581,6 +616,9 @@ $(__BUILDDIR__)\wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_controlwithitems.o: ./src/wxbase/baseclasses/wx_controlwithitems.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
@@ -617,6 +655,15 @@ $(__BUILDDIR__)\wxHarbour_wx_notebook.o: ./src/wxbase/books/wx_notebook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_checkbox.o: ./src/wxbase/controls/wx_checkbox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_choice.o: ./src/wxbase/controls/wx_choice.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_radiobox.o: ./src/wxbase/controls/wx_radiobox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_staticbox.o: ./src/wxbase/controls/wx_staticbox.cpp
