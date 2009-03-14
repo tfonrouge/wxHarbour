@@ -2,6 +2,10 @@
  *
  */
 
+2009-03-14 10:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.gcc
+    * updated MinGW makefile
+
 2009-03-13 22:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * include/wxh.h
