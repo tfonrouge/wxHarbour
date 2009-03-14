@@ -20,14 +20,11 @@
 CLASS TBaseClass
 PRIVATE:
 PROTECTED:
-  METHOD SelfReferenceCall
 PUBLIC:
 
   DESTRUCTOR OnDestruct()
 
   METHOD HB_Destruct
-
-  METHOD SelfReference
 
 PUBLISHED:
 ENDCLASS
@@ -40,14 +37,6 @@ METHOD PROCEDURE OnDestruct CLASS TBaseClass
 //   ? "HB Destroying:",::ClassName()
   ::HB_Destruct()
 RETURN
-
-/*
-  SelfReference
-  Teo. Mexico 2009
-*/
-METHOD FUNCTION SelfReference CLASS TBaseClass
-  ::SelfReferenceCall( @Self )
-RETURN Self
 
 /*
   EndClass TBaseClass

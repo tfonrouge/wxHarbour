@@ -291,7 +291,7 @@ WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_2 = -ggdb
+__WX_DEBUG_INFO_2 = -g
 endif
 ifeq ($(WX_ENCODING),unicode)
 __D_WX_UNICODE_p = -D_UNICODE

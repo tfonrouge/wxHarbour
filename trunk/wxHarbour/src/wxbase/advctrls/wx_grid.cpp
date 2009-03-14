@@ -173,7 +173,6 @@ HB_FUNC( WXGRID_GETTABLE )
     if( gridTable )
     {
       PHB_ITEM pGridTableBase = wxh_ItemListGet_HB( gridTable );
-      qoutf( "GetTable: WX: %p, HB: %p:", gridTable, pGridTableBase );
       hb_itemReturn( pGridTableBase );
     }
   }
@@ -335,12 +334,9 @@ HB_FUNC( WXGRID_SETTABLE )
 
   if( grid ) /* gridTable can be NULL */
   {
-    PHB_ITEM pGridTableBase = hb_param( 1, HB_IT_OBJECT );
-    //wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.param( 1 );
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pGridTableBase );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.paramChild( 1 );
     if( gridTable )
     {
-      qoutf( "SetTable: WX: %p, HB: %p:%p", gridTable, pGridTableBase, pGridTableBase->item.asArray.value );
       grid->SetTable( gridTable, hb_parl( 2 ), (wxGrid::wxGridSelectionModes) hb_parnl( 3 ) );
     }
   }

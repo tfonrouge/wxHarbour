@@ -2,6 +2,21 @@
  *
  */
 
+2009-03-13 22:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/wxh.h
+  * makefile.vc
+  * samples/arrbrowser/arrbrowser.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+  * tests/test1/test1.prg
+    * Method complete to save HB objs into wxh_Item's
+      ; tests are required, but this the final approach.
+
 2009-03-08 00:16 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * src/common/wx_harbour.cpp

@@ -39,9 +39,9 @@ PRIVATE:
   METHOD SetRowCount( rowCount )
   METHOD SetRowPos( rowPos )
 PROTECTED:
+  METHOD browseTableBase INLINE ::grid:GetTable()
 PUBLIC:
 
-  DATA browseTableBase
   DATA grid
 
   CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
@@ -128,18 +128,7 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
 
   boxSizer:Add( scrollBar, 0, HB_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
 
-  ::browseTableBase := wxhBrowseTableBase():New( Self )
-
-  ::grid:SetTable( ::browseTableBase )
-
-  ? "::grid:GetTable", ::grid:GetTable():ClassName, "==", ::browseTableBase:ClassName
-  ? "browseTableBase:GetView", ::browseTableBase:GetView():ClassName, "==", ::grid:ClassName
-
-  //? "::grid:SelfReference()", ::grid:SelfReference():ClassName()
-
-  //? "X_UNREF( ::grid )",X_UNREF( ::grid ):ClassName()
-
-  ? "UNREF HB:", ::grid:ClassName
+  ::grid:SetTable( wxhBrowseTableBase():New( Self ) )
 
   IF !onKey = NIL
     ::KeyEventBlock := onKey
@@ -148,8 +137,6 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
   IF dataSource != NIL
     ::SetDataSource( dataSource )
   ENDIF
-
-  ? "OK"
 
 RETURN Self
 
