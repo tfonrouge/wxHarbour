@@ -87,6 +87,10 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   LOCAL topRecord
   LOCAL rowPos
 
+  IF ::FBrowse:SkipBlock == NIL
+    RETURN
+  ENDIF
+
   ::FBrowse:SkipBlock:Eval( 0 )
 
   IF ::FCurRowIndex = NIL .OR. ( ::FBrowse:DataSourceType = "O" .AND. ::FBrowse:DataSource:Eof() )
@@ -333,7 +337,7 @@ METHOD PROCEDURE SetGridBufferSize( size ) CLASS wxhBrowseTableBase
   IF ::FBrowse:RowCount != size
     ::FBrowse:RowCount := size
   ENDIF
-  ::FBrowse:grid:ForceRefresh()
+  ::FBrowse:gridBrowse:ForceRefresh()
 RETURN
 
 /*

@@ -35,9 +35,101 @@ HB_FUNC( WXHGRIDBROWSE_NEW )
   long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
   const wxString& name = ISNIL( 6 ) ? _T("wxhGridBrowse") : wxh_parc( 6 );
 
-  browse->m_gridBrowse = new wxhGridBrowse( browse, id, pos, size, style, name );
+  wxhGridBrowse* gridBrowse = new wxhGridBrowse( browse, id, pos, size, style, name );
 
-  browse->m_gridBrowse->m_browse = browse;
+  objParams.Return( gridBrowse );
+}
 
-  objParams.Return( browse->m_gridBrowse );
+/*
+  wxhGridBrowse:MaxRows
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXHGRIDBROWSE_GETMAXROWS )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridBrowse )
+  {
+    hb_retnl( gridBrowse->m_maxRows );
+  }
+}
+
+/*
+  wxhGridBrowse:RowCount
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHGRIDBROWSE_GETROWCOUNT )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridBrowse )
+  {
+    hb_retnl( gridBrowse->m_rowCount );
+  }
+}
+
+/*
+  wxhGridBrowse:SetColPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHGRIDBROWSE_SETCOLPOS )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  if( gridBrowse )
+  {
+    int col = hb_parni( 1 ) - 1;
+    int row = gridBrowse->GetGridCursorRow();
+    gridBrowse->SetGridCursor( row, col );
+  }
+}
+
+/*
+  wxhGridBrowse:SetColWidth
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  if( gridBrowse )
+  {
+    int col = hb_parni( 1 ) - 1;
+    int pointSize = ( gridBrowse->GetCellFont( 0, col ) ).GetPointSize();
+    int width = hb_parni( 2 );
+    gridBrowse->SetColSize( col, pointSize * width );
+  }
+}
+
+/*
+  wxhGridBrowse:SetRowCount
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHGRIDBROWSE_SETROWCOUNT )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  int rowCount = hb_parni( 1 );
+  if( gridBrowse && ( rowCount != gridBrowse->m_rowCount ) )
+  {
+    if( rowCount > gridBrowse->m_rowCount )
+      gridBrowse->AppendRows( rowCount - gridBrowse->m_rowCount );
+    else
+      gridBrowse->DeleteRows( rowCount - 1, gridBrowse->m_rowCount - rowCount );
+    gridBrowse->m_rowCount = rowCount;
+  }
+}
+
+/*
+  wxhGridBrowse:SetRowPos
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXHGRIDBROWSE_SETROWPOS )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  if( gridBrowse )
+  {
+    int row = hb_parni( 1 );
+    int col = gridBrowse->GetGridCursorCol();
+    gridBrowse->SetFocus();
+    gridBrowse->MakeCellVisible( row - 1, col );
+    gridBrowse->SetGridCursor( row - 1, col );
+  }
 }

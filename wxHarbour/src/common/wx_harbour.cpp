@@ -36,6 +36,17 @@ static PHB_ITEM lastTopLevelWindow;
 */
 wxh_Item::~wxh_Item()
 {
+  const char *hbClassName;
+  if( this->pSelf )
+    hbClassName = hb_clsName( this->pSelf->item.asArray.value->uiClass );
+  else
+    hbClassName = "<unknown>";
+  //const char *wxClassName = (char *) (wxString( this->wxObj->GetClassInfo()->GetClassName() ).c_str() );
+  const char *c1 = wxString( this->wxObj->GetClassInfo()->GetClassName(), wxConvISO8859_1 ).mb_str();
+  char text[ 50 ] ;
+  strcpy( text, c1 );
+  qoutf("~wxh_Item = hb: %s, wx: %s", hbClassName, text );
+
   map_phbBaseArr.erase( this->objHandle );
   map_wxObject.erase( this->wxObj  );
 
@@ -62,10 +73,10 @@ wxh_Item::~wxh_Item()
 
   if( pSelf )
   {
+    qoutf("releasing item...");
     hb_itemRelease( pSelf );
     pSelf = NULL;
   }
-
 }
 
 /*
@@ -169,7 +180,7 @@ void wxh_ObjParams::ProcessParamLists()
   while( map_paramListParent.size() > 0 )
   {
     MAP_PHB_ITEM::iterator it = map_paramListParent.begin();
-    SetParentChildKey( pSelf );
+    SetChildItem( pSelf );
     map_paramListParent.erase( it );
   }
 
@@ -178,7 +189,7 @@ void wxh_ObjParams::ProcessParamLists()
   while( map_paramListChild.size() > 0 )
   {
     MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
-    SetParentChildKey( it->first );
+    SetChildItem( it->first );
     map_paramListChild.erase( it );
   }
 #endif
@@ -189,7 +200,7 @@ void wxh_ObjParams::ProcessParamLists()
   Return
   Teo. Mexico 2009
 */
-void wxh_ObjParams::Return( wxObject* wxObj )
+void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 {
   pWxh_Item = NULL;
 
@@ -210,7 +221,10 @@ void wxh_ObjParams::Return( wxObject* wxObj )
 
     ProcessParamLists();
 
-    hb_itemReturn( pSelf );
+    if( bItemRelease )
+      hb_itemReturnRelease( pSelf );
+    else
+      hb_itemReturn( pSelf );
 
   }else
     qoutf("Problemas.");
@@ -218,10 +232,10 @@ void wxh_ObjParams::Return( wxObject* wxObj )
 }
 
 /*
-  SetParentChildKey
+  SetChildItem
   Teo. Mexico 2009
 */
-void wxh_ObjParams::SetParentChildKey( const PHB_ITEM pChildItm )
+void wxh_ObjParams::SetChildItem( const PHB_ITEM pChildItm )
 {
   wxh_Item* pWxh_ItemChild = wxh_ItemListGet_PWXH_ITEM( pChildItm );
 

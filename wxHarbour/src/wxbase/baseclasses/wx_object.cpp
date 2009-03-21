@@ -40,10 +40,10 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 
   if( pwxhItm )
   {
-    qoutf( "In wxh_ItemListDel_HB." );
+    qoutf( "> TBASECLASS_HB_DESTRUCT: %s", hb_clsName( pwxhItm->pSelf->item.asArray.value->uiClass ) );
     pwxhItm->pSelf = NULL;
     delete pwxhItm;
-    qoutf( "Out wxh_ItemListDel_HB." );
+    qoutf( "< TBASECLASS_HB_DESTRUCT" );
   }
 
 //   qoutf("Out HB_DESTRUCT");

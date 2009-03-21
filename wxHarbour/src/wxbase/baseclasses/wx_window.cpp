@@ -115,7 +115,7 @@ HB_FUNC( WXWINDOW_GETFONT )
     HB_FUNC_EXEC( WXFONT );
     PHB_ITEM pFont = hb_itemNew( hb_stackReturnItem() );
     wxh_ObjParams objParams = wxh_ObjParams( pFont );
-    objParams.Return( font );
+    objParams.Return( font, true );
   }
 }
 

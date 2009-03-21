@@ -22,6 +22,7 @@ private:
 public:
   virtual bool OnInit();
   virtual int OnExit();
+  ~wx_App();
 };
 
 DECLARE_APP( wx_App )
