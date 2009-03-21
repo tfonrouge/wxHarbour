@@ -49,8 +49,10 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   a := {}
 
-  nCols := HB_Random( 1000 )
-  nRows := HB_Random( 1000 )
+//   nCols := HB_Random( 100 )
+//   nRows := HB_Random( 100 )
+  nCols := 5
+  nRows := 2
 
   FOR x := 1 TO nRows
     AAdd( a, {} )
@@ -100,7 +102,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   b:SelectCellBlock := {|b,gridEvent| textCtrl:AppendText( "GetCol" + NTrim( gridEvent:GetCol() ) + ", RecNo: " + NTrim( b:RecNo ) + ", Row: " + NTrim( b:RowPos ) + ", Col: " + NTrim( b:ColPos ) + ", Value: " + NTrim( b:DataSource[ b:RecNo, b:ColPos ] ) + E"\n" ) }
 
-  b:AddAllColumns()
+//   b:AddAllColumns()
 
   @ STATUSBAR
   SHOW WINDOW oWnd CENTRE

@@ -2,6 +2,38 @@
  *
  */
 
+2009-03-21 12:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxbase/wx_app.h
+  * include/wxh.h
+  * samples/arrbrowser/arrbrowser.prg
+  + samples/grid
+  + samples/grid/GNUmakefile
+  + samples/grid/grid.prg
+  + samples/grid/makefile.gcc
+  + samples/grid/makefile.vc
+  * samples/menu/GNUmakefile
+  * samples/samples.bkl
+  + samples/wxhBrowse
+  + samples/wxhBrowse/GNUmakefile
+  + samples/wxhBrowse/makefile.gcc
+  + samples/wxhBrowse/makefile.vc
+  + samples/wxhBrowse/wxhBrowse.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+  * src/hrbcompat/tbrowse/wx_gridbrowse.cpp
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/hrbcompat/tbrowse/wxhgridbrowse.prg
+  * src/raddox/xdoutils.c
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+  * src/wxbase/baseclasses/wx_window.cpp
+  * src/wxbase/networking/wx_socketserver.cpp
+    ! Fixed GPF using wxhBrowse class
+
 2009-03-14 10:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * makefile.gcc
     * updated MinGW makefile

@@ -21,7 +21,16 @@ CLASS wxhGridBrowse FROM wxGrid
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
   CONSTRUCTOR New( parent, id, pos, size, style, name )
+
+  METHOD GetMaxRows
+  METHOD GetRowCount
+  METHOD SetColPos( colPos )
+  METHOD SetColWidth( col, colWidth )
+  METHOD SetRowCount( rowCount )
+  METHOD SetRowPos( rowPos )
+
 PUBLISHED:
 ENDCLASS
 

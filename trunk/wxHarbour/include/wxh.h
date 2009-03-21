@@ -71,7 +71,7 @@ public:
 class wxh_ObjParams
 {
 private:
-  void SetParentChildKey( const PHB_ITEM pChildItem );
+  void SetChildItem( const PHB_ITEM pChildItem );
 public:
 
   MAP_PHB_ITEM map_paramListParent;
@@ -86,7 +86,7 @@ public:
 
   void ProcessParamLists();
 
-  void Return( wxObject* wxObj );
+  void Return( wxObject* wxObj, bool bItemRelease = false );
 
   wxObject* param( int param );
   wxObject* paramChild( int param );
@@ -148,6 +148,7 @@ template <class T>
 hbEvtHandler<T>::~hbEvtHandler()
 {
   wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
+
   if( pWxh_Item )
   {
     pWxh_Item->delete_WX = false;

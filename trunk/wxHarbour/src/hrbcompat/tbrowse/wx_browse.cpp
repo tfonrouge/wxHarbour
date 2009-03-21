@@ -33,16 +33,6 @@ BEGIN_EVENT_TABLE( wxhBrowse, wx_Panel )
 END_EVENT_TABLE()
 
 /*
-  ~wxhBrowse
-  Teo. Mexico 2008
-*/
-wxhBrowse::~wxhBrowse()
-{
-  wxh_ItemListDel_WX( this->m_gridBrowse );
-  wxh_ItemListDel_WX( this );
-}
-
-/*
   OnSelectCell
   Teo. Mexico 2008
 */
@@ -75,6 +65,9 @@ void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
 */
 void wxhGridBrowse::CalcRowCount()
 {
+
+  if( GetTable() == NULL )
+    return;
 
   wxSize size = GetGridWindow()->GetSize();
 
@@ -170,8 +163,8 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
     }
 
     /* process event on our hbclass wxhBrowse:OnKeyDown, returns true if processed */
-    PHB_ITEM pWxhBrowse = wxh_ItemListGet_HB( this->m_browse );
-    if( pWxhBrowse )
+    PHB_ITEM pGridBrowse = wxh_ItemListGet_HB( this );
+    if( pGridBrowse )
     {
       HB_FUNC_EXEC( WXKEYEVENT );
       PHB_ITEM pKeyEvent = hb_itemNew( hb_stackReturnItem() );
@@ -179,7 +172,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
       objParams.Return( &event );
 
-      hb_objSendMsg( pWxhBrowse, "OnKeyDown", 1, pKeyEvent );
+      hb_objSendMsg( pGridBrowse, "OnKeyDown", 1, pKeyEvent );
 
       wxh_ItemListDel_WX( &event );
       hb_itemRelease( pKeyEvent );
@@ -189,119 +182,4 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
   }
 
   m_inOnKeyDown = false;
-}
-
-/*
-  ~wxhGridBrowse
-  Teo. Mexico 2008
-*/
-wxhGridBrowse::~wxhGridBrowse()
-{
-  wxh_ItemListDel_WX( this );
-}
-
-/*
-  GetMaxRows
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_GETMAXROWS )
-{
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  int rowCount = 0;
-
-  if( browse )
-  {
-    rowCount = browse->m_gridBrowse->m_maxRows;
-  }
-
-  hb_retnl( rowCount );
-}
-
-/*
-  GetRowCount
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_GETROWCOUNT )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  int rowCount = 0;
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
-  if( pSelf && browse )
-  {
-    rowCount = browse->m_gridBrowse->m_rowCount;
-  }
-  hb_retnl( rowCount );
-}
-
-/*
-  SetColPos
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_SETCOLPOS )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
-  int col = hb_parni( 1 );
-  if( pSelf && browse )
-  {
-    int row = browse->m_gridBrowse->GetGridCursorRow();
-    browse->m_gridBrowse->SetGridCursor( row, col - 1 );
-  }
-}
-
-/*
-  SetColWidth
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_SETCOLWIDTH )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
-  int col = hb_parni( 1 ) - 1;
-  int width = hb_parni( 2 );
-  if( pSelf && browse )
-  {
-    int pointSize = ( browse->m_gridBrowse->GetCellFont( 0, col ) ).GetPointSize();
-    browse->m_gridBrowse->SetColSize( col, pointSize * width );
-  }
-}
-
-/*
-  SetRowCount
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_SETROWCOUNT )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  int rowCount = hb_parni( 1 );
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
-  if( pSelf && browse && ( rowCount != browse->m_gridBrowse->m_rowCount ) )
-  {
-    if( rowCount > browse->m_gridBrowse->m_rowCount )
-      browse->m_gridBrowse->AppendRows( rowCount - browse->m_gridBrowse->m_rowCount );
-    else
-      browse->m_gridBrowse->DeleteRows( rowCount - 1, browse->m_gridBrowse->m_rowCount - rowCount );
-    browse->m_gridBrowse->m_rowCount = rowCount;
-  }
-}
-
-/*
-  SetRowPos
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXHBROWSE_SETROWPOS )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxhBrowse* browse = (wxhBrowse *) wxh_ItemListGet_WX( pSelf );
-  int row = hb_parni( 1 );
-
-  if( pSelf && browse )
-  {
-    int col = browse->m_gridBrowse->GetGridCursorCol();
-    browse->m_gridBrowse->SetFocus();
-    browse->m_gridBrowse->MakeCellVisible( row - 1, col );
-    browse->m_gridBrowse->SetGridCursor( row - 1, col );
-  }
-  hb_ret();
 }

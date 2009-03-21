@@ -42,10 +42,18 @@ int wx_App::OnExit()
 {
   cout << endl << "OnExit";
   cout << endl;
-//   wxh_ItemListReleaseAll();
-  hb_itemRelease( hb_App );
   HB_FUNC_EXEC( __QUIT );
   return 0;
+}
+
+/*
+  destructor
+  Teo. Mexico 2009
+*/
+wx_App::~wx_App()
+{
+//   wxh_ItemListReleaseAll();
+  hb_itemRelease( hb_App );
 }
 
 /*
@@ -74,8 +82,7 @@ HB_FUNC( WXAPP_NEW )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
 
-  hb_App = hb_itemNew( NULL );
-  hb_itemCopy( hb_App, pSelf );
+  hb_App = hb_itemNew( pSelf );
 
   hb_itemReturn( pSelf );
 

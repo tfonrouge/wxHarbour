@@ -129,29 +129,6 @@ bool wx_GridTableBase::InsertRows( size_t pos, size_t numRows )
 }
 
 /*
-  GetValue
-  Teo. Mexico 2006
-*/
-wxString wx_GridTableBase::GetValue( int row, int col )
-{
-  PHB_ITEM pRow = hb_itemPutNI( NULL, row );
-  PHB_ITEM pCol = hb_itemPutNI( NULL, col );
-  wxString value = _T("");
-
-#ifdef __XHARBOUR__
-  hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
-  value = wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
-#else
-  value = wxString( hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol )->item.asString.value, wxConvUTF7 );
-#endif
-
-  hb_itemRelease( pRow );
-  hb_itemRelease( pCol );
-
-  return value;
-}
-
-/*
   IsEmptyCell
   Teo. Mexico 2006
 */
@@ -161,12 +138,8 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
   PHB_ITEM pCol = hb_itemPutNI( NULL, col );
   bool emptyCell;
 
-#ifdef __XHARBOUR__
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "IsEmptyCell", 2, pRow, pCol );
   emptyCell = hb_stackReturnItem()->item.asLogical.value;
-#else
-  emptyCell = hb_objSendMsg( wxh_ItemListGet_HB( this ), "IsEmptyCell", 2, pRow, pCol )->item.asLogical.value;
-#endif
 
   hb_itemRelease( pRow );
   hb_itemRelease( pCol );
@@ -174,20 +147,32 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
   return emptyCell;
 }
 
+/*
+  GetValue
+  Teo. Mexico 2006
+*/
+wxString wx_GridTableBase::GetValue( int row, int col )
+{
+  PHB_ITEM pRow = hb_itemPutNI( NULL, row );
+  PHB_ITEM pCol = hb_itemPutNI( NULL, col );
+  wxString value = _T("");
+
+  hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
+  value = wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
+
+  hb_itemRelease( pRow );
+  hb_itemRelease( pCol );
+
+  return value;
+}
+
 wxString wx_GridTableBase::GetColLabelValue( int col )
 {
   PHB_ITEM pCol = hb_itemPutNI( NULL, col );
   wxString labelValue = _T("");
 
-#ifdef __XHARBOUR__
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
   labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
-#else
-  PHB_ITEM pSelf = wxh_ItemListGet_HB( this );
-  if( pSelf )
-    labelValue = wxString( hb_objSendMsg( pSelf, "GetColLabelValue", 1, pCol )->item.asString.value, wxConvLocal );
-  else
-#endif
 
   hb_itemRelease( pCol );
 
@@ -199,12 +184,8 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
   PHB_ITEM pRow = hb_itemPutNI( NULL, row );
   wxString labelValue = _T("");
 
-#ifdef __XHARBOUR__
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
   labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
-#else
-  labelValue = wxString( hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow )->item.asString.value, wxConvLocal );
-#endif
 
   hb_itemRelease( pRow );
 
