@@ -36,8 +36,6 @@ static PHB_ITEM lastTopLevelWindow;
 */
 wxh_Item::~wxh_Item()
 {
-  qoutf("~wxh_Item = hb: %s", hb_clsName( this->uiClass ) );
-
   map_phbBaseArr.erase( this->objHandle );
   map_wxObject.erase( this->wxObj  );
 
@@ -58,13 +56,11 @@ wxh_Item::~wxh_Item()
 
   if( delete_WX )
   {
-    qoutf("  deleting wx...");
     delete this->wxObj;
   }
 
   if( pSelf )
   {
-    qoutf("  releasing item...");
     hb_objSendMsg( pSelf, "ClearObjData", 0 );
     hb_itemRelease( pSelf );
     pSelf = NULL;
@@ -77,7 +73,7 @@ wxh_Item::~wxh_Item()
 */
 wxh_ObjParams::wxh_ObjParams()
 {
-  pParent = NULL;
+  pParamParent = NULL;
   pSelf = hb_stackSelfItem();
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -88,7 +84,7 @@ wxh_ObjParams::wxh_ObjParams()
 */
 wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
 {
-  pParent = NULL;
+  pParamParent = NULL;
   pSelf = pHbObj;
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -157,8 +153,8 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 
     if( wxObj )
     {
-      if( this->pParent == NULL )
-	this->pParent = pParentItm;
+      if( this->pParamParent == NULL )
+	this->pParamParent = pParentItm;
       else
 	hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 3, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
     }
@@ -174,19 +170,16 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 void wxh_ObjParams::ProcessParamLists()
 {
   /* add the Parent object (if any) to the child/parent lists */
-  if( pParent )
+  if( pParamParent )
     SetChildItem( pSelf );
 
   /* add the Child objects to the child/parent lists */
-#if 1
   while( map_paramListChild.size() > 0 )
   {
     MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
     SetChildItem( it->first );
     map_paramListChild.erase( it );
   }
-#endif
-
 }
 
 /*
@@ -200,15 +193,17 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
   /* checks for a valid new pSelf object */
   if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
   {
-    if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
-    {
-      lastTopLevelWindow = pSelf;
-    }
-
     pWxh_Item = new wxh_Item;
     pWxh_Item->wxObj = wxObj;
     pWxh_Item->uiClass = pSelf->item.asArray.value->uiClass;
     pWxh_Item->objHandle = pSelf->item.asArray.value;
+
+    /* Objs derived from wxTopLevelWindow are not volatile to local */
+    if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+    {
+      lastTopLevelWindow = pSelf;
+      pWxh_Item->pSelf = hb_itemNew( pSelf );
+    }
 
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
@@ -221,8 +216,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       hb_itemReturn( pSelf );
 
   }else
-    qoutf("Problemas.");
-
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 4, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 }
 
 /*
@@ -277,9 +271,10 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
     if( hb_itemType( pSelf ) != HB_IT_OBJECT )
       pSelf = NULL;
   }
-  else
+
+  if( pSelf == NULL )
     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-//   qout( hb_clsName( pSelf->item.asArray.value->uiClass ) );
+
   return pSelf;
 }
 

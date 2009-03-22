@@ -2,6 +2,26 @@
  *
  */
 
+2009-03-22 16:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+    * code cleanup
+  
+  * samples/wxhBrowse/wxhBrowse.prg
+    * updated sample
+
+  * src/hrbcompat/tbrowse/wx_browse.cpp
+  * src/hrbcompat/tbrowse/wx_browse.h
+  * src/hrbcompat/tbrowse/wx_gridbrowse.cpp
+  * src/hrbcompat/tbrowse/wxhgridbrowse.prg
+    ! Fixed OnKeyDown/OnSelectCell events
+
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+    + Added :__Delete() msg to call delete on wx objetcs
+
+  * src/common/wx_harbour.cpp
+    ** Objects derived from wxTopLevelWindow are not volatile (to LOCAl scope)
+
 2009-03-22 03:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * samples/arrbrowser/arrbrowser.prg

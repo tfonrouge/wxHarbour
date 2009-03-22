@@ -34,19 +34,28 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 
   /* As we are here, it means that there not exist another PHB_ITEM's of this HB class
      So, we just need to call the C++ destructor of this object */
-  wxh_Item* pwxhItm = wxh_ItemListGet_PWXH_ITEM( pSelf );
 
-//   qoutf( "In HB_DESTRUCT: %s", hb_clsName( pSelf->item.asArray.value->uiClass ) );
+  wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 
-  if( pwxhItm )
+  if( pWxh_Item )
   {
-    qoutf( "> TBASECLASS_HB_DESTRUCT: %s", hb_clsName( pwxhItm->pSelf->item.asArray.value->uiClass ) );
-    pwxhItm->pSelf = NULL;
-    delete pwxhItm;
-    qoutf( "< TBASECLASS_HB_DESTRUCT" );
+    pWxh_Item->pSelf = NULL;
+    delete pWxh_Item;
   }
+}
 
-//   qoutf("Out HB_DESTRUCT");
+/*
+  TBaseClass:__Delete
+  Teo. Mexico 2009
+*/
+HB_FUNC( TBASECLASS___DELETE )
+{
+  wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( hb_stackSelfItem() );
+
+  if( pWxh_Item )
+  {
+    delete pWxh_Item;
+  }
 }
 
 /*

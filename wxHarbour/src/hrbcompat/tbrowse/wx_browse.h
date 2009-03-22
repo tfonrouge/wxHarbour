@@ -26,6 +26,7 @@ private:
   DECLARE_EVENT_TABLE()
   void OnKeyDown( wxKeyEvent& );
   void OnSize( wxSizeEvent& );
+  void OnSelectCell( wxGridEvent& );
 protected:
   wxGridSelection  *m_selection;
 public:
@@ -48,8 +49,8 @@ public:
 class wxhBrowse : public wx_Panel
 {
 private:
-  DECLARE_EVENT_TABLE()
-  void OnSelectCell( wxGridEvent& );
+//   DECLARE_EVENT_TABLE()
+//   void OnSelectCell( wxGridEvent& );
 protected:
 public:
   wxhBrowse() : wx_Panel() {}
