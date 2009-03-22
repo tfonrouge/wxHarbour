@@ -41,7 +41,7 @@ PUBLIC:
   DATA gridBrowse AS OBJECT
 
   CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
-  DESTRUCTOR OnDestruct
+  METHOD ClearObjData
 
   /* Begin TBrowse compatible */
   /* TBrowse compatible vars */
@@ -98,7 +98,6 @@ ENDCLASS
 */
 METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
   LOCAL boxSizer
-  LOCAL staticLine
   LOCAL scrollBar
 
   Super:New( window, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name ) /* container of type wxPanel */
@@ -115,9 +114,7 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
 
   boxSizer:Add( ::gridBrowse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
 
-  staticLine := wxStaticLine():New( Self, wxID_ANY, NIL, NIL, wxLI_VERTICAL )
-
-  boxSizer:Add( staticLine, 0, wxGROW, 5 )
+  boxSizer:Add( wxStaticLine():New( Self, wxID_ANY, NIL, NIL, wxLI_VERTICAL ), 0, wxGROW, 5 )
 
   scrollBar := wxScrollBar():New( Self, wxID_ANY, NIL, NIL, wxSB_VERTICAL )
 
@@ -125,7 +122,7 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
 
   boxSizer:Add( scrollBar, 0, HB_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
 
-  ::gridBrowse:SetTable( wxhBrowseTableBase():New( Self ) )
+  ::gridBrowse:SetTable( wxhBrowseTableBase():New(), .T. )
 
   IF !onKey = NIL
     ::KeyEventBlock := onKey
@@ -137,15 +134,6 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
   ENDIF
 
 RETURN Self
-
-/*
-  OnDestruct
-  Teo. Mexico
-*/
-METHOD PROCEDURE OnDestruct CLASS wxhBrowse
-  ? "***************************destroying wxhBrowse***************************"
-  ::gridBrowse := NIL
-RETURN
 
 /*
   AddAllColumns
@@ -168,7 +156,7 @@ METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
 
   CASE ValType( ::FDataSource ) = "A"
 
-    wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
+//     wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
 
     IF !Empty( ::FDataSource )
       IF ValType( ::FDataSource[ 1 ] ) = "A"
@@ -195,6 +183,19 @@ METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowse
     ::gridBrowse:SetColWidth( Len( ::browseTableBase:ColumnList ), column:Width )
   ENDIF
   //::gridBrowse:AutoSizeColumn( Len( ::browseTableBase:ColumnList ) - 1 )
+RETURN
+
+/*
+  ClearObjData
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE ClearObjData CLASS wxhBrowse
+  ::browseTableBase:ClearObjData()
+  ::GoTopBlock := NIL
+  ::GoBottomBlock := NIL
+  ::SkipBlock := NIL
+  ::gridBrowse:SetTable( NIL )
+  ::gridBrowse := NIL
 RETURN
 
 /*

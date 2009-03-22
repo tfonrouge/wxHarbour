@@ -56,14 +56,15 @@ WX_DECLARE_HASH_MAP( PHB_ITEM, bool, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM
 class wxh_Item
 {
 public:
-  wxObject* wxObj;
   bool delete_WX;
+  wxObject* wxObj;
+  USHORT uiClass;
   PHB_BASEARRAY objHandle;
   vector<PCONN_PARAMS> evtList;
   PHB_ITEM pSelf;
   USHORT uiRefCount;
 
-  wxh_Item() { delete_WX = true; pSelf = NULL ; uiRefCount = 0; }
+  wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; }
   ~wxh_Item();
 
 };
@@ -74,7 +75,7 @@ private:
   void SetChildItem( const PHB_ITEM pChildItem );
 public:
 
-  MAP_PHB_ITEM map_paramListParent;
+  PHB_ITEM pParent;
   MAP_PHB_ITEM map_paramListChild;
 
   PHB_ITEM pSelf;

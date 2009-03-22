@@ -34,7 +34,7 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
+  STATIC oWnd
 //   LOCAL bsVert,browse,button
   LOCAL x,y,a := {}
   LOCAL nCols := 5
@@ -52,17 +52,17 @@ METHOD FUNCTION OnInit() CLASS MyApp
          ID 999 ;
          TITLE "Simple Dbf Browser"
 
-  DEFINE MENUBAR STYLE 1 ON oWnd
-    DEFINE MENU "&File"
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Quits this sample..."
-    ENDMENU
-    DEFINE MENU "Help"
-      ADD MENUITEM "Fit Grid" //ACTION browse:Fit()
-      ADD MENUSEPARATOR
-      ADD MENUITEM "About..."
-    ENDMENU
-  ENDMENU
+//   DEFINE MENUBAR STYLE 1 ON oWnd
+//     DEFINE MENU "&File"
+//       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+//           HELPLINE "Quits this sample..."
+//     ENDMENU
+//     DEFINE MENU "Help"
+//       ADD MENUITEM "Fit Grid" //ACTION browse:Fit()
+//       ADD MENUSEPARATOR
+//       ADD MENUITEM "About..."
+//     ENDMENU
+//   ENDMENU
 
 //   bsVert := wxBoxSizer():New( wxVERTICAL )
 //   oWnd:SetSizer( bsVert )
@@ -71,11 +71,11 @@ METHOD FUNCTION OnInit() CLASS MyApp
 //   browse := wxPanel():New( oWnd )
 
 //   bsVert:Add( browse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
-// 
+//
 //   button := wxButton():New( ownd, NIL, "Button" )
-// 
+//
 //   bsVert:Add( button, 0, HB_BitOr( wxALIGN_RIGHT, wxALIGN_RIGHT ), 5 )
-// 
+//
 //   @ STATUSBAR
 
   SHOW WINDOW oWnd CENTRE
