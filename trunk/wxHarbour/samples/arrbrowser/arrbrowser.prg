@@ -49,10 +49,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   a := {}
 
-//   nCols := HB_Random( 100 )
-//   nRows := HB_Random( 100 )
-  nCols := 5
-  nRows := 2
+  nCols := HB_Random( 100 )
+  nRows := HB_Random( 1000 )
 
   FOR x := 1 TO nRows
     AAdd( a, {} )

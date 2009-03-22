@@ -25,6 +25,7 @@ PUBLIC:
   DESTRUCTOR OnDestruct()
 
   METHOD HB_Destruct
+  METHOD ClearObjData VIRTUAL
 
 PUBLISHED:
 ENDCLASS

@@ -2,6 +2,16 @@
  *
  */
 
+2009-03-22 03:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * samples/arrbrowser/arrbrowser.prg
+  * samples/wxhBrowse/wxhBrowse.prg
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/wxbase/baseclasses/wxhobject.prg
+    ! Fixed memory blocks not released
+
 2009-03-21 12:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxbase/wx_app.h
   * include/wxh.h
