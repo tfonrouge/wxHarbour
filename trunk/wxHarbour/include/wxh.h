@@ -75,7 +75,7 @@ private:
   void SetChildItem( const PHB_ITEM pChildItem );
 public:
 
-  PHB_ITEM pParent;
+  PHB_ITEM pParamParent;
   MAP_PHB_ITEM map_paramListChild;
 
   PHB_ITEM pSelf;

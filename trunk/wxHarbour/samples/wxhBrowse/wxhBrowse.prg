@@ -35,7 +35,7 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   STATIC oWnd
-//   LOCAL bsVert,browse,button
+  LOCAL bsVert,browse,button
   LOCAL x,y,a := {}
   LOCAL nCols := 5
   LOCAL nRows := 2
@@ -64,18 +64,20 @@ METHOD FUNCTION OnInit() CLASS MyApp
 //     ENDMENU
 //   ENDMENU
 
-//   bsVert := wxBoxSizer():New( wxVERTICAL )
-//   oWnd:SetSizer( bsVert )
+  bsVert := wxBoxSizer():New( wxVERTICAL )
+  oWnd:SetSizer( bsVert )
 
-  wxhBrowse():New( a, oWnd )
+  browse := wxhBrowse():New( a, oWnd )
 //   browse := wxPanel():New( oWnd )
 
-//   bsVert:Add( browse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
-//
-//   button := wxButton():New( ownd, NIL, "Button" )
-//
-//   bsVert:Add( button, 0, HB_BitOr( wxALIGN_RIGHT, wxALIGN_RIGHT ), 5 )
-//
+  bsVert:Add( browse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
+
+  button := wxButton():New( oWnd, 100,"Close" )
+
+  bsVert:Add( button, 0, HB_BitOr( wxALIGN_RIGHT, wxALIGN_RIGHT ), 5 )
+
+  button:ConnectCommandEvt( 100, wxEVT_COMMAND_BUTTON_CLICKED, {|evt| evt:GetEventObject():GetParent():Close() } )
+
 //   @ STATUSBAR
 
   SHOW WINDOW oWnd CENTRE

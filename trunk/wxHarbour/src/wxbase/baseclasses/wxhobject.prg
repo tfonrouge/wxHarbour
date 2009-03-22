@@ -24,6 +24,8 @@ PUBLIC:
 
   DESTRUCTOR OnDestruct()
 
+  METHOD __Delete /* calls delete for wxObjs  */
+
   METHOD HB_Destruct
   METHOD ClearObjData VIRTUAL
 
@@ -35,7 +37,7 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD PROCEDURE OnDestruct CLASS TBaseClass
-  ? "HB Destroying:",::ClassName()
+//   ? "HB Destroying:",::ClassName()
   ::HB_Destruct()
 RETURN
 

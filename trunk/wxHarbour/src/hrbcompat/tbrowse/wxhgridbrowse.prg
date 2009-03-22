@@ -26,6 +26,8 @@ PUBLIC:
 
   METHOD GetMaxRows
   METHOD GetRowCount
+  METHOD OnKeyDown( keyEvent ) INLINE ::GetParent():OnKeyDown( keyEvent )
+  METHOD OnSelectCell( event ) INLINE ::GetParent():OnSelectCell( event )
   METHOD SetColPos( colPos )
   METHOD SetColWidth( col, colWidth )
   METHOD SetRowCount( rowCount )
