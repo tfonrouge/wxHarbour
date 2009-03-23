@@ -12,10 +12,6 @@
 
 #include "wxbase/wx_panel.h"
 
-/* forward class declararion */
-class wxhBrowse;
-class wxGridSelection;
-
 /*
   wxhGridBrowse : Interface
   Teo. Mexico 2008
@@ -37,9 +33,8 @@ public:
   int m_rowCount;
   int m_maxRows;
 
-  void CalcRowCount();
+  void CalcDimensions() { wx_Grid::CalcDimensions(); };
 
-//   ~wxhGridBrowse();
 };
 
 /*
@@ -49,12 +44,9 @@ public:
 class wxhBrowse : public wx_Panel
 {
 private:
-//   DECLARE_EVENT_TABLE()
-//   void OnSelectCell( wxGridEvent& );
 protected:
 public:
   wxhBrowse() : wx_Panel() {}
   wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = _T("wxhBrowse") ) : wx_Panel( parent, id, pos, size, style, name ) {}
 
-//   ~wxhBrowse();
 };
