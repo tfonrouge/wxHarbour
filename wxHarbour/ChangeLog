@@ -2,6 +2,10 @@
  *
  */
 
+2009-03-23 17:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+    ! Fixed stupid typo on DESTROY command
+
 2009-03-23 17:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
   * src/wxbase/baseclasses/wxhobject.prg
