@@ -40,7 +40,7 @@
   Calss ::__Destroy() to remove wxh_Item associated to objects
   Teo. Mexico 2009
 */
-#xcommand DESTROY <obj> => obj:__Destroy()
+#xcommand DESTROY <obj> => <obj>:__Destroy()
 
 /*
   MessageBox
