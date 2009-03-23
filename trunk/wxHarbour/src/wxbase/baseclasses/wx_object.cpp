@@ -45,10 +45,10 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 }
 
 /*
-  TBaseClass:__Delete
+  TBaseClass:__Destroy
   Teo. Mexico 2009
 */
-HB_FUNC( TBASECLASS___DELETE )
+HB_FUNC( TBASECLASS___DESTROY )
 {
   wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( hb_stackSelfItem() );
 
