@@ -67,7 +67,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   bsVert := wxBoxSizer():New( wxVERTICAL )
   oWnd:SetSizer( bsVert )
 
-  browse := wxhBrowse():New( a, oWnd )
+  browse := wxhBrowse():New( oWnd )
+  browse:DataSource := a
 //   browse := wxPanel():New( oWnd )
 
   bsVert:Add( browse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
@@ -78,7 +79,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   button:ConnectCommandEvt( 100, wxEVT_COMMAND_BUTTON_CLICKED, {|evt| evt:GetEventObject():GetParent():Close() } )
 
-//   @ STATUSBAR
+  @ STATUSBAR
 
   SHOW WINDOW oWnd CENTRE
 

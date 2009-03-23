@@ -72,11 +72,13 @@ PUBLIC:
   METHOD Up
   /* End TBrowse compatible */
 
+  DATA AutoFill INIT .T.	/* autofill columns with DataSource data */
   DATA BottomFirst INIT .F.
+  DATA FillColumnsChecked INIT .F.
   DATA KeyEventBlock
   DATA SelectCellBlock
 
-  METHOD AddAllColumns
+  METHOD FillColumns
   METHOD Fit INLINE ::gridBrowse:Fit
   METHOD GoFirstPos
   METHOD OnKeyDown( event )
@@ -96,7 +98,7 @@ ENDCLASS
   New
   Teo. Mexico 2008
 */
-METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
+METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
   LOCAL boxSizer
   LOCAL scrollBar
 
@@ -128,49 +130,7 @@ METHOD New( dataSource, window, id, label, pos, size, style, name, onKey ) CLASS
     ::KeyEventBlock := onKey
   ENDIF
 
-  IF dataSource != NIL
-    ::SetDataSource( dataSource )
-    ::AddAllColumns()
-  ENDIF
-
 RETURN Self
-
-/*
-  AddAllColumns
-  Teo. Mexico 2008
-*/
-  STATIC FUNCTION buildBlock( Self, col )
-  RETURN {|| ::DataSource[ ::RecNo, col ] }
-
-METHOD PROCEDURE AddAllColumns CLASS wxhBrowse
-  LOCAL fld
-
-  DO CASE
-  CASE ValType( ::FDataSource ) = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
-
-    wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
-
-    FOR EACH fld IN ::FDataSource:FieldList
-      wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
-    NEXT
-
-  CASE ValType( ::FDataSource ) = "A"
-
-//     wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
-
-    IF !Empty( ::FDataSource )
-      IF ValType( ::FDataSource[ 1 ] ) = "A"
-        FOR EACH fld IN ::FDataSource[ 1 ]
-          wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
-        NEXT
-      ELSE
-        wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
-      ENDIF
-    ENDIF
-
-  ENDCASE
-
-RETURN
 
 /*
   AddColumn
@@ -241,6 +201,43 @@ METHOD FUNCTION End CLASS wxhBrowse
   ::gridBrowse:SetColPos( ::ColCount() )
   ::gridBrowse:MakeCellVisible( ::gridBrowse:GetGridCursorRow(), ::gridBrowse:GetNumberCols() - 1 )
 RETURN Self
+
+/*
+  FillColumns
+  Teo. Mexico 2008
+*/
+  STATIC FUNCTION buildBlock( Self, col )
+  RETURN {|| ::DataSource[ ::RecNo, col ] }
+
+METHOD PROCEDURE FillColumns CLASS wxhBrowse
+  LOCAL fld
+
+  DO CASE
+  CASE ValType( ::FDataSource ) = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
+
+    wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
+
+    FOR EACH fld IN ::FDataSource:FieldList
+      wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
+    NEXT
+
+  CASE ValType( ::FDataSource ) = "A"
+
+//     wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
+
+    IF !Empty( ::FDataSource )
+      IF ValType( ::FDataSource[ 1 ] ) = "A"
+        FOR EACH fld IN ::FDataSource[ 1 ]
+          wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
+        NEXT
+      ELSE
+        wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
+      ENDIF
+    ENDIF
+
+  ENDCASE
+
+RETURN
 
 /*
   GetRecNo

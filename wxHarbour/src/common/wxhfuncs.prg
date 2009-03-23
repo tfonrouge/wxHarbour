@@ -121,7 +121,11 @@ FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKe
     window := containerObj():LastParent()
   ENDIF
 
-  wxhBrw := wxhBrowse():New( dataSource, window, id, label, pos, size, style, name, onKey )
+  wxhBrw := wxhBrowse():New( window, id, label, pos, size, style, name, onKey )
+
+  IF dataSource != NIL
+    wxhBrw:DataSource := dataSource
+  ENDIF
 
   wxhBrw:SelectCellBlock := onSelectCell
 
@@ -804,7 +808,6 @@ RETURN Result
 */
 PROCEDURE wxhInspectVar( xVar )
   LOCAL oDlg
-  LOCAL b
   LOCAL aMsg
   LOCAL value
   LOCAL cMsg,msgAccs
@@ -846,14 +849,12 @@ PROCEDURE wxhInspectVar( xVar )
          TITLE "Inspecting Var: "
 
   BEGIN BOXSIZER VERTICAL
-    @ BROWSE VAR b DATASOURCE a ;
+    @ BROWSE DATASOURCE a ;
       SIZERINFO ALIGN EXPAND STRETCH
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
       @ BUTTON ID wxID_CLOSE ACTION oDlg:Close()
     END SIZER
   END SIZER
-
-  b:AddAllColumns()
 
   SHOW WINDOW oDlg MODAL CENTRE
 

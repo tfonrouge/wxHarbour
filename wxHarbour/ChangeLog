@@ -2,6 +2,35 @@
  *
  */
 
+2009-03-23 17:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + src/wxbase/baseclasses/wxhsizeevent.prg
+  + src/wxbase/baseclasses/wx_sizeevent.cpp
+    + added wxSizeEvent
+      ; TODO: need to implement wxSize class on harbour
+
+  * samples/arrbrowser/arrbrowser.prg
+  * samples/dbbrowser/dbbrowser.prg
+  * samples/wxhBrowse/wxhBrowse.prg
+    * Updated samples
+
+  * src/common/wxhfuncs.prg
+    * changed syntax to create wxhBrowse to be compatible with wxGrid
+
+  * src/hrbcompat/tbrowse/wx_browse.h
+    - moved CalcRowCount function from C++ to Harbour
+    * code cleanup
+
+  * src/hrbcompat/tbrowse/wx_gridbrowse.cpp
+  * src/hrbcompat/tbrowse/wxhgridbrowse.prg
+    * simplified calculation of availables rows on grid
+      moved to Harbour the logic to the calculation
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * renamed AddAllColumns to FillColumns
+    * added logic to call FillColumns before show grid if DataSource
+      is available and there is not columns on browse
+
 2009-03-22 16:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
     * code cleanup

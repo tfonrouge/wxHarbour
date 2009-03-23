@@ -177,7 +177,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   b:SelectCellBlock := {|| textCtrl:AppendText( b:DataSource:Field_First:AsString + E"\n" ) }
 
-  b:AddAllColumns()
+  //b:FillColumns()
 
   @ STATUSBAR
 

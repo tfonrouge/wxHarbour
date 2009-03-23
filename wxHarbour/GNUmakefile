@@ -151,6 +151,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmouseevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
+	$(__BUILDDIR__)/wxHarbour_wxhsizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhauinotebook.o \
@@ -206,6 +207,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_gridevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_keyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
+	$(__BUILDDIR__)/wxHarbour_wx_sizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wx_window.o \
 	$(__BUILDDIR__)/wxHarbour_wx_auinotebook.o \
@@ -447,6 +449,9 @@ $(__BUILDDIR__)/wxHarbour_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseeven
 $(__BUILDDIR__)/wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhsizeevent.o: ./src/wxbase/baseclasses/wxhsizeevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o: ./src/wxbase/baseclasses/wxhtoplevelwindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -610,6 +615,9 @@ $(__BUILDDIR__)/wxHarbour_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_object.o: ./src/wxbase/baseclasses/wx_object.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_sizeevent.o: ./src/wxbase/baseclasses/wx_sizeevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o: ./src/wxbase/baseclasses/wx_toplevelwindow.cpp

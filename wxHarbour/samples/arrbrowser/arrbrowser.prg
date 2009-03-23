@@ -100,7 +100,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   b:SelectCellBlock := {|b,gridEvent| textCtrl:AppendText( "GetCol" + NTrim( gridEvent:GetCol() ) + ", RecNo: " + NTrim( b:RecNo ) + ", Row: " + NTrim( b:RowPos ) + ", Col: " + NTrim( b:ColPos ) + ", Value: " + NTrim( b:DataSource[ b:RecNo, b:ColPos ] ) + E"\n" ) }
 
-//   b:AddAllColumns()
+//   b:FillColumns()
 
   @ STATUSBAR
   SHOW WINDOW oWnd CENTRE

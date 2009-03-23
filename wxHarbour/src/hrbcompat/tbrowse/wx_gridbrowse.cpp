@@ -30,81 +30,8 @@ BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
 END_EVENT_TABLE()
 
 /*
-  CalcRowCount
-  Teo. Mexico 2008
-*/
-void wxhGridBrowse::CalcRowCount()
-{
-
-  if( GetTable() == NULL )
-    return;
-
-  wxSize size = GetGridWindow()->GetSize();
-
-  if( size.GetHeight() == m_gridWindowHeight )
-    return;
-
-  /* needed to calculate cell row height */
-  if( GetNumberRows() == 0 )
-    AppendRows( 1 );
-
-  m_gridWindowHeight = size.GetHeight();
-
-  wxRect cellRect( CellToRect( 0, 0 ) );
-
-  int top,bottom;
-  top = cellRect.GetTop();
-  bottom = cellRect.GetBottom();
-
-  m_rowCount = max( 0, ( (m_gridWindowHeight - 10) / ( bottom - top ) ) - 1 );
-
-  // TODO: Need to calculate the exact rows available
-//   if( m_rowCount > 0 )
-//   {
-//     MakeCellVisible( 0, GetGridCursorCol() );
-//     if( !IsVisible( m_rowCount - 1, 0, false ) )
-//       --m_rowCount;
-//   }
-
-  if( m_rowCount == GetNumberRows() )
-    return;
-
-  if( m_rowCount > 0 )
-  {
-    if( m_rowCount < GetNumberRows() )
-      DeleteRows( m_rowCount - 1, GetNumberRows() - m_rowCount );
-    else
-      AppendRows( m_rowCount - GetNumberRows() );
-  }
-  else
-    DeleteRows( 0, GetNumberRows() );
-
-  m_maxRows = GetNumberRows();
-
-  PHB_ITEM pBrowseTableBase = wxh_ItemListGet_HB( this->GetTable() );
-  if( pBrowseTableBase )
-    hb_objSendMsg( pBrowseTableBase, "FillGridBuffer", 0 );
-  else
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-
-}
-
-/*
-  OnSize
-  Teo. Mexico 2008
-*/
-void wxhGridBrowse::OnSize( wxSizeEvent& WXUNUSED(event) )
-{
-  if (m_targetWindow != this)
-  {
-    CalcDimensions();
-    CalcRowCount();
-  }
-}
-
-/*
   OnKeyDown
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 {
@@ -146,9 +73,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
       wxh_ItemListDel_WX( &event );
       hb_itemRelease( pKeyEvent );
-
     }
-
   }
 
   m_inOnKeyDown = false;
@@ -156,7 +81,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 
 /*
   OnSelectCell
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
 {
@@ -182,6 +107,30 @@ void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
 }
 
 /*
+  OnSize
+  Teo. Mexico 2009
+*/
+void wxhGridBrowse::OnSize( wxSizeEvent& event )
+{
+  if (m_targetWindow != this)
+  {
+    PHB_ITEM pGridBrowse = wxh_ItemListGet_HB( this );
+
+    if( pGridBrowse )
+    {
+      PHB_ITEM pSize = hb_itemNew( NULL );
+      hb_arrayNew( pSize, 2 );
+      hb_arraySetNI( pSize, 1, event.GetSize().GetWidth() );
+      hb_arraySetNI( pSize, 2, event.GetSize().GetHeight() );
+      hb_objSendMsg( pGridBrowse, "OnSize", 1, pSize );
+      hb_itemRelease( pSize );
+
+      event.Skip();
+    }
+  }
+}
+
+/*
   Constructor: wxhGridBrowse Object
   Teo. Mexico 2009
 */
@@ -202,6 +151,40 @@ HB_FUNC( WXHGRIDBROWSE_NEW )
 }
 
 /*
+  wxhGridBrowse:CalcRowCount
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXHGRIDBROWSE_CALCMAXROWS )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  gridBrowse->m_maxRows = 0;
+
+  if( gridBrowse )
+  {
+    gridBrowse->CalcDimensions();
+
+    wxSize size = gridBrowse->GetGridWindow()->GetSize();
+
+    /* needed to calculate cell row height */
+    if( gridBrowse->GetNumberRows() == 0 )
+      gridBrowse->AppendRows( 1 );
+
+    gridBrowse->m_gridWindowHeight = size.GetHeight();
+
+    wxRect cellRect( gridBrowse->CellToRect( 0, 0 ) );
+
+    int top,bottom;
+    top = cellRect.GetTop();
+    bottom = cellRect.GetBottom();
+
+    gridBrowse->m_maxRows = max( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 1 );
+  }
+
+  hb_retni( gridBrowse->m_maxRows );
+}
+
+/*
   wxhGridBrowse:MaxRows
   Teo. Mexico 2009
 */
@@ -217,7 +200,7 @@ HB_FUNC( WXHGRIDBROWSE_GETMAXROWS )
 
 /*
   wxhGridBrowse:RowCount
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXHGRIDBROWSE_GETROWCOUNT )
 {
@@ -231,7 +214,7 @@ HB_FUNC( WXHGRIDBROWSE_GETROWCOUNT )
 
 /*
   wxhGridBrowse:SetColPos
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXHGRIDBROWSE_SETCOLPOS )
 {
@@ -246,7 +229,7 @@ HB_FUNC( WXHGRIDBROWSE_SETCOLPOS )
 
 /*
   wxhGridBrowse:SetColWidth
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
 {
@@ -262,7 +245,7 @@ HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
 
 /*
   wxhGridBrowse:SetRowCount
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXHGRIDBROWSE_SETROWCOUNT )
 {
@@ -280,7 +263,7 @@ HB_FUNC( WXHGRIDBROWSE_SETROWCOUNT )
 
 /*
   wxhGridBrowse:SetRowPos
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXHGRIDBROWSE_SETROWPOS )
 {
