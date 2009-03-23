@@ -2,6 +2,13 @@
  *
  */
 
+2009-03-23 17:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxharbour.ch
+  * src/wxbase/baseclasses/wxhobject.prg
+  * src/wxbase/baseclasses/wx_object.cpp
+    + added command DESTROY <obj> to delete wxh_Item's associated to objs
+    * renamed ::__Delete to ::__Destroy
+
 2009-03-23 17:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   + src/wxbase/baseclasses/wxhsizeevent.prg
