@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,36 +7,23 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
-
-#include "hbclass.ch"
-#include "property.ch"
 
 /*
-  wxApp
-  Teo. Mexico 2006
+  wx_Gauge: Interface
+  Teo. Mexico 2009
 */
-CLASS wxApp FROM wxEvtHandler
-PRIVATE:
-PROTECTED:
-PUBLIC:
 
-  CONSTRUCTOR New
+#include "wx/gauge.h"
 
-  /* wxHarbour */
-  METHOD Implement
+class wx_Gauge : public wxGauge
+{
+private:
+protected:
+public:
+  wx_Gauge(wxWindow* parent, wxWindowID id, int range, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxGA_HORIZONTAL, const wxValidator& validator = wxDefaultValidator, const wxString& name = _T("gauge") ) : wxGauge( parent, id, range, pos, size, style, validator, name ) {}
 
-  /* wxWidgets */
-  METHOD ExitMainLoop
-  METHOD GetTopWindow
-  METHOD Yield( onlyIfNeeded )
+  ~wx_Gauge();
 
-  METHOD OnInit VIRTUAL
-
-PUBLISHED:
-ENDCLASS
-
-/*
-  End Class wxApp
-*/
+};

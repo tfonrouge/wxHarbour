@@ -101,6 +101,15 @@ HB_FUNC( WXEVTHANDLER_CONNECTGRIDEVT )
 }
 
 /*
+  ConnectInitDialogEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTINITDIALOGEVT )
+{
+  Connect( WXH_INITDIALOGEVENT );
+}
+
+/*
   ConnectMouseEvt
   Teo. Mexico 2009
 */

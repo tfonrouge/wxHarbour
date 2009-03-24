@@ -100,6 +100,7 @@ public:
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
 HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
+HB_FUNC_EXTERN( WXINITDIALOGEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
 wxObject*     wxh_param_WX( int param );
@@ -135,6 +136,7 @@ public:
   void OnCommandEvent( wxCommandEvent& event );
   void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
+  void OnInitDialogEvent( wxInitDialogEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 
@@ -229,6 +231,17 @@ void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 }
 
 /*
+  OnInitDialogEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnInitDialogEvent( wxInitDialogEvent& event )
+{
+  HB_FUNC_EXEC( WXINITDIALOGEVENT );
+  __OnEvent( event );
+}
+
+/*
   OnMouseEvent
   Teo. Mexico 2008
 */
@@ -261,6 +274,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_MOUSEEVENT:
       objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
+      break;
+    case WXH_INITDIALOGEVENT:
+      objFunc = wxInitDialogEventHandler( hbEvtHandler<T>::OnInitDialogEvent );
       break;
     default:
       objFunc = NULL;

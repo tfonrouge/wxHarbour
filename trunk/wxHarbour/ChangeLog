@@ -2,6 +2,28 @@
  *
  */
 
+2009-03-24 04:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + include/wxbase/wx_gauge.h
+  + src/wxbase/static/wx_gauge.cpp
+  + src/wxbase/static/wxhGauge.prg
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    + added wxGauge class
+    + added COMMAND @ GAUGE ...
+    
+
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  + src/wxbase/baseclasses/wxhInitDialogEvent.prg
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    + added wxInitDialogEvent
+
+  * src/wxbase/app/wx_app.cpp
+  * src/wxbase/app/wxhapp.prg
+    + added wxApp:Yield method
+
 2009-03-23 17:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxharbour.ch
     ! Fixed stupid typo on DESTROY command

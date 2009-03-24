@@ -17,5 +17,6 @@
 #define WXH_FOCUSEVENT          2
 #define WXH_GRIDEVENT           3
 #define WXH_MOUSEEVENT          4
+#define WXH_INITDIALOGEVENT	5
 
 #endif

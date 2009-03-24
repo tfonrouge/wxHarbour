@@ -194,6 +194,23 @@ FUNCTION wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, n
 RETURN checkBox
 
 /*
+  wxh_Gauge
+  Teo. Mexico 2008
+*/
+FUNCTION wxh_Gauge( window, id, range, pos, size, style, validator, name )
+  LOCAL gauge
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  gauge := wxGauge():New( window, id, range, pos, size, style, validator, name )
+
+  containerObj():SetLastChild( gauge )
+
+RETURN gauge
+
+/*
   wxh_RadioBox
   Teo. Mexico 2009
 */
