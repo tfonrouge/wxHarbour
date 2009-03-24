@@ -142,6 +142,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)/wxHarbour_wxchoice.o \
+	$(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
@@ -181,6 +182,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhgridsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstaticboxsizer.o \
+	$(__BUILDDIR__)/wxHarbour_wxhGauge.o \
 	$(__BUILDDIR__)/wxHarbour_wxhstaticline.o \
 	$(__BUILDDIR__)/wxHarbour_wxhfont.o \
 	$(__BUILDDIR__)/wxHarbour_wxhvalidator.o \
@@ -241,6 +243,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_gridsizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_sizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_staticboxsizer.o \
+	$(__BUILDDIR__)/wxHarbour_wx_gauge.o \
 	$(__BUILDDIR__)/wxHarbour_wx_staticline.o \
 	$(__BUILDDIR__)/wxHarbour_wx_font.o \
 	$(__BUILDDIR__)/wxHarbour_wx_validator.o \
@@ -422,6 +425,9 @@ $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)/wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o: ./src/wxbase/baseclasses/wxhInitDialogEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -537,6 +543,9 @@ $(__BUILDDIR__)/wxHarbour_wxhsizer.o: ./src/wxbase/sizers/wxhsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhstaticboxsizer.o: ./src/wxbase/sizers/wxhstaticboxsizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhGauge.o: ./src/wxbase/static/wxhGauge.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhstaticline.o: ./src/wxbase/static/wxhstaticline.prg
@@ -717,6 +726,9 @@ $(__BUILDDIR__)/wxHarbour_wx_sizer.o: ./src/wxbase/sizers/wx_sizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_staticboxsizer.o: ./src/wxbase/sizers/wx_staticboxsizer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_gauge.o: ./src/wxbase/static/wx_gauge.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_staticline.o: ./src/wxbase/static/wx_staticline.cpp

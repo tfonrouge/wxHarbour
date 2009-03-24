@@ -236,10 +236,10 @@
               [<onSelectCell>] ;
             )
 
-#xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ BROWSE [<bclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
   BCOLUMN
@@ -273,10 +273,10 @@
             [<name>],;
             [<{bAction}>] )
 
-#xcommand @ BUTTON [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ BUTTON [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ BUTTON [<btnclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
  * CheckBox
@@ -304,10 +304,40 @@
             [<name>],;
             [<{bAction}>] )
 
-#xcommand @ CHECKBOX [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ CHECKBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ CHECKBOX [<btnclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+ * Gauge
+ * Teo. Mexico 2009
+ */
+#xcommand @ GAUGE ;
+            [ VAR <gauge> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+	    [ RANGE <range> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <gauge> := ]wxh_Gauge( ;
+            [<window>],;
+            [<id>],;
+            [<range>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>] )
+
+#xcommand @ GAUGE [<gaugeClauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ GAUGE [<gaugeClauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
 
 /*
  * RadioBox
@@ -339,10 +369,10 @@
             wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
             [<{bAction}>] )
 
-#xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ RADIOBOX [<btnclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
  * Choice
@@ -371,10 +401,10 @@
             wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
             [<{bAction}>] )
 
-#xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ CHOICE [<btnclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
   Notebook|Listbook
@@ -397,10 +427,10 @@
 
 #xcommand END <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> => wxh_BookEnd( "wx"+<"bookType"> )
 
-#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> [<nbclauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> [<nbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           BEGIN <bookType> [<nbclauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 #xcommand ADD BOOK PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
           => ;
@@ -427,10 +457,10 @@
 
 #xcommand END PANEL => wxh_PanelEnd()
 
-#xcommand BEGIN PANEL [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand BEGIN PANEL [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           BEGIN PANEL [<clauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
  * SAY ... GET
@@ -451,10 +481,10 @@
             [wxALIGN_<style>],;
             [<name>] )
 
-#xcommand @ SAY [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ SAY [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ SAY [<clauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 #xcommand @ GET <dataVar> ;
             [ VAR <var> ] ;
@@ -485,10 +515,10 @@
             [<{toolTip}>],;
             [<.refreshAll.>] )
 
-#xcommand @ GET [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ GET [<clauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 #xcommand @ SAY [<sayclauses,...>] GET [<getclauses,...>] ;
           => ;
@@ -536,10 +566,10 @@
             [<name>],;
             [<{bAction}>] )
 
-#xcommand @ SCROLLBAR [<clauses,...>] SIZERINFO [<sizerclauses,...>] ;
+#xcommand @ SCROLLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ SCROLLBAR [<clauses>] ;;
-          @ SIZERINFO [<sizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
   StaticLine
@@ -558,10 +588,10 @@
             [wxLI_<orient>],;
             [<name>])
 
-#xcommand @ STATICLINE [<clauses,...>] SIZERINFO [<sizerclauses,...>] ;
+#xcommand @ STATICLINE [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ STATICLINE [<clauses>] ;;
-          @ SIZERINFO [<sizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 
 /*
   StatusBar
@@ -607,8 +637,8 @@
             [<name>],;
             [<{bAction}>] )
 
-#xcommand @ TREECTRL [<clauses,...>] SIZERINFO [<wxsizerclauses,...>] ;
+#xcommand @ TREECTRL [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ TREECTRL [<clauses>] ;;
-          @ SIZERINFO [<wxsizerclauses>]
+          @ SIZERINFO [<sizerClauses>]
 #endif

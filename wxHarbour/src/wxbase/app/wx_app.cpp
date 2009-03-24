@@ -124,3 +124,13 @@ HB_FUNC( WXAPP_EXITMAINLOOP )
 {
   wxGetApp().ExitMainLoop();
 }
+
+/*
+  wxApp::Yield
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXAPP_YIELD )
+{
+  hb_retl( wxGetApp().Yield( hb_parl( 1 ) ) );
+}
+
