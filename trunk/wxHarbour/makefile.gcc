@@ -146,6 +146,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)\wxHarbour_wxchoice.o \
+	$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)\wxHarbour_wxhevent.o \
@@ -155,6 +156,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhkeyevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhmouseevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.o \
+	$(__BUILDDIR__)\wxHarbour_wxhsizeevent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)\wxHarbour_wxhwindow.o \
 	$(__BUILDDIR__)\wxHarbour_wxhauinotebook.o \
@@ -184,6 +186,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhgridsizer.o \
 	$(__BUILDDIR__)\wxHarbour_wxhsizer.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.o \
+	$(__BUILDDIR__)\wxHarbour_wxhGauge.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticline.o \
 	$(__BUILDDIR__)\wxHarbour_wxhfont.o \
 	$(__BUILDDIR__)\wxHarbour_wxhvalidator.o \
@@ -210,6 +213,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_gridevent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_keyevent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_object.o \
+	$(__BUILDDIR__)\wxHarbour_wx_sizeevent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)\wxHarbour_wx_window.o \
 	$(__BUILDDIR__)\wxHarbour_wx_auinotebook.o \
@@ -243,6 +247,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_gridsizer.o \
 	$(__BUILDDIR__)\wxHarbour_wx_sizer.o \
 	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.o \
+	$(__BUILDDIR__)\wxHarbour_wx_gauge.o \
 	$(__BUILDDIR__)\wxHarbour_wx_staticline.o \
 	$(__BUILDDIR__)\wxHarbour_wx_font.o \
 	$(__BUILDDIR__)\wxHarbour_wx_validator.o \
@@ -352,6 +357,7 @@ install_wxHarbour_headers:
 	copy include\wxh.h $(PREFIX)\include
 	copy include\wxhevtdefs.h $(PREFIX)\include
 	copy include\wxh\filedlg.ch $(PREFIX)\include\wxh
+	copy include\wxh\gauge.ch $(PREFIX)\include\wxh
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
@@ -370,6 +376,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh.h -del $(PREFIX)\include\wxh.h
 	-if exist $(PREFIX)\include\wxhevtdefs.h -del $(PREFIX)\include\wxhevtdefs.h
 	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
+	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
@@ -447,6 +454,9 @@ $(__BUILDDIR__)\wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)\wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.o: ./src/wxbase/baseclasses/wxhInitDialogEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -472,6 +482,9 @@ $(__BUILDDIR__)\wxHarbour_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseeven
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhsizeevent.o: ./src/wxbase/baseclasses/wxhsizeevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.o: ./src/wxbase/baseclasses/wxhtoplevelwindow.prg
@@ -561,6 +574,9 @@ $(__BUILDDIR__)\wxHarbour_wxhsizer.o: ./src/wxbase/sizers/wxhsizer.prg
 $(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.o: ./src/wxbase/sizers/wxhstaticboxsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhGauge.o: ./src/wxbase/static/wxhGauge.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhstaticline.o: ./src/wxbase/static/wxhstaticline.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -637,6 +653,9 @@ $(__BUILDDIR__)\wxHarbour_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_object.o: ./src/wxbase/baseclasses/wx_object.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_sizeevent.o: ./src/wxbase/baseclasses/wx_sizeevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.o: ./src/wxbase/baseclasses/wx_toplevelwindow.cpp
@@ -736,6 +755,9 @@ $(__BUILDDIR__)\wxHarbour_wx_sizer.o: ./src/wxbase/sizers/wx_sizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.o: ./src/wxbase/sizers/wx_staticboxsizer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_gauge.o: ./src/wxbase/static/wx_gauge.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_staticline.o: ./src/wxbase/static/wx_staticline.cpp

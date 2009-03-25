@@ -2,6 +2,25 @@
  *
  */
 
+2009-03-25 00:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  + include/wxh/gauge.ch
+  * wxharbour.spec
+    + added gauge.ch with defines needed for gauges
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    + added clause ON INITDIALOG to dialogs
+
+  * makefile.gcc
+    * updated makefile for Win/MinGW builds
+
+  * src/raddox/talias.prg
+    * using BREAK to raise error (must be into a BEGIN/END SEQUENCE block)
+
+  * src/wxbase/app/wx_app.cpp
+    + added function wxSafeYield()
+
 2009-03-24 04:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   + include/wxbase/wx_gauge.h

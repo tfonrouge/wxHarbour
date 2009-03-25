@@ -25,6 +25,7 @@
 #include "raddox.ch"
 #include "wx.ch"
 
+#include "wxh/gauge.ch"
 #include "wxh/textctrl.ch"
 
 #define wxhLABEL_QUIT           "Quit"
@@ -76,8 +77,9 @@
           [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
+          [ ON INITDIALOG <initDlg> ] ;
           => ;
-          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
+          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<initDlg>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;
