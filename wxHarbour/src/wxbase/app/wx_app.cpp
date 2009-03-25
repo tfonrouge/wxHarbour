@@ -35,6 +35,18 @@ HB_FUNC_EXTERN( __QUIT );
 HB_FUNC_EXTERN( WXHERRORSYS );
 
 /*
+  wxSafeYield
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSAFEYIELD )
+{
+  hb_retl( wxSafeYield( (wxWindow *) wxh_ItemListGet_WX( hb_param( 1, HB_IT_OBJECT ) ), hb_parl( 2 ) ) );
+}
+
+HB_FUNC_EXTERN( __QUIT );
+HB_FUNC_EXTERN( WXHERRORSYS );
+
+/*
   OnExit
   Teo. Mexico 2008
 */

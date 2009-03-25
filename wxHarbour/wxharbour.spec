@@ -60,6 +60,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 /usr/local/include/xerror.ch
 /usr/local/include/wx.ch
 /usr/local/include/wxh/filedlg.ch
+/usr/local/include/wxh/gauge.ch
 /usr/local/include/wxh/textctrl.ch
 /usr/local/include/wx_hbcompat.ch
 /usr/local/include/wxharbour.ch

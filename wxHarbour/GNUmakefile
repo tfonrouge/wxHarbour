@@ -264,6 +264,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxh.h \
 	include/wxhevtdefs.h \
 	include/wxh/filedlg.ch \
+	include/wxh/gauge.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \

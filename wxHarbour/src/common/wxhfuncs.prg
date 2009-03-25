@@ -256,7 +256,7 @@ RETURN choice
   wxh_Dialog
   Teo. Mexico 2008
 */
-FUNCTION wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+FUNCTION wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, initDlg )
   LOCAL dlg
 
   IF Empty( fromClass )
@@ -266,6 +266,10 @@ FUNCTION wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, 
     IF !dlg:IsDerivedFrom( "wxDialog" )
       dlg:IsNotDerivedFrom_wxDialog()
     ENDIF
+  ENDIF
+
+  IF initDlg != NIL
+    dlg:ConnectInitDialogEvt( dlg:GetId(), wxEVT_INIT_DIALOG, initDlg )
   ENDIF
 
   containerObj():AddToParentList( dlg )

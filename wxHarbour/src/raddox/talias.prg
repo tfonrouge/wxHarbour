@@ -93,7 +93,8 @@ METHOD New( table ) CLASS TAlias
   ENDIF
 
   IF !::DbOpen()
-    RAISE ERROR "TAlias: Cannot Open Table '" + table:TableFileName + "'"
+    //RAISE ERROR "TAlias: Cannot Open Table '" + table:TableFileName + "'"
+    BREAK( "TAlias: Cannot Open Table '" + table:TableFileName + "'" )
   ENDIF
 
   ::SyncFromRecNo()
