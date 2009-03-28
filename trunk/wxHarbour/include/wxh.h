@@ -97,6 +97,7 @@ public:
 
 };
 
+HB_FUNC_EXTERN( WXACTIVATEEVENT );
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
 HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
@@ -133,11 +134,14 @@ class hbEvtHandler : public T
 private:
   void __OnEvent( wxEvent &event );
 public:
+
+  void OnActivateEvent( wxActivateEvent& event );
   void OnCommandEvent( wxCommandEvent& event );
   void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
   void OnInitDialogEvent( wxInitDialogEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
+
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 
   ~hbEvtHandler<T>();
@@ -195,6 +199,17 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 
   //wxh_ItemListDel_HB( pEvent );
   hb_itemRelease( pEvent ); //this has to be done on above line
+}
+
+/*
+  OnActivateEvent
+  Teo. Mexico 2009
+*/
+template <class T>
+void hbEvtHandler<T>::OnActivateEvent( wxActivateEvent& event )
+{
+  HB_FUNC_EXEC( WXACTIVATEEVENT );
+  __OnEvent( event );
 }
 
 /*

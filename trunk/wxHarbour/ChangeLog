@@ -2,6 +2,17 @@
  *
  */
 
+2009-03-28 10:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  * makefile.gcc
+  + src/wxbase/baseclasses/wx_ActivateEvent.cpp
+  * src/wxbase/baseclasses/wx_evthandler.cpp
+  + src/wxbase/baseclasses/wxhActivateEvent.prg
+  * src/wxbase/baseclasses/wxhevthandler.prg
+    + Added wxActivateEvent class
+
 2009-03-25 00:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   + include/wxh/gauge.ch
