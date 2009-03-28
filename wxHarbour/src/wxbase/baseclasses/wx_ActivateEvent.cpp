@@ -10,34 +10,23 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#ifdef __XHARBOUR__
-  #include "wx_hbcompat.ch"
-#endif
-
-#include "hbclass.ch"
-#include "property.ch"
-#include "wx.ch"
-#include "wxhevtdefs.h"
-
 /*
-  wxEvtHandler
+  wx_ActivateEvent: Implementation
   Teo. Mexico 2009
 */
-CLASS wxEvtHandler FROM wxObject
-PRIVATE:
-  DATA FEventList INIT HB_HSetCaseMatch( {=>}, .F. )
-  DATA FEventTypeValue
-PROTECTED:
-PUBLIC:
-  METHOD ConnectActivateEvt( p1, p2, p3, p4 )
-  METHOD ConnectCommandEvt( p1, p2, p3, p4 )
-  METHOD ConnectFocusEvt( p1, p2, p3, p4 )
-  METHOD ConnectGridEvt( p1, p2, p3, p4 )
-  METHOD ConnectInitDialogEvt( p1, p2, p3, p4 )
-  METHOD ConnectMouseEvt( p1, p2, p3, p4 )
-PUBLISHED:
-ENDCLASS
+
+#include "wx/wx.h"
+
+#include "wxh.h"
 
 /*
-  End Class wxEvtHandler
+  GetActive
+  Teo. Mexico 2009
 */
+HB_FUNC( WXACTIVATEEVENT_GETACTIVE )
+{
+  wxActivateEvent* activateEvent = (wxActivateEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( activateEvent )
+    hb_retl( activateEvent->GetActive() );
+}

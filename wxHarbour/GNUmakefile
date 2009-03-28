@@ -142,6 +142,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)/wxHarbour_wxchoice.o \
+	$(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o \
@@ -201,6 +202,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_panel.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_app.o \
+	$(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_commandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_controlwithitems.o \
 	$(__BUILDDIR__)/wxHarbour_wx_event.o \
@@ -426,6 +428,9 @@ $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)/wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o: ./src/wxbase/baseclasses/wxhActivateEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o: ./src/wxbase/baseclasses/wxhInitDialogEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -601,6 +606,9 @@ $(__BUILDDIR__)/wxHarbour_wx_statusbar.o: ./src/wxbase/advctrls/wx_statusbar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o: ./src/wxbase/baseclasses/wx_ActivateEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp

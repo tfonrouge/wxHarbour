@@ -72,6 +72,17 @@ static void ParseConnectParams( PCONN_PARAMS pConnParams )
 }
 
 /*
+  ConnectActivateEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTACTIVATEEVT )
+{
+
+  Connect( WXH_ACTIVATEEVENT );
+
+}
+
+/*
   ConnectCommandEvt
   Teo. Mexico 2009
 */
