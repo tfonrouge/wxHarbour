@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-aMainDirs="samples tests"
+aMainDirs="demos tests"
 
 formats='gnu msvc mingw borland'
 
@@ -20,7 +20,7 @@ for mainDir in $aMainDirs ; do
   for DIR in $adirs ; do
 
     ndir=${DIR/$mainDir\//}
-    cp samples/template.bkl $mainDir/$ndir/$ndir.bkl
+    cp tests/template.bkl $mainDir/$ndir/$ndir.bkl
     SEDCMD=s/__SAMPLE_NAME__/$ndir/
     sed -i $SEDCMD $mainDir/$ndir/$ndir.bkl
 
