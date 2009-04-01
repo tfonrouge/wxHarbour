@@ -2,6 +2,21 @@
  *
  */
 
+2009-04-01 01:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   test
+  - tests
+  - tests/dbExplorer
+  - tests/dbExplorer/dbExplorer.prg
+  - tests/dbExplorer/GNUmakefile
+  - tests/dbExplorer/makefile.gcc
+  - tests/dbExplorer/makefile.vc
+  - tests/test1
+  - tests/test1/GNUmakefile
+  - tests/test1/makefile.gcc
+  - tests/test1/makefile.vc
+  - tests/test1/test1.prg
+    * 1 pass to rename interchange dirnames tests<->samples
+
 2009-04-01 01:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * src/common/wx_harbour.cpp
