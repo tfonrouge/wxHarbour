@@ -25,8 +25,12 @@ WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxh_Item*, wxPointerHash, wxPointerEqual, MA
 /* wxObject* keys, wxh_Item* values */
 WX_DECLARE_HASH_MAP( wxObject*, wxh_Item*, wxPointerHash, wxPointerEqual, MAP_WXOBJECT );
 
+/* long keys (crc32), wxh_Item* values */
+WX_DECLARE_HASH_MAP( long, wxh_Item*, wxIntegerHash, wxIntegerEqual, MAP_CRC32 );
+
 static MAP_PHB_BASEARRAY map_phbBaseArr;
 static MAP_WXOBJECT map_wxObject;
+static MAP_CRC32 map_crc32;
 
 static PHB_ITEM lastTopLevelWindow;
 
@@ -36,13 +40,16 @@ static PHB_ITEM lastTopLevelWindow;
 */
 wxh_Item::~wxh_Item()
 {
-  map_phbBaseArr.erase( this->objHandle );
-  map_wxObject.erase( this->wxObj  );
+  map_phbBaseArr.erase( objHandle );
+  map_wxObject.erase( wxObj  );
+
+  if( map_crc32.find( uiProcNameLine ) != map_crc32.end() )
+    map_crc32.erase( uiProcNameLine );
 
   /* release codeblocks stored in event list */
-  if( this->evtList.size() > 0 )
+  if( evtList.size() > 0 )
   {
-    for( vector<PCONN_PARAMS>::iterator it = this->evtList.begin(); it < this->evtList.end(); it++ )
+    for( vector<PCONN_PARAMS>::iterator it = evtList.begin(); it < evtList.end(); it++ )
     {
       PCONN_PARAMS pConnParams = *it;
       if( pConnParams->pItmActionBlock )
@@ -56,7 +63,8 @@ wxh_Item::~wxh_Item()
 
   if( delete_WX )
   {
-    delete this->wxObj;
+    if( wxObj )
+      delete wxObj;
   }
 
   if( pSelf )
@@ -188,11 +196,12 @@ void wxh_ObjParams::ProcessParamLists()
 */
 void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 {
-  pWxh_Item = NULL;
-
   /* checks for a valid new pSelf object */
   if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
   {
+    pWxh_Item = NULL;
+    PHB_ITEM pItem = NULL;
+
     pWxh_Item = new wxh_Item;
     pWxh_Item->wxObj = wxObj;
     pWxh_Item->uiClass = pSelf->item.asArray.value->uiClass;
@@ -201,9 +210,33 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     /* Objs derived from wxTopLevelWindow are not volatile to local */
     if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
     {
-      lastTopLevelWindow = pSelf;
-      pWxh_Item->pSelf = hb_itemNew( pSelf );
+      /* calculate the crc32 for the procname/procline that created this obj */
+      char szName[ HB_SYMBOL_NAME_LEN + HB_SYMBOL_NAME_LEN + 5 ];
+      long lOffset = hb_stackBaseProcOffset( 1 );
+      UINT uiProcLine = 0;
+
+      if( lOffset > 0 )
+        uiProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
+      
+      hb_procname( 1, szName, TRUE );
+      UINT crc32 = hb_crc32( uiProcLine, (const BYTE *) szName, strlen( szName ) );
+      //qoutf("METHODNAME: %s:%d, crc32: %u", szName, uiProcLine, crc32 );
+
+      /* check if we are calling again the obj creation code and a wxh_Item exists */
+      if( map_crc32.find( crc32 ) != map_crc32.end() )
+      {
+        delete map_crc32[ crc32 ];
+      }
+
+      map_crc32[ crc32 ] = pWxh_Item;
+      pWxh_Item->uiProcNameLine = crc32;
+
+      pItem = hb_itemNew( pSelf );
+      lastTopLevelWindow = pItem;
     }
+
+    if( pItem )
+      pWxh_Item->pSelf = pItem;
 
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
@@ -336,6 +369,8 @@ void wxh_ItemListReleaseAll()
   while( ! map_wxObject.empty() )
   {
     it = map_wxObject.begin();
+    it->second->delete_WX = false;
+    delete it->second;
     //wxh_ItemListDel_WX( it->first );
   }
 }

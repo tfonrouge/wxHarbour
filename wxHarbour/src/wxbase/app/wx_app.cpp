@@ -64,7 +64,7 @@ int wx_App::OnExit()
 */
 wx_App::~wx_App()
 {
-//   wxh_ItemListReleaseAll();
+  wxh_ItemListReleaseAll();
   hb_itemRelease( hb_App );
 }
 

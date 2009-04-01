@@ -596,6 +596,10 @@ RETURN Result
 PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
   LOCAL sizerInfo
 
+  IF Empty( containerObj():ParentList )
+    RETURN
+  ENDIF
+
   IF child = NIL .AND. ! ( addSizerInfoToLastItem == .T. )
 
     /* Check if last child has been processed */
@@ -890,7 +894,6 @@ PRIVATE:
   DATA FMainContainerStack INIT {}
   METHOD GetParentList INLINE ATail( ::FMainContainerStack )
 PROTECTED:
-  PROPERTY ParentList READ GetParentList
 PUBLIC:
   DATA BookCtrls INIT { "wxNotebook", "wxListbook", "wxAuiNotebook" }
   METHOD AddSizerInfoToLastItem( sizerInfo )
@@ -907,6 +910,7 @@ PUBLIC:
   METHOD RemoveLastSizer
   METHOD SetLastChild( child )
   METHOD SizerAddOnLastChild
+  PROPERTY ParentList READ GetParentList
 PUBLISHED:
 ENDCLASS
 
@@ -1014,6 +1018,9 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetLastChild CLASS TContainerObj
+  IF Empty( ::ParentList )
+    RETURN NIL
+  ENDIF
 RETURN ATail( ::ParentList )[ "lastChild" ]
 
 /*
@@ -1035,6 +1042,9 @@ RETURN ::ParentList[ index ]
   Teo. Mexico 2008
 */
 METHOD FUNCTION LastParent CLASS TContainerObj
+  IF Empty( ::ParentList )
+    RETURN NIL
+  ENDIF
 RETURN ATail( ::ParentList )[ "parent" ]
 
 /*
@@ -1087,6 +1097,11 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE SetLastChild( child ) CLASS TContainerObj
+
+  IF Empty( ::ParentList )
+    RETURN
+  ENDIF
+
   IF ::GetLastChild()[ "child" ] == child
     RETURN
   ENDIF

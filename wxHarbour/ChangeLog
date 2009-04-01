@@ -2,6 +2,39 @@
  *
  */
 
+2009-04-01 01:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+    * added include file "hbchksum.h"
+    * added UINT uiProcNameLine to hold the CRC32 for procname/procline
+      for the objs no volatile (derived from wxTopLevelWindow)
+      This allows to detect if a wxTopLevelWindow has been called without
+      destroy (DESTROY hbObj) the wxh_Item
+
+  * makefile.vc
+    * updated MSVC makefile
+
+  * src/common/wxhfuncs.prg
+    ! Fixed errors when added widgets programatically (see dbExplorer)
+      simply checking if empty arrays on wxh_**** funcs
+
+  * src/wxbase/app/wx_app.cpp
+    * acvitated wxh_ItemListReleaseAll on wxApp destroy
+
+  + tests/dbExplorer
+  + tests/dbExplorer/dbExplorer.prg
+  + tests/dbExplorer/GNUmakefile
+  + tests/dbExplorer/makefile.gcc
+  + tests/dbExplorer/makefile.vc
+    * this sample allow to open databases
+
+  + tests/test1/makefile.gcc
+  + tests/test1/makefile.vc
+    * added makefiles
+
+  - tests/test1/test1.bkl
+    * removed unneeded bakefile
+
 2009-03-28 10:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * include/wxhevtdefs.h
