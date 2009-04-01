@@ -326,7 +326,7 @@ clean:
 	-if exist $(__BUILDDIR__)\*.o del $(__BUILDDIR__)\*.o
 	-if exist $(__BUILDDIR__)\*.d del $(__BUILDDIR__)\*.d
 	-if exist $(__BUILDDIR__)\lib$(WXHLIBNAME).a del $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) clean
+	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) clean
 
 $(__BUILDDIR__)\lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	if exist $@ del $@
@@ -381,8 +381,8 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
-samples: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	$(MAKE) -C samples -f makefile.gcc $(MAKEARGS) all
+demos: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
+	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) all
 
 sudoinstall: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	sudo make install
@@ -781,7 +781,7 @@ $(__BUILDDIR__)\wxHarbour_wx_xmldocument.o: ./src/wxbase/xmlclasses/wx_xmldocume
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxHarbour uninstall_wxHarbour \
-	install_wxHarbour_headers uninstall_wxHarbour_headers samples
+	install_wxHarbour_headers uninstall_wxHarbour_headers demos
 
 
 SHELL := $(COMSPEC)

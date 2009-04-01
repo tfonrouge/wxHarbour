@@ -25,7 +25,9 @@
 #include "raddox.ch"
 #include "wx.ch"
 
+#include "wxh/auibook.ch"
 #include "wxh/gauge.ch"
+#include "wxh/notebook.ch"
 #include "wxh/textctrl.ch"
 
 #define wxhLABEL_QUIT           "Quit"
@@ -419,7 +421,7 @@
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
-          [ <nb> := ]wxh_BookBegin( wx<bookType>() ;
+          [ <nb> := ]wxh_BookBegin( wx<bookType>(), ;
             [<parent>],;
             [<id>],;
             ,;
@@ -434,7 +436,7 @@
           BEGIN <bookType> [<nbclauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
-#xcommand ADD BOOK PAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
+#xcommand ADD BOOKPAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
           => ;
           wxh_BookAddPage( <title>, <select>, <imageId> )
 

@@ -84,7 +84,16 @@ METHOD FUNCTION OnInit() CLASS MyApp
           @ BUTTON ID wxID_APPLY ACTION DoStuff( oWnd ) SIZERINFO ALIGN RIGHT
         END SIZER
       END PANEL
-      @ BUTTON
+      BEGIN NOTEBOOK
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+        @ BUTTON
+      END NOTEBOOK
     END NOTEBOOK
     BEGIN BOXSIZER VERTICAL "uno"
       @ SAY "HOLA" //SIZERINFO STRETCH //GET edtNombre

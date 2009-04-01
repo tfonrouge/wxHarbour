@@ -186,9 +186,9 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
       @ SAY cMessage
     END SIZER
     BEGIN NOTEBOOK SIZERINFO ALIGN EXPAND STRETCH
-      ADD BOOK PAGE "Call Stack" FROM
+      ADD BOOKPAGE "Call Stack" FROM
         @ BROWSE VAR brwCallStack DATASOURCE aStack //SIZERINFO ALIGN EXPAND STRETCH
-      ADD BOOK PAGE "Error Object" FROM
+      ADD BOOKPAGE "Error Object" FROM
         @ BROWSE VAR brwErrObj DATASOURCE __objGetValueList( oErr, .T., 0 )
     END NOTEBOOK
     BEGIN BOXSIZER HORIZONTAL

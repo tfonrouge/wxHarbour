@@ -2,6 +2,38 @@
  *
  */
 
+2009-04-01 04:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+    * updated makefiles, changed proj-id from "samples" to "demos"
+
+  * include/wxharbour.ch
+  + include/wxh/auibook.ch
+  + include/wxh/bookctrl.ch
+  + include/wxh/notebook.ch
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+  * tests/text/text.prg
+    * added include files: "auibook.ch", "notebook.ch"
+    ! Fixed command BEGIN *BOOK, mising ','
+    * renamed command ADD BOOK PAGE ... to ADD BOOKPAGE
+
+  * src/common/wxhfuncs.prg
+    ! Fixed checking for a empty ::ParentList on adding Parent control to array
+
+  * tests/GNUmakefile
+    * updated makefile
+
+  * tests/helloworld/helloworld.prg
+    * updated sample
+
+  - tests/samples.bkl
+    * removed unneeded bakefile
+
 2009-04-01 01:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_bkls.sh
     ! Fixed script

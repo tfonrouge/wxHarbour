@@ -42,8 +42,8 @@
     <install-headers-to>$(PREFIX)</install-headers-to>
   </wxharbour-lib>
 
-  <subproject id="samples">
-    <dir>samples</dir>
+  <subproject id="demos">
+    <dir>demos</dir>
     <depends>wxHarbour</depends>
     <installable>no</installable>
   </subproject>

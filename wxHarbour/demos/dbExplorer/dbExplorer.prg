@@ -33,7 +33,7 @@ CLASS MyApp FROM wxApp
 PRIVATE:
 
   DATA curDirectory
-  DATA noteBook
+  DATA auiNotebook
   DATA oWnd
 
   METHOD GetBrw INLINE NIL
@@ -74,7 +74,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   ENDMENU
 
   BEGIN BOXSIZER VERTICAL
-    BEGIN NOTEBOOK VAR ::noteBook SIZERINFO ALIGN EXPAND STRETCH
+    BEGIN NOTEBOOK VAR ::auiNotebook SIZERINFO ALIGN EXPAND STRETCH
     END NOTEBOOK
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
       @ GET text NAME "textCtrl" MULTILINE SIZERINFO ALIGN EXPAND STRETCH
@@ -111,8 +111,8 @@ RETURN .T.
   Teo. Mexico 2009
 */
 METHOD PROCEDURE OpenDB CLASS MyApp
-  LOCAL oBrw
   LOCAL fileDlg
+  LOCAL noteBook
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
 
@@ -127,11 +127,19 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
   ::curDirectory := fileDlg:GetDirectory()
 
-  @ BROWSE VAR oBrw DATASOURCE fileDlg:GetPath() ON ::noteBook ;
-    ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
-    SIZERINFO ALIGN EXPAND STRETCH
+  BEGIN AUINOTEBOOK VAR noteBook ON ::auiNotebook STYLE wxAUI_NB_BOTTOM
+    ADD BOOKPAGE "Data Grid" FROM
+      @ BROWSE DATASOURCE fileDlg:GetPath() ;
+        ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
+        SIZERINFO ALIGN EXPAND STRETCH
+    ADD BOOKPAGE "Indexes" FROM
+      @ BUTTON
+    ADD BOOKPAGE "Structure" FROM
+      @ BUTTON
+  END AUINOTEBOOK
 
-  ::noteBook:AddPage( oBrw, fileDlg:GetFileName(), .T. )
+
+  ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
 
   DESTROY fileDlg
 
