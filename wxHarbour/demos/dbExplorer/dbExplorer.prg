@@ -133,11 +133,10 @@ METHOD PROCEDURE OpenDB CLASS MyApp
         ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
         SIZERINFO ALIGN EXPAND STRETCH
     ADD BOOKPAGE "Indexes" FROM
-      @ BUTTON
+      @ BUTTON "Indexes"
     ADD BOOKPAGE "Structure" FROM
-      @ BUTTON
+      @ BUTTON "Structure"
   END AUINOTEBOOK
-
 
   ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
 
