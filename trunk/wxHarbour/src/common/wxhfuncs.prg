@@ -960,7 +960,9 @@ RETURN
   Teo. Mexico 2008
 */
 METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
-  IF parent:IsDerivedFrom( "wxFrame" ) .OR. parent:IsDerivedFrom( "wxDialog" )
+  IF parent:IsDerivedFrom( "wxFrame" ) .OR. ;
+     parent:IsDerivedFrom( "wxDialog" ) .OR. ;
+     ::ParentList == NIL
     AAdd( ::FMainContainerStack, {} )
   ENDIF
   IF parent == NIL
@@ -1122,6 +1124,10 @@ RETURN
 METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
   LOCAL child
   LOCAL sizerInfo
+
+  IF Empty( ::ParentList )
+    RETURN
+  ENDIF
 
   child := ::GetLastChild()[ "child" ]
 

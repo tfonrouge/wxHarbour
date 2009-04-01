@@ -321,7 +321,7 @@ clean:
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
 	-if exist $(__BUILDDIR__)\*.pch del $(__BUILDDIR__)\*.pch
 	-if exist $(__BUILDDIR__)\$(WXHLIBNAME).lib del $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	cd samples
+	cd demos
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
 
@@ -379,8 +379,8 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
-sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	cd samples
+sub_demos: $(__BUILDDIR__)\$(WXHLIBNAME).lib
+	cd demos
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
 	cd "$(MAKEDIR)"
 
