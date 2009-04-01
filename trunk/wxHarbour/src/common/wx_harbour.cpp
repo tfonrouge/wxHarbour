@@ -219,8 +219,9 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
         uiProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
       
       hb_procname( 1, szName, TRUE );
-      UINT crc32 = hb_crc32( uiProcLine, (const BYTE *) szName, strlen( szName ) );
-      //qoutf("METHODNAME: %s:%d, crc32: %u", szName, uiProcLine, crc32 );
+      UINT crc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + uiProcLine, (const BYTE *) szName, strlen( szName ) );
+
+//       qoutf("METHODNAME: %s:%d, crc32: %u", szName, uiProcLine, crc32 );
 
       /* check if we are calling again the obj creation code and a wxh_Item exists */
       if( map_crc32.find( crc32 ) != map_crc32.end() )

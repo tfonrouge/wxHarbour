@@ -2,6 +2,12 @@
  *
  */
 
+2009-04-01 09:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+  * src/common/wx_harbour.cpp
+    * added some basic integration of Harbour class type (uiClass)
+      in the crc32 calculation
+
 2009-04-01 04:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo
