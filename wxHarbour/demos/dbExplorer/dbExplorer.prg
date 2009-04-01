@@ -113,6 +113,9 @@ RETURN .T.
 METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL fileDlg
   LOCAL noteBook
+  LOCAL table
+  LOCAL oErr
+  LOCAL aIndex := {}
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
 
@@ -127,20 +130,33 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
   ::curDirectory := fileDlg:GetDirectory()
 
+  BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
+
+    table := TTable():New( NIL, fileDlg:GetPath() )
+
+  RECOVER USING oErr
+
+    wxMessageBox( oErr:description, "Error", wxICON_ERROR, ::oWnd )
+
+//   DESTROY fileDlg
+    RETURN
+
+  END SEQUENCE
+
   BEGIN AUINOTEBOOK VAR noteBook ON ::auiNotebook STYLE wxAUI_NB_BOTTOM
     ADD BOOKPAGE "Data Grid" FROM
-      @ BROWSE DATASOURCE fileDlg:GetPath() ;
+      @ BROWSE DATASOURCE table ;
         ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
         SIZERINFO ALIGN EXPAND STRETCH
     ADD BOOKPAGE "Indexes" FROM
-      @ BUTTON "Indexes"
+      @ BROWSE DATASOURCE aIndex
     ADD BOOKPAGE "Structure" FROM
-      @ BUTTON "Structure"
+      @ BROWSE DATASOURCE table:DbStruct
   END AUINOTEBOOK
 
   ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
 
-  DESTROY fileDlg
+//   DESTROY fileDlg
 
 RETURN
 

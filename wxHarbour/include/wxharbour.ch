@@ -436,9 +436,9 @@
           BEGIN <bookType> [<nbclauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
-#xcommand ADD BOOKPAGE [ [TITLE] <title> ] [ SELECT <select> ] [ IMAGEID <imageId> ] FROM ;
+#xcommand ADD BOOKPAGE [ [TITLE] <title> ] [<select: SELECT> ] [ IMAGEID <imageId> ] FROM ;
           => ;
-          wxh_BookAddPage( <title>, <select>, <imageId> )
+          wxh_BookAddPage( <title>, <.select.>, <imageId> )
 
 /*
   Panel

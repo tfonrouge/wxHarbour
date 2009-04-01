@@ -258,7 +258,7 @@ METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
 
   ++row
 
-  IF row > Len( ::FGridBuffer )
+  IF ::FGridBuffer == NIL .OR. row > Len( ::FGridBuffer )
     RETURN ""
   ENDIF
 

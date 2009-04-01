@@ -2,6 +2,16 @@
  *
  */
 
+2009-04-01 10:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * include/wxharbour.ch
+    * changed SELECT clause to boolean, on ADD BOOKPAGE command
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    ! Fixed error when DATASOURCE is a empty array
+
 2009-04-01 09:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
   * src/common/wx_harbour.cpp
