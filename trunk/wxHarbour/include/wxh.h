@@ -15,8 +15,9 @@
   Teo. Mexico 2008
 */
 
-extern "C"
-{
+/*
+  Harbour related include files
+*/
 #include "hbvmint.h"
 #include "hbapi.h"
 #include "hbapiitm.h"
@@ -26,7 +27,7 @@ extern "C"
 #include "hbvm.h"
 #include "hbstack.h"
 #include "hbapierr.h"
-}
+#include "hbchksum.h"
 
 #include "wx/grid.h"
 #include "wxhevtdefs.h"
@@ -63,8 +64,9 @@ public:
   vector<PCONN_PARAMS> evtList;
   PHB_ITEM pSelf;
   USHORT uiRefCount;
+  UINT uiProcNameLine;
 
-  wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; }
+  wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; uiProcNameLine = 0; }
   ~wxh_Item();
 
 };

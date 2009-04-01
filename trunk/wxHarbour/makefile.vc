@@ -148,6 +148,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.obj \
 	$(__BUILDDIR__)\wxHarbour_wxchoice.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcommandevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhevent.obj \
@@ -157,6 +159,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhkeyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhmouseevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhsizeevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhauinotebook.obj \
@@ -186,6 +189,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhgridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhGauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhstaticline.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhfont.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhvalidator.obj \
@@ -204,6 +208,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_panel.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_statusbar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_app.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_commandevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_controlwithitems.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_event.obj \
@@ -212,6 +217,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_gridevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_keyevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_object.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_sizeevent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_window.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_auinotebook.obj \
@@ -245,6 +251,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_gridsizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_sizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_gauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_staticline.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_font.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_validator.obj \
@@ -350,6 +357,7 @@ install_wxHarbour_headers:
 	copy include\wxh.h $(PREFIX)\include
 	copy include\wxhevtdefs.h $(PREFIX)\include
 	copy include\wxh\filedlg.ch $(PREFIX)\include\wxh
+	copy include\wxh\gauge.ch $(PREFIX)\include\wxh
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
@@ -368,6 +376,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh.h -del $(PREFIX)\include\wxh.h
 	-if exist $(PREFIX)\include\wxhevtdefs.h -del $(PREFIX)\include\wxhevtdefs.h
 	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
+	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 sub_samples: $(__BUILDDIR__)\$(WXHLIBNAME).lib
@@ -447,6 +456,12 @@ $(__BUILDDIR__)\wxHarbour_wxhapp.obj: .\src\wxbase\app\wxhapp.prg
 $(__BUILDDIR__)\wxHarbour_wxchoice.obj: .\src\wxbase\baseclasses\wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj: .\src\wxbase\baseclasses\wxhActivateEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.obj: .\src\wxbase\baseclasses\wxhInitDialogEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhcommandevent.obj: .\src\wxbase\baseclasses\wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -472,6 +487,9 @@ $(__BUILDDIR__)\wxHarbour_wxhmouseevent.obj: .\src\wxbase\baseclasses\wxhmouseev
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhobject.obj: .\src\wxbase\baseclasses\wxhobject.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhsizeevent.obj: .\src\wxbase\baseclasses\wxhsizeevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.obj: .\src\wxbase\baseclasses\wxhtoplevelwindow.prg
@@ -561,6 +579,9 @@ $(__BUILDDIR__)\wxHarbour_wxhsizer.obj: .\src\wxbase\sizers\wxhsizer.prg
 $(__BUILDDIR__)\wxHarbour_wxhstaticboxsizer.obj: .\src\wxbase\sizers\wxhstaticboxsizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhGauge.obj: .\src\wxbase\static\wxhGauge.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhstaticline.obj: .\src\wxbase\static\wxhstaticline.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -615,6 +636,9 @@ $(__BUILDDIR__)\wxHarbour_wx_statusbar.obj: .\src\wxbase\advctrls\wx_statusbar.c
 $(__BUILDDIR__)\wxHarbour_wx_app.obj: .\src\wxbase\app\wx_app.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\app\wx_app.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj: .\src\wxbase\baseclasses\wx_ActivateEvent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ActivateEvent.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_commandevent.obj: .\src\wxbase\baseclasses\wx_commandevent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_commandevent.cpp
 
@@ -638,6 +662,9 @@ $(__BUILDDIR__)\wxHarbour_wx_keyevent.obj: .\src\wxbase\baseclasses\wx_keyevent.
 
 $(__BUILDDIR__)\wxHarbour_wx_object.obj: .\src\wxbase\baseclasses\wx_object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_object.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_sizeevent.obj: .\src\wxbase\baseclasses\wx_sizeevent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_sizeevent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_toplevelwindow.obj: .\src\wxbase\baseclasses\wx_toplevelwindow.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_toplevelwindow.cpp
@@ -737,6 +764,9 @@ $(__BUILDDIR__)\wxHarbour_wx_sizer.obj: .\src\wxbase\sizers\wx_sizer.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_staticboxsizer.obj: .\src\wxbase\sizers\wx_staticboxsizer.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\sizers\wx_staticboxsizer.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_gauge.obj: .\src\wxbase\static\wx_gauge.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\static\wx_gauge.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_staticline.obj: .\src\wxbase\static\wx_staticline.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\static\wx_staticline.cpp
