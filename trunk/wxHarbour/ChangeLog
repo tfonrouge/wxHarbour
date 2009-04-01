@@ -2,6 +2,72 @@
  *
  */
 
+2009-04-01 01:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   tests
+  - samples
+  - samples/arrbrowser
+  - samples/arrbrowser/arrbrowser.bkl
+  - samples/arrbrowser/arrbrowser.prg
+  - samples/arrbrowser/GNUmakefile
+  - samples/arrbrowser/makefile.gcc
+  - samples/arrbrowser/makefile.vc
+  - samples/dbbrowser
+  - samples/dbbrowser/dbbrowser.bkl
+  - samples/dbbrowser/dbbrowser.prg
+  - samples/dbbrowser/GNUmakefile
+  - samples/dbbrowser/main.dbf
+  - samples/dbbrowser/makefile.gcc
+  - samples/dbbrowser/makefile.vc
+  - samples/GNUmakefile
+  - samples/grid
+  - samples/grid/GNUmakefile
+  - samples/grid/grid.prg
+  - samples/grid/makefile.gcc
+  - samples/grid/makefile.vc
+  - samples/helloworld
+  - samples/helloworld1
+  - samples/helloworld1/GNUmakefile
+  - samples/helloworld1/helloworld1.bkl
+  - samples/helloworld1/helloworld1.prg
+  - samples/helloworld1/makefile.gcc
+  - samples/helloworld1/makefile.vc
+  - samples/helloworld/GNUmakefile
+  - samples/helloworld/helloworld.bkl
+  - samples/helloworld/helloworld.prg
+  - samples/helloworld/makefile.gcc
+  - samples/helloworld/makefile.vc
+  - samples/makefile.gcc
+  - samples/makefile.vc
+  - samples/menu
+  - samples/menu/GNUmakefile
+  - samples/menu/menu.bkl
+  - samples/menu/menu.prg
+  - samples/networking
+  - samples/networking/GNUmakefile
+  - samples/networking/makefile.bcc
+  - samples/networking/makefile.gcc
+  - samples/networking/makefile.vc
+  - samples/networking/simple.bkl
+  - samples/networking/simple.prg
+  - samples/samples.bkl
+  - samples/sizers
+  - samples/sizers/GNUmakefile
+  - samples/sizers/login.prg
+  - samples/sizers/main.prg
+  - samples/sizers/makefile.gcc
+  - samples/sizers/sizers.bkl
+  - samples/template.bkl
+  - samples/text
+  - samples/text/GNUmakefile
+  - samples/text/text.bkl
+  - samples/text/text.prg
+  - samples/wxhBrowse
+  - samples/wxhBrowse/GNUmakefile
+  - samples/wxhBrowse/makefile.gcc
+  - samples/wxhBrowse/makefile.vc
+  - samples/wxhBrowse/wxhBrowse.prg
+    * pass 2
+
 2009-04-01 01:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   test
   - tests
