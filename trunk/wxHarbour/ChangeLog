@@ -2,6 +2,21 @@
  *
  */
 
+2009-04-01 01:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   demos
+  - test
+  - test/dbExplorer
+  - test/dbExplorer/dbExplorer.prg
+  - test/dbExplorer/GNUmakefile
+  - test/dbExplorer/makefile.gcc
+  - test/dbExplorer/makefile.vc
+  - test/test1
+  - test/test1/GNUmakefile
+  - test/test1/makefile.gcc
+  - test/test1/makefile.vc
+  - test/test1/test1.prg
+    * pass 3
+
 2009-04-01 01:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   tests
   - samples
@@ -81,7 +96,7 @@ A  +   test
   - tests/test1/makefile.gcc
   - tests/test1/makefile.vc
   - tests/test1/test1.prg
-    * 1 pass to rename interchange dirnames tests<->samples
+    * 1 pass to rename interchange dirnames tests<->samples(demos)
 
 2009-04-01 01:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
