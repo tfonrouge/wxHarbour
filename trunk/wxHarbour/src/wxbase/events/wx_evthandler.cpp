@@ -121,6 +121,15 @@ HB_FUNC( WXEVTHANDLER_CONNECTINITDIALOGEVT )
 }
 
 /*
+  ConnectMenuEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTMENUEVT )
+{
+  Connect( WXH_MENUEVENT );
+}
+
+/*
   ConnectMouseEvt
   Teo. Mexico 2009
 */

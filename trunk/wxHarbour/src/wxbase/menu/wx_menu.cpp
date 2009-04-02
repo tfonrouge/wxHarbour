@@ -74,3 +74,28 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
   if( menu )
     menu->AppendSeparator();
 }
+
+/*
+  GetMenuItems
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXMENU_GETMENUITEMS )
+{
+  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( menu )
+  {
+    wxMenuItemList menuItemList = menu->GetMenuItems();
+    wxMenuItemList::iterator it;
+
+    PHB_ITEM pArray = hb_itemArrayNew( menuItemList.GetCount() );
+    UINT index = 0;
+
+    for( it = menuItemList.begin(); it != menuItemList.end(); it++ )
+    {
+      hb_arraySet( pArray, ++index, wxh_ItemListGet_HB( *it ) );
+    }
+
+    hb_itemReturnRelease( pArray );
+  }
+}

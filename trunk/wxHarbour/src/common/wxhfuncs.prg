@@ -35,6 +35,22 @@ STATIC containerObj
 STATIC menuData
 
 /*
+  wxMenuItem_1
+  Teo. Mexico 2009
+*/
+CLASS wxMenuItem_1 FROM wxMenuItem
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  DATA enableBlock
+PUBLISHED:
+ENDCLASS
+
+/*
+  EndClass wxMenuItem_1
+*/
+
+/*
   ContainerObj
   Teo. Mexico 2008
 */
@@ -442,6 +458,7 @@ RETURN
   Teo. Mexico 2006
 */
 FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
+  LOCAL menu
   LOCAL menuItem
   LOCAL nLast
 
@@ -450,17 +467,37 @@ FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   ENDIF
 
   nLast := menuData:lenMenuList
+  menu := menuData:g_menuList[ nLast ]["menu"]
 
-  menuItem := wxMenuItem():New( menuData:g_menuList[ nLast ]["menu"], id, text, helpString, kind )
+  menuItem := wxMenuItem_1():New( menu, id, text, helpString, kind )
 
-  menuData:g_menuList[ nLast ]["menu"]:Append( menuItem )
+  menu:Append( menuItem )
 
   IF bAction != NIL
     menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
-  IF bEnabled != NIL
-    menuItem:Enable( bEnabled:Eval() )
+  IF bEnabled != NIL .AND. ValType( bEnabled ) = "B"
+    //menuItem:Enable( bEnabled:Eval() ) /* not needed */
+    menuItem:enableBlock := bEnabled
+    menu:ConnectMenuEvt( -1, wxEVT_MENU_OPEN, ;
+      {|menuEvent|
+        LOCAL menu
+        LOCAL menuItem
+        LOCAL menuItemList
+
+        menu := menuEvent:GetMenu()
+        menuItemList := menu:GetMenuItems()
+
+        FOR EACH menuItem IN menuItemList
+          IF menuItem:enableBlock != NIL
+            menuItem:Enable( menuItem:enableBlock:Eval() )
+          ENDIF
+        NEXT
+
+        RETURN NIL
+      } )
+
   ENDIF
 
 RETURN menuItem
