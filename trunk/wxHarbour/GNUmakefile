@@ -142,18 +142,18 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhapp.o \
 	$(__BUILDDIR__)/wxHarbour_wxchoice.o \
-	$(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhInitDialogEvent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhcommandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o \
-	$(__BUILDDIR__)/wxHarbour_wxhevent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhevthandler.o \
-	$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhgridevent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o \
-	$(__BUILDDIR__)/wxHarbour_wxhmouseevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhevthandler.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhfocusevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhgridevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhkeyevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhmouseevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhobject.o \
-	$(__BUILDDIR__)/wxHarbour_wxhsizeevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wxhsizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wxhauinotebook.o \
@@ -169,6 +169,16 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhtreectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhfiledialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmessagedialog.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhInitDialogEvent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhcommandevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhevthandler.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhfocusevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhgridevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhkeyevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhmouseevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wxhsizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhdialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhframe.o \
 	$(__BUILDDIR__)/wxHarbour_wxhmenu.o \
@@ -202,16 +212,16 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_panel.o \
 	$(__BUILDDIR__)/wxHarbour_wx_statusbar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_app.o \
-	$(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o \
-	$(__BUILDDIR__)/wxHarbour_wx_commandevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_ActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_commandevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_controlwithitems.o \
-	$(__BUILDDIR__)/wxHarbour_wx_event.o \
-	$(__BUILDDIR__)/wxHarbour_wx_evthandler.o \
-	$(__BUILDDIR__)/wxHarbour_wx_focusevent.o \
-	$(__BUILDDIR__)/wxHarbour_wx_gridevent.o \
-	$(__BUILDDIR__)/wxHarbour_wx_keyevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_event.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_evthandler.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_focusevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_gridevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_keyevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_object.o \
-	$(__BUILDDIR__)/wxHarbour_wx_sizeevent.o \
+	$(__BUILDDIR__)/wxHarbour_baseclasses_wx_sizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o \
 	$(__BUILDDIR__)/wxHarbour_wx_window.o \
 	$(__BUILDDIR__)/wxHarbour_wx_auinotebook.o \
@@ -227,6 +237,14 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_treectrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_filedialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_messagedialog.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_ActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_commandevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_event.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_evthandler.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_focusevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_gridevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_keyevent.o \
+	$(__BUILDDIR__)/wxHarbour_events_wx_sizeevent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_mdichildframe.o \
@@ -265,8 +283,11 @@ WXHARBOUR_HEADERS =  \
 	include/rdodefs.h \
 	include/wxh.h \
 	include/wxhevtdefs.h \
+	include/wxh/auibook.ch \
+	include/wxh/bookctrl.ch \
 	include/wxh/filedlg.ch \
 	include/wxh/gauge.ch \
+	include/wxh/notebook.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
@@ -428,40 +449,40 @@ $(__BUILDDIR__)/wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 $(__BUILDDIR__)/wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o: ./src/wxbase/baseclasses/wxhActivateEvent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhActivateEvent.o: ./src/wxbase/baseclasses/wxhActivateEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhInitDialogEvent.o: ./src/wxbase/baseclasses/wxhInitDialogEvent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhInitDialogEvent.o: ./src/wxbase/baseclasses/wxhInitDialogEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhcommandevent.o: ./src/wxbase/baseclasses/wxhcommandevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhcontrolwithitems.o: ./src/wxbase/baseclasses/wxhcontrolwithitems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhevent.o: ./src/wxbase/baseclasses/wxhevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhevthandler.o: ./src/wxbase/baseclasses/wxhevthandler.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhevthandler.o: ./src/wxbase/baseclasses/wxhevthandler.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhfocusevent.o: ./src/wxbase/baseclasses/wxhfocusevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhfocusevent.o: ./src/wxbase/baseclasses/wxhfocusevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhgridevent.o: ./src/wxbase/baseclasses/wxhgridevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhkeyevent.o: ./src/wxbase/baseclasses/wxhkeyevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhmouseevent.o: ./src/wxbase/baseclasses/wxhmouseevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhobject.o: ./src/wxbase/baseclasses/wxhobject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)/wxHarbour_wxhsizeevent.o: ./src/wxbase/baseclasses/wxhsizeevent.prg
+$(__BUILDDIR__)/wxHarbour_baseclasses_wxhsizeevent.o: ./src/wxbase/baseclasses/wxhsizeevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhtoplevelwindow.o: ./src/wxbase/baseclasses/wxhtoplevelwindow.prg
@@ -507,6 +528,36 @@ $(__BUILDDIR__)/wxHarbour_wxhfiledialog.o: ./src/wxbase/comdialogs/wxhfiledialog
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhmessagedialog.o: ./src/wxbase/comdialogs/wxhmessagedialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhActivateEvent.o: ./src/wxbase/events/wxhActivateEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhInitDialogEvent.o: ./src/wxbase/events/wxhInitDialogEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhcommandevent.o: ./src/wxbase/events/wxhcommandevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhevent.o: ./src/wxbase/events/wxhevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhevthandler.o: ./src/wxbase/events/wxhevthandler.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhfocusevent.o: ./src/wxbase/events/wxhfocusevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhgridevent.o: ./src/wxbase/events/wxhgridevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhkeyevent.o: ./src/wxbase/events/wxhkeyevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhmouseevent.o: ./src/wxbase/events/wxhmouseevent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_events_wxhsizeevent.o: ./src/wxbase/events/wxhsizeevent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhdialog.o: ./src/wxbase/manwindows/wxhdialog.prg
@@ -608,34 +659,34 @@ $(__BUILDDIR__)/wxHarbour_wx_statusbar.o: ./src/wxbase/advctrls/wx_statusbar.cpp
 $(__BUILDDIR__)/wxHarbour_wx_app.o: ./src/wxbase/app/wx_app.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o: ./src/wxbase/baseclasses/wx_ActivateEvent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_ActivateEvent.o: ./src/wxbase/baseclasses/wx_ActivateEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_commandevent.o: ./src/wxbase/baseclasses/wx_commandevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_controlwithitems.o: ./src/wxbase/baseclasses/wx_controlwithitems.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_event.o: ./src/wxbase/baseclasses/wx_event.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_evthandler.o: ./src/wxbase/baseclasses/wx_evthandler.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_evthandler.o: ./src/wxbase/baseclasses/wx_evthandler.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_focusevent.o: ./src/wxbase/baseclasses/wx_focusevent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_focusevent.o: ./src/wxbase/baseclasses/wx_focusevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_gridevent.o: ./src/wxbase/baseclasses/wx_gridevent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_gridevent.o: ./src/wxbase/baseclasses/wx_gridevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_keyevent.o: ./src/wxbase/baseclasses/wx_keyevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_object.o: ./src/wxbase/baseclasses/wx_object.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)/wxHarbour_wx_sizeevent.o: ./src/wxbase/baseclasses/wx_sizeevent.cpp
+$(__BUILDDIR__)/wxHarbour_baseclasses_wx_sizeevent.o: ./src/wxbase/baseclasses/wx_sizeevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_toplevelwindow.o: ./src/wxbase/baseclasses/wx_toplevelwindow.cpp
@@ -681,6 +732,30 @@ $(__BUILDDIR__)/wxHarbour_wx_filedialog.o: ./src/wxbase/comdialogs/wx_filedialog
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_messagedialog.o: ./src/wxbase/comdialogs/wx_messagedialog.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_ActivateEvent.o: ./src/wxbase/events/wx_ActivateEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_commandevent.o: ./src/wxbase/events/wx_commandevent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_event.o: ./src/wxbase/events/wx_event.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_evthandler.o: ./src/wxbase/events/wx_evthandler.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_focusevent.o: ./src/wxbase/events/wx_focusevent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_gridevent.o: ./src/wxbase/events/wx_gridevent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_keyevent.o: ./src/wxbase/events/wx_keyevent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_events_wx_sizeevent.o: ./src/wxbase/events/wx_sizeevent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_dialog.o: ./src/wxbase/manwindows/wx_dialog.cpp

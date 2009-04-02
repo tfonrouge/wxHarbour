@@ -2,6 +2,32 @@
  *
  */
 
+2009-04-01 18:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +   src/wxbase/events/wx_ActivateEvent.cpp
+  +   src/wxbase/events/wx_commandevent.cpp
+  +   src/wxbase/events/wx_event.cpp
+  +   src/wxbase/events/wx_evthandler.cpp
+  +   src/wxbase/events/wx_focusevent.cpp
+  +   src/wxbase/events/wx_gridevent.cpp
+  +   src/wxbase/events/wxhActivateEvent.prg
+  +   src/wxbase/events/wxhcommandevent.prg
+  +   src/wxbase/events/wxhevent.prg
+  +   src/wxbase/events/wxhevthandler.prg
+  +   src/wxbase/events/wxhfocusevent.prg
+  +   src/wxbase/events/wxhgridevent.prg
+  +   src/wxbase/events/wxhInitDialogEvent.prg
+  +   src/wxbase/events/wxhkeyevent.prg
+  +   src/wxbase/events/wxhmouseevent.prg
+  +   src/wxbase/events/wxhsizeevent.prg
+  +   src/wxbase/events/wx_keyevent.cpp
+  +   src/wxbase/events/wx_sizeevent.cpp
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + src/wxbase/events
+  * wxharbour.bkl
+    * moved event related sources to "events" dir
+
 2009-04-01 18:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo
