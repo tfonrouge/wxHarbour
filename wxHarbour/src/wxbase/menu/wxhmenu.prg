@@ -34,6 +34,7 @@ PUBLIC:
   CONSTRUCTOR New()
   METHOD Append( /* overloaded */ )
   METHOD AppendSeparator
+  METHOD GetMenuItems
 PUBLISHED:
 ENDCLASS
 

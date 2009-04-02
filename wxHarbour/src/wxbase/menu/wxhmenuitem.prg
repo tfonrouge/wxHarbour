@@ -30,6 +30,8 @@ PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parentMenu, id, text, helpString, kind, subMenu )
   METHOD Enable( enable )
+  METHOD GetItemLabel
+  METHOD GetItemLabelText
 PUBLISHED:
 ENDCLASS
 

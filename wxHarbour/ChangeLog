@@ -2,6 +2,33 @@
  *
  */
 
+2009-04-02 11:28 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * updated makefile for last changes in moving source files
+
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  * src/wxbase/events/wx_evthandler.cpp
+  * src/wxbase/events/wxhevthandler.prg
+    + added wxMenuEvent class
+
+  * src/common/wxhfuncs.prg
+    + added capability to use a code block to be evaluated on
+      wxEVT_MENU_OPEN event and assign the wxMenuItem :Enable property
+      
+  * src/wxbase/menu/wxhmenuitem.prg
+  * src/wxbase/menu/wx_menuitem.cpp
+    + added methods:
+      + GetItemLabel
+      + GetItemLabelText
+
+  * src/wxbase/menu/wxhmenu.prg
+  * src/wxbase/menu/wx_menu.cpp
+    + added method:
+      + GetMenuItems
+
 2009-04-01 18:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   - src/wxbase/baseclasses/wx_ActivateEvent.cpp
   - src/wxbase/baseclasses/wx_commandevent.cpp

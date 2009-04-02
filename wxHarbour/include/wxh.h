@@ -104,6 +104,7 @@ HB_FUNC_EXTERN( WXCOMMANDEVENT );
 HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXINITDIALOGEVENT );
+HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 
 wxObject*     wxh_param_WX( int param );
@@ -142,6 +143,7 @@ public:
   void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
   void OnInitDialogEvent( wxInitDialogEvent& event );
+  void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
 
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
@@ -259,6 +261,17 @@ void hbEvtHandler<T>::OnInitDialogEvent( wxInitDialogEvent& event )
 }
 
 /*
+  OnMenuEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnMenuEvent( wxMenuEvent& event )
+{
+  HB_FUNC_EXEC( WXMENUEVENT );
+  __OnEvent( event );
+}
+
+/*
   OnMouseEvent
   Teo. Mexico 2008
 */
@@ -280,20 +293,26 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
   switch( evtClass )
   {
+    case WXH_ACTIVATEEVENT:
+      objFunc = wxActivateEventHandler( hbEvtHandler<T>::OnActivateEvent );
+      break;
+    case WXH_COMMANDEVENT:
+      objFunc = wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent );
+      break;
     case WXH_FOCUSEVENT:
       objFunc = wxFocusEventHandler( hbEvtHandler<T>::OnFocusEvent );
       break;
     case WXH_GRIDEVENT:
       objFunc = wxGridEventHandler( hbEvtHandler<T>::OnGridEvent );
       break;
-    case WXH_COMMANDEVENT:
-      objFunc = wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent );
+    case WXH_INITDIALOGEVENT:
+      objFunc = wxInitDialogEventHandler( hbEvtHandler<T>::OnInitDialogEvent );
+      break;
+    case WXH_MENUEVENT:
+      objFunc = wxMenuEventHandler( hbEvtHandler<T>::OnMenuEvent );
       break;
     case WXH_MOUSEEVENT:
       objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
-      break;
-    case WXH_INITDIALOGEVENT:
-      objFunc = wxInitDialogEventHandler( hbEvtHandler<T>::OnInitDialogEvent );
       break;
     default:
       objFunc = NULL;
