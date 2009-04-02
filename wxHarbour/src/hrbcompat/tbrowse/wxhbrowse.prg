@@ -61,6 +61,7 @@ PUBLIC:
   METHOD DelColumn( pos )
   METHOD Down
   METHOD End
+  METHOD GetColumn( nCol ) INLINE ::browseTableBase:GetColumn( nCol )
   METHOD GoBottom
   METHOD GoTop
   METHOD Home
@@ -78,11 +79,13 @@ PUBLIC:
   DATA KeyEventBlock
   DATA SelectCellBlock
 
+  METHOD DeleteAllColumns
   METHOD FillColumns
   METHOD Fit INLINE ::gridBrowse:Fit
   METHOD GoFirstPos
   METHOD OnKeyDown( event )
   METHOD OnSelectCell( event )
+  METHOD SetColumnAlignment( nCol, align )
 
   PROPERTY BlockParam READ browseTableBase:GetBlockParam WRITE browseTableBase:SetBlockParam
   PROPERTY ColumnList READ browseTableBase:GetColumnList WRITE browseTableBase:SetColumnList
@@ -173,6 +176,16 @@ METHOD FUNCTION DelColumn( pos ) CLASS wxhBrowse
   ENDIF
 
 RETURN column
+
+/*
+  DeleteAllColumns
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE DeleteAllColumns CLASS wxhBrowse
+  WHILE ::ColCount > 0
+    ::DelColumn( 1 )
+  ENDDO
+RETURN
 
 /*
   Down
@@ -449,6 +462,19 @@ METHOD FUNCTION Right CLASS wxhBrowse
 RETURN Self
 
 /*
+  SetColumnAlignment
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetColumnAlignment( nCol, align ) CLASS wxhBrowse
+  LOCAL i
+
+  FOR i:=0 TO ::RowCount - 1
+    ::gridBrowse:SetCellAlignment( align, i, nCol - 1 )
+  NEXT
+
+RETURN
+
+/*
   SetDataSource
   Teo. Mexico 2008
 */
@@ -468,6 +494,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   CASE 'A'        /* Array browse */
     ::FDataSource := dataSource
     ::FDataSourceType := "A"
+    ::BlockParam := {|Self| ::DataSource[ ::RecNo ] }
 
     ::GoTopBlock    := {|| ::FRecNo := 1 }
     ::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }

@@ -68,6 +68,21 @@ HB_FUNC( WXGRID_AUTOSIZECOLUMN )
     grid->AutoSizeColumn( col, setAsMin );
 }
 
+/*
+  AutoSizeColumns
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXGRID_AUTOSIZECOLUMNS )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( grid )
+  {
+    bool setAsMin = ISNIL( 1 ) ? true : hb_parl( 1 );
+    grid->AutoSizeColumns( setAsMin );
+  }
+}
+
 HB_FUNC( WXGRID_CREATEGRID )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -82,6 +97,21 @@ HB_FUNC( WXGRID_CREATEGRID )
     hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
   else
     hb_ret();
+}
+
+/*
+  wxGrid:EnableGridLines
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRID_ENABLEGRIDLINES )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( grid )
+  {
+    bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+    grid->EnableGridLines( enable );
+  }
 }
 
 HB_FUNC( WXGRID_FIT )
@@ -233,6 +263,27 @@ HB_FUNC( WXGRID_MOVECURSORRIGHT )
   if( grid )
   {
     hb_retl( grid->MoveCursorRight( hb_parl( 1 ) ) );
+  }
+}
+
+/*
+  wxGrid:SetCellAlignment
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRID_SETCELLALIGNMENT )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( grid )
+  {
+    if( hb_pcount() == 3 )
+    {
+      grid->SetCellAlignment( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ) );
+    }
+    else if( hb_pcount() == 4 )
+    {
+      grid->SetCellAlignment( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
+    }
   }
 }
 
