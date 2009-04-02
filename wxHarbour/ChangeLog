@@ -2,6 +2,10 @@
  *
  */
 
+2009-04-02 11:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    ! Fix to process an not code block type parameter to :Enable property
+
 2009-04-02 11:28 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

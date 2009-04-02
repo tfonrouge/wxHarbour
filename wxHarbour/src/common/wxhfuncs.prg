@@ -477,27 +477,29 @@ FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
     menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
-  IF bEnabled != NIL .AND. ValType( bEnabled ) = "B"
-    //menuItem:Enable( bEnabled:Eval() ) /* not needed */
-    menuItem:enableBlock := bEnabled
-    menu:ConnectMenuEvt( -1, wxEVT_MENU_OPEN, ;
-      {|menuEvent|
-        LOCAL menu
-        LOCAL menuItem
-        LOCAL menuItemList
+  IF bEnabled != NIL
+    IF ValType( bEnabled ) = "B"
+      menuItem:enableBlock := bEnabled
+      menu:ConnectMenuEvt( -1, wxEVT_MENU_OPEN, ;
+        {|menuEvent|
+          LOCAL menu
+          LOCAL menuItem
+          LOCAL menuItemList
 
-        menu := menuEvent:GetMenu()
-        menuItemList := menu:GetMenuItems()
+          menu := menuEvent:GetMenu()
+          menuItemList := menu:GetMenuItems()
 
-        FOR EACH menuItem IN menuItemList
-          IF menuItem:enableBlock != NIL
-            menuItem:Enable( menuItem:enableBlock:Eval() )
-          ENDIF
-        NEXT
+          FOR EACH menuItem IN menuItemList
+            IF menuItem:enableBlock != NIL
+              menuItem:Enable( menuItem:enableBlock:Eval() )
+            ENDIF
+          NEXT
 
-        RETURN NIL
-      } )
-
+          RETURN NIL
+        } )
+    ELSE
+      menuItem:Enable( bEnabled )
+    ENDIF
   ENDIF
 
 RETURN menuItem
