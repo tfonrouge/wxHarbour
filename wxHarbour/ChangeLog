@@ -2,6 +2,26 @@
  *
  */
 
+2009-04-01 18:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - src/wxbase/baseclasses/wx_ActivateEvent.cpp
+  - src/wxbase/baseclasses/wx_commandevent.cpp
+  - src/wxbase/baseclasses/wx_event.cpp
+  - src/wxbase/baseclasses/wx_evthandler.cpp
+  - src/wxbase/baseclasses/wx_focusevent.cpp
+  - src/wxbase/baseclasses/wx_gridevent.cpp
+  - src/wxbase/baseclasses/wxhActivateEvent.prg
+  - src/wxbase/baseclasses/wxhcommandevent.prg
+  - src/wxbase/baseclasses/wxhevent.prg
+  - src/wxbase/baseclasses/wxhevthandler.prg
+  - src/wxbase/baseclasses/wxhfocusevent.prg
+  - src/wxbase/baseclasses/wxhgridevent.prg
+  - src/wxbase/baseclasses/wxhInitDialogEvent.prg
+  - src/wxbase/baseclasses/wxhkeyevent.prg
+  - src/wxbase/baseclasses/wxhmouseevent.prg
+  - src/wxbase/baseclasses/wxhsizeevent.prg
+  - src/wxbase/baseclasses/wx_keyevent.cpp
+  - src/wxbase/baseclasses/wx_sizeevent.cpp
+
 2009-04-01 18:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +   src/wxbase/events/wx_ActivateEvent.cpp
   +   src/wxbase/events/wx_commandevent.cpp
