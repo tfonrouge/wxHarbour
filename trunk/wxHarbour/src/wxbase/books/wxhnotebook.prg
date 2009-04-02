@@ -30,7 +30,30 @@ PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
 
-  METHOD AddPage( page, text, select, imageld ) AS LOGICAL
+  METHOD AddPage( page, text, select, imageId ) AS LOGICAL
+  METHOD AdvanceSelection( forward /*= true*/ )
+  METHOD AssignImageList( imageList )
+  METHOD ChangeSelection( nPage )
+  METHOD DeleteAllPages
+  METHOD DeletePage( nPage )
+  METHOD GetCurrentPage
+  METHOD GetImageList
+  METHOD GetPage( nPage )
+  METHOD GetPageCount
+  METHOD GetPageImage( nPage )
+  METHOD GetPageText( nPage )
+  METHOD GetRowCount
+  METHOD GetSelection
+//   METHOD GetThemeBackgroundColor
+  METHOD HitTest( pt, flags )
+  METHOD InsertPage( index, page, text, select, imageId )
+  METHOD OnSelChange( event ) VIRTUAL
+  METHOD RemovePage( nPage )
+  METHOD SetImageList( imageList )
+  METHOD SetPadding( padding )
+  METHOD SetPageSize( size )
+  METHOD SetPageImage( nPage, image )
+  METHOD SetPageText( nPage, text )
 
 PUBLISHED:
 ENDCLASS

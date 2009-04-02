@@ -2,6 +2,63 @@
  *
  */
 
+2009-04-01 18:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+    
+  * src/hrbcompat/tbcolumn/wxhcolumn.prg
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhgridbrowse.prg
+    * added code to detect when to set the align props on a cell column
+    * changed :BlockParam to allow to eval a code block
+    
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    + added ::DeleteAllColumns
+    + added ::SetColumnAlignment
+
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    + added ::AutoSizeColumns
+    + added ::EnabledGridLines
+    + added ::SetCellAlignment
+    
+  * src/wxbase/books/wx_auinotebook.cpp
+  * src/wxbase/books/wxhauinotebook.prg
+    + added methods:
+      + ::DeletePage
+      + ::GetPage
+      + ::GetPageCount
+      + ::GetSelection
+      + ::RemovePage
+      + ::SetPageText
+      + ::SetSelection
+
+  * src/wxbase/books/wxhnotebook.prg
+  * src/wxbase/books/wx_notebook.cpp
+    + added methods:
+      + ::AdvanceSelection
+      + ::AssignImageList
+      + ::ChangeSelection
+      + ::DeleteAllPages
+      + ::DeletePage
+      + ::GetCurrentPage
+      + ::GetImageList
+      + ::GetPage
+      + ::GetPageCount
+      + ::GetPageImage
+      + ::GetPageText
+      + ::GetRowCount
+      + ::GetSelection
+      + ::HitTest
+      + ::InsertPage
+      + ::OnSelChange /* TODO: VIRTUAL not implemented yet */
+      + ::RemovePage
+      + ::SetImageList
+      + ::SetPadding
+      + ::SetPageSize
+      + ::SetPageImage
+      + ::SetPageText
+
 2009-04-01 10:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo

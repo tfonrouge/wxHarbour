@@ -33,15 +33,18 @@ CLASS MyApp FROM wxApp
 PRIVATE:
 
   DATA curDirectory
-  DATA auiNotebook
-  DATA oWnd
 
-  METHOD GetBrw INLINE NIL
+  METHOD GetBrw
   METHOD OpenDB
 
 PROTECTED:
 PUBLIC:
+
+  DATA auiNotebook
+  DATA oWnd
+
   METHOD OnInit
+
 PUBLISHED:
 ENDCLASS
 /*
@@ -67,15 +70,15 @@ METHOD FUNCTION OnInit() CLASS MyApp
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
-      ADD MENUITEM "Fit Grid" ACTION ::GetBrw():Fit()
+      ADD MENUITEM "Fit Grid" ACTION ::GetBrw():gridBrowse:AutoSizeColumns() ENABLED ::GetBrw() != NIL
       ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
   ENDMENU
 
   BEGIN BOXSIZER VERTICAL
-    BEGIN NOTEBOOK VAR ::auiNotebook SIZERINFO ALIGN EXPAND STRETCH
-    END NOTEBOOK
+    BEGIN AUINOTEBOOK VAR ::auiNotebook SIZERINFO ALIGN EXPAND STRETCH
+    END AUINOTEBOOK
     BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
       @ GET text NAME "textCtrl" MULTILINE SIZERINFO ALIGN EXPAND STRETCH
       BEGIN BOXSIZER HORIZONTAL
@@ -107,6 +110,18 @@ METHOD FUNCTION OnInit() CLASS MyApp
 RETURN .T.
 
 /*
+  GetBrw
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION GetBrw CLASS MyApp
+
+  IF ::auiNotebook == NIL .OR. ::auiNotebook:GetSelection() < 0
+    RETURN NIL
+  ENDIF
+
+RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 0 )
+
+/*
   OpenDB
   Teo. Mexico 2009
 */
@@ -116,6 +131,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL table
   LOCAL oErr
   LOCAL aIndex := {}
+  LOCAL oBrwStruct
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
 
@@ -145,16 +161,29 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
   BEGIN AUINOTEBOOK VAR noteBook ON ::auiNotebook STYLE wxAUI_NB_BOTTOM
     ADD BOOKPAGE "Data Grid" FROM
-      @ BROWSE DATASOURCE table ;
+      @ BROWSE NAME "table" DATASOURCE table ;
         ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
         SIZERINFO ALIGN EXPAND STRETCH
     ADD BOOKPAGE "Indexes" FROM
       @ BROWSE DATASOURCE aIndex
     ADD BOOKPAGE "Structure" FROM
-      @ BROWSE DATASOURCE table:DbStruct
+      @ BROWSE VAR oBrwStruct DATASOURCE table:DbStruct
   END AUINOTEBOOK
 
+  oBrwStruct:DeleteAllColumns()
+  ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|o| o[ 1 ]  }
+  ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|o| o[ 2 ]  }
+  ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|o| o[ 3 ]  } PICTURE "99999"
+  ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|o| o[ 4 ]  } PICTURE "99"
+
+  oBrwStruct:gridBrowse:AutoSizeColumns()
+
+  noteBook:SetSelection( 1 )
+//   noteBook:ChangeSelection( 1 )
+
   ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
+
+  noteBook:FindWindowByName("table"):gridBrowse:AutoSizeColumns()
 
 //   DESTROY fileDlg
 

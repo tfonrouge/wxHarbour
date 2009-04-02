@@ -31,6 +31,13 @@ PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
 
   METHOD AddPage( page, text, select, imageld ) AS LOGICAL
+  METHOD DeletePage( nPage )
+  METHOD GetPage( nPage )
+  METHOD GetPageCount
+  METHOD GetSelection
+  METHOD RemovePage( nPage )
+  METHOD SetPageText( nPage, text )
+  METHOD SetSelection( nPage )
 
 PUBLISHED:
 ENDCLASS

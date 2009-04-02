@@ -27,14 +27,16 @@
 CLASS wxhBrowseTableBase FROM wxGridTableBase
 PRIVATE:
   DATA FBlockParam
+  DATA FBlockParamType
   DATA FColumnList INIT {}
   DATA FColumnZero
   DATA FCurRowIndex //INIT 0
   DATA FGridBuffer
   DATA FGridBufferSize     INIT 0
   DATA FIgnoreCellEvalError INIT .F.
+  METHOD GetBlockParam
   METHOD GetBrowse
-  METHOD GetCellValue( column )
+  METHOD GetCellValue( nCol )
   METHOD SetCurRowIndex( rowIndex )
   METHOD SetGridBufferSize( size )
 PROTECTED:
@@ -51,12 +53,12 @@ PUBLIC:
   METHOD GetRowLabelValue( row )
   METHOD GetValue( row, col )
   METHOD Initialized INLINE ::FGridBuffer != NIL
-  METHOD SetBlockParam( blockParam ) INLINE ::FBlockParam := blockParam
+  METHOD SetBlockParam( blockParam )
   METHOD SetColumnList( columnList )
   METHOD SetColumnZero( columnZero ) INLINE ::FColumnZero := columnZero
   METHOD SetValue( row, col, value )
 
-  PROPERTY BlockParam READ FBlockParam WRITE SetBlockParam
+  PROPERTY BlockParam READ GetBlockParam WRITE SetBlockParam
   PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
   PROPERTY ColumnList READ FColumnList WRITE SetColumnList
   PROPERTY GridBuffer READ FGridBuffer
@@ -155,6 +157,18 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 RETURN
 
 /*
+  GetBlockParam
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION GetBlockParam CLASS wxhBrowseTableBase
+
+  IF ::FBlockParamType = "B"
+    RETURN ::FBlockParam:Eval( ::GetBrowse() )
+  ENDIF
+
+RETURN ::FBlockParam
+
+/*
   GetBrowse
   Teo. Mexico 2009
 */
@@ -165,22 +179,51 @@ RETURN ::GetView():GetParent()
   GetCellValue
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetCellValue( column ) CLASS wxhBrowseTableBase
+METHOD FUNCTION GetCellValue( nCol ) CLASS wxhBrowseTableBase
   LOCAL Result
+  LOCAL column
   LOCAL width
   LOCAL picture
+
+  IF nCol = 0
+    column := ::FColumnZero
+  ELSE
+    column := ::FColumnList[ nCol ]
+  ENDIF
 
   picture  := column:Picture
   width    := column:Width
 
   IF ::FIgnoreCellEvalError
     TRY
-      Result := column:Block:Eval( ::FBlockParam )
+      Result := column:Block:Eval( ::BlockParam )
     CATCH
       Result := "<error on block>"
     END
   ELSE
-    Result := column:Block:Eval( ::FBlockParam )
+    Result := column:Block:Eval( ::BlockParam )
+  ENDIF
+
+  IF column:ValType == NIL
+    column:ValType := ValType( Result )
+  ENDIF
+
+  IF !column:Aligned
+    column:Aligned := .T.
+    IF column:Align = NIL
+      SWITCH column:ValType
+      CASE 'N'
+        column:Align := wxALIGN_RIGHT
+        EXIT
+      CASE 'C'
+      CASE 'M'
+        column:Align := wxALIGN_LEFT
+        EXIT
+      OTHERWISE
+        column:Align := wxALIGN_CENTRE
+      END
+    ENDIF
+    ::GetBrowse:SetColumnAlignment( nCol, column:Align )
   ENDIF
 
   IF picture != NIL
@@ -241,11 +284,11 @@ METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
   IF ::FColumnZero = NIL
     ::FGridBuffer[ row, 0 ] := LTrim( Str( browse:RecNo ) )
   ELSE
-    ::FGridBuffer[ row, 0 ] := ::GetCellValue( ::FColumnZero )
+    ::FGridBuffer[ row, 0 ] := ::GetCellValue( 0 )
   ENDIF
 
   FOR EACH itm IN ::FColumnList
-    ::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValue( ::FColumnList[ itm:__enumIndex() ] )
+    ::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValue( itm:__enumIndex() )
   NEXT
 
 RETURN
@@ -273,11 +316,22 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
   ++row
   ++col
 
-  IF row > Len( ::FGridBuffer )
+  IF ::FGridBuffer == NIL .OR. row > Len( ::FGridBuffer )
     RETURN ""
   ENDIF
 
 RETURN ::FGridBuffer[ row, col ]
+
+/*
+  SetBlockParam
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetBlockParam( blockParam ) CLASS wxhBrowseTableBase
+
+  ::FBlockParam := blockParam
+  ::FBlockParamType := ValType( blockParam )
+
+RETURN
 
 /*
   SetColumnList

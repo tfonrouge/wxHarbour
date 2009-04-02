@@ -37,11 +37,13 @@ PUBLIC:
   METHOD AppendCols( numCols ) INLINE ::GetTable():AppendCols( numCols )
   METHOD AppendRows( numRows ) INLINE ::GetTable():AppendRows( numRows )
   METHOD AutoSizeColumn( col, setAsMin )
+  METHOD AutoSizeColumns( setAsMin )
   METHOD DeleteCols( pos, numCols ) INLINE ::GetTable():DeleteCols( pos, numCols )
   METHOD DeleteRows( pos, numRows ) INLINE ::GetTable():DeleteRows( pos, numRows )
   METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
   METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
   METHOD CreateGrid( numRows, numCols, selmode )
+  METHOD EnableGridLines( enable )
   METHOD Fit
   METHOD ForceRefresh
   METHOD GetGridCursorCol
@@ -53,6 +55,7 @@ PUBLIC:
   METHOD MakeCellVisible( row, col )
   METHOD MoveCursorLeft( expandSelection )
   METHOD MoveCursorRight( expandSelection )
+  METHOD SetCellAlignment( /* two methods */ )
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
   METHOD SetColSize( col, width )

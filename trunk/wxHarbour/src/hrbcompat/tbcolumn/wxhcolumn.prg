@@ -20,16 +20,22 @@
 CLASS wxhBColumn
 PRIVATE:
 
+  DATA FAlign
+  DATA FAligned INIT .F.
   DATA FBlock
   DATA FFooting
   DATA FHeading INIT ""
   DATA FPicture
+  DATA FValType
   DATA FWidth
 
+  METHOD SetAlign( align ) INLINE ::FAlign := align
+  METHOD SetAligned( aligned ) INLINE ::FAligned := aligned
   METHOD SetBlock( block ) INLINE ::FBlock := block
   METHOD SetFooting( footing ) INLINE ::FFooting := footing
   METHOD SetHeading( heading ) INLINE ::FHeading := heading
   METHOD SetPicture( picture ) INLINE ::FPicture := picture
+  METHOD SetValType( valType ) INLINE ::FValType := valType
   METHOD SetWidth( width ) INLINE ::FWidth := width
 
 PROTECTED:
@@ -38,10 +44,13 @@ PUBLIC:
   CONSTRUCTOR New( heading, block )
 
 PUBLISHED:
+  PROPERTY Align READ FAlign WRITE SetAlign
+  PROPERTY Aligned READ FAligned WRITE SetAligned
   PROPERTY Block READ FBlock WRITE SetBlock
   PROPERTY Footing READ FFooting WRITE SetFooting
   PROPERTY Heading READ FHeading WRITE SetHeading
   PROPERTY Picture READ FPicture WRITE SetPicture
+  PROPERTY ValType READ FValType WRITE SetValType
   PROPERTY Width READ FWidth WRITE SetWidth
 ENDCLASS
 

@@ -78,3 +78,114 @@ HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
     }
   }
 }
+
+/*
+  wxAuiNotebook:DeletePage
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retl( auiNotebook->DeletePage( hb_parnl( 1 ) ) );
+  }
+}
+
+/*
+  wxAuiNotebook:GetPage
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_GETPAGE )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_itemReturn( wxh_ItemListGet_HB( auiNotebook->GetPage( hb_parnl( 1 ) ) ) );
+  }
+}
+
+/*
+  wxAuiNotebook:GetPageCount
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retnl( auiNotebook->GetPageCount() );
+  }
+}
+
+/*
+  wxAuiNotebook:GetSelection
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retnl( auiNotebook->GetSelection() );
+  }
+}
+
+/*
+  wxAuiNotebook:RemovePage
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retl( auiNotebook->RemovePage( hb_parnl( 1 ) ) );
+  }
+}
+
+/*
+  wxAuiNotebook:SetPageText
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retl( auiNotebook->SetPageText( hb_parnl( 1 ), wxh_parc( 2 ) ) );
+  }
+}
+/*
+  wxAuiNotebook:SetSelection
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+
+  if( auiNotebook )
+  {
+    hb_retnl( auiNotebook->SetSelection( hb_parnl( 1 ) ) );
+  }
+}

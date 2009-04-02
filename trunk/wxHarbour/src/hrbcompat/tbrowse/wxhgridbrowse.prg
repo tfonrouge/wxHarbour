@@ -48,6 +48,8 @@ METHOD FUNCTION OnSize( size ) CLASS wxhGridBrowse
   LOCAL browse := ::GetParent()
   LOCAL maxRows,rowCount
   LOCAL height
+  LOCAL n
+  LOCAL column
 
   IF !browse:FillColumnsChecked .AND. browse:AutoFill
     IF browse:ColCount = 0
@@ -70,6 +72,10 @@ METHOD FUNCTION OnSize( size ) CLASS wxhGridBrowse
         ::DeleteRows( rowCount - 1, ::GetNumberRows() - rowCount )
       ELSE
         ::AppendRows( rowCount - ::GetNumberRows() )
+        FOR n:=1 TO ::GetNumberCols
+          column := ::GetTable():ColumnList[ n ]
+          browse:SetColumnAlignment( n, column:Align )
+        NEXT
       ENDIF
     ELSE
       ::DeleteRows( 0, ::GetNumberRows() )
