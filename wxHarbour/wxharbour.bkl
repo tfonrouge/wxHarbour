@@ -23,6 +23,7 @@
       src/wxbase/books
       src/wxbase/controls
       src/wxbase/comdialogs
+      src/wxbase/events
       src/wxbase/manwindows
       src/wxbase/menu
       src/wxbase/miscfuncs
