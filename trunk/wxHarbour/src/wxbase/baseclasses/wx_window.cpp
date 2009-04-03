@@ -46,6 +46,18 @@ HB_FUNC( WXWINDOW_CLOSE )
     wnd->Close( hb_parl( 1 ) );
 }
 
+/*
+  wxWindow:Disable
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_DISABLE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    hb_retl( wnd->Disable() );
+}
+
 HB_FUNC( WXWINDOW_DESTROY )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
@@ -53,6 +65,33 @@ HB_FUNC( WXWINDOW_DESTROY )
 
   if( wnd )
     hb_retl( wnd->Destroy() );
+}
+
+/*
+  wxWindow:Enable
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_ENABLE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+    hb_retl( wnd->Enable( enable ) );
+  }
+}
+
+/*
+  wxWindow:FindFocus
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_FINDFOCUS )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    hb_itemReturn( wxh_ItemListGet_HB( wnd->FindFocus() ) );
 }
 
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
@@ -183,6 +222,18 @@ HB_FUNC( WXWINDOW_HIDE )
 
   if( wnd )
     hb_retl( wnd->Hide() );
+}
+
+/*
+  wxWindow:IsEnabled
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_ISENABLED )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    hb_retl( wnd->IsEnabled() );
 }
 
 HB_FUNC( WXWINDOW_ISSHOWN )

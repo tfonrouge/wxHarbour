@@ -69,7 +69,7 @@
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
           => ;
-          <oFrame> := wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
+          <oFrame> := __wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
@@ -81,7 +81,7 @@
           [ NAME <cName> ] ;
           [ ON INITDIALOG <initDlg> ] ;
           => ;
-          <oDlg> := wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<initDlg>] )
+          <oDlg> := __wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<initDlg>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;
@@ -93,18 +93,18 @@
 
 #xcommand SHOW WINDOW <oWnd> [<modal: MODAL>] [<fit: FIT>] [TO <var>] [<centre: CENTRE>];
           => ;
-          [<var> := ] wxh_ShowWindow( <oWnd>, <.modal.>, <.fit.>, <.centre.> )
+          [<var> := ] __wxh_ShowWindow( <oWnd>, <.modal.>, <.fit.>, <.centre.> )
 
 /*
   Menues
 */
 #xcommand DEFINE MENUBAR [ VAR <oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
           => ;
-          [<oMB> := ] wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
+          [<oMB> := ] __wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 
 #xcommand DEFINE MENU <cLabel> [VAR <menu>];
           => ;
-          [<menu> :=] wxh_MenuBegin( <cLabel> )
+          [<menu> :=] __wxh_MenuBegin( <cLabel> )
 
 #xcommand ADD MENUITEM <cLabel> ;
               [VAR <menu>] ;
@@ -114,15 +114,15 @@
               [ACTION <bAction> ] ;
               [ENABLED <bEnabled> ] ;
           => ;
-          [<menu> :=] wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
+          [<menu> :=] __wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
 
 #xcommand ADD MENUSEPARATOR ;
           => ;
-          wxh_MenuItemAdd( NIL, wxID_SEPARATOR )
+          __wxh_MenuItemAdd( NIL, wxID_SEPARATOR )
 
 #xcommand ENDMENU ;
           => ;
-          wxh_MenuEnd()
+          __wxh_MenuEnd()
 
 /*
  * SIZERS
@@ -144,7 +144,7 @@
           [ SIDEBORDERS <sideborders,...> ] ;
           [ <useLast: LAST> ] ;
           => ;
-          wxh_SizerInfoAdd( ;
+          __wxh_SizerInfoAdd( ;
             [ <child> ],;
             [ <parentSizer> ],;
             [ wx<stretch> ],;
@@ -163,7 +163,7 @@
           [ BORDER <border> ] ;
           [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          [ <bs> := ]wxh_BoxSizerBegin( ;
+          [ <bs> := ]__wxh_BoxSizerBegin( ;
             [ <label> ], ;
             wx<orient>,;
             [ wx<stretch> ],;
@@ -178,7 +178,7 @@
           [ BORDER <border> ] ;
           [ SIDEBORDERS <sideborders,...> ] ;
           => ;
-          wxh_GridSizerBegin( ;
+          __wxh_GridSizerBegin( ;
             [ <rows> ],;
             [ <cols> ],;
             [ <vgap> ],;
@@ -191,7 +191,7 @@
 
 #xcommand END SIZER ;
           => ;
-          wxh_SizerEnd()
+          __wxh_SizerEnd()
 
 
 #xcommand @ SPACER ;
@@ -201,7 +201,7 @@
           [ FLAG <flag> ] ;
           [ BORDER <border> ] ;
           => ;
-          wxh_Spacer( ;
+          __wxh_Spacer( ;
             [<width>],;
             [<height>],;
             [ wx<stretch> ],;
@@ -227,7 +227,7 @@
             [ ONKEY <onKey> ] ;
             [ ONSELECTCELL <onSelectCell> ] ;
           => ;
-            [<wxBrw>:=]wxh_Browse( ;
+            [<wxBrw>:=]__wxh_Browse( ;
               [<dataSource>],;
               [<window>],;
               [<id>],;
@@ -250,7 +250,7 @@
 */
 #xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
           => ;
-          wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>] )
+          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>] )
 
 /*
  * Button
@@ -266,7 +266,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <btn> := ]wxh_Button( ;
+          [ <btn> := ]__wxh_Button( ;
             [<window>],;
             [<id>],;
             [<label>],;
@@ -296,7 +296,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <checkBox> := ]wxh_CheckBox( ;
+          [ <checkBox> := ]__wxh_CheckBox( ;
             [<window>],;
             [<id>],;
             [<label>],;
@@ -328,7 +328,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <gauge> := ]wxh_Gauge( ;
+          [ <gauge> := ]__wxh_Gauge( ;
             [<window>],;
             [<id>],;
             [<range>],;
@@ -359,7 +359,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <radioBox> := ]wxh_RadioBox( ;
+          [ <radioBox> := ]__wxh_RadioBox( ;
             [<parent>],;
             [<id>],;
             [<label>],;
@@ -393,7 +393,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <choice> := ]wxh_Choice( ;
+          [ <choice> := ]__wxh_Choice( ;
             [<parent>],;
             [<id>],;
             ,;
@@ -421,7 +421,7 @@
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
-          [ <nb> := ]wxh_BookBegin( wx<bookType>(), ;
+          [ <nb> := ]__wxh_BookBegin( wx<bookType>(), ;
             [<parent>],;
             [<id>],;
             ,;
@@ -429,7 +429,7 @@
             [<style>],;
             [<name>] )
 
-#xcommand END <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> => wxh_BookEnd( "wx"+<"bookType"> )
+#xcommand END <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> => __wxh_BookEnd( "wx"+<"bookType"> )
 
 #xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> [<nbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -438,7 +438,7 @@
 
 #xcommand ADD BOOKPAGE [ [TITLE] <title> ] [<select: SELECT> ] [ IMAGEID <imageId> ] FROM ;
           => ;
-          wxh_BookAddPage( <title>, <.select.>, <imageId> )
+          __wxh_BookAddPage( <title>, <.select.>, <imageId> )
 
 /*
   Panel
@@ -450,16 +450,18 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
+            [ ENABLED <bEnabled> ] ;
           => ;
-          [ <panel> := ]wxh_PanelBegin( ;
+          [ <panel> := ]__wxh_PanelBegin( ;
             [<window>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
-            [<name>] )
+            [<name>],;
+            [<{bEnabled}>] )
 
-#xcommand END PANEL => wxh_PanelEnd()
+#xcommand END PANEL => __wxh_PanelEnd()
 
 #xcommand BEGIN PANEL [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -476,7 +478,7 @@
             [ STYLE <style: LEFT, RIGHT, CENTRE, CENTER> ] ;
             [ NAME <name> ] ;
           => ;
-          wxh_Say( ;
+          __wxh_Say( ;
             [<window>],;
             [<id>],;
             <label>,;
@@ -504,7 +506,7 @@
             [ TOOLTIP <toolTip> ] ;
             [ <refreshAll: REFRESH ALL> ] ;
           => ;
-          [<var> :=] wxh_Get(;
+          [<var> :=] __wxh_Get(;
             [<window>],;
             [<id>],;
             wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
@@ -559,7 +561,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <sb> := ]wxh_ScrollBar( ;
+          [ <sb> := ]__wxh_ScrollBar( ;
             [<window>],;
             [<id>],;
             ,;
@@ -585,7 +587,7 @@
             [ ID <id> ] ;
             [ NAME <name> ] ;
           => ;
-          [ <sl> := ]wxh_StaticLine( ;
+          [ <sl> := ]__wxh_StaticLine( ;
             [<window>],;
             [<id>],;
             ,;
@@ -608,7 +610,7 @@
             [ WIDTHS <aWidths,...> ] ;
             [ ON <oFrame> ] ;
           => ;
-          [ <oSB> := ] wxh_StatusBar( ;
+          [ <oSB> := ] __wxh_StatusBar( ;
             [<oFrame>], ;
             [<nID>], ;
             [<nStyle>], ;
@@ -630,7 +632,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [ <btn> := ]wxh_TreeCtrl( ;
+          [ <btn> := ]__wxh_TreeCtrl( ;
             [<window>],;
             [<id>],;
             [<label>],;

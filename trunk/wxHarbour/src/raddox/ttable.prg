@@ -1077,7 +1077,7 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
 
       DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields" )
 
-      DisplayFieldsClass:AddInline( "__Obj", {|Self| PushWS(), ::__FObj:SyncRecNo( directAlias ),PopWS(), ::__FObj } )
+      DisplayFieldsClass:AddInline( "__Obj", {|Self| PushWS(), ::__FObj:SyncRecNo( directAlias ), PopWS(), ::__FObj } )
 
       DisplayFieldsClass:AddData( "__FObj" )
 

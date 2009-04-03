@@ -312,7 +312,9 @@ FUNCTION PopWS(n)
   ELSE
     a := ""
   ENDIF
-  DbSelectArea(ws)
+  IF !Empty( ws )
+    DbSelectArea(ws)
+  ENDIF
   adel(aws,n)
   asize(aws,len(aws)-1)
 RETURN a

@@ -2,6 +2,34 @@
  *
  */
 
+2009-04-03 10:10 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * include/wxharbour.ch
+  * src/common/wx_harbour.cpp
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * renamed wxh_* funcs (used in wxharbour.ch commands) to __wxh_*
+      to be detected in crc32 calculation (wx_harbour.cpp)
+
+  * src/raddox/dba.prg
+    ! Fixed error on PopWS() when a empty workarea was used on PushWS()
+
+  * src/raddox/ttable.prg
+    * minor cleanup
+
+  * src/wxbase/baseclasses/wxhwindow.prg
+  * src/wxbase/baseclasses/wx_window.cpp
+    + added Harbour specific code to hold a code block to be evaluated
+      to set ::Enable property
+
+    + added methods:
+      + ::Disable
+      + ::Enable
+      + ::FindFocus
+      + ::IsEnabled
+
 2009-04-02 11:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     ! Fix to process an not code block type parameter to :Enable property
