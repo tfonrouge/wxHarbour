@@ -2,6 +2,11 @@
  *
  */
 
+2009-04-03 12:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/wxbase/events/wxhMenuEvent.prg
+  + src/wxbase/events/wx_MenuEvent.cpp
+    * added forgotten sources in previous commit
+
 2009-04-03 10:10 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo
