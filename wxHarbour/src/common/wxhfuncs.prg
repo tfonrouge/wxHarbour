@@ -1,5 +1,3 @@
-STATIC a1 := {}
-
 /*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
@@ -61,20 +59,20 @@ FUNCTION ContainerObj
 RETURN containerObj
 
 /*
-  wxh_BookAddPage
+  __wxh_BookAddPage
   Teo. Mexico 2008
 */
-PROCEDURE wxh_BookAddPage( title, select, imageId )
+PROCEDURE __wxh_BookAddPage( title, select, imageId )
 
   containerObj():AddToNextBookPage( {"title"=>title,"select"=>select,"imageId"=>imageId} )
 
 RETURN
 
 /*
-  wxh_BookBegin
+  __wxh_BookBegin
   Teo. Mexico 2008
 */
-FUNCTION wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
+FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
   LOCAL book
 
   IF parent == NIL
@@ -90,18 +88,18 @@ FUNCTION wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
 RETURN book
 
 /*
-  wxh_BookEnd
+  __wxh_BookEnd
   Teo. Mexico 2008
 */
-PROCEDURE wxh_BookEnd( book )
+PROCEDURE __wxh_BookEnd( book )
   containerObj():RemoveLastParent( book )
 RETURN
 
 /*
- * wxh_BoxSizerBegin
+ * __wxh_BoxSizerBegin
  * Teo. Mexico 2008
  */
-FUNCTION wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
+FUNCTION __wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
   LOCAL sizer
   LOCAL parent
   LOCAL lastSizer
@@ -117,9 +115,9 @@ FUNCTION wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
   ENDIF
 
   IF lastSizer == NIL
-    wxh_SetSizer( parent, sizer )
+    __wxh_SetSizer( parent, sizer )
   ELSE
-    wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+    __wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
   ENDIF
 
   containerObj():AddToSizerList( sizer )
@@ -127,10 +125,10 @@ FUNCTION wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
 RETURN sizer
 
 /*
-  wxh_Browse
+  __wxh_Browse
   Teo. Mexico 2008
  */
-FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKey, onSelectCell )
+FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKey, onSelectCell )
   LOCAL wxhBrw
 
   IF window = NIL
@@ -150,10 +148,10 @@ FUNCTION wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKe
 RETURN wxhBrw
 
 /*
-  wxh_BrowseAddColumn
+  __wxh_BrowseAddColumn
   Teo. Mexico 2008
 */
-PROCEDURE wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
+PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
   LOCAL column := wxhBColumn():New( title, block )
 
   column:Picture := picture
@@ -168,10 +166,10 @@ PROCEDURE wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
 RETURN
 
 /*
-  wxh_Button
+  __wxh_Button
   Teo. Mexico 2008
 */
-FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
+FUNCTION __wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
   LOCAL button
 
   IF window = NIL
@@ -189,10 +187,10 @@ FUNCTION wxh_Button( window, id, label, pos, size, style, validator, name, bActi
 RETURN button
 
 /*
-  wxh_CheckBox
+  __wxh_CheckBox
   Teo. Mexico 2009
 */
-FUNCTION wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, name, bAction )
+FUNCTION __wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, name, bAction )
   LOCAL checkBox
 
   IF window = NIL
@@ -210,10 +208,10 @@ FUNCTION wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, n
 RETURN checkBox
 
 /*
-  wxh_Gauge
+  __wxh_Gauge
   Teo. Mexico 2008
 */
-FUNCTION wxh_Gauge( window, id, range, pos, size, style, validator, name )
+FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name )
   LOCAL gauge
 
   IF window = NIL
@@ -227,10 +225,10 @@ FUNCTION wxh_Gauge( window, id, range, pos, size, style, validator, name )
 RETURN gauge
 
 /*
-  wxh_RadioBox
+  __wxh_RadioBox
   Teo. Mexico 2009
 */
-FUNCTION wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet, bAction )
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet, bAction )
   LOCAL radioBox
 
   IF parent = NIL
@@ -248,10 +246,10 @@ FUNCTION wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, 
 RETURN radioBox
 
 /*
-  wxh_Choice
+  __wxh_Choice
   Teo. Mexico 2009
 */
-FUNCTION wxh_Choice( parent, id, point, size, choices, style, validator, name, wxhGet, bAction )
+FUNCTION __wxh_Choice( parent, id, point, size, choices, style, validator, name, wxhGet, bAction )
   LOCAL choice
 
   IF parent = NIL
@@ -269,10 +267,10 @@ FUNCTION wxh_Choice( parent, id, point, size, choices, style, validator, name, w
 RETURN choice
 
 /*
-  wxh_Dialog
+  __wxh_Dialog
   Teo. Mexico 2008
 */
-FUNCTION wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, initDlg )
+FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, initDlg )
   LOCAL dlg
 
   IF Empty( fromClass )
@@ -293,10 +291,10 @@ FUNCTION wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, 
 RETURN dlg
 
 /*
-  wxh_Frame
+  __wxh_Frame
   Teo. Mexico 2008
 */
-FUNCTION wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
   LOCAL oWnd
 
   IF Empty( fromClass )
@@ -336,10 +334,10 @@ FUNCTION wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeig
 RETURN oWnd
 
 /*
- * wxh_GET
+ * __wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip )
+FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip )
   LOCAL Result
 
   IF window = NIL
@@ -354,17 +352,17 @@ FUNCTION wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, na
     ENDIF
   ENDIF
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip )
 
   containerObj():SetLastChild( Result )
 
 RETURN Result
 
 /*
- * wxh_GridSizerBegin
+ * __wxh_GridSizerBegin
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sideBorders )
+PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sideBorders )
   LOCAL sizer
   LOCAL parent
   LOCAL lastSizer
@@ -375,9 +373,9 @@ PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sid
   lastSizer := containerObj():LastSizer
 
   IF lastSizer == NIL
-    wxh_SetSizer( parent, sizer )
+    __wxh_SetSizer( parent, sizer )
   ELSE
-    wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+    __wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
   ENDIF
 
   containerObj():AddToSizerList( sizer )
@@ -385,15 +383,15 @@ PROCEDURE wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sid
 RETURN
 
 /*
-  wxh_MenuBarBegin
+  __wxh_MenuBarBegin
   Teo. Mexico 2006
 */
-FUNCTION wxh_MenuBarBegin( window, style )
+FUNCTION __wxh_MenuBarBegin( window, style )
   menuData := TGlobal():New()
   menuData:g_menuID := 1
   menuData:g_menuBar := wxMenuBar():New( style )
   IF window = NIL
-    //menuData:g_window := wxh_LastTopLevelWindow()
+    //menuData:g_window := __wxh_LastTopLevelWindow()
     menuData:g_window := containerObj():LastParent( "wxFrame" )
   ELSE
     menuData:g_window := window
@@ -401,10 +399,10 @@ FUNCTION wxh_MenuBarBegin( window, style )
 RETURN menuData:g_menuBar
 
 /*
-  wxh_MenuBegin
+  __wxh_MenuBegin
   Teo. Mexico 2006
 */
-FUNCTION wxh_MenuBegin( title )
+FUNCTION __wxh_MenuBegin( title )
   LOCAL hData := {=>}
   LOCAL menu
 
@@ -420,10 +418,10 @@ FUNCTION wxh_MenuBegin( title )
 RETURN menu
 
 /*
-  wxh_MenuEnd
+  __wxh_MenuEnd
   Teo. Mexico 2006
 */
-PROCEDURE wxh_MenuEnd
+PROCEDURE __wxh_MenuEnd
   LOCAL hData
   LOCAL menuListSize
   LOCAL menuItem
@@ -444,7 +442,7 @@ PROCEDURE wxh_MenuEnd
   IF menuListSize = 1 /* Append to menuBar */
     menuData:g_menuBar:Append( hData["menu"], hData["title"] )
   ELSE                /* Append SubMenu */
-    menuItem := wxMenuItem():New( menuData:g_menuList[ nLast -1 ]["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
+    menuItem := wxMenuItem_1():New( menuData:g_menuList[ nLast -1 ]["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
     menuData:g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )
 //     AAdd( a1, hData["menu"] )
   ENDIF
@@ -454,10 +452,10 @@ PROCEDURE wxh_MenuEnd
 RETURN
 
 /*
-  wxh_MenuItemAdd
+  __wxh_MenuItemAdd
   Teo. Mexico 2006
 */
-FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
+FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   LOCAL menu
   LOCAL menuItem
   LOCAL nLast
@@ -505,10 +503,10 @@ FUNCTION wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
 RETURN menuItem
 
 /*
- * wxh_PanelBegin
+ * __wxh_PanelBegin
  * Teo. Mexico 2008
  */
-FUNCTION wxh_PanelBegin( parent, id, pos, size, style, name )
+FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled )
   LOCAL panel
 
   IF parent = NIL
@@ -517,6 +515,10 @@ FUNCTION wxh_PanelBegin( parent, id, pos, size, style, name )
 
   panel := wxPanel():New( parent, id, pos, size, style, name )
 
+  IF bEnabled != NIL
+    panel:enableBlock := bEnabled
+  ENDIF
+
   containerObj():SetLastChild( panel )
 
   containerObj():AddToParentList( panel )
@@ -524,18 +526,18 @@ FUNCTION wxh_PanelBegin( parent, id, pos, size, style, name )
 RETURN panel
 
 /*
-  wxh_PanelEnd
+  __wxh_PanelEnd
   Teo. Mexico 2008
 */
-PROCEDURE wxh_PanelEnd
+PROCEDURE __wxh_PanelEnd
   containerObj():RemoveLastParent( "wxPanel" )
 RETURN
 
 /*
- * wxh_SAY
+ * __wxh_SAY
  * Teo. Mexico 2008
  */
-FUNCTION wxh_SAY( window, id, label, pos, size, style, name )
+FUNCTION __wxh_SAY( window, id, label, pos, size, style, name )
   LOCAL Result
 
   IF window = NIL
@@ -549,10 +551,10 @@ FUNCTION wxh_SAY( window, id, label, pos, size, style, name )
 RETURN Result
 
 /*
-  wxh_ScrollBar
+  __wxh_ScrollBar
   Teo. Mexico 2008
 */
-FUNCTION wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
+FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
   LOCAL sb
 
   IF window = NIL
@@ -577,10 +579,10 @@ FUNCTION wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, b
 RETURN sb
 
 /*
-  wxh_SetSizer
+  __wxh_SetSizer
   Teo. Mexico 2008
 */
-PROCEDURE wxh_SetSizer( window, sizer )
+PROCEDURE __wxh_SetSizer( window, sizer )
   LOCAL bookCtrl
   LOCAL IsWindowBook := .F.
 
@@ -599,10 +601,10 @@ PROCEDURE wxh_SetSizer( window, sizer )
 RETURN
 
 /*
-  wxh_ShowWindow : shows wxFrame/wxDialog
+  __wxh_ShowWindow : shows wxFrame/wxDialog
   Teo. Mexico 2008
 */
-FUNCTION wxh_ShowWindow( oWnd, modal, fit, centre )
+FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
   LOCAL Result
 
   containerObj():ClearData()
@@ -629,10 +631,10 @@ FUNCTION wxh_ShowWindow( oWnd, modal, fit, centre )
 RETURN Result
 
 /*
- * wxh_SizerInfoAdd
+ * __wxh_SizerInfoAdd
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
+PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
   LOCAL sizerInfo
 
   IF Empty( containerObj():ParentList )
@@ -733,18 +735,18 @@ PROCEDURE wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorde
 RETURN
 
 /*
- * wxh_SizerEnd
+ * __wxh_SizerEnd
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_SizerEnd
+PROCEDURE __wxh_SizerEnd
   containerObj():RemoveLastSizer()
 RETURN
 
 /*
- * wxh_Spacer
+ * __wxh_Spacer
  * Teo. Mexico 2008
  */
-PROCEDURE wxh_Spacer( width, height, strech, align, border )
+PROCEDURE __wxh_Spacer( width, height, strech, align, border )
   LOCAL lastSizer
 
   lastSizer := containerObj():LastSizer()
@@ -783,10 +785,10 @@ PROCEDURE wxh_Spacer( width, height, strech, align, border )
 RETURN
 
 /*
-  wxh_StatusBar
+  __wxh_StatusBar
   Teo. Mexico 2006
 */
-FUNCTION wxh_StatusBar( oW, id, style, name, fields, widths )
+FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
   LOCAL sb
 
   IF oW = NIL
@@ -808,10 +810,10 @@ FUNCTION wxh_StatusBar( oW, id, style, name, fields, widths )
 RETURN sb
 
 /*
-  wxh_StaticLine
+  __wxh_StaticLine
   Teo. Mexico 2008
 */
-FUNCTION wxh_StaticLine( window, id, pos, orient, name )
+FUNCTION __wxh_StaticLine( window, id, pos, orient, name )
   LOCAL sl
 
   IF window = NIL
@@ -825,10 +827,10 @@ FUNCTION wxh_StaticLine( window, id, pos, orient, name )
 RETURN sl
 
 /*
-  wxh_TransSize
+  __wxh_TransSize
   Teo. Mexico 2008
 */
-FUNCTION wxh_TransSize( size, window, defaultWidth )
+FUNCTION __wxh_TransSize( size, window, defaultWidth )
   LOCAL oFont
 
   IF !HB_ISARRAY( size )
@@ -850,10 +852,10 @@ FUNCTION wxh_TransSize( size, window, defaultWidth )
 RETURN size
 
 /*
-  wxh_TreeCtrl
+  __wxh_TreeCtrl
   Teo. Mexico 2008
  */
-FUNCTION wxh_TreeCtrl( window, id, pos, size, style, validator, name )
+FUNCTION __wxh_TreeCtrl( window, id, pos, size, style, validator, name )
   LOCAL Result
 
   IF window = NIL
@@ -888,7 +890,7 @@ PROCEDURE wxhInspectVar( xVar )
       msgAccs := SubStr( cMsg, 2 )
       IF cMsg = "_" .AND. AScan( aMsg, msgAccs,,, .T. ) != 0
         BEGIN SEQUENCE WITH {|oErr| break( oErr ) }
-          //value := AsString( wxh_objGetDataValue( xVar, msgAccs ) )
+          //value := AsString( __wxh_objGetDataValue( xVar, msgAccs ) )
           value := "xVar:msgAccs"
         RECOVER USING oErr
           value := oErr:Description
@@ -1178,9 +1180,9 @@ METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
     ::GetLastChild()[ "sizerInfo" ] := NIL
 
     IF sizerInfo == NIL
-      wxh_SizerInfoAdd( child )
+      __wxh_SizerInfoAdd( child )
     ELSE
-      wxh_SizerInfoAdd( child, NIL, sizerInfo[ "strech" ], sizerInfo[ "align" ], sizerInfo[ "border" ], sizerInfo[ "sideBorders" ], sizerInfo[ "flag" ] )
+      __wxh_SizerInfoAdd( child, NIL, sizerInfo[ "strech" ], sizerInfo[ "align" ], sizerInfo[ "border" ], sizerInfo[ "sideBorders" ], sizerInfo[ "flag" ] )
     ENDIF
 
   ENDIF

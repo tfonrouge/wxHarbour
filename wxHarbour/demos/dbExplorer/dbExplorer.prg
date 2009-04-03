@@ -47,6 +47,7 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
 /*
   EndClass MyApp
 */
@@ -63,7 +64,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
          ID 999 ;
          TITLE "dbExplorer"
 
-  DEFINE MENUBAR STYLE 1 ON ::oWnd
+  DEFINE MENUBAR STYLE 1
     DEFINE MENU "&File"
       ADD MENUITEM E"Open database \tCtrl+O" ID wxID_OPEN ACTION ::OpenDB()
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION ::oWnd:Close() ;
@@ -79,22 +80,24 @@ METHOD FUNCTION OnInit() CLASS MyApp
   BEGIN BOXSIZER VERTICAL
     BEGIN AUINOTEBOOK VAR ::auiNotebook SIZERINFO ALIGN EXPAND STRETCH
     END AUINOTEBOOK
-    BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
-      @ GET text NAME "textCtrl" MULTILINE SIZERINFO ALIGN EXPAND STRETCH
-      BEGIN BOXSIZER HORIZONTAL
-        @ BUTTON "GoTop" ACTION ::GetBrw():GoTop()
-        @ BUTTON "GoBottom" ACTION ::GetBrw():GoBottom()
-        @ BUTTON "PgUp" ACTION ::GetBrw():PageUp()
-        @ BUTTON "PgDown" ACTION ::GetBrw():PageDown()
-        @ BUTTON "Up" ACTION ::GetBrw():Up()
-        @ BUTTON "Down" ACTION ::GetBrw():Down()
-        @ BUTTON "RefreshAll" ACTION ::GetBrw():RefreshAll()
+    BEGIN PANEL NAME "panel2" ENABLED ::GetBrw != NIL SIZERINFO ALIGN EXPAND
+      BEGIN BOXSIZER VERTICAL //"" ALIGN EXPAND
+        @ GET text NAME "textCtrl" MULTILINE SIZERINFO ALIGN EXPAND STRETCH
+        BEGIN BOXSIZER HORIZONTAL
+          @ BUTTON "GoTop" ACTION ::GetBrw():GoTop()
+          @ BUTTON "GoBottom" ACTION ::GetBrw():GoBottom()
+          @ BUTTON "PgUp" ACTION ::GetBrw():PageUp()
+          @ BUTTON "PgDown" ACTION ::GetBrw():PageDown()
+          @ BUTTON "Up" ACTION ::GetBrw():Up()
+          @ BUTTON "Down" ACTION ::GetBrw():Down()
+          @ BUTTON "RefreshAll" ACTION ::GetBrw():RefreshAll()
+        END SIZER
+  /*      BEGIN BOXSIZER HORIZONTAL
+          @ BUTTON "Stop Server" ACTION wxGetApp():RDOServer:Stop()
+        END SIZER*/
       END SIZER
-/*      BEGIN BOXSIZER HORIZONTAL
-        @ BUTTON "Stop Server" ACTION wxGetApp():RDOServer:Stop()
-      END SIZER*/
-      @ BUTTON ID wxID_EXIT ACTION ::oWnd:Close() SIZERINFO ALIGN RIGHT
-    END SIZER
+    END PANEL
+    @ BUTTON ID wxID_EXIT ACTION ::oWnd:Close() SIZERINFO ALIGN RIGHT
   END SIZER
 
 //   b:Fit()
@@ -178,12 +181,14 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
   oBrwStruct:gridBrowse:AutoSizeColumns()
 
-  noteBook:SetSelection( 1 )
+  noteBook:SetSelection( 0 )
 //   noteBook:ChangeSelection( 1 )
 
   ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
 
   noteBook:FindWindowByName("table"):gridBrowse:AutoSizeColumns()
+
+  ::oWnd:FindWindowByName("panel2"):Enable()
 
 //   DESTROY fileDlg
 

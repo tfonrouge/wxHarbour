@@ -210,15 +210,19 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     /* Objs derived from wxTopLevelWindow are not volatile to local */
     if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
     {
-      /* calculate the crc32 for the procname/procline that created this obj */
+      /* calculate the crc32 for the procname/procline/uiClass that created this obj */
       char szName[ HB_SYMBOL_NAME_LEN + HB_SYMBOL_NAME_LEN + 5 ];
-      long lOffset = hb_stackBaseProcOffset( 1 );
+      UINT uiProcOffset = 1;
       UINT uiProcLine = 0;
 
+      hb_procname( uiProcOffset, szName, TRUE );
+      if( strncmp( "__WXH_", szName, 6 ) == 0 )
+        hb_procname( ++uiProcOffset, szName, TRUE );
+
+      long lOffset = hb_stackBaseProcOffset( uiProcOffset );
       if( lOffset > 0 )
         uiProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
       
-      hb_procname( 1, szName, TRUE );
       UINT crc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + uiProcLine, (const BYTE *) szName, strlen( szName ) );
 
 //       qoutf("METHODNAME: %s:%d, crc32: %u", szName, uiProcLine, crc32 );
