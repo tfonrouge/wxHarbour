@@ -2,6 +2,17 @@
  *
  */
 
+2009-04-04 17:36 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +   demos/helloworld
+  +   demos/helloworld1
+  - tests/helloworld
+  - tests/helloworld1
+    * moved to demos directory
+
+  * tests/arrbrowser/arrbrowser.prg
+  * tests/dbbrowser/dbbrowser.prg
+    * updated tests
+
 2009-04-03 12:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/events/wxhMenuEvent.prg
   + src/wxbase/events/wx_MenuEvent.cpp

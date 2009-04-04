@@ -90,17 +90,12 @@ METHOD FUNCTION OnInit() CLASS MyApp
         @ BUTTON "Up" ACTION b:Up()
         @ BUTTON "Down" ACTION b:Down()
         @ BUTTON "RefreshAll" ACTION b:RefreshAll()
-        @ BUTTON "Falla" ACTION b:Falla()
       END SIZER
       @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
     END SIZER
   END SIZER
 
-//   b:Fit()
-
   b:SelectCellBlock := {|b,gridEvent| textCtrl:AppendText( "GetCol" + NTrim( gridEvent:GetCol() ) + ", RecNo: " + NTrim( b:RecNo ) + ", Row: " + NTrim( b:RowPos ) + ", Col: " + NTrim( b:ColPos ) + ", Value: " + NTrim( b:DataSource[ b:RecNo, b:ColPos ] ) + E"\n" ) }
-
-//   b:FillColumns()
 
   @ STATUSBAR
   SHOW WINDOW oWnd CENTRE
