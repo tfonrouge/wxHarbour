@@ -15,12 +15,6 @@
   Teo. Mexico 2008
 */
 
-#ifdef __XHARBOUR__
-
-#include "wx_hbcompat.ch"
-
-#endif
-
 #include "hbclass.ch"
 #include "property.ch"
 #include "wx.ch"
@@ -28,6 +22,12 @@
 #include "wxh/textctrl.ch"
 
 #include "wxharbour.ch"
+
+#ifdef __XHARBOUR__
+
+#include "wx_hbcompat.ch"
+
+#endif
 
 STATIC containerObj
 STATIC menuData
@@ -479,7 +479,7 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
     IF ValType( bEnabled ) = "B"
       menuItem:enableBlock := bEnabled
       menu:ConnectMenuEvt( -1, wxEVT_MENU_OPEN, ;
-        {|menuEvent|
+        BEGIN_CB |menuEvent|
           LOCAL menu
           LOCAL menuItem
           LOCAL menuItemList
@@ -494,7 +494,7 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
           NEXT
 
           RETURN NIL
-        } )
+        END_CB )
     ELSE
       menuItem:Enable( bEnabled )
     ENDIF
@@ -886,6 +886,7 @@ PROCEDURE wxhInspectVar( xVar )
     ASort( aMsg,,, {|x,y| PadR( x, 64 ) < PadR( y, 64 ) } )
     a := {}
     aMethods := {}
+
     FOR EACH cMsg IN aMsg
       msgAccs := SubStr( cMsg, 2 )
       IF cMsg = "_" .AND. AScan( aMsg, msgAccs,,, .T. ) != 0

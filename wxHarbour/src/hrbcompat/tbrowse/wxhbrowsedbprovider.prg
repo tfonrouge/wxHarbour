@@ -219,7 +219,7 @@ METHOD FUNCTION GetCellValue( nCol ) CLASS wxhBrowseTableBase
       CASE 'M'
         column:Align := wxALIGN_LEFT
         EXIT
-      OTHERWISE
+      _SW_OTHERWISE
         column:Align := wxALIGN_CENTRE
       END
     ENDIF

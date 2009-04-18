@@ -55,10 +55,11 @@ HB_FUNC( WXFRAME_NEW )
   else
     frame = new wx_Frame( NULL );
 
-  objParams.Return( frame );
-
   // OnCreate...
   hb_objSendMsg( objParams.pSelf, "OnCreate", 0 );
+
+  objParams.Return( frame );
+
 }
 
 /*

@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 
 <!-- Common Harbour template for Bakefiles  -->
-<!-- (C) 2008 Teo Fonrouge. WindTelSoft     -->
-<!-- v0.4                                   -->
+<!-- (C) 2009 Teo Fonrouge. WindTelSoft     -->
+<!-- v0.5                                   -->
 
 <makefile>
 
@@ -200,6 +200,16 @@ Link in the Harbour TIP library
   <set var="LIB_GTPCA">
     <if cond="HBLIB_GTPCA=='yes'">
       gtpca
+    </if>
+  </set>
+
+  <!-- #define __XHARBOUR__/__HARBOUR__ -->
+  <set var="HBCMP_DEF">
+    <if cond="HBCOMPILER=='harbour'">
+      __HARBOUR__
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      __XHARBOUR__
     </if>
   </set>
 
@@ -705,17 +715,18 @@ Where is wxWidgets installed
   <template id="wx-common-build">
     <define>$(D_WX_UNICODE)</define>
     <define>$(D_WX_DEBUG)</define>
+    <define>$(HBCMP_DEF)</define>
     <debug-info>$(WX_DEBUG_INFO)</debug-info>
     <if cond="TOOLSET=='win32'">
       <define>__WXMSW__</define>
     </if>
   </template>
 
-  <define-tag name="define" rules="harbour-exe,harbour-lib">
+<!--  <define-tag name="define" rules="harbour-exe,harbour-lib">
     <set var="__hbflags" append="1">
       $(addPrefixIfNotEmpty(__DEFINE_ARG,value.replace('"', '\\"')))
     </set>
-  </define-tag>
+  </define-tag>-->
 
   <define-rule name="harbour-lib" extends="lib">
     <template template="__commands_harbour">

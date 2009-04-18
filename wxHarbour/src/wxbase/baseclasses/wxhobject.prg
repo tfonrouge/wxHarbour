@@ -22,6 +22,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
+  CONSTRUCTOR New
   DESTRUCTOR OnDestruct()
 
   METHOD __Destroy /* calls delete for wxObjs  */
@@ -31,6 +32,13 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
+/*
+  Constructor
+  Teo. Mexico 2009
+*/
+METHOD New CLASS TBaseClass
+RETURN Self
 
 /*
   OnDestruct

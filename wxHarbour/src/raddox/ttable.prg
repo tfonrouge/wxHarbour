@@ -74,7 +74,9 @@ PRIVATE:
   METHOD GetPublishedFieldList
   METHOD GetTableName INLINE ::TableNameValue
   METHOD Process_TableName( tableName )
+#ifndef __XHARBOUR__
   METHOD SendToServer
+#endif
   METHOD SetPrimaryIndex( AIndex )
 
 PROTECTED:

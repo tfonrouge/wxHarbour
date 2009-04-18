@@ -2,6 +2,83 @@
  *
  */
 
+2009-04-17 21:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * demos/dbExplorer/GNUmakefile
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld1/GNUmakefile
+  * demos/helloworld1/makefile.gcc
+  * demos/helloworld1/makefile.vc
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * demos/test1/GNUmakefile
+  * demos/test1/makefile.gcc
+  * demos/test1/makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * tests/arrbrowser/GNUmakefile
+  * tests/arrbrowser/makefile.gcc
+  * tests/arrbrowser/makefile.vc
+  * tests/dbbrowser/GNUmakefile
+  * tests/dbbrowser/makefile.gcc
+  * tests/dbbrowser/makefile.vc
+  * tests/grid/GNUmakefile
+  * tests/grid/makefile.gcc
+  * tests/grid/makefile.vc
+  * tests/helloworld1/GNUmakefile
+  * tests/helloworld1/makefile.gcc
+  * tests/helloworld1/makefile.vc
+  * tests/helloworld/GNUmakefile
+  * tests/helloworld/makefile.gcc
+  * tests/helloworld/makefile.vc
+  * tests/menu/GNUmakefile
+  * tests/networking/GNUmakefile
+  * tests/networking/makefile.bcc
+  * tests/networking/makefile.gcc
+  * tests/networking/makefile.vc
+  * tests/sizers/GNUmakefile
+  * tests/sizers/makefile.gcc
+  * tests/text/GNUmakefile
+  * tests/wxhBrowse/GNUmakefile
+  * tests/wxhBrowse/makefile.gcc
+  * tests/wxhBrowse/makefile.vc
+    ! Fixed duplication of defines
+    % added -D definition for hb compiler used (__XHARBOUR__/__HARBOUR__)
+
+  * include/wxharbour.ch
+  * include/wx_hbcompat.ch
+    * added some xtrans/xcomm to fix some xHarbour -> Harbour incompats
+
+  * include/wxh.h
+    ! Fixed includes to compile with xHarbour
+
+  * src/common/wx_harbour.cpp
+    ! Added our own hb_crc32() for xHarbour (cant include easily xHarbour's one)
+    ! Fixed to be build with xHarbour
+
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/misc/wxGET.prg
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * src/raddox/ttable.prg
+    ! Fixed to be compiled with xHarbour
+
+  + src/common/xhb2hb.cpp
+    * hb_crc32() function to be used only with xHarbour builds.
+
+  * src/raddox/trdoserver_c.cpp
+  * src/raddox/ttable_c.cpp
+    ! Comented out the code, hb_itemSerialize/hb_itemDeserialize missings
+
+  * src/wxbase/baseclasses/wxhobject.prg
+    ! AFAICS, xHarbour needs to have a constructor (error was showed on wxGridEvent)
+
+  * src/wxbase/manwindows/wx_frame.cpp
+    ! Fixed to run with xHarbour
+
 2009-04-04 17:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + Doxyfile
     * using doxygen to create cpp documentation
