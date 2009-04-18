@@ -2,6 +2,10 @@
  *
  */
 
+2009-04-17 17:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    ! Fixed include of files on wxh dir
+
 2009-04-17 21:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * demos/dbExplorer/GNUmakefile
