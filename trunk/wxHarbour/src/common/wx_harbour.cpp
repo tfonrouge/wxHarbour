@@ -19,6 +19,10 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
+#ifdef __XHARBOUR__
+  ULONG hb_crc32( ULONG crc, const BYTE *buf, size_t size );
+#endif
+
 /* PHB_BASEARRAY keys, wxh_Item* values */
 WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxh_Item*, wxPointerHash, wxPointerEqual, MAP_PHB_BASEARRAY );
 
@@ -33,6 +37,14 @@ static MAP_WXOBJECT map_wxObject;
 static MAP_CRC32 map_crc32;
 
 static PHB_ITEM lastTopLevelWindow;
+
+#ifdef __XHARBOUR__
+
+void hb_procname( UINT uiProcOffset, char* szName, bool fMethodName )
+{
+  hb_procinfo( uiProcOffset + 1, szName, NULL, NULL );
+}
+#endif
 
 /*
   destructor
@@ -213,28 +225,31 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       /* calculate the crc32 for the procname/procline/uiClass that created this obj */
       char szName[ HB_SYMBOL_NAME_LEN + HB_SYMBOL_NAME_LEN + 5 ];
       UINT uiProcOffset = 1;
-      UINT uiProcLine = 0;
+      USHORT usProcLine = 0;
 
       hb_procname( uiProcOffset, szName, TRUE );
       if( strncmp( "__WXH_", szName, 6 ) == 0 )
         hb_procname( ++uiProcOffset, szName, TRUE );
 
+#ifdef __XHARBOUR__
+      hb_procinfo( uiProcOffset + 1, NULL, &usProcLine, NULL );
+#else
       long lOffset = hb_stackBaseProcOffset( uiProcOffset );
       if( lOffset > 0 )
-        uiProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
-      
-      UINT crc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + uiProcLine, (const BYTE *) szName, strlen( szName ) );
+        usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
+#endif
+      UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTE *) szName, strlen( szName ) );
 
-//       qoutf("METHODNAME: %s:%d, crc32: %u", szName, uiProcLine, crc32 );
+      qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
       /* check if we are calling again the obj creation code and a wxh_Item exists */
-      if( map_crc32.find( crc32 ) != map_crc32.end() )
+      if( map_crc32.find( uiCrc32 ) != map_crc32.end() )
       {
-        delete map_crc32[ crc32 ];
+        delete map_crc32[ uiCrc32 ];
       }
 
-      map_crc32[ crc32 ] = pWxh_Item;
-      pWxh_Item->uiProcNameLine = crc32;
+      map_crc32[ uiCrc32 ] = pWxh_Item;
+      pWxh_Item->uiProcNameLine = uiCrc32;
 
       pItem = hb_itemNew( pSelf );
       lastTopLevelWindow = pItem;

@@ -5,7 +5,7 @@
 
 #ifdef __XHARBOUR__
 
-#include "hbcompat.ch"
+//#include "hbcompat.ch"
 
 /* some missing translations */
 #xtranslate HB_HASH(            => HASH(
@@ -35,5 +35,10 @@
 #xtranslate HB_HDEFAULT(        => HDEFAULT(
 
 #xtranslate <v>:__enumIndex()   => hb_enumIndex()
+
+#xtranslate HB_ISCHAR(          => HB_ISSTRING(
+
+/* ADel requieres xHarbour HB_C52_STRICT */
+#xtranslate HB_ADel(            => ADel(
 
 #endif

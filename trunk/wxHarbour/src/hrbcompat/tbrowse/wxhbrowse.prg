@@ -210,7 +210,7 @@ RETURN Self
   End
   Teo. Mexico 2008
 */
-METHOD FUNCTION End CLASS wxhBrowse
+METHOD FUNCTION End() CLASS wxhBrowse
   ::gridBrowse:SetColPos( ::ColCount() )
   ::gridBrowse:MakeCellVisible( ::gridBrowse:GetGridCursorRow(), ::gridBrowse:GetNumberCols() - 1 )
 RETURN Self
@@ -384,7 +384,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
       ENDIF
     ENDIF
     EXIT
-  OTHERWISE
+  _SW_OTHERWISE
     keyEvent:Skip()
   END
 

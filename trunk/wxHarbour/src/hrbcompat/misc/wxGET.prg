@@ -15,6 +15,12 @@
 
 #include "wxharbour.ch"
 
+#ifdef __XHARBOUR__
+
+#include "wx_hbcompat.ch"
+
+#endif
+
 /*
   wxhGET
   Teo. Mexico 2009
@@ -164,7 +170,7 @@ METHOD GetSelection CLASS wxhGET
     CASE 'H'    /* Hash */
       n := HB_HScan( ::FField:ValidValues, key )
       EXIT
-    OTHERWISE
+    _SW_OTHERWISE
       EXIT
     END
 
