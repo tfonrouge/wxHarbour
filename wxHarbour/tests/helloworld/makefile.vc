@@ -105,9 +105,8 @@ HELLOWORLD_OBJECTS =  \
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include \
 	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) \
-	$(____HBCMP_DEF_FILENAMES_p) $(______WX_DEBUG_INFO_7_FILENAMES_p) \
-	/D__WXMSW__ /I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
-	/D_WINDOWS /I..\..\include
+	$(______WX_DEBUG_INFO_7_FILENAMES_p) /D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS /I..\..\include
 
 ### Conditionally set variables: ###
 
@@ -254,12 +253,6 @@ ____D_WX_UNICODE_FILENAMES_p = /D_UNICODE
 !endif
 !if "$(WX_BUILD)" == "debug"
 ____D_WX_DEBUG_FILENAMES_p = /D__WXDEBUG__
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-____HBCMP_DEF_FILENAMES_p = /D__HARBOUR__
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-____HBCMP_DEF_FILENAMES_p = /D__XHARBOUR__
 !endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_6 = /DEBUG

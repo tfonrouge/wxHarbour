@@ -36,7 +36,7 @@ PRIVATE:
   DATA FIgnoreCellEvalError INIT .F.
   METHOD GetBlockParam
   METHOD GetBrowse
-  METHOD GetCellValue( nCol )
+  METHOD GetCellValueAtCol( nCol )
   METHOD SetCurRowIndex( rowIndex )
   METHOD SetGridBufferSize( size )
 PROTECTED:
@@ -176,10 +176,10 @@ METHOD FUNCTION GetBrowse CLASS wxhBrowseTableBase
 RETURN ::GetView():GetParent()
 
 /*
-  GetCellValue
+  GetCellValueAtCol
   Teo. Mexico 2008
 */
-METHOD FUNCTION GetCellValue( nCol ) CLASS wxhBrowseTableBase
+METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
   LOCAL Result
   LOCAL column
   LOCAL width
@@ -284,11 +284,11 @@ METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
   IF ::FColumnZero = NIL
     ::FGridBuffer[ row, 0 ] := LTrim( Str( browse:RecNo ) )
   ELSE
-    ::FGridBuffer[ row, 0 ] := ::GetCellValue( 0 )
+    ::FGridBuffer[ row, 0 ] := ::GetCellValueAtCol( 0 )
   ENDIF
 
   FOR EACH itm IN ::FColumnList
-    ::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValue( itm:__enumIndex() )
+    ::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValueAtCol( itm:__enumIndex() )
   NEXT
 
 RETURN

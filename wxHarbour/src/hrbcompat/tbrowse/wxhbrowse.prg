@@ -117,7 +117,7 @@ METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
 
   ::gridBrowse := wxhGridBrowse():New( Self, id, NIL, NIL, style, "wxhGridBrowse" )
 
-  boxSizer:Add( ::gridBrowse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
+  boxSizer:Add( ::gridBrowse, 1, _hb_BitOr( wxGROW, wxALL ), 5 )
 
   boxSizer:Add( wxStaticLine():New( Self, wxID_ANY, NIL, NIL, wxLI_VERTICAL ), 0, wxGROW, 5 )
 
@@ -125,7 +125,7 @@ METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
 
   scrollBar:SetScrollBar( 0, 1, 100, 1 )
 
-  boxSizer:Add( scrollBar, 0, HB_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
+  boxSizer:Add( scrollBar, 0, _hb_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
 
   ::gridBrowse:SetTable( wxhBrowseTableBase():New(), .T. )
 

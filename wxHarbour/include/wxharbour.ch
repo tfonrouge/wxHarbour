@@ -34,6 +34,8 @@
 
 #xtranslate _SW_OTHERWISE => OTHERWISE
 
+#xtranslate _hb_BitOr(  => HB_BitOr(
+
 #endif
 
 #include "hbclass.ch"
@@ -65,7 +67,7 @@
   MessageBox
 */
 #define wxhMessageBoxYesNo( title, mess, parent ) ;
-        wxMessageBox( mess, title, HB_BITOR(wxYES_NO,wxICON_QUESTION), parent )
+        wxMessageBox( mess, title, _hb_BitOr(wxYES_NO,wxICON_QUESTION), parent )
 
 /*
   NTrim
@@ -166,7 +168,7 @@
             [ wx<stretch> ],;
             [ wxALIGN_<align> ],;
             [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ],;
+            [ _hb_BitOr(0,<sideborders>) ],;
             NIL,;
             [ <.useLast.> ],;
             .T. ) /* No processing, sizer info to stack */
@@ -185,7 +187,7 @@
             [ wx<stretch> ],;
             [ wxALIGN_<align> ],;
             [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
+            [ _hb_BitOr(0,<sideborders>) ] ;
           )
 
 #xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
@@ -202,7 +204,7 @@
             [ wx<stretch> ],;
             [ wxALIGN_<align> ],;
             [ <border> ],;
-            [ HB_BITOR(0,<sideborders>) ] ;
+            [ _hb_BitOr(0,<sideborders>) ] ;
           )
 
 #xcommand END SIZER ;
@@ -424,6 +426,33 @@
 #xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ CHOICE [<btnclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+  wxGrid
+*/
+#xcommand @ GRID [ VAR <grid> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+            [ ROWS <rows> ] ;
+            [ COLS <cols> ] ;
+          => ;
+            [<grid>:=]__wxh_Grid( ;
+              [<window>],;
+              [<id>],;
+              ,;
+              [{<nWidth>,<nHeight>}],;
+              [<style>],;
+              [<name>],;
+              [ <rows> ],;
+              [ <cols> ] )
+
+#xcommand @ GRID [<bclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ GRID [<bclauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*

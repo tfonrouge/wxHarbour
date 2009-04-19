@@ -14,6 +14,26 @@ STATIC BaseArray:="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 #ifdef __XHARBOUR__
 #include "wx_hbcompat.ch"
+
+/*
+  _hb_BitOr : accepts 'n' int params as Harbour HB_BitOr does
+  Teo. Mexico 2009
+*/
+FUNCTION _hb_BitOr( ... )
+  LOCAL Result := 0
+  LOCAL n
+
+  IF PCount() > 0
+    Result := PValue( 1 )
+    IF PCount() > 1
+      FOR n:=2 TO PCount()
+        Result := HB_BitOr( Result, PValue( n ) )
+      NEXT
+    ENDIF
+  ENDIF
+
+RETURN Result
+
 #endif
 
 #ifndef __XHARBOUR__

@@ -9,7 +9,7 @@
 #ifndef __XHARBOUR__
 #xcommand PRIVATE: => HIDDEN:
 #xcommand PUBLIC: => EXPORTED:
-//#xcommand PUBLISHED: => nScope := HB_BitOr( HB_OO_CLSTP_EXPORTED, HB_OO_CLSTP_PERSIST ) ; HB_SYMBOL_UNUSED( nScope )
+//#xcommand PUBLISHED: => nScope := _hb_BitOr( HB_OO_CLSTP_EXPORTED, HB_OO_CLSTP_PERSIST ) ; HB_SYMBOL_UNUSED( nScope )
 #xcommand PUBLISHED: => PUBLIC:
 #endif
 
