@@ -113,11 +113,11 @@ WX_BUILD ?= release
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
 WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__HBCMP_DEF_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude $(CPPFLAGS) -fno-strict-aliasing
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
+	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__HBCMP_DEF_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude $(CPPFLAGS) -fno-strict-aliasing `wx-config --cxxflags`
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
+	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
@@ -276,7 +276,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__HBCMP_DEF_p) -Iinclude
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
 
 ### Conditionally set variables: ###
 
@@ -303,6 +303,12 @@ ifeq ($(WX_ENCODING),unicode)
 WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
+ifeq ($(HBCOMPILER),harbour)
+HBCC_DEFINE = -D__HARBOUR__
+endif
+ifeq ($(HBCOMPILER),xharbour)
+HBCC_DEFINE = -D__XHARBOUR__
+endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_2 = -g
 endif
@@ -311,12 +317,6 @@ __D_WX_UNICODE_p = -D_UNICODE
 endif
 ifeq ($(WX_BUILD),debug)
 __D_WX_DEBUG_p = -D__WXDEBUG__
-endif
-ifeq ($(HBCOMPILER),harbour)
-__HBCMP_DEF_p = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__HBCMP_DEF_p = -D__XHARBOUR__
 endif
 
 

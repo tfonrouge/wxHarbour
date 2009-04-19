@@ -116,14 +116,15 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include /W4 /O2 $(p) $(p_0) $(p_1) $(__WX_DEBUG_INFO_5) $(p_2) \
+	/I$(PREFIX)\include /W4 /O2 $(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) \
 	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude $(CPPFLAGS)
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude $(CPPFLAGS) \
+	$(HBCC_DEFINE)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /Iinclude /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include /W4 /O2 $(p) $(p_0) $(p_1) $(__WX_DEBUG_INFO_5) $(p_2) \
+	/I$(PREFIX)\include /W4 /O2 $(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) \
 	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude /GR /EHsc /YX \
-	$(CPPFLAGS)
+	$(CPPFLAGS) $(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
@@ -261,7 +262,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_xmldocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include $(p) $(p_0) \
-	$(p_1) $(p_2) /D__WXMSW__ /I$(WX_PATH)\Include \
+	$(p_1) /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude
 
 ### Conditionally set variables: ###
@@ -281,6 +282,12 @@ WXHLIBNAME = wxHarbour-$(WX_ENCODING)
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
 !endif
+!if "$(HBCOMPILER)" == "harbour"
+HBCC_DEFINE = -D__HARBOUR__
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+HBCC_DEFINE = -D__XHARBOUR__
+!endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_5 = /Zi
 !endif
@@ -293,14 +300,8 @@ p = /D_UNICODE
 !if "$(WX_BUILD)" == "debug"
 p_0 = /D__WXDEBUG__
 !endif
-!if "$(HBCOMPILER)" == "harbour"
-p_1 = /D__HARBOUR__
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-p_1 = /D__XHARBOUR__
-!endif
 !if "$(WX_BUILD)" == "debug"
-p_2 = /D_DEBUG
+p_1 = /D_DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 __WX_LIBID_FILENAMES = d

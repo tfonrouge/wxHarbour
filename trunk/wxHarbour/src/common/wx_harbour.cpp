@@ -240,7 +240,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 #endif
       UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTE *) szName, strlen( szName ) );
 
-      qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
+//       qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
       /* check if we are calling again the obj creation code and a wxh_Item exists */
       if( map_crc32.find( uiCrc32 ) != map_crc32.end() )

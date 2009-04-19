@@ -22,6 +22,6 @@
 #define wxBK_BOTTOM             0x0020
 #define wxBK_LEFT               0x0040
 #define wxBK_RIGHT              0x0080
-#define wxBK_ALIGN_MASK         HB_BitOr( wxBK_TOP, wxBK_BOTTOM, wxBK_LEFT, wxBK_RIGHT )
+#define wxBK_ALIGN_MASK         _hb_BitOr( wxBK_TOP, wxBK_BOTTOM, wxBK_LEFT, wxBK_RIGHT )
 
 #endif

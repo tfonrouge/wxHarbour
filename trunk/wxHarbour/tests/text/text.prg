@@ -65,7 +65,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
         BEGIN PANEL
           BEGIN BOXSIZER VERTICAL ALIGN EXPAND
             @ SAY "Single Line:" WIDTH 70 GET edtNombre ID 999 NAME "Single" STYLE wxTE_PROCESS_ENTER
-            @ SAY "Multi Line:" WIDTH 70 GET edtMemo NAME "Multi" STYLE HB_BitOr( wxTE_PROCESS_ENTER, wxTE_MULTILINE ) SIZERINFO STRETCH
+            @ SAY "Multi Line:" WIDTH 70 GET edtMemo NAME "Multi" STYLE _hb_BitOr( wxTE_PROCESS_ENTER, wxTE_MULTILINE ) SIZERINFO STRETCH
             @ SAY "Password:" WIDTH 70 GET edtPassword NAME "Pass" WIDTH 200 STYLE wxTE_PASSWORD
           END SIZER
         END PANEL

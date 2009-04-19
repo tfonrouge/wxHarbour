@@ -203,16 +203,6 @@ Link in the Harbour TIP library
     </if>
   </set>
 
-  <!-- #define __XHARBOUR__/__HARBOUR__ -->
-  <set var="HBCMP_DEF">
-    <if cond="HBCOMPILER=='harbour'">
-      __HARBOUR__
-    </if>
-    <if cond="HBCOMPILER=='xharbour'">
-      __XHARBOUR__
-    </if>
-  </set>
-
   <!-- Start Section of Harbour/xHarbour libraries names -->
   <set var="LIB_VM">
     <if cond="HBCOMPILER=='harbour'">
@@ -576,13 +566,31 @@ Where is wxWidgets installed
     </if>
   </set>
 
+  <!-- #define __XHARBOUR__/__HARBOUR__ -->
+  <set var="HBCC_DEFINE">
+    <if cond="HBCOMPILER=='harbour'">
+      -D__HARBOUR__
+    </if>
+    <if cond="HBCOMPILER=='xharbour'">
+      -D__XHARBOUR__
+    </if>
+  </set>
+
   <set var="CFLAGS">
+    $(HBCC_DEFINE)
+  </set>
+
+  <set var="CXXFLAGS">
+    $(HBCC_DEFINE)
+  </set>
+
+  <set var="CFLAGS" append="1">
     <if cond="COMPILER=='gcc'">
       -fno-strict-aliasing
     </if>
   </set>
 
-  <set var="CXXFLAGS">
+  <set var="CXXFLAGS" append="1">
     <if cond="TOOLSET=='unix'">
       -fno-strict-aliasing `wx-config --cxxflags`
     </if>
@@ -715,7 +723,6 @@ Where is wxWidgets installed
   <template id="wx-common-build">
     <define>$(D_WX_UNICODE)</define>
     <define>$(D_WX_DEBUG)</define>
-    <define>$(HBCMP_DEF)</define>
     <debug-info>$(WX_DEBUG_INFO)</debug-info>
     <if cond="TOOLSET=='win32'">
       <define>__WXMSW__</define>

@@ -225,6 +225,27 @@ FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name )
 RETURN gauge
 
 /*
+  __wxh_Grid
+  Teo. Mexico 2008
+ */
+FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
+  LOCAL grid
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  grid := wxGrid():New( window, id, pos, size, style, name )
+
+  IF cols != NIL .OR. rows != NIL
+    grid:CreateGrid( rows, cols )
+  ENDIF
+
+  containerObj():SetLastChild( grid )
+
+RETURN grid
+
+/*
   __wxh_RadioBox
   Teo. Mexico 2009
 */
@@ -348,7 +369,7 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
     IF Empty( style )
       style := wxTE_MULTILINE
     ELSE
-      style := HB_BitOr( wxTE_MULTILINE, style )
+      style := _hb_BitOr( wxTE_MULTILINE, style )
     ENDIF
   ENDIF
 
@@ -564,7 +585,7 @@ FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name,
   IF Empty( style )
     style := orient
   ELSE
-    style := HB_BitOr( orient, style )
+    style := _hb_BitOr( orient, style )
   ENDIF
 
   sb := wxScrollBar():New( window, id, pos, size, style, validator, name )
@@ -691,12 +712,12 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
   IF align = NIL
     IF parentSizer != NIL
       IF parentSizer:IsDerivedFrom("wxGridSizer")
-        align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
+        align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
       ELSE
         IF parentSizer:GetOrientation() = wxVERTICAL
-          align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
+          align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
         ELSE
-          align := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
+          align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
         ENDIF
       ENDIF
     ELSE
@@ -730,7 +751,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
   containerObj():SizerAddOnLastChild()
 
-  parentSizer:Add( child, strech, HB_BITOR( align, sideBorders, flag ), border )
+  parentSizer:Add( child, strech, _hb_BitOr( align, sideBorders, flag ), border )
 
 RETURN
 
@@ -770,9 +791,9 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
 
   IF align = NIL
     IF !lastSizer:GetOrientation() = wxHORIZONTAL
-      align := HB_BITOR( wxALIGN_CENTER_HORIZONTAL, wxALL )
+      align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
     ELSE
-      align := HB_BITOR( wxALIGN_CENTER_VERTICAL, wxALL )
+      align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
     ENDIF
   ENDIF
 

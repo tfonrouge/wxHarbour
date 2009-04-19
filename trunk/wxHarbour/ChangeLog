@@ -2,6 +2,117 @@
  *
  */
 
+2009-04-18 21:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * demos/dbExplorer/GNUmakefile
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld1/GNUmakefile
+  * demos/helloworld1/makefile.gcc
+  * demos/helloworld1/makefile.vc
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * demos/test1/GNUmakefile
+  * demos/test1/makefile.gcc
+  * demos/test1/makefile.vc
+  * tests/arrbrowser/GNUmakefile
+  * tests/arrbrowser/makefile.gcc
+  * tests/arrbrowser/makefile.vc
+  * tests/dbbrowser/GNUmakefile
+  * tests/dbbrowser/makefile.gcc
+  * tests/dbbrowser/makefile.vc
+  * tests/grid/GNUmakefile
+  * tests/grid/makefile.gcc
+  * tests/grid/makefile.vc
+  * tests/helloworld1/GNUmakefile
+  * tests/helloworld1/makefile.gcc
+  * tests/helloworld1/makefile.vc
+  * tests/helloworld/GNUmakefile
+  * tests/helloworld/makefile.gcc
+  * tests/helloworld/makefile.vc
+  * tests/menu/GNUmakefile
+  * tests/networking/GNUmakefile
+  * tests/networking/makefile.bcc
+  * tests/networking/makefile.gcc
+  * tests/networking/makefile.vc
+  * tests/sizers/GNUmakefile
+  * tests/sizers/makefile.gcc
+  * tests/text/GNUmakefile
+  * tests/wxhBrowse/GNUmakefile
+  * tests/wxhBrowse/makefile.gcc
+  * tests/wxhBrowse/makefile.vc
+    ! Fixed define declaration of hb compiler (__XHARBOUR__/__HARBOUR__) on
+      HBCC targets (redefinition of)
+
+  * demos/helloworld1/helloworld1.prg
+  * demos/helloworld/helloworld.prg
+  * include/defs.ch
+  * include/dialog.ch
+  * include/property.ch
+  * include/wxharbour.ch
+  * include/wxh/auibook.ch
+  * include/wxh/bookctrl.ch
+  * src/common/wxhutils.prg
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+  * tests/helloworld1/helloworld1.prg
+  * tests/helloworld/helloworld.prg
+  * tests/sizers/main.prg
+  * tests/text/text.prg
+  * tests/wxhBrowse/wxhBrowse.prg
+    ! Fixed wrong usage of xHarbour's HB_BitOr, now using _hb_BitOr
+      xHarbour's accepts just two params
+
+  * src/common/wx_harbour.cpp
+    * commented out a debug output line
+
+  * src/common/wxhfuncs.prg
+    + added __wxh_Grid for @ GRID command
+
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    * renamed method name GetCellValue to GetCellValueAtCol for avoid
+      collision name with wxGrid's one
+
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    + added methods:
+      + AutoSize
+      + AutoSizeRow
+      + AutoSizeRows
+      + BeginBatch
+      + CanDragColMove
+      + CanDragColSize
+      + CanDragRowSize
+      + CanDragGridSize
+      + CanEnableCellControl
+      + ClearGrid
+      + ClearSelection
+      + CreateGrid
+      + DisableCellEditControl
+      + DisableDragColMove
+      + DisableDragColSize
+      + DisableDragGridSize
+      + DisableDragRowSize
+      + EnableCellEditControl
+      + EnableDragColSize
+      + EnableDragColMove
+      + EnableDragGridSize
+      + EnableDragRowSize
+      + EnableEditing
+      + EndBatch
+      + GetBatchCount
+      + GetCellValue
+
+  * tests/grid/grid.prg
+    * updated test
+
+  + tests/panel
+    + added Panel test
+
 2009-04-17 17:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * wxharbour.spec
     ! Fixed include of files on wxh dir

@@ -103,8 +103,7 @@ ARRBROWSER_OBJECTS =  \
 	$(__BUILDDIR__)/arrbrowser_arrbrowser.o
 ARRBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) $(__HBCMP_DEF_p_1) \
-	-I../../include
+	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include
 
 ### Conditionally set variables: ###
 
@@ -277,12 +276,6 @@ __D_WX_UNICODE_p_1 = -D_UNICODE
 endif
 ifeq ($(WX_BUILD),debug)
 __D_WX_DEBUG_p_1 = -D__WXDEBUG__
-endif
-ifeq ($(HBCOMPILER),harbour)
-__HBCMP_DEF_p_1 = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__HBCMP_DEF_p_1 = -D__XHARBOUR__
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_3 = -g

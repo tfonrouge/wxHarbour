@@ -36,21 +36,49 @@ PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
   METHOD AppendCols( numCols ) INLINE ::GetTable():AppendCols( numCols )
   METHOD AppendRows( numRows ) INLINE ::GetTable():AppendRows( numRows )
+  METHOD AutoSize
   METHOD AutoSizeColumn( col, setAsMin )
   METHOD AutoSizeColumns( setAsMin )
+  METHOD AutoSizeRow( row, setAsMin )
+  METHOD AutoSizeRows( setAsMin )
+  METHOD BeginBatch
+//   METHOD BlockToDeviceRect
+  METHOD CanDragColMove
+  METHOD CanDragColSize
+  METHOD CanDragRowSize
+  METHOD CanDragGridSize
+  METHOD CanEnableCellControl
+//   METHOD CanHaveAttributes
+//   METHOD CellToRect
+  METHOD ClearGrid
+  METHOD ClearSelection
+  METHOD CreateGrid( numRows, numCols, selmode )
   METHOD DeleteCols( pos, numCols ) INLINE ::GetTable():DeleteCols( pos, numCols )
   METHOD DeleteRows( pos, numRows ) INLINE ::GetTable():DeleteRows( pos, numRows )
-  METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
-  METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
-  METHOD CreateGrid( numRows, numCols, selmode )
+  METHOD DisableCellEditControl
+  METHOD DisableDragColMove
+  METHOD DisableDragColSize
+  METHOD DisableDragGridSize
+  METHOD DisableDragRowSize
+  METHOD EnableCellEditControl( enable )
+  METHOD EnableDragColSize( enable )
+  METHOD EnableDragColMove( enable )
+  METHOD EnableDragGridSize( enable )
+  METHOD EnableDragRowSize( enable )
+  METHOD EnableEditing( edit )
   METHOD EnableGridLines( enable )
+  METHOD EndBatch
   METHOD Fit
   METHOD ForceRefresh
+  METHOD GetBatchCount
+  METHOD GetCellValue( row, col )
   METHOD GetGridCursorCol
   METHOD GetGridCursorRow
   METHOD GetNumberCols
   METHOD GetNumberRows
   METHOD GetTable
+  METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
+  METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
   METHOD IsVisible( row, col, wholeCellVisible )
   METHOD MakeCellVisible( row, col )
   METHOD MoveCursorLeft( expandSelection )
