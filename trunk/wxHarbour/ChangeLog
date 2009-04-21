@@ -2,6 +2,15 @@
  *
  */
 
+2009-04-21 01:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * updated makefiles
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+    * renamed filename used in include
+
 2009-04-21 00:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   src/hrbcompat/tbcolumn/wxhColumn.prg
 A  +   src/hrbcompat/tbrowse/wx_Browse.cpp

@@ -18,7 +18,7 @@
 #include "wxbase/wx_grid.h"
 #include "wxbase/wx_staticline.h"
 
-#include "wx_browse.h"
+#include "wx_Browse.h"
 
 HB_FUNC_EXTERN( WXGRIDEVENT);
 HB_FUNC_EXTERN( WXKEYEVENT);
