@@ -45,6 +45,9 @@ HBLIB_GTWIN = yes
 # Link in the Harbour GTXVT library [yes,no]
 HBLIB_GTXVT = no
 
+# Link in the Harbour GTWVT library [yes,no]
+HBLIB_GTWVT = no
+
 # Link in the Harbour GTCGI library [yes,no]
 HBLIB_GTCGI = no
 
@@ -236,6 +239,9 @@ __LIB_GTXVT_p = gtxvt.lib
 !if "$(HBLIB_GTWIN)" == "yes"
 __LIB_GTWIN_p = gtwin.lib
 !endif
+!if "$(HBLIB_GTWVT)" == "yes"
+__LIB_GTWVT_p = gtwvt.lib
+!endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
 __WXHLIBNAME_p = wxHarbour.lib
 !endif
@@ -293,7 +299,7 @@ clean:
 
 .\helloworld.exe: $(HELLOWORLD_OBJECTS)
 	link /NOLOGO /OUT:$@  $(__WX_DEBUG_INFO_6) /pdb:".\helloworld.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
-	$(HELLOWORLD_OBJECTS)  $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
+	$(HELLOWORLD_OBJECTS)  $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
 <<
 
 run: all

@@ -2,6 +2,37 @@
  *
  */
 
+2009-04-21 01:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld1/makefile.gcc
+  * demos/helloworld1/makefile.vc
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * demos/test1/makefile.gcc
+  * demos/test1/makefile.vc
+  * makefile.gcc
+  * makefile.vc
+  * tests/arrbrowser/makefile.gcc
+  * tests/arrbrowser/makefile.vc
+  * tests/dbbrowser/makefile.gcc
+  * tests/dbbrowser/makefile.vc
+  * tests/grid/makefile.gcc
+  * tests/grid/makefile.vc
+  * tests/helloworld1/makefile.gcc
+  * tests/helloworld1/makefile.vc
+  * tests/helloworld/makefile.gcc
+  * tests/helloworld/makefile.vc
+  * tests/networking/makefile.bcc
+  * tests/networking/makefile.gcc
+  * tests/networking/makefile.vc
+  * tests/panel/makefile.gcc
+  * tests/panel/makefile.vc
+  * tests/sizers/makefile.gcc
+  * tests/wxhBrowse/makefile.gcc
+  * tests/wxhBrowse/makefile.vc
+    * updated makefiles
+
 2009-04-21 01:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
     * added GTWVT, hbwin to win32 builds
