@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_checkbox.h"
+#include "wxbase/wx_CheckBox.h"
 
 /*
   ~wx_CheckBox

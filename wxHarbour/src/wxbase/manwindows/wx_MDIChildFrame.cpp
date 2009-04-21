@@ -20,7 +20,7 @@
 
 #include "wx/docview.h"
 
-#include "wxbase/wx_mdichildframe.h"
+#include "wxbase/wx_MDIChildFrame.h"
 
 using namespace std;
 

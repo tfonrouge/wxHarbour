@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_radiobox.h"
+#include "wxbase/wx_RadioBox.h"
 
 /*
   ~wx_RadioBox

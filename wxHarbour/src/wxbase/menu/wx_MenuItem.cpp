@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_menuitem.h"
+#include "wxbase/wx_MenuItem.h"
 
 /*
   ~wx_MenuItem

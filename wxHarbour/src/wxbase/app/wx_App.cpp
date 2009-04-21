@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_app.h"
+#include "wxbase/wx_App.h"
 
 static PHB_ITEM hb_App;
 

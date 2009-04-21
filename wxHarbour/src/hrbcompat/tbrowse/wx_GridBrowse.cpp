@@ -14,9 +14,9 @@
 #include "wx/grid.h"
 #include "wxh.h"
 
-#include "wxbase/wx_gridtablebase.h"
-#include "wxbase/wx_grid.h"
-#include "wxbase/wx_staticline.h"
+#include "wxbase/wx_GridTableBase.h"
+#include "wxbase/wx_Grid.h"
+#include "wxbase/wx_StaticLine.h"
 
 #include "wx_Browse.h"
 

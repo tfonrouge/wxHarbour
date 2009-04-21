@@ -18,8 +18,8 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_menu.h"
-#include "wxbase/wx_menubar.h"
+#include "wxbase/wx_Menu.h"
+#include "wxbase/wx_MenuBar.h"
 
 /*
   ~wx_MenuBar

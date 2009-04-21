@@ -19,9 +19,9 @@
 
 #include "wxh.h"
 
-#include "wxbase/wx_frame.h"
-#include "wxbase/wx_menu.h"
-#include "wxbase/wx_font.h"
+#include "wxbase/wx_Frame.h"
+#include "wxbase/wx_Menu.h"
+#include "wxbase/wx_Font.h"
 
 HB_FUNC_EXTERN( WXFONT );
 

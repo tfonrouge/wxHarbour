@@ -10,7 +10,7 @@
   (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "wxbase/wx_panel.h"
+#include "wxbase/wx_Panel.h"
 
 /*
   wxhGridBrowse : Interface

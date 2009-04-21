@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_ipv4address.h"
+#include "wxbase/wx_IPV4address.h"
 
 /*
   ~wx_IPV4address

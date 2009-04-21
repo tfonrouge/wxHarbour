@@ -19,7 +19,7 @@
 #include "wxh.h"
 #include "wx/listbook.h"
 
-#include "wxbase/wx_listbook.h"
+#include "wxbase/wx_Listbook.h"
 
 /*
   ~wx_Listbook

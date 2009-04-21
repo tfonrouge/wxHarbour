@@ -20,8 +20,8 @@
 #include "wx/generic/gridctrl.h"
 #include "wxh.h"
 
-#include "wxbase/wx_grid.h"
-#include "wxbase/wx_gridtablebase.h"
+#include "wxbase/wx_Grid.h"
+#include "wxbase/wx_GridTableBase.h"
 
 HB_FUNC( WXTEST )
 {

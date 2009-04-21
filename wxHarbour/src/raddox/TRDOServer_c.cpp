@@ -13,8 +13,8 @@
 #include "wx/log.h"
 #include "wxh.h"
 
-#include "wxbase/wx_socketbase.h"
-#include "wxbase/wx_socketserver.h"
+#include "wxbase/wx_SocketBase.h"
+#include "wxbase/wx_SocketServer.h"
 
 #include "rdodefs.h"
 

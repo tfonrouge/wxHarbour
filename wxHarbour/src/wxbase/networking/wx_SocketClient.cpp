@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_socketclient.h"
+#include "wxbase/wx_SocketClient.h"
 
 /*
   ~wx_SocketClient

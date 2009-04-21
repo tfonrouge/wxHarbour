@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_scrollbar.h"
+#include "wxbase/wx_ScrollBar.h"
 
 /*
   ~wx_ScrollBar

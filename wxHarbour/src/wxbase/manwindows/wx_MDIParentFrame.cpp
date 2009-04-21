@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_mdiparentframe.h"
+#include "wxbase/wx_MDIParentFrame.h"
 
 using namespace std;
 
