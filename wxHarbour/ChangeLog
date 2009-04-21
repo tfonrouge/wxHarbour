@@ -2,6 +2,12 @@
  *
  */
 
+2009-04-21 13:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    ! Fixed makefiles (removed wxchoice.prg)
+
 2009-04-21 13:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
   - demos/helloworld1
