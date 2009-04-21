@@ -250,8 +250,6 @@ METHOD PROCEDURE OpenDB CLASS MyApp
       @ BROWSE VAR oBrwStruct DATASOURCE table:DbStruct
   END AUINOTEBOOK
 
-  (oBrwIndexList)
-
 //   oBrwIndexList:DeleteAllColumns()
   ADD BCOLUMN ZERO TO oBrwIndexList "Tag" BLOCK {|key| key  }
   ADD BCOLUMN TO oBrwIndexList "Expression" BLOCK {|key| hIndex[ key, "Expression" ] }

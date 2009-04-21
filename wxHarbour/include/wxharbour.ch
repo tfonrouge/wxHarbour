@@ -58,7 +58,7 @@
 #define wxCHK_UNDETERMINED      2
 
 /*
-  Calss ::__Destroy() to remove wxh_Item associated to objects
+  Calls ::__Destroy() to remove wxh_Item associated to objects
   Teo. Mexico 2009
 */
 #xcommand DESTROY <obj> => <obj>:__Destroy()
@@ -339,6 +339,7 @@
             [ VAR <gauge> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
+            [ <type: HORIZONTAL, VERTICAL> ] ;
 	    [ RANGE <range> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -354,7 +355,8 @@
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<validator>],;
-            [<name>] )
+            [<name>],;
+            [wxGA_<type>] )
 
 #xcommand @ GAUGE [<gaugeClauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;

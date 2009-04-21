@@ -2,6 +2,104 @@
  *
  */
 
+2009-04-21 13:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+  - demos/helloworld1
+  - demos/helloworld1/GNUmakefile
+  - demos/helloworld1/helloworld1.bkl
+  - demos/helloworld1/helloworld1.prg
+  - demos/helloworld1/makefile.gcc
+  - demos/helloworld1/makefile.vc
+  - demos/test1
+  - demos/test1/GNUmakefile
+  - demos/test1/makefile.gcc
+  - demos/test1/makefile.vc
+  - demos/test1/test1.prg
+  * GNUmakefile
+  * include/wxharbour.ch
+  * makefile.gcc
+  * makefile.vc
+  * src/common/wxhfuncs.prg
+  * src/wxbase/controls/wxhCheckBox.prg
+  + tests/auinotebook
+  + tests/auinotebook/auinotebook.prg
+  + tests/auinotebook/GNUmakefile
+  + tests/auinotebook/makefile.gcc
+  + tests/auinotebook/makefile.vc
+  + tests/button
+  + tests/button/button.prg
+  + tests/button/GNUmakefile
+  + tests/button/makefile.gcc
+  + tests/button/makefile.vc
+  + tests/checkbox
+  + tests/checkbox/checkbox.prg
+  + tests/checkbox/GNUmakefile
+  + tests/checkbox/makefile.gcc
+  + tests/checkbox/makefile.vc
+  + tests/choice
+  + tests/choice/choice.prg
+  + tests/choice/GNUmakefile
+  + tests/choice/makefile.gcc
+  + tests/choice/makefile.vc
+  + tests/combobox
+  + tests/combobox/combobox.prg
+  + tests/combobox/GNUmakefile
+  + tests/combobox/makefile.gcc
+  + tests/combobox/makefile.vc
+  + tests/gauge
+  + tests/gauge/gauge.prg
+  + tests/gauge/GNUmakefile
+  + tests/gauge/makefile.gcc
+  + tests/gauge/makefile.vc
+  - tests/helloworld
+  - tests/helloworld1
+  - tests/helloworld1/GNUmakefile
+  - tests/helloworld1/helloworld1.bkl
+  - tests/helloworld1/helloworld1.prg
+  - tests/helloworld1/makefile.gcc
+  - tests/helloworld1/makefile.vc
+  - tests/helloworld/GNUmakefile
+  - tests/helloworld/helloworld.bkl
+  - tests/helloworld/helloworld.prg
+  - tests/helloworld/makefile.gcc
+  - tests/helloworld/makefile.vc
+  + tests/listbook
+  + tests/listbook/GNUmakefile
+  + tests/listbook/listbook.prg
+  + tests/listbook/makefile.gcc
+  + tests/listbook/makefile.vc
+  * tests/menu/menu.prg
+  * tests/networking/simple.prg
+  + tests/notebook
+  + tests/notebook/GNUmakefile
+  + tests/notebook/makefile.gcc
+  + tests/notebook/makefile.vc
+  + tests/notebook/notebook.prg
+  + tests/radiobox
+  + tests/radiobox/GNUmakefile
+  + tests/radiobox/makefile.gcc
+  + tests/radiobox/makefile.vc
+  + tests/radiobox/radiobox.prg
+  + tests/sayget
+  + tests/sayget/GNUmakefile
+  + tests/sayget/makefile.gcc
+  + tests/sayget/makefile.vc
+  + tests/sayget/sayget.prg
+  * tests/sizers/main.prg
+  * tests/text/text.prg
+  + tests/treectrl
+  + tests/treectrl/GNUmakefile
+  + tests/treectrl/makefile.gcc
+  + tests/treectrl/makefile.vc
+  + tests/treectrl/treectrl.prg
+  - tests/wxhBrowse
+  - tests/wxhBrowse/GNUmakefile
+  - tests/wxhBrowse/makefile.gcc
+  - tests/wxhBrowse/makefile.vc
+  - tests/wxhBrowse/wxhBrowse.prg
+    * updates for tests & demos
+
+
 2009-04-21 01:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/makefile.gcc
   * demos/dbExplorer/makefile.vc

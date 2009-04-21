@@ -54,7 +54,7 @@ PRIVATE:
   METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
+  CONSTRUCTOR New( window, id, label, wxhGet, pos, size, style, validator, name )
 PUBLISHED:
 ENDCLASS
 
@@ -68,7 +68,6 @@ METHOD New( window, id, label, wxhGet, pos, size, style, validator, name ) CLASS
 
   IF name = NIL
     ::SetName( wxhGet:Name )
-    ::SetLabel( wxhGet:Name )
   ENDIF
 
   ::FWXHGet := wxhGet

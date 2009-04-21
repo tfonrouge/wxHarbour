@@ -149,6 +149,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhPanel.o \
 	$(__BUILDDIR__)\wxHarbour_wxhStatusBar.o \
 	$(__BUILDDIR__)\wxHarbour_wxhApp.o \
+	$(__BUILDDIR__)\wxHarbour_wxchoice.o \
 	$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.o \
 	$(__BUILDDIR__)\wxHarbour_wxhObject.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.o \
@@ -472,6 +473,9 @@ $(__BUILDDIR__)\wxHarbour_wxhStatusBar.o: ./src/wxbase/advctrls/wxhStatusBar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhApp.o: ./src/wxbase/app/wxhApp.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhControlWithItems.o: ./src/wxbase/baseclasses/wxhControlWithItems.prg

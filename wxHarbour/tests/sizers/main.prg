@@ -84,7 +84,7 @@ FUNCTION Login
       @ SAY "Simple Text Label Title"
     END SIZER
     BEGIN NOTEBOOK SIZERINFO ALIGN EXPAND STRETCH
-      ADD PAGE "Main" FROM
+      ADD BOOKPAGE "Main" FROM
         BEGIN PANEL
           BEGIN BOXSIZER VERTICAL
             BEGIN GRIDSIZER COLS 3 /*ALIGN LEFT*/
@@ -104,7 +104,7 @@ FUNCTION Login
             END SIZER
           END SIZER
         END PANEL
-      ADD PAGE "Secondary" FROM
+      ADD BOOKPAGE "Secondary" FROM
         BEGIN PANEL
           BEGIN BOXSIZER HORIZONTAL "Main Box"
             BEGIN BOXSIZER VERTICAL "TreeCtrl" ALIGN EXPAND STRETCH
@@ -115,7 +115,7 @@ FUNCTION Login
               END SIZER
             END SIZER
             BEGIN BOXSIZER VERTICAL "wxBrowseDb" ALIGN EXPAND STRETCH
-              @ BROWSEDB TABLE "main.dbf" SIZERINFO ALIGN EXPAND STRETCH
+              @ BROWSE DATASOURCE "main.dbf" SIZERINFO ALIGN EXPAND STRETCH
               @ SAY "Some text"
             END SIZER
           END SIZER

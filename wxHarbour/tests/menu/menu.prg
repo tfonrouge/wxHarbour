@@ -56,6 +56,26 @@ METHOD FUNCTION OnInit() CLASS MyApp
       ADD MENUITEM E"Open \tF1" ACTION {|| Open( oWnd ) }
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() HELPLINE "Quits this sample..."
     ENDMENU
+    DEFINE MENU "Process"
+      ADD MENUITEM "Item1"
+      DEFINE MENU "Sub-Menu"
+        ADD MENUITEM "Sub-Item1"
+        DEFINE MENU "Sub-Process"
+          ADD MENUITEM "Item1"
+          DEFINE MENU "Sub-Menu"
+            ADD MENUITEM "Sub-Item1"
+            ADD MENUITEM "Sub-Item2"
+            ADD MENUITEM "Sub-Item3"
+            ADD MENUSEPARATOR
+            ADD MENUITEM "Sub-Item1"
+          ENDMENU
+        ENDMENU
+        ADD MENUITEM "Sub-Item2"
+        ADD MENUITEM "Sub-Item3"
+        ADD MENUSEPARATOR
+        ADD MENUITEM "Sub-Item1"
+      ENDMENU
+    ENDMENU
     DEFINE MENU "Help"
       ADD MENUITEM "About..."
     ENDMENU
