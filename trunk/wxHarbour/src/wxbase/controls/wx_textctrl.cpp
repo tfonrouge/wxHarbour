@@ -44,7 +44,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
   const wxSize& size = hb_par_wxSize( 5 );
   long style = hb_parnl( 6 );
   const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
-  const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
+  const wxString& name = wxh_parc( 8 );
   wx_TextCtrl* textCtrl = new wx_TextCtrl( parent, id, value, pos, size, style, validator, name );
 
   objParams.Return( textCtrl );
@@ -61,7 +61,7 @@ HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 
   if( textCtrl )
   {
-    const wxString& text = wxString( hb_parcx( 1 ), wxConvUTF8 );
+    const wxString& text = wxh_parc( 1 );
     textCtrl->AppendText( text );
   }
 }
@@ -90,7 +90,7 @@ HB_FUNC( WXTEXTCTRL_SETVALUE )
 
   if( textCtrl )
   {
-    const wxString& text = wxString( hb_parcx( 1 ), wxConvUTF8 );
+    const wxString& text = wxh_parc( 1 );
     textCtrl->SetValue( text );
   }
 }

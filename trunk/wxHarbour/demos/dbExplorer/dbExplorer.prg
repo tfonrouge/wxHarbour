@@ -14,10 +14,16 @@
 
 #include "wxh/filedlg.ch"
 
+#include "dbinfo.ch"
+
 //REQUEST RDOSENDMESSAGE
+REQUEST DBFCDX
+REQUEST DBFFPT
 
 FUNCTION Main( ... )
   LOCAL MyApp
+
+  rddSetDefault("DBFCDX")
 
   MyApp := MyApp():New()
 
@@ -34,6 +40,7 @@ PRIVATE:
 
   DATA curDirectory
 
+  METHOD Configure
   METHOD GetBrw
   METHOD OpenDB
 
@@ -70,8 +77,11 @@ METHOD FUNCTION OnInit() CLASS MyApp
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION ::oWnd:Close() ;
           HELPLINE "Quits this sample..."
     ENDMENU
+    DEFINE MENU E"&Preferences"
+      ADD MENUITEM "Configure dbExplorer" ACTION ::Configure()
+    ENDMENU
     DEFINE MENU "Help"
-      ADD MENUITEM "Fit Grid" ACTION ::GetBrw():gridBrowse:AutoSizeColumns() ENABLED ::GetBrw() != NIL
+      ADD MENUITEM "Fit Grid" ACTION ::GetBrw():grid:AutoSizeColumns() ENABLED ::GetBrw() != NIL
       ADD MENUSEPARATOR
       ADD MENUITEM "About..."
     ENDMENU
@@ -110,7 +120,53 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   SHOW WINDOW ::oWnd CENTRE
 
+  wxTest("modo+periodo")
+
 RETURN .T.
+
+/*
+  Configure
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE Configure CLASS MyApp
+  LOCAL oDlg
+  LOCAL rddName := rddSetDefault()
+  LOCAL oErr
+
+  CREATE DIALOG oDlg ;
+         PARENT ::oWnd ;
+         TITLE "Configure"
+
+  BEGIN BOXSIZER VERTICAL
+    BEGIN BOXSIZER HORIZONTAL
+      @ SAY "RDD Default:"
+      @ COMBOBOX rddName ITEMS rddList()
+    END SIZER
+    BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
+      @ BUTTON ID wxID_CANCEL ACTION oDlg:EndModal( wxID_CANCEL )
+      @ BUTTON ID wxID_OK ACTION oDlg:EndModal( wxID_OK )
+    END SIZER
+  END SIZER
+
+  SHOW WINDOW oDlg MODAL FIT CENTRE
+
+  IF oDlg:GetReturnCode() = wxID_OK
+
+    BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
+
+      rddSetDefault( rddName )
+
+    RECOVER USING oErr
+
+      wxMessageBox( oErr:description, "Error", wxICON_ERROR, oDlg )
+
+    END SEQUENCE
+
+  ENDIF
+
+  DESTROY oDlg
+
+RETURN
 
 /*
   GetBrw
@@ -133,8 +189,9 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL noteBook
   LOCAL table
   LOCAL oErr
-  LOCAL aIndex := {}
-  LOCAL oBrwStruct
+  LOCAL hIndex
+  LOCAL oBrwStruct,oBrwIndexList
+  LOCAL n,l
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
 
@@ -153,6 +210,26 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
     table := TTable():New( NIL, fileDlg:GetPath() )
 
+    hIndex := {=>}
+
+    l := dbOrderInfo( DBOI_ORDERCOUNT )
+
+    IF l > 0
+
+      FOR n:=1 TO l
+        hIndex[ dbOrderInfo( DBOI_NAME, NIL, n ) ]:= ;
+          { ;
+            "Expression" => dbOrderInfo( DBOI_EXPRESSION, NIL, n ),;
+            "Condition" => dbOrderInfo( DBOI_CONDITION, NIL, n ),;
+            "IsDesc" => dbOrderInfo( DBOI_ISDESC, NIL, n ),;
+            "Unique" => dbOrderInfo( DBOI_UNIQUE, NIL, n ) ;
+          }
+      NEXT
+
+      ordSetFocus( 1 )
+
+    ENDIF
+
   RECOVER USING oErr
 
     wxMessageBox( oErr:description, "Error", wxICON_ERROR, ::oWnd )
@@ -168,25 +245,36 @@ METHOD PROCEDURE OpenDB CLASS MyApp
         ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
         SIZERINFO ALIGN EXPAND STRETCH
     ADD BOOKPAGE "Indexes" FROM
-      @ BROWSE DATASOURCE aIndex
+      @ BROWSE VAR oBrwIndexList DATASOURCE hIndex
     ADD BOOKPAGE "Structure" FROM
       @ BROWSE VAR oBrwStruct DATASOURCE table:DbStruct
   END AUINOTEBOOK
 
-  oBrwStruct:DeleteAllColumns()
-  ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|o| o[ 1 ]  }
-  ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|o| o[ 2 ]  }
-  ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|o| o[ 3 ]  } PICTURE "99999"
-  ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|o| o[ 4 ]  } PICTURE "99"
+  (oBrwIndexList)
 
-  oBrwStruct:gridBrowse:AutoSizeColumns()
+//   oBrwIndexList:DeleteAllColumns()
+  ADD BCOLUMN ZERO TO oBrwIndexList "Tag" BLOCK {|key| key  }
+  ADD BCOLUMN TO oBrwIndexList "Expression" BLOCK {|key| hIndex[ key, "Expression" ] }
+  ADD BCOLUMN TO oBrwIndexList "Condition" BLOCK {|key| hIndex[ key, "Condition" ] }
+  ADD BCOLUMN TO oBrwIndexList "IsDesc" BLOCK {|key| hIndex[ key, "IsDesc" ] }
+  ADD BCOLUMN TO oBrwIndexList "Unique" BLOCK {|key| hIndex[ key, "Unique" ] }
+
+  oBrwIndexList:grid:AutoSizeColumns()
+
+  oBrwStruct:DeleteAllColumns()
+  ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|itm| itm[ 1 ]  }
+  ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|itm| itm[ 2 ]  }
+  ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|itm| itm[ 3 ]  } PICTURE "99999" AS NUMBER
+  ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|itm| itm[ 4 ]  } PICTURE "99" AS NUMBER
+
+  oBrwStruct:grid:AutoSizeColumns()
 
   noteBook:SetSelection( 0 )
 //   noteBook:ChangeSelection( 1 )
 
   ::auiNotebook:AddPage( noteBook, fileDlg:GetFileName(), .T. )
 
-  noteBook:FindWindowByName("table"):gridBrowse:AutoSizeColumns()
+  noteBook:FindWindowByName("table"):grid:AutoSizeColumns()
 
   ::oWnd:FindWindowByName("panel2"):Enable()
 

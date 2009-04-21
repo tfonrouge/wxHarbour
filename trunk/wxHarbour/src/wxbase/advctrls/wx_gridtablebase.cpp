@@ -23,6 +23,11 @@
 #include "wxbase/wx_grid.h"
 #include "wxbase/wx_gridtablebase.h"
 
+HB_FUNC( WXTEST )
+{
+  qoutf( wxh_parc( 1 ).mb_str() );
+}
+
 /*
   ~wx_GridTableBase
   Teo. Mexico 2006
@@ -158,7 +163,8 @@ wxString wx_GridTableBase::GetValue( int row, int col )
   wxString value = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
-  value = wxString( hb_stackReturnItem()->item.asString.value, wxConvUTF7 );
+  //value = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
+  value = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
 
   hb_itemRelease( pRow );
   hb_itemRelease( pCol );
@@ -172,7 +178,7 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
   wxString labelValue = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
-  labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+  labelValue = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
 
   hb_itemRelease( pCol );
 
@@ -185,7 +191,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
   wxString labelValue = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
-  labelValue = wxString( hb_stackReturnItem()->item.asString.value, wxConvLocal );
+  labelValue = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
 
   hb_itemRelease( pRow );
 

@@ -40,7 +40,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = (wxWindowID) hb_parni( 2 );
   long style = ISNIL( 3 ) ? wxST_SIZEGRIP : hb_parnl( 3 );
-  const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxString( hb_parcx( 4 ), wxConvLocal );
+  const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxh_parc( 4 );
 
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
@@ -87,7 +87,7 @@ HB_FUNC( WXSTATUSBAR_SETSTATUSTEXT )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_StatusBar* statusBar = (wx_StatusBar *) wxh_ItemListGet_WX( pSelf );
 
-  const wxString& text = wxString( hb_parcx( 1 ), wxConvLocal );
+  const wxString& text = wxh_parc( 1 );
   int i = hb_parni( 2 );
 
   if( pSelf && statusBar )
