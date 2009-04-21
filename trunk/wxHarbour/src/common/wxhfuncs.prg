@@ -225,11 +225,19 @@ RETURN checkBox
   __wxh_Gauge
   Teo. Mexico 2008
 */
-FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name )
+FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type )
   LOCAL gauge
 
   IF window = NIL
     window := containerObj():LastParent()
+  ENDIF
+
+  IF type != NIL
+    IF style = NIL
+      style := type
+    ELSE
+      style := _hb_BitOr( style, type )
+    ENDIF
   ENDIF
 
   gauge := wxGauge():New( window, id, range, pos, size, style, validator, name )

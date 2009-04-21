@@ -100,4 +100,4 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   ? "Saliendo de OnInit..."
 
-RETURN .T.
+RETURN .F.
