@@ -75,7 +75,7 @@ METHOD New( parent, id, pos, size, choices, style, validator, name, wxhGet ) CLA
   ::SetSelection( ::FWXHGet:GetSelection() )
 
   /* the update to VAR event */
-  ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
+  ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| event:GetEventObject():UpdateVar( event ) } )
 
 RETURN Self
 

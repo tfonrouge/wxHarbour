@@ -422,7 +422,7 @@ wxArrayString hb_par_wxArrayString( int param )
       pItm = hb_arrayGetItemPtr( pArray, ulI );
       if( hb_itemType( pItm ) && ( HB_IT_STRING || HB_IT_MEMO ) )
       {
-        arrayString.Add( wxString( pItm->item.asString.value, wxConvLocal) );
+        arrayString.Add( wxh_CTowxStr( pItm->item.asString.value ) );
       }
     }
   }
@@ -471,12 +471,21 @@ wxSize hb_par_wxSize( int param )
 }
 
 /*
+  wxh_CTowxStr
+  Teo. Mexico 2009
+*/
+wxString wxh_CTowxStr( const char * szStr )
+{
+  return wxString( szStr, wxConvLocal );
+}
+
+/*
   wxh_parc
   Teo. Mexico 2009
 */
 wxString wxh_parc( int param )
 {
-  return wxString( hb_parc( param ), wxConvUTF8 );
+  return wxh_CTowxStr( hb_parc( param ) );
 }
 
 /*

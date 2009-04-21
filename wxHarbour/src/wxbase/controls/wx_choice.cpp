@@ -39,8 +39,8 @@ HB_FUNC( WXCHOICE_NEW )
   const wxSize& size = hb_par_wxSize( 4 );
   const wxArrayString& choices = hb_par_wxArrayString( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
-  const wxString& name = wxString( hb_parcx( 8 ), wxConvLocal );
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.param( 7 ))) ;
+  const wxString& name = wxh_parc( 8 );
 
   wx_Choice* choice = new wx_Choice( parent, id, pos, size, choices, style, validator, name );
 

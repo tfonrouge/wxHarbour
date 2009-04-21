@@ -151,7 +151,7 @@ RETURN wxhBrw
   __wxh_BrowseAddColumn
   Teo. Mexico 2008
 */
-PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
+PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp )
   LOCAL column := wxhBColumn():New( title, block )
 
   column:Picture := picture
@@ -161,6 +161,20 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width )
     wxhBrw:ColumnZero := column
   ELSE
     wxhBrw:AddColumn( column )
+  ENDIF
+
+  IF type != NIL
+    type := Upper( type )
+    DO CASE
+    CASE type == "BOOL"
+      wxhBrw:grid:SetColFormatBool( wxhBrw:ColCount() - 1 )
+    CASE type == "NUMBER"
+      wxhBrw:grid:SetColFormatNumber( wxhBrw:ColCount() - 1 )
+    CASE type == "FLOAT"
+      IF wp != NIL
+        wxhBrw:grid:SetColFormatFloat( wxhBrw:ColCount() - 1, wp[ 1 ], wp[ 2 ] )
+      ENDIF
+    ENDCASE
   ENDIF
 
 RETURN
@@ -286,6 +300,27 @@ FUNCTION __wxh_Choice( parent, id, point, size, choices, style, validator, name,
   containerObj():SetLastChild( choice )
 
 RETURN choice
+
+/*
+  __wxh_ComboBox
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, validator, name, wxhGet, bAction )
+  LOCAL comboBox
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  comboBox := wxHBComboBox():New( parent, id, value, point, size, choices, style, validator, name, wxhGet )
+
+  IF bAction != NIL
+    comboBox:ConnectCommandEvt( comboBox:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( comboBox )
+
+RETURN comboBox
 
 /*
   __wxh_Dialog

@@ -2,6 +2,52 @@
  *
  */
 
+2009-04-21 00:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    % added rdd selection on Preferences menu
+    % poblating of index list
+
+  * GNUmakefile
+  * include/wxharbour.ch
+  + include/wxbase/wx_ComboBox.h
+  + src/wxbase/controls/wxchoice.prg
+  - src/wxbase/baseclasses/wxchoice.prg
+  + src/wxbase/controls/wx_ComboBox.cpp
+  + src/wxbase/controls/wxhComboBox.prg
+    * moved wxChoice.prg to controls dir
+    + Added wxComboBox
+    
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/wxbase/advctrls/wx_gridtablebase.cpp
+    + added wxh_CTowxStr( const char * zsStr ) to convert *char to wxString
+
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
+    % added capability to gice type of column via AS BOOL|NUMBER|FLOAT
+
+  * src/hrbcompat/tbrowse/wxhbrowse.prg
+    * renamed data ::gridBrowse to ::grid
+    % added capability of browse hash data
+
+  * src/wxbase/advctrls/wx_grid.cpp
+  * src/wxbase/advctrls/wxhgrid.prg
+    * code cleanup
+    + added methods:
+      + ::SetColFormatBool
+      + ::SetColFormatNumber
+      + ::SetColFormatFloat
+
+  * src/wxbase/advctrls/wx_statusbar.cpp
+  * src/wxbase/controls/wx_button.cpp
+  * src/wxbase/controls/wx_checkbox.cpp
+  * src/wxbase/controls/wx_choice.cpp
+  * src/wxbase/controls/wx_radiobox.cpp
+  * src/wxbase/controls/wx_statictext.cpp
+  * src/wxbase/controls/wx_textctrl.cpp
+  * src/wxbase/controls/wx_treectrl.cpp
+    * code cleanup
+
 2009-04-18 21:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * GNUmakefile

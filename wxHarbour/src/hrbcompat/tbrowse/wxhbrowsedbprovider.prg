@@ -214,10 +214,16 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
       SWITCH column:ValType
       CASE 'N'
         column:Align := wxALIGN_RIGHT
+        ::GetBrowse:grid:SetColFormatNumber( nCol - 1 )
         EXIT
       CASE 'C'
       CASE 'M'
         column:Align := wxALIGN_LEFT
+        EXIT
+      CASE 'L'
+        column:Align := wxALIGN_CENTRE
+        ::GetBrowse:grid:SetColFormatBool( nCol - 1 )
+        ::GetBrowse:SetColumnAlignment( nCol, column:Align )
         EXIT
       _SW_OTHERWISE
         column:Align := wxALIGN_CENTRE
@@ -382,7 +388,7 @@ METHOD PROCEDURE SetGridBufferSize( size ) CLASS wxhBrowseTableBase
   IF browse:RowCount != size
     browse:RowCount := size
   ENDIF
-  browse:gridBrowse:ForceRefresh()
+  browse:grid:ForceRefresh()
 RETURN
 
 /*

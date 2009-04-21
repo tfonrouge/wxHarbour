@@ -20,8 +20,6 @@
 
 #include "wxbase/wx_treectrl.h"
 
-#include "hbapierr.h"
-
 extern "C"
 {
   void HB_FUN_WXTREEITEMID( void );

@@ -120,6 +120,7 @@ wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 wxArrayString hb_par_wxArrayString( int param );
 
+wxString      wxh_CTowxStr( const char * szStr );
 void          wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );
 wxh_Item*     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
 wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );

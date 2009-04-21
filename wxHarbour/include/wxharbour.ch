@@ -266,9 +266,9 @@
 /*
   BCOLUMN
 */
-#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>];
+#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ];
           => ;
-          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>] )
+          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}] )
 
 /*
  * Button
@@ -426,6 +426,40 @@
 #xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ CHOICE [<btnclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+ * ComboBox
+ * Teo. Mexico 2009
+ */
+#xcommand @ COMBOBOX <dataVar> ;
+            [ ITEMS <choices> ] ;
+            [ VAR <comboBox> ] ;
+            [ ON <parent> ] ;
+            [ ID <id> ] ;
+            [ VALUE <value> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <comboBox> := ]__wxh_ComboBox( ;
+            [<parent>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<choices>],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
+            [<{bAction}>] )
+
+#xcommand @ COMBOBOX [<cbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ COMBOBOX [<cbclauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*
