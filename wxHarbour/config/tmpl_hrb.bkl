@@ -168,6 +168,16 @@ Link in the Harbour TIP library
         gtxvt
       </if>
     </set>
+    <option name="HBLIB_GTWVT">
+      <values>yes,no</values>
+      <default-value>no</default-value>
+      <description>Link in the Harbour GTWVT library</description>
+    </option>
+    <set var="LIB_GTWVT">
+      <if cond="HBLIB_GTWVT=='yes'">
+        gtwvt
+      </if>
+    </set>
   </if>
 
   <option name="HBLIB_GTCGI">
@@ -698,6 +708,8 @@ Where is wxWidgets installed
     <if cond="TOOLSET=='win32'">
       <sys-lib>$(LIB_GTXVT)</sys-lib>
       <sys-lib>$(LIB_GTWIN)</sys-lib>
+      <sys-lib>$(LIB_GTWVT)</sys-lib>
+      <sys-lib>hbwin</sys-lib>
     </if>
 
     <warnings>max</warnings>
