@@ -2,6 +2,12 @@
  *
  */
 
+2009-04-21 00:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * generated with bakefile 0.2.6
+
 2009-04-21 00:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     % added rdd selection on Preferences menu
