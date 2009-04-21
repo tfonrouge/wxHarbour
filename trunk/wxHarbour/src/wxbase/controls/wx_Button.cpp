@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_button.h"
+#include "wxbase/wx_Button.h"
 
 /*
   ~wx_Button

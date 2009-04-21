@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_gauge.h"
+#include "wxbase/wx_Gauge.h"
 
 /*
   ~wx_Gauge

@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_choice.h"
+#include "wxbase/wx_Choice.h"
 
 /*
   ~wx_Choice

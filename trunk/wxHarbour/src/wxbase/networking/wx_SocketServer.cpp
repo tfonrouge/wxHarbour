@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_socketserver.h"
+#include "wxbase/wx_SocketServer.h"
 
 extern "C"
 {

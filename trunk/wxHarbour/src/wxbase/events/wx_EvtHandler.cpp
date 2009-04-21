@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_frame.h"
+#include "wxbase/wx_Frame.h"
 
 static void ParseConnectParams( PCONN_PARAMS pConnParams );
 

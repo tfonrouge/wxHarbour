@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_statusbar.h"
+#include "wxbase/wx_StatusBar.h"
 
 /*
   ~wx_StatusBar

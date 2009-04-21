@@ -12,7 +12,7 @@
 
 #include "wxh.h"
 
-#include "wxbase/wx_socketbase.h"
+#include "wxbase/wx_SocketBase.h"
 
 #include "rdodefs.h"
 

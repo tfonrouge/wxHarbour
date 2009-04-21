@@ -19,7 +19,7 @@
 #include "wx/hashset.h"
 #include "wxh.h"
 
-#include "wxbase/wx_object.h"
+#include "wxbase/wx_Object.h"
 
 /*
   TBaseClass::OnDestruct

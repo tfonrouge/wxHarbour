@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_textctrl.h"
+#include "wxbase/wx_TextCtrl.h"
 
 /*
   ~wx_TextCtrl

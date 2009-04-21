@@ -18,9 +18,9 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_statusbar.h"
-#include "wxbase/wx_menubar.h"
-#include "wxbase/wx_frame.h"
+#include "wxbase/wx_StatusBar.h"
+#include "wxbase/wx_MenuBar.h"
+#include "wxbase/wx_Frame.h"
 
 /*
   Constructor

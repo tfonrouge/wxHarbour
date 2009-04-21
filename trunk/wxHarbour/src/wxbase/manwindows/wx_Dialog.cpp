@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_dialog.h"
+#include "wxbase/wx_Dialog.h"
 
 using namespace std;
 

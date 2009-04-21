@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_socketbase.h"
+#include "wxbase/wx_SocketBase.h"
 
 using namespace std;
 

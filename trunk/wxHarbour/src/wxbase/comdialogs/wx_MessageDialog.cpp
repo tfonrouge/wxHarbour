@@ -13,7 +13,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_messagedialog.h"
+#include "wxbase/wx_MessageDialog.h"
 
 /*
   ~wx_MessageDialog

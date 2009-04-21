@@ -18,7 +18,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
-#include "wxbase/wx_staticboxsizer.h"
+#include "wxbase/wx_StaticBoxSizer.h"
 
 /*
   ~wx_StaticBoxSizer
