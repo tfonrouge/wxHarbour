@@ -146,7 +146,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhpanel.o \
 	$(__BUILDDIR__)\wxHarbour_wxhstatusbar.o \
 	$(__BUILDDIR__)\wxHarbour_wxhapp.o \
-	$(__BUILDDIR__)\wxHarbour_wxchoice.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.o \
 	$(__BUILDDIR__)\wxHarbour_wxhobject.o \
 	$(__BUILDDIR__)\wxHarbour_wxhtoplevelwindow.o \
@@ -154,6 +153,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhauinotebook.o \
 	$(__BUILDDIR__)\wxHarbour_wxhlistbook.o \
 	$(__BUILDDIR__)\wxHarbour_wxhnotebook.o \
+	$(__BUILDDIR__)\wxHarbour_wxchoice.o \
+	$(__BUILDDIR__)\wxHarbour_wxhComboBox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhbutton.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcheckbox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhcontrol.o \
@@ -216,6 +217,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_auinotebook.o \
 	$(__BUILDDIR__)\wxHarbour_wx_listbook.o \
 	$(__BUILDDIR__)\wxHarbour_wx_notebook.o \
+	$(__BUILDDIR__)\wxHarbour_wx_ComboBox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_button.o \
 	$(__BUILDDIR__)\wxHarbour_wx_checkbox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_choice.o \
@@ -469,9 +471,6 @@ $(__BUILDDIR__)\wxHarbour_wxhstatusbar.o: ./src/wxbase/advctrls/wxhstatusbar.prg
 $(__BUILDDIR__)\wxHarbour_wxhapp.o: ./src/wxbase/app/wxhapp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
-$(__BUILDDIR__)\wxHarbour_wxchoice.o: ./src/wxbase/baseclasses/wxchoice.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
 $(__BUILDDIR__)\wxHarbour_wxhcontrolwithitems.o: ./src/wxbase/baseclasses/wxhcontrolwithitems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -491,6 +490,12 @@ $(__BUILDDIR__)\wxHarbour_wxhlistbook.o: ./src/wxbase/books/wxhlistbook.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhnotebook.o: ./src/wxbase/books/wxhnotebook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxchoice.o: ./src/wxbase/controls/wxchoice.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhComboBox.o: ./src/wxbase/controls/wxhComboBox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhbutton.o: ./src/wxbase/controls/wxhbutton.prg
@@ -677,6 +682,9 @@ $(__BUILDDIR__)\wxHarbour_wx_listbook.o: ./src/wxbase/books/wx_listbook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_notebook.o: ./src/wxbase/books/wx_notebook.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_ComboBox.o: ./src/wxbase/controls/wx_ComboBox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_button.o: ./src/wxbase/controls/wx_button.cpp
