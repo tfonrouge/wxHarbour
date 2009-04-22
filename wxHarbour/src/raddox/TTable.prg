@@ -177,9 +177,11 @@ PUBLIC:
   PROPERTY FieldTypes READ GetFieldTypes
   PROPERTY Instance READ GetInstance
   PROPERTY Instances READ FInstances
+  PROPERTY KeyVal READ GetAlias():KeyVal()
   PROPERTY MasterList READ FMasterList WRITE SetMasterList
   PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
   PROPERTY RDOClient READ FRDOClient
+  PROPERTY RecCount READ GetAlias:RecCount()
   PROPERTY RecNo READ FRecNo WRITE DbGoTo
   PROPERTY State READ FState
   PROPERTY SubState READ FSubState

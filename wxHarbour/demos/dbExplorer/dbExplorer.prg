@@ -64,7 +64,6 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL text := ""
 
   CREATE FRAME ::oWnd ;
          WIDTH 800 HEIGHT 600 ;
@@ -92,8 +91,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
     END AUINOTEBOOK
     BEGIN PANEL NAME "panel2" ENABLED ::GetBrw != NIL SIZERINFO ALIGN EXPAND
       BEGIN BOXSIZER VERTICAL //"" ALIGN EXPAND
-        @ GET text NAME "textCtrl" MULTILINE SIZERINFO ALIGN EXPAND STRETCH
-        BEGIN BOXSIZER HORIZONTAL
+        BEGIN BOXSIZER HORIZONTAL "Nav"
           @ BUTTON "GoTop" ACTION ::GetBrw():GoTop()
           @ BUTTON "GoBottom" ACTION ::GetBrw():GoBottom()
           @ BUTTON "PgUp" ACTION ::GetBrw():PageUp()
@@ -192,6 +190,8 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL hIndex
   LOCAL oBrwStruct,oBrwIndexList
   LOCAL n,l
+  LOCAL ordKey
+  LOCAL key := ""
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
 
@@ -227,6 +227,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
       NEXT
 
       ordSetFocus( 1 )
+      ordKey := ordKey( 1 )
 
     ENDIF
 
@@ -241,9 +242,32 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 
   BEGIN AUINOTEBOOK VAR noteBook ON ::auiNotebook STYLE wxAUI_NB_BOTTOM
     ADD BOOKPAGE "Data Grid" FROM
-      @ BROWSE NAME "table" DATASOURCE table ;
-        ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
-        SIZERINFO ALIGN EXPAND STRETCH
+    BEGIN PANEL SIZERINFO ALIGN EXPAND STRETCH
+      BEGIN BOXSIZER VERTICAL
+        @ BROWSE NAME "table" DATASOURCE table ;
+          ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
+          SIZERINFO ALIGN EXPAND STRETCH
+        @ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
+        @ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
+        BEGIN BOXSIZER VERTICAL  "Index Info" ALIGN LEFT
+          BEGIN BOXSIZER HORIZONTAL
+            @ SAY "Index:"
+            @ CHOICE oErr ITEMS HB_HKeys( hIndex ) WIDTH 100
+            @ SPACER
+            @ SAY "RecNo:"
+            @ GET table:RecNo
+            @ SAY "/"
+            @ GET table:RecCount
+          END SIZER
+          @ SAY "KeyExp:" GET ordKey
+          @ SAY "KeyVal:" GET table:KeyVal
+        END SIZER
+        BEGIN BOXSIZER HORIZONTAL "Seek" ALIGN LEFT
+          @ SAY "Key to seek:"
+          @ GET key
+        END SIZER
+      END SIZER
+    END PANEL
     ADD BOOKPAGE "Indexes" FROM
       @ BROWSE VAR oBrwIndexList DATASOURCE hIndex
     ADD BOOKPAGE "Structure" FROM

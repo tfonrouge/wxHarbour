@@ -175,6 +175,7 @@
 
 #xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
           [ VAR <bs> ] ;
+          [ ON <parent> ] ;
           [ [LABEL] <label> ] ;
           [ <stretch: STRETCH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
@@ -182,6 +183,7 @@
           [ SIDEBORDERS <sideborders,...> ] ;
           => ;
           [ <bs> := ]__wxh_BoxSizerBegin( ;
+            [ <parent> ], ;
             [ <label> ], ;
             wx<orient>,;
             [ wx<stretch> ],;
