@@ -2,6 +2,24 @@
  *
  */
 
+2009-04-22 02:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * added PARENT option to BEGIN BOXSIZER ... command
+    ! Fixed stupid typo on wrong class creation for __wxh_StaticLine()
+
+  * src/raddox/TTable.prg
+    + added methods:
+      + KeyVal
+      + RecCount
+
+  * src/wxbase/static/wx_StaticLine.cpp
+    * code cleanup
+
+
 2009-04-21 13:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * Notes
     * updated notes

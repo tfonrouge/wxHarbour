@@ -99,12 +99,14 @@ RETURN
  * __wxh_BoxSizerBegin
  * Teo. Mexico 2008
  */
-FUNCTION __wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
+FUNCTION __wxh_BoxSizerBegin( parent, label, orient, strech, align, border, sideBorders )
   LOCAL sizer
-  LOCAL parent
   LOCAL lastSizer
 
-  parent := containerObj():LastParent()
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
   lastSizer := containerObj():LastSizer()
 
   IF label = NIL
@@ -884,7 +886,7 @@ FUNCTION __wxh_StaticLine( window, id, pos, orient, name )
     window := containerObj():LastParent()
   ENDIF
 
-  sl := wxScrollBar():New( window, id, pos, NIL, orient, name )
+  sl := wxStaticLine():New( window, id, pos, NIL, orient, name )
 
   containerObj():SetLastChild( sl )
 

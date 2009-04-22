@@ -54,8 +54,7 @@ HB_FUNC( WXSTATICLINE_NEW )
 */
 HB_FUNC( WXSTATICLINE_ISVERTICAL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGet_WX( pSelf );
+  wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( staticLine )
   {
@@ -69,8 +68,7 @@ HB_FUNC( WXSTATICLINE_ISVERTICAL )
 */
 HB_FUNC( WXSTATICLINE_GETDEFAULTSIZE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGet_WX( pSelf );
+  wxStaticLine* staticLine = (wxStaticLine *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( staticLine )
   {
