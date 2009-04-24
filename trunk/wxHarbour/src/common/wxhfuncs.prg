@@ -530,6 +530,11 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
     id := menuData:g_menuID++
   ENDIF
 
+  IF menuData:g_menuList = NIL
+    wxhAlert( "No Menu to add this MenuItem. Check your DEFINE MENU and ADD MENUITEM definition at line " + LTrim(Str(ProcLine( 1 ))) + " on " + ProcName( 1 ) )
+    RETURN NIL
+  ENDIF
+
   nLast := menuData:lenMenuList
   menu := menuData:g_menuList[ nLast ]["menu"]
 

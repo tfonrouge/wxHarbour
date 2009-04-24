@@ -32,6 +32,7 @@ PUBLIC:
   METHOD GetTopWindow
   METHOD Yield( onlyIfNeeded )
 
+  METHOD OnExit VIRTUAL
   METHOD OnInit VIRTUAL
 
 PUBLISHED:

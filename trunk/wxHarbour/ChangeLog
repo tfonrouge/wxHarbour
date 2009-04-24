@@ -2,6 +2,31 @@
  *
  */
 
+2009-04-23 23:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * src/common/wxhfuncs.prg
+    * added Alert on wrong menu construction
+
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    * updated code
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    ! Checking for faulty display on empty Hash/Array data's
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * Changed mode of parameter sended to code block on columns
+      Now in Hash/Array, the key/nIndex is sended as parameter 
+      to the columns codeblock
+
+  * src/wxbase/advctrls/wx_GridTableBase.cpp
+    - removed unneeded wxTest() function
+
+  * src/wxbase/app/wx_App.cpp
+  * src/wxbase/app/wxhApp.prg
+    + Added OnExit event
+
 2009-04-22 02:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo

@@ -118,8 +118,6 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   SHOW WINDOW ::oWnd CENTRE
 
-  wxTest("modo+periodo")
-
 RETURN .T.
 
 /*
@@ -187,7 +185,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL noteBook
   LOCAL table
   LOCAL oErr
-  LOCAL hIndex
+  LOCAL hIndex,aStruDbf
   LOCAL oBrwStruct,oBrwIndexList
   LOCAL n,l
   LOCAL ordKey
@@ -209,6 +207,8 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
 
     table := TTable():New( NIL, fileDlg:GetPath() )
+
+    aStruDbf := table:DbStruct
 
     hIndex := {=>}
 
@@ -271,10 +271,10 @@ METHOD PROCEDURE OpenDB CLASS MyApp
     ADD BOOKPAGE "Indexes" FROM
       @ BROWSE VAR oBrwIndexList DATASOURCE hIndex
     ADD BOOKPAGE "Structure" FROM
-      @ BROWSE VAR oBrwStruct DATASOURCE table:DbStruct
+      @ BROWSE VAR oBrwStruct DATASOURCE aStruDbf
   END AUINOTEBOOK
 
-//   oBrwIndexList:DeleteAllColumns()
+  oBrwIndexList:DeleteAllColumns()
   ADD BCOLUMN ZERO TO oBrwIndexList "Tag" BLOCK {|key| key  }
   ADD BCOLUMN TO oBrwIndexList "Expression" BLOCK {|key| hIndex[ key, "Expression" ] }
   ADD BCOLUMN TO oBrwIndexList "Condition" BLOCK {|key| hIndex[ key, "Condition" ] }
@@ -284,10 +284,10 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   oBrwIndexList:grid:AutoSizeColumns()
 
   oBrwStruct:DeleteAllColumns()
-  ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|itm| itm[ 1 ]  }
-  ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|itm| itm[ 2 ]  }
-  ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|itm| itm[ 3 ]  } PICTURE "99999" AS NUMBER
-  ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|itm| itm[ 4 ]  } PICTURE "99" AS NUMBER
+  ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|n| aStruDbf[ n, 1 ]  }
+  ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|n| aStruDbf[ n, 2 ]  }
+  ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|n| aStruDbf[ n, 3 ]  } PICTURE "99999" AS NUMBER
+  ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|n| aStruDbf[ n, 4 ]  } PICTURE "99" AS NUMBER
 
   oBrwStruct:grid:AutoSizeColumns()
 

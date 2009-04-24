@@ -52,10 +52,9 @@ HB_FUNC_EXTERN( WXHERRORSYS );
 */
 int wx_App::OnExit()
 {
-  cout << endl << "OnExit";
-  cout << endl;
+  int iResult = hb_objSendMsg( hb_App, "OnExit", 0 )->item.asInteger.value;
   HB_FUNC_EXEC( __QUIT );
-  return 0;
+  return iResult;
 }
 
 /*
