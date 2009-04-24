@@ -23,11 +23,6 @@
 #include "wxbase/wx_Grid.h"
 #include "wxbase/wx_GridTableBase.h"
 
-HB_FUNC( WXTEST )
-{
-  qoutf( wxh_parc( 1 ).mb_str() );
-}
-
 /*
   ~wx_GridTableBase
   Teo. Mexico 2006

@@ -19,7 +19,7 @@
 #include "error.ch"
 
 PROCEDURE wxhErrorSys()
-  //ErrorBlock( {|oError| wxhDefError( oError ) } )
+  ErrorBlock( {|oError| wxhDefError( oError ) } )
 RETURN
 
 STATIC FUNCTION wxhDefError( oError )
@@ -163,6 +163,7 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   LOCAL dlg
   LOCAL itm
   LOCAL i,id
+  LOCAL aErrLst
   LOCAL brwErrObj,brwCallStack
   LOCAL aStack := {}
   LOCAL s
@@ -175,6 +176,18 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   WHILE ! Empty( s := ProcName( ++i ) )
     AAdd( aStack, { s, ProcLine( i ), ProcFile( i ) } )
   ENDDO
+
+  aErrLst := __objGetValueList( oErr, .T., 0 )
+
+  IF .T.
+    s := cMessage + E":\n\n" + oErr:Description + ;
+         E"\n\n" + ProcName( 3 )  + " / " + NTrim( ProcLine( 3 ) )
+    ? E"\n***" + s + "\n***\n"
+    wxMessageBox( s, "Error", wxICON_ERROR )
+    BREAK
+  ENDIF
+
+  aOptions := { wxhLABEL_QUIT }
 
   CREATE DIALOG dlg ;
          WIDTH 640 HEIGHT 400 ;
@@ -189,7 +202,7 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
       ADD BOOKPAGE "Call Stack" FROM
         @ BROWSE VAR brwCallStack DATASOURCE aStack //SIZERINFO ALIGN EXPAND STRETCH
       ADD BOOKPAGE "Error Object" FROM
-        @ BROWSE VAR brwErrObj DATASOURCE __objGetValueList( oErr, .T., 0 )
+        @ BROWSE VAR brwErrObj DATASOURCE aErrLst
     END NOTEBOOK
     BEGIN BOXSIZER HORIZONTAL
       FOR EACH itm IN aOptions
@@ -216,12 +229,14 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   brwCallStack:grid:Fit()
   brwErrObj:Grid:Fit()
 
-  ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK aStack[ brwCallStack:RecNo, 1 ] WIDTH 30
-  ADD BCOLUMN TO brwCallStack TITLE "ProcLine" BLOCK aStack[ brwCallStack:RecNo, 2 ] PICTURE "99999"
-  ADD BCOLUMN TO brwCallStack TITLE "ProcFile" BLOCK aStack[ brwCallStack:RecNo, 3 ] WIDTH 20
+  brwCallStack:DeleteAllColumns()
+  ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK {|n| aStack[ n, 1 ] } WIDTH 30
+  ADD BCOLUMN TO brwCallStack TITLE "ProcLine" BLOCK {|n| aStack[ n, 2 ] } PICTURE "99999"
+  ADD BCOLUMN TO brwCallStack TITLE "ProcFile" BLOCK {|n| aStack[ n, 3 ] } WIDTH 20
 
-  ADD BCOLUMN TO brwErrObj "MsgName" BLOCK brwErrObj:DataSource[ brwErrObj:RecNo, 1 ] WIDTH 30
-  ADD BCOLUMN TO brwErrObj "Value" BLOCK brwErrObj:DataSource[ brwErrObj:RecNo, 2 ] WIDTH 20
+  brwErrObj:DeleteAllColumns()
+  ADD BCOLUMN TO brwErrObj "MsgName" BLOCK {|n| brwErrObj:DataSource[ n, 1 ] } WIDTH 30
+  ADD BCOLUMN TO brwErrObj "Value" BLOCK {|n| brwErrObj:DataSource[ n, 2 ] } WIDTH 20
 
   SHOW WINDOW dlg MODAL //FIT
 

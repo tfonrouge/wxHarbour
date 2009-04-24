@@ -91,8 +91,14 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 
   ::FCurRowIndex := 0
 
-  IF ::FGridBufferSize != browse:MaxRows()
-    ::SetGridBufferSize( browse:MaxRows() )
+  n := browse:MaxRows()
+
+  IF browse:DataSourceType $ "AH" .AND. Len( browse:DataSource ) = 0
+    n := 0
+  ENDIF
+
+  IF ::FGridBufferSize != n
+    ::SetGridBufferSize( n )
   ENDIF
 
   IF Empty( ::FGridBuffer )
@@ -299,19 +305,31 @@ METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
 
 RETURN
 
- /*
+/*
   GetRowLabelValue
   Teo. Mexico 2008
 */
 METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
+  LOCAL Result := ""
+  LOCAL oErr
 
-  ++row
-
-  IF ::FGridBuffer == NIL .OR. row > Len( ::FGridBuffer )
-    RETURN ""
+  IF ::FGridBuffer == NIL .OR. ++row > Len( ::FGridBuffer )
+    RETURN Result
   ENDIF
 
-RETURN ::FGridBuffer[ row, 0 ]
+  BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+
+    Result := ::FGridBuffer[ row, 0 ]
+
+  RECOVER USING oErr
+
+    ? "ERROR GetRowLabelValue: " + oErr:Description
+
+    Result := "ERR:" + NTrim( row )
+
+  END SEQUENCE
+
+RETURN Result
 
 /*
   GetValue

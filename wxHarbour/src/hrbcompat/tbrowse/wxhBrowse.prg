@@ -220,13 +220,15 @@ RETURN Self
   Teo. Mexico 2008
 */
   STATIC FUNCTION buildBlock( Self, col )
-  RETURN {|| ::DataSource[ ::RecNo, col ] }
+  RETURN {|key| ::DataSource[ key, col ] }
 
 METHOD PROCEDURE FillColumns CLASS wxhBrowse
   LOCAL fld
+  LOCAL vType := ValType( ::FDataSource )
+  LOCAL itm1
 
   DO CASE
-  CASE ValType( ::FDataSource ) = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
+  CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
 
     __wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
 
@@ -234,17 +236,22 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
       __wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
     NEXT
 
-  CASE ValType( ::FDataSource ) = "A"
+  CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
 
 //     __wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
 
     IF !Empty( ::FDataSource )
-      IF ValType( ::FDataSource[ 1 ] ) = "A"
+      IF vType = "A"
+        itm1 := ::FDataSource[ 1 ]
+      ELSE
+        itm1 := HB_HValueAt( ::FDataSource, 1 )
+      ENDIF
+      IF ValType( itm1 ) = "A"
         FOR EACH fld IN ::FDataSource[ 1 ]
           __wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
         NEXT
       ELSE
-        __wxh_BrowseAddColumn( .F., Self, "", {|| ::FDataSource[ ::RecNo ] } )
+        __wxh_BrowseAddColumn( .F., Self, "", {|key| ::FDataSource[ key ] } )
       ENDIF
     ENDIF
 
@@ -494,7 +501,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   CASE 'A'        /* Array browse */
     ::FDataSource := dataSource
     ::FDataSourceType := "A"
-    ::BlockParam := {|Self| ::DataSource[ ::RecNo ] }
+    ::BlockParam := {|Self| ::RecNo }
 
     ::GoTopBlock    := {|| ::FRecNo := 1 }
     ::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
