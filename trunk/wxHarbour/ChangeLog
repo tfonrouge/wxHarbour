@@ -2,6 +2,20 @@
  *
  */
 
+2009-04-25 15:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+    + add wxSocketEvent class
+
+  * include/event.ch
+    * defined wxEVT_SOCKET id
+
+  * src/wxbase/networking/wx_SocketBase.cpp
+    * code cleanup
+
 2009-04-23 23:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo

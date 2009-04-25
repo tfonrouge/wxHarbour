@@ -36,6 +36,7 @@ PUBLIC:
   METHOD ConnectInitDialogEvt( p1, p2, p3, p4 )
   METHOD ConnectMenuEvt( p1, p2, p3, p4 )
   METHOD ConnectMouseEvt( p1, p2, p3, p4 )
+  METHOD ConnectSocketEvt( p1, p2, p3, p4 )
 PUBLISHED:
 ENDCLASS
 
