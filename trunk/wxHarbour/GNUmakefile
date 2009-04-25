@@ -171,6 +171,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhMenuEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhMouseEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhFrame.o \
 	$(__BUILDDIR__)/wxHarbour_wxhMenu.o \
@@ -232,6 +233,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_KeyEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_MenuEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SizeEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_SocketEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_MDIChildFrame.o \
@@ -528,6 +530,9 @@ $(__BUILDDIR__)/wxHarbour_wxhMouseEvent.o: ./src/wxbase/events/wxhMouseEvent.prg
 $(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o: ./src/wxbase/events/wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o: ./src/wxbase/events/wxhSocketEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhDialog.o: ./src/wxbase/manwindows/wxhDialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -709,6 +714,9 @@ $(__BUILDDIR__)/wxHarbour_wx_MenuEvent.o: ./src/wxbase/events/wx_MenuEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_SizeEvent.o: ./src/wxbase/events/wx_SizeEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_SocketEvent.o: ./src/wxbase/events/wx_SocketEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Dialog.o: ./src/wxbase/manwindows/wx_Dialog.cpp
