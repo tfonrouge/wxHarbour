@@ -2,6 +2,12 @@
  *
  */
 
+2009-04-25 15:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    * updated makefile
+
 2009-04-25 15:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/events/wxhSocketEvent.prg
   + src/wxbase/events/wx_SocketEvent.cpp
