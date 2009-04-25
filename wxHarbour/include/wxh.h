@@ -39,6 +39,7 @@
 
 #include "wx/grid.h"
 #include "wxhevtdefs.h"
+#include "wx/socket.h"
 
 #include <iostream>
 
@@ -114,6 +115,7 @@ HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXINITDIALOGEVENT );
 HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
+HB_FUNC_EXTERN( WXSOCKETEVENT );
 
 wxObject*     wxh_param_WX( int param );
 wxPoint       hb_par_wxPoint( int param );
@@ -154,6 +156,7 @@ public:
   void OnInitDialogEvent( wxInitDialogEvent& event );
   void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
+  void OnSocketEvent( wxSocketEvent& event );
 
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 
@@ -292,6 +295,17 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 }
 
 /*
+  OnSocketEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnSocketEvent( wxSocketEvent& event )
+{
+  HB_FUNC_EXEC( WXSOCKETEVENT );
+  __OnEvent( event );
+}
+
+/*
   wxConnect
   Teo. Mexico 2008
 */
@@ -322,6 +336,10 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_MOUSEEVENT:
       objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
+      break;
+    case WXH_SOCKETEVENT:
+      qoutf("Registering wxSocketEventHandler %d", pConnParams->eventType );
+      objFunc = wxSocketEventHandler( hbEvtHandler<T>::OnSocketEvent );
       break;
     default:
       objFunc = NULL;
