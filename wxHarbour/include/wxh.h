@@ -338,7 +338,6 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
       break;
     case WXH_SOCKETEVENT:
-      qoutf("Registering wxSocketEventHandler %d", pConnParams->eventType );
       objFunc = wxSocketEventHandler( hbEvtHandler<T>::OnSocketEvent );
       break;
     default:
