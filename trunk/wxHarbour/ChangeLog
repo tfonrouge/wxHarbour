@@ -2,6 +2,117 @@
  *
  */
 
+2009-04-26 13:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +   samples
+  - tests
+  - tests/arrbrowser
+  - tests/arrbrowser/arrbrowser.bkl
+  - tests/arrbrowser/arrbrowser.prg
+  - tests/arrbrowser/GNUmakefile
+  - tests/arrbrowser/makefile.gcc
+  - tests/arrbrowser/makefile.vc
+  - tests/auinotebook
+  - tests/auinotebook/auinotebook.prg
+  - tests/auinotebook/GNUmakefile
+  - tests/auinotebook/makefile.gcc
+  - tests/auinotebook/makefile.vc
+  - tests/button
+  - tests/button/button.prg
+  - tests/button/GNUmakefile
+  - tests/button/makefile.gcc
+  - tests/button/makefile.vc
+  - tests/checkbox
+  - tests/checkbox/checkbox.prg
+  - tests/checkbox/GNUmakefile
+  - tests/checkbox/makefile.gcc
+  - tests/checkbox/makefile.vc
+  - tests/choice
+  - tests/choice/choice.prg
+  - tests/choice/GNUmakefile
+  - tests/choice/makefile.gcc
+  - tests/choice/makefile.vc
+  - tests/combobox
+  - tests/combobox/combobox.prg
+  - tests/combobox/GNUmakefile
+  - tests/combobox/makefile.gcc
+  - tests/combobox/makefile.vc
+  - tests/dbbrowser
+  - tests/dbbrowser/dbbrowser.bkl
+  - tests/dbbrowser/dbbrowser.prg
+  - tests/dbbrowser/GNUmakefile
+  - tests/dbbrowser/main.dbf
+  - tests/dbbrowser/makefile.gcc
+  - tests/dbbrowser/makefile.vc
+  - tests/gauge
+  - tests/gauge/gauge.prg
+  - tests/gauge/GNUmakefile
+  - tests/gauge/makefile.gcc
+  - tests/gauge/makefile.vc
+  - tests/GNUmakefile
+  - tests/grid
+  - tests/grid/GNUmakefile
+  - tests/grid/grid.prg
+  - tests/grid/makefile.gcc
+  - tests/grid/makefile.vc
+  - tests/listbook
+  - tests/listbook/GNUmakefile
+  - tests/listbook/listbook.prg
+  - tests/listbook/makefile.gcc
+  - tests/listbook/makefile.vc
+  - tests/makefile.gcc
+  - tests/makefile.vc
+  - tests/menu
+  - tests/menu/GNUmakefile
+  - tests/menu/menu.bkl
+  - tests/menu/menu.prg
+  - tests/networking
+  - tests/networking/GNUmakefile
+  - tests/networking/makefile.bcc
+  - tests/networking/makefile.gcc
+  - tests/networking/makefile.vc
+  - tests/networking/simple.bkl
+  - tests/networking/simple.prg
+  - tests/notebook
+  - tests/notebook/GNUmakefile
+  - tests/notebook/makefile.gcc
+  - tests/notebook/makefile.vc
+  - tests/notebook/notebook.prg
+  - tests/panel
+  - tests/panel/GNUmakefile
+  - tests/panel/makefile.gcc
+  - tests/panel/makefile.vc
+  - tests/panel/panel.prg
+  - tests/radiobox
+  - tests/radiobox/GNUmakefile
+  - tests/radiobox/makefile.gcc
+  - tests/radiobox/makefile.vc
+  - tests/radiobox/radiobox.prg
+  - tests/sayget
+  - tests/sayget/GNUmakefile
+  - tests/sayget/makefile.gcc
+  - tests/sayget/makefile.vc
+  - tests/sayget/sayget.prg
+  - tests/sizers
+  - tests/sizers/GNUmakefile
+  - tests/sizers/login.prg
+  - tests/sizers/main.prg
+  - tests/sizers/makefile.gcc
+  - tests/sizers/sizers.bkl
+  - tests/template.bkl
+  - tests/text
+  - tests/text/GNUmakefile
+  - tests/text/text.bkl
+  - tests/text/text.prg
+  - tests/treectrl
+  - tests/treectrl/GNUmakefile
+  - tests/treectrl/makefile.gcc
+  - tests/treectrl/makefile.vc
+  - tests/treectrl/treectrl.prg
+    * renamed dir tests to samples, (more meaningful name for samples's code)
+
+  * include/wxh.h
+    * removed debug output line
+
 2009-04-25 15:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
