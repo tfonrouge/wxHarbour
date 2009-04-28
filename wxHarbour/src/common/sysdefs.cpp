@@ -18,6 +18,9 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
+#define wxdllimpexp_base        9953
+#define wxdllimpexp_adv         8586
+
 /*
   wxh_TRANSLATE_EVT_DEFS
   Teo. Mexico 2008
@@ -59,6 +62,7 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
 
         // Sockets and timers send events, too
 //     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_SOCKET, 50)
+    case wxdllimpexp_base + 50 : evtNumber = wxEVT_SOCKET; break;
     case 80 : evtNumber = wxEVT_TIMER; break;
 
         // Mouse event types
@@ -165,6 +169,7 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 437 : evtNumber = wxEVT_COMPARE_ITEM; break;
     case 438 : evtNumber = wxEVT_INIT_DIALOG; break;
 //     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_IDLE, 439)
+    case wxdllimpexp_base + 439 :evtNumber = wxEVT_IDLE; break;
     case 440 : evtNumber = wxEVT_UPDATE_UI; break;
     case 441 : evtNumber = wxEVT_SIZING; break;
     case 442 : evtNumber = wxEVT_MOVING; break;
@@ -191,24 +196,24 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 1051 : evtNumber = wxEVT_DETAILED_HELP; break;
 
     /* grid events */
-    case 1580 : evtNumber = wxEVT_GRID_CELL_LEFT_CLICK; break;
-    case 1581 : evtNumber = wxEVT_GRID_CELL_RIGHT_CLICK; break;
-    case 1582 : evtNumber = wxEVT_GRID_CELL_LEFT_DCLICK; break;
-    case 1583 : evtNumber = wxEVT_GRID_CELL_RIGHT_DCLICK; break;
-    case 1584 : evtNumber = wxEVT_GRID_LABEL_LEFT_CLICK; break;
-    case 1585 : evtNumber = wxEVT_GRID_LABEL_RIGHT_CLICK; break;
-    case 1586 : evtNumber = wxEVT_GRID_LABEL_LEFT_DCLICK; break;
-    case 1587 : evtNumber = wxEVT_GRID_LABEL_RIGHT_DCLICK; break;
-    case 1588 : evtNumber = wxEVT_GRID_ROW_SIZE; break;
-    case 1589 : evtNumber = wxEVT_GRID_COL_SIZE; break;
-    case 1590 : evtNumber = wxEVT_GRID_RANGE_SELECT; break;
-    case 1591 : evtNumber = wxEVT_GRID_CELL_CHANGE; break;
-    case 1592 : evtNumber = wxEVT_GRID_SELECT_CELL; break;
-    case 1593 : evtNumber = wxEVT_GRID_EDITOR_SHOWN; break;
-    case 1594 : evtNumber = wxEVT_GRID_EDITOR_HIDDEN; break;
-    case 1595 : evtNumber = wxEVT_GRID_EDITOR_CREATED; break;
-    case 1596 : evtNumber = wxEVT_GRID_CELL_BEGIN_DRAG; break;
-    case 1597 : evtNumber = wxEVT_GRID_COL_MOVE; break;
+    case wxdllimpexp_adv + 1580 : evtNumber = wxEVT_GRID_CELL_LEFT_CLICK; break;
+    case wxdllimpexp_adv + 1581 : evtNumber = wxEVT_GRID_CELL_RIGHT_CLICK; break;
+    case wxdllimpexp_adv + 1582 : evtNumber = wxEVT_GRID_CELL_LEFT_DCLICK; break;
+    case wxdllimpexp_adv + 1583 : evtNumber = wxEVT_GRID_CELL_RIGHT_DCLICK; break;
+    case wxdllimpexp_adv + 1584 : evtNumber = wxEVT_GRID_LABEL_LEFT_CLICK; break;
+    case wxdllimpexp_adv + 1585 : evtNumber = wxEVT_GRID_LABEL_RIGHT_CLICK; break;
+    case wxdllimpexp_adv + 1586 : evtNumber = wxEVT_GRID_LABEL_LEFT_DCLICK; break;
+    case wxdllimpexp_adv + 1587 : evtNumber = wxEVT_GRID_LABEL_RIGHT_DCLICK; break;
+    case wxdllimpexp_adv + 1588 : evtNumber = wxEVT_GRID_ROW_SIZE; break;
+    case wxdllimpexp_adv + 1589 : evtNumber = wxEVT_GRID_COL_SIZE; break;
+    case wxdllimpexp_adv + 1590 : evtNumber = wxEVT_GRID_RANGE_SELECT; break;
+    case wxdllimpexp_adv + 1591 : evtNumber = wxEVT_GRID_CELL_CHANGE; break;
+    case wxdllimpexp_adv + 1592 : evtNumber = wxEVT_GRID_SELECT_CELL; break;
+    case wxdllimpexp_adv + 1593 : evtNumber = wxEVT_GRID_EDITOR_SHOWN; break;
+    case wxdllimpexp_adv + 1594 : evtNumber = wxEVT_GRID_EDITOR_HIDDEN; break;
+    case wxdllimpexp_adv + 1595 : evtNumber = wxEVT_GRID_EDITOR_CREATED; break;
+    case wxdllimpexp_adv + 1596 : evtNumber = wxEVT_GRID_CELL_BEGIN_DRAG; break;
+    case wxdllimpexp_adv + 1597 : evtNumber = wxEVT_GRID_COL_MOVE; break;
 
     default : evtNumber = 0;
   }

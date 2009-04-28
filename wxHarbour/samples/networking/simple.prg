@@ -44,6 +44,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL socketServer
   LOCAL newConn
   LOCAL s
+  
+  ? "wxInitializer:", wxInitializer()
 
   port := "27960"
 
@@ -75,7 +77,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
     s := "Welcome to this Server..."
 
     ? "Sending message to the client..."
-    newConn:Write( @s, Len( s ) )
+    newConn:Write( s, Len( s ) )
 
     s := Space( 10 )
     ? "Waiting for 10 bytes from the client..."

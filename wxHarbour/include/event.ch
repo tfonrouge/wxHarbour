@@ -18,12 +18,16 @@
 #ifndef _WX_EVENT_H_
 #define _WX_EVENT_H_
 
+#define WXDLLIMPEXP_BASE        9953
+#define WXDLLIMPEXP_ADV         8586
+
 #xcommand DECLARE_EVENT_TYPE( <evt>, <value> ) ;
           => ;
-          #define <evt>        wxh_TRANSLATE_EVT_DEFS( <value> )
+          #define <evt>         wxh_TRANSLATE_EVT_DEFS( <value> )
+
 #xcommand DECLARE_EXPORTED_EVENT_TYPE( <evtBase>, <evt>, <value> ) ;
           => ;
-          #define <evt>         wxh_TRANSLATE_EVT_DEFS( <value> )
+          #define <evt>         wxh_TRANSLATE_EVT_DEFS( <evtBase> + <value> )
 
     DECLARE_EVENT_TYPE(wxEVT_COMMAND_BUTTON_CLICKED, 1)
     DECLARE_EVENT_TYPE(wxEVT_COMMAND_CHECKBOX_CLICKED, 2)
@@ -54,9 +58,9 @@
     DECLARE_EVENT_TYPE(wxEVT_COMMAND_SPINCTRL_UPDATED, 18)
 
         // Sockets and timers send events, too
-    //DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_SOCKET, 50)
-    #define wxEVT_SOCKET	10003
-    DECLARE_EVENT_TYPE(wxEVT_TIMER , 80)
+    DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_SOCKET, 50)
+
+    DECLARE_EVENT_TYPE(wxEVT_TIMER, 80)
 
         // Mouse event types
     DECLARE_EVENT_TYPE(wxEVT_LEFT_DOWN, 100)

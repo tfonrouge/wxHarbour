@@ -187,6 +187,7 @@ RETURN n
 */
 CLASS wxHBTextCtrl FROM wxTextCtrl
 PRIVATE:
+  DATA bAction
   DATA FWXHGet
   DATA dontUpdateVar INIT .F.
   METHOD UpdateVar( event )
@@ -207,7 +208,7 @@ ENDCLASS
 /*
   New
 */
-METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip ) CLASS wxHBTextCtrl
+METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip, bAction ) CLASS wxHBTextCtrl
 
   Super:New( window, id, RTrim( wxhGet:AsString() ), pos, size, style, validator, name )
 
@@ -216,9 +217,15 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
     ::SetLabel( wxhGet:Name )
   ENDIF
 
+  ::bAction := bAction
+
   ::FWXHGet := wxhGet
 
   /* the update to VAR event */
+  IF style != NIL .AND. HB_BitAnd( style, wxTE_PROCESS_ENTER ) = wxTE_PROCESS_ENTER
+    ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  event:GetEventObject():UpdateVar( event ) } )
+  ENDIF
+
   ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event|  event:GetEventObject():UpdateVar( event ) } )
 
   IF picture != NIL
@@ -272,13 +279,26 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
+  LOCAL evtType
+
   IF ::FWXHGet == NIL .OR. ::dontUpdateVar
     RETURN
   ENDIF
-  IF event:GetEventType() = wxEVT_KILL_FOCUS
-    ::FWXHGet:Block:Eval( ::GetValue() )
-    ::SetValue( RTrim( ::FWXHGet:Block:Eval() ) )
+
+  evtType := event:GetEventType()
+
+  IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
+
+    IF !::FWXHGet:AsString() == ::GetValue() .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
+      ::FWXHGet:Block:Eval( ::GetValue() )
+      ::SetValue( RTrim( ::FWXHGet:Block:Eval() ) )
+      IF ::bAction != NIL
+        ::bAction:Eval( Self )
+      ENDIF
+    ENDIF
+
   ENDIF
+
 RETURN
 
 /*

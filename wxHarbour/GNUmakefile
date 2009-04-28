@@ -276,7 +276,9 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/bookctrl.ch \
 	include/wxh/filedlg.ch \
 	include/wxh/gauge.ch \
+	include/wxh/gsocket.ch \
 	include/wxh/notebook.ch \
+	include/wxh/socket.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
