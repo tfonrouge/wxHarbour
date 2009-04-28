@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wx_SocketBase: Implementation
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -20,11 +20,48 @@
 
 #include "wxbase/wx_SocketBase.h"
 
-using namespace std;
+#ifdef __XHARBOUR__
+/* Internal API, not standard Clipper */
+/* Resize string buffer of given string item */
+/*
+  hb_itemReSizeString : has been borrowed from the Harbour project
+                        to be used in xHarbour builds of wxHarbour
+                        Thanks to the Harbour project team
+*/
+PHB_ITEM hb_itemReSizeString( PHB_ITEM pItem, ULONG ulSize )
+{
+   HB_TRACE_STEALTH(HB_TR_DEBUG, ("hb_itemReSizeString(%p,%lu)", pItem, ulSize));
+
+   if( pItem->item.asString.allocated == 0 )
+   {
+      char *szText = ( char* ) hb_xgrab( ulSize + 1 );
+      hb_xmemcpy( szText, pItem->item.asString.value,
+                  pItem->item.asString.length );
+      szText[ ulSize ] = '\0';
+      pItem->item.asString.value     = szText;
+      pItem->item.asString.length    = ulSize;
+      pItem->item.asString.allocated = ulSize + 1;
+   }
+   else
+   {
+      ULONG ulAlloc = ulSize + 1 +
+                ( pItem->item.asString.allocated <= ulSize ? ulSize : 0 );
+      pItem->item.asString.value = ( char* )
+                     hb_xRefResize( pItem->item.asString.value,
+                                    pItem->item.asString.length,
+                                    ulAlloc, &pItem->item.asString.allocated );
+      pItem->item.asString.length = ulSize;
+      pItem->item.asString.value[ ulSize ] = '\0';
+   }
+   pItem->type &= ~HB_IT_DEFAULT;
+
+   return pItem;
+}
+#endif
 
 /*
   Constructor
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 wx_SocketBase::wx_SocketBase()
 {
@@ -32,7 +69,7 @@ wx_SocketBase::wx_SocketBase()
 
 /*
   ~wx_SocketBase
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 wx_SocketBase::~wx_SocketBase()
 {
@@ -41,7 +78,7 @@ wx_SocketBase::~wx_SocketBase()
 
 /*
   Constructor: Object
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_NEW )
 {
@@ -56,7 +93,7 @@ HB_FUNC( WXSOCKETBASE_NEW )
 
 /*
   void Close
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_CLOSE )
 {
@@ -68,7 +105,7 @@ HB_FUNC( WXSOCKETBASE_CLOSE )
 
 /*
   bool Destroy
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_DESTROY )
 {
@@ -80,7 +117,7 @@ HB_FUNC( WXSOCKETBASE_DESTROY )
 
 /*
   self Discard
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_DISCARD )
 {
@@ -96,9 +133,9 @@ HB_FUNC( WXSOCKETBASE_DISCARD )
 
 /*
   bool Error
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
-HB_FUNC( WXSOCKETBASE_WXERROR )
+HB_FUNC( WXSOCKETBASE_ERROR )
 {
   wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
@@ -108,7 +145,7 @@ HB_FUNC( WXSOCKETBASE_WXERROR )
 
 /*
   void GetClientData
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 {
@@ -120,7 +157,7 @@ HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 
 /*
   bool GetLocal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_GETLOCAL )
 {
@@ -135,7 +172,7 @@ HB_FUNC( WXSOCKETBASE_GETLOCAL )
 
 /*
   wxSocketFlags GetFlags
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_GETFLAGS )
 {
@@ -147,7 +184,7 @@ HB_FUNC( WXSOCKETBASE_GETFLAGS )
 
 /*
   bool GetPeer
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_GETPEER )
 {
@@ -162,7 +199,7 @@ HB_FUNC( WXSOCKETBASE_GETPEER )
 
 /*
   void InterruptWait
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_INTERRUPTWAIT )
 {
@@ -174,7 +211,7 @@ HB_FUNC( WXSOCKETBASE_INTERRUPTWAIT )
 
 /*
   bool IsConnected
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_ISCONNECTED )
 {
@@ -186,7 +223,7 @@ HB_FUNC( WXSOCKETBASE_ISCONNECTED )
 
 /*
   bool IsData
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_ISDATA )
 {
@@ -198,7 +235,7 @@ HB_FUNC( WXSOCKETBASE_ISDATA )
 
 /*
   bool IsDisconnected
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_ISDISCONNECTED )
 {
@@ -210,7 +247,7 @@ HB_FUNC( WXSOCKETBASE_ISDISCONNECTED )
 
 /*
   wxUint32 LastCount
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_LASTCOUNT )
 {
@@ -222,7 +259,7 @@ HB_FUNC( WXSOCKETBASE_LASTCOUNT )
 
 /*
   wxSocketError LastError
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_LASTERROR )
 {
@@ -234,7 +271,7 @@ HB_FUNC( WXSOCKETBASE_LASTERROR )
 
 /*
   void Notify
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_NOTIFY )
 {
@@ -246,7 +283,7 @@ HB_FUNC( WXSOCKETBASE_NOTIFY )
 
 /*
   bool IsOk
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_ISOK )
 {
@@ -258,7 +295,7 @@ HB_FUNC( WXSOCKETBASE_ISOK )
 
 /*
   void RestoreState
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_RESTORESTATE )
 {
@@ -270,7 +307,7 @@ HB_FUNC( WXSOCKETBASE_RESTORESTATE )
 
 /*
   void SaveState
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SAVESTATE )
 {
@@ -282,7 +319,7 @@ HB_FUNC( WXSOCKETBASE_SAVESTATE )
 
 /*
   void SetClientData
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 {
@@ -294,7 +331,7 @@ HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 
 /*
   void SetEventHandler
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 {
@@ -312,7 +349,7 @@ HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 
 /*
   void SetFlags
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETFLAGS )
 {
@@ -325,7 +362,7 @@ HB_FUNC( WXSOCKETBASE_SETFLAGS )
 
 /*
   bool SetLocal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETLOCAL )
 {
@@ -342,7 +379,7 @@ HB_FUNC( WXSOCKETBASE_SETLOCAL )
 
 /*
   void SetNotify
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETNOTIFY )
 {
@@ -357,7 +394,7 @@ HB_FUNC( WXSOCKETBASE_SETNOTIFY )
 
 /*
   void SetTimeOut
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_SETTIMEOUT )
 {
@@ -372,7 +409,7 @@ HB_FUNC( WXSOCKETBASE_SETTIMEOUT )
 
 /*
   wxSocketBase Peek
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_PEEK )
 {
@@ -397,63 +434,88 @@ HB_FUNC( WXSOCKETBASE_PEEK )
   }
 }
 
-/*
-  wxSocketBase Read
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXSOCKETBASE_READ )
+HB_FUNC( RESIZESTRING )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
-
   PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-  wxUint32 nbytes = hb_parnl( 2 );
+  ULONG uNewLen = hb_parnl( 2 );
 
   if( pBuffer == NULL || !ISBYREF( 1 ) )
   {
-//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
     return;
   }
 
   pBuffer = hb_itemUnShareString( pBuffer );
 
+  hb_itemReSizeString( pBuffer, uNewLen );
+}
+
+/*
+  wxSocketBase_ReadBase
+  Teo. Mexico 2009
+*/
+void wxSocketBase_ReadBase( BYTE type )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+
+  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
+
+  if( pBuffer == NULL || !ISBYREF( 1 ) )
+  {
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+    return;
+  }
+
   if( socketBase )
   {
-    socketBase->Read( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    pBuffer = hb_itemUnShareString( pBuffer );
+
+    wxUint32 nbytes = ISNIL( 2 ) ?  pBuffer->item.asString.length : hb_parnl( 2 );
+
+    if( nbytes > 0 )
+    {
+      if( nbytes > pBuffer->item.asString.length )
+        hb_itemReSizeString( pBuffer, nbytes );
+
+      if( type == '0' )
+        socketBase->Read( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+      else
+        socketBase->ReadMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+
+      wxUint32 uiLastCount = socketBase->LastCount();
+
+      if( uiLastCount < pBuffer->item.asString.length )
+        hb_itemReSizeString( pBuffer, uiLastCount );
+
+    }else
+      hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+
     hb_itemReturn( pSelf );
   }
+}
+
+/*
+  wxSocketBase Read
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSOCKETBASE_READ )
+{
+  wxSocketBase_ReadBase( '0' );
 }
 
 /*
   wxSocketBase ReadMsg
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_READMSG )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
-
-  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-  wxUint32 nbytes = hb_parnl( 2 );
-
-  if( pBuffer == NULL || !ISBYREF( 1 ) )
-  {
-//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
-    return;
-  }
-
-  pBuffer = hb_itemUnShareString( pBuffer );
-
-  if( socketBase )
-  {
-    socketBase->ReadMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
-    hb_itemReturn( pSelf );
-  }
+  wxSocketBase_ReadBase( '1' );
 }
 
 /*
   wxSocketBase Unread
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_UNREAD )
 {
@@ -480,7 +542,7 @@ HB_FUNC( WXSOCKETBASE_UNREAD )
 
 /*
   bool Wait
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WAIT )
 {
@@ -496,7 +558,7 @@ HB_FUNC( WXSOCKETBASE_WAIT )
 
 /*
   bool WaitForLost
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WAITFORLOST )
 {
@@ -512,7 +574,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORLOST )
 
 /*
   bool WaitForRead
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WAITFORREAD )
 {
@@ -528,7 +590,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORREAD )
 
 /*
   bool WaitForWrite
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WAITFORWRITE )
 {
@@ -544,7 +606,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORWRITE )
 
 /*
   wxSocketBase Write
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WRITE )
 {
@@ -554,7 +616,7 @@ HB_FUNC( WXSOCKETBASE_WRITE )
   if( socketBase )
   {
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-    wxUint32 nbytes = hb_parnl( 2 );
+    wxUint32 nbytes = ISNIL( 2 ) ? pBuffer->item.asString.length : hb_parnl( 2 );
     socketBase->Write( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
@@ -562,7 +624,7 @@ HB_FUNC( WXSOCKETBASE_WRITE )
 
 /*
   wxSocketBase WriteMsg
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSOCKETBASE_WRITEMSG )
 {
@@ -572,8 +634,10 @@ HB_FUNC( WXSOCKETBASE_WRITEMSG )
   if( socketBase )
   {
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-    wxUint32 nbytes = hb_parnl( 2 );
+    wxUint32 nbytes = ISNIL( 2 ) ? pBuffer->item.asString.length : hb_parnl( 2 );
     socketBase->WriteMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
 }
+
+// revisar pedido 7663 gilberto gamboa

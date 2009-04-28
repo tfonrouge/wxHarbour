@@ -498,6 +498,24 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
+  wxMutexGuiEnter
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXMUTEXGUIENTER )
+{
+  wxMutexGuiEnter();
+}
+
+/*
+  wxMutexGuiLeave
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXMUTEXGUILEAVE )
+{
+  wxMutexGuiLeave();
+}
+
+/*
   qoutf
   Teo. Mexico 2009
 */

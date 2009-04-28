@@ -379,7 +379,9 @@ install_wxHarbour_headers:
 	copy include\wxh\bookctrl.ch $(PREFIX)\include\wxh
 	copy include\wxh\filedlg.ch $(PREFIX)\include\wxh
 	copy include\wxh\gauge.ch $(PREFIX)\include\wxh
+	copy include\wxh\gsocket.ch $(PREFIX)\include\wxh
 	copy include\wxh\notebook.ch $(PREFIX)\include\wxh
+	copy include\wxh\socket.ch $(PREFIX)\include\wxh
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
@@ -401,7 +403,9 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh\bookctrl.ch -del $(PREFIX)\include\wxh\bookctrl.ch
 	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
 	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
+	-if exist $(PREFIX)\include\wxh\gsocket.ch -del $(PREFIX)\include\wxh\gsocket.ch
 	-if exist $(PREFIX)\include\wxh\notebook.ch -del $(PREFIX)\include\wxh\notebook.ch
+	-if exist $(PREFIX)\include\wxh\socket.ch -del $(PREFIX)\include\wxh\socket.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 demos: $(__BUILDDIR__)\lib$(WXHLIBNAME).a

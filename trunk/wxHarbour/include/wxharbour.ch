@@ -61,7 +61,7 @@
   Calls ::__Destroy() to remove wxh_Item associated to objects
   Teo. Mexico 2009
 */
-#xcommand DESTROY <obj> => <obj>:__Destroy()
+#xcommand DESTROY <obj> => <obj>:__Destroy() ; <obj> := NIL
 
 /*
   MessageBox
@@ -587,7 +587,7 @@
             [ PICTURE <picture> ] ;
             [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
             [ TOOLTIP <toolTip> ] ;
-            [ <refreshAll: REFRESH ALL> ] ;
+            [ ACTION <bAction> ] ;
           => ;
           [<var> :=] __wxh_Get(;
             [<window>],;
@@ -602,7 +602,7 @@
             [<picture>],;
             [{<{warnWhen}>,<warnMsg>}],;
             [<{toolTip}>],;
-            [<.refreshAll.>] )
+            [<{bAction}>] )
 
 #xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -700,6 +700,38 @@
             [<cName>], ;
             [<nFields>], ;
             [{<aWidths>}] ) ;;
+
+/*
+ * TextCtrl
+ * Teo. Mexico 2009
+ */
+#xcommand @ TEXTCTRL [<value>] ;
+            [ VAR <textCtrl> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ <mline: MULTILINE> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <textCtrl> := ]__wxh_TextCtrl( ;
+            [<window>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<.mline.>],;
+            [<{bAction}>] )
+
+#xcommand @ TEXTCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ TEXTCTRL [<tcclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
 
 /*
  * TreeCtrl

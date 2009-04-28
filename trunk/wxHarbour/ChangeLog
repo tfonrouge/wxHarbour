@@ -2,6 +2,87 @@
  *
  */
 
+2009-04-28 05:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls.sh
+  - samples/template.bkl
+  + mkdirstempl.bkl
+    * added "samples" dir
+    * renamed template.bkl to mkdirstempl.bkl
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxh/gsocket.ch
+  + include/wxh/socket.ch
+    * added include files:
+      + wxh/socket.ch
+      + wxh/gsocket.ch
+
+  * include/event.ch
+  * src/common/sysdefs.cpp
+    ! Fixed several wxEVT_* defines (Linux/Win)
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * added code to set NIL to the obj variable in DESTROY command
+    * added ACTION clause to @ GET command
+    - removed REFRESH ALL clause on @ GET command
+    * added @ TEXTCTRL command
+
+  * samples/networking/simple.prg
+    * updated sample code
+
+  * src/common/wx_harbour.cpp
+    + added wxWidgets functions:
+      + wxMutexGuiEnter
+      + wxMutexGuiLeave
+
+      * this functions are needed when updates to GUI are executed
+        from a thread other than main thread
+
+  * src/hrbcompat/misc/wxGET.prg
+    % added connectEvt to update var when ENTER key is pressed
+      improvements made to update proces
+
+  * src/wxbase/networking/wxhSocketBase.prg
+  * src/wxbase/networking/wx_SocketBase.cpp
+    * renamed wxError method name to Error
+    * borrowed hb_itemReSizeString from Harbour Project, this function
+      is missed in xHarbour
+
+      ; Thanks to the Harbour Project Team
+
+    ! Fixed bug on Read/ReadMsg functions, now just one parameter can
+      be used in the caller construction, the size of the buffer is
+      adjusted if second parameter is issued (size)
+
+        size = ISNIL( 2 ) ? pBuffer->item.asString.length : hb_parnl( 2 )
+
+      The size of the buffer is resized accordingly to the size obtained
+
+    * code cleanup
+
+  + tests
+  + tests/evtdefcheck
+  + tests/evtdefcheck/evtdefcheck.prg
+  + tests/evtdefcheck/getdefs.cpp
+  + tests/evtdefcheck/GNUmakefile
+  + tests/evtdefcheck/makefile.gcc
+  + tests/evtdefcheck/makefile.vc
+    * test to check if defines are correct (Linux/Win)
+
+  + tests/socketCli
+  + tests/socketCli/GNUmakefile
+  + tests/socketCli/makefile.gcc
+  + tests/socketCli/makefile.vc
+  + tests/socketCli/socketCli.prg
+  + tests/socketSrv
+  + tests/socketSrv/GNUmakefile
+  + tests/socketSrv/makefile.gcc
+  + tests/socketSrv/makefile.vc
+  + tests/socketSrv/socketSrv.prg
+    * test for sockets
+
 2009-04-26 13:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +   samples
   - tests

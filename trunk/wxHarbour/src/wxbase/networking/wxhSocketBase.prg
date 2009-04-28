@@ -30,7 +30,7 @@ PUBLIC:
   METHOD Close
   METHOD Destroy
   METHOD Discard
-  METHOD wxError
+  METHOD Error
   METHOD GetClientData
   METHOD GetLocal( addr )
   METHOD GetFlags

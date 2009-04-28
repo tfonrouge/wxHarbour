@@ -403,7 +403,7 @@ RETURN oWnd
  * __wxh_GET
  * Teo. Mexico 2008
  */
-FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip )
+FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip, bAction )
   LOCAL Result
 
   IF window = NIL
@@ -418,7 +418,13 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
     ENDIF
   ENDIF
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip )
+  IF Empty( style )
+    style := wxTE_PROCESS_ENTER
+  ELSE
+    style := _hb_BitOr( wxTE_PROCESS_ENTER, style )
+  ENDIF
+
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip, bAction )
 
   containerObj():SetLastChild( Result )
 
@@ -921,6 +927,36 @@ FUNCTION __wxh_TransSize( size, window, defaultWidth )
   ENDIF
 
 RETURN size
+
+/*
+  __wxh_TextCtrl
+  Teo. Mexico 2008
+*/
+FUNCTION __wxh_TextCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
+  LOCAL textCtrl
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  IF multiLine == .T.
+    IF Empty( style )
+      style := wxTE_MULTILINE
+    ELSE
+      style := _hb_BitOr( wxTE_MULTILINE, style )
+    ENDIF
+  ENDIF
+
+  textCtrl := wxTextCtrl():New( window, id, value, pos, size, style, validator, name )
+
+  IF bAction != NIL
+    ? "BACTION"
+    textCtrl:ConnectCommandEvt( textCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( textCtrl )
+
+RETURN textCtrl
 
 /*
   __wxh_TreeCtrl
