@@ -2,6 +2,18 @@
  *
  */
 
+2009-04-29 17:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * makefile.gcc
+  * makefile.vc
+    * updated makefiles
+
+  + samples/spinctrl
+  + samples/spinctrl/GNUmakefile
+  + samples/spinctrl/makefile.gcc
+  + samples/spinctrl/makefile.vc
+  + samples/spinctrl/spinctrl.prg
+    + added sample for wxSpinCtrl
+
 2009-04-29 17:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   - mkdirstempl.bkl
   + config/mkdirstempl.bkl
