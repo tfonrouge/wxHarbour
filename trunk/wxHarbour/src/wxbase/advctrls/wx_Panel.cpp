@@ -29,10 +29,6 @@ wx_Panel::~wx_Panel()
   wxh_ItemListDel_WX( this );
 }
 
-/*
-bool Create(wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = "panel")
-*/
-
 HB_FUNC( WXPANEL_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();

@@ -20,7 +20,7 @@ for mainDir in $aMainDirs ; do
   for DIR in $adirs ; do
 
     ndir=${DIR/$mainDir\//}
-    cp mkdirstempl.bkl $mainDir/$ndir/$ndir.bkl
+    cp config/mkdirstempl.bkl $mainDir/$ndir/$ndir.bkl
     SEDCMD=s/__SAMPLE_NAME__/$ndir/
     sed -i $SEDCMD $mainDir/$ndir/$ndir.bkl
 

@@ -2,6 +2,92 @@
  *
  */
 
+2009-04-29 17:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - mkdirstempl.bkl
+  + config/mkdirstempl.bkl
+  * build_bkls.sh
+    * moved demos/samples/tests bakefile to config dir
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * include/wxhevtdefs.h
+  + include/wxbase/wx_Icon.h
+  + include/wxbase/wx_SpinCtrl.h
+  + include/wxbase/wx_TaskBarIcon.h
+  + include/wxbase/wx_Timer.h
+  + include/wxh/bitmap.ch
+  + include/wxh/gdicmn.ch
+  * include/wxh.h
+  * src/common/wxhfuncs.prg
+  + src/wxbase/app/wxhTaskBarIcon.prg
+  + src/wxbase/app/wx_TaskBarIcon.cpp
+  * src/wxbase/events/wx_Event.cpp
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+  + src/wxbase/image
+  + src/wxbase/image/wxhBitmap.prg
+  + src/wxbase/image/wxhGDIObject.prg
+  + src/wxbase/image/wxhIcon.prg
+  + src/wxbase/image/wx_Icon.cpp
+  * src/wxbase/miscfuncs/wx_DialogFuncs.cpp
+    + added classes:
+      + wxBitmap ( 0 methods )
+      + wxGDIObject ( 0 methods )
+      + wxIcon (partial methods)
+        + IsOk
+        + LoadFile
+      + wxSpinCtrl (full methods)
+      + wxTimer (full methods)
+      + wxTimerEvent (full methods)
+      + wxTaskBarIcon (full methods)
+    * renamed wxh_param_WX to wxh_parWX
+
+  * wxharbour.bkl
+    * removed unneeded <include>
+
+  * include/wxharbour.ch
+    % added clause ON <evtHandler> on DEFINE MENU... commandm to
+      create PopupMenu's (without need of DEFINE MENUBAR)
+
+  + samples/taskBarIcon
+  + samples/taskBarIcon/GNUmakefile
+  + samples/taskBarIcon/makefile.gcc
+  + samples/taskBarIcon/makefile.vc
+  + samples/taskBarIcon/sample.ico
+  + samples/taskBarIcon/sample.xpm
+  + samples/taskBarIcon/taskBarIcon.prg
+  + samples/timer
+  + samples/timer/GNUmakefile
+  + samples/timer/makefile.gcc
+  + samples/timer/makefile.vc
+  + samples/timer/timer.prg
+    + added samples to last added classes
+
+  * src/common/wx_harbour.cpp
+    ! Created copy of PHB_ITEM on all classes (check timer sample)
+
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    % improved error show handling
+
+  * src/wxbase/advctrls/wx_Panel.cpp
+    * code cleanup
+
+  * src/wxbase/controls/wx_Button.cpp
+  * src/wxbase/controls/wxhButton.prg
+    + added full methods
+
+  * src/wxbase/networking/wx_SocketBase.cpp
+    % optimized Read/ReadMsg no resizing the allocated memory
+      just adjusting the length of the string now
+
+  * tests/socketCli/GNUmakefile
+  * tests/socketCli/makefile.gcc
+  * tests/socketSrv/GNUmakefile
+  * tests/socketSrv/makefile.gcc
+    * makefiles rebuilded
+    TODO: add HBMT (multithread) capability to makefiles
+
 2009-04-28 05:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_bkls.sh
   - samples/template.bkl

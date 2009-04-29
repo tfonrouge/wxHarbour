@@ -40,6 +40,7 @@
 #include "wx/grid.h"
 #include "wxhevtdefs.h"
 #include "wx/socket.h"
+#include "wx/timer.h"
 
 #include <iostream>
 
@@ -116,8 +117,9 @@ HB_FUNC_EXTERN( WXINITDIALOGEVENT );
 HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 HB_FUNC_EXTERN( WXSOCKETEVENT );
+HB_FUNC_EXTERN( WXTIMEREVENT );
 
-wxObject*     wxh_param_WX( int param );
+wxObject*     wxh_parWX( int param );
 wxPoint       hb_par_wxPoint( int param );
 wxSize        hb_par_wxSize( int param );
 wxArrayString hb_par_wxArrayString( int param );
@@ -157,6 +159,7 @@ public:
   void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
   void OnSocketEvent( wxSocketEvent& event );
+  void OnTimerEvent( wxTimerEvent& event );
 
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 
@@ -306,6 +309,17 @@ void hbEvtHandler<T>::OnSocketEvent( wxSocketEvent& event )
 }
 
 /*
+  OnTimerEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnTimerEvent( wxTimerEvent& event )
+{
+  HB_FUNC_EXEC( WXTIMEREVENT );
+  __OnEvent( event );
+}
+
+/*
   wxConnect
   Teo. Mexico 2008
 */
@@ -339,6 +353,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_SOCKETEVENT:
       objFunc = wxSocketEventHandler( hbEvtHandler<T>::OnSocketEvent );
+      break;
+    case WXH_TIMEREVENT:
+      objFunc = wxTimerEventHandler( hbEvtHandler<T>::OnTimerEvent );
       break;
     default:
       objFunc = NULL;

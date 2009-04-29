@@ -46,3 +46,39 @@ HB_FUNC( WXBUTTON_NEW )
 
   objParams.Return( button );
 }
+
+/*
+  wxButton:GetLabel
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXBUTTON_GETLABEL )
+{
+  wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( button )
+    hb_retc( button->GetLabel().mb_str() );
+}
+
+/*
+  wxButton:SetDefault
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXBUTTON_SETDEFAULT )
+{
+  wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( button )
+    button->SetDefault();
+}
+
+/*
+  wxButton:SetLabel
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXBUTTON_SETLABEL )
+{
+  wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( button )
+    button->SetLabel( wxh_parc( 1 ) );
+}

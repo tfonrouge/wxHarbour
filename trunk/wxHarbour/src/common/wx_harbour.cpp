@@ -133,7 +133,7 @@ wxObject* wxh_ObjParams::Get_wxObject()
 */
 wxObject* wxh_ObjParams::param( const int param )
 {
-  return wxh_param_WX( param );
+  return wxh_parWX( param );
 }
 
 /*
@@ -190,7 +190,7 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 void wxh_ObjParams::ProcessParamLists()
 {
   /* add the Parent object (if any) to the child/parent lists */
-  if( pParamParent )
+//   if( pParamParent )
     SetChildItem( pSelf );
 
   /* add the Child objects to the child/parent lists */
@@ -256,7 +256,9 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     }
 
     if( pItem )
+    {
       pWxh_Item->pSelf = pItem;
+    }
 
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
@@ -326,7 +328,9 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
   }
 
   if( pSelf == NULL )
+  {
     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+  }
 
   return pSelf;
 }
@@ -396,10 +400,10 @@ void wxh_ItemListReleaseAll()
 }
 
 /*
-  wxh_param_WX
+  wxh_parWX
   Teo. Mexico 2009
 */
-wxObject* wxh_param_WX( const int param )
+wxObject* wxh_parWX( const int param )
 {
   return wxh_ItemListGet_WX( hb_param( param, HB_IT_OBJECT ) );
 }

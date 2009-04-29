@@ -62,7 +62,7 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -p
+HBFLAGS ?= -n -a -v -m -go
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release

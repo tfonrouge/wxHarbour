@@ -460,7 +460,6 @@ RETURN
 */
 FUNCTION __wxh_MenuBarBegin( window, style )
   menuData := TGlobal():New()
-  menuData:g_menuID := 1
   menuData:g_menuBar := wxMenuBar():New( style )
   IF window = NIL
     //menuData:g_window := __wxh_LastTopLevelWindow()
@@ -474,12 +473,17 @@ RETURN menuData:g_menuBar
   __wxh_MenuBegin
   Teo. Mexico 2006
 */
-FUNCTION __wxh_MenuBegin( title )
+FUNCTION __wxh_MenuBegin( title, evtHandler )
   LOCAL hData := {=>}
   LOCAL menu
 
-  IF menuData:g_menuList = NIL
-    menuData:g_menuList := {}
+  IF menuData = NIL
+    menuData := TGlobal():New()
+    AAdd( menuData:g_menuList, NIL ) /* a NULL MenuBar (1st item in array) */
+  ENDIF
+
+  IF evtHandler != NIL
+    menuData:g_window := evtHandler
   ENDIF
 
   menu := wxMenu():New()
@@ -498,6 +502,7 @@ PROCEDURE __wxh_MenuEnd
   LOCAL menuListSize
   LOCAL menuItem
   LOCAL nLast
+  LOCAL parentMenu
 
   IF Empty( menuData:g_menuList )
     menuData:g_window:SetMenuBar( menuData:g_menuBar )
@@ -512,11 +517,21 @@ PROCEDURE __wxh_MenuEnd
   menuListSize := Len( menuData:g_menuList )
 
   IF menuListSize = 1 /* Append to menuBar */
+
     menuData:g_menuBar:Append( hData["menu"], hData["title"] )
+
   ELSE                /* Append SubMenu */
-    menuItem := wxMenuItem_1():New( menuData:g_menuList[ nLast -1 ]["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
-    menuData:g_menuList[ nLast - 1 ]["menu"]:Append( menuItem )
-//     AAdd( a1, hData["menu"] )
+
+    parentMenu := menuData:g_menuList[ nLast -1 ]
+
+    IF parentMenu = NIL
+      menuData := NIL
+      RETURN
+    ELSE
+      menuItem := wxMenuItem_1():New( parentMenu["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
+      parentMenu["menu"]:Append( menuItem )
+    ENDIF
+
   ENDIF
 
   ASize( menuData:g_menuList, menuListSize - 1)
@@ -537,7 +552,7 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   ENDIF
 
   IF menuData:g_menuList = NIL
-    wxhAlert( "No Menu to add this MenuItem. Check your DEFINE MENU and ADD MENUITEM definition at line " + LTrim(Str(ProcLine( 1 ))) + " on " + ProcName( 1 ) )
+    wxhAlert( "No Menu at sight to add this MenuItem. Check your DEFINE MENU and ADD MENUITEM definition at line " + LTrim(Str(ProcLine( 1 ))) + " on " + ProcName( 1 ) )
     RETURN NIL
   ENDIF
 
@@ -862,6 +877,27 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
 RETURN
 
 /*
+  __wxh_SpinCtrl
+  Teo. Mexico 2008
+*/
+FUNCTION __wxh_SpinCtrl( parent, id, value, pos, size, style, min, max, initial, name, bAction )
+  LOCAL spinCtrl
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  spinCtrl := wxSpinCtrl():New( parent, id, value, pos, size, style, min, max, initial, name )
+
+  IF bAction != NIL
+    spinCtrl:ConnectCommandEvt( spinCtrl:GetID(), wxEVT_COMMAND_SPINCTRL_UPDATED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( spinCtrl )
+
+RETURN spinCtrl
+
+/*
   __wxh_StatusBar
   Teo. Mexico 2006
 */
@@ -950,7 +986,6 @@ FUNCTION __wxh_TextCtrl( window, id, value, pos, size, style, validator, name, m
   textCtrl := wxTextCtrl():New( window, id, value, pos, size, style, validator, name )
 
   IF bAction != NIL
-    ? "BACTION"
     textCtrl:ConnectCommandEvt( textCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
   ENDIF
 
@@ -1009,7 +1044,6 @@ PROCEDURE wxhInspectVar( xVar )
       ENDIF
     NEXT
     a := __objGetValueList( xVar, .T., 0 )
-    ? "Finalizando..."
     EXIT
   END
 
@@ -1313,9 +1347,20 @@ PUBLIC:
   DATA g_menuList
   DATA g_menuBar
   DATA g_window
+
+  CONSTRUCTOR New()
+  
   METHOD lenMenuList INLINE Len( ::g_menuList )
 PUBLISHED:
 ENDCLASS
+
+/*
+  New
+  Teo. Mexico 2009
+*/
+METHOD New() CLASS TGlobal
+  ::g_menuList := {}
+RETURN Self
 
 /*
   End Class TGlobal

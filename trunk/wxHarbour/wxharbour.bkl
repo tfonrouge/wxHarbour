@@ -24,6 +24,7 @@
       src/wxbase/controls
       src/wxbase/comdialogs
       src/wxbase/events
+      src/wxbase/image
       src/wxbase/manwindows
       src/wxbase/menu
       src/wxbase/miscfuncs
@@ -35,9 +36,9 @@
       src/wxbase/validators
       src/wxbase/xmlclasses
     </sources-at>
-    <include>
+<!--    <include>
       include
-    </include>
+    </include>-->
     <!--<install-to>$(HB_LIB_PATH)</install-to>-->
     <install-to>$(LIBDIR)</install-to>
     <install-headers-to>$(PREFIX)</install-headers-to>

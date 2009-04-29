@@ -27,7 +27,14 @@ CLASS wxButton FROM wxControl
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
   CONSTRUCTOR New( parent, id, label, pos, size, style, validator, name )
+
+  METHOD GetLabel()
+//   METHOD GetDefaultSize()
+  METHOD SetDefault()
+  METHOD SetLabel( label )
+
 PUBLISHED:
 ENDCLASS
 

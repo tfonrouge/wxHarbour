@@ -120,9 +120,9 @@
           => ;
           [<oMB> := ] __wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
 
-#xcommand DEFINE MENU <cLabel> [VAR <menu>];
+#xcommand DEFINE MENU [<cLabel>] [VAR <menu>] [ON <evtHandler>] ;
           => ;
-          [<menu> :=] __wxh_MenuBegin( <cLabel> )
+          [<menu> :=] __wxh_MenuBegin( [<cLabel>], [<evtHandler>] )
 
 #xcommand ADD MENUITEM <cLabel> ;
               [VAR <menu>] ;
@@ -658,6 +658,40 @@
 #xcommand @ SCROLLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ SCROLLBAR [<clauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+ * SpinCtrl
+ * Teo. Mexico 2009
+ */
+#xcommand @ SPINCTRL [<value>] ;
+            [ VAR <spinCtrl> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ MIN <min> ] ;
+            [ MAX <max> ] ;
+            [ INITIAL <initial> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <spinCtrl> := ]__wxh_SpinCtrl( ;
+            [<window>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<min>],;
+            [<max>],;
+            [<initial>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ SPINCTRL [<scclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ SPINCTRL [<scclauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*
