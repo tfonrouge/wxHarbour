@@ -180,11 +180,17 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   aErrLst := __objGetValueList( oErr, .T., 0 )
 
   IF .T.
-    s := cMessage + E":\n\n" + oErr:Description + ;
-         E"\n\n" + ProcName( 3 )  + " / " + NTrim( ProcLine( 3 ) )
-    ? E"\n***" + s + "\n***\n"
+    s := cMessage + E":\n\n" + oErr:Description + E"\n\n"
+    i := 3
+    WHILE !Empty( ProcName( i ) )
+      s += "Called from " + ProcName( i )  + "(" + NTrim( ProcLine( i ) ) + E")\n"
+      ++i
+    ENDDO
+    ? s
+    ?
+    ? HB_ValToExp( oErr )
     wxMessageBox( s, "Error", wxICON_ERROR )
-    BREAK
+    BREAK( 0 )
   ENDIF
 
   aOptions := { wxhLABEL_QUIT }

@@ -111,7 +111,7 @@ ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
 ifeq ($(HBCOMPILER),harbour)
-__LIB_VM_p = -lhbvmmt
+__LIB_VM_p = -lhbvm
 endif
 ifeq ($(HBCOMPILER),xharbour)
 __LIB_VM_p = -lvm

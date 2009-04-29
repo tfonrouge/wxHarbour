@@ -20,6 +20,8 @@
 
 #include "wxbase/wx_Frame.h"
 
+#include "wx/timer.h"
+
 static void ParseConnectParams( PCONN_PARAMS pConnParams );
 
 /*
@@ -145,4 +147,13 @@ HB_FUNC( WXEVTHANDLER_CONNECTMOUSEEVT )
 HB_FUNC( WXEVTHANDLER_CONNECTSOCKETEVT )
 {
   Connect( WXH_SOCKETEVENT );
+}
+
+/*
+  ConnectTimerEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTTIMEREVT )
+{
+  Connect( WXH_TIMEREVENT );
 }

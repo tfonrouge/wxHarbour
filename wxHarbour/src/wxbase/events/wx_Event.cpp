@@ -25,8 +25,7 @@
 */
 HB_FUNC( WXEVENT_GETEVENTOBJECT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( pSelf );
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( event )
   {
@@ -42,8 +41,7 @@ HB_FUNC( WXEVENT_GETEVENTOBJECT )
 */
 HB_FUNC( WXEVENT_GETEVENTTYPE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( pSelf );
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( event )
     hb_retni( event->GetEventType() );
@@ -55,8 +53,7 @@ HB_FUNC( WXEVENT_GETEVENTTYPE )
 */
 HB_FUNC( WXEVENT_GETID )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( pSelf );
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( event )
     hb_retni( event->GetId() );
@@ -68,8 +65,7 @@ HB_FUNC( WXEVENT_GETID )
 */
 HB_FUNC( WXEVENT_SKIP )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( pSelf );
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   bool skip = ISNIL( 1 ) ? true : hb_parl( 1 );
 

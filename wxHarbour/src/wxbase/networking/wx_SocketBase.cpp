@@ -486,7 +486,8 @@ void wxSocketBase_ReadBase( BYTE type )
       wxUint32 uiLastCount = socketBase->LastCount();
 
       if( uiLastCount < pBuffer->item.asString.length )
-        hb_itemReSizeString( pBuffer, uiLastCount );
+        pBuffer->item.asString.length = uiLastCount;
+        //hb_itemReSizeString( pBuffer, uiLastCount );
 
     }else
       hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );

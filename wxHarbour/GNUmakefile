@@ -113,11 +113,11 @@ WX_BUILD ?= release
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
 WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
-	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
+	$(HBCC_DEFINE) -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude \
-	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
+	$(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
@@ -141,6 +141,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhPanel.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStatusBar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhApp.o \
+	$(__BUILDDIR__)/wxHarbour_wxhTaskBarIcon.o \
 	$(__BUILDDIR__)/wxHarbour_wxhControlWithItems.o \
 	$(__BUILDDIR__)/wxHarbour_wxhObject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTopLevelWindow.o \
@@ -154,6 +155,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhComboBox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhControl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhRadioBox.o \
+	$(__BUILDDIR__)/wxHarbour_wxhSpinCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticBox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticText.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTextCtrl.o \
@@ -172,6 +174,11 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhMouseEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhTimer.o \
+	$(__BUILDDIR__)/wxHarbour_wxhTimerEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhBitmap.o \
+	$(__BUILDDIR__)/wxHarbour_wxhGDIObject.o \
+	$(__BUILDDIR__)/wxHarbour_wxhIcon.o \
 	$(__BUILDDIR__)/wxHarbour_wxhDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhFrame.o \
 	$(__BUILDDIR__)/wxHarbour_wxhMenu.o \
@@ -206,6 +213,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Panel.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StatusBar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_App.o \
+	$(__BUILDDIR__)/wxHarbour_wx_TaskBarIcon.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ControlWithItems.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Object.o \
 	$(__BUILDDIR__)/wxHarbour_wx_TopLevelWindow.o \
@@ -218,6 +226,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Choice.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ComboBox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_RadioBox.o \
+	$(__BUILDDIR__)/wxHarbour_wx_SpinCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticBox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticText.o \
 	$(__BUILDDIR__)/wxHarbour_wx_TextCtrl.o \
@@ -234,6 +243,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_MenuEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SizeEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_Timer.o \
+	$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_Icon.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_MDIChildFrame.o \
@@ -273,16 +285,18 @@ WXHARBOUR_HEADERS =  \
 	include/wxh.h \
 	include/wxhevtdefs.h \
 	include/wxh/auibook.ch \
+	include/wxh/bitmap.ch \
 	include/wxh/bookctrl.ch \
 	include/wxh/filedlg.ch \
 	include/wxh/gauge.ch \
+	include/wxh/gdicmn.ch \
 	include/wxh/gsocket.ch \
 	include/wxh/notebook.ch \
 	include/wxh/socket.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p)
 
 ### Conditionally set variables: ###
 
@@ -442,6 +456,9 @@ $(__BUILDDIR__)/wxHarbour_wxhStatusBar.o: ./src/wxbase/advctrls/wxhStatusBar.prg
 $(__BUILDDIR__)/wxHarbour_wxhApp.o: ./src/wxbase/app/wxhApp.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhTaskBarIcon.o: ./src/wxbase/app/wxhTaskBarIcon.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhControlWithItems.o: ./src/wxbase/baseclasses/wxhControlWithItems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -479,6 +496,9 @@ $(__BUILDDIR__)/wxHarbour_wxhControl.o: ./src/wxbase/controls/wxhControl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhRadioBox.o: ./src/wxbase/controls/wxhRadioBox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhSpinCtrl.o: ./src/wxbase/controls/wxhSpinCtrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhStaticBox.o: ./src/wxbase/controls/wxhStaticBox.prg
@@ -533,6 +553,21 @@ $(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o: ./src/wxbase/events/wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o: ./src/wxbase/events/wxhSocketEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhTimer.o: ./src/wxbase/events/wxhTimer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhTimerEvent.o: ./src/wxbase/events/wxhTimerEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhBitmap.o: ./src/wxbase/image/wxhBitmap.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhGDIObject.o: ./src/wxbase/image/wxhGDIObject.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhIcon.o: ./src/wxbase/image/wxhIcon.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhDialog.o: ./src/wxbase/manwindows/wxhDialog.prg
@@ -637,6 +672,9 @@ $(__BUILDDIR__)/wxHarbour_wx_StatusBar.o: ./src/wxbase/advctrls/wx_StatusBar.cpp
 $(__BUILDDIR__)/wxHarbour_wx_App.o: ./src/wxbase/app/wx_App.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)/wxHarbour_wx_TaskBarIcon.o: ./src/wxbase/app/wx_TaskBarIcon.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)/wxHarbour_wx_ControlWithItems.o: ./src/wxbase/baseclasses/wx_ControlWithItems.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -671,6 +709,9 @@ $(__BUILDDIR__)/wxHarbour_wx_ComboBox.o: ./src/wxbase/controls/wx_ComboBox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_RadioBox.o: ./src/wxbase/controls/wx_RadioBox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_SpinCtrl.o: ./src/wxbase/controls/wx_SpinCtrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_StaticBox.o: ./src/wxbase/controls/wx_StaticBox.cpp
@@ -719,6 +760,15 @@ $(__BUILDDIR__)/wxHarbour_wx_SizeEvent.o: ./src/wxbase/events/wx_SizeEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_SocketEvent.o: ./src/wxbase/events/wx_SocketEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_Timer.o: ./src/wxbase/events/wx_Timer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o: ./src/wxbase/events/wx_TimerEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_Icon.o: ./src/wxbase/image/wx_Icon.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Dialog.o: ./src/wxbase/manwindows/wx_Dialog.cpp
