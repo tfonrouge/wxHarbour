@@ -2,6 +2,13 @@
  *
  */
 
+2009-04-29 17:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/wxbase/events/wxhTimerEvent.prg
+  + src/wxbase/events/wxhTimer.prg
+  + src/wxbase/events/wx_Timer.cpp
+  + src/wxbase/events/wx_TimerEvent.cpp
+    * ditto last commit :)
+
 2009-04-29 17:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/controls/wxhSpinCtrl.prg
   + src/wxbase/controls/wx_SpinCtrl.cpp
