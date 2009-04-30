@@ -22,6 +22,7 @@
 #define WXH_MENUEVENT           7
 #define WXH_MOUSEEVENT          8
 #define WXH_SOCKETEVENT         9
-#define WXH_TIMEREVENT          10
+#define WXH_TASKBARICONEVENT    10
+#define WXH_TIMEREVENT          11
 
 #endif

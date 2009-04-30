@@ -41,6 +41,7 @@
 #include "wxhevtdefs.h"
 #include "wx/socket.h"
 #include "wx/timer.h"
+#include "wx/taskbar.h"
 
 #include <iostream>
 
@@ -118,6 +119,7 @@ HB_FUNC_EXTERN( WXINITDIALOGEVENT );
 HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 HB_FUNC_EXTERN( WXSOCKETEVENT );
+HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 
 wxObject*     wxh_parWX( int param );
@@ -161,6 +163,7 @@ public:
   void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
   void OnSocketEvent( wxSocketEvent& event );
+  void OnTaskBarIconEvent( wxTaskBarIconEvent& event );
   void OnTimerEvent( wxTimerEvent& event );
 
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
@@ -322,6 +325,17 @@ void hbEvtHandler<T>::OnSocketEvent( wxSocketEvent& event )
 }
 
 /*
+  OnTaskBarIconEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnTaskBarIconEvent( wxTaskBarIconEvent& event )
+{
+  HB_FUNC_EXEC( WXTASKBARICONEVENT );
+  __OnEvent( event );
+}
+
+/*
   OnTimerEvent
   Teo. Mexico 2008
 */
@@ -369,6 +383,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_SOCKETEVENT:
       objFunc = wxSocketEventHandler( hbEvtHandler<T>::OnSocketEvent );
+      break;
+    case WXH_TASKBARICONEVENT:
+      objFunc = wxTaskBarIconEventHandler( hbEvtHandler<T>::OnTaskBarIconEvent );
       break;
     case WXH_TIMEREVENT:
       objFunc = wxTimerEventHandler( hbEvtHandler<T>::OnTimerEvent );

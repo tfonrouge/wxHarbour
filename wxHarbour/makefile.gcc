@@ -186,6 +186,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTimer.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.o \
@@ -404,6 +405,7 @@ install_wxHarbour_headers:
 	copy include\wxh\gsocket.ch $(PREFIX)\include\wxh
 	copy include\wxh\notebook.ch $(PREFIX)\include\wxh
 	copy include\wxh\socket.ch $(PREFIX)\include\wxh
+	copy include\wxh\taskbar.ch $(PREFIX)\include\wxh
 	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
 
 uninstall_wxHarbour_headers: 
@@ -430,6 +432,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxh\gsocket.ch -del $(PREFIX)\include\wxh\gsocket.ch
 	-if exist $(PREFIX)\include\wxh\notebook.ch -del $(PREFIX)\include\wxh\notebook.ch
 	-if exist $(PREFIX)\include\wxh\socket.ch -del $(PREFIX)\include\wxh\socket.ch
+	-if exist $(PREFIX)\include\wxh\taskbar.ch -del $(PREFIX)\include\wxh\taskbar.ch
 	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
 
 demos: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
@@ -604,6 +607,9 @@ $(__BUILDDIR__)\wxHarbour_wxhSizeEvent.o: ./src/wxbase/events/wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhSocketEvent.o: ./src/wxbase/events/wxhSocketEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.o: ./src/wxbase/events/wxhTaskBarIconEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhTimer.o: ./src/wxbase/events/wxhTimer.prg

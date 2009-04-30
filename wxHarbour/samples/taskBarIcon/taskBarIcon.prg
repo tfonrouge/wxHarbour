@@ -9,6 +9,7 @@
 
 #include "wxharbour.ch"
 #include "wxh/bitmap.ch"
+#include "wxh/taskbar.ch"
 
 /*
   Main : Needed in all wx* apps
@@ -121,6 +122,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   ::trayIcon:LoadFile("sample.ico",bmType)
 
   ::taskBarIcon := MyTaskBarIcon():New()
+
+  ::taskBarIcon:ConnectTaskBarIconEvt( wxID_ANY, wxEVT_TASKBAR_LEFT_DCLICK, {|| ::mainWnd:Show( !::mainWnd:IsShown() )  } )
 
   ::RemoveTrayIcon()
 
