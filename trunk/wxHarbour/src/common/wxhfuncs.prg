@@ -185,7 +185,7 @@ RETURN
   __wxh_Button
   Teo. Mexico 2008
 */
-FUNCTION __wxh_Button( window, id, label, pos, size, style, validator, name, bAction )
+FUNCTION __wxh_Button( window, id, label, pos, size, style, validator, name, default, bAction )
   LOCAL button
 
   IF window = NIL
@@ -196,6 +196,10 @@ FUNCTION __wxh_Button( window, id, label, pos, size, style, validator, name, bAc
 
   IF bAction != NIL
     button:ConnectCommandEvt( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+  ENDIF
+
+  IF default == .T.
+    button:SetDefault()
   ENDIF
 
   containerObj():SetLastChild( button )
@@ -938,6 +942,23 @@ FUNCTION __wxh_StaticLine( window, id, pos, orient, name )
   containerObj():SetLastChild( sl )
 
 RETURN sl
+
+/*
+  __wxh_StaticText
+  Teo. Mexico 2008
+*/
+FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
+  LOCAL staticText
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  staticText := wxStaticText():New( parent, id, label, pos, size, style, name )
+
+  containerObj():SetLastChild( staticText )
+
+RETURN staticText
 
 /*
   __wxh_TransSize

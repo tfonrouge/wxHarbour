@@ -31,6 +31,9 @@ HBCOMPILER ?= harbour
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
 
+# Link with Harbour multithread libraries [no,yes]
+HBMT ?= no
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -107,8 +110,8 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	LINK_MODULE_FLAGS="$(LINK_MODULE_FLAGS)" CC="$(CC)" CXX="$(CXX)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
 	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
-	HBCC="$(HBCC)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_FM="$(HBLIB_FM)" \
-	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
+	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" \
+	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
 	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" \
 	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" \
 	HBLIB_GTPCA="$(HBLIB_GTPCA)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
@@ -171,6 +174,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhFileDialog.o \
 	$(__BUILDDIR__)\wxHarbour_wxhMessageDialog.o \
 	$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhCommandEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhEvtHandler.o \
@@ -242,6 +246,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_FileDialog.o \
 	$(__BUILDDIR__)\wxHarbour_wx_MessageDialog.o \
 	$(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wx_CloseEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_CommandEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Event.o \
 	$(__BUILDDIR__)\wxHarbour_wx_EvtHandler.o \
@@ -278,12 +283,15 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include $(p) $(p_0) \
-	-D__WXMSW__ -I$(WX_PATH)\Include \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) \
+	-I$(PREFIX)\include $(p) $(p_0) -D__WXMSW__ -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 
+ifeq ($(HBMT),yes)
+__HBMTFLAG__ = -DHB_MT
+endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
@@ -562,6 +570,9 @@ $(__BUILDDIR__)\wxHarbour_wxhMessageDialog.o: ./src/wxbase/comdialogs/wxhMessage
 $(__BUILDDIR__)\wxHarbour_wxhActivateEvent.o: ./src/wxbase/events/wxhActivateEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.o: ./src/wxbase/events/wxhCloseEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhCommandEvent.o: ./src/wxbase/events/wxhCommandEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -773,6 +784,9 @@ $(__BUILDDIR__)\wxHarbour_wx_MessageDialog.o: ./src/wxbase/comdialogs/wx_Message
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.o: ./src/wxbase/events/wx_ActivateEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_CloseEvent.o: ./src/wxbase/events/wx_CloseEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_CommandEvent.o: ./src/wxbase/events/wx_CommandEvent.cpp

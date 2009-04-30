@@ -30,6 +30,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   METHOD ConnectActivateEvt( p1, p2, p3, p4 )
+  METHOD ConnectCloseEvt( p1, p2, p3, p4 )
   METHOD ConnectCommandEvt( p1, p2, p3, p4 )
   METHOD ConnectFocusEvt( p1, p2, p3, p4 )
   METHOD ConnectGridEvt( p1, p2, p3, p4 )

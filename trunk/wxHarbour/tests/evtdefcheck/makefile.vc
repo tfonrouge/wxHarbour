@@ -33,6 +33,9 @@ HBCOMPILER = harbour
 # [x]Harbour compiler executable name 
 HBCC = harbour
 
+# Link with Harbour multithread libraries [no,yes]
+HBMT = no
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -118,12 +121,18 @@ EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)\evtdefcheck_evtdefcheck.obj \
 	$(__BUILDDIR__)\evtdefcheck_getdefs.obj
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include $(p) $(p_0) \
-	$(p_1) /D__WXMSW__ /I$(WX_PATH)\Include \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) \
+	/I$(PREFIX)\include $(p) $(p_0) $(p_1) /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS /I..\..\include
 
 ### Conditionally set variables: ###
 
+!if "$(HBMT)" == "yes"
+__HBMTLIB__ = mt
+!endif
+!if "$(HBMT)" == "yes"
+__HBMTFLAG__ = -DHB_MT
+!endif
 !if "$(HBBUILD)" == "debug"
 __HBDEBUG__ = -b -d_DEBUG_
 !endif
@@ -134,10 +143,10 @@ HBCC_DEFINE = -D__HARBOUR__
 HBCC_DEFINE = -D__XHARBOUR__
 !endif
 !if "$(HBCOMPILER)" == "harbour"
-__LIB_VM_p = hbvm.lib
+__LIB_VM_p = hbvm$(__HBMTLIB__).lib
 !endif
 !if "$(HBCOMPILER)" == "xharbour"
-__LIB_VM_p = vm.lib
+__LIB_VM_p = vm$(__HBMTLIB__).lib
 !endif
 !if "$(HBCOMPILER)" == "harbour"
 __LIB_PP_p = hbpp.lib

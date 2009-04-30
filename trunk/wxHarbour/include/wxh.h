@@ -110,6 +110,7 @@ public:
 };
 
 HB_FUNC_EXTERN( WXACTIVATEEVENT );
+HB_FUNC_EXTERN( WXCLOSEEVENT );
 HB_FUNC_EXTERN( WXCOMMANDEVENT );
 HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
@@ -152,6 +153,7 @@ private:
 public:
 
   void OnActivateEvent( wxActivateEvent& event );
+  void OnCloseEvent( wxCloseEvent& event );
   void OnCommandEvent( wxCommandEvent& event );
   void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
@@ -228,6 +230,17 @@ template <class T>
 void hbEvtHandler<T>::OnActivateEvent( wxActivateEvent& event )
 {
   HB_FUNC_EXEC( WXACTIVATEEVENT );
+  __OnEvent( event );
+}
+
+/*
+  OnCloseEvent
+  Teo. Mexico 2008
+*/
+template <class T>
+void hbEvtHandler<T>::OnCloseEvent( wxCloseEvent& event )
+{
+  HB_FUNC_EXEC( WXCLOSEEVENT );
   __OnEvent( event );
 }
 
@@ -332,6 +345,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
   {
     case WXH_ACTIVATEEVENT:
       objFunc = wxActivateEventHandler( hbEvtHandler<T>::OnActivateEvent );
+      break;
+    case WXH_CLOSEEVENT:
+      objFunc = wxCloseEventHandler( hbEvtHandler<T>::OnCloseEvent );
       break;
     case WXH_COMMANDEVENT:
       objFunc = wxCommandEventHandler( hbEvtHandler<T>::OnCommandEvent );

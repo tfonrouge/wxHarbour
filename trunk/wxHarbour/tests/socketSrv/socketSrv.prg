@@ -87,6 +87,11 @@ RETURN 0
 METHOD FUNCTION OnInit CLASS MyApp
   LOCAL ipv4
 
+  IF !HB_MTVM()
+    wxMessageBox( "This program requieres an Multithread VM.", "Error", wxICON_WARNING )
+    RETURN .F.
+  ENDIF
+
   ipv4 := wxIPV4address():New()
   ipv4:AnyAddress()
   ipv4:Service( HOSTPORT )

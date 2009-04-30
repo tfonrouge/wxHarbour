@@ -14,13 +14,14 @@
 #define _WXH_EVTDEFS_H_
 
 #define WXH_ACTIVATEEVENT       1
-#define WXH_COMMANDEVENT        2
-#define WXH_FOCUSEVENT          3
-#define WXH_GRIDEVENT           4
-#define WXH_INITDIALOGEVENT     5
-#define WXH_MENUEVENT           6
-#define WXH_MOUSEEVENT          7
-#define WXH_SOCKETEVENT         8
-#define WXH_TIMEREVENT          9
+#define WXH_CLOSEEVENT          2
+#define WXH_COMMANDEVENT        3
+#define WXH_FOCUSEVENT          4
+#define WXH_GRIDEVENT           5
+#define WXH_INITDIALOGEVENT     6
+#define WXH_MENUEVENT           7
+#define WXH_MOUSEEVENT          8
+#define WXH_SOCKETEVENT         9
+#define WXH_TIMEREVENT          10
 
 #endif

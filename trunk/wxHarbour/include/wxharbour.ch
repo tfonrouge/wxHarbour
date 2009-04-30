@@ -284,6 +284,7 @@
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
+            [ <default: DEFAULT> ] ;
             [ ACTION <bAction> ] ;
           => ;
           [ <btn> := ]__wxh_Button( ;
@@ -295,6 +296,7 @@
             [<style>],;
             [<validator>],;
             [<name>],;
+            [<.default.>],;
             [<{bAction}>] )
 
 #xcommand @ BUTTON [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -306,7 +308,7 @@
  * CheckBox
  * Teo. Mexico 2009
  */
-#xcommand @ CHECKBOX <dataVar> [ LABEL <label> ] ;
+#xcommand @ CHECKBOX [<dataVar>] [ LABEL <label> ] ;
             [ VAR <checkBox> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -320,7 +322,7 @@
             [<window>],;
             [<id>],;
             [<label>],;
-            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
+            [ wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ) ],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -714,6 +716,32 @@
 #xcommand @ STATICLINE [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ STATICLINE [<clauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+ * StaticText
+ * Teo. Mexico 2009
+ */
+#xcommand @ STATICTEXT [<label>] ;
+            [ VAR <staticText> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+          [ <staticText> := ]__wxh_StaticText( ;
+            [<window>],;
+            [<id>],;
+            [<label>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>] )
+
+#xcommand @ STATICTEXT [<stClauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ STATICTEXT [<stClauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*
