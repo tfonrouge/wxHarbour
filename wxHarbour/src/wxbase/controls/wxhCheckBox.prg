@@ -66,14 +66,14 @@ METHOD New( window, id, label, wxhGet, pos, size, style, validator, name ) CLASS
 
   Super:New( window, id, label, pos, size, style, validator, name )
 
-  IF name = NIL
-    ::SetName( wxhGet:Name )
-  ENDIF
-
-  ::FWXHGet := wxhGet
-
-  IF !::Is3State()
-    ::SetValue( ::FWXHGet:Block:Eval() )
+  IF wxhGet != NIL
+    ::FWXHGet := wxhGet
+    IF name = NIL
+      ::SetName( wxhGet:Name )
+    ENDIF
+    IF !::Is3State()
+      ::SetValue( ::FWXHGet:Block:Eval() )
+    ENDIF
   ENDIF
 
   /* the update to VAR event */

@@ -40,6 +40,9 @@ HBCOMPILER ?= harbour
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
 
+# Link with Harbour multithread libraries [no,yes]
+HBMT ?= no
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -163,6 +166,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhFileDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhMessageDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhCloseEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhCommandEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhEvtHandler.o \
@@ -234,6 +238,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_FileDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_MessageDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_CloseEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_CommandEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Event.o \
 	$(__BUILDDIR__)/wxHarbour_wx_EvtHandler.o \
@@ -295,11 +300,14 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/socket.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
+	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p)
 
 ### Conditionally set variables: ###
 
+ifeq ($(HBMT),yes)
+__HBMTFLAG__ = -DHB_MT
+endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
@@ -522,6 +530,9 @@ $(__BUILDDIR__)/wxHarbour_wxhMessageDialog.o: ./src/wxbase/comdialogs/wxhMessage
 $(__BUILDDIR__)/wxHarbour_wxhActivateEvent.o: ./src/wxbase/events/wxhActivateEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhCloseEvent.o: ./src/wxbase/events/wxhCloseEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhCommandEvent.o: ./src/wxbase/events/wxhCommandEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -733,6 +744,9 @@ $(__BUILDDIR__)/wxHarbour_wx_MessageDialog.o: ./src/wxbase/comdialogs/wx_Message
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_ActivateEvent.o: ./src/wxbase/events/wx_ActivateEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_CloseEvent.o: ./src/wxbase/events/wx_CloseEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_CommandEvent.o: ./src/wxbase/events/wx_CommandEvent.cpp

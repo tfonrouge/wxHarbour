@@ -85,6 +85,17 @@ HB_FUNC( WXEVTHANDLER_CONNECTACTIVATEEVT )
 }
 
 /*
+  ConnectCloseEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTCLOSEEVT )
+{
+
+  Connect( WXH_CLOSEEVENT );
+
+}
+
+/*
   ConnectCommandEvt
   Teo. Mexico 2009
 */

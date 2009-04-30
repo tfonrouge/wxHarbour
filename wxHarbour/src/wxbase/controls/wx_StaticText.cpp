@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wx_StaticText: Implementation
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -22,7 +22,7 @@
 
 /*
   ~wx_StaticText
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wx_StaticText::~wx_StaticText()
 {
@@ -31,8 +31,7 @@ wx_StaticText::~wx_StaticText()
 
 /*
   wxStaticText:New
-  Teo. Mexico 2007
-  wx-Compat: 2.4.8
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSTATICTEXT_NEW )
 {
@@ -51,14 +50,36 @@ HB_FUNC( WXSTATICTEXT_NEW )
 }
 
 /*
+  wxStaticText:GetLabel
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSTATICTEXT_GETLABEL )
+{
+  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( staticText )
+    hb_retc( staticText->GetLabel().mb_str() );
+}
+
+/*
+  wxStaticText:SetLabel
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSTATICTEXT_SETLABEL )
+{
+  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( staticText )
+    staticText->SetLabel( wxh_parc( 1 ) );
+}
+
+/*
   wxStaticText:Wrap
-  Teo. Mexico 2007
-  wx-Compat: 2.4.8
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSTATICTEXT_WRAP )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( pSelf );
+  wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  staticText->Wrap( hb_parnl( 1 ) );
+  staticText->Wrap( hb_parni( 1 ) );
 }

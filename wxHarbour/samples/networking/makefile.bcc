@@ -44,6 +44,11 @@ HBCOMPILER = harbour
 HBCC = harbour
 !endif
 
+# Link with Harbour multithread libraries [no,yes]
+!ifndef HBMT
+HBMT = no
+!endif
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -161,21 +166,27 @@ PREFIX = $(HBPATH_INSTALL)
 NETWORKING_OBJECTS =  \
 	$(__BUILDDIR__)\networking_simple.obj
 NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) -I$(PREFIX)\include \
-	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
-	-I..\..\include
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) \
+	-I$(PREFIX)\include $(____D_WX_UNICODE_FILENAMES_p) \
+	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include
 
 ### Conditionally set variables: ###
 
+!if "$(HBMT)" == "yes"
+__HBMTLIB__ = mt
+!endif
+!if "$(HBMT)" == "yes"
+__HBMTFLAG__ = -DHB_MT
+!endif
 !if "$(HBBUILD)" == "debug"
 __HBDEBUG__ = -b -d_DEBUG_
 !endif
 !if "$(HBCOMPILER)" == "harbour"
-__LIB_VM_p = hbvm.lib
+__LIB_VM_p = hbvm$(__HBMTLIB__).lib
 !endif
 !if "$(HBCOMPILER)" == "xharbour"
-__LIB_VM_p = vm.lib
+__LIB_VM_p = vm$(__HBMTLIB__).lib
 !endif
 !if "$(HBCOMPILER)" == "harbour"
 __LIB_PP_p = hbpp.lib

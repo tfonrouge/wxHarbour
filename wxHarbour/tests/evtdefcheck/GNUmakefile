@@ -28,6 +28,9 @@ HBCOMPILER ?= harbour
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
 
+# Link with Harbour multithread libraries [no,yes]
+HBMT ?= no
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -110,11 +113,17 @@ EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)/evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)/evtdefcheck_getdefs.o
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
+	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -I../../include
 
 ### Conditionally set variables: ###
 
+ifeq ($(HBMT),yes)
+__HBMTLIB__ = mt
+endif
+ifeq ($(HBMT),yes)
+__HBMTFLAG__ = -DHB_MT
+endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
 endif
@@ -125,10 +134,10 @@ ifeq ($(HBCOMPILER),xharbour)
 HBCC_DEFINE = -D__XHARBOUR__
 endif
 ifeq ($(HBCOMPILER),harbour)
-__LIB_VM_p = -lhbvm
+__LIB_VM_p = -lhbvm$(__HBMTLIB__)
 endif
 ifeq ($(HBCOMPILER),xharbour)
-__LIB_VM_p = -lvm
+__LIB_VM_p = -lvm$(__HBMTLIB__)
 endif
 ifeq ($(HBCOMPILER),harbour)
 __LIB_PP_p = -lhbpp

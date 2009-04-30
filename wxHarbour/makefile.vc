@@ -33,6 +33,9 @@ HBCOMPILER = harbour
 # [x]Harbour compiler executable name 
 HBCC = harbour
 
+# Link with Harbour multithread libraries [no,yes]
+HBMT = no
+
 # ---------------------------------------------------------------
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
@@ -108,8 +111,8 @@ WX_BUILD = release
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
 	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
-	HBCC="$(HBCC)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_FM="$(HBLIB_FM)" \
-	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
+	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" \
+	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
 	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" \
 	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" \
 	HBLIB_GTPCA="$(HBLIB_GTPCA)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
@@ -173,6 +176,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhFileDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhCommandEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhEvtHandler.obj \
@@ -244,6 +248,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_FileDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_MessageDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_CloseEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_CommandEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Event.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_EvtHandler.obj \
@@ -280,12 +285,15 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	-dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) /I$(PREFIX)\include $(p) $(p_0) \
-	$(p_1) /D__WXMSW__ /I$(WX_PATH)\Include \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 /Iinclude /I$(HB_INC_PATH) \
+	/I$(PREFIX)\include $(p) $(p_0) $(p_1) /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 
+!if "$(HBMT)" == "yes"
+__HBMTFLAG__ = -DHB_MT
+!endif
 !if "$(HBBUILD)" == "debug"
 __HBDEBUG__ = -b -d_DEBUG_
 !endif
@@ -562,6 +570,9 @@ $(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj: .\src\wxbase\comdialogs\wxhMessa
 $(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj: .\src\wxbase\events\wxhActivateEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.obj: .\src\wxbase\events\wxhCloseEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhCommandEvent.obj: .\src\wxbase\events\wxhCommandEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -774,6 +785,9 @@ $(__BUILDDIR__)\wxHarbour_wx_MessageDialog.obj: .\src\wxbase\comdialogs\wx_Messa
 
 $(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj: .\src\wxbase\events\wx_ActivateEvent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_ActivateEvent.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_CloseEvent.obj: .\src\wxbase\events\wx_CloseEvent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_CloseEvent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_CommandEvent.obj: .\src\wxbase\events\wx_CommandEvent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_CommandEvent.cpp

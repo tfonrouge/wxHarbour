@@ -2,6 +2,116 @@
  *
  */
 
+2009-04-29 22:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * demos/dbExplorer/GNUmakefile
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * samples/arrbrowser/GNUmakefile
+  * samples/arrbrowser/makefile.gcc
+  * samples/arrbrowser/makefile.vc
+  * samples/auinotebook/GNUmakefile
+  * samples/auinotebook/makefile.gcc
+  * samples/auinotebook/makefile.vc
+  * samples/button/GNUmakefile
+  * samples/button/makefile.gcc
+  * samples/button/makefile.vc
+  * samples/checkbox/GNUmakefile
+  * samples/checkbox/makefile.gcc
+  * samples/checkbox/makefile.vc
+  * samples/choice/GNUmakefile
+  * samples/choice/makefile.gcc
+  * samples/choice/makefile.vc
+  * samples/combobox/GNUmakefile
+  * samples/combobox/makefile.gcc
+  * samples/combobox/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/gauge/GNUmakefile
+  * samples/gauge/makefile.gcc
+  * samples/gauge/makefile.vc
+  * samples/grid/GNUmakefile
+  * samples/grid/makefile.gcc
+  * samples/grid/makefile.vc
+  * samples/listbook/GNUmakefile
+  * samples/listbook/makefile.gcc
+  * samples/listbook/makefile.vc
+  * samples/menu/GNUmakefile
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/notebook/GNUmakefile
+  * samples/notebook/makefile.gcc
+  * samples/notebook/makefile.vc
+  * samples/panel/GNUmakefile
+  * samples/panel/makefile.gcc
+  * samples/panel/makefile.vc
+  * samples/radiobox/GNUmakefile
+  * samples/radiobox/makefile.gcc
+  * samples/radiobox/makefile.vc
+  * samples/sayget/GNUmakefile
+  * samples/sayget/makefile.gcc
+  * samples/sayget/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/spinctrl/GNUmakefile
+  * samples/spinctrl/makefile.gcc
+  * samples/spinctrl/makefile.vc
+  * samples/taskBarIcon/GNUmakefile
+  * samples/taskBarIcon/makefile.gcc
+  * samples/taskBarIcon/makefile.vc
+  * samples/text/GNUmakefile
+  * samples/timer/GNUmakefile
+  * samples/timer/makefile.gcc
+  * samples/timer/makefile.vc
+  * samples/treectrl/GNUmakefile
+  * samples/treectrl/makefile.gcc
+  * samples/treectrl/makefile.vc
+  * tests/evtdefcheck/GNUmakefile
+  * tests/evtdefcheck/makefile.gcc
+  * tests/evtdefcheck/makefile.vc
+  * tests/socketCli/GNUmakefile
+  * tests/socketCli/makefile.gcc
+  * tests/socketCli/makefile.vc
+  * tests/socketSrv/GNUmakefile
+  * tests/socketSrv/makefile.gcc
+  * tests/socketSrv/makefile.vc
+    % added HBMT option for makefiles (multithread) to link with VMMT libs
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  * src/wxbase/controls/wxhCheckBox.prg
+  * src/wxbase/controls/wxhStaticText.prg
+  * src/wxbase/controls/wx_StaticText.cpp
+    * <datavar> clause on the @ CHECKBOX command made optional
+    + added clause DEFAULT on @ BUTTON command
+    + added command @ STATICTEXT (full methods)
+
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  + src/wxbase/events/wx_CloseEvent.cpp
+  * src/wxbase/events/wx_EvtHandler.cpp
+  + src/wxbase/events/wxhCloseEvent.prg
+  * src/wxbase/events/wxhEvtHandler.prg
+    + added wxCloseEvent class (full methods)
+
+  * samples/taskBarIcon/taskBarIcon.prg
+    % improved sample
+
+  * tests/socketSrv/socketSrv.prg
+    % checking for a valid VMMT library linked (just Harbour for now)
+
+  * wxharbour.spec
+    * changed release to 1
+
 2009-04-29 17:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/events/wxhTimerEvent.prg
   + src/wxbase/events/wxhTimer.prg

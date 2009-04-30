@@ -27,49 +27,160 @@ RETURN NIL
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
-  DATA taskBarIcon
 PUBLIC:
   DATA mainWnd
+  DATA taskBarIcon
+  DATA trayIcon
+  METHOD HideApplication
+  METHOD OnCloseMainWnd
   METHOD OnInit
+  METHOD RemoveTrayIcon
+  METHOD SetTrayIcon
+  METHOD ToogleTrayIcon
 PUBLISHED:
 ENDCLASS
 
 /*
-  EndClass MyApp
+  HideApplication
+  Teo. Mexico 2009
 */
+METHOD PROCEDURE HideApplication CLASS MyApp
+
+  IF !::taskBarIcon:IsIconInstalled()
+    ::SetTrayIcon()
+  ENDIF
+
+  ::mainWnd:Hide()
+
+RETURN
+
+/*
+  OnCloseMainWnd
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE OnCloseMainWnd( event ) CLASS MyApp
+  LOCAL mainWnd
+  LOCAL Result
+
+  mainWnd := event:GetEventObject()
+
+  IF !::taskBarIcon:IsIconInstalled()
+    Result := wxMessageBox( "Hide the application ?", "Confirm", _hb_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
+    IF Result = wxYES
+      ::SetTrayIcon()
+      mainWnd:Hide()
+    ELSE
+      ::taskBarIcon:RemoveIcon()
+      mainWnd:Destroy()
+    ENDIF
+    RETURN
+  ENDIF
+
+  Result := wxMessageBox( "Quit the application ?", "Confirm", _hb_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
+
+  IF Result = wxYES
+    ::taskBarIcon:RemoveIcon()
+    mainWnd:Destroy()
+    RETURN
+  ENDIF
+
+  event:Veto()
+
+RETURN
 
 /*
   OnInit
   Teo. Mexico 2009
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL icon
   LOCAL bmType
 
   CREATE FRAME ::mainWnd ;
-         WIDTH 640 HEIGHT 400 ;
          TITLE "TaskBarIcon Sample"
 
   BEGIN BOXSIZER VERTICAL
-    @ SPACER STRETCH
-    @ BUTTON ID wxID_CLOSE ACTION ::mainWnd:Close() SIZERINFO ALIGN RIGHT
+    BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND STRETCH
+      BEGIN BOXSIZER HORIZONTAL
+        @ CHECKBOX LABEL "Tray Icon enabled" NAME "checkBox" WIDTH 300 ACTION {|event| ::ToogleTrayIcon( event ) }
+      END SIZER
+      @ BUTTON "Hide" ACTION ::HideApplication()
+    END SIZER
+    @ BUTTON ID wxID_CLOSE DEFAULT ACTION ::mainWnd:Close() SIZERINFO ALIGN RIGHT
   END SIZER
 
   SHOW WINDOW ::mainWnd FIT CENTRE
 
-  icon := wxIcon():New()
+  ::mainWnd:ConnectCloseEvt( ::mainWnd:GetId(), wxEVT_CLOSE_WINDOW, {|event| ::OnCloseMainWnd( event ) } )
+
+  ::trayIcon := wxIcon():New()
 #ifdef HB_OS_WIN_32
   bmType := wxBITMAP_TYPE_ICO
 #else
   bmType :=wxBITMAP_TYPE_XPM
 #endif
-  icon:LoadFile("sample.ico",bmType)
+  ::trayIcon:LoadFile("sample.ico",bmType)
 
   ::taskBarIcon := MyTaskBarIcon():New()
-  ::taskBarIcon:SetIcon( icon, "This is the TaskBarIcon Sample tooltip" )
+
+  ::RemoveTrayIcon()
 
 RETURN .T.
 
+/*
+  RemoveTrayIcon
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE RemoveTrayIcon CLASS MyApp
+
+  IF ::taskBarIcon:IsIconInstalled()
+    ::mainWnd:FindWindowByName( "checkBox", ::mainWnd ):SetValue( .F. )
+    ::taskBarIcon:RemoveIcon()
+    IF !::mainWnd:IsShown()
+      ::mainWnd:Show( .T. )
+    ENDIF
+  ENDIF
+
+RETURN
+
+/*
+  SetTrayIcon
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetTrayIcon CLASS MyApp
+
+  ::taskBarIcon:SetIcon( ::trayIcon, "This is the TaskBarIcon Sample tooltip" )
+
+  ::mainWnd:FindWindowByName( "checkBox", ::mainWnd ):SetValue( .T. )
+
+RETURN
+
+/*
+  ToogleTrayIcon
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE ToogleTrayIcon( event ) CLASS MyApp
+  LOCAL checkBox
+
+  checkBox := event:GetEventObject()
+
+  IF checkBox:IsChecked()
+    ::SetTrayIcon()
+  ELSE
+    ::RemoveTrayIcon()
+  ENDIF
+
+RETURN
+
+/*
+  EndClass MyApp
+*/
+
+/*
+  MyTaskBarIcon
+  Teo. Mexico 2009
+
+  We need to create subclass to be able to call ::CreatePopupMenu below  
+*/
 CLASS MyTaskBarIcon FROM wxTaskBarIcon
   METHOD CreatePopupMenu
 ENDCLASS
@@ -78,16 +189,17 @@ METHOD FUNCTION CreatePopupMenu CLASS MyTaskBarIcon
   LOCAL menu
 
   DEFINE MENU VAR menu ON Self
-    ADD MENUITEM "Open" ACTION wxGetApp():mainWnd:Show( .T. )
+    ADD MENUITEM "Show TaskBarIcon Sample" ACTION wxGetApp():mainWnd:Show( .T. )
     DEFINE MENU "Sub"
       ADD MENUITEM "Sub-Item"
       ADD MENUITEM "Sub-Item"
       ADD MENUITEM "Sub-Item"
     ENDMENU
-    ADD MENUITEM "About" ACTION wxMessageBox("Close","TaskBarIcon",wxICON_INFORMATION)
+    ADD MENUITEM "About" ACTION wxMessageBox("Close","TaskBarIcon",wxICON_INFORMATION,wxGetApp():mainWnd)
     ADD MENUSEPARATOR
-    ADD MENUITEM "Remove Tray Icon" ACTION ::RemoveIcon()
-    ADD MENUITEM "Hide Window" ACTION wxGetApp():mainWnd:Hide()
+    ADD MENUITEM "Remove Tray Icon" ACTION wxGetApp():RemoveTrayIcon()
+    ADD MENUSEPARATOR
+    ADD MENUITEM "Hide TaskBarIcon Sample" ACTION wxGetApp():HideApplication()
   ENDMENU
 
 RETURN menu

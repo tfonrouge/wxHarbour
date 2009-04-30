@@ -50,6 +50,14 @@
     </description>
   </option>
 
+  <option name="HBMT">
+    <values>no,yes</values>
+    <default-value>no</default-value>
+    <description>
+      Link with Harbour multithread libraries
+    </description>
+  </option>
+
   <option name="HBLIB_TIP">
     <values>yes,no</values>
     <default-value>no</default-value>
@@ -213,15 +221,27 @@ Link in the Harbour TIP library
     </if>
   </set>
 
+  <set var="__HBMTLIB__">
+    <if cond="HBMT=='yes'">
+      mt
+    </if>
+  </set>
+
+  <set var="__HBMTFLAG__">
+    <if cond="HBMT=='yes'">
+      -DHB_MT
+    </if>
+  </set>
+
   <!-- Start Section of Harbour/xHarbour libraries names -->
   <set var="LIB_VM">
     <if cond="HBCOMPILER=='harbour'">
-      hbvm
+      hbvm$(__HBMTLIB__)
     </if>
   </set>
   <set var="LIB_VM">
     <if cond="HBCOMPILER=='xharbour'">
-      vm
+      vm$(__HBMTLIB__)
     </if>
   </set>
 
@@ -657,7 +677,7 @@ Where is wxWidgets installed
     <set var="__hbflags_mv" eval="0">
         $(HBFLAGS) $(__hbflags)
     </set>
-    <set var="__hbflags" append="1">-w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__)</set>
+    <set var="__hbflags" append="1">-w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__)</set>
     <set var="__hbflags" append="1">
       <if cond="TOOLSET=='win32'">
         -dHB_OS_WIN_32
