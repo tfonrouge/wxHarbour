@@ -2,6 +2,10 @@
  *
  */
 
+2009-04-29 23:44 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh/taskbar.ch
+    ! Fixed defines for WIN
+
 2009-04-29 23:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc

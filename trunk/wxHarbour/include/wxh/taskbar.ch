@@ -22,7 +22,12 @@
 // ----------------------------------------------------------------------------
 
 #undef  WXDLLIMPEXP_ADV
+
+#ifdef HB_OS_LINUX
 #define WXDLLIMPEXP_ADV         8622
+#else
+#define WXDLLIMPEXP_ADV         8450
+#endif
 
 #xcommand DECLARE_EXPORTED_EVENT_TYPE( <evtBase>, <evt>, <value> ) ;
           => ;
