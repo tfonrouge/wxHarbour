@@ -17,32 +17,18 @@
 #include "hbclass.ch"
 #include "property.ch"
 #include "wx.ch"
-#include "wxhevtdefs.h"
 
 /*
-  wxEvtHandler
+  wxTaskBarIconEvent
   Teo. Mexico 2009
 */
-CLASS wxEvtHandler FROM wxObject
+CLASS wxTaskBarIconEvent FROM wxEvent
 PRIVATE:
-  DATA FEventList INIT HB_HSetCaseMatch( {=>}, .F. )
-  DATA FEventTypeValue
 PROTECTED:
 PUBLIC:
-  METHOD ConnectActivateEvt( p1, p2, p3, p4 )
-  METHOD ConnectCloseEvt( p1, p2, p3, p4 )
-  METHOD ConnectCommandEvt( p1, p2, p3, p4 )
-  METHOD ConnectFocusEvt( p1, p2, p3, p4 )
-  METHOD ConnectGridEvt( p1, p2, p3, p4 )
-  METHOD ConnectInitDialogEvt( p1, p2, p3, p4 )
-  METHOD ConnectMenuEvt( p1, p2, p3, p4 )
-  METHOD ConnectMouseEvt( p1, p2, p3, p4 )
-  METHOD ConnectSocketEvt( p1, p2, p3, p4 )
-  METHOD ConnectTaskBarIconEvt( p1, p2, p3, p4 )
-  METHOD ConnectTimerEvt( p1, p2, p3, p4 )
 PUBLISHED:
 ENDCLASS
 
 /*
-  End Class wxEvtHandler
+  End Class wxTaskBarIconEvent
 */

@@ -178,6 +178,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhMouseEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhTaskBarIconEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTimer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBitmap.o \
@@ -298,6 +299,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/gsocket.ch \
 	include/wxh/notebook.ch \
 	include/wxh/socket.ch \
+	include/wxh/taskbar.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
@@ -564,6 +566,9 @@ $(__BUILDDIR__)/wxHarbour_wxhSizeEvent.o: ./src/wxbase/events/wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhSocketEvent.o: ./src/wxbase/events/wxhSocketEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhTaskBarIconEvent.o: ./src/wxbase/events/wxhTaskBarIconEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhTimer.o: ./src/wxbase/events/wxhTimer.prg

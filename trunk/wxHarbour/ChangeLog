@@ -2,6 +2,21 @@
  *
  */
 
+2009-04-29 23:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * include/wxhevtdefs.h
+  * include/wxh.h
+  + include/wxh/taskbar.ch
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+  + src/wxbase/events/wxhTaskBarIconEvent.prg
+    + added wxTaskbarIconEvent (full)
+
+  * samples/taskBarIcon/taskBarIcon.prg
+    % double click on tray icon hides/unhides the app
+
 2009-04-29 22:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * demos/dbExplorer/GNUmakefile

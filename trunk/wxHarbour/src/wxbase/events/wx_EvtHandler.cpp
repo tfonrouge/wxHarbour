@@ -161,6 +161,15 @@ HB_FUNC( WXEVTHANDLER_CONNECTSOCKETEVT )
 }
 
 /*
+  ConnectTaskBarIconEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTTASKBARICONEVT )
+{
+  Connect( WXH_TASKBARICONEVENT );
+}
+
+/*
   ConnectTimerEvt
   Teo. Mexico 2009
 */
