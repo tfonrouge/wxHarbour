@@ -2,6 +2,21 @@
  *
  */
 
+2009-04-30 13:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxh.h
+  * src/common/wx_harbour.cpp
+    ! Fixed executing just one time the ProcessParamLists() method
+    ! Checking for not do hb_itemReturn* on a not new (copied) item
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  * src/raddox/TRDOServer_c.cpp
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/networking/wx_SocketServer.cpp
+    % using the hb_stackReturnItem() item
+
+  * src/wxbase/advctrls/wx_GridTableBase.cpp
+    * code cleanup
+
 2009-04-29 23:44 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh/taskbar.ch
     ! Fixed defines for WIN

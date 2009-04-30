@@ -94,6 +94,7 @@ wxh_Item::~wxh_Item()
 wxh_ObjParams::wxh_ObjParams()
 {
   pParamParent = NULL;
+  paramListProcessed = false;
   pSelf = hb_stackSelfItem();
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -105,6 +106,7 @@ wxh_ObjParams::wxh_ObjParams()
 wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
 {
   pParamParent = NULL;
+  paramListProcessed = false;
   pSelf = pHbObj;
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -189,16 +191,21 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 */
 void wxh_ObjParams::ProcessParamLists()
 {
-  /* add the Parent object (if any) to the child/parent lists */
-//   if( pParamParent )
-    SetChildItem( pSelf );
-
-  /* add the Child objects to the child/parent lists */
-  while( map_paramListChild.size() > 0 )
+  if( !paramListProcessed )
   {
-    MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
-    SetChildItem( it->first );
-    map_paramListChild.erase( it );
+    /* add the Parent object (if any) to the child/parent lists */
+//     if( pParamParent )
+      SetChildItem( pSelf );
+
+    /* add the Child objects to the child/parent lists */
+    while( map_paramListChild.size() > 0 )
+    {
+      MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
+      SetChildItem( it->first );
+      map_paramListChild.erase( it );
+    }
+
+    paramListProcessed = true;
   }
 }
 
@@ -265,10 +272,13 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 
     ProcessParamLists();
 
-    if( bItemRelease )
-      hb_itemReturnRelease( pSelf );
-    else
-      hb_itemReturn( pSelf );
+    if( hb_stackReturnItem() != pSelf )
+    {
+      if( bItemRelease )
+        hb_itemReturnRelease( pSelf );
+      else
+        hb_itemReturn( pSelf );
+    }
 
   }else
     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 4, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
@@ -285,7 +295,9 @@ void wxh_ObjParams::SetChildItem( const PHB_ITEM pChildItm )
   if( pWxh_ItemChild )
   {
     if( pWxh_ItemChild->pSelf == NULL )
+    {
       pWxh_ItemChild->pSelf = hb_itemNew( pChildItm );
+    }
     else
       pWxh_ItemChild->uiRefCount++;
   }else

@@ -233,15 +233,14 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
 */
 HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
 
-  if( pSelf && gridTable )
+  if( gridTable )
+  {
     hb_retl( gridTable->AppendCols( numCols ) );
-  else
-    hb_ret();
+  }
 }
 
 /*

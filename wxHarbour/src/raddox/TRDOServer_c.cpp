@@ -105,10 +105,9 @@ HB_FUNC( TRDOSERVER_ACCEPT )
     if(socketBase)
     {
       HB_FUNC_EXEC( TRDOSOCKETBASE );
-      PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
+      PHB_ITEM p = hb_stackReturnItem();
       wxh_ObjParams objParams = wxh_ObjParams( p );
-
-      objParams.Return( socketBase );
+      objParams.Return( socketBase, true );
     }
   }
 }

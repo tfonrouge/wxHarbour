@@ -78,10 +78,9 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
     if(socketBase)
     {
       HB_FUNC_EXEC( WXSOCKETBASE );
-      PHB_ITEM p = hb_itemNew( hb_stackReturnItem() );
+      PHB_ITEM p = hb_stackReturnItem();
       wxh_ObjParams objParams = wxh_ObjParams( p );
-      objParams.Return( socketBase );
-      hb_itemReturnRelease( p );
+      objParams.Return( socketBase, true );
     }
   }
 }
