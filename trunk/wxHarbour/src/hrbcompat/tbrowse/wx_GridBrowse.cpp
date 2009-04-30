@@ -64,7 +64,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
     if( pGridBrowse )
     {
       HB_FUNC_EXEC( WXKEYEVENT );
-      PHB_ITEM pKeyEvent = hb_itemNew( hb_stackReturnItem() );
+      PHB_ITEM pKeyEvent = hb_stackReturnItem();
       wxh_ObjParams objParams = wxh_ObjParams( pKeyEvent );
 
       objParams.Return( &event );
@@ -72,7 +72,6 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
       hb_objSendMsg( pGridBrowse, "OnKeyDown", 1, pKeyEvent );
 
       wxh_ItemListDel_WX( &event );
-      hb_itemRelease( pKeyEvent );
     }
   }
 
@@ -91,7 +90,7 @@ void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
   if( pWxhBrowse )
   {
     HB_FUNC_EXEC( WXGRIDEVENT );
-    PHB_ITEM pGridEvent = hb_itemNew( hb_stackReturnItem() );
+    PHB_ITEM pGridEvent = hb_stackReturnItem();
     wxh_ObjParams objParams = wxh_ObjParams( pGridEvent );
 
     objParams.Return( &gridEvent );
@@ -99,7 +98,6 @@ void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
     hb_objSendMsg( pWxhBrowse, "OnSelectCell", 1, pGridEvent );
 
     wxh_ItemListDel_WX( &gridEvent );
-    hb_itemRelease( pGridEvent );
   }
   else
     gridEvent.Skip();

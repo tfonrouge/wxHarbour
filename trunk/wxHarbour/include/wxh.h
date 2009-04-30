@@ -85,6 +85,7 @@ public:
 class wxh_ObjParams
 {
 private:
+  bool paramListProcessed;
   void SetChildItem( const PHB_ITEM pChildItem );
 public:
 
