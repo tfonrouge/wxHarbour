@@ -113,13 +113,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   ::mainWnd:ConnectCloseEvt( ::mainWnd:GetId(), wxEVT_CLOSE_WINDOW, {|event| ::OnCloseMainWnd( event ) } )
 
-  ::trayIcon := wxIcon():New()
+  ::trayIcon := wxIcon():New() /* loads default xpm (wxwin32x32.xpm) */
 #ifdef HB_OS_WIN_32
   bmType := wxBITMAP_TYPE_ICO
 #else
   bmType :=wxBITMAP_TYPE_XPM
 #endif
-  ::trayIcon:LoadFile("sample.ico",bmType)
+  ::trayIcon:LoadFile( "sample.ico", bmType ) /* loads an icon */
 
   ::taskBarIcon := MyTaskBarIcon():New()
 

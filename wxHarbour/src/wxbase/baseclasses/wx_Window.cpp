@@ -27,8 +27,7 @@ HB_FUNC_EXTERN( WXFONT );
 
 HB_FUNC( WXWINDOW_CENTRE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -39,11 +38,10 @@ HB_FUNC( WXWINDOW_CENTRE )
 
 HB_FUNC( WXWINDOW_CLOSE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
-    wnd->Close( hb_parl( 1 ) );
+    hb_retl( wnd->Close( hb_parl( 1 ) ) );
 }
 
 /*
@@ -60,8 +58,7 @@ HB_FUNC( WXWINDOW_DISABLE )
 
 HB_FUNC( WXWINDOW_DESTROY )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retl( wnd->Destroy() );
@@ -140,13 +137,24 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 }
 
 /*
+  Freeze
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_FREEZE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    wnd->Freeze();
+}
+
+/*
   GetFont
   Teo. Mexico 2008
 */
 HB_FUNC( WXWINDOW_GETFONT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -160,8 +168,7 @@ HB_FUNC( WXWINDOW_GETFONT )
 
 HB_FUNC( WXWINDOW_GETLABEL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retc( wnd->GetLabel().mb_str() );
@@ -169,8 +176,7 @@ HB_FUNC( WXWINDOW_GETLABEL )
 
 HB_FUNC( WXWINDOW_GETNAME )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retc( wnd->GetName().mb_str() );
@@ -178,8 +184,7 @@ HB_FUNC( WXWINDOW_GETNAME )
 
 HB_FUNC( WXWINDOW_GETID )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retnl( wnd->GetId() );
@@ -187,8 +192,7 @@ HB_FUNC( WXWINDOW_GETID )
 
 HB_FUNC( WXWINDOW_GETPARENT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -202,8 +206,7 @@ HB_FUNC( WXWINDOW_GETPARENT )
 
 HB_FUNC( WXWINDOW_GETSIZER )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -217,8 +220,7 @@ HB_FUNC( WXWINDOW_GETSIZER )
 
 HB_FUNC( WXWINDOW_HIDE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retl( wnd->Hide() );
@@ -238,8 +240,7 @@ HB_FUNC( WXWINDOW_ISENABLED )
 
 HB_FUNC( WXWINDOW_ISSHOWN )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     hb_retl( wnd->IsShown() );
@@ -247,8 +248,7 @@ HB_FUNC( WXWINDOW_ISSHOWN )
 
 HB_FUNC( WXWINDOW_MAKEMODAL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     wnd->MakeModal( hb_parl( 1 ) );
@@ -285,8 +285,7 @@ HB_FUNC( WXWINDOW_POPUPMENU )
 
 HB_FUNC( WXWINDOW_RAISE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     wnd->Raise();
@@ -294,8 +293,7 @@ HB_FUNC( WXWINDOW_RAISE )
 
 HB_FUNC( WXWINDOW_SETFOCUS )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     wnd->SetFocus();
@@ -303,8 +301,7 @@ HB_FUNC( WXWINDOW_SETFOCUS )
 
 HB_FUNC( WXWINDOW_SETID )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
     wnd->SetId( hb_parni( 1 ) );
@@ -312,8 +309,7 @@ HB_FUNC( WXWINDOW_SETID )
 
 HB_FUNC( WXWINDOW_SETLABEL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -324,8 +320,7 @@ HB_FUNC( WXWINDOW_SETLABEL )
 
 HB_FUNC( WXWINDOW_SETNAME )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -351,8 +346,7 @@ HB_FUNC( WXWINDOW_SETSIZER )
 
 HB_FUNC( WXWINDOW_SETTOOLTIP )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
@@ -362,12 +356,23 @@ HB_FUNC( WXWINDOW_SETTOOLTIP )
 
 HB_FUNC( WXWINDOW_SHOW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( pSelf );
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
   {
     bool show = hb_pcount() > 0 ? hb_parl( 1 ) : FALSE;
     hb_retl( wnd->Show( show ) );
   }
+}
+
+/*
+  Thaw
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_THAW )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    wnd->Thaw();
 }

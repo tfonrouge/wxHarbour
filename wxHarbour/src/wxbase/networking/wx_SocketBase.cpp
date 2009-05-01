@@ -294,6 +294,97 @@ HB_FUNC( WXSOCKETBASE_ISOK )
 }
 
 /*
+  wxSocketBase Peek
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSOCKETBASE_PEEK )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+
+  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
+  wxUint32 nbytes = hb_parnl( 2 );
+
+  if( pBuffer == NULL || !ISBYREF( 1 ) )
+  {
+//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
+    return;
+  }
+
+  pBuffer = hb_itemUnShareString( pBuffer );
+
+  if( socketBase )
+  {
+    socketBase->Peek( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    hb_itemReturn( pSelf );
+  }
+}
+
+/*
+  wxSocketBase_ReadBase
+  Teo. Mexico 2009
+*/
+void wxSocketBase_ReadBase( BYTE type )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+
+  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
+
+  if( pBuffer == NULL || !ISBYREF( 1 ) )
+  {
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+    return;
+  }
+
+  if( socketBase )
+  {
+    pBuffer = hb_itemUnShareString( pBuffer );
+
+    wxUint32 nbytes = ISNIL( 2 ) ?  pBuffer->item.asString.length : hb_parnl( 2 );
+
+    if( nbytes > 0 )
+    {
+      if( nbytes > pBuffer->item.asString.length )
+        hb_itemReSizeString( pBuffer, nbytes );
+
+      if( type == '0' )
+        socketBase->Read( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+      else
+        socketBase->ReadMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+
+      wxUint32 uiLastCount = socketBase->LastCount();
+
+      if( uiLastCount < pBuffer->item.asString.length )
+//         pBuffer->item.asString.length = uiLastCount;
+        hb_itemReSizeString( pBuffer, uiLastCount );
+
+    }else
+      hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+
+    hb_itemReturn( pSelf );
+  }
+}
+
+/*
+  wxSocketBase Read
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSOCKETBASE_READ )
+{
+  wxSocketBase_ReadBase( '0' );
+}
+
+/*
+  wxSocketBase ReadMsg
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXSOCKETBASE_READMSG )
+{
+  wxSocketBase_ReadBase( '1' );
+}
+
+/*
   void RestoreState
   Teo. Mexico 2009
 */
@@ -405,113 +496,6 @@ HB_FUNC( WXSOCKETBASE_SETTIMEOUT )
     int seconds = hb_parni( 1 );
     socketBase->SetTimeout( seconds );
   }
-}
-
-/*
-  wxSocketBase Peek
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXSOCKETBASE_PEEK )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
-
-  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-  wxUint32 nbytes = hb_parnl( 2 );
-
-  if( pBuffer == NULL || !ISBYREF( 1 ) )
-  {
-//     hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, &hb_errFuncName, HB_ERR_ARGS_BASEPARAMS );
-    return;
-  }
-
-  pBuffer = hb_itemUnShareString( pBuffer );
-
-  if( socketBase )
-  {
-    socketBase->Peek( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
-    hb_itemReturn( pSelf );
-  }
-}
-
-HB_FUNC( RESIZESTRING )
-{
-  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-  ULONG uNewLen = hb_parnl( 2 );
-
-  if( pBuffer == NULL || !ISBYREF( 1 ) )
-  {
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-    return;
-  }
-
-  pBuffer = hb_itemUnShareString( pBuffer );
-
-  hb_itemReSizeString( pBuffer, uNewLen );
-}
-
-/*
-  wxSocketBase_ReadBase
-  Teo. Mexico 2009
-*/
-void wxSocketBase_ReadBase( BYTE type )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
-
-  PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
-
-  if( pBuffer == NULL || !ISBYREF( 1 ) )
-  {
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-    return;
-  }
-
-  if( socketBase )
-  {
-    pBuffer = hb_itemUnShareString( pBuffer );
-
-    wxUint32 nbytes = ISNIL( 2 ) ?  pBuffer->item.asString.length : hb_parnl( 2 );
-
-    if( nbytes > 0 )
-    {
-      if( nbytes > pBuffer->item.asString.length )
-        hb_itemReSizeString( pBuffer, nbytes );
-
-      if( type == '0' )
-        socketBase->Read( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
-      else
-        socketBase->ReadMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
-
-      wxUint32 uiLastCount = socketBase->LastCount();
-
-      if( uiLastCount < pBuffer->item.asString.length )
-        pBuffer->item.asString.length = uiLastCount;
-        //hb_itemReSizeString( pBuffer, uiLastCount );
-
-    }else
-      hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 10, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-
-    hb_itemReturn( pSelf );
-  }
-}
-
-/*
-  wxSocketBase Read
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXSOCKETBASE_READ )
-{
-  wxSocketBase_ReadBase( '0' );
-}
-
-/*
-  wxSocketBase ReadMsg
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXSOCKETBASE_READMSG )
-{
-  wxSocketBase_ReadBase( '1' );
 }
 
 /*

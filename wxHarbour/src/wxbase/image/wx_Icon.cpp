@@ -21,6 +21,8 @@
 
 #include "wxbase/wx_Icon.h"
 
+#include "wxwin32x32.xpm"
+
 /*
   ~wx_Icon
   Teo. Mexico 2009
@@ -43,19 +45,29 @@ HB_FUNC( WXICON_NEW )
   switch( hb_pcount() )
   {
   case 0 :
-    icon = new wx_Icon();
+    {
+      /* TODO: Check & solve why this fails on mingw-windows */
+      icon = new wx_Icon( wxwin32x32_xpm );
+    }
+    break;
+  case 1 :
+    {
+      char * bits = hb_parc( 1 );
+      icon = new wx_Icon( &bits );
+    }
+    break;
+  case 2:
+    {
+      const wxString& name = wxh_parc( 1 );
+      wxBitmapType type = wxBitmapType( hb_parni( 2 ) );
+      int desiredWidth = hb_parni( 3 );
+      int desiredHeight = hb_parni( 4 );
+
+      icon = new wx_Icon( name, type, desiredWidth, desiredHeight );
+    }
     break;
   default :
-    const wxString& name = wxh_parc( 1 );
-  #if defined(__WXGTK__)
-    wxBitmapType type = wxBitmapType( HB_ISNIL( 2 ) ? wxBITMAP_TYPE_XPM : hb_parni( 2 ) );
-  #else
-    wxBitmapType type = wxBitmapType( HB_ISNIL( 2 ) ? wxBITMAP_TYPE_ICO : hb_parni( 2 ) );
-  #endif
-    int desiredWidth = hb_parni( 3 );
-    int desiredHeight = hb_parni( 4 );
-
-    icon = new wx_Icon( name, type, desiredWidth, desiredHeight );
+    icon = new wx_Icon();
     break;
   }
 

@@ -24,6 +24,8 @@ protected:
 public:
 
   wx_Icon() : wxIcon() {}
+  wx_Icon( char** bits ) : wxIcon( bits ) {}
+  wx_Icon( const char** bits ) : wxIcon( bits ) {}
   wx_Icon(const wxString& name, wxBitmapType type, int desiredWidth = -1, int desiredHeight = -1) : wxIcon( name, type, desiredWidth, desiredHeight ) {}
 //   wx_Icon(const wxString& name ) : wxIcon( name ) {}
 

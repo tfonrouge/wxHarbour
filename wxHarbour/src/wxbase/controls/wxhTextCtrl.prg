@@ -30,6 +30,7 @@ PUBLIC:
   CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
 
   METHOD AppendText( text )
+  METHOD Clear
   METHOD GetValue AS STRING
   METHOD SetValue( value )
 PUBLISHED:

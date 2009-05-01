@@ -65,7 +65,7 @@ METHOD PROCEDURE ConnectToServer CLASS MyApp
     @ SAY "Server:" GET ::serverName
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
       @ BUTTON ID wxID_CANCEL ACTION oDlg:EndModal( wxID_CANCEL )
-      @ BUTTON ID wxID_OK ACTION oDlg:EndModal( wxID_OK )
+      @ BUTTON ID wxID_OK DEFAULT ACTION oDlg:EndModal( wxID_OK )
     END SIZER
   END SIZER
 
@@ -113,6 +113,8 @@ METHOD PROCEDURE OnConnectSocket( event ) CLASS MyApp
     buffer := Space( 100 )
     ::socket:ReadMsg( @buffer )
     ::logCtrl:AppendText( buffer )
+    ::logCtrl:AppendText( "(" + NTrim( ::socket:LastCount() ) + ")" )
+    //::logCtrl:AppendText( "(" + NTrim( ::socket:LastCount() ) + ")" + buffer )
     EXIT
   CASE wxSOCKET_CONNECTION
     ::logCtrl:AppendText( E"\nSocket Connection" )
@@ -148,7 +150,7 @@ METHOD FUNCTION OnInit CLASS MyApp
 
   BEGIN BOXSIZER VERTICAL
     @ TEXTCTRL VAR ::logCtrl MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
-    @ SAY "Send:" GET msg NAME "msg" ACTION {|| ::SendToServer( msg ) }
+    @ SAY "Send:" GET msg NAME "msg" ACTION {|getCtrl| ::SendToServer( getCtrl ) }
     @ BUTTON ID wxID_CLOSE ACTION ::oWnd:Close()
   END SIZER
 
@@ -160,9 +162,14 @@ METHOD FUNCTION OnInit CLASS MyApp
 
 RETURN .T.
 
-METHOD PROCEDURE SendToServer( msg )
+METHOD PROCEDURE SendToServer( getCtrl ) CLASS MyApp
+  LOCAL msg
+
+  msg := getCtrl:GetValue()
+
   IF !Empty( msg )
     ::logCtrl:AppendText( E"\nSended: " + msg )
     ::socket:WriteMsg( msg )
+    getCtrl:Clear()
   ENDIF
 RETURN

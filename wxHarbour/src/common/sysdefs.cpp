@@ -22,6 +22,15 @@
 #define wxdllimpexp_adv         8586
 
 /*
+  __WXH_WXDLLIMPEXP_ADV : WXDLLIMPEXP_ADV
+  Teo. Mexico 2009
+*/
+HB_FUNC( __WXH_WXDLLIMPEXP_ADV )
+{
+  hb_retni( wxEVT_TASKBAR_MOVE - 1550 );
+}
+
+/*
   wxh_TRANSLATE_EVT_DEFS
   Teo. Mexico 2008
 */

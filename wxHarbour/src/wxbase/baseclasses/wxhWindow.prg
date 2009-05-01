@@ -38,6 +38,7 @@ PUBLIC:
   METHOD FindWindowById( id, parent )
   METHOD FindWindowByLabel( label, parent )
   METHOD FindWindowByName( name, parent )
+  METHOD Freeze
   METHOD GetFont
   METHOD GetId
   METHOD GetLabel
@@ -58,6 +59,7 @@ PUBLIC:
   METHOD SetSizer( sizer, deleteOld )
   METHOD SetToolTip
   METHOD Show( Value /* defaults to TRUE */ )
+  METHOD Thaw
 PUBLISHED:
 ENDCLASS
 

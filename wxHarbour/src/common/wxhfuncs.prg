@@ -340,7 +340,7 @@ RETURN comboBox
   __wxh_Dialog
   Teo. Mexico 2008
 */
-FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, initDlg )
+FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, onClose, initDlg )
   LOCAL dlg
 
   IF Empty( fromClass )
@@ -350,6 +350,10 @@ FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth
     IF !dlg:IsDerivedFrom( "wxDialog" )
       dlg:IsNotDerivedFrom_wxDialog()
     ENDIF
+  ENDIF
+
+  IF onClose != NIL
+    dlg:ConnectCloseEvt( dlg:GetId(), wxEVT_CLOSE_WINDOW, onClose )
   ENDIF
 
   IF initDlg != NIL
@@ -364,7 +368,7 @@ RETURN dlg
   __wxh_Frame
   Teo. Mexico 2008
 */
-FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
+FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, onClose )
   LOCAL oWnd
 
   IF Empty( fromClass )
@@ -397,6 +401,10 @@ FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHe
       ENDIF
     ENDCASE
 
+  ENDIF
+
+  IF onClose != NIL
+    oWnd:ConnectCloseEvt( oWnd:GetId(), wxEVT_CLOSE_WINDOW, onClose )
   ENDIF
 
   containerObj():AddToParentList( oWnd )

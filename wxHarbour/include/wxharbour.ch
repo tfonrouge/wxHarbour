@@ -86,8 +86,9 @@
           [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
+          [ ON CLOSE <onClose> ] ;
           => ;
-          <oFrame> := __wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>] )
+          <oFrame> := __wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
@@ -97,9 +98,10 @@
           [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
           [ STYLE <nStyle> ] ;
           [ NAME <cName> ] ;
+          [ ON CLOSE <onClose> ] ;
           [ ON INITDIALOG <initDlg> ] ;
           => ;
-          <oDlg> := __wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<initDlg>] )
+          <oDlg> := __wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] [<initDlg>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;

@@ -73,6 +73,20 @@ wx_App::~wx_App()
 */
 bool wx_App::OnInit()
 {
+
+#if wxUSE_XPM
+  wxImage::AddHandler(new wxXPMHandler);
+#endif
+#if wxUSE_LIBPNG
+  wxImage::AddHandler(new wxPNGHandler);
+#endif
+#if wxUSE_LIBJPEG
+  wxImage::AddHandler(new wxJPEGHandler);
+#endif
+#if wxUSE_GIF
+  wxImage::AddHandler(new wxGIFHandler);
+#endif
+
   /* set our error handler */
   HB_FUNC_EXEC( WXHERRORSYS );
   return hb_objSendMsg( hb_App, "OnInit", 0 )->item.asLogical.value;
