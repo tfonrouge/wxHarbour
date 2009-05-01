@@ -2,6 +2,11 @@
  *
  */
 
+2009-05-01 02:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + src/wxbase/image/wxwin32x32.xpm
+    * added wxWidgets icon, borrowed from wxWidgets tree
+      (thanks to wxWidgets team for this great library)
+
 2009-05-01 02:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxbase/wx_Icon.h
     + added two more creators:
