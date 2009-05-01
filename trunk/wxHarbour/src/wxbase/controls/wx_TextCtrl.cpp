@@ -56,8 +56,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
 */
 HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( textCtrl )
   {
@@ -67,13 +66,26 @@ HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 }
 
 /*
+  wxTextCtrl:Clear
+  Teo. Mexico 2008
+*/
+HB_FUNC( WXTEXTCTRL_CLEAR )
+{
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( textCtrl )
+  {
+    textCtrl->Clear();
+  }
+}
+
+/*
   wxTextCtrl:GetValue
   Teo. Mexico 2007
 */
 HB_FUNC( WXTEXTCTRL_GETVALUE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( textCtrl )
     hb_retc( textCtrl->GetValue().mb_str() );
@@ -85,8 +97,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
 */
 HB_FUNC( WXTEXTCTRL_SETVALUE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( pSelf );
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( textCtrl )
   {

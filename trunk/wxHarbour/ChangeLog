@@ -2,6 +2,52 @@
  *
  */
 
+2009-05-01 02:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxbase/wx_Icon.h
+    + added two more creators:
+      wx_Icon( char** bits )
+      wx_Icon( const char** bits )
+
+  * include/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    + added ON CLOSE <block> clause to @ FRAME and @ DIALOG commands
+      traps wxOnCloseEvent's
+
+  * include/wxh/taskbar.ch
+  * src/common/sysdefs.cpp
+    ! Fixed for Win compilers MINGW and MSVC
+
+  * samples/taskBarIcon/taskBarIcon.prg
+    * added comments
+
+  * src/wxbase/app/wx_App.cpp
+    * added initializers for image handlers
+
+  * src/wxbase/baseclasses/wxhWindow.prg
+  * src/wxbase/baseclasses/wx_Window.cpp
+    + added methods:
+      + Freeze
+      + Thaw
+    * code cleanup
+
+  * src/wxbase/controls/wxhTextCtrl.prg
+  * src/wxbase/controls/wx_TextCtrl.cpp
+    + added method:
+      + Clear
+    * code cleanup
+
+  * src/wxbase/image/wx_Icon.cpp
+    + added default xpm image: wxwin32x32.xpm ( borrowed from wxWidgets tree )
+    ? TODO: Check & solve why fails loading icon from xpm in MINGW
+
+  * src/wxbase/networking/wx_SocketBase.cpp
+    * code cleanup
+    ! Fixed wrong string resizing by just changing item.asString.length, using
+      now hb_itemReSizeString()
+
+  * tests/socketCli/socketCli.prg
+    % updated test
+
 2009-04-30 13:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
   * src/common/wx_harbour.cpp
