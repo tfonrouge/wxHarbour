@@ -21,8 +21,6 @@
 
 #include "wxbase/wx_Icon.h"
 
-#include "wxwin32x32.xpm"
-
 /*
   ~wx_Icon
   Teo. Mexico 2009
@@ -42,12 +40,12 @@ HB_FUNC( WXICON_NEW )
 
   wx_Icon* icon;
 
+  /* TODO: Check & solve why this fails on mingw-windows */
   switch( hb_pcount() )
   {
   case 0 :
     {
-      /* TODO: Check & solve why this fails on mingw-windows */
-      icon = new wx_Icon( wxwin32x32_xpm );
+      icon = new wx_Icon();
     }
     break;
   case 1 :

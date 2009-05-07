@@ -20,6 +20,8 @@
 
 #include "wxbase/wx_TaskBarIcon.h"
 
+#include "wxwin32x32.xpm"
+
 /*
   ~wx_TaskBarIcon
   Teo. Mexico 2009
@@ -118,14 +120,16 @@ HB_FUNC( WXTASKBARICON_SETICON )
 
   if( taskBarIcon )
   {
-    wxIcon* icon = (wxIcon *) wxh_parWX( 1 );
-
-    if( !icon )
-      icon = &wxNullIcon;
-
-    if( icon )
-      hb_retl( taskBarIcon->SetIcon( *icon, wxh_parc( 2 ) ) );
-//       hb_retl( taskBarIcon->SetIcon( wxICON(sample) ) );
+    if( ISNIL( 1 ) )
+    {
+      hb_retl( taskBarIcon->SetIcon( wxIcon( wxwin32x32_xpm ), wxh_parc( 2 ) ) );
+    }
+    else
+    {
+      wxIcon* icon = (wxIcon *) wxh_parWX( 1 );
+      if( icon )
+        hb_retl( taskBarIcon->SetIcon( *icon, wxh_parc( 2 ) ) );
+    }
   }
 }
 

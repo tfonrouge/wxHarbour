@@ -379,61 +379,61 @@ uninstall_wxHarbour:
 	-del $(PREFIX)\lib\lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	if not exist $(PREFIX) mkdir $(PREFIX)
-	if not exist $(PREFIX)\include mkdir $(PREFIX)\include
-	if not exist $(PREFIX)\include/wxh mkdir $(PREFIX)\include/wxh
-	copy include\defs.ch $(PREFIX)\include
-	copy include\dialog.ch $(PREFIX)\include
-	copy include\event.ch $(PREFIX)\include
-	copy include\property.ch $(PREFIX)\include
-	copy include\raddox.ch $(PREFIX)\include
-	copy include\toplevel.ch $(PREFIX)\include
-	copy include\wx.ch $(PREFIX)\include
-	copy include\wx_hbcompat.ch $(PREFIX)\include
-	copy include\wxharbour.ch $(PREFIX)\include
-	copy include\xerror.ch $(PREFIX)\include
-	copy include\defs.h $(PREFIX)\include
-	copy include\rdodefs.h $(PREFIX)\include
-	copy include\wxh.h $(PREFIX)\include
-	copy include\wxhevtdefs.h $(PREFIX)\include
-	copy include\wxh\auibook.ch $(PREFIX)\include\wxh
-	copy include\wxh\bitmap.ch $(PREFIX)\include\wxh
-	copy include\wxh\bookctrl.ch $(PREFIX)\include\wxh
-	copy include\wxh\filedlg.ch $(PREFIX)\include\wxh
-	copy include\wxh\gauge.ch $(PREFIX)\include\wxh
-	copy include\wxh\gdicmn.ch $(PREFIX)\include\wxh
-	copy include\wxh\gsocket.ch $(PREFIX)\include\wxh
-	copy include\wxh\notebook.ch $(PREFIX)\include\wxh
-	copy include\wxh\socket.ch $(PREFIX)\include\wxh
-	copy include\wxh\taskbar.ch $(PREFIX)\include\wxh
-	copy include\wxh\textctrl.ch $(PREFIX)\include\wxh
+	if not exist JUANA mkdir JUANA
+	if not exist JUANA\include mkdir JUANA\include
+	if not exist JUANA\include/wxh mkdir JUANA\include/wxh
+	copy include\defs.ch JUANA\include
+	copy include\dialog.ch JUANA\include
+	copy include\event.ch JUANA\include
+	copy include\property.ch JUANA\include
+	copy include\raddox.ch JUANA\include
+	copy include\toplevel.ch JUANA\include
+	copy include\wx.ch JUANA\include
+	copy include\wx_hbcompat.ch JUANA\include
+	copy include\wxharbour.ch JUANA\include
+	copy include\xerror.ch JUANA\include
+	copy include\defs.h JUANA\include
+	copy include\rdodefs.h JUANA\include
+	copy include\wxh.h JUANA\include
+	copy include\wxhevtdefs.h JUANA\include
+	copy include\wxh\auibook.ch JUANA\include\wxh
+	copy include\wxh\bitmap.ch JUANA\include\wxh
+	copy include\wxh\bookctrl.ch JUANA\include\wxh
+	copy include\wxh\filedlg.ch JUANA\include\wxh
+	copy include\wxh\gauge.ch JUANA\include\wxh
+	copy include\wxh\gdicmn.ch JUANA\include\wxh
+	copy include\wxh\gsocket.ch JUANA\include\wxh
+	copy include\wxh\notebook.ch JUANA\include\wxh
+	copy include\wxh\socket.ch JUANA\include\wxh
+	copy include\wxh\taskbar.ch JUANA\include\wxh
+	copy include\wxh\textctrl.ch JUANA\include\wxh
 
 uninstall_wxHarbour_headers: 
-	-if exist $(PREFIX)\include\defs.ch -del $(PREFIX)\include\defs.ch
-	-if exist $(PREFIX)\include\dialog.ch -del $(PREFIX)\include\dialog.ch
-	-if exist $(PREFIX)\include\event.ch -del $(PREFIX)\include\event.ch
-	-if exist $(PREFIX)\include\property.ch -del $(PREFIX)\include\property.ch
-	-if exist $(PREFIX)\include\raddox.ch -del $(PREFIX)\include\raddox.ch
-	-if exist $(PREFIX)\include\toplevel.ch -del $(PREFIX)\include\toplevel.ch
-	-if exist $(PREFIX)\include\wx.ch -del $(PREFIX)\include\wx.ch
-	-if exist $(PREFIX)\include\wx_hbcompat.ch -del $(PREFIX)\include\wx_hbcompat.ch
-	-if exist $(PREFIX)\include\wxharbour.ch -del $(PREFIX)\include\wxharbour.ch
-	-if exist $(PREFIX)\include\xerror.ch -del $(PREFIX)\include\xerror.ch
-	-if exist $(PREFIX)\include\defs.h -del $(PREFIX)\include\defs.h
-	-if exist $(PREFIX)\include\rdodefs.h -del $(PREFIX)\include\rdodefs.h
-	-if exist $(PREFIX)\include\wxh.h -del $(PREFIX)\include\wxh.h
-	-if exist $(PREFIX)\include\wxhevtdefs.h -del $(PREFIX)\include\wxhevtdefs.h
-	-if exist $(PREFIX)\include\wxh\auibook.ch -del $(PREFIX)\include\wxh\auibook.ch
-	-if exist $(PREFIX)\include\wxh\bitmap.ch -del $(PREFIX)\include\wxh\bitmap.ch
-	-if exist $(PREFIX)\include\wxh\bookctrl.ch -del $(PREFIX)\include\wxh\bookctrl.ch
-	-if exist $(PREFIX)\include\wxh\filedlg.ch -del $(PREFIX)\include\wxh\filedlg.ch
-	-if exist $(PREFIX)\include\wxh\gauge.ch -del $(PREFIX)\include\wxh\gauge.ch
-	-if exist $(PREFIX)\include\wxh\gdicmn.ch -del $(PREFIX)\include\wxh\gdicmn.ch
-	-if exist $(PREFIX)\include\wxh\gsocket.ch -del $(PREFIX)\include\wxh\gsocket.ch
-	-if exist $(PREFIX)\include\wxh\notebook.ch -del $(PREFIX)\include\wxh\notebook.ch
-	-if exist $(PREFIX)\include\wxh\socket.ch -del $(PREFIX)\include\wxh\socket.ch
-	-if exist $(PREFIX)\include\wxh\taskbar.ch -del $(PREFIX)\include\wxh\taskbar.ch
-	-if exist $(PREFIX)\include\wxh\textctrl.ch -del $(PREFIX)\include\wxh\textctrl.ch
+	-if exist JUANA\include\defs.ch -del JUANA\include\defs.ch
+	-if exist JUANA\include\dialog.ch -del JUANA\include\dialog.ch
+	-if exist JUANA\include\event.ch -del JUANA\include\event.ch
+	-if exist JUANA\include\property.ch -del JUANA\include\property.ch
+	-if exist JUANA\include\raddox.ch -del JUANA\include\raddox.ch
+	-if exist JUANA\include\toplevel.ch -del JUANA\include\toplevel.ch
+	-if exist JUANA\include\wx.ch -del JUANA\include\wx.ch
+	-if exist JUANA\include\wx_hbcompat.ch -del JUANA\include\wx_hbcompat.ch
+	-if exist JUANA\include\wxharbour.ch -del JUANA\include\wxharbour.ch
+	-if exist JUANA\include\xerror.ch -del JUANA\include\xerror.ch
+	-if exist JUANA\include\defs.h -del JUANA\include\defs.h
+	-if exist JUANA\include\rdodefs.h -del JUANA\include\rdodefs.h
+	-if exist JUANA\include\wxh.h -del JUANA\include\wxh.h
+	-if exist JUANA\include\wxhevtdefs.h -del JUANA\include\wxhevtdefs.h
+	-if exist JUANA\include\wxh\auibook.ch -del JUANA\include\wxh\auibook.ch
+	-if exist JUANA\include\wxh\bitmap.ch -del JUANA\include\wxh\bitmap.ch
+	-if exist JUANA\include\wxh\bookctrl.ch -del JUANA\include\wxh\bookctrl.ch
+	-if exist JUANA\include\wxh\filedlg.ch -del JUANA\include\wxh\filedlg.ch
+	-if exist JUANA\include\wxh\gauge.ch -del JUANA\include\wxh\gauge.ch
+	-if exist JUANA\include\wxh\gdicmn.ch -del JUANA\include\wxh\gdicmn.ch
+	-if exist JUANA\include\wxh\gsocket.ch -del JUANA\include\wxh\gsocket.ch
+	-if exist JUANA\include\wxh\notebook.ch -del JUANA\include\wxh\notebook.ch
+	-if exist JUANA\include\wxh\socket.ch -del JUANA\include\wxh\socket.ch
+	-if exist JUANA\include\wxh\taskbar.ch -del JUANA\include\wxh\taskbar.ch
+	-if exist JUANA\include\wxh\textctrl.ch -del JUANA\include\wxh\textctrl.ch
 
 demos: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
 	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) all

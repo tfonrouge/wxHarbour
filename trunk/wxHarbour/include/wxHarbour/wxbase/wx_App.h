@@ -14,6 +14,7 @@
   wxwApp: Interface
   Teo. Mexico 2006
 */
+
 class wx_App : public wxApp
 {
 private:

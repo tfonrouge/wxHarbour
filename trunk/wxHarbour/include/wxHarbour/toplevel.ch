@@ -11,17 +11,29 @@
 */
 
 /*
-  wxwApp: Interface
-  Teo. Mexico 2006
+  toplevel.ch
+  Teo. Mexico 2008
 */
-class wx_App : public wxApp
-{
-private:
-  DECLARE_CLASS( wx_App )
-public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
 
-DECLARE_APP( wx_App )
+#ifndef _WX_TOPLEVEL_H_
+#define _WX_TOPLEVEL_H_
+
+// ----------------------------------------------------------------------------
+// constants
+// ----------------------------------------------------------------------------
+
+// style common to both wxFrame and wxDialog
+#define wxSTAY_ON_TOP           0x8000
+#define wxICONIZE               0x4000
+#define wxMINIMIZE              wxICONIZE
+#define wxMAXIMIZE              0x2000
+#define wxCLOSE_BOX             0x1000
+
+#define wxSYSTEM_MENU           0x0800
+#define wxMINIMIZE_BOX          0x0400
+#define wxMAXIMIZE_BOX          0x0200
+#define wxTINY_CAPTION_HORIZ    0x0100
+#define wxTINY_CAPTION_VERT     0x0080
+#define wxRESIZE_BORDER         0x0040
+
+#endif

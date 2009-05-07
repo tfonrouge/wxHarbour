@@ -11,17 +11,16 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_MenuBar: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_MenuBar : public wxMenuBar
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_MenuBar( long style ) : wxMenuBar( style ) {}
 
-DECLARE_APP( wx_App )
+  ~wx_MenuBar();
+};

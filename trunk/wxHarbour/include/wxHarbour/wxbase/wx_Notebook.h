@@ -11,17 +11,18 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_Notebook: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_Notebook : public wxNotebook
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_Notebook() : wxNotebook() {}
 
-DECLARE_APP( wx_App )
+  wx_Notebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr) : wxNotebook( parent, id, pos, size, style, name ) {}
+
+  ~wx_Notebook();
+};

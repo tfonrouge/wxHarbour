@@ -11,17 +11,17 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_MenuItem: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_MenuItem : public wxMenuItem
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
+  wx_MenuItem( wxMenu* parentMenu = NULL, int id = wxID_SEPARATOR, const wxString& text = wxT(""), const wxString& helpString = wxT(""), int kind = wxITEM_NORMAL, wxMenu* subMenu = NULL ) : wxMenuItem( parentMenu, id, text, helpString, kind, subMenu ) {}
+
+  ~wx_MenuItem();
 };
 
-DECLARE_APP( wx_App )

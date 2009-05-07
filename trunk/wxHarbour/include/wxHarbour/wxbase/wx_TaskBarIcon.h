@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,21 +7,26 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wxwApp: Interface
-  Teo. Mexico 2006
+  wx_TaskBarIcon: Interface
+  Teo. Mexico 2009
 */
-class wx_App : public wxApp
+
+#include "wx/taskbar.h"
+
+class wx_TaskBarIcon : public wxTaskBarIcon
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
 
-DECLARE_APP( wx_App )
+  wx_TaskBarIcon() : wxTaskBarIcon() {}
+
+  virtual wxMenu* CreatePopupMenu();
+
+  ~wx_TaskBarIcon();
+
+};

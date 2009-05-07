@@ -20,6 +20,8 @@
 
 #include "wxbase/wx_App.h"
 
+#include "wx/image.h"
+
 static PHB_ITEM hb_App;
 
 /*
