@@ -2,6 +2,37 @@
  *
  */
 
+2009-05-07 17:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+A  +   include/wxHarbour/defs.ch
+A  +   include/wxHarbour/defs.h
+A  +   include/wxHarbour/dialog.ch
+A  +   include/wxHarbour/event.ch
+A  +   include/wxHarbour/property.ch
+A  +   include/wxHarbour/raddox.ch
+A  +   include/wxHarbour/rdodefs.h
+A  +   include/wxHarbour/toplevel.ch
+A  +   include/wxHarbour/wxbase
+A  +   include/wxHarbour/wx.ch
+A  +   include/wxHarbour/wxh
+A  +   include/wxHarbour/wxharbour.ch
+A  +   include/wxHarbour/wx_hbcompat.ch
+A  +   include/wxHarbour/wxhevtdefs.h
+A  +   include/wxHarbour/wxh.h
+A  +   include/wxHarbour/xerror.ch
+A  +   src/wxbase/app/wxwin32x32.xpm
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * include/wxbase/wx_App.h
+  + include/wxHarbour
+  * makefile.gcc
+  * src/common/wxhfuncs.prg
+  * src/wxbase/app/wx_App.cpp
+  * src/wxbase/app/wx_TaskBarIcon.cpp
+  * src/wxbase/image/wx_Icon.cpp
+  - src/wxbase/image/wxwin32x32.xpm
+  * wxharbour.bkl
+    * moving headers to wxHarbour, this allow to install in a wxHarbour dir
+
 2009-05-01 02:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + src/wxbase/image/wxwin32x32.xpm
     * added wxWidgets icon, borrowed from wxWidgets tree

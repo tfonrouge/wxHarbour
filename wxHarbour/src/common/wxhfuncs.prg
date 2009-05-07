@@ -430,12 +430,12 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
     ENDIF
   ENDIF
 
-  IF Empty( style )
+/*  IF Empty( style )
     style := wxTE_PROCESS_ENTER
   ELSE
     style := _hb_BitOr( wxTE_PROCESS_ENTER, style )
   ENDIF
-
+*/
   Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip, bAction )
 
   containerObj():SetLastChild( Result )

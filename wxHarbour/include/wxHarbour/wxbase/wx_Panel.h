@@ -11,17 +11,18 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_Panel: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_Panel : public wxPanel
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_Panel() : wxPanel() {}
 
-DECLARE_APP( wx_App )
+  wx_Panel(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = wxPanelNameStr) : wxPanel( parent, id, pos, size, style, name ) {}
+
+  ~wx_Panel();
+};

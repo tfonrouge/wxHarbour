@@ -11,17 +11,35 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_GridTableBase: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_GridTableBase : public wxGridTableBase
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
 
-DECLARE_APP( wx_App )
+  wx_GridTableBase() : wxGridTableBase() { m_numRows = 0; m_numCols = 0; }
+  ~wx_GridTableBase();
+
+  int GetNumberRows() { return m_numRows; }
+  int GetNumberCols() { return m_numCols; }
+  wxString  GetValue( int row, int col );
+  wxString  GetColLabelValue( int col );
+  wxString  GetRowLabelValue( int row );
+  bool      IsEmptyCell( int row, int col );
+  void      SetValue( int row, int col, const wxString& value );
+
+  size_t m_numCols;
+  size_t m_numRows;
+
+  bool AppendCols( size_t numCols = 1 );
+  bool AppendRows( size_t numRows = 1 );
+  bool DeleteCols( size_t pos = 0, size_t numCols = 1 );
+  bool DeleteRows( size_t pos = 0, size_t numRows = 1 );
+  bool InsertCols( size_t pos = 0, size_t numCols = 1 );
+  bool InsertRows( size_t pos = 0, size_t numRows = 1 );
+
+};

@@ -11,17 +11,21 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_StaticBox: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+
+class wx_StaticBox : public wxStaticBox
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
 
-DECLARE_APP( wx_App )
+  wx_StaticBox() : wxStaticBox() {}
+
+  wx_StaticBox(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("staticBox") ) : wxStaticBox( parent, id, label, pos, size, style, name ) {}
+
+  ~wx_StaticBox();
+
+};

@@ -10,18 +10,14 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-  wxwApp: Interface
-  Teo. Mexico 2006
-*/
-class wx_App : public wxApp
-{
-private:
-  DECLARE_CLASS( wx_App )
-public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+//----------------------------------------------------------------------------
+// wxGauge
+//----------------------------------------------------------------------------
 
-DECLARE_APP( wx_App )
+#ifndef _WXGAUGE_CH_
+#define _WXGAUGE_CH_
+
+#define wxGA_HORIZONTAL         wxHORIZONTAL
+#define wxGA_VERTICAL           wxVERTICAL
+
+#endif

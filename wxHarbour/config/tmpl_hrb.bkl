@@ -19,6 +19,11 @@
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
 
+<!--  <set var="prefix" make_var="1">-->
+  <set var="PREFIX">
+    /usr
+  </set>
+
   <if cond="FORMAT!='gnu'">
     <set var="HB_INSTALL_PREFIX">
       $(envvar("HB_INSTALL_PREFIX"))

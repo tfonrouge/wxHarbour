@@ -11,17 +11,17 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_StatusBar: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_StatusBar : public wxStatusBar
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+wx_StatusBar() : wxStatusBar() {}
+wx_StatusBar( wxWindow* parent, wxWindowID id, long style = wxST_SIZEGRIP, const wxString& name = _T("statusBar") ) : wxStatusBar( parent, id, style, name ) {}
 
-DECLARE_APP( wx_App )
+  ~wx_StatusBar();
+};

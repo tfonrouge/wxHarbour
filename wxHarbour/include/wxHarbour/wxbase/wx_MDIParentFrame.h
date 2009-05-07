@@ -11,17 +11,14 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_MDIParentFrame: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_MDIParentFrame : public hbEvtHandler<wxMDIParentFrame>
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
+  wx_MDIParentFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
 };
-
-DECLARE_APP( wx_App )

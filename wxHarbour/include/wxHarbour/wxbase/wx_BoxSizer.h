@@ -11,17 +11,16 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_BoxSizer: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_BoxSizer : public wxBoxSizer
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_BoxSizer( int orient ) : wxBoxSizer( orient ) {}
 
-DECLARE_APP( wx_App )
+  ~wx_BoxSizer();
+};

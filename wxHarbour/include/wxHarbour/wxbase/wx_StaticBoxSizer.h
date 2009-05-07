@@ -11,17 +11,17 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_StaticBoxSizer: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_StaticBoxSizer : public wxStaticBoxSizer
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_StaticBoxSizer( wxStaticBox* box, int orient ) : wxStaticBoxSizer( box, orient ) {}
+  wx_StaticBoxSizer( int orient, wxWindow* parent, const wxString& label ) : wxStaticBoxSizer( orient, parent, label ) {}
 
-DECLARE_APP( wx_App )
+  ~wx_StaticBoxSizer();
+};

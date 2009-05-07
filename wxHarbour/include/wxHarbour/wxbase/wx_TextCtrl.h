@@ -11,17 +11,18 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_TextCtrl: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_TextCtrl : public wxTextCtrl
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_TextCtrl() : wxTextCtrl() {}
 
-DECLARE_APP( wx_App )
+  wx_TextCtrl(wxWindow* parent, wxWindowID id, const wxString& value = _T(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxValidator& validator = wxDefaultValidator, const wxString& name = wxTextCtrlNameStr) : wxTextCtrl( parent, id, value, pos, size, style, validator, name ) {}
+
+  ~wx_TextCtrl();
+};

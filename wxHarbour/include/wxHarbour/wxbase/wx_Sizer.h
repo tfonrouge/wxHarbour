@@ -11,17 +11,8 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_Sizer: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
-{
-private:
-  DECLARE_CLASS( wx_App )
-public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
 
-DECLARE_APP( wx_App )
+/* C++ Abstract class */

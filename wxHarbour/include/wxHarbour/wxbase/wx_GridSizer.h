@@ -11,17 +11,16 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_GridSizer: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+class wx_GridSizer : public wxGridSizer
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_GridSizer( int rows, int cols, int vgap, int hgap ) : wxGridSizer( rows, cols, vgap, hgap ) {}
 
-DECLARE_APP( wx_App )
+  ~wx_GridSizer();
+};

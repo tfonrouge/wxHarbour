@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,21 +7,22 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-  wxwApp: Interface
-  Teo. Mexico 2006
-*/
-class wx_App : public wxApp
-{
-private:
-  DECLARE_CLASS( wx_App )
-public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+#ifndef _WXH_EVTDEFS_H_
+#define _WXH_EVTDEFS_H_
 
-DECLARE_APP( wx_App )
+#define WXH_ACTIVATEEVENT       1
+#define WXH_CLOSEEVENT          2
+#define WXH_COMMANDEVENT        3
+#define WXH_FOCUSEVENT          4
+#define WXH_GRIDEVENT           5
+#define WXH_INITDIALOGEVENT     6
+#define WXH_MENUEVENT           7
+#define WXH_MOUSEEVENT          8
+#define WXH_SOCKETEVENT         9
+#define WXH_TASKBARICONEVENT    10
+#define WXH_TIMEREVENT          11
+
+#endif

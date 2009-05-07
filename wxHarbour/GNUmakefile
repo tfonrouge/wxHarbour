@@ -13,9 +13,6 @@
 # 'install' program location 
 INSTALL ?= install
 
-# Location where the package is installed by 'make install' 
-prefix ?= /usr/local
-
 # Destination root (/ is used if empty) 
 DESTDIR ?= 
 
@@ -115,10 +112,10 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
+WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I/usr/include -W -Wall -O2 \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall -O2 \
+WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I/usr/include -W -Wall -O2 \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
@@ -302,7 +299,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxh/taskbar.ch \
 	include/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
+	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I/usr/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p)
 
 ### Conditionally set variables: ###
@@ -374,24 +371,24 @@ $(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
-	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
-	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -d $(DESTDIR)/usr/lib
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)/usr/lib
 
 uninstall_wxHarbour: 
-	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).a
+	rm -f $(DESTDIR)/usr/lib/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(prefix)
+	$(INSTALL) -d $(DESTDIR)JUANA
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(prefix)/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(prefix)/`dirname $$f`; \
+	if test ! -d $(DESTDIR)JUANA/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)JUANA/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(prefix)/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)JUANA/$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(prefix)/$$f; \
+	rm -f $(DESTDIR)JUANA/$$f; \
 	done
 
 demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).a

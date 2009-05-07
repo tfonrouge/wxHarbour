@@ -11,17 +11,20 @@
 */
 
 /*
-  wxwApp: Interface
+  wx_AuiNotebook: Interface
   Teo. Mexico 2006
 */
-class wx_App : public wxApp
+
+#include "wx/aui/auibook.h"
+
+class wx_AuiNotebook : public wxAuiNotebook
 {
 private:
-  DECLARE_CLASS( wx_App )
+protected:
 public:
-  virtual bool OnInit();
-  virtual int OnExit();
-  ~wx_App();
-};
+  wx_AuiNotebook() : wxAuiNotebook() {}
 
-DECLARE_APP( wx_App )
+  wx_AuiNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0 ) : wxAuiNotebook( parent, id, pos, size, style ) {}
+
+  ~wx_AuiNotebook();
+};
