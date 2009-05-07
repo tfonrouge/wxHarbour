@@ -2,6 +2,81 @@
  *
  */
 
+2009-05-07 17:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  - include/defs.ch
+  - include/defs.h
+  - include/dialog.ch
+  - include/event.ch
+  - include/property.ch
+  - include/raddox.ch
+  - include/rdodefs.h
+  - include/toplevel.ch
+  - include/wxbase
+  - include/wxbase/wx_App.h
+  - include/wxbase/wx_AuiNotebook.h
+  - include/wxbase/wx_BoxSizer.h
+  - include/wxbase/wx_Button.h
+  - include/wxbase/wx_CheckBox.h
+  - include/wxbase/wx_Choice.h
+  - include/wxbase/wx_ComboBox.h
+  - include/wxbase/wx_Dialog.h
+  - include/wxbase/wx_FileDialog.h
+  - include/wxbase/wx_Font.h
+  - include/wxbase/wx_Frame.h
+  - include/wxbase/wx_Gauge.h
+  - include/wxbase/wx_Grid.h
+  - include/wxbase/wx_GridSizer.h
+  - include/wxbase/wx_GridTableBase.h
+  - include/wxbase/wx_Icon.h
+  - include/wxbase/wx_IPV4address.h
+  - include/wxbase/wx_Listbook.h
+  - include/wxbase/wx_MDIChildFrame.h
+  - include/wxbase/wx_MDIParentFrame.h
+  - include/wxbase/wx_MenuBar.h
+  - include/wxbase/wx_Menu.h
+  - include/wxbase/wx_MenuItem.h
+  - include/wxbase/wx_MessageDialog.h
+  - include/wxbase/wx_Notebook.h
+  - include/wxbase/wx_Object.h
+  - include/wxbase/wx_Panel.h
+  - include/wxbase/wx_RadioBox.h
+  - include/wxbase/wx_ScrollBar.h
+  - include/wxbase/wx_Sizer.h
+  - include/wxbase/wx_SocketBase.h
+  - include/wxbase/wx_SocketClient.h
+  - include/wxbase/wx_SocketServer.h
+  - include/wxbase/wx_SpinCtrl.h
+  - include/wxbase/wx_StaticBox.h
+  - include/wxbase/wx_StaticBoxSizer.h
+  - include/wxbase/wx_StaticLine.h
+  - include/wxbase/wx_StaticText.h
+  - include/wxbase/wx_StatusBar.h
+  - include/wxbase/wx_TaskBarIcon.h
+  - include/wxbase/wx_TextCtrl.h
+  - include/wxbase/wx_Timer.h
+  - include/wxbase/wx_TreeCtrl.h
+  - include/wxbase/wx_Validator.h
+  - include/wxbase/wx_XmlDocument.h
+  - include/wx.ch
+  - include/wxh
+  - include/wxharbour.ch
+  - include/wxh/auibook.ch
+  - include/wx_hbcompat.ch
+  - include/wxh/bitmap.ch
+  - include/wxh/bookctrl.ch
+  - include/wxhevtdefs.h
+  - include/wxh/filedlg.ch
+  - include/wxh/gauge.ch
+  - include/wxh/gdicmn.ch
+  - include/wxh/gsocket.ch
+  - include/wxh.h
+  - include/wxh/notebook.ch
+  - include/wxh/socket.ch
+  - include/wxh/taskbar.ch
+  - include/wxh/textctrl.ch
+  - include/xerror.ch
+    * commit previous change
+
 2009-05-07 17:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 A  +   include/wxHarbour/defs.ch
 A  +   include/wxHarbour/defs.h
