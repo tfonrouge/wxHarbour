@@ -695,9 +695,9 @@ Where is wxWidgets installed
         $(createMakeVar(id, '__hbflags_mv', 'HBFLAGS'))
     </set>
 
-    <include>include</include>
+<!--    <include>include</include>-->
     <include>$(HB_INC_PATH)</include>
-    <include>$(INCLUDEDIR)</include>
+<!--    <include>$(INCLUDEDIR)</include>-->
 
     <if cond="COMPILER=='gcc'">
       <ldlibs>-Wl,--start-group</ldlibs>

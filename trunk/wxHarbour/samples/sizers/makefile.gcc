@@ -111,10 +111,10 @@ SIZERS_OBJECTS =  \
 	$(__BUILDDIR__)\sizers_login.o \
 	$(__BUILDDIR__)\sizers_main.o
 SIZERS_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -Iinclude -I$(HB_INC_PATH) \
-	-I$(PREFIX)\include $(____D_WX_UNICODE_FILENAMES_p) \
-	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) -I..\..\include
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
+	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ \
+	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+	-I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
 

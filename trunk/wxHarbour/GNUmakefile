@@ -112,11 +112,11 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -Iinclude -I$(HB_INC_PATH) -I/usr/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
+WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I/usr/include -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) $(CPPFLAGS) \
+WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
@@ -273,34 +273,34 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)/wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HEADERS =  \
-	include/defs.ch \
-	include/dialog.ch \
-	include/event.ch \
-	include/property.ch \
-	include/raddox.ch \
-	include/toplevel.ch \
-	include/wx.ch \
-	include/wx_hbcompat.ch \
-	include/wxharbour.ch \
-	include/xerror.ch \
-	include/defs.h \
-	include/rdodefs.h \
-	include/wxh.h \
-	include/wxhevtdefs.h \
-	include/wxh/auibook.ch \
-	include/wxh/bitmap.ch \
-	include/wxh/bookctrl.ch \
-	include/wxh/filedlg.ch \
-	include/wxh/gauge.ch \
-	include/wxh/gdicmn.ch \
-	include/wxh/gsocket.ch \
-	include/wxh/notebook.ch \
-	include/wxh/socket.ch \
-	include/wxh/taskbar.ch \
-	include/wxh/textctrl.ch
+	include/wxHarbour/defs.ch \
+	include/wxHarbour/dialog.ch \
+	include/wxHarbour/event.ch \
+	include/wxHarbour/property.ch \
+	include/wxHarbour/raddox.ch \
+	include/wxHarbour/toplevel.ch \
+	include/wxHarbour/wx.ch \
+	include/wxHarbour/wx_hbcompat.ch \
+	include/wxHarbour/wxharbour.ch \
+	include/wxHarbour/xerror.ch \
+	include/wxHarbour/defs.h \
+	include/wxHarbour/rdodefs.h \
+	include/wxHarbour/wxh.h \
+	include/wxHarbour/wxhevtdefs.h \
+	include/wxHarbour/wxh/auibook.ch \
+	include/wxHarbour/wxh/bitmap.ch \
+	include/wxHarbour/wxh/bookctrl.ch \
+	include/wxHarbour/wxh/filedlg.ch \
+	include/wxHarbour/wxh/gauge.ch \
+	include/wxHarbour/wxh/gdicmn.ch \
+	include/wxHarbour/wxh/gsocket.ch \
+	include/wxHarbour/wxh/notebook.ch \
+	include/wxHarbour/wxh/socket.ch \
+	include/wxHarbour/wxh/taskbar.ch \
+	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I/usr/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p)
+	$(__HBMTFLAG__) -dHB_OS_LINUX -I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) -Iinclude/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -378,17 +378,17 @@ uninstall_wxHarbour:
 	rm -f $(DESTDIR)/usr/lib/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)JUANA
+	$(INSTALL) -d $(DESTDIR)/usr
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)JUANA/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)JUANA/`dirname $$f`; \
+	if test ! -d $(DESTDIR)/usr/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)/usr/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)JUANA/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)/usr/$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)JUANA/$$f; \
+	rm -f $(DESTDIR)/usr/$$f; \
 	done
 
 demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
