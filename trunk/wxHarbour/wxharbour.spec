@@ -47,19 +47,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 %files
 %defattr(-,root,root)
-/usr/local/include/defs.h
-/usr/local/include/rdodefs.h
-/usr/local/include/wxh.h
-/usr/local/include/wxhevtdefs.h
-/usr/local/include/defs.ch
-/usr/local/include/dialog.ch
-/usr/local/include/event.ch
-/usr/local/include/property.ch
-/usr/local/include/raddox.ch
-/usr/local/include/toplevel.ch
-/usr/local/include/xerror.ch
-/usr/local/include/wx.ch
-/usr/local/include/wxh/*
-/usr/local/include/wx_hbcompat.ch
-/usr/local/include/wxharbour.ch
-/usr/local/lib/libwxHarbour-unicode.a
+/usr/include/wxHarbour/*.h
+/usr/include/wxHarbour/*.ch
+/usr/include/wxHarbour/wxh/*.ch
+/usr/lib/libwxHarbour-unicode.a
