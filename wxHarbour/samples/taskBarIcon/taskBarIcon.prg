@@ -81,6 +81,7 @@ METHOD PROCEDURE OnCloseMainWnd( event ) CLASS MyApp
 
   IF Result = wxYES
     ::taskBarIcon:RemoveIcon()
+    DESTROY ::taskBarIcon
     mainWnd:Destroy()
     RETURN
   ENDIF
