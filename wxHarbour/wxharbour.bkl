@@ -6,10 +6,11 @@
   <wxharbour-lib id="wxHarbour">
     <libname>$(WXHLIBNAME)</libname>
     <headers>
-      $(fileList("include/*.ch"))
-      $(fileList("include/*.h"))
-      $(fileList("include/wxh/*.ch"))
+      $(fileList("include/wxHarbour/*.ch"))
+      $(fileList("include/wxHarbour/*.h"))
+      $(fileList("include/wxHarbour/wxh/*.ch"))
     </headers>
+    <include>include/wxHarbour</include>
     <sources-at>
       src/common
       src/hrbcompat/errorsys
@@ -41,7 +42,7 @@
     </include>-->
     <!--<install-to>$(HB_LIB_PATH)</install-to>-->
     <install-to>$(LIBDIR)</install-to>
-    <install-headers-to>JUANA</install-headers-to>
+    <install-headers-to>$(PREFIX)</install-headers-to>
   </wxharbour-lib>
 
   <subproject id="demos">

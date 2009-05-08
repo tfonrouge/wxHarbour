@@ -10,9 +10,6 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# Location where the package is installed by 'make install' 
-prefix ?= /usr/local
-
 # C++ compiler 
 CXX = g++
 
@@ -106,15 +103,15 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-EVTDEFCHECK_CXXFLAGS = -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include -W -Wall \
-	-O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -I../../include \
-	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
+EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -I../../include/wxHarbour $(CPPFLAGS) \
+	$(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)/evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)/evtdefcheck_getdefs.o
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -I../../include
+	$(__HBMTFLAG__) -dHB_OS_LINUX -I$(HB_INC_PATH) $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 

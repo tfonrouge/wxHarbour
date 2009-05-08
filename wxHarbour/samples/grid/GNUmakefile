@@ -10,9 +10,6 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# Location where the package is installed by 'make install' 
-prefix ?= /usr/local
-
 # C++ compiler 
 CXX = g++
 
@@ -105,8 +102,8 @@ WX_BUILD ?= release
 GRID_OBJECTS =  \
 	$(__BUILDDIR__)/grid_grid.o
 GRID_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX -Iinclude -I$(HB_INC_PATH) -I$(prefix)/include \
-	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include
+	$(__HBMTFLAG__) -dHB_OS_LINUX -I$(HB_INC_PATH) $(__D_WX_UNICODE_p_1) \
+	$(__D_WX_DEBUG_p_1) -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
