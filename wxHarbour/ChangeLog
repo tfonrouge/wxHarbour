@@ -2,6 +2,10 @@
  *
  */
 
+2009-05-07 13:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    ! Fixed build rpm
+
 2009-05-07 20:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/mkdirstempl.bkl
     * changed to new headers location
