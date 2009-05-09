@@ -39,6 +39,7 @@ METHOD FUNCTION OnInit CLASS MyApp
             "wxEVT_IDLE" => wxEVT_IDLE,;
             "wxEVT_DETAILED_HELP" => wxEVT_DETAILED_HELP,;
             "wxEVT_KILL_FOCUS" => wxEVT_KILL_FOCUS,;
+            "wxTE_PROCESS_ENTER" => wxTE_PROCESS_ENTER,;
             "wxEVT_GRID_COL_MOVE" => wxEVT_GRID_COL_MOVE;
            }
 

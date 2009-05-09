@@ -12,6 +12,8 @@
 
 #include "wxh.h"
 
+#include "wx/textctrl.h"
+
 #include <map>
 
 //WX_DECLARE_STRING_HASH_MAP( int, MAP_DEFS );
@@ -31,6 +33,7 @@ void fill_map_defs()
   map_defs[ "wxEVT_GRID_COL_MOVE" ] = wxEVT_GRID_COL_MOVE;
   map_defs[ "wxEVT_DETAILED_HELP" ] = wxEVT_DETAILED_HELP;
   map_defs[ "wxEVT_KILL_FOCUS" ] = wxEVT_KILL_FOCUS;
+  map_defs[ "wxTE_PROCESS_ENTER" ] = wxTE_PROCESS_ENTER;
 }
 
 /*
