@@ -535,7 +535,7 @@ Where to search for the Harbour compiler
   <if cond="TOOLSET=='win32'">
   <option name="WX_PATH" category="path">
     <default-value>
-      C:\wxWidgets-2.8.9
+      C:\wxWidgets-2.8.10
     </default-value>
     <description>
 ---------------------------------------------------------------
