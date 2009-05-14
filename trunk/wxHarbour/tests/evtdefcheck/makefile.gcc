@@ -93,7 +93,7 @@ __BUILDDIR__ ?= obj\gcc-win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-WX_PATH ?= C:\wxWidgets-2.8.9
+WX_PATH ?= C:\wxWidgets-2.8.10
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode

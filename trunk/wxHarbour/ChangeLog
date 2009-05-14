@@ -2,6 +2,62 @@
  *
  */
 
+2009-05-14 13:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * makefile.gcc
+  * makefile.vc
+  * samples/arrbrowser/makefile.gcc
+  * samples/arrbrowser/makefile.vc
+  * samples/auinotebook/makefile.gcc
+  * samples/auinotebook/makefile.vc
+  * samples/button/makefile.gcc
+  * samples/button/makefile.vc
+  * samples/checkbox/makefile.gcc
+  * samples/checkbox/makefile.vc
+  * samples/choice/makefile.gcc
+  * samples/choice/makefile.vc
+  * samples/combobox/makefile.gcc
+  * samples/combobox/makefile.vc
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/gauge/makefile.gcc
+  * samples/gauge/makefile.vc
+  * samples/grid/makefile.gcc
+  * samples/grid/makefile.vc
+  * samples/listbook/makefile.gcc
+  * samples/listbook/makefile.vc
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/notebook/makefile.gcc
+  * samples/notebook/makefile.vc
+  * samples/panel/makefile.gcc
+  * samples/panel/makefile.vc
+  * samples/radiobox/makefile.gcc
+  * samples/radiobox/makefile.vc
+  * samples/sayget/makefile.gcc
+  * samples/sayget/makefile.vc
+  * samples/sizers/makefile.gcc
+  * samples/spinctrl/makefile.gcc
+  * samples/spinctrl/makefile.vc
+  * samples/taskBarIcon/makefile.gcc
+  * samples/taskBarIcon/makefile.vc
+  * samples/timer/makefile.gcc
+  * samples/timer/makefile.vc
+  * samples/treectrl/makefile.gcc
+  * samples/treectrl/makefile.vc
+  * tests/evtdefcheck/makefile.gcc
+  * tests/evtdefcheck/makefile.vc
+  * tests/socketCli/makefile.gcc
+  * tests/socketCli/makefile.vc
+  * tests/socketSrv/makefile.gcc
+  * tests/socketSrv/makefile.vc
+    * updated WX_PATH to C:\wxWidgets-2.8.10 (affetcs Win builds)
+
 2009-05-09 15:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * tests/evtdefcheck/evtdefcheck.prg
   * tests/evtdefcheck/getdefs.cpp
