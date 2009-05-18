@@ -74,6 +74,21 @@ static void ParseConnectParams( PCONN_PARAMS pConnParams )
 }
 
 /*
+  AddPendingKeyEvent
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_ADDPENDINGKEYEVENT )
+{
+  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  long keyCode;
+  wxKeyEvent keyEvent = wxKeyEvent( wxEVT_CHAR );
+  keyEvent.m_keyCode = hb_parnl( 1 );
+
+  evtHandler->AddPendingEvent( keyEvent );
+}
+
+/*
   ConnectActivateEvt
   Teo. Mexico 2009
 */

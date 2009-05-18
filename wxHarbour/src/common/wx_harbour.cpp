@@ -194,8 +194,10 @@ void wxh_ObjParams::ProcessParamLists()
   if( !paramListProcessed )
   {
     /* add the Parent object (if any) to the child/parent lists */
-//     if( pParamParent )
+    if( ( wxh_ItemListGet_PWXH_ITEM( pSelf ) != NULL ) )
+    {
       SetChildItem( pSelf );
+    }
 
     /* add the Child objects to the child/parent lists */
     while( map_paramListChild.size() > 0 )
@@ -341,7 +343,7 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 
   if( pSelf == NULL )
   {
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 2, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
   }
 
   return pSelf;

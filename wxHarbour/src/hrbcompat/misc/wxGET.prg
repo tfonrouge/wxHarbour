@@ -195,6 +195,7 @@ PROTECTED:
 PUBLIC:
   DATA Picture
   DATA WarnBlock
+  DATA nextCtrlOnEnter INIT .T.
 
   CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
 
@@ -210,6 +211,15 @@ ENDCLASS
 */
 METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip, bAction ) CLASS wxHBTextCtrl
 
+  /* nextCtrlOnEnter */
+  IF ::nextCtrlOnEnter
+    IF style = NIL
+      style := wxTE_PROCESS_ENTER
+    ELSE
+      style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
+    ENDIF
+  ENDIF
+
   Super:New( window, id, RTrim( wxhGet:AsString() ), pos, size, style, validator, name )
 
   IF name = NIL
@@ -222,8 +232,8 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
   ::FWXHGet := wxhGet
 
   /* the update to VAR event */
-  IF style != NIL .AND. HB_BitAnd( style, wxTE_PROCESS_ENTER ) = wxTE_PROCESS_ENTER
-    ::ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  event:GetEventObject():UpdateVar( event ) } )
+  IF ::nextCtrlOnEnter
+    window:ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  event:GetEventObject():AddPendingKeyEvent( WXK_TAB ) } )
   ENDIF
 
   ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event|  event:GetEventObject():UpdateVar( event ) } )
