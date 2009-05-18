@@ -560,7 +560,7 @@ RETURN cString
 FUNCTION wxhAlert( cMessage, aOptions )
   LOCAL Result := 0
 
-  IF wxGetApp() = NIL
+  IF wxGetApp() = NIL .OR. wxGetApp():GetTopWindow() = NIL
     Alert( cMessage, aOptions )
   ELSE
     wxMessageBox( cMessage, "Message", aOptions )

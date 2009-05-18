@@ -2,6 +2,11 @@
  *
  */
 
+2009-05-18 12:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhutils.prg
+    * changing method for detect which version of Alert to use
+      now using wxGetApp():GetTopWindow() = NIL to detect TUI
+
 2009-05-14 13:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * demos/dbExplorer/makefile.gcc
