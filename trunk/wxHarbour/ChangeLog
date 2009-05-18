@@ -2,6 +2,22 @@
  *
  */
 
+2009-05-18 16:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+    ! Fixed checking of valid parent control
+    ! Fixed error number
+
+  * src/hrbcompat/misc/wxGET.prg
+    % added nextCtrlOnEnter data to send WXK_TAB on enter on TextCtrl
+
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+    + added AppendingKeyEvent( key ) method
+    ; TODO: remove above and using wxEvent* classes for that
+
+  * src/wxbase/events/wx_GridEvent.cpp
+    ! Fixed error number
+
 2009-05-18 12:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhutils.prg
     * changing method for detect which version of Alert to use

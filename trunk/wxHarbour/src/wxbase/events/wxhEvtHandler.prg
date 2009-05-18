@@ -29,6 +29,7 @@ PRIVATE:
   DATA FEventTypeValue
 PROTECTED:
 PUBLIC:
+  METHOD AddPendingKeyEvent( key )
   METHOD ConnectActivateEvt( p1, p2, p3, p4 )
   METHOD ConnectCloseEvt( p1, p2, p3, p4 )
   METHOD ConnectCommandEvt( p1, p2, p3, p4 )
