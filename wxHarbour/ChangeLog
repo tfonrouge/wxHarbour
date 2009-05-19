@@ -2,6 +2,47 @@
  *
  */
 
+2009-05-18 21:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * updated demo
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  + include/wxHarbour/wxbase/wx_SearchCtrl.h
+  + src/wxbase/controls/wxhSearchCtrl.prg
+  + src/wxbase/controls/wx_SearchCtrl.cpp
+  * include/wxHarbour/wxharbour.ch
+    + added wxSearchCtrl, full methods
+      + GetMenu()
+      + IsCancelButtonVisible()
+      + IsSearchButtonVisible()
+      + SetMenu( menu )
+      + ShowCancelButton( show )
+      + ShowSearchButton( show )
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    * renamed bool in wxh_ObjParams from paramListProcessed to linkChildParentParams
+      now this bool needs to be true to process the params list (childs)
+    * code cleanup on wxh_par_wxSize()
+
+  * src/common/wxhfuncs.prg
+    ! Fixed error when adding a wxSpacer to a wxGridSizer
+    * adding wxALIGN_CENTER_VERTICAL on a wxGridSizer item
+    * added __wxh_SearchCtrl()
+    * code cleanup
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    * commenting out statement SetColFormatBool on "L" types
+      ; TODO: check why doesn't display correctly the logical checkbox
+
+  * src/wxbase/baseclasses/wxhWindow.prg
+  * src/wxbase/baseclasses/wx_Window.cpp
+    + adding methods:
+      + SetMaxSize( size )
+      + SetMinSize( size )
+
 2009-05-18 16:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wx_harbour.cpp
     ! Fixed checking of valid parent control

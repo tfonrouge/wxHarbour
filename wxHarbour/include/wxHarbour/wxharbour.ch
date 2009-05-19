@@ -766,6 +766,38 @@
             [{<aWidths>}] ) ;;
 
 /*
+ * SearchCtrl
+ * Teo. Mexico 2009
+ */
+#xcommand @ SEARCHCTRL [<value>] ;
+            [ VAR <searchCtrl> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ <mline: MULTILINE> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <searchCtrl> := ]__wxh_SearchCtrl( ;
+            [<window>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<.mline.>],;
+            [<{bAction}>] )
+
+#xcommand @ SEARCHCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ SEARCHCTRL [<tcclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
  * TextCtrl
  * Teo. Mexico 2009
  */

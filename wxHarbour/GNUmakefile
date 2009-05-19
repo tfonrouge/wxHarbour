@@ -155,6 +155,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhComboBox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhControl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhRadioBox.o \
+	$(__BUILDDIR__)/wxHarbour_wxhSearchCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSpinCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticBox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticText.o \
@@ -228,6 +229,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Choice.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ComboBox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_RadioBox.o \
+	$(__BUILDDIR__)/wxHarbour_wx_SearchCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SpinCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticBox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticText.o \
@@ -505,6 +507,9 @@ $(__BUILDDIR__)/wxHarbour_wxhControl.o: ./src/wxbase/controls/wxhControl.prg
 $(__BUILDDIR__)/wxHarbour_wxhRadioBox.o: ./src/wxbase/controls/wxhRadioBox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhSearchCtrl.o: ./src/wxbase/controls/wxhSearchCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhSpinCtrl.o: ./src/wxbase/controls/wxhSpinCtrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -722,6 +727,9 @@ $(__BUILDDIR__)/wxHarbour_wx_ComboBox.o: ./src/wxbase/controls/wx_ComboBox.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_RadioBox.o: ./src/wxbase/controls/wx_RadioBox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_SearchCtrl.o: ./src/wxbase/controls/wx_SearchCtrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_SpinCtrl.o: ./src/wxbase/controls/wx_SpinCtrl.cpp

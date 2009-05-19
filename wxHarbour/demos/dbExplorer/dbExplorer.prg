@@ -188,7 +188,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
   LOCAL hIndex,aStruDbf
   LOCAL oBrwStruct,oBrwIndexList
   LOCAL n,l
-  LOCAL ordKey
+//   LOCAL ordKey
   LOCAL key := ""
 
   fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
@@ -227,7 +227,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
       NEXT
 
       ordSetFocus( 1 )
-      ordKey := ordKey( 1 )
+//       ordKey := ordKey( 1 )
 
     ENDIF
 
@@ -249,7 +249,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
           SIZERINFO ALIGN EXPAND STRETCH
         @ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
         @ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
-        BEGIN BOXSIZER VERTICAL  "Index Info" ALIGN LEFT
+/*        BEGIN BOXSIZER VERTICAL  "Index Info" ALIGN LEFT
           BEGIN BOXSIZER HORIZONTAL
             @ SAY "Index:"
             @ CHOICE oErr ITEMS HB_HKeys( hIndex ) WIDTH 100
@@ -261,7 +261,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
           END SIZER
           @ SAY "KeyExp:" GET ordKey
           @ SAY "KeyVal:" GET table:KeyVal
-        END SIZER
+        END SIZER*/
         BEGIN BOXSIZER HORIZONTAL "Seek" ALIGN LEFT
           @ SAY "Key to seek:"
           @ GET key

@@ -430,12 +430,6 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
     ENDIF
   ENDIF
 
-/*  IF Empty( style )
-    style := wxTE_PROCESS_ENTER
-  ELSE
-    style := _hb_BitOr( wxTE_PROCESS_ENTER, style )
-  ENDIF
-*/
   Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip, bAction )
 
   containerObj():SetLastChild( Result )
@@ -808,6 +802,11 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
     ENDIF
   ENDIF
 
+  /* TODO: Make a more configurable way to do this */
+  IF parentSizer != NIL .AND. parentSizer:IsDerivedFrom("wxGridSizer")
+    align := _hb_BitOr( align, wxALIGN_CENTER_VERTICAL )
+  ENDIF
+
   IF sideBorders = NIL
     sideBorders := wxALL
   ENDIF
@@ -873,10 +872,12 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
   ENDIF
 
   IF align = NIL
-    IF !lastSizer:GetOrientation() = wxHORIZONTAL
-      align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
-    ELSE
-      align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
+    IF lastSizer:IsDerivedFrom("wxBoxSizer")
+      IF !lastSizer:GetOrientation() = wxHORIZONTAL
+        align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
+      ELSE
+        align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
+      ENDIF
     ENDIF
   ENDIF
 
@@ -1021,6 +1022,35 @@ FUNCTION __wxh_TextCtrl( window, id, value, pos, size, style, validator, name, m
   containerObj():SetLastChild( textCtrl )
 
 RETURN textCtrl
+
+/*
+  __wxh_SearchCtrl
+  Teo. Mexico 2008
+*/
+FUNCTION __wxh_SearchCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
+  LOCAL searchCtrl
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  IF multiLine == .T.
+    IF Empty( style )
+      style := wxTE_MULTILINE
+    ELSE
+      style := _hb_BitOr( wxTE_MULTILINE, style )
+    ENDIF
+  ENDIF
+
+  searchCtrl := wxSearchCtrl():New( window, id, value, pos, size, style, validator, name )
+
+  IF bAction != NIL
+    searchCtrl:ConnectCommandEvt( searchCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( searchCtrl )
+
+RETURN searchCtrl
 
 /*
   __wxh_TreeCtrl
@@ -1378,7 +1408,7 @@ PUBLIC:
   DATA g_window
 
   CONSTRUCTOR New()
-  
+
   METHOD lenMenuList INLINE Len( ::g_menuList )
 PUBLISHED:
 ENDCLASS

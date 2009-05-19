@@ -94,7 +94,7 @@ wxh_Item::~wxh_Item()
 wxh_ObjParams::wxh_ObjParams()
 {
   pParamParent = NULL;
-  paramListProcessed = false;
+  linkChildParentParams = false;
   pSelf = hb_stackSelfItem();
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -106,7 +106,7 @@ wxh_ObjParams::wxh_ObjParams()
 wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
 {
   pParamParent = NULL;
-  paramListProcessed = false;
+  linkChildParentParams = false;
   pSelf = pHbObj;
   pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
@@ -154,6 +154,7 @@ wxObject* wxh_ObjParams::paramChild( const int param )
     if( wxObj )
     {
       map_paramListChild[ pChildItm ] = wxObj;
+      linkChildParentParams = true;
     }
   }
 
@@ -179,6 +180,7 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 	this->pParamParent = pParentItm;
       else
 	hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 3, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+      linkChildParentParams = true;
     }
   }
 
@@ -191,7 +193,7 @@ wxObject* wxh_ObjParams::paramParent( const int param )
 */
 void wxh_ObjParams::ProcessParamLists()
 {
-  if( !paramListProcessed )
+  if( linkChildParentParams )
   {
     /* add the Parent object (if any) to the child/parent lists */
     if( ( wxh_ItemListGet_PWXH_ITEM( pSelf ) != NULL ) )
@@ -207,7 +209,7 @@ void wxh_ObjParams::ProcessParamLists()
       map_paramListChild.erase( it );
     }
 
-    paramListProcessed = true;
+    linkChildParentParams = false;
   }
 }
 
@@ -272,6 +274,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
     map_wxObject[ wxObj ] = pWxh_Item;
 
+    linkChildParentParams = true;
     ProcessParamLists();
 
     if( hb_stackReturnItem() != pSelf )
@@ -477,12 +480,12 @@ wxSize hb_par_wxSize( int param )
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
   if( pStruct && hb_arrayLen( pStruct ) == 2 )
   {
-    PHB_ITEM p1,p2;
-    p1 = hb_arrayGetItemPtr( pStruct, 1 );
-    p2 = hb_arrayGetItemPtr( pStruct, 2 );
-    int x = HB_IS_NUMERIC( p1 ) ? p1->item.asInteger.value : -1;
-    int y = HB_IS_NUMERIC( p2 ) ? p2->item.asInteger.value : -1;
-    return wxSize( x, y );
+    PHB_ITEM pWidth,pHeight;
+    pWidth = hb_arrayGetItemPtr( pStruct, 1 );
+    pHeight = hb_arrayGetItemPtr( pStruct, 2 );
+    int iWidth = HB_IS_NUMERIC( pWidth ) ? pWidth->item.asInteger.value : -1;
+    int iHeight = HB_IS_NUMERIC( pHeight ) ? pHeight->item.asInteger.value : -1;
+    return wxSize( iWidth, iHeight );
   }
   else
     return wxSize( -1, -1 );

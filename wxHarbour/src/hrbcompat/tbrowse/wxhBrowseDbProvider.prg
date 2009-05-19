@@ -228,7 +228,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
         EXIT
       CASE 'L'
         column:Align := wxALIGN_CENTRE
-        ::GetBrowse:grid:SetColFormatBool( nCol - 1 )
+//         ::GetBrowse:grid:SetColFormatBool( nCol - 1 )
         ::GetBrowse:SetColumnAlignment( nCol, column:Align )
         EXIT
       _SW_OTHERWISE
