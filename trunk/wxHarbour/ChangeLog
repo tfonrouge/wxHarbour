@@ -2,6 +2,11 @@
  *
  */
 
+2009-05-18 22:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/misc/wxGET.prg
+    ! Fixed assigning label (SetLabel) on Windows (mimgw) on wxTextCtrl
+      seems that in Windows, this goes to the editing buffer
+
 2009-05-18 21:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo
