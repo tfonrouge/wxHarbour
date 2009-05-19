@@ -2,6 +2,10 @@
  *
  */
 
+2009-05-19 05:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    ! added temporary hack to bypass error in dbExplorer demo under Windows
+
 2009-05-18 22:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/misc/wxGET.prg
     ! Fixed assigning label (SetLabel) on Windows (mimgw) on wxTextCtrl
