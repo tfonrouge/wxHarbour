@@ -224,7 +224,7 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
 
   IF name = NIL
     ::SetName( wxhGet:Name )
-    ::SetLabel( wxhGet:Name )
+//     ::SetLabel( wxhGet:Name )
   ENDIF
 
   ::bAction := bAction
