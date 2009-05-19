@@ -336,15 +336,21 @@ RETURN Result
   Teo. Mexico 2008
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
-
+  LOCAL Result := ""
   ++row
   ++col
 
   IF ::FGridBuffer == NIL .OR. row > Len( ::FGridBuffer )
-    RETURN ""
+    RETURN Result
   ENDIF
 
-RETURN ::FGridBuffer[ row, col ]
+  BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+    Result := ::FGridBuffer[ row, col ]
+  RECOVER
+    Result := ""
+  END SEQUENCE
+
+RETURN Result
 
 /*
   SetBlockParam
