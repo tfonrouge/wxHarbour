@@ -63,15 +63,8 @@ PROTECTED:
 PUBLIC:
   METHOD ObjectH        /* handle */
   METHOD ObjectP        /* pointer */
-
-  METHOD OnWXHConnect
-
 PUBLISHED:
 ENDCLASS
-
-METHOD PROCEDURE OnWXHConnect CLASS wxObject
-  ? ProcName( 0 ),::ClassName()
-RETURN
 
 /*
   End Class wxObject

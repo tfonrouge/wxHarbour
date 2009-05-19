@@ -232,8 +232,8 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
   ::FWXHGet := wxhGet
 
   /* the update to VAR event */
-  IF ::nextCtrlOnEnter
-    window:ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  event:GetEventObject():AddPendingKeyEvent( WXK_TAB ) } )
+  IF ::nextCtrlOnEnter .AND. !::IsMultiLine()
+    window:ConnectCommandEvt( ::GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
   ENDIF
 
   ::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS, {|event|  event:GetEventObject():UpdateVar( event ) } )

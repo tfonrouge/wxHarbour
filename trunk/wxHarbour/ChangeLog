@@ -2,6 +2,28 @@
  *
  */
 
+2009-05-19 17:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+    + added HB BOOL function wxh_AddNavigationKeyEvent( wxEvtHandler, .T.|.F. )
+
+  * src/hrbcompat/misc/wxGET.prg
+    % using now wxh_AddNavigationKeyEvent() to process ENTER on a wxTextCtrl
+      with no multiline
+
+  * src/wxbase/baseclasses/wxhObject.prg
+    * removed unneeded method
+
+  * src/wxbase/controls/wxhTextCtrl.prg
+  * src/wxbase/controls/wx_TextCtrl.cpp
+    + added method
+      + IsMultiLine()
+    * code cleanup
+
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+    * removed wrong implementation for AddPendingKeyEvent()
+      using now wxh_AddNavigationKeyEvent()
+
 2009-05-19 05:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
     ! added temporary hack to bypass error in dbExplorer demo under Windows
