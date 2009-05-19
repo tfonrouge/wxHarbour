@@ -30,8 +30,9 @@ PUBLIC:
   CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
 
   METHOD AppendText( text )
-  METHOD Clear
+  METHOD Clear()
   METHOD GetValue AS STRING
+  METHOD IsMultiLine()
   METHOD SetValue( value )
 PUBLISHED:
 ENDCLASS

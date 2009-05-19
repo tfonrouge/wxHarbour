@@ -560,3 +560,19 @@ void qoutf( const char* format, ... )
   hb_vmPushString( text, strlen( text ) );
   hb_vmDo( 1 );
 }
+
+/*
+  wxh_AddNavigationKeyEvent
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
+{
+  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_parWX( 1 );
+  bool bDirection = ISNIL( 2 ) ? true : hb_parl( 2 );
+
+  long keyCode;
+  wxNavigationKeyEvent navEvent;
+  navEvent.SetEventObject( evtHandler );
+  navEvent.SetDirection( bDirection );
+  hb_retl( evtHandler->ProcessEvent( navEvent ) );
+}
