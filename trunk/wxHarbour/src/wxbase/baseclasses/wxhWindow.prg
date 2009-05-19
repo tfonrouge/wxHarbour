@@ -55,6 +55,8 @@ PUBLIC:
   METHOD SetFocus
   METHOD SetId( id )
   METHOD SetLabel( label )
+  METHOD SetMaxSize( size )
+  METHOD SetMinSize( size )
   METHOD SetName( name )
   METHOD SetSizer( sizer, deleteOld )
   METHOD SetToolTip

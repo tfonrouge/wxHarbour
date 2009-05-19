@@ -318,6 +318,34 @@ HB_FUNC( WXWINDOW_SETLABEL )
   }
 }
 
+/*
+  SetMaxSize
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_SETMAXSIZE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    wnd->SetMaxSize( hb_par_wxSize( 1 ) );
+  }
+}
+
+/*
+  SetMinSize
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_SETMINSIZE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    wnd->SetMinSize( hb_par_wxSize( 1 ) );
+  }
+}
+
 HB_FUNC( WXWINDOW_SETNAME )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
