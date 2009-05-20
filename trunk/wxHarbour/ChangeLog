@@ -2,6 +2,10 @@
  *
  */
 
+2009-05-20 12:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+    * removed unused var
+
 2009-05-19 17:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wx_harbour.cpp
     + added HB BOOL function wxh_AddNavigationKeyEvent( wxEvtHandler, .T.|.F. )

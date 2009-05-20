@@ -570,7 +570,6 @@ HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
   wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_parWX( 1 );
   bool bDirection = ISNIL( 2 ) ? true : hb_parl( 2 );
 
-  long keyCode;
   wxNavigationKeyEvent navEvent;
   navEvent.SetEventObject( evtHandler );
   navEvent.SetDirection( bDirection );
