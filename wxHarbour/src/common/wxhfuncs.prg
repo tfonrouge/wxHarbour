@@ -130,7 +130,7 @@ RETURN sizer
   __wxh_Browse
   Teo. Mexico 2008
  */
-FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, style, name, onKey, onSelectCell )
+FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
   LOCAL wxhBrw
 
   IF window = NIL
@@ -144,6 +144,10 @@ FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, style, name, on
   ENDIF
 
   wxhBrw:SelectCellBlock := onSelectCell
+
+  IF minSize != NIL
+    wxhBrw:SetMinSize( minSize )
+  ENDIF
 
   containerObj():SetLastChild( wxhBrw )
 

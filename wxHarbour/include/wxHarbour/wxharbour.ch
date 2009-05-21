@@ -244,6 +244,7 @@
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ MINSIZE <minWidth>,<minHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
             [ ONKEY <onKey> ] ;
@@ -256,6 +257,7 @@
               [<label>],;
               ,;
               [{<nWidth>,<nHeight>}],;
+              [{<minWidth>,<minHeight>}],;
               [<style>],;
               [<name>],;
               [<onKey>],;
