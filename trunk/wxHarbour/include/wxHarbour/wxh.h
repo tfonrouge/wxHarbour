@@ -124,9 +124,9 @@ HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 
 wxObject*     wxh_parWX( int param );
-wxPoint       hb_par_wxPoint( int param );
-wxSize        hb_par_wxSize( int param );
-wxArrayString hb_par_wxArrayString( int param );
+wxPoint       wxh_par_wxPoint( int param );
+wxSize        wxh_par_wxSize( int param );
+wxArrayString wxh_par_wxArrayString( int param );
 
 wxString      wxh_CTowxStr( const char * szStr );
 void          wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );

@@ -2,6 +2,42 @@
  *
  */
 
+2009-05-21 16:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  * src/wxbase/advctrls/wx_Grid.cpp
+  * src/wxbase/advctrls/wx_Panel.cpp
+  * src/wxbase/baseclasses/wx_ControlWithItems.cpp
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/books/wx_AuiNotebook.cpp
+  * src/wxbase/books/wx_Listbook.cpp
+  * src/wxbase/books/wx_Notebook.cpp
+  * src/wxbase/comdialogs/wx_FileDialog.cpp
+  * src/wxbase/comdialogs/wx_MessageDialog.cpp
+  * src/wxbase/controls/wx_Button.cpp
+  * src/wxbase/controls/wx_CheckBox.cpp
+  * src/wxbase/controls/wx_Choice.cpp
+  * src/wxbase/controls/wx_ComboBox.cpp
+  * src/wxbase/controls/wx_RadioBox.cpp
+  * src/wxbase/controls/wx_SearchCtrl.cpp
+  * src/wxbase/controls/wx_SpinCtrl.cpp
+  * src/wxbase/controls/wx_StaticBox.cpp
+  * src/wxbase/controls/wx_StaticText.cpp
+  * src/wxbase/controls/wx_TextCtrl.cpp
+  * src/wxbase/controls/wx_TreeCtrl.cpp
+  * src/wxbase/manwindows/wx_Dialog.cpp
+  * src/wxbase/manwindows/wx_Frame.cpp
+  * src/wxbase/manwindows/wx_MDIChildFrame.cpp
+  * src/wxbase/manwindows/wx_MDIParentFrame.cpp
+  * src/wxbase/range/wx_ScrollBar.cpp
+  * src/wxbase/static/wx_Gauge.cpp
+  * src/wxbase/static/wx_StaticLine.cpp
+    * renamed wxHarbour param retrieval functions:
+      hb_par_wxPoint -> wxh_par_wxPoint
+      hb_par_wxSize -> wxh_par_wxSize
+      hb_par_wxArrayString -> wxh_par_wxArrayString
+
 2009-05-21 16:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg

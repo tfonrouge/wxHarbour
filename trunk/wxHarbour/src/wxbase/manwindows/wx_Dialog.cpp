@@ -46,8 +46,8 @@ HB_FUNC( WXDIALOG_NEW )
     wxWindow* parent = (wxDialog *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
     const wxString& title = wxh_parc( 3 );
-    wxPoint point = hb_par_wxPoint(4);
-    wxSize size = hb_par_wxSize(5);
+    wxPoint point = wxh_par_wxPoint(4);
+    wxSize size = wxh_par_wxSize(5);
     long style = ISNIL(6) ? wxDEFAULT_FRAME_STYLE : hb_parnl(6);
     wxString name = wxh_parc( 7 );
     dialog = new wx_Dialog( parent, id, title, point, size, style, name );

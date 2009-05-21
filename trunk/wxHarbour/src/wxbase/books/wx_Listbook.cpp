@@ -44,8 +44,8 @@ HB_FUNC( WXLISTBOOK_NEW )
   {
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-    const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
-    const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
+    const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
+    const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
     const wxString& name = ISNIL( 6 ) ? _T("Listbook") : wxh_parc( 6 );
     listBook = new wx_Listbook( parent, id, pos, size, style, name );

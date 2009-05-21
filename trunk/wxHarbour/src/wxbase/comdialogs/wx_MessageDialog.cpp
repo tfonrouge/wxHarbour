@@ -36,7 +36,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
   const wxString& message = wxh_parc( 2 );
   const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxh_parc( 3 );
   long style = ISNIL( 4 ) ? wxOK | wxCANCEL : hb_parni( 4 );
-  wxPoint pos = hb_par_wxPoint( 5 );
+  wxPoint pos = wxh_par_wxPoint( 5 );
 
   wx_MessageDialog* msgDlg = new wx_MessageDialog( parent, message, caption, style, pos );
 

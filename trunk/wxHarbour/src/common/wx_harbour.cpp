@@ -426,10 +426,10 @@ wxObject* wxh_parWX( const int param )
 }
 
 /*
-  hb_par_wxArrayString
+  wxh_par_wxArrayString
   Teo. Mexico 2009
 */
-wxArrayString hb_par_wxArrayString( int param )
+wxArrayString wxh_par_wxArrayString( int param )
 {
   wxArrayString arrayString;
 
@@ -452,10 +452,10 @@ wxArrayString hb_par_wxArrayString( int param )
 }
 
 /*
-  hb_par_wxPoint
+  wxh_par_wxPoint
   Teo. Mexico 2009
 */
-wxPoint hb_par_wxPoint( int param )
+wxPoint wxh_par_wxPoint( int param )
 {
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
   if( pStruct && hb_arrayLen( pStruct ) == 2 )
@@ -472,10 +472,10 @@ wxPoint hb_par_wxPoint( int param )
 }
 
 /*
-  hb_par_wxSize
+  wxh_par_wxSize
   Teo. Mexico 2009
 */
-wxSize hb_par_wxSize( int param )
+wxSize wxh_par_wxSize( int param )
 {
   PHB_ITEM pStruct = hb_param( param, HB_IT_ARRAY );
   if( pStruct && hb_arrayLen( pStruct ) == 2 )
@@ -562,7 +562,7 @@ void qoutf( const char* format, ... )
 }
 
 /*
-  wxh_AddNavigationKeyEvent
+  wxh_AddNavigationKeyEvent( wxEvtHandler, direction AS LOGICAL )
   Teo. Mexico 2009
 */
 HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
