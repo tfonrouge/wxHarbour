@@ -138,8 +138,8 @@ HB_FUNC( WXHGRIDBROWSE_NEW )
 
   wxhBrowse* browse = ( wxhBrowse* ) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-  wxPoint pos = hb_par_wxPoint( 3 );
-  wxSize size = hb_par_wxSize( 4 );
+  wxPoint pos = wxh_par_wxPoint( 3 );
+  wxSize size = wxh_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
   const wxString& name = ISNIL( 6 ) ? _T("wxhGridBrowse") : wxh_parc( 6 );
 

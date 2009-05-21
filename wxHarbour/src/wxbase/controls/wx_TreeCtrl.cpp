@@ -40,8 +40,8 @@ HB_FUNC( WXTREECTRL_NEW )
 
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-  const wxPoint& pos = hb_par_wxPoint( 3 );
-  const wxSize& size = hb_par_wxSize( 4 );
+  const wxPoint& pos = wxh_par_wxPoint( 3 );
+  const wxSize& size = wxh_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxTR_HAS_BUTTONS : hb_parnl( 5 );
   const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 6 ))) ;
   const wxString& name = wxh_parc( 7 );

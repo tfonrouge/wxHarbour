@@ -36,9 +36,9 @@ HB_FUNC( WXRADIOBOX_NEW )
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   const wxString& label = wxh_parc( 3 );
-  const wxPoint& pos = hb_par_wxPoint( 4 );
-  const wxSize& size = hb_par_wxSize( 5 );
-  const wxArrayString& choices = hb_par_wxArrayString( 6 );
+  const wxPoint& pos = wxh_par_wxPoint( 4 );
+  const wxSize& size = wxh_par_wxSize( 5 );
+  const wxArrayString& choices = wxh_par_wxArrayString( 6 );
   int majorDimension = hb_parni( 7 );
   long style = hb_parnl( 8 );
   const wxValidator& validator = ISNIL( 9 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 9 ))) ;

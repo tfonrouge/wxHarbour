@@ -275,7 +275,7 @@ HB_FUNC( WXWINDOW_POPUPMENU )
 
   if( hb_pcount() == 2 )
   {
-    hb_retl( wnd->PopupMenu( menu, hb_par_wxPoint( 2 ) ) );
+    hb_retl( wnd->PopupMenu( menu, wxh_par_wxPoint( 2 ) ) );
     return;
   }
 
@@ -328,7 +328,7 @@ HB_FUNC( WXWINDOW_SETMAXSIZE )
 
   if( wnd )
   {
-    wnd->SetMaxSize( hb_par_wxSize( 1 ) );
+    wnd->SetMaxSize( wxh_par_wxSize( 1 ) );
   }
 }
 
@@ -342,7 +342,7 @@ HB_FUNC( WXWINDOW_SETMINSIZE )
 
   if( wnd )
   {
-    wnd->SetMinSize( hb_par_wxSize( 1 ) );
+    wnd->SetMinSize( wxh_par_wxSize( 1 ) );
   }
 }
 

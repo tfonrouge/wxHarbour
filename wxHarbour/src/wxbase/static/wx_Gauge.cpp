@@ -40,8 +40,8 @@ HB_FUNC( WXGAUGE_NEW )
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
   int range = hb_parni( 3 );
-  const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : hb_par_wxPoint( 4 );
-  const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : hb_par_wxSize( 5 );
+  const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
+  const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
   long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
   //const wxValidator& validator =  ISNIL( 7 ) ?  wxDefaultValidator : (wxValidator ) objParams.param( 7 );
   const wxString& name = ISNIL( 8 ) ? wxT("gauge") : wxh_parc( 8 );

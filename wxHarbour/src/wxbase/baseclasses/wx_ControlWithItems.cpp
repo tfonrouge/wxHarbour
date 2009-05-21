@@ -44,7 +44,7 @@ HB_FUNC( WXCONTROLWITHITEMS_APPEND2 )
 
   if( ctrlWItms )
   {
-    ctrlWItms->Append( hb_par_wxArrayString( 1 ) ); /* zero to one based arrays C++ -> HB */
+    ctrlWItms->Append( wxh_par_wxArrayString( 1 ) ); /* zero to one based arrays C++ -> HB */
   }
 }
 

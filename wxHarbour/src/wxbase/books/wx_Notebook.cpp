@@ -47,8 +47,8 @@ HB_FUNC( WXNOTEBOOK_NEW )
   {
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-    const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : hb_par_wxPoint( 3 );
-    const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : hb_par_wxSize( 4 );
+    const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
+    const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
     const wxString& name = ISNIL( 6 ) ? wxNotebookNameStr : wxh_parc( 6 );
     noteBook = new wx_Notebook( parent, id, pos, size, style, name );
@@ -324,7 +324,7 @@ HB_FUNC( WXNOTEBOOK_HITTEST )
   if( noteBook )
   {
     long flags;
-    hb_retni( noteBook->HitTest( hb_par_wxPoint( 1 ), &flags ) );
+    hb_retni( noteBook->HitTest( wxh_par_wxPoint( 1 ), &flags ) );
     if( ( hb_pcount() == 2 ) && ISBYREF( 2 ) )
       hb_stornl( flags, 2 );
   }
@@ -400,7 +400,7 @@ HB_FUNC( WXNOTEBOOK_SETPADDING )
 
   if( noteBook )
   {
-    noteBook->SetPadding( hb_par_wxSize( 1 ) );
+    noteBook->SetPadding( wxh_par_wxSize( 1 ) );
   }
 }
 
@@ -416,7 +416,7 @@ HB_FUNC( WXNOTEBOOK_SETPAGESIZE )
 
   if( noteBook )
   {
-    noteBook->SetPageSize( hb_par_wxSize( 1 ) );
+    noteBook->SetPageSize( wxh_par_wxSize( 1 ) );
   }
 }
 

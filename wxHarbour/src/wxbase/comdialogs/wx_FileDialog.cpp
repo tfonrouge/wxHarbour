@@ -38,8 +38,8 @@ HB_FUNC( WXFILEDIALOG_NEW )
   const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxh_parc( 4 );
   const wxString& wildcard = ISNIL( 5 ) ? _T("*.*") : wxh_parc( 5 );
   long style = ISNIL( 6 )  ? wxFD_DEFAULT_STYLE : hb_parni( 6 );
-  wxPoint pos = hb_par_wxPoint( 7 );
-  wxSize size = hb_par_wxSize( 8 );
+  wxPoint pos = wxh_par_wxPoint( 7 );
+  wxSize size = wxh_par_wxSize( 8 );
   const wxString& name = ISNIL( 9 ) ? _T("FileDlg") : wxh_parc( 9 );
 
   wxFileDialog* fileDlg = new wx_FileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name );

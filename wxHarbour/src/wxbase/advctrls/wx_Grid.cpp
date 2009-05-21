@@ -41,8 +41,8 @@ HB_FUNC( WXGRID_NEW )
 
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
-  wxPoint pos = hb_par_wxPoint( 3 );
-  wxSize size = hb_par_wxSize( 4 );
+  wxPoint pos = wxh_par_wxPoint( 3 );
+  wxSize size = wxh_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
   wxString name = wxh_parc( 6 );
 
