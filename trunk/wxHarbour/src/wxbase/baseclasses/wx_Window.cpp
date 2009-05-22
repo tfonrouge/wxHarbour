@@ -149,6 +149,33 @@ HB_FUNC( WXWINDOW_FREEZE )
 }
 
 /*
+  GetChildren
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_GETCHILDREN )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    wxWindowList windowList = wnd->GetChildren();
+    wxWindowList::iterator iter;
+    wxWindow* window;
+    PHB_ITEM pList = hb_itemArrayNew( windowList.GetCount() );
+    PHB_ITEM pItm;
+    UINT index = 0;
+    for( iter = windowList.begin(); iter != windowList.end(); ++iter )
+    {
+      window = *iter;
+      pItm = wxh_ItemListGet_HB( window );
+      if( pItm )
+        hb_arraySet( pList, ++index, pItm );
+    }
+    hb_itemReturnRelease( pList );
+  }
+}
+
+/*
   GetFont
   Teo. Mexico 2008
 */

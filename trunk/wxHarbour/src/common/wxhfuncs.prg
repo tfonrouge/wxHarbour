@@ -708,6 +708,7 @@ RETURN
 */
 FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
   LOCAL Result
+  LOCAL ctrl
 
   containerObj():ClearData()
 
@@ -719,6 +720,15 @@ FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
 
   IF centre
     oWnd:Centre()
+  ENDIF
+
+  IF .T. /* Focus on first available control */
+    FOR EACH ctrl IN oWnd:GetChildren()
+      IF ctrl != NIL .AND. ctrl:IsDerivedFrom("wxTextCtrl")
+        ctrl:SetFocus()
+        EXIT
+      ENDIF
+    NEXT
   ENDIF
 
   IF modal

@@ -39,6 +39,7 @@ PUBLIC:
   METHOD FindWindowByLabel( label, parent )
   METHOD FindWindowByName( name, parent )
   METHOD Freeze
+  METHOD GetChildren()
   METHOD GetFont
   METHOD GetId
   METHOD GetLabel

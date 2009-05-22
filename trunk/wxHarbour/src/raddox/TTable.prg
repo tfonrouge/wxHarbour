@@ -47,6 +47,8 @@ PRIVATE:
   /* TODO: Check if we can re-use a client socket */
   DATA FRDOClient
 
+  DATA FRecNoBeforeInsert
+
   DATA FRecNo         INIT 0
   DATA FRemote	      INIT .F.
   DATA FState INIT dsInactive
@@ -339,6 +341,8 @@ METHOD FUNCTION AddRec CLASS TTable
     index := ::FPrimaryIndex:Name
   ENDIF
 
+  ::FRecNoBeforeInsert := ::RecNo()
+
   IF !( Result := ::Alias:AddRec(index) )
     RETURN Result
   ENDIF
@@ -429,6 +433,11 @@ METHOD PROCEDURE Cancel CLASS TTable
   END
 
   ::RecUnLock()
+
+  IF ::FRecNoBeforeInsert != NIL
+    ::RecNo := ::FRecNoBeforeInsert
+    ::FRecNoBeforeInsert := NIL
+  ENDIF
 
 RETURN
 
@@ -890,6 +899,8 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
   LOCAL AField,BField
   LOCAL state
   LOCAL pSelf
+
+  ? seconds(), "GetCurrentRecord", ::RecNo()
 
   IF ::FState != dsBrowse
     //RAISE ERROR "Table not in dsBrowse mode..."

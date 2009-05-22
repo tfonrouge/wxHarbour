@@ -344,10 +344,10 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
       pSelf = NULL;
   }
 
-  if( pSelf == NULL )
-  {
-    hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-  }
+//   if( pSelf == NULL )
+//   {
+//     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+//   }
 
   return pSelf;
 }
