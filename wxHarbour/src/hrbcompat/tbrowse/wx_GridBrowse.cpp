@@ -85,6 +85,8 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
 void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
 {
 
+  qoutf("OnSelectCell");
+
   PHB_ITEM pWxhBrowse = wxh_ItemListGet_HB( this );
 
   if( pWxhBrowse )

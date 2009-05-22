@@ -2,6 +2,31 @@
  *
  */
 
+2009-05-22 09:04 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+    * renamed var
+
+  * src/common/wx_harbour.cpp
+    * comented out error message
+
+  * src/common/wxhfuncs.prg
+    * added code to give focus to first wxTextCtrl on frame/dialog
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * debug output
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    ! Fixed error on wrong FCurRowIndex value
+
+  * src/raddox/TTable.prg
+    * added code to keep RecNo on failed Insert() (Cancel() called)
+
+  * src/wxbase/baseclasses/wxhWindow.prg
+  * src/wxbase/baseclasses/wx_Window.cpp
+    + added method:
+      + GetChildren()
+
 2009-05-21 16:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
   * src/common/wx_harbour.cpp

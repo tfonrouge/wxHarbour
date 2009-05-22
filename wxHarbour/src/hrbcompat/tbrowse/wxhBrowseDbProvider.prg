@@ -381,7 +381,7 @@ METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
   LOCAL n
   LOCAL browse := ::GetBrowse()
 
-  IF rowIndex >= browse:RowCount
+  IF rowIndex >= browse:RowCount .OR. ::FCurRowIndex = NIL
     RETURN
   ENDIF
 

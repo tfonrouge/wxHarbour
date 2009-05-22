@@ -173,7 +173,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
     END SIZER
   END SIZER
 
-  b:SelectCellBlock := {|o| textCtrl:AppendText( RTrim( o:DataSource:Field_Last:AsString ) + ", " + o:DataSource:Field_First:AsString + E"\n" ) }
+  b:SelectCellBlock := {|oBrw| textCtrl:AppendText( RTrim( oBrw:DataSource:Field_Last:AsString ) + ", " + oBrw:DataSource:Field_First:AsString + E"\n" ) }
 
   @ STATUSBAR
 
