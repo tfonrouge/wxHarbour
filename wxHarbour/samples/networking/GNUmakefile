@@ -107,8 +107,9 @@ NETWORKING_OBJECTS =  \
 	$(__BUILDDIR__)/networking_simple.o
 NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -I/usr/include/wxHarbour \
-	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include/wxHarbour
+	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) \
+	-I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 

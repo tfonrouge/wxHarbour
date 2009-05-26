@@ -113,15 +113,15 @@ CPPDEPS = -MT$@ -MF$@.d -MD -MP
 _WL_STARTGROUP = -Wl,--start-group
 _WL_ENDGROUP = -Wl,--end-group
 PREFIX = $(HBPATH_INSTALL)
-EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -I$(PREFIX)\include\wxHarbour -W -Wall \
-	-O2 $(p) $(p_0) $(__WX_DEBUG_INFO) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour \
-	$(CPPFLAGS) $(HBCC_DEFINE)
+EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
+	-D__WXMSW__ -I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+	-I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE)
 EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)\evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)\evtdefcheck_getdefs.o
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) -Iinclude\wxHarbour \
 	-I$(PREFIX)\include\wxHarbour $(p) $(p_0) -D__WXMSW__ -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour
 

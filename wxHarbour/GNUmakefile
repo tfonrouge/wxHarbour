@@ -112,12 +112,12 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -I/usr/include/wxHarbour -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -I/usr/include/wxHarbour -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing \
+WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO_2) $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO_2) $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing \
 	`wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
@@ -303,8 +303,8 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -I/usr/include/wxHarbour \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour
+	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p)
 
 ### Conditionally set variables: ###
 
