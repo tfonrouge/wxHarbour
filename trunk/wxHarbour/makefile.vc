@@ -122,15 +122,17 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) \
-	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude\wxHarbour \
-	$(CPPFLAGS) $(HBCC_DEFINE)
+	/Iinclude\wxHarbour /I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) \
+	$(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
+	/D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	$(HBCC_DEFINE)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
-	/I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) \
-	/Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb /D__WXMSW__ /I$(WX_PATH)\Include \
-	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude\wxHarbour /GR \
-	/EHsc /YX $(CPPFLAGS) $(HBCC_DEFINE)
+	/Iinclude\wxHarbour /I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) \
+	$(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
+	/D__WXMSW__ /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /GR /EHsc /YX $(CPPFLAGS) \
+	$(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
@@ -288,10 +290,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) /Iinclude\wxHarbour \
 	/I$(PREFIX)\include\wxHarbour $(p) $(p_0) $(p_1) /D__WXMSW__ \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	/Iinclude\wxHarbour
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 

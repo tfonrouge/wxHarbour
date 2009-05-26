@@ -166,7 +166,7 @@ PREFIX = $(HBPATH_INSTALL)
 NETWORKING_OBJECTS =  \
 	$(__BUILDDIR__)\networking_simple.obj
 NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) -Iinclude\wxHarbour \
 	-I$(PREFIX)\include\wxHarbour $(____D_WX_UNICODE_FILENAMES_p) \
 	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour

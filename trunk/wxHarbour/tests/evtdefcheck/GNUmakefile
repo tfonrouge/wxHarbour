@@ -107,17 +107,18 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
-EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -I/usr/include/wxHarbour -W -Wall -O2 \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) \
-	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing \
-	`wx-config --cxxflags`
+EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO) -I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) \
+	-fno-strict-aliasing `wx-config --cxxflags`
 EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)/evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)/evtdefcheck_getdefs.o
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -I/usr/include/wxHarbour \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -I../../include/wxHarbour
+	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	-I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 

@@ -10,7 +10,6 @@
       $(fileList("include/wxHarbour/*.h"))
       $(fileList("include/wxHarbour/wxh/*.ch"))
     </headers>
-    <include>include/wxHarbour</include>
     <sources-at>
       src/common
       src/hrbcompat/errorsys

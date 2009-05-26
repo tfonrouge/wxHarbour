@@ -5,6 +5,12 @@ aMainDirs="demos samples tests"
 
 formats='gnu msvc mingw borland'
 
+if [ `uname` == "Darwin" ] ; then
+  SEDCMD="sed -i ''"
+else
+  SEDCMD="sed -i"
+fi
+
 echo "Building makefiles for wxHarbour library"
 
 for fmt in $formats ; do
@@ -21,8 +27,9 @@ for mainDir in $aMainDirs ; do
 
     ndir=${DIR/$mainDir\//}
     cp config/mkdirstempl.bkl $mainDir/$ndir/$ndir.bkl
-    SEDCMD=s/__SAMPLE_NAME__/$ndir/
-    sed -i "" $SEDCMD $mainDir/$ndir/$ndir.bkl
+    SEAREP=s/__SAMPLE_NAME__/$ndir/
+    echo $SEDCMD $SEAREP $mainDir/$ndir/$ndir.bkl
+    $SEDCMD $SEAREP $mainDir/$ndir/$ndir.bkl
 
     for fmt in $formats ; do
       bakefile -f $fmt $mainDir/$ndir/$ndir.bkl -DFORMAT_HAS_MAKE_INSTALL=1

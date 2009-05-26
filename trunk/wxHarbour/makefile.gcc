@@ -121,14 +121,16 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 CPPDEPS = -MT$@ -MF$@.d -MD -MP
 PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -I$(PREFIX)\include\wxHarbour -W -Wall -O2 \
-	$(p) $(p_0) $(__WX_DEBUG_INFO_2) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) -Iinclude\wxHarbour \
-	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -I$(PREFIX)\include\wxHarbour -W -Wall -O2 \
-	$(p) $(p_0) $(__WX_DEBUG_INFO_2) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) -Iinclude\wxHarbour \
-	$(CPPFLAGS) $(HBCC_DEFINE)
+WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
+	-D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	$(HBCC_DEFINE) -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
+	-D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	$(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.o \
@@ -286,9 +288,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) -Iinclude\wxHarbour \
 	-I$(PREFIX)\include\wxHarbour $(p) $(p_0) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) -Iinclude\wxHarbour
+	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 

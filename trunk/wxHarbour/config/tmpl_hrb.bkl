@@ -707,6 +707,7 @@ Where is wxWidgets installed
 <!--    <include>include</include>-->
     <include>$(HB_INC_PATH)</include>
 <!--    <include>$(INCLUDEDIR)</include>-->
+    <include>include/wxHarbour</include>
     <include>$(PREFIX)/include/wxHarbour</include>
 
     <if cond="COMPILER=='gcc'">
