@@ -19,7 +19,7 @@
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./dbbrowser
+        ../../bin/run_App.sh dbbrowser
       </command>
     </if>
     <depends>

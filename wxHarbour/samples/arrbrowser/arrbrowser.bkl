@@ -19,7 +19,7 @@
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./arrbrowser
+        ../../bin/run_App.sh arrbrowser
       </command>
     </if>
     <depends>

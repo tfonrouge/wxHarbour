@@ -22,7 +22,7 @@ for mainDir in $aMainDirs ; do
     ndir=${DIR/$mainDir\//}
     cp config/mkdirstempl.bkl $mainDir/$ndir/$ndir.bkl
     SEDCMD=s/__SAMPLE_NAME__/$ndir/
-    sed -i $SEDCMD $mainDir/$ndir/$ndir.bkl
+    sed -i "" $SEDCMD $mainDir/$ndir/$ndir.bkl
 
     for fmt in $formats ; do
       bakefile -f $fmt $mainDir/$ndir/$ndir.bkl -DFORMAT_HAS_MAKE_INSTALL=1
