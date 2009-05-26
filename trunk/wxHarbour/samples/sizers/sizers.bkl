@@ -19,7 +19,7 @@
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./sizers
+        ../../bin/run_App.sh sizers
       </command>
     </if>
     <depends>

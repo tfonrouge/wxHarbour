@@ -2,6 +2,46 @@
  *
  */
 
+2009-05-26 09:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * build_bkls.sh
+  * config/mkdirstempl.bkl
+  * demos/dbExplorer/GNUmakefile
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/helloworld.bkl
+  * samples/arrbrowser/GNUmakefile
+  * samples/arrbrowser/arrbrowser.bkl
+  * samples/auinotebook/GNUmakefile
+  * samples/button/GNUmakefile
+  * samples/checkbox/GNUmakefile
+  * samples/choice/GNUmakefile
+  * samples/combobox/GNUmakefile
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/gauge/GNUmakefile
+  * samples/grid/GNUmakefile
+  * samples/listbook/GNUmakefile
+  * samples/menu/GNUmakefile
+  * samples/menu/menu.bkl
+  * samples/networking/GNUmakefile
+  * samples/notebook/GNUmakefile
+  * samples/panel/GNUmakefile
+  * samples/radiobox/GNUmakefile
+  * samples/sayget/GNUmakefile
+  * samples/sizers/GNUmakefile
+  * samples/sizers/sizers.bkl
+  * samples/spinctrl/GNUmakefile
+  * samples/taskBarIcon/GNUmakefile
+  * samples/text/GNUmakefile
+  * samples/text/text.bkl
+  * samples/timer/GNUmakefile
+  * samples/treectrl/GNUmakefile
+  * tests/evtdefcheck/GNUmakefile
+  * tests/socketCli/GNUmakefile
+  * tests/socketSrv/GNUmakefile
+  + bin
+  + bin/run_App.sh
+    * added capability to create a minimal MacOS bundle to run the apps
+
 2009-05-26 02:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/GNUmakefile
   * demos/dbExplorer/makefile.gcc

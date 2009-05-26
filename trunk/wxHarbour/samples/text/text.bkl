@@ -19,7 +19,7 @@
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./text
+        ../../bin/run_App.sh text
       </command>
     </if>
     <depends>

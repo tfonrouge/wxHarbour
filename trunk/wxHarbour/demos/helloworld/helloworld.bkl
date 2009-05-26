@@ -19,7 +19,7 @@
     </if>
     <if cond="TOOLSET=='unix'">
       <command>
-        ./helloworld
+        ../../bin/run_App.sh helloworld
       </command>
     </if>
     <depends>
