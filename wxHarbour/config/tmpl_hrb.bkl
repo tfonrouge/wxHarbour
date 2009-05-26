@@ -2,7 +2,7 @@
 
 <!-- Common Harbour template for Bakefiles  -->
 <!-- (C) 2009 Teo Fonrouge. WindTelSoft     -->
-<!-- v0.5                                   -->
+<!-- v0.6                                   -->
 
 <makefile>
 
@@ -12,7 +12,7 @@
   <echo>platform: $(PLATFORM_UNIX)</echo>
   <echo> toolset: $(TOOLSET)</echo>
   <echo>  format: $(FORMAT)</echo>
-
+  
   <set var="__DEFAULT_HBFLAGS">
     -n -a -v -m -go
   </set>
@@ -23,6 +23,24 @@
   <set var="PREFIX">
     /usr
   </set>
+  
+  <if cond="FORMAT=='gnu'">
+    <set var="_WL_STARTGROUP" make_var="1">
+      `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--start-group" ; fi`
+    </set>  
+    <set var="_WL_ENDGROUP" make_var="1">
+      `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--end-group" ; fi`
+    </set>
+  </if>
+
+  <if cond="FORMAT!='gnu'">
+    <set var="_WL_STARTGROUP" make_var="1">
+      -Wl,--start-group
+    </set>
+    <set var="_WL_ENDGROUP" make_var="1">
+      -Wl,--end-group
+    </set>
+  </if>
 
   <if cond="FORMAT!='gnu'">
     <set var="HB_INSTALL_PREFIX">
@@ -501,15 +519,6 @@ Where to search for the Harbour compiler
     <if cond="HBBUILD=='debug'" >-b -d_DEBUG_</if>
   </set>
 
-  <set var="HBDEFINES">
-    <if cond="TOOLSET=='win32'">
-      -dHB_OS_WIN_32
-    </if>
-    <if cond="TOOLSET=='unix'">
-      -dHB_OS_LINUX
-    </if>
-  </set>
-
   <set var="___BUILDDIR__">
     <if cond="TOOLSET=='unix'">
       obj/$(COMPILER)-$(TOOLSET)
@@ -688,7 +697,7 @@ Where is wxWidgets installed
         -dHB_OS_WIN_32
       </if>
       <if cond="TOOLSET=='unix'">
-        -dHB_OS_LINUX
+        -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo "-dHB_OS_DARWIN" ; else echo "" ; fi`
       </if>
     </set>
     <set var="__hbflags_var">
@@ -698,9 +707,10 @@ Where is wxWidgets installed
 <!--    <include>include</include>-->
     <include>$(HB_INC_PATH)</include>
 <!--    <include>$(INCLUDEDIR)</include>-->
+    <include>$(PREFIX)/include/wxHarbour</include>
 
     <if cond="COMPILER=='gcc'">
-      <ldlibs>-Wl,--start-group</ldlibs>
+      <ldlibs>$(_WL_STARTGROUP)</ldlibs>
     </if>
     <sys-lib>$(LIB_VM)</sys-lib>
     <sys-lib>$(LIB_PP)</sys-lib>
@@ -828,7 +838,7 @@ Where is wxWidgets installed
     </template>
     <template template="dummy-template">
       <if cond="COMPILER=='gcc'">
-        <ldlibs>-Wl,--end-group</ldlibs>
+        <ldlibs>$(_WL_ENDGROUP)</ldlibs>
       </if>
     </template>
     <template template="common-harbour-exebuild">
@@ -843,7 +853,7 @@ Where is wxWidgets installed
         $(WXHLIBNAME)
       </sys-lib>
       <if cond="COMPILER=='gcc'">
-        <ldlibs>-Wl,--end-group</ldlibs>
+        <ldlibs>$(_WL_ENDGROUP)</ldlibs>
       </if>
     </template>
     <template template="wx-common-build">

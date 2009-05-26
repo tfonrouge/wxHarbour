@@ -2,6 +2,99 @@
  *
  */
 
+2009-05-26 04:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * config/tmpl_hrb.bkl
+  * demos/dbExplorer/GNUmakefile
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/helloworld.bkl
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * makefile.gcc
+  * makefile.vc
+  * samples/arrbrowser/GNUmakefile
+  * samples/arrbrowser/arrbrowser.bkl
+  * samples/arrbrowser/makefile.gcc
+  * samples/arrbrowser/makefile.vc
+  * samples/auinotebook/GNUmakefile
+  * samples/auinotebook/makefile.gcc
+  * samples/auinotebook/makefile.vc
+  * samples/button/GNUmakefile
+  * samples/button/makefile.gcc
+  * samples/button/makefile.vc
+  * samples/checkbox/GNUmakefile
+  * samples/checkbox/makefile.gcc
+  * samples/checkbox/makefile.vc
+  * samples/choice/GNUmakefile
+  * samples/choice/makefile.gcc
+  * samples/choice/makefile.vc
+  * samples/combobox/GNUmakefile
+  * samples/combobox/makefile.gcc
+  * samples/combobox/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/gauge/GNUmakefile
+  * samples/gauge/makefile.gcc
+  * samples/gauge/makefile.vc
+  * samples/grid/GNUmakefile
+  * samples/grid/makefile.gcc
+  * samples/grid/makefile.vc
+  * samples/listbook/GNUmakefile
+  * samples/listbook/makefile.gcc
+  * samples/listbook/makefile.vc
+  * samples/menu/GNUmakefile
+  * samples/menu/menu.bkl
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/notebook/GNUmakefile
+  * samples/notebook/makefile.gcc
+  * samples/notebook/makefile.vc
+  * samples/panel/GNUmakefile
+  * samples/panel/makefile.gcc
+  * samples/panel/makefile.vc
+  * samples/radiobox/GNUmakefile
+  * samples/radiobox/makefile.gcc
+  * samples/radiobox/makefile.vc
+  * samples/sayget/GNUmakefile
+  * samples/sayget/makefile.gcc
+  * samples/sayget/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.gcc
+  * samples/sizers/sizers.bkl
+  * samples/spinctrl/GNUmakefile
+  * samples/spinctrl/makefile.gcc
+  * samples/spinctrl/makefile.vc
+  * samples/taskBarIcon/GNUmakefile
+  * samples/taskBarIcon/makefile.gcc
+  * samples/taskBarIcon/makefile.vc
+  * samples/text/GNUmakefile
+  * samples/text/text.bkl
+  * samples/timer/GNUmakefile
+  * samples/timer/makefile.gcc
+  * samples/timer/makefile.vc
+  * samples/treectrl/GNUmakefile
+  * samples/treectrl/makefile.gcc
+  * samples/treectrl/makefile.vc
+  * tests/evtdefcheck/GNUmakefile
+  * tests/evtdefcheck/makefile.gcc
+  * tests/evtdefcheck/makefile.vc
+  * tests/socketCli/GNUmakefile
+  * tests/socketCli/makefile.gcc
+  * tests/socketCli/makefile.vc
+  * tests/socketSrv/GNUmakefile
+  * tests/socketSrv/makefile.gcc
+  * tests/socketSrv/makefile.vc
+    % Modified bakefile and makefiles to compile/link under MacOS
+
+  * include/wxHarbour/wxbase/wx_MenuItem.h
+    * minor code cleanup
+
 2009-05-22 09:04 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
     * renamed var
