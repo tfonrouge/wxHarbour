@@ -2,6 +2,11 @@
  *
  */
 
+2009-05-26 13:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * bin/run_App.sh
+  * build_bkls.sh
+    * minor refinements to be more compatible with Darwin/Linux
+
 2009-05-26 12:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * build_bkls.sh
     ! Fixed for work correctly on Darwin (sed difference vs Linux)

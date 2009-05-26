@@ -9,7 +9,7 @@ if [ `uname` == "Darwin" ] ; then
     if [ ! -e ${App_MacPath}/Info.plist ] ; then 
 	cp ../../config/Info.plist ${App_MacPath}
 	SEDCMD=s/__APPNAME__/${1}/
-	sed -E -i "" ${SEDCMD} ${App_MacPath}/Info.plist
+	sed -i "" ${SEDCMD} ${App_MacPath}/Info.plist
     fi
     ${App_MacPath}/MacOS/${1}
 else

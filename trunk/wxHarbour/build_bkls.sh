@@ -5,8 +5,10 @@ aMainDirs="demos samples tests"
 
 formats='gnu msvc mingw borland'
 
+empty_str=""
+
 if [ `uname` == "Darwin" ] ; then
-  SEDCMD="sed -i ''"
+  SEDCMD="sed -i .bak"
 else
   SEDCMD="sed -i"
 fi
@@ -28,8 +30,8 @@ for mainDir in $aMainDirs ; do
     ndir=${DIR/$mainDir\//}
     cp config/mkdirstempl.bkl $mainDir/$ndir/$ndir.bkl
     SEAREP=s/__SAMPLE_NAME__/$ndir/
-    echo $SEDCMD $SEAREP $mainDir/$ndir/$ndir.bkl
     $SEDCMD $SEAREP $mainDir/$ndir/$ndir.bkl
+    if [ -e $mainDir/$ndir/$ndir.bkl.bak ] ; then rm $mainDir/$ndir/$ndir.bkl.bak ; fi
 
     for fmt in $formats ; do
       bakefile -f $fmt $mainDir/$ndir/$ndir.bkl -DFORMAT_HAS_MAKE_INSTALL=1
