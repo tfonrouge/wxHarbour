@@ -109,9 +109,9 @@ WX_BUILD ?= release
 _WL_STARTGROUP = -Wl,--start-group
 _WL_ENDGROUP = -Wl,--end-group
 PREFIX = $(HBPATH_INSTALL)
-__SAMPLE_NAME___OBJECTS =  \
-	$(__BUILDDIR__)\__SAMPLE_NAME___arrbrowser.o
-__SAMPLE_NAME___HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+ARRBROWSER_OBJECTS =  \
+	$(__BUILDDIR__)\arrbrowser_arrbrowser.o
+ARRBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
 	-I$(PREFIX)\include\wxHarbour $(____D_WX_UNICODE_FILENAMES_p) \
 	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
@@ -318,7 +318,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: .\__SAMPLE_NAME__.exe
+all: .\arrbrowser.exe
 
 install: 
 
@@ -327,16 +327,16 @@ uninstall:
 clean: 
 	-if exist $(__BUILDDIR__)\*.o del $(__BUILDDIR__)\*.o
 	-if exist $(__BUILDDIR__)\*.d del $(__BUILDDIR__)\*.d
-	-if exist .\__SAMPLE_NAME__.exe del .\__SAMPLE_NAME__.exe
+	-if exist .\arrbrowser.exe del .\arrbrowser.exe
 
-.\__SAMPLE_NAME__.exe: $(__SAMPLE_NAME___OBJECTS)
-	$(CXX) -o $@ $(__SAMPLE_NAME___OBJECTS)  $(__WX_DEBUG_INFO_3) -L$(WX_PATH)\lib\gcc_lib -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__WXHLIBNAME_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+.\arrbrowser.exe: $(ARRBROWSER_OBJECTS)
+	$(CXX) -o $@ $(ARRBROWSER_OBJECTS)  $(__WX_DEBUG_INFO_3) -L$(WX_PATH)\lib\gcc_lib -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__WXHLIBNAME_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 run: all
-	.\__SAMPLE_NAME__.exe
+	.\arrbrowser.exe
 
-$(__BUILDDIR__)\__SAMPLE_NAME___arrbrowser.o: ./arrbrowser.prg
-	$(HBCC) $(__SAMPLE_NAME___HBFLAGS) -o$@ $<
+$(__BUILDDIR__)\arrbrowser_arrbrowser.o: ./arrbrowser.prg
+	$(HBCC) $(ARRBROWSER_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

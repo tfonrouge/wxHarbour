@@ -103,9 +103,9 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
-__SAMPLE_NAME___OBJECTS =  \
-	$(__BUILDDIR__)/__SAMPLE_NAME___socketSrv.o
-__SAMPLE_NAME___HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+SOCKETSRV_OBJECTS =  \
+	$(__BUILDDIR__)/socketSrv_socketSrv.o
+SOCKETSRV_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
 	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -I/usr/include/wxHarbour \
 	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include/wxHarbour
@@ -311,7 +311,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: ./__SAMPLE_NAME__
+all: ./socketSrv
 
 install: 
 
@@ -320,16 +320,16 @@ uninstall:
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
-	rm -f ./__SAMPLE_NAME__
+	rm -f ./socketSrv
 
-./__SAMPLE_NAME__: $(__SAMPLE_NAME___OBJECTS)
-	$(CXX) -o $@ $(__SAMPLE_NAME___OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+./socketSrv: $(SOCKETSRV_OBJECTS)
+	$(CXX) -o $@ $(SOCKETSRV_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
-	./__SAMPLE_NAME__
+	./socketSrv
 
-$(__BUILDDIR__)/__SAMPLE_NAME___socketSrv.o: ./socketSrv.prg
-	$(HBCC) $(__SAMPLE_NAME___HBFLAGS) -o$@ $<
+$(__BUILDDIR__)/socketSrv_socketSrv.o: ./socketSrv.prg
+	$(HBCC) $(SOCKETSRV_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

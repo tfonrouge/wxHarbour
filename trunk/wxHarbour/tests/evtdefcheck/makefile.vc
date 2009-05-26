@@ -112,15 +112,15 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
-__SAMPLE_NAME___CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
+EVTDEFCHECK_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
 	/I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) \
-	/Fd.\__SAMPLE_NAME__.pdb /D__WXMSW__ /I$(WX_PATH)\Include \
+	/Fd.\evtdefcheck.pdb /D__WXMSW__ /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
 	/I..\..\include\wxHarbour /GR /EHsc /YX $(CPPFLAGS) $(HBCC_DEFINE)
-__SAMPLE_NAME___OBJECTS =  \
-	$(__BUILDDIR__)\__SAMPLE_NAME___evtdefcheck.obj \
-	$(__BUILDDIR__)\__SAMPLE_NAME___getdefs.obj
-__SAMPLE_NAME___HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+EVTDEFCHECK_OBJECTS =  \
+	$(__BUILDDIR__)\evtdefcheck_evtdefcheck.obj \
+	$(__BUILDDIR__)\evtdefcheck_getdefs.obj
+EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) \
 	/I$(PREFIX)\include\wxHarbour $(p) $(p_0) $(p_1) /D__WXMSW__ \
 	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
@@ -316,7 +316,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: .\__SAMPLE_NAME__.exe
+all: .\evtdefcheck.exe
 
 install: 
 
@@ -326,21 +326,21 @@ clean:
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
 	-if exist $(__BUILDDIR__)\*.pch del $(__BUILDDIR__)\*.pch
-	-if exist .\__SAMPLE_NAME__.exe del .\__SAMPLE_NAME__.exe
-	-if exist .\__SAMPLE_NAME__.ilk del .\__SAMPLE_NAME__.ilk
-	-if exist .\__SAMPLE_NAME__.pdb del .\__SAMPLE_NAME__.pdb
+	-if exist .\evtdefcheck.exe del .\evtdefcheck.exe
+	-if exist .\evtdefcheck.ilk del .\evtdefcheck.ilk
+	-if exist .\evtdefcheck.pdb del .\evtdefcheck.pdb
 
-.\__SAMPLE_NAME__.exe: $(__SAMPLE_NAME___OBJECTS)
-	link /NOLOGO /OUT:$@  $(__WX_DEBUG_INFO_6) /pdb:".\__SAMPLE_NAME__.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
-	$(__SAMPLE_NAME___OBJECTS)  $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
+.\evtdefcheck.exe: $(EVTDEFCHECK_OBJECTS)
+	link /NOLOGO /OUT:$@  $(__WX_DEBUG_INFO_6) /pdb:".\evtdefcheck.pdb" /LIBPATH:$(WX_PATH)\lib\vc_lib /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
+	$(EVTDEFCHECK_OBJECTS)  $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
 <<
 
 run: all
-	.\__SAMPLE_NAME__.exe
+	.\evtdefcheck.exe
 
-$(__BUILDDIR__)\__SAMPLE_NAME___evtdefcheck.obj: .\evtdefcheck.prg
-	$(HBCC) $(__SAMPLE_NAME___HBFLAGS) -o$@ $**
+$(__BUILDDIR__)\evtdefcheck_evtdefcheck.obj: .\evtdefcheck.prg
+	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@ $**
 
-$(__BUILDDIR__)\__SAMPLE_NAME___getdefs.obj: .\getdefs.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(__SAMPLE_NAME___CXXFLAGS) .\getdefs.cpp
+$(__BUILDDIR__)\evtdefcheck_getdefs.obj: .\getdefs.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(EVTDEFCHECK_CXXFLAGS) .\getdefs.cpp
 
