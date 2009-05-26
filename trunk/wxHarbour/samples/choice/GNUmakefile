@@ -99,11 +99,16 @@ WX_BUILD ?= release
 
 ### Variables: ###
 
-CHOICE_OBJECTS =  \
-	$(__BUILDDIR__)/choice_choice.o
-CHOICE_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX -I$(HB_INC_PATH) $(__D_WX_UNICODE_p_1) \
-	$(__D_WX_DEBUG_p_1) -I../../include/wxHarbour
+_WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
+	"-Wl,--start-group" ; fi`
+_WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
+	"-Wl,--end-group" ; fi`
+__SAMPLE_NAME___OBJECTS =  \
+	$(__BUILDDIR__)/__SAMPLE_NAME___choice.o
+__SAMPLE_NAME___HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
+	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -I/usr/include/wxHarbour \
+	$(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -306,7 +311,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: ./choice
+all: ./__SAMPLE_NAME__
 
 install: 
 
@@ -315,16 +320,16 @@ uninstall:
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
-	rm -f ./choice
+	rm -f ./__SAMPLE_NAME__
 
-./choice: $(CHOICE_OBJECTS)
-	$(CXX) -o $@ $(CHOICE_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  -Wl,--start-group $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) -Wl,--end-group `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+./__SAMPLE_NAME__: $(__SAMPLE_NAME___OBJECTS)
+	$(CXX) -o $@ $(__SAMPLE_NAME___OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
-	./choice
+	./__SAMPLE_NAME__
 
-$(__BUILDDIR__)/choice_choice.o: ./choice.prg
-	$(HBCC) $(CHOICE_HBFLAGS) -o$@ $<
+$(__BUILDDIR__)/__SAMPLE_NAME___choice.o: ./choice.prg
+	$(HBCC) $(__SAMPLE_NAME___HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

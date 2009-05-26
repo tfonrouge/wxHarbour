@@ -20,7 +20,8 @@ class wx_MenuItem : public wxMenuItem
 private:
 protected:
 public:
-  wx_MenuItem( wxMenu* parentMenu = NULL, int id = wxID_SEPARATOR, const wxString& text = wxT(""), const wxString& helpString = wxT(""), int kind = wxITEM_NORMAL, wxMenu* subMenu = NULL ) : wxMenuItem( parentMenu, id, text, helpString, kind, subMenu ) {}
+  
+  wx_MenuItem( wxMenu* parentMenu = NULL, int id = wxID_SEPARATOR, const wxString& text = wxT(""), const wxString& helpString = wxT(""), wxItemKind kind = wxITEM_NORMAL, wxMenu* subMenu = NULL ) : wxMenuItem( parentMenu, id, text, helpString, kind, subMenu ) {}
 
   ~wx_MenuItem();
 };

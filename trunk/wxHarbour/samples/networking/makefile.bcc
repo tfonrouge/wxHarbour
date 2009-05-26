@@ -163,13 +163,13 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
-NETWORKING_OBJECTS =  \
-	$(__BUILDDIR__)\networking_simple.obj
-NETWORKING_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+__SAMPLE_NAME___OBJECTS =  \
+	$(__BUILDDIR__)\__SAMPLE_NAME___simple.obj
+__SAMPLE_NAME___HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) \
-	$(____D_WX_UNICODE_FILENAMES_p) $(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
-	-I..\..\include\wxHarbour
+	-I$(PREFIX)\include\wxHarbour $(____D_WX_UNICODE_FILENAMES_p) \
+	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -346,7 +346,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: .\networking.exe
+all: .\__SAMPLE_NAME__.exe
 
 install: 
 
@@ -356,21 +356,21 @@ clean:
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
 	-if exist $(__BUILDDIR__)\*.csm del $(__BUILDDIR__)\*.csm
-	-if exist .\networking.exe del .\networking.exe
-	-if exist .\networking.tds del .\networking.tds
-	-if exist .\networking.ilc del .\networking.ilc
-	-if exist .\networking.ild del .\networking.ild
-	-if exist .\networking.ilf del .\networking.ilf
-	-if exist .\networking.ils del .\networking.ils
+	-if exist .\__SAMPLE_NAME__.exe del .\__SAMPLE_NAME__.exe
+	-if exist .\__SAMPLE_NAME__.tds del .\__SAMPLE_NAME__.tds
+	-if exist .\__SAMPLE_NAME__.ilc del .\__SAMPLE_NAME__.ilc
+	-if exist .\__SAMPLE_NAME__.ild del .\__SAMPLE_NAME__.ild
+	-if exist .\__SAMPLE_NAME__.ilf del .\__SAMPLE_NAME__.ilf
+	-if exist .\__SAMPLE_NAME__.ils del .\__SAMPLE_NAME__.ils
 
-.\networking.exe: $(NETWORKING_OBJECTS)
+.\__SAMPLE_NAME__.exe: $(__SAMPLE_NAME___OBJECTS)
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__WX_DEBUG_INFO_4) -L$(WX_PATH)\lib\bcc_lib -aa -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS) @&&|
-	c0w32.obj $(NETWORKING_OBJECTS),$@,, $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib import32.lib cw32.lib,,
+	c0w32.obj $(__SAMPLE_NAME___OBJECTS),$@,, $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib import32.lib cw32.lib,,
 |
 
 run: all
-	.\networking.exe
+	.\__SAMPLE_NAME__.exe
 
-$(__BUILDDIR__)\networking_simple.obj: .\simple.prg
-	$(HBCC) $(NETWORKING_HBFLAGS) -o$@ $**
+$(__BUILDDIR__)\__SAMPLE_NAME___simple.obj: .\simple.prg
+	$(HBCC) $(__SAMPLE_NAME___HBFLAGS) -o$@ $**
 
