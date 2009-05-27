@@ -497,7 +497,7 @@ wxSize wxh_par_wxSize( int param )
 */
 wxString wxh_CTowxStr( const char * szStr )
 {
-  return wxString( szStr, wxConvLocal );
+  return wxString( szStr, wxConvUTF8 );
 }
 
 /*
@@ -575,3 +575,4 @@ HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
   navEvent.SetDirection( bDirection );
   hb_retl( evtHandler->ProcessEvent( navEvent ) );
 }
+
