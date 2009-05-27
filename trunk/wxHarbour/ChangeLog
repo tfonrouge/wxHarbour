@@ -2,6 +2,12 @@
  *
  */
 
+2009-05-27 15:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+    * changed default decoding of strings to wxConvUTF8, fixes Mac wrong
+      display of strings
+
+
 2009-05-26 13:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * bin/run_App.sh
   * build_bkls.sh
