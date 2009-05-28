@@ -2,11 +2,37 @@
  *
  */
 
+2009-05-28 12:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * ChangeLog
+    * minor cleanup
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * src/common/wxhfuncs.prg
+    + added wxImageList, wxListItem, wxListCtrl HB/C++ classes
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/wxbase/app/wx_TaskBarIcon.cpp
+  * src/wxbase/controls/wx_SearchCtrl.cpp
+  * src/wxbase/miscfuncs/wx_DialogFuncs.cpp
+  * src/wxbase/events/wx_Timer.cpp
+    * renamed name of function from wxh_parWX to wxh_par_WX
+
+  * include/wxHarbour/wxharbour.ch
+    * added @ LISTCTRL ... command
+    
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/raddox/TTable.prg
+    * removed debug help output's
+
 2009-05-27 15:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wx_harbour.cpp
     * changed default decoding of strings to wxConvUTF8, fixes Mac wrong
       display of strings
-
 
 2009-05-26 13:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * bin/run_App.sh

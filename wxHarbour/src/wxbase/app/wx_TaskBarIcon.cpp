@@ -91,7 +91,7 @@ HB_FUNC( WXTASKBARICON_POPUPMENU )
 
   if( taskBarIcon )
   {
-    wxMenu* menu = (wxMenu *) wxh_parWX( 1 );
+    wxMenu* menu = (wxMenu *) wxh_par_WX( 1 );
 
     if( menu )
       hb_retl( taskBarIcon->PopupMenu( menu ) );
@@ -126,7 +126,7 @@ HB_FUNC( WXTASKBARICON_SETICON )
     }
     else
     {
-      wxIcon* icon = (wxIcon *) wxh_parWX( 1 );
+      wxIcon* icon = (wxIcon *) wxh_par_WX( 1 );
       if( icon )
         hb_retl( taskBarIcon->SetIcon( *icon, wxh_parc( 2 ) ) );
     }

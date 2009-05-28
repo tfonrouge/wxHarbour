@@ -900,8 +900,6 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
   LOCAL state
   LOCAL pSelf
 
-  ? seconds(), "GetCurrentRecord", ::RecNo()
-
   IF ::FState != dsBrowse
     //RAISE ERROR "Table not in dsBrowse mode..."
     RETURN .F.

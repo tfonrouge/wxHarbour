@@ -137,7 +137,7 @@ HB_FUNC( WXTIMER_ISRUNNING )
 HB_FUNC( WXTIMER_SETOWNER )
 {
   wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_parWX( 1 );
+  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_par_WX( 1 );
 
   if( timer && evtHandler )
   {

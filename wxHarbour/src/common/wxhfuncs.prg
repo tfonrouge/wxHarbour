@@ -465,6 +465,27 @@ PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, s
 RETURN
 
 /*
+  __wxh_ListCtrl
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_ListCtrl( window, id, value, pos, size, style, validator, name, bAction )
+  LOCAL listCtrl
+
+  IF window = NIL
+    window := containerObj():LastParent()
+  ENDIF
+
+  listCtrl := wxListCtrl():New( window, id, value, pos, size, style, validator, name )
+
+  IF bAction != NIL
+    listCtrl:ConnectCommandEvt( listCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
+  ENDIF
+
+  containerObj():SetLastChild( listCtrl )
+
+RETURN listCtrl
+
+/*
   __wxh_MenuBarBegin
   Teo. Mexico 2006
 */

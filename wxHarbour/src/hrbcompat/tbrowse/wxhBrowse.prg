@@ -338,8 +338,6 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
     ENDIF
   ENDIF
 
-  ? "OnKeyDown", ::DataSource:RecNo(), ""
-
   SWITCH keyEvent:GetKeyCode()
   CASE WXK_UP
     ::Up()
@@ -396,9 +394,6 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
   _SW_OTHERWISE
     keyEvent:Skip()
   END
-
-  ?? ::DataSource:RecNo()
-  ?
 
 RETURN
 
