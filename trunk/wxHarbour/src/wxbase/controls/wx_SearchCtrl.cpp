@@ -102,7 +102,7 @@ HB_FUNC( WXSEARCHCTRL_SETMENU )
 
   if( searchCtrl )
   {
-    wxMenu* menu = (wxMenu *) wxh_parWX( 1 );
+    wxMenu* menu = (wxMenu *) wxh_par_WX( 1 );
     searchCtrl->SetMenu( menu );
   }
 }

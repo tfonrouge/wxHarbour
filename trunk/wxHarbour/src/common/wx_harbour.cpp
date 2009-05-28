@@ -135,7 +135,7 @@ wxObject* wxh_ObjParams::Get_wxObject()
 */
 wxObject* wxh_ObjParams::param( const int param )
 {
-  return wxh_parWX( param );
+  return wxh_par_WX( param );
 }
 
 /*
@@ -417,10 +417,10 @@ void wxh_ItemListReleaseAll()
 }
 
 /*
-  wxh_parWX
+  wxh_par_WX
   Teo. Mexico 2009
 */
-wxObject* wxh_parWX( const int param )
+wxObject* wxh_par_WX( const int param )
 {
   return wxh_ItemListGet_WX( hb_param( param, HB_IT_OBJECT ) );
 }
@@ -567,7 +567,7 @@ void qoutf( const char* format, ... )
 */
 HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
 {
-  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_parWX( 1 );
+  wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_par_WX( 1 );
   bool bDirection = ISNIL( 2 ) ? true : hb_parl( 2 );
 
   wxNavigationKeyEvent navEvent;

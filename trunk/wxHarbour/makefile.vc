@@ -158,6 +158,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhApp.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhImageList.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhObject.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhWindow.obj \
@@ -169,6 +171,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhChoice.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhComboBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhControl.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSearchCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSpinCtrl.obj \
@@ -233,6 +236,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_App.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ImageList.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Object.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Window.obj \
@@ -243,6 +248,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_CheckBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Choice.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ComboBox.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_RadioBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SearchCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SpinCtrl.obj \
@@ -517,6 +523,12 @@ $(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj: .\src\wxbase\app\wxhTaskBarIcon.pr
 $(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj: .\src\wxbase\baseclasses\wxhControlWithItems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhImageList.obj: .\src\wxbase\baseclasses\wxhImageList.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhListItem.obj: .\src\wxbase\baseclasses\wxhListItem.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhObject.obj: .\src\wxbase\baseclasses\wxhObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -548,6 +560,9 @@ $(__BUILDDIR__)\wxHarbour_wxhComboBox.obj: .\src\wxbase\controls\wxhComboBox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhControl.obj: .\src\wxbase\controls\wxhControl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj: .\src\wxbase\controls\wxhListCtrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj: .\src\wxbase\controls\wxhRadioBox.prg
@@ -742,6 +757,12 @@ $(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.obj: .\src\wxbase\app\wx_TaskBarIcon.cp
 $(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.obj: .\src\wxbase\baseclasses\wx_ControlWithItems.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ControlWithItems.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_ImageList.obj: .\src\wxbase\baseclasses\wx_ImageList.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ImageList.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_ListItem.obj: .\src\wxbase\baseclasses\wx_ListItem.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ListItem.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_Object.obj: .\src\wxbase\baseclasses\wx_Object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_Object.cpp
 
@@ -771,6 +792,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Choice.obj: .\src\wxbase\controls\wx_Choice.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_ComboBox.obj: .\src\wxbase\controls\wx_ComboBox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_ComboBox.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.obj: .\src\wxbase\controls\wx_ListCtrl.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_ListCtrl.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_RadioBox.obj: .\src\wxbase\controls\wx_RadioBox.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_RadioBox.cpp

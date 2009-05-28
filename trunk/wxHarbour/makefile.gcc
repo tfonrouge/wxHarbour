@@ -156,6 +156,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhApp.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.o \
 	$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.o \
+	$(__BUILDDIR__)\wxHarbour_wxhImageList.o \
+	$(__BUILDDIR__)\wxHarbour_wxhListItem.o \
 	$(__BUILDDIR__)\wxHarbour_wxhObject.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.o \
 	$(__BUILDDIR__)\wxHarbour_wxhWindow.o \
@@ -167,6 +169,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhChoice.o \
 	$(__BUILDDIR__)\wxHarbour_wxhComboBox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhControl.o \
+	$(__BUILDDIR__)\wxHarbour_wxhListCtrl.o \
 	$(__BUILDDIR__)\wxHarbour_wxhRadioBox.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSearchCtrl.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSpinCtrl.o \
@@ -231,6 +234,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_App.o \
 	$(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.o \
 	$(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.o \
+	$(__BUILDDIR__)\wxHarbour_wx_ImageList.o \
+	$(__BUILDDIR__)\wxHarbour_wx_ListItem.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Object.o \
 	$(__BUILDDIR__)\wxHarbour_wx_TopLevelWindow.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Window.o \
@@ -241,6 +246,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_CheckBox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Choice.o \
 	$(__BUILDDIR__)\wxHarbour_wx_ComboBox.o \
+	$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.o \
 	$(__BUILDDIR__)\wxHarbour_wx_RadioBox.o \
 	$(__BUILDDIR__)\wxHarbour_wx_SearchCtrl.o \
 	$(__BUILDDIR__)\wxHarbour_wx_SpinCtrl.o \
@@ -517,6 +523,12 @@ $(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.o: ./src/wxbase/app/wxhTaskBarIcon.prg
 $(__BUILDDIR__)\wxHarbour_wxhControlWithItems.o: ./src/wxbase/baseclasses/wxhControlWithItems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)\wxHarbour_wxhImageList.o: ./src/wxbase/baseclasses/wxhImageList.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhListItem.o: ./src/wxbase/baseclasses/wxhListItem.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)\wxHarbour_wxhObject.o: ./src/wxbase/baseclasses/wxhObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -548,6 +560,9 @@ $(__BUILDDIR__)\wxHarbour_wxhComboBox.o: ./src/wxbase/controls/wxhComboBox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhControl.o: ./src/wxbase/controls/wxhControl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)\wxHarbour_wxhListCtrl.o: ./src/wxbase/controls/wxhListCtrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)\wxHarbour_wxhRadioBox.o: ./src/wxbase/controls/wxhRadioBox.prg
@@ -742,6 +757,12 @@ $(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.o: ./src/wxbase/app/wx_TaskBarIcon.cpp
 $(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.o: ./src/wxbase/baseclasses/wx_ControlWithItems.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)\wxHarbour_wx_ImageList.o: ./src/wxbase/baseclasses/wx_ImageList.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_ListItem.o: ./src/wxbase/baseclasses/wx_ListItem.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)\wxHarbour_wx_Object.o: ./src/wxbase/baseclasses/wx_Object.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -770,6 +791,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Choice.o: ./src/wxbase/controls/wx_Choice.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_ComboBox.o: ./src/wxbase/controls/wx_ComboBox.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.o: ./src/wxbase/controls/wx_ListCtrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_RadioBox.o: ./src/wxbase/controls/wx_RadioBox.cpp

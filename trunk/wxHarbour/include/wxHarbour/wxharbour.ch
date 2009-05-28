@@ -500,6 +500,36 @@
           @ SIZERINFO [<sizerClauses>]
 
 /*
+ * ListCtrl
+ * Teo. Mexico 2009
+ */
+#xcommand @ LISTCTRL [<value>] ;
+            [ VAR <listCtrl> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ VALIDATOR <validator> ] ;
+            [ NAME <name> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          [ <listCtrl> := ]__wxh_ListCtrl( ;
+            [<window>],;
+            [<id>],;
+            [<value>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<validator>],;
+            [<name>],;
+            [<{bAction}>] )
+
+#xcommand @ LISTCTRL [<lcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ LISTCTRL [<lcclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
   Notebook|Listbook
 */
 #xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> ;

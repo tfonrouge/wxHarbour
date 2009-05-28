@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,31 +7,23 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wx Dialog Functions
-  Teo. Mexico 2008
+  wx_ListCtrl: Interface
+  Teo. Mexico 2009
 */
 
-#include "wx/wx.h"
-#include "wxh.h"
+#include "wx/listctrl.h"
 
-/*
-  wxMessageBox
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXMESSAGEBOX )
+class wx_ListCtrl : public wxListCtrl
 {
+private:
+protected:
+public:
+  wx_ListCtrl() : wxListCtrl() {}
+  wx_ListCtrl(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxLC_ICON, const wxValidator& validator = wxDefaultValidator, const wxString& name = wxListCtrlNameStr ) : wxListCtrl( parent, id, pos, size, style, validator, name ) {}
 
-  const wxString& message = wxh_parc( 1 );
-  const wxString& caption = wxh_parc( 2 );
-  int style = ISNIL(3) ? wxOK : hb_parni(3);
-  wxWindow* window = (wxWindow *) wxh_par_WX( 4 );
-  int x = ISNIL(5) ? -1 : hb_parni(5);
-  int y = ISNIL(6) ? -1 : hb_parni(6);
-
-  hb_retni( wxMessageBox( message, caption, style, window, x, y ) );
-
-}
+  ~wx_ListCtrl();
+};

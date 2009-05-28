@@ -123,7 +123,7 @@ HB_FUNC_EXTERN( WXSOCKETEVENT );
 HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 
-wxObject*     wxh_parWX( int param );
+wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
