@@ -509,7 +509,7 @@ RETURN .T.
   Count : number of records
   Teo. Mexico 2008
 */
-METHOD FUNCTION Count CLASS TTable
+METHOD FUNCTION Count( whileBlock ) CLASS TTable
   LOCAL nCount := 0
   LOCAL RecNo
   LOCAL key
@@ -523,7 +523,9 @@ METHOD FUNCTION Count CLASS TTable
   ::FAlias:Seek( key, indexName )
 
   WHILE !::FAlias:Eof() .AND. ::FAlias:KeyVal( indexName ) = key
-    nCount++
+    IF whileBlock == NIL .OR. whileBlock:Eval( ::FAlias )
+      nCount++
+    ENDIF
     ::DbSkip()
   ENDDO
 

@@ -2,6 +2,18 @@
  *
  */
 
+2009-05-31 23:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+  * src/wxbase/controls/wx_CheckBox.cpp
+    * minor code cleanup
+
+  * src/raddox/TIndex.prg
+    ! Fixed checking of NIL value
+
+  * src/raddox/TTable.prg
+    % Added capability to ::Count to accept a code block parameter
+      to evaluate in the count process ( whileBlock )
+
 2009-05-28 12:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * ChangeLog
     * minor cleanup
