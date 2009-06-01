@@ -920,7 +920,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
       ::FMasterSource:DetailSourceList[ ::ClassName ] := NIL
     ENDIF
 
-    IF !::Eof()
+    IF ! ( ::Eof() .OR. ::Bof() )
 
       pkField := ::FindDetailSourceField( ::FMasterSource:PrimaryKeyField, .T. )
 
@@ -962,7 +962,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
       pkField:GetData()
       ::FMasterSource:PrimaryKeyField:Value := pkField:Value
       ::FMasterSource:MasterList := .F.
-      IF ::FMasterSource:Eof()
+      IF ::FMasterSource:Eof() .OR. ::FMasterSource:Bof()
         ::Reset()
         IF pSelf != NIL
           ::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
@@ -976,7 +976,6 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
       ::FState := state
       //ENDIF
     ELSE
-      //::FMasterSource:FEof := .T.
       ::FMasterSource:DbGoTo( 0 )
     ENDIF
     IF pSelf != NIL
@@ -1031,7 +1030,7 @@ METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
     RETURN ;
       <|o|
         LOCAL Result
-        IF o:__Obj:Eof()
+        IF o:__Obj:Eof() .OR. o:__Obj:Bof()
           Result := o:__Obj:FieldList[ n ]:EmptyValue
         ELSE
           Result := o:__Obj:FieldList[ n ]:Value
@@ -1059,7 +1058,7 @@ METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
     RETURN ;
       {|o|
         LOCAL Result
-        IF o:__Obj:Eof()
+        IF o:__Obj:Eof() .OR. o:__Obj:Bof()
           Result := o:__Obj:FieldList[ n ]:EmptyValue
         ELSE
           Result := o:__Obj:FieldList[ n ]:Value
@@ -1284,7 +1283,7 @@ RETURN
 */
 METHOD FUNCTION InsideScope CLASS TTable
 
-  IF ::Eof()
+  IF ::Eof() .OR. ::Bof()
     RETURN .F.
   ENDIF
 
