@@ -332,7 +332,7 @@ METHOD PROCEDURE SyncFromAlias CLASS TAlias
   ::FBof   := (::FnWorkArea)->( Bof() )
   ::FEof   := (::FnWorkArea)->( Eof() )
   ::FFound := (::FnWorkArea)->( Found() )
-  ::FRecNo := iif( ::FEof, 0 , (::FnWorkArea)->( RecNo() ) ) /* sure Eof even if dbf grows */
+  ::FRecNo := iif( ::FEof .OR. ::FBof, 0 , (::FnWorkArea)->( RecNo() ) ) /* sure Eof even if dbf grows */
 RETURN
 
 /*

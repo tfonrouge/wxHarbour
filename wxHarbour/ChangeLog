@@ -2,6 +2,12 @@
  *
  */
 
+2009-06-01 13:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TAlias.prg
+  * src/raddox/TIndex.prg
+  * src/raddox/TTable.prg
+    ! Fixed issues related to Eof/Bof on checking scope of last operation
+
 2009-05-31 23:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wx_harbour.cpp
   * src/wxbase/controls/wx_CheckBox.cpp
