@@ -59,7 +59,7 @@ HB_FUNC( WXCHECKBOX_GET3STATEVALUE )
   if( checkBox )
   {
     wxCheckBoxState cbs = checkBox->Get3StateValue();
-    int value;
+    int value = 0;
 
     switch( cbs )
     {

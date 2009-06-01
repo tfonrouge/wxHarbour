@@ -273,12 +273,17 @@ METHOD FUNCTION InsideScope CLASS TIndex
 
   masterKeyString := ::MasterKeyString
   keyValue := ::FTable:Alias:KeyVal( ::FName )
+  
+  IF keyValue == NIL
+    RETURN .F.
+  ENDIF
+  
   scopeVal := ::GetScope()
   
   IF scopeVal = NIL
     RETURN Empty( masterKeyString ) .OR. keyValue = masterKeyString
   ENDIF
-
+  
 RETURN keyValue >= ( masterKeyString + ::GetScopeTop() ) .AND. ;
        keyValue <= ( masterKeyString + ::GetScopeBottom() )
 

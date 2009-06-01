@@ -575,4 +575,3 @@ HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
   navEvent.SetDirection( bDirection );
   hb_retl( evtHandler->ProcessEvent( navEvent ) );
 }
-
