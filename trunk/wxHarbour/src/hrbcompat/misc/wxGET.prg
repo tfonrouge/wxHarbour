@@ -85,13 +85,16 @@ RETURN value
 METHOD GetChoices CLASS wxhGET
   LOCAL Result
   LOCAL itm
+  LOCAL validValues
 
   IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+  
+	validValues := ::FField:GetValidValues()
 
-    SWITCH ValType( ::FField:ValidValues )
+    SWITCH ValType( validValues )
     CASE 'A'
       Result := {}
-      FOR EACH itm IN ::FField:ValidValues
+      FOR EACH itm IN validValues
         IF HB_IsArray( itm )
           AAdd( Result, itm[ 1 ] )
         ELSE
@@ -101,7 +104,7 @@ METHOD GetChoices CLASS wxhGET
       EXIT
     CASE 'H'
       Result := {}
-      FOR EACH itm IN ::FField:ValidValues
+      FOR EACH itm IN validValues
         AAdd( Result, itm:__enumValue() )
       NEXT
       EXIT

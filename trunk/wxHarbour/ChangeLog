@@ -2,6 +2,18 @@
  *
  */
 
+2009-06-04 00:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/misc/wxGET.prg
+    * Using method TField:GetValidValues to retrieve list of
+      valid values
+
+  * src/raddox/TField.prg
+    + added GetValidValues to retrieve list of values from:
+      * Code block (the result (Array/Hash) is stored in local data)
+      * Array
+      * Hash
+    * minor code cleanup
+
 2009-06-01 13:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TAlias.prg
   * src/raddox/TIndex.prg
