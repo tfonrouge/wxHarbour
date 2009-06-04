@@ -1,6 +1,6 @@
 /*
   TField
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 
 #ifdef __XHARBOUR__
@@ -26,13 +26,14 @@
 
 /*
   TField
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 CLASS TField
 PRIVATE:
 
   DATA FActive  INIT .F.
   DATA FAutoIncrementKeyIndex
+  DATA FDataOfValidValues
   DATA FDescription INIT ""
   DATA FFieldCodeBlock                  // Code Block
   DATA FFieldWriteBlock                 // Code Block to do WRITE
@@ -107,6 +108,7 @@ PUBLIC:
   METHOD GetEditText
   METHOD GetData
   METHOD GetItDoPick
+  METHOD GetValidValues
   METHOD IsValid( Value )
   METHOD Reset
   METHOD SetAsVariant( Value )
@@ -138,6 +140,7 @@ PUBLISHED:
   DATA OnBeforeChange
   DATA OnChange       // Params: Sender: TField
   DATA OnValidate     // Params: Sender: TField
+  
   DATA ValidValues
 
   PROPERTY AutoIncrement READ GetAutoIncrement
@@ -199,7 +202,7 @@ RETURN Self
 
 /*
   Delete
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE Delete CLASS TField
   LOCAL errObj
@@ -293,7 +296,7 @@ RETURN Result
 
 /*
   GetAutoIncrementValue
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetAutoIncrementValue CLASS TField
   LOCAL AIndex
@@ -309,7 +312,7 @@ RETURN value
 
 /*
   GetBuffer
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetBuffer CLASS TField
 
@@ -354,7 +357,7 @@ RETURN .T.
 
 /*
   GetDefaultValue
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetDefaultValue CLASS TField
   LOCAL AField
@@ -374,7 +377,7 @@ RETURN ::FDefaultValue
 
 /*
   GetEditText
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetEditText CLASS TField
   LOCAL Result
@@ -405,7 +408,7 @@ RETURN NIL
 
 /*
   GetItDoPick
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetItDoPick( param ) CLASS TField
 
@@ -418,10 +421,28 @@ METHOD FUNCTION GetItDoPick( param ) CLASS TField
 RETURN ::Value
 
 /*
+  GetValidValues
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION GetValidValues() CLASS TField
+
+  IF ValType( ::ValidValues ) = "B"
+    IF ::FDataOfValidValues = NIL
+	  ::FDataOfValidValues := ::ValidValues:Eval( Self )
+	ENDIF
+	RETURN ::FDataOfValidValues
+  ELSE
+	RETURN ::ValidValues
+  ENDIF
+
+RETURN NIL
+
+/*
   IsValid
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION IsValid( Value ) CLASS TField
+  LOCAL validValues
 
   IF Value = NIL
     Value := ::GetBuffer()
@@ -444,14 +465,17 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
   ENDIF
 
   IF ::ValidValues != NIL
-    SWITCH ValType( ::ValidValues )
+	
+	validValues := ::GetValidValues()
+    
+	SWITCH ValType( validValues )
     CASE 'A'
-      IF AScan( ::ValidValues, {|e| e == Value } ) = 0
+      IF AScan( validValues, {|e| e == Value } ) = 0
         RETURN .F.
       ENDIF
       EXIT
     CASE 'H'
-      IF AScan( HB_HKeys( ::ValidValues ), {|e| e == Value } ) = 0
+      IF AScan( HB_HKeys( validValues ), {|e| e == Value } ) = 0
         RETURN .F.
       ENDIF
       EXIT
@@ -472,7 +496,7 @@ RETURN ::OnValidate:Eval( Value )
 
 /*
   Reset
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE Reset CLASS TField
   LOCAL AField
@@ -563,7 +587,8 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
     ELSE
 
-      RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
+      //RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
+	  wxhAlert( "Field has no Index in the Table..." )
 
     ENDIF
 
@@ -617,7 +642,7 @@ RETURN
 
 /*
   SetBuffer
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetBuffer( Value ) CLASS TField
 
@@ -787,7 +812,7 @@ RETURN
 
 /*
   SetEditText
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetEditText( Text ) CLASS TField
 
@@ -905,7 +930,7 @@ RETURN
 
 /*
   SetGetItPick
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetGetItPick( block ) CLASS TField
   ::FGetItPick := block
@@ -913,7 +938,7 @@ RETURN
 
 /*
   SetIsMasterFieldComponent
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TField
   LOCAL AField
@@ -948,7 +973,7 @@ RETURN
 
 /*
   SetPrimaryKeyComponent
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
   LOCAL AField
@@ -992,7 +1017,7 @@ ENDCLASS
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TStringField
   LOCAL AField
@@ -1018,7 +1043,7 @@ RETURN value
 
 /*
   GetAsString
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString CLASS TStringField
   LOCAL Result := ""
@@ -1042,7 +1067,7 @@ RETURN Result
 
 /*
   SetBuffer
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetBuffer( buffer ) CLASS TStringField
   IF ::IsDerivedFrom("TMemoField")
@@ -1122,7 +1147,7 @@ ENDCLASS
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TNumericField
   IF value = NIL
@@ -1137,7 +1162,7 @@ RETURN AsString( value )
 
 /*
   GetAsString
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
   LOCAL Result
@@ -1157,7 +1182,7 @@ RETURN Result
 
 /*
   SetAsString
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetAsString( Text ) CLASS TNumericField
   ::SetAsVariant( Val( Text ) )
@@ -1186,7 +1211,7 @@ ENDCLASS
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TLogicalField
   IF value = NIL
@@ -1222,7 +1247,7 @@ ENDCLASS
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDateField
   IF value = NIL
@@ -1241,7 +1266,7 @@ RETURN DToS( value )
 
 /*
   TDayTimeField
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 CLASS TDayTimeField FROM TField
 PRIVATE:
@@ -1255,7 +1280,7 @@ ENDCLASS
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDayTimeField
   IF value = NIL
@@ -1275,7 +1300,7 @@ RETURN AsString( value )
 
 /*
   TModTimeField
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 CLASS TModTimeField FROM TDayTimeField
 PRIVATE:
@@ -1319,7 +1344,7 @@ ENDCLASS
 /*
   DataObj
   Syncs the Table with the key in buffer
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION DataObj CLASS TObjectField
   ::LinkedTable:Value := ::GetBuffer()
@@ -1327,7 +1352,7 @@ RETURN ::FLinkedTable
 
 /*
   AsIndexKeyVal
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
   IF value = NIL
@@ -1337,7 +1362,7 @@ RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
 
 /*
   GetAsString
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString CLASS TObjectField
   LOCAL Result
@@ -1348,7 +1373,7 @@ RETURN Result
 
 /*
   GetIsTheMasterSource
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetIsTheMasterSource CLASS TObjectField
   LOCAL masterSource
@@ -1370,7 +1395,7 @@ RETURN ::FIsTheMasterSource
 
 /*
   GetLinkedTable
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetLinkedTable CLASS TObjectField
 
