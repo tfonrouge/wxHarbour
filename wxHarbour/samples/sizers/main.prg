@@ -54,6 +54,7 @@ FUNCTION Login
   LOCAL edtPassword
   LOCAL treeCtrl, treeItemId
   LOCAL i
+  LOCAL aData := { 1,2,3,4,5 }
 
   CREATE FRAME oWnd ;
          WIDTH 500 HEIGHT 400 ;
@@ -115,7 +116,7 @@ FUNCTION Login
               END SIZER
             END SIZER
             BEGIN BOXSIZER VERTICAL "wxBrowseDb" ALIGN EXPAND STRETCH
-              @ BROWSE DATASOURCE "main.dbf" SIZERINFO ALIGN EXPAND STRETCH
+              @ BROWSE DATASOURCE aData SIZERINFO ALIGN EXPAND STRETCH
               @ SAY "Some text"
             END SIZER
           END SIZER
