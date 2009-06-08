@@ -301,8 +301,8 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
   evtType := event:GetEventType()
 
   IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
-
-    IF !::FWXHGet:AsString() == ::GetValue() .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
+  
+    IF ! RTrim( ::FWXHGet:AsString() ) == RTrim( ::GetValue() ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
       ::FWXHGet:Block:Eval( ::GetValue() )
       ::SetValue( RTrim( ::FWXHGet:Block:Eval() ) )
       IF ::bAction != NIL
