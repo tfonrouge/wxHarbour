@@ -454,11 +454,11 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
   ENDIF
 
   IF ::Unique
-    IF Empty( Value )
-      wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
-      RETURN .F.
-    ENDIF
-    IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
+	/* IF Empty( Value )
+	  wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
+	  RETURN .F.
+	ENDIF
+	 */    IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
       wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( Value ) + "'")
       RETURN .F.
     ENDIF
@@ -564,7 +564,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
   /* if Browsing then do a SeekKey() with the rawValue */
   IF ::FTable:State = dsBrowse
-
+  
     IF ::IsKeyIndex
 
       IF !Empty( rawValue )
@@ -586,7 +586,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
       ENDIF
 
     ELSE
-
+	
       //RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
 	  wxhAlert( "Field has no Index in the Table..." )
 

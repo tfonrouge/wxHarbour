@@ -102,7 +102,7 @@ HBLIB_GTPCA = no
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
 !ifndef HBFLAGS
-HBFLAGS = -n -a -v -m -go
+HBFLAGS = -n -a -v -m -go -q0
 !endif
 
 # Type of Harbour compiled binaries [debug,release]

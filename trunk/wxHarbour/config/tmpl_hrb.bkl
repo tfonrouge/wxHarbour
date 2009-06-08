@@ -14,7 +14,7 @@
   <echo>  format: $(FORMAT)</echo>
   
   <set var="__DEFAULT_HBFLAGS">
-    -n -a -v -m -go
+    -n -a -v -m -go -q0
   </set>
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
