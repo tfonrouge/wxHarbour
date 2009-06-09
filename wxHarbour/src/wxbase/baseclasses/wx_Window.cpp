@@ -25,6 +25,10 @@
 
 HB_FUNC_EXTERN( WXFONT );
 
+/*
+ Centre
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_CENTRE )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -36,6 +40,10 @@ HB_FUNC( WXWINDOW_CENTRE )
   }
 }
 
+/*
+ Close
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_CLOSE )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -45,7 +53,7 @@ HB_FUNC( WXWINDOW_CLOSE )
 }
 
 /*
-  wxWindow:Disable
+  Disable
   Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_DISABLE )
@@ -56,6 +64,10 @@ HB_FUNC( WXWINDOW_DISABLE )
     hb_retl( wnd->Disable() );
 }
 
+/*
+ Destroy
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_DESTROY )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -91,6 +103,10 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
     hb_itemReturn( wxh_ItemListGet_HB( wnd->FindFocus() ) );
 }
 
+/*
+ FindWindowById
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -106,6 +122,10 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
   }
 }
 
+/*
+ FindWindowByLabel
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -121,6 +141,10 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
   }
 }
 
+/*
+ FindWindowByName
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -193,6 +217,10 @@ HB_FUNC( WXWINDOW_GETFONT )
   }
 }
 
+/*
+ GetLabel
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETLABEL )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -201,6 +229,10 @@ HB_FUNC( WXWINDOW_GETLABEL )
     hb_retc( wnd->GetLabel().mb_str() );
 }
 
+/*
+ GetName
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETNAME )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -209,6 +241,10 @@ HB_FUNC( WXWINDOW_GETNAME )
     hb_retc( wnd->GetName().mb_str() );
 }
 
+/*
+ GetId
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETID )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -217,6 +253,10 @@ HB_FUNC( WXWINDOW_GETID )
     hb_retnl( wnd->GetId() );
 }
 
+/*
+ GetParent
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETPARENT )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -231,6 +271,10 @@ HB_FUNC( WXWINDOW_GETPARENT )
   }
 }
 
+/*
+ GetSizer
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETSIZER )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -245,6 +289,10 @@ HB_FUNC( WXWINDOW_GETSIZER )
   }
 }
 
+/*
+ Hide
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_HIDE )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -265,6 +313,10 @@ HB_FUNC( WXWINDOW_ISENABLED )
     hb_retl( wnd->IsEnabled() );
 }
 
+/*
+ IsShown
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_ISSHOWN )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -273,6 +325,10 @@ HB_FUNC( WXWINDOW_ISSHOWN )
     hb_retl( wnd->IsShown() );
 }
 
+/*
+ MakeModal
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_MAKEMODAL )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -281,6 +337,10 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
     wnd->MakeModal( hb_parl( 1 ) );
 }
 
+/*
+ PopupMenu
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -310,6 +370,10 @@ HB_FUNC( WXWINDOW_POPUPMENU )
 
 }
 
+/*
+ Raise
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_RAISE )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -318,6 +382,10 @@ HB_FUNC( WXWINDOW_RAISE )
     wnd->Raise();
 }
 
+/*
+ SetFocus
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETFOCUS )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -326,6 +394,10 @@ HB_FUNC( WXWINDOW_SETFOCUS )
     wnd->SetFocus();
 }
 
+/*
+ SetId
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETID )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -334,6 +406,10 @@ HB_FUNC( WXWINDOW_SETID )
     wnd->SetId( hb_parni( 1 ) );
 }
 
+/*
+ SetLabel
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETLABEL )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -373,6 +449,10 @@ HB_FUNC( WXWINDOW_SETMINSIZE )
   }
 }
 
+/*
+ SetName
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETNAME )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -384,6 +464,10 @@ HB_FUNC( WXWINDOW_SETNAME )
   }
 }
 
+/*
+ SetSizer
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETSIZER )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -399,6 +483,10 @@ HB_FUNC( WXWINDOW_SETSIZER )
   }
 }
 
+/*
+ SetToolTip
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SETTOOLTIP )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
@@ -409,6 +497,10 @@ HB_FUNC( WXWINDOW_SETTOOLTIP )
   }
 }
 
+/*
+ Show
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_SHOW )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );

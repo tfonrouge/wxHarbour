@@ -15,7 +15,7 @@
   Teo. Mexico 2006
 */
 
-class wx_MDIParentFrame : public hbEvtHandler<wxMDIParentFrame>
+class wx_MDIParentFrame : public hbWindow<wxMDIParentFrame>
 {
 private:
 protected:

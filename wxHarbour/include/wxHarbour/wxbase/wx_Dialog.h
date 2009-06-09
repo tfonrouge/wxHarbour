@@ -15,7 +15,7 @@
   Teo. Mexico 2008
 */
 
-class wx_Dialog : public hbEvtHandler<wxDialog>
+class wx_Dialog : public hbWindow<wxDialog>
 {
 private:
 protected:

@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wxh.h
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 
 /*
@@ -146,7 +146,7 @@ wxString wxh_parc( int param );
 
 /*
   template for send event handling to harbour objects
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 class hbEvtHandler : public T
@@ -239,7 +239,7 @@ void hbEvtHandler<T>::OnActivateEvent( wxActivateEvent& event )
 
 /*
   OnCloseEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnCloseEvent( wxCloseEvent& event )
@@ -250,7 +250,7 @@ void hbEvtHandler<T>::OnCloseEvent( wxCloseEvent& event )
 
 /*
   OnCommandEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnCommandEvent( wxCommandEvent& event )
@@ -272,7 +272,7 @@ void hbEvtHandler<T>::OnFocusEvent( wxFocusEvent& event )
 
 /*
   OnGridEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
@@ -283,7 +283,7 @@ void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 
 /*
   OnInitDialogEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnInitDialogEvent( wxInitDialogEvent& event )
@@ -294,7 +294,7 @@ void hbEvtHandler<T>::OnInitDialogEvent( wxInitDialogEvent& event )
 
 /*
   OnMenuEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnMenuEvent( wxMenuEvent& event )
@@ -305,7 +305,7 @@ void hbEvtHandler<T>::OnMenuEvent( wxMenuEvent& event )
 
 /*
   OnMouseEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
@@ -316,7 +316,7 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 
 /*
   OnSocketEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnSocketEvent( wxSocketEvent& event )
@@ -327,7 +327,7 @@ void hbEvtHandler<T>::OnSocketEvent( wxSocketEvent& event )
 
 /*
   OnTaskBarIconEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnTaskBarIconEvent( wxTaskBarIconEvent& event )
@@ -338,7 +338,7 @@ void hbEvtHandler<T>::OnTaskBarIconEvent( wxTaskBarIconEvent& event )
 
 /*
   OnTimerEvent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::OnTimerEvent( wxTimerEvent& event )
@@ -349,7 +349,7 @@ void hbEvtHandler<T>::OnTimerEvent( wxTimerEvent& event )
 
 /*
   wxConnect
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 template <class T>
 void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
@@ -405,4 +405,32 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       this->Connect( pConnParams->id, pConnParams->lastId, pConnParams->eventType, objFunc );
     }
   }
+}
+
+/*
+ template for wxWindow
+ Teo. Mexico 2009
+ */
+template <class tW>
+class hbWindow : public hbEvtHandler<tW>
+  {
+	bool Validate();
+  };
+
+/*
+ Validate
+ Teo. Mexico 2009
+ */
+template <class tW>
+bool hbWindow<tW>::Validate()
+{
+  PHB_ITEM pObj = wxh_ItemListGet_HB( this );
+  bool result = false;
+  
+  if( pObj )
+  {
+	hb_objSendMsg( pObj, "Validate", 0 );
+	result = hb_stackReturnItem()->item.asLogical.value;
+  }
+  return result;
 }
