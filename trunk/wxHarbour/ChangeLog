@@ -2,6 +2,27 @@
  *
  */
 
+2009-06-08 20:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxbase/wx_Dialog.h
+  * include/wxHarbour/wxbase/wx_Frame.h
+  * include/wxHarbour/wxbase/wx_MDIChildFrame.h
+  * include/wxHarbour/wxbase/wx_MDIParentFrame.h
+    * changed to inherit from (template) hbWindow class
+
+  * include/wxHarbour/wxh.h
+    * added template class hbWindow which inherits from hbEvtHandler
+    + added hbWindow<>::Validate()
+
+  * src/raddox/TIndex.prg
+    ! Fixed checking for a NIL value returned for KeyVal() (out of scope)
+      but not Eof or Bof
+
+  * src/wxbase/baseclasses/wx_Window.cpp
+    * code cleanup; added comment headers for functions
+
+  * src/wxbase/baseclasses/wxhWindow.prg
+    + added wxWindow:Validate()
+
 2009-06-08 13:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * config/tmpl_hrb.bkl

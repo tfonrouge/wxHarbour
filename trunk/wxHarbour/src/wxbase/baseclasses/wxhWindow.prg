@@ -63,6 +63,7 @@ PUBLIC:
   METHOD SetToolTip
   METHOD Show( Value /* defaults to TRUE */ )
   METHOD Thaw
+  METHOD Validate INLINE .T. //VIRTUAL
 PUBLISHED:
 ENDCLASS
 
