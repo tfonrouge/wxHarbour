@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-10 13:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TTable.prg
+    % Optimized GetAsString/GetAsVariant
+
 2009-06-09 19:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
   * include/wxHarbour/wxhevtdefs.h

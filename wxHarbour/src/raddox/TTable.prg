@@ -126,8 +126,8 @@ PUBLIC:
   METHOD FindMasterSourceField( detailField )
   METHOD FindTable( table )
   METHOD FullFileName
-  METHOD GetAsString INLINE iif( ::PrimaryKeyField=NIL, "", ::PrimaryKeyField:AsString )
-  METHOD GetAsVariant INLINE iif( ::PrimaryKeyField=NIL, NIL, ::PrimaryKeyField:Value )
+  METHOD GetAsString
+  METHOD GetAsVariant
   METHOD GetCurrentRecord
   METHOD GetDisplayFieldBlock( nField )
   METHOD GetDisplayFields( directAlias )
@@ -891,6 +891,32 @@ METHOD FUNCTION GetAlias CLASS TTable
     //::FAlias := ::SendToServer()
   ENDIF
 RETURN ::FAlias
+
+/*
+  GetAsString
+  Teo. Mexico 2009
+*/
+METHOD GetAsString() CLASS TTable
+  LOCAL pkField := ::PrimaryKeyField
+
+  IF pkField = NIL
+    RETURN ""
+  ENDIF
+  
+RETURN pkField:AsString
+
+/*
+  GetAsVariant
+  Teo. Mexico 2009
+*/
+METHOD GetAsVariant() CLASS TTable
+  LOCAL pkField := ::PrimaryKeyField
+
+  IF pkField = NIL
+    RETURN NIL
+  ENDIF
+  
+RETURN pkField:Value
 
 /*
   GetCurrentRecord
