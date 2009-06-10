@@ -2,6 +2,11 @@
  *
  */
 
+2009-06-10 14:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    ! Fixed segfault for a infinite loop caused on HB_ValToExp evaluating
+      a object with internal references to self
+
 2009-06-10 13:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TTable.prg
     % Optimized GetAsString/GetAsVariant
