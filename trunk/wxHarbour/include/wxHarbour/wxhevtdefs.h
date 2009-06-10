@@ -19,10 +19,11 @@
 #define WXH_FOCUSEVENT          4
 #define WXH_GRIDEVENT           5
 #define WXH_INITDIALOGEVENT     6
-#define WXH_MENUEVENT           7
-#define WXH_MOUSEEVENT          8
-#define WXH_SOCKETEVENT         9
-#define WXH_TASKBARICONEVENT    10
-#define WXH_TIMEREVENT          11
+#define WXH_KEYEVENT		    7
+#define WXH_MENUEVENT           8
+#define WXH_MOUSEEVENT          9
+#define WXH_SOCKETEVENT         10
+#define WXH_TASKBARICONEVENT    11
+#define WXH_TIMEREVENT          12
 
 #endif

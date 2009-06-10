@@ -53,6 +53,7 @@ using namespace std;
 
 typedef struct _CONN_PARAMS
 {
+  bool force;
   int id;
   int lastId;
   wxEventType eventType;
@@ -117,6 +118,7 @@ HB_FUNC_EXTERN( WXCOMMANDEVENT );
 HB_FUNC_EXTERN( WXFOCUSEVENT );
 HB_FUNC_EXTERN( WXGRIDEVENT );
 HB_FUNC_EXTERN( WXINITDIALOGEVENT );
+HB_FUNC_EXTERN( WXKEYEVENT );
 HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
 HB_FUNC_EXTERN( WXSOCKETEVENT );
@@ -161,6 +163,7 @@ public:
   void OnFocusEvent( wxFocusEvent& event );
   void OnGridEvent( wxGridEvent& event );
   void OnInitDialogEvent( wxInitDialogEvent& event );
+  void OnKeyEvent( wxKeyEvent& event );
   void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
   void OnSocketEvent( wxSocketEvent& event );
@@ -207,13 +210,12 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 
     if( pWxh_Item )
     {
-
       for( vector<PCONN_PARAMS>::iterator it = pWxh_Item->evtList.begin(); it < pWxh_Item->evtList.end(); it++ )
       {
         PCONN_PARAMS pConnParams = *it;
         if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
         {
-          if( event.GetId() == wxID_ANY || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
+          if( pConnParams->force || ( event.GetId() == wxID_ANY ) || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
           {
             hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
           }
@@ -282,13 +284,24 @@ void hbEvtHandler<T>::OnGridEvent( wxGridEvent& event )
 }
 
 /*
-  OnInitDialogEvent
-  Teo. Mexico 2009
-*/
+ OnInitDialogEvent
+ Teo. Mexico 2009
+ */
 template <class T>
 void hbEvtHandler<T>::OnInitDialogEvent( wxInitDialogEvent& event )
 {
   HB_FUNC_EXEC( WXINITDIALOGEVENT );
+  __OnEvent( event );
+}
+
+/*
+ OnKeyEvent
+ Teo. Mexico 2009
+ */
+template <class T>
+void hbEvtHandler<T>::OnKeyEvent( wxKeyEvent& event )
+{
+  HB_FUNC_EXEC( WXKEYEVENT );
   __OnEvent( event );
 }
 
@@ -375,6 +388,10 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_INITDIALOGEVENT:
       objFunc = wxInitDialogEventHandler( hbEvtHandler<T>::OnInitDialogEvent );
+      break;
+    case WXH_KEYEVENT:
+      objFunc = wxKeyEventHandler( hbEvtHandler<T>::OnKeyEvent );
+	  pConnParams->force = true;
       break;
     case WXH_MENUEVENT:
       objFunc = wxMenuEventHandler( hbEvtHandler<T>::OnMenuEvent );

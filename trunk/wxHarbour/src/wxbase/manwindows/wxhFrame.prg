@@ -25,26 +25,8 @@ PUBLIC:
   METHOD Centre( direction )
   METHOD SetMenuBar( menuBar )
   METHOD SetStatusBar( statusBar )
-  METHOD OnCreate
-  METHOD OnShow
 PUBLISHED:
 ENDCLASS
-
-/*
-  OnCreate
-  Teo. Mexico 2006
-*/
-METHOD PROCEDURE OnCreate CLASS wxFrame
-RETURN
-
-/*
-  OnShow
-  Teo. Mexico 2006
-*/
-METHOD PROCEDURE OnShow CLASS wxFrame
-  ? "OnShow..."
-  ?
-RETURN
 
 /*
   End Class wxFrame

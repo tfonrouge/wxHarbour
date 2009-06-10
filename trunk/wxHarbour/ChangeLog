@@ -2,6 +2,43 @@
  *
  */
 
+2009-06-09 19:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+  * include/wxHarbour/wxhevtdefs.h
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+    * added bool force to _CONN_PARAMS struct, to able to force execute a
+      event even if his id's not concord
+    * added wxKeyEvent to pool of trapable events
+    * using the force flag to trap wxKeyEvent's, seems that id returned is
+      zero and an if of wxID_ANY is required to the wxConnect process
+      ; TODO: check if this is a bug in wxWidgets
+
+  * src/hrbcompat/misc/wxGET.prg
+    * added DATA FContextListKey to hold the key id required to launch
+      a PickList, the value is obtained in the wxApp class (to set the value
+      globally to the application)
+    * using key id in FContextListKey to launch PickList
+    ! Fixed assigning value returned by a PickList call
+     
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    ! added launching a error message if a invalid object is used in
+      asigning DataSource
+
+  * src/raddox/TField.prg
+    ! Fixed returned value on a PickList call.
+    * added the field name on a error on SetAsVariant
+
+  * src/wxbase/app/wxhApp.prg
+    * added wxh specific data: wxh_ContextListKey (see above)
+
+  * src/wxbase/baseclasses/wxhObject.prg
+    * code cleanup
+
+  * src/wxbase/manwindows/wx_Frame.cpp
+  * src/wxbase/manwindows/wxhFrame.prg
+    * removed unused OnCreate/OnShow method call's
+
 2009-06-08 20:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxbase/wx_Dialog.h
   * include/wxHarbour/wxbase/wx_Frame.h

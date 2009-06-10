@@ -192,6 +192,7 @@ CLASS wxHBTextCtrl FROM wxTextCtrl
 PRIVATE:
   DATA bAction
   DATA FWXHGet
+  DATA FContextListKey INIT wxGetApp():wxh_ContextListKey
   DATA dontUpdateVar INIT .F.
   METHOD UpdateVar( event )
 PROTECTED:
@@ -251,6 +252,17 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
 
   IF ::FWXHGet != NIL .AND. ::FWXHGet:Field != NIL .AND. HB_IsBlock( ::FWXHGet:Field:GetItPick )
     ::ConnectMouseEvt( ::GetId(), wxEVT_LEFT_DCLICK, {|event| event:GetEventObject():PickList() } )
+	IF ::FContextListKey != NIL
+	  ::ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
+		{|event|
+		  IF event:GetKeyCode() = ::FContextListKey
+			event:GetEventObject():PickList()
+			RETURN NIL
+		  ENDIF
+		  event:Skip()
+		  RETURN NIL
+		} )
+	ENDIF
   ENDIF
 
   IF toolTip != NIL
@@ -266,7 +278,8 @@ RETURN Self
 METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   LOCAL s
   LOCAL parentWnd
-
+  LOCAL selectionMade
+  
   IF ::FWXHGet:Field == NIL
     RETURN
   ENDIF
@@ -274,16 +287,16 @@ METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   parentWnd := ::GetParent()
 
   ::dontUpdateVar := .T.
-  ::FWXHGet:Field:GetItDoPick( parentWnd )
+  selectionMade := ::FWXHGet:Field:GetItDoPick( parentWnd )
   ::dontUpdateVar := .F.
-
-  s := RTrim( ::FWXHGet:Field:Value )
-
-  IF RTrim( ::GetValue() ) == s
-    RETURN /* no changes */
+  
+  IF selectionMade
+	s := RTrim( ::FWXHGet:Field:Value )
+	IF RTrim( ::GetValue() ) == s
+	  RETURN /* no changes */
+	ENDIF
+	::SetValue( s )
   ENDIF
-
-  ::SetValue( s )
 
 RETURN
 
