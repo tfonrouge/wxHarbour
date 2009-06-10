@@ -32,6 +32,7 @@ static void Connect( int evtClass )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   PCONN_PARAMS pConnParams = new CONN_PARAMS;
+  pConnParams->force = false;
 
   ParseConnectParams( pConnParams );
 
@@ -125,12 +126,21 @@ HB_FUNC( WXEVTHANDLER_CONNECTGRIDEVT )
 }
 
 /*
-  ConnectInitDialogEvt
-  Teo. Mexico 2009
-*/
+ ConnectInitDialogEvt
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXEVTHANDLER_CONNECTINITDIALOGEVT )
 {
   Connect( WXH_INITDIALOGEVENT );
+}
+
+/*
+ ConnectKeyEvt
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXEVTHANDLER_CONNECTKEYEVT )
+{
+  Connect( WXH_KEYEVENT );
 }
 
 /*

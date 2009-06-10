@@ -22,6 +22,10 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
+  /* wxh specific */
+  DATA wxh_ContextListKey
+  /* wxh specific */  
+
   CONSTRUCTOR New
 
   /* wxHarbour */

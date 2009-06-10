@@ -416,9 +416,7 @@ METHOD FUNCTION GetItDoPick( param ) CLASS TField
     RETURN NIL
   ENDIF
 
-  ::FGetItPick:Eval( param )
-
-RETURN ::Value
+RETURN ::FGetItPick:Eval( param )
 
 /*
   GetValidValues
@@ -588,7 +586,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
     ELSE
 	
       //RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
-	  wxhAlert( "Field has no Index in the Table..." )
+	  wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
 
     ENDIF
 

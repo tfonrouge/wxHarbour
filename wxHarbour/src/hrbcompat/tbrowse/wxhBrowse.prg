@@ -529,13 +529,18 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
     EXIT
 
   CASE 'O'
-    ::FDataSource := dataSource
-    ::FDataSourceType := "O"
-    ::BlockParam := dataSource:DisplayFields()
+	
+	IF dataSource:IsDerivedFrom("TTable")
+	  ::FDataSource := dataSource
+	  ::FDataSourceType := "O"
+	  ::BlockParam := dataSource:DisplayFields()
 
-    ::GoTopBlock    := {|| dataSource:DbGoTop() }
-    ::GoBottomBlock := {|| dataSource:DbGoBottom() }
-    ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
+	  ::GoTopBlock    := {|| dataSource:DbGoTop() }
+	  ::GoBottomBlock := {|| dataSource:DbGoBottom() }
+	  ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
+	ELSE
+	  wxhAlert("Invalid object assigned to wxhBrowse...")
+	ENDIF
 
     EXIT
 
