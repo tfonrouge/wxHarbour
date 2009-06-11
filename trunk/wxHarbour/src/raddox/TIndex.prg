@@ -27,21 +27,26 @@ PRIVATE:
   DATA FName INIT ""
   DATA FMasterKeyField
   DATA FScopeBottom
+  DATA FScopeBottomFields INIT {=>}
   DATA FScopeTop
+  DATA FScopeTopFields INIT {=>}
   DATA FTable
   DATA FUniqueKeyField
   METHOD DbGoBottomTop( n )
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyField != NIL
   METHOD GetField
+  METHOD GetArrayKeyFields INLINE ::KeyField:FieldMethod
   METHOD GetScope INLINE iif( ::FScopeBottom == NIL .AND. ::FScopeTop == NIL, NIL, { ::FScopeTop, ::FScopeBottom } )
   METHOD GetScopeBottom INLINE iif( !Empty( ::FScopeBottom ), ::FScopeBottom, "" )
   METHOD GetScopeTop INLINE iif( !Empty( ::FScopeTop ), ::FScopeTop, "" )
   METHOD GetUnique INLINE ::FUniqueKeyField != NIL
+  METHOD ScopeFieldGet( aKeys, cField, value, hScope )
   METHOD SetCaseSensitive( CaseSensitive ) INLINE ::FCaseSensitive := CaseSensitive
   METHOD SetCustom( Custom )
   METHOD SetDescend( Descend ) INLINE ::FDescend := Descend
   METHOD SetField( nIndex, XField )
   METHOD SetForKey( ForKey ) INLINE ::FForKey := ForKey
+  METHOD SetKeyValueFromArray( aKeys )
   METHOD SetName( Name ) INLINE ::FName := Name
   METHOD SetScope( value )
   METHOD SetScopeBottom( value )
@@ -59,11 +64,16 @@ PUBLIC:
   METHOD InsideScope
   METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
   METHOD RawSeek( Value )
-  METHOD Seek( keyValue )
+
+  METHOD ScopeField( cField, value )
+  METHOD ScopeBottomField( cField, value )
+  METHOD ScopeTopField( cField, value )
 
   PROPERTY Scope READ GetScope WRITE SetScope
   PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
   PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
+  
+  METHOD Seek( keyValue )
 
 PUBLISHED:
   PROPERTY AutoIncrement READ GetAutoIncrement
@@ -305,6 +315,64 @@ METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 RETURN ::FTable:Found()
 
 /*
+  ScopeBottomField
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION ScopeBottomField( cField, value ) CLASS TIndex
+  LOCAL aKeys := {}
+  LOCAL Result := ::ScopeFieldGet( aKeys, cField, value, ::FScopeBottomFields )
+  ::SetScopeBottom( aKeys )
+RETURN Result
+
+/*
+  ScopeField
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION ScopeField( cField, value ) CLASS TIndex
+RETURN { ::ScopeTopField( cField, value ), ::ScopeBottomField( cField, value ) }
+
+/*
+  ScopeFieldGet
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION ScopeFieldGet( aKeys, cField, value, hScope ) CLASS TIndex
+  LOCAL Result
+  LOCAL AField := ::FTable:FieldByName( cField )
+  LOCAL aFields
+  LOCAL fld
+  
+  aFields := ::GetArrayKeyFields()
+  
+  IF ValType( aFields ) = "A" .AND.  ValType( AField ) = "O"
+	FOR EACH fld IN aFields
+	  IF !HB_HHasKey( hScope, AField:Name )
+		hScope[ AField:Name ] := NIL
+	  ENDIF
+	  IF !HB_HHasKey( hScope, fld:Name )
+	    EXIT
+	  ENDIF
+	  IF fld == AField
+		Result := hScope[ AField:Name ]
+		AAdd( aKeys, value )
+	  ELSE
+	    AAdd( aKeys, hScope[ fld:Name ] )
+	  ENDIF
+	NEXT
+  ENDIF
+
+RETURN Result
+
+/*
+  ScopeTopField
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION ScopeTopField( cField, value ) CLASS TIndex
+  LOCAL aKeys := {}
+  LOCAL Result := ::ScopeFieldGet( aKeys, cField, value, ::FScopeTopFields )
+  ::SetScopeTop( aKeys )
+RETURN Result
+
+/*
   Seek
   Teo. Mexico 2007
 */
@@ -410,7 +478,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
     ::FUniqueKeyField := AField
   CASE 3   /* KeyField */
     IF AField:IsDerivedFrom( "TStringField" ) .AND. Len( AField ) = 0
-      RAISE ERROR ::FTable:ClassName + ": Master key field <" + AField:Name + ">  needs a size > 0..."
+      RAISE ERROR ::FTable:ClassName + ": Master key field <" + AField:Name + ">  needs a size > zero..."
     ENDIF
     AField:KeyIndex := Self
     ::FKeyField := AField
@@ -420,11 +488,50 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 RETURN
 
 /*
+  SetKeyValueFromArray
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION SetKeyValueFromArray( aKeys, slot ) CLASS TIndex
+  LOCAL keyValue := ""
+  LOCAL aFields
+  LOCAL AField
+  LOCAL value
+  LOCAL key
+  
+  aFields := ::GetArrayKeyFields()
+  
+  IF Valtype( aFields ) = "A"
+	FOR EACH AField IN aFields
+	  key := NIL
+	  IF AField:__enumIndex() <= Len( aKeys )
+	    key := aKeys[ AField:__enumIndex() ]
+		IF key = NIL
+		  EXIT
+		ENDIF
+		value := AField:FieldCodeBlock:Eval( key )
+		keyValue += value
+	  ENDIF
+	  IF slot $ "T="
+		::FScopeTopFields[ AField:Name ] := key
+	  ENDIF
+	  IF slot $ "B="
+		::FScopeBottomFields[ AField:Name ] := key
+	  ENDIF
+	NEXT
+  ENDIF
+
+RETURN keyValue
+
+/*
   SetScope
   Teo. Mexico 2008
 */
 METHOD FUNCTION SetScope( value ) CLASS TIndex
   LOCAL oldValue := { ::FScopeTop, ::FScopeBottom }
+  
+  IF ValType( value ) = "A" // scope by field
+	value := ::SetKeyValueFromArray( value, "=" )
+  ENDIF
 
   ::FScopeTop := value
   ::FScopeBottom := value
@@ -437,6 +544,10 @@ RETURN oldValue
 */
 METHOD FUNCTION SetScopeBottom( value ) CLASS TIndex
   LOCAL oldValue := ::FScopeBottom
+  
+  IF ValType( value ) = "A" // scope by field
+	value := ::SetKeyValueFromArray( value, "B" )
+  ENDIF
 
   ::FScopeBottom := value
 
@@ -448,6 +559,10 @@ RETURN oldValue
 */
 METHOD FUNCTION SetScopeTop( value ) CLASS TIndex
   LOCAL oldValue := ::FScopeTop
+  
+  IF ValType( value ) = "A" // scope by field
+	value := ::SetKeyValueFromArray( value, "T" )
+  ENDIF
 
   ::FScopeTop := value
 

@@ -2,6 +2,20 @@
  *
  */
 
+2009-06-10 22:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+  * src/raddox/TField.prg
+    * added USING clause on FIELDS command to allow to set a TField to be
+      used on an Calculated Field ( this will allow to set index expressions )
+
+  * src/raddox/TIndex.prg
+    + added:
+      + ScopeField( cField, value )
+      + ScopeTopField( cField, value )
+      + ScopeBottomField( cField, value )
+    * this allow to set scope's dynamically by assigning values to compound index
+      fields ( KEYFIELD in DEFINE SECONDARY INDEX ... )
+
 2009-06-10 14:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/hrbcompat/errorsys/wxherrorsys.prg
     ! Fixed segfault for a infinite loop caused on HB_ValToExp evaluating

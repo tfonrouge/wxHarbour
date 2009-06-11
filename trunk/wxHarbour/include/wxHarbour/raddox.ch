@@ -70,6 +70,7 @@
             [ ON BEFORE CHANGE <bOnBeforeChange> ] ;
             [ ON [AFTER] CHANGE <bOnChange> ] ;
             [ VALIDVALUES <validValues> ] ;
+			[ USING <usingField> ] ;
            => ;
             WITH OBJECT T<type>Field():New( Self ) ;;
               [ :Name := <cName> ] ;;
@@ -95,6 +96,7 @@
               [ :OnBeforeChange := <bOnBeforeChange> ] ;;
               [ :OnChange := <bOnChange> ] ;;
               [ :ValidValues := <validValues> ] ;;
+			  [ :UsingField := <usingField> ] ;;
               :ValidateFieldInfo() ;;
             ENDWITH
 
