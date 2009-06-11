@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-11 18:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    ! Fixed bug of wrong placing of a @ SPACER
+
 2009-06-10 22:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
   * src/raddox/TField.prg
