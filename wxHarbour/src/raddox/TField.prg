@@ -50,6 +50,7 @@ PRIVATE:
   DATA FReadOnly  INIT .F.
   DATA FRequired INIT .F.
   DATA FUniqueKeyIndex
+  DATA FUsingField						// Field used on Calculated Field
   METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
   METHOD GetAutoIncrementValue
   METHOD GetFieldMethod
@@ -71,6 +72,7 @@ PRIVATE:
   METHOD SetPublished( Published ) INLINE ::FPublished := Published
   METHOD SetReadOnly( ReadOnly ) INLINE ::FReadOnly := ReadOnly
   METHOD SetUniqueKeyIndex( Index ) INLINE ::FUniqueKeyIndex := Index
+  METHOD SetUsingField( usingField )
 
 PROTECTED:
 
@@ -166,6 +168,7 @@ PUBLISHED:
   PROPERTY Table READ FTable
   PROPERTY Unique READ GetUnique
   PROPERTY UniqueKeyIndex READ FUniqueKeyIndex WRITE SetUniqueKeyIndex
+  PROPERTY UsingField READ FUsingField WRITE SetUsingField
   PROPERTY ValType READ FValType
 
 ENDCLASS
@@ -255,7 +258,11 @@ METHOD FUNCTION GetAsVariant CLASS TField
     NEXT
     EXIT
   CASE "B"
-    Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
+	IF ::FUsingField = NIL
+	  Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
+	ELSE
+	  Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
+	ENDIF
     EXIT
   CASE 'C'
     IF ::FCalculated
@@ -986,6 +993,18 @@ METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
     ::FPrimaryKeyComponent := PrimaryKeyComponent
   END
 
+RETURN
+
+/*
+  SetUsingField
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetUsingField( usingField ) CLASS TField
+  LOCAL AField := ::FTable:FieldByName( usingField )
+  IF AField != NIL
+    ::FUsingField := AField
+    ::FCalculated := .T.
+  ENDIF
 RETURN
 
 /*
