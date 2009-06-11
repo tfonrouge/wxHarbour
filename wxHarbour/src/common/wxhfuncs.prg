@@ -886,6 +886,8 @@ RETURN
  */
 PROCEDURE __wxh_Spacer( width, height, strech, align, border )
   LOCAL lastSizer
+  
+  containerObj():SizerAddOnLastChild()
 
   lastSizer := containerObj():LastSizer()
 
