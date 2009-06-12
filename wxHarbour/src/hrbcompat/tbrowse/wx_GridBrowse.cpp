@@ -235,7 +235,7 @@ HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
   if( gridBrowse )
   {
     int col = hb_parni( 1 ) - 1;
-    int pointSize = ( gridBrowse->GetCellFont( 0, col ) ).GetPointSize();
+    int pointSize = ( gridBrowse->GetCellFont( 0, col ) ).GetPointSize() - 3;
     int width = hb_parni( 2 );
     gridBrowse->SetColSize( col, pointSize * width );
   }

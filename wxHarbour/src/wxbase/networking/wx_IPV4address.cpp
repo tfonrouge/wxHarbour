@@ -82,7 +82,7 @@ HB_FUNC( WXIPV4ADDRESS_HOSTNAME )
   if( ipv4Address )
   {
     if( hb_pcount() == 0 )
-      hb_retc( ipv4Address->Hostname().mb_str() );
+      wxh_retc( ipv4Address->Hostname() );
     else
     {
       wxString hostname = wxh_parc( 1 );
@@ -101,7 +101,7 @@ HB_FUNC( WXIPV4ADDRESS_IPADDRESS )
   wx_IPV4address* ipv4Address = (wx_IPV4address*) wxh_ItemListGet_WX( pSelf );
 
   if( ipv4Address )
-    hb_retc( ipv4Address->IPAddress().mb_str() );
+    wxh_retc( ipv4Address->IPAddress() );
 }
 
 /*

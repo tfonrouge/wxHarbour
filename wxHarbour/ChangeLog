@@ -2,6 +2,47 @@
  *
  */
 
+2009-06-12 13:20 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/hrbcompat/misc/wx_functions.cpp
+  * src/wxbase/baseclasses/wx_ControlWithItems.cpp
+  * src/wxbase/baseclasses/wx_ListItem.cpp
+  * src/wxbase/baseclasses/wx_TopLevelWindow.cpp
+  * src/wxbase/books/wx_Notebook.cpp
+  * src/wxbase/comdialogs/wx_FileDialog.cpp
+  * src/wxbase/controls/wx_Button.cpp
+  * src/wxbase/controls/wx_ComboBox.cpp
+  * src/wxbase/controls/wx_StaticText.cpp
+  * src/wxbase/controls/wx_TextCtrl.cpp
+  * src/wxbase/menu/wx_MenuItem.cpp
+  * src/wxbase/networking/wx_IPV4address.cpp
+  * src/wxbase/system/wx_Font.cpp
+    + added void wxh_retc( const wxString& string ) to substitute *.mb_str()
+
+  * src/common/wxhfuncs.prg
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/baseclasses/wxhWindow.prg
+    * renamed __wxh_TransSize -> __wxh_TransWidth, using direct call
+      to wxWindow:GetPointSize() (hb specific method), expanded to
+      accept array (wxSize) as optional parameter
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+    % tuned (?) pointSize value
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * disabled gridlines, changing row size, reduced column label size
+      disabled Row labels (size to 0)
+    * dont use by default column of labels (leftmost column on wxGrid)
+
+  * src/wxbase/advctrls/wx_Grid.cpp
+  * src/wxbase/advctrls/wxhGrid.prg
+    + added methods:
+      + GetDefaultRowLabelSize
+      + GetRowLabelSize
+      + GetRowLabelValue
+      + GetRowSize
+
 2009-06-11 18:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     ! Fixed bug of wrong placing of a @ SPACER

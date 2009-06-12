@@ -88,7 +88,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
   wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( textCtrl )
-    hb_retc( textCtrl->GetValue().mb_str() );
+    wxh_retc( textCtrl->GetValue() );
 }
 
 /*

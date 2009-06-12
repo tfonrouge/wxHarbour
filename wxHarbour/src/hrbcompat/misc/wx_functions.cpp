@@ -24,7 +24,7 @@ HB_FUNC( WXEVT_FIRST )
 */
 HB_FUNC( WXGETUSERID )
 {
-  hb_retc( wxGetUserId().mb_str() );
+  wxh_retc( wxGetUserId() );
 }
 
 /*
@@ -33,7 +33,7 @@ HB_FUNC( WXGETUSERID )
 */
 HB_FUNC( WXGETUSERNAME )
 {
-  hb_retc( wxGetUserName().mb_str() );
+  wxh_retc( wxGetUserName() );
 }
 
 /*
@@ -43,7 +43,7 @@ HB_FUNC( WXGETUSERNAME )
 HB_FUNC( WXGETOSDESCRIPTION )
 {
 
-  hb_retc( wxGetOsDescription().mb_str() );
+  wxh_retc( wxGetOsDescription() );
 
 };
 
@@ -53,5 +53,5 @@ HB_FUNC( WXGETOSDESCRIPTION )
 */
 HB_FUNC( WXNOW )
 {
-  hb_retc( wxNow().mb_str() );
+  wxh_retc( wxNow() );
 }

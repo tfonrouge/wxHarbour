@@ -129,6 +129,7 @@ wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
+void		  wxh_retc( const wxString & string );
 
 wxString      wxh_CTowxStr( const char * szStr );
 void          wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );

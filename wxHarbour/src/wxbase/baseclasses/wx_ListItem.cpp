@@ -136,7 +136,7 @@ HB_FUNC( WXLISTITEM_GETTEXT )
 
   if( listItem )
   {
-    hb_retc( listItem->GetText().mb_str() );
+    wxh_retc( listItem->GetText() );
   }
 }
 

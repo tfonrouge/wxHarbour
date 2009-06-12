@@ -218,6 +218,18 @@ HB_FUNC( WXWINDOW_GETFONT )
 }
 
 /*
+ GetId
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETID )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( wnd )
+    hb_retnl( wnd->GetId() );
+}
+
+/*
  GetLabel
  Teo. Mexico 2009
  */
@@ -226,7 +238,7 @@ HB_FUNC( WXWINDOW_GETLABEL )
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
-    hb_retc( wnd->GetLabel().mb_str() );
+    wxh_retc( wnd->GetLabel() );
 }
 
 /*
@@ -238,19 +250,7 @@ HB_FUNC( WXWINDOW_GETNAME )
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
-    hb_retc( wnd->GetName().mb_str() );
-}
-
-/*
- GetId
- Teo. Mexico 2009
- */
-HB_FUNC( WXWINDOW_GETID )
-{
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( wnd )
-    hb_retnl( wnd->GetId() );
+    wxh_retc( wnd->GetName() );
 }
 
 /*
@@ -269,6 +269,18 @@ HB_FUNC( WXWINDOW_GETPARENT )
       hb_itemReturn( wxh_ItemListGet_HB( parent ) );
     }
   }
+}
+
+/*
+ GetPointSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETPOINTSIZE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( wnd )
+    hb_retni( wnd->GetFont().GetPointSize() );
 }
 
 /*

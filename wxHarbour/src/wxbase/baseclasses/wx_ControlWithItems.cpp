@@ -135,7 +135,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSTRING )
 
   if( ctrlWItms )
   {
-    hb_retc( ctrlWItms->GetString( hb_parni( 1 ) ).mb_str() );
+    wxh_retc( ctrlWItms->GetString( hb_parni( 1 ) ) );
   }
 }
 
@@ -171,7 +171,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSTRINGSELECTION )
 
   if( ctrlWItms )
   {
-    hb_retc( ctrlWItms->GetStringSelection().mb_str() );
+    wxh_retc( ctrlWItms->GetStringSelection() );
   }
 }
 

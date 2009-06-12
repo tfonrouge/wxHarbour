@@ -56,7 +56,7 @@ HB_FUNC( WXBUTTON_GETLABEL )
   wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( button )
-    hb_retc( button->GetLabel().mb_str() );
+    wxh_retc( button->GetLabel() );
 }
 
 /*

@@ -487,7 +487,35 @@ HB_FUNC( WXGRID_GETCELLVALUE )
 
   if( grid )
   {
-    hb_retc( grid->GetCellValue( hb_parni( 1 ), hb_parni( 2 ) ).mb_str() );
+    wxh_retc( grid->GetCellValue( hb_parni( 1 ), hb_parni( 2 ) ) );
+  }
+}
+
+/*
+ GetDefaultRowLabelSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_GETDEFAULTROWLABELSIZE )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid && grid->GetTable() )
+  {
+    hb_retni( grid->GetDefaultRowLabelSize() );
+  }
+}
+
+/*
+ GetDefaultRowSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_GETDEFAULTROWSIZE )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid && grid->GetTable() )
+  {
+    hb_retni( grid->GetDefaultRowSize() );
   }
 }
 
@@ -534,19 +562,65 @@ HB_FUNC( WXGRID_GETNUMBERCOLS )
 }
 
 /*
-  GetNumberRows
-  Teo. Mexico 2009
-*/
+ GetNumberRows
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXGRID_GETNUMBERROWS )
 {
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
+  
   if( grid && grid->GetTable() )
   {
     hb_retnl( grid->GetTable()->GetNumberRows() );
   }
 }
 
+/*
+ GetRowLabelSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_GETROWLABELSIZE )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid && grid->GetTable() )
+  {
+    hb_retni( grid->GetRowLabelSize() );
+  }
+}
+
+/*
+ GetRowLabelValue
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_GETROWLABELVALUE )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid && grid->GetTable() )
+  {
+    wxh_retc( grid->GetRowLabelValue( hb_parni( 1 ) ) );
+  }
+}
+
+/*
+ GetRowSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_GETROWSIZE )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid && grid->GetTable() )
+  {
+    hb_retni( grid->GetRowSize( hb_parni( 1 ) ) );
+  }
+}
+
+/*
+ GetTable
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXGRID_GETTABLE )
 {
   wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );

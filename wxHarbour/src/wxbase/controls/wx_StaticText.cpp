@@ -58,7 +58,7 @@ HB_FUNC( WXSTATICTEXT_GETLABEL )
   wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( staticText )
-    hb_retc( staticText->GetLabel().mb_str() );
+    wxh_retc( staticText->GetLabel() );
 }
 
 /*
