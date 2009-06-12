@@ -259,7 +259,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
 
   if( noteBook )
   {
-    hb_retc( noteBook->GetPageText( hb_parni( 1 ) ).mb_str() );
+    wxh_retc( noteBook->GetPageText( hb_parni( 1 ) ) );
   }
 }
 

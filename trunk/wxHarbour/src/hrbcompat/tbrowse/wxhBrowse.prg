@@ -126,6 +126,11 @@ METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
   scrollBar:SetScrollBar( 0, 1, 100, 1 )
 
   boxSizer:Add( scrollBar, 0, _hb_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
+  
+  ::grid:EnableGridLines( .F. )
+  ::grid:EnableDragRowSize( .F. )
+  ::grid:SetColLabelSize( 22 )
+  ::grid:SetRowLabelSize( 0 )
 
   ::grid:SetTable( wxhBrowseTableBase():New(), .T. )
 
@@ -230,7 +235,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
   DO CASE
   CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
 
-    __wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
+    //__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
 
     FOR EACH fld IN ::FDataSource:FieldList
       __wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )

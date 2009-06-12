@@ -510,6 +510,15 @@ wxString wxh_parc( int param )
 }
 
 /*
+  wxh_retc
+  Teo. Mexico 2009
+ */
+void wxh_retc( const wxString & string )
+{
+  hb_retc( string.mb_str() );
+}
+
+/*
  * wxh_LastTopLevelWindow
  * Teo. Mexico 2009
  */

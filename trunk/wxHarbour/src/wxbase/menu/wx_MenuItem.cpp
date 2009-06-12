@@ -71,7 +71,7 @@ HB_FUNC( WXMENUITEM_GETITEMLABEL )
   wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menuItem )
-    hb_retc( menuItem->GetItemLabel().mb_str() );
+    wxh_retc( menuItem->GetItemLabel() );
 }
 
 /*
@@ -83,5 +83,5 @@ HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
   wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menuItem )
-    hb_retc( menuItem->GetItemLabelText().mb_str() );
+    wxh_retc( menuItem->GetItemLabelText() );
 }

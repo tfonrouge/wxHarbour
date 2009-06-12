@@ -52,7 +52,7 @@ HB_FUNC( WXFONT_GETFACENAME )
   wx_Font* font = (wx_Font *) wxh_ItemListGet_WX( pSelf );
 
   if( font )
-    hb_retc( font->GetFaceName().mb_str() );
+    wxh_retc( font->GetFaceName() );
 }
 
 /*

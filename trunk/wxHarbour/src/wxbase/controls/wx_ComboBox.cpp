@@ -212,7 +212,7 @@ HB_FUNC( WXCOMBOBOX_GETVALUE )
 
   if( comboBox )
   {
-    hb_retc( comboBox->GetValue().mb_str() );
+    wxh_retc( comboBox->GetValue() );
   }
 }
 

@@ -57,7 +57,7 @@ HB_FUNC( WXFILEDIALOG_GETDIRECTORY )
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( fileDlg )
-    hb_retc( fileDlg->GetDirectory().mb_str() );
+    wxh_retc( fileDlg->GetDirectory() );
 }
 
 /*
@@ -70,7 +70,7 @@ HB_FUNC( WXFILEDIALOG_GETFILENAME )
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( fileDlg )
-    hb_retc( fileDlg->GetFilename().mb_str() );
+    wxh_retc( fileDlg->GetFilename() );
 }
 
 /*
@@ -125,7 +125,7 @@ HB_FUNC( WXFILEDIALOG_GETMESSAGE )
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( fileDlg )
-    hb_retc( fileDlg->GetMessage().mb_str() );
+    wxh_retc( fileDlg->GetMessage() );
 }
 
 /*
@@ -138,7 +138,7 @@ HB_FUNC( WXFILEDIALOG_GETPATH )
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( fileDlg )
-    hb_retc( fileDlg->GetPath().mb_str() );
+    wxh_retc( fileDlg->GetPath() );
 }
 
 /*
@@ -180,7 +180,7 @@ HB_FUNC( WXFILEDIALOG_GETWILDCARD )
   wxFileDialog* fileDlg = (wxFileDialog *) wxh_ItemListGet_WX( pSelf );
 
   if( fileDlg )
-    hb_retc( fileDlg->GetWildcard().mb_str() );
+    wxh_retc( fileDlg->GetWildcard() );
 }
 
 /*

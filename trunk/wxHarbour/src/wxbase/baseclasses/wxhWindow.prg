@@ -25,9 +25,10 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
-  /* Harbour specific data  */
+  /* Harbour specific */
+  METHOD GetPointSize()
   PROPERTY enableBlock READ GetEnableBlock WRITE SetEnableBlock
-  /* Harbour specific data  */
+  /* Harbour specific */
 
   METHOD Centre( direction )
   METHOD Close( force )

@@ -69,14 +69,18 @@ PUBLIC:
   METHOD EnableGridLines( enable )
   METHOD EndBatch
   METHOD Fit
-  METHOD ForceRefresh
-  METHOD GetBatchCount
+  METHOD ForceRefresh()
+  METHOD GetBatchCount()
   METHOD GetCellValue( row, col )
-  METHOD GetGridCursorCol
-  METHOD GetGridCursorRow
-  METHOD GetNumberCols
-  METHOD GetNumberRows
-  METHOD GetTable
+  METHOD GetDefaultRowLabelSize()
+  METHOD GetDefaultRowSize()
+  METHOD GetGridCursorCol()
+  METHOD GetGridCursorRow()
+  METHOD GetNumberCols()
+  METHOD GetNumberRows()
+  METHOD GetRowLabelSize()
+  METHOD GetRowSize()
+  METHOD GetTable()
   METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
   METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
   METHOD IsVisible( row, col, wholeCellVisible )

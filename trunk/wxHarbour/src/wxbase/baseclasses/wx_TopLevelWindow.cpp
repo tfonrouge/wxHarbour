@@ -33,7 +33,7 @@ HB_FUNC( WXTOPLEVELWINDOW_GETTITLE )
   wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_ItemListGet_WX( pSelf );
 
   if( tlWnd )
-    hb_retc( tlWnd->GetTitle().mb_str() );
+    wxh_retc( tlWnd->GetTitle() );
 }
 
 HB_FUNC( WXTOPLEVELWINDOW_SETTITLE )

@@ -168,7 +168,7 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
   ELSE
     wxhBrw:AddColumn( column )
   ENDIF
-
+  
   IF type != NIL
     type := Upper( type )
     DO CASE
@@ -433,8 +433,10 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
       style := _hb_BitOr( wxTE_MULTILINE, style )
     ENDIF
   ENDIF
+  
+  __wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
 
-  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, __wxh_TransSize( size, window, Len( wxhGet:AsString ) ), style, validator, name, picture, warn, toolTip, bAction )
+  Result := wxHBTextCtrl():New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip, bAction )
 
   containerObj():SetLastChild( Result )
 
@@ -666,6 +668,8 @@ FUNCTION __wxh_SAY( window, id, label, pos, size, style, name )
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
+  
+  __wxh_TransWidth( NIL, window, Len( label ), size )
 
   Result := wxStaticText():New( window, id, label, pos, size, style, name )
 
@@ -1007,29 +1011,37 @@ FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
 RETURN staticText
 
 /*
-  __wxh_TransSize
-  Teo. Mexico 2008
+  __wxh_TransWidth
+  Teo. Mexico 2009
 */
-FUNCTION __wxh_TransSize( size, window, defaultWidth )
-  LOCAL oFont
+STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
+  LOCAL pointSize
+  
+  IF window != NIL
 
-  IF !HB_ISARRAY( size )
-    size := { -1, -1 }
+	pointSize := window:GetPointSize() - 3
+
+	IF aSize != NIL
+	  width := aSize[ 1 ]
+	ENDIF
+	
+	IF width = NIL
+	  width := -1
+	ENDIF
+
+	IF HB_ISCHAR( width )
+	  width := pointSize * Val( width )
+	ELSEIF ( width = NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
+	  width := pointSize * defaultWidth
+	ENDIF
+	
+	IF aSize != NIL
+	  aSize[ 1 ] := width
+	ENDIF
+
   ENDIF
-
-  if .t.
-    return size
-  endif
-
-  oFont := window:GetFont()
-
-  IF HB_ISCHAR( size[ 1 ] )
-    size[ 1 ] := oFont:GetPointSize() * Val( size[ 1 ] )
-  ELSEIF ( HB_ISNIL( size[ 1 ] ) .OR. ( HB_ISNUMERIC( size[ 1 ] ) .AND. size[ 1 ] = -1 ) ) .AND. !HB_ISNIL( defaultWidth )
-    size[ 1 ] := oFont:GetPointSize() * defaultWidth
-  ENDIF
-
-RETURN size
+  
+RETURN width
 
 /*
   __wxh_TextCtrl
