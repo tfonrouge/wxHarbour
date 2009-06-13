@@ -691,6 +691,34 @@ HB_FUNC( WXGRID_MOVECURSORRIGHT )
 }
 
 /*
+ SelectCol
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SELECTCOL )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid )
+  {
+    grid->SelectCol( hb_parni( 1 ), hb_parnl( 2 ) );
+  }
+}
+
+/*
+ SelectRow
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SELECTROW )
+{
+  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( grid )
+  {
+    grid->SelectRow( hb_parni( 1 ), hb_parnl( 2 ) );
+  }
+}
+
+/*
   wxGrid:SetCellAlignment
   Teo. Mexico 2009
 */
