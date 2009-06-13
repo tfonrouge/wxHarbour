@@ -87,6 +87,8 @@ PUBLIC:
   METHOD MakeCellVisible( row, col )
   METHOD MoveCursorLeft( expandSelection )
   METHOD MoveCursorRight( expandSelection )
+  METHOD SelectCol( col, addToSelected )
+  METHOD SelectRow( row, addToSelected )
   METHOD SetCellAlignment( /* two methods */ )
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
