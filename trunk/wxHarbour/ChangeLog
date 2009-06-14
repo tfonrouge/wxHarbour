@@ -2,6 +2,15 @@
  *
  */
 
+2009-06-15 01:31 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbc
+  * wxharbour.hbp
+    + Added SVN props.
+
+  * wxharbour.hbp
+    - Deleted this commented line:
+         src\wxbase\app\wxwin32x32.xpm
+
 2009-06-14 14:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + wxharbour.hbc
   + wxharbour.hbp
@@ -102,7 +111,7 @@
       globally to the application)
     * using key id in FContextListKey to launch PickList
     ! Fixed assigning value returned by a PickList call
-     
+
   * src/hrbcompat/tbrowse/wxhBrowse.prg
     ! added launching a error message if a invalid object is used in
       asigning DataSource
@@ -286,7 +295,7 @@
 
   * include/wxHarbour/wxharbour.ch
     * added @ LISTCTRL ... command
-    
+
 
   * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
   * src/hrbcompat/tbrowse/wxhBrowse.prg
@@ -1588,7 +1597,7 @@ A  +   src/wxbase/app/wxwin32x32.xpm
 
   * src/hrbcompat/tbrowse/wxhBrowse.prg
     * Changed mode of parameter sended to code block on columns
-      Now in Hash/Array, the key/nIndex is sended as parameter 
+      Now in Hash/Array, the key/nIndex is sended as parameter
       to the columns codeblock
 
   * src/wxbase/advctrls/wx_GridTableBase.cpp
@@ -2163,7 +2172,7 @@ A  +   src/wxbase/xmlclasses/wx_XmlDocument.cpp
   + src/wxbase/controls/wxhComboBox.prg
     * moved wxChoice.prg to controls dir
     + Added wxComboBox
-    
+
   * include/wxh.h
   * src/common/wx_harbour.cpp
   * src/wxbase/advctrls/wx_gridtablebase.cpp
@@ -2454,7 +2463,7 @@ A  +   src/wxbase/xmlclasses/wx_XmlDocument.cpp
   * src/common/wxhfuncs.prg
     + added capability to use a code block to be evaluated on
       wxEVT_MENU_OPEN event and assign the wxMenuItem :Enable property
-      
+
   * src/wxbase/menu/wxhmenuitem.prg
   * src/wxbase/menu/wx_menuitem.cpp
     + added methods:
@@ -2515,13 +2524,13 @@ A  +   src/wxbase/xmlclasses/wx_XmlDocument.cpp
 2009-04-01 18:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * updated demo
-    
+
   * src/hrbcompat/tbcolumn/wxhcolumn.prg
   * src/hrbcompat/tbrowse/wxhbrowsedbprovider.prg
   * src/hrbcompat/tbrowse/wxhgridbrowse.prg
     * added code to detect when to set the align props on a cell column
     * changed :BlockParam to allow to eval a code block
-    
+
   * src/hrbcompat/tbrowse/wxhbrowse.prg
     + added ::DeleteAllColumns
     + added ::SetColumnAlignment
@@ -2531,7 +2540,7 @@ A  +   src/wxbase/xmlclasses/wx_XmlDocument.cpp
     + added ::AutoSizeColumns
     + added ::EnabledGridLines
     + added ::SetCellAlignment
-    
+
   * src/wxbase/books/wx_auinotebook.cpp
   * src/wxbase/books/wxhauinotebook.prg
     + added methods:
@@ -2789,7 +2798,7 @@ A  +   test
   * src/common/wxhfuncs.prg
     + added wxGauge class
     + added COMMAND @ GAUGE ...
-    
+
 
   * include/wxhevtdefs.h
   * include/wxh.h
@@ -2845,7 +2854,7 @@ A  +   test
 2009-03-22 16:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxh.h
     * code cleanup
-  
+
   * samples/wxhBrowse/wxhBrowse.prg
     * updated sample
 
@@ -3691,7 +3700,7 @@ A  +   test
     + added SendToServer method to send client requests to RDOServer
     + added logic to Open method to detect a RDO client request:
       ; "RDO://servername:port/database"
-    
+
   * src/raddox/xdoutils.c
     * added LGPL licence header
 
@@ -3710,7 +3719,7 @@ A  +   test
 
   * src/wxbase/networking/wx_socketbase.cpp
     * code cleanup
-    
+
   * src/wxbase/networking/wx_socketclient.cpp
     ! Fixed default value for mode Connection
 
@@ -3732,7 +3741,7 @@ A  +   test
   * makefile.vc
     + added:
       + wxCommandEvent
-      
+
   * include/wxharbour.ch
     * changed command IMPLEMENT_APP() to be a method of wxApp (HB) class: wxApp:Implement
 
@@ -3790,7 +3799,7 @@ A  +   test
     + added:
       + GetFaceName
     * minor code cleanup
-    
+
   * src/wxbase/validators/wx_validator.cpp
     * minor code cleanup
 
@@ -3936,7 +3945,7 @@ A  +   test
     + added InsideScope method
     + added capability to use null fields (returns a empty string), this is
       primary used for empty MASTERKEYFIELD's (on index declarations)
-  
+
   * src/raddox/ttable.prg
     * code cleanup
     * Using InsideScope in the TIndex obj for the TTable:InsideScope method
@@ -4615,12 +4624,12 @@ A  +   test
   * makefile.gcc
   * makefile.vc
     + added wxListbook
-  
+
   * include/wxharbour.ch
     * renamed @ WXBROWSEDB to @ BROWSEDB
-    + added command 
+    + added command
       + BEGIN LISTBOOK / END LISTBOOK
-    
+
   * samples/dbbrowser/dbbrowser.prg
   * samples/sizers/main.prg
     * updated samples
@@ -6648,7 +6657,7 @@ A  +   config/tmpl_hrb.bkl
 	  Bajar e instalar los ports de GNU tools:
 	  http://gnuwin32.sourceforge.net/
 
-	  Tambi√©n necesita el port de wxconfig para windows,lo puedes bajar
+	  Tambi√cn necesita el port de wxconfig para windows,lo puedes bajar
 	  de:
 	  http://wxconfig.googlepages.com/
 
@@ -6743,4 +6752,3 @@ A  +   config/tmpl_hrb.bkl
 2006-09-19 06:47  tfonrouge
 
 	* .: Reordering repository
-
