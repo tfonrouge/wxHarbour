@@ -2,6 +2,13 @@
  *
  */
 
+2009-06-14 14:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + wxharbour.hbc
+  + wxharbour.hbp
+    * added project and config files for Harbour's hbmk2 build system
+      on behalf of Viktor Szakats ( seconds "a" must be accented )
+      (thank you Viktor)
+
 2009-06-13 00:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/advctrls/wx_Grid.cpp
   * src/wxbase/advctrls/wxhGrid.prg
