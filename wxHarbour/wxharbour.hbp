@@ -56,7 +56,6 @@ src\wxbase\advctrls\wx_Panel.cpp
 src\wxbase\advctrls\wx_StatusBar.cpp
 src\wxbase\app\wxhApp.prg
 src\wxbase\app\wxhTaskBarIcon.prg
-#src\wxbase\app\wxwin32x32.xpm
 src\wxbase\app\wx_App.cpp
 src\wxbase\app\wx_TaskBarIcon.cpp
 src\wxbase\baseclasses\wxhControlWithItems.prg
