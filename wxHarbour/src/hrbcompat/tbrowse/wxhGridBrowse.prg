@@ -35,6 +35,7 @@ PUBLIC:
   METHOD SetColWidth( col, colWidth )
   METHOD SetRowCount( rowCount )
   METHOD SetRowPos( rowPos )
+  METHOD ShowRow( row )
 
 PUBLISHED:
 ENDCLASS
