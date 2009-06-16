@@ -33,6 +33,15 @@ HB_FUNC( WXGETAPP )
   hb_itemReturn( hb_App );
 }
 
+/*
+  wxInitialize
+  Teo. Mexico 2009
+ */
+HB_FUNC( WXINITIALIZE )
+{
+  hb_retl( wxInitialize() );
+}
+
 HB_FUNC_EXTERN( __QUIT );
 HB_FUNC_EXTERN( WXHERRORSYS );
 

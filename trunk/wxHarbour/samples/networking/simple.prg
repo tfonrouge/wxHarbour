@@ -9,43 +9,13 @@
 #include "wxharbour.ch"
 
 FUNCTION Main()
-  LOCAL MyApp
-
-  MyApp := MyApp():New()
-
-  IMPLEMENT_APP( MyApp )
-
-RETURN NIL
-
-/*
-  MyApp
-  Teo. Mexico 2008
-*/
-CLASS MyApp FROM wxApp
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  METHOD OnInit
-PUBLISHED:
-ENDCLASS
-
-/*
-  EndClass MyApp
-*/
-
-/*
-  OnInit
-  Teo. Mexico 2008
-*/
-METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
   LOCAL port
   LOCAL ipv4,ipv4_a
   LOCAL socketServer
   LOCAL newConn
   LOCAL s
   
-  ? "wxInitializer:", wxInitializer()
+  ? "wxInitialize:", wxInitialize()
 
   port := "27960"
 
@@ -89,17 +59,6 @@ METHOD FUNCTION OnInit() CLASS MyApp
     ? "Accept connection failed..."
   ENDIF
 
-  CREATE FRAME oWnd ;
-         WIDTH 500 HEIGHT 400 ;
-         ID 999 ;
-         TITLE "Simple"
-
-  oWnd:Show()
-
-  ? "Limpiando oWnd ", @oWnd
-
-  oWnd := NIL
-
   ? "Saliendo de OnInit..."
 
-RETURN .F.
+RETURN NIL

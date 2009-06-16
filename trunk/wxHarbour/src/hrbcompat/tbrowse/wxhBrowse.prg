@@ -25,6 +25,7 @@
 */
 CLASS wxhBrowse FROM wxPanel
 PRIVATE:
+  DATA FAlwaysShowSelectedRow	INIT .T.
   DATA FColPos          INIT 0
   DATA FDataSource
   DATA FDataSourceType
@@ -34,6 +35,7 @@ PRIVATE:
   METHOD GetRecNo
   METHOD SetDataSource( dataSource )
   METHOD SetRowCount( rowCount ) INLINE ::grid:RowCount := rowCount
+  METHOD SetAlwaysShowSelectedRow( alwaysShowSelectedRow )
 PROTECTED:
   METHOD browseTableBase INLINE ::grid:GetTable()
 PUBLIC:
@@ -87,6 +89,7 @@ PUBLIC:
   METHOD OnSelectCell( event )
   METHOD SetColumnAlignment( nCol, align )
 
+  PROPERTY AlwaysShowSelectedRow READ FAlwaysShowSelectedRow WRITE SetAlwaysShowSelectedRow
   PROPERTY BlockParam READ browseTableBase:GetBlockParam WRITE browseTableBase:SetBlockParam
   PROPERTY ColumnList READ browseTableBase:GetColumnList WRITE browseTableBase:SetColumnList
   PROPERTY ColumnZero READ browseTableBase:GetColumnZero WRITE browseTableBase:SetColumnZero
@@ -415,6 +418,10 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
   ENDIF
 
   row := gridEvent:GetRow()
+  
+  IF ::FAlwaysShowSelectedRow
+    ::grid:ShowRow( row )
+  ENDIF
 
   ::browseTableBase:CurRowIndex := row
 
@@ -551,6 +558,15 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
   END
 
+RETURN
+
+/*
+  SetAlwaysShowSelectedRow
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetAlwaysShowSelectedRow( alwaysShowSelectedRow ) CLASS wxhBrowse
+  ::grid:ShowRow( NIL, alwaysShowSelectedRow )
+  ::FAlwaysShowSelectedRow := alwaysShowSelectedRow
 RETURN
 
 /*

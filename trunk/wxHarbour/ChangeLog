@@ -2,6 +2,22 @@
  *
  */
 
+2009-06-16 13:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/networking/simple.prg
+    ! Fixed this sample, this is just a console application so we don't
+      need here a wxApp instalce, just a call to wxInitialize()
+
+  * src/hrbcompat/tbrowse/wx_Browse.h
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  * src/hrbcompat/tbrowse/wxhGridBrowse.prg
+    % Added AlwaysShowSelectedRow property to wxhBrowse, by default it is .T.
+    + added ShowRow to wxhGridBrowse
+    TODO: Check why row coloring is not working ok in Windows, Linux & Mac are Ok.
+
+  * src/wxbase/app/wx_App.cpp
+    + added wxInitialize() function (needed for console only apps)
+
 2009-06-15 01:31 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbc
   * wxharbour.hbp

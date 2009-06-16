@@ -275,3 +275,47 @@ HB_FUNC( WXHGRIDBROWSE_SETROWPOS )
     gridBrowse->SetGridCursor( row - 1, col );
   }
 }
+
+/*
+  ShowRow
+  Teo. Mexico 2009
+ */
+HB_FUNC( WXHGRIDBROWSE_SHOWROW )
+{
+  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  if( gridBrowse )
+  {
+	int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
+	bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
+	int prevRow = gridBrowse->m_selectedRow;
+	
+	if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
+	{
+	  wxGridCellAttr *attrDefaultColour;
+	  attrDefaultColour = new wxGridCellAttr;
+	  attrDefaultColour->SetBackgroundColour( gridBrowse->GetDefaultCellBackgroundColour() );
+	  gridBrowse->SetRowAttr( gridBrowse->m_selectedRow, attrDefaultColour );
+	}
+	
+	if( row >= 0 && row < gridBrowse->GetNumberRows() )
+	{
+	  prevRow = gridBrowse->m_selectedRow;
+	  wxColour colour;
+	  
+	  if( select )
+	  {
+		colour.Set( _T("RGB(194,222,251)") );
+	  }
+	  else
+	  {
+		colour = gridBrowse->GetDefaultCellBackgroundColour();
+	  }
+	  
+	  wxGridCellAttr *attr;
+	  attr = new wxGridCellAttr;
+	  attr->SetBackgroundColour( colour );
+	  gridBrowse->SetRowAttr( row, attr );
+	  gridBrowse->m_selectedRow = row;
+	}	
+  }
+}
