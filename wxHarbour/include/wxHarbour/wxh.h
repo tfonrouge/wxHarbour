@@ -131,7 +131,7 @@ wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
 void		  wxh_retc( const wxString & string );
 
-wxString      wxh_CTowxStr( const char * szStr );
+wxString      wxh_CTowxString( const char * szStr, bool convOEM = false );
 void          wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );
 wxh_Item*     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
 wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );

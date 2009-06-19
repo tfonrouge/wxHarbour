@@ -16,3 +16,29 @@
 #include "wxharbour.ch"
 
 REQUEST wxGetApp
+
+/*
+  wxh_OEMTowxString
+  Teo. Mexico 2009
+*/
+FUNCTION wxh_OEMTowxString( string )
+  LOCAL Result
+#ifdef _UNICODE
+  Result := HB_StrToUTF8( string )
+#else
+  Result := HB_OEMToANSI( string )
+#endif
+RETURN Result
+
+/*
+  wxh_wxStringToOEM
+  Teo. Mexico 2009
+*/
+FUNCTION wxh_wxStringToOEM( string )
+  LOCAL Result
+#ifdef _UNICODE
+  Result := HB_UTF8ToStr( string )
+#else
+  Result := HB_ANSIToOEM( string )
+#endif
+RETURN Result

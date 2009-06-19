@@ -35,11 +35,11 @@ PUBLIC:
 
   CONSTRUCTOR New( varName, block )
 
-  METHOD AsString
+  METHOD AsString()
 
-  METHOD GetChoices             /* returns a array of values */
-  METHOD GetKeyValue            /* returns key of ValidValues on TField (if any) */
-  METHOD GetSelection           /* returns numeric index of ValidValues on TField (if any) */
+  METHOD GetChoices()             /* returns a array of values */
+  METHOD GetKeyValue()            /* returns key of ValidValues on TField (if any) */
+  METHOD GetSelection()           /* returns numeric index of ValidValues on TField (if any) */
 
   PROPERTY Block READ FBlock
   PROPERTY Field READ FField
@@ -69,7 +69,7 @@ RETURN Self
   AsString
   Teo. Mexico 2009
 */
-METHOD FUNCTION AsString CLASS wxhGET
+METHOD FUNCTION AsString() CLASS wxhGET
   LOCAL value
   IF ::FField != NIL
     value := ::FField:AsString()
@@ -187,6 +187,7 @@ RETURN n
 
 /*
   wxHBTextCtrl
+  Teo. Mexico 2009
 */
 CLASS wxHBTextCtrl FROM wxTextCtrl
 PRIVATE:
@@ -197,12 +198,14 @@ PRIVATE:
   METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
+  DATA dataIsOEM INIT .F.
   DATA Picture
   DATA WarnBlock
   DATA nextCtrlOnEnter INIT .T.
 
   CONSTRUCTOR New( window, id, wxhGet, pos, size, style, validator, name )
 
+  METHOD IsModified()
   METHOD PickList
 
   PROPERTY WXHGet READ FWXHGet
@@ -214,6 +217,9 @@ ENDCLASS
   New
 */
 METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip, bAction ) CLASS wxHBTextCtrl
+  LOCAL value
+  LOCAL dataIsOEM
+  LOCAL maxLength
 
   /* nextCtrlOnEnter */
   IF ::nextCtrlOnEnter
@@ -223,8 +229,29 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
       style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
     ENDIF
   ENDIF
+  
+  IF wxhGet != NIL
+	value := RTrim( wxhGet:AsString() )
+	IF wxhGet:Field != NIL
+	  dataIsOEM := wxhGet:Field:Table:dataIsOEM
+	  IF dataIsOEM
+		value := wxh_OEMTowxString( value )
+	  ENDIF
+	  IF wxhGet:Field:IsDerivedFrom("TStringField")
+	    maxLength := wxhGet:Field:Size
+	  ENDIF
+	ENDIF
+  ENDIF
 
-  Super:New( window, id, RTrim( wxhGet:AsString() ), pos, size, style, validator, name )
+  Super:New( window, id, value, pos, size, style, validator, name )
+  
+  IF maxLength != NIL
+	::SetMaxLength( maxLength )
+  ENDIF
+  
+  IF dataIsOEM != NIL
+    ::dataIsOEM := dataIsOEM
+  ENDIF
 
   IF name = NIL
     ::SetName( wxhGet:Name )
@@ -272,6 +299,25 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
 RETURN Self
 
 /*
+  IsModified
+  Teo. Mexico 2009
+*/
+METHOD IsModified() CLASS wxHBTextCtrl
+  LOCAL modified
+  
+  modified := Super:IsModified()
+  
+  IF !modified
+	IF ::dataIsOEM
+	  modified := ! RTrim( wxh_wxStringToOEM( ::GetValue() ) ) == RTrim( ::FWXHGet:AsString() )
+	ELSE
+	  modified := ! RTrim( ::GetValue() ) == RTrim( ::FWXHGet:AsString() )
+	ENDIF
+  ENDIF
+
+RETURN modified
+
+/*
   PickList
   Teo. Mexico 2009
 */
@@ -279,6 +325,7 @@ METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   LOCAL s
   LOCAL parentWnd
   LOCAL selectionMade
+  LOCAL value, rawValue
   
   IF ::FWXHGet:Field == NIL
     RETURN
@@ -289,13 +336,19 @@ METHOD PROCEDURE PickList CLASS wxHBTextCtrl
   ::dontUpdateVar := .T.
   selectionMade := ::FWXHGet:Field:GetItDoPick( parentWnd )
   ::dontUpdateVar := .F.
-  
+
   IF selectionMade
 	s := RTrim( ::FWXHGet:Field:Value )
-	IF RTrim( ::GetValue() ) == s
+	rawValue := ::GetValue()
+	IF ::dataIsOEM
+	  value := RTrim( wxh_wxStringToOEM( rawValue ) )
+	ELSE
+	  value := RTrim( rawValue )
+	ENDIF
+	IF s == value
 	  RETURN /* no changes */
 	ENDIF
-	::SetValue( s )
+	::ChangeValue( wxh_OEMTowxString( s ) )
   ENDIF
 
 RETURN
@@ -306,6 +359,7 @@ RETURN
 */
 METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
   LOCAL evtType
+  LOCAL value
 
   IF ::FWXHGet == NIL .OR. ::dontUpdateVar
     RETURN
@@ -315,9 +369,14 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
 
   IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
   
-    IF ! RTrim( ::FWXHGet:AsString() ) == RTrim( ::GetValue() ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
-      ::FWXHGet:Block:Eval( ::GetValue() )
-      ::SetValue( RTrim( ::FWXHGet:Block:Eval() ) )
+    IF ::IsModified() .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
+	  IF ::dataIsOEM
+		value := wxh_wxStringToOEM( ::GetValue() )
+	  ELSE
+		value := ::GetValue()
+	  ENDIF
+      ::FWXHGet:Block:Eval( value )
+      ::ChangeValue( wxh_OEMTowxString( RTrim( ::FWXHGet:Block:Eval() ) ) )
       IF ::bAction != NIL
         ::bAction:Eval( Self )
       ENDIF

@@ -44,9 +44,6 @@ PUBLIC:
 
   METHOD ClearObjData INLINE ::FColumnList := NIL
 
-  /* TBrowse compatible methods */
-  /* TBrowse compatible methods */
-
   METHOD FillGridBuffer
   METHOD GetColLabelValue( col )
   METHOD GetGridRowData( row )

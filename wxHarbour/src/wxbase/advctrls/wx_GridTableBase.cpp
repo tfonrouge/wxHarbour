@@ -158,8 +158,7 @@ wxString wx_GridTableBase::GetValue( int row, int col )
   wxString value = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
-  //value = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
-  value = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
+  value = wxh_CTowxString( hb_stackReturnItem()->item.asString.value, gridDataIsOEM );
 
   hb_itemRelease( pRow );
   hb_itemRelease( pCol );
@@ -173,7 +172,7 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
   wxString labelValue = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
-  labelValue = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
+  labelValue = wxh_CTowxString( hb_stackReturnItem()->item.asString.value );
 
   hb_itemRelease( pCol );
 
@@ -186,7 +185,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
   wxString labelValue = _T("");
 
   hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
-  labelValue = wxh_CTowxStr( hb_stackReturnItem()->item.asString.value );
+  labelValue = wxh_CTowxString( hb_stackReturnItem()->item.asString.value );
 
   hb_itemRelease( pRow );
 
@@ -254,10 +253,8 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 
   size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
 
-  if( pSelf && gridTable )
+  if( gridTable )
     hb_retl( gridTable->AppendRows( numRows ) );
-  else
-    hb_ret();
 }
 
 /*
@@ -272,10 +269,8 @@ HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni( 2 );
 
-  if( pSelf && gridTable )
+  if( gridTable )
     hb_retl( gridTable->DeleteCols( pos, numCols ) );
-  else
-    hb_ret();
 }
 
 /*
@@ -290,27 +285,38 @@ HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni( 2 );
 
-  if( pSelf && gridTable )
+  if( gridTable )
     hb_retl( gridTable->DeleteRows( pos, numRows ) );
-  else
-    hb_ret();
 }
 
 /*
-  GetNumberCols
+  GetGridDataIsOEM
   Teo. Mexico 2008
-*/
+ */
+HB_FUNC( WXGRIDTABLEBASE_GETGRIDDATAISOEM )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+  
+  if( gridTable )
+  {
+    hb_retnl( gridTable->gridDataIsOEM );
+  }
+}
+
+/*
+ GetNumberCols
+ Teo. Mexico 2008
+ */
 HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 {
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
-
-  if( pSelf && gridTable )
+  
+  if( gridTable )
   {
     hb_retnl( gridTable->GetNumberCols() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -322,12 +328,10 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
 
-  if( pSelf && gridTable )
+  if( gridTable )
   {
     hb_retnl( gridTable->GetNumberRows() );
   }
-  else
-    hb_ret();
 }
 
 /*
@@ -339,7 +343,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
   PHB_ITEM pSelf = hb_stackSelfItem();
   wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
 
-  if( pSelf && gridTable )
+  if( gridTable )
   {
     wx_Grid* grid = (wx_Grid *) gridTable->GetView();
     if( grid )
@@ -361,10 +365,8 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
 
-  if( pSelf && gridTable )
+  if( gridTable )
     hb_retl( gridTable->InsertCols( pos, numCols ) );
-  else
-    hb_ret();
 }
 
 /*
@@ -379,8 +381,22 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
   size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
   size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
 
-  if( pSelf && gridTable )
+  if( gridTable )
     hb_retl( gridTable->InsertRows( pos, numRows ) );
-  else
-    hb_ret();
 }
+
+/*
+  SetGridDataIsOEM
+  Teo. Mexico 2008
+ */
+HB_FUNC( WXGRIDTABLEBASE_SETGRIDDATAISOEM )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+  
+  if( gridTable )
+  {
+	gridTable->gridDataIsOEM = hb_parl( 1 );
+  }
+}
+
