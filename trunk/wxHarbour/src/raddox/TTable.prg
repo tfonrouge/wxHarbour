@@ -95,6 +95,7 @@ PUBLIC:
 
   CLASSDATA DataBase
 
+  DATA dataIsOEM  INIT .T.
   /*!
     array of possible TObjectField's that have this (SELF) object referenced
    */

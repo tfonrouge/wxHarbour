@@ -2,6 +2,75 @@
  *
  */
 
+2009-06-19 17:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxbase/wx_GridTableBase.h
+    * added bool member gridDataIsOEM to indicate Character Set of underling data
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    * renamed function name from wxh_CTowxStr to wxh_CTowxString
+    * added second bool parameter to indicate if a OEM conversion is required (default false)
+      TODO: ANSI conversion
+    ! fixed parameter needed on wxh_retc() to convert returned string
+    
+  * src/hrbcompat/misc/wxGET.prg
+    * added wxHBTextCtrl:dataIsOEM bool data
+    * added code to convert data in the control to/from OEM
+
+  * src/hrbcompat/misc/wx_functions.cpp
+    * minor code cleanup
+
+  * src/hrbcompat/misc/wxhfunctions.prg
+    * added functions to convert char encodings to from OEM using build mode (_UNICODE)
+      + wxh_OEMTowxString() : to wx ctrls
+      + wxh_wxStringToOEM() : to convert from wx ctrls
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/raddox/TTable.prg
+    * added code to know if underlying dataSource (TTable) is using OEM char.set
+      and then a OEM to UTF8/ANSI will be required in wxGrid
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    * minor code cleanup
+    
+  * src/wxbase/advctrls/wx_GridTableBase.cpp
+    % removed double checking for a valid pSelf value
+    * if gridDataIsOEM then request a conversion in wxh_CTowxString() for GetValue()
+    + added get/set functions for property gridDataIsOEM
+
+  * src/wxbase/advctrls/wxhGridTableBase.prg
+    * code cleanup
+    + added (Get/Set)GridDataIsOEM methods
+    + added gridDataIsOEM property
+
+  * src/wxbase/controls/wx_TextCtrl.cpp
+  * src/wxbase/controls/wxhTextCtrl.prg
+    + added methods:
+      + ChangeValue
+      + DiscardEdits
+      + GetInsertionPoint
+      + GetLastPosition
+      + GetLineLength
+      + GetLineText
+      + GetNumberOfLines
+      + GetRange
+      + GetStringSelection
+      + IsEditable
+      + IsEmpty
+      + IsModified
+      + IsSingleLine
+      + LoadFile
+      + MarkDirty
+      + SaveFile
+      + SetEditable
+      + SetInsertionPoint
+      + SetInsertionPointEnd
+      + SetMaxLength
+      + SetModified
+      + SetSelection
+      + ShowPosition
+      + WriteText
+
 2009-06-16 13:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/networking/simple.prg
     ! Fixed this sample, this is just a console application so we don't

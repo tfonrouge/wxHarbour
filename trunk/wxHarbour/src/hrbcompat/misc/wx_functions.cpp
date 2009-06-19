@@ -42,10 +42,8 @@ HB_FUNC( WXGETUSERNAME )
 */
 HB_FUNC( WXGETOSDESCRIPTION )
 {
-
   wxh_retc( wxGetOsDescription() );
-
-};
+}
 
 /*
   wxNow

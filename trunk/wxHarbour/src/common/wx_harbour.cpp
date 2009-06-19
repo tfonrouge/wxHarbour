@@ -16,8 +16,11 @@
 */
 
 #include "wx/wx.h"
+#include "wx/strconv.h"
 #include "wx/hashset.h"
 #include "wxh.h"
+
+#include "hbapicdp.h"
 
 #ifdef __XHARBOUR__
   ULONG hb_crc32( ULONG crc, const BYTE *buf, size_t size );
@@ -443,7 +446,7 @@ wxArrayString wxh_par_wxArrayString( int param )
       pItm = hb_arrayGetItemPtr( pArray, ulI );
       if( hb_itemType( pItm ) && ( HB_IT_STRING || HB_IT_MEMO ) )
       {
-        arrayString.Add( wxh_CTowxStr( pItm->item.asString.value ) );
+        arrayString.Add( wxh_CTowxString( pItm->item.asString.value ) );
       }
     }
   }
@@ -495,27 +498,32 @@ wxSize wxh_par_wxSize( int param )
   wxh_CTowxStr
   Teo. Mexico 2009
 */
-wxString wxh_CTowxStr( const char * szStr )
+wxString wxh_CTowxString( const char * szStr, bool convOEM )
 {
-  return wxString( szStr, wxConvUTF8 );
-}
+#ifdef _UNICODE
+  const wxMBConv& mbConv = wxConvUTF8;
 
-/*
-  wxh_parc
-  Teo. Mexico 2009
-*/
-wxString wxh_parc( int param )
-{
-  return wxh_CTowxStr( hb_parc( param ) );
-}
+  if( convOEM && szStr )
+  {
+	ULONG ulStrLen = strlen( szStr );
+	PHB_CODEPAGE pcp = hb_vmCDP();
+	
+	if( ulStrLen > 0 && pcp )
+	{
+	  wxString wxStr;
+	  ULONG ulUTF8Len = hb_cdpStringInUTF8Length( pcp, false, (BYTE *) szStr, ulStrLen );
+	  char *strUTF8 = (char *) hb_xgrab( ulUTF8Len + 1 );
+	  hb_cdpStrnToUTF8( pcp, false, (BYTE *) szStr, ulStrLen, (BYTE *) strUTF8 );
+	  wxStr = wxString( strUTF8, mbConv );
+	  hb_xfree( strUTF8 );
+	  return wxStr;
+	}
+  }
+#else
+  const wxMBConv& mbConv = wxConvLocal;
+#endif
 
-/*
-  wxh_retc
-  Teo. Mexico 2009
- */
-void wxh_retc( const wxString & string )
-{
-  hb_retc( string.mb_str() );
+  return wxString( szStr, mbConv );
 }
 
 /*
@@ -525,6 +533,24 @@ void wxh_retc( const wxString & string )
 HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 {
   hb_itemReturn( lastTopLevelWindow );
+}
+
+/*
+  wxh_parc
+  Teo. Mexico 2009
+*/
+wxString wxh_parc( int param )
+{
+  return wxh_CTowxString( hb_parc( param ) );
+}
+
+/*
+  wxh_retc
+  Teo. Mexico 2009
+ */
+void wxh_retc( const wxString & string )
+{
+  hb_retc( string.mb_str( wxConvUTF8 ) );
 }
 
 /*

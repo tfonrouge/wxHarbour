@@ -27,13 +27,39 @@ CLASS wxTextCtrl FROM wxControl
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
   CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
 
   METHOD AppendText( text )
+  METHOD ChangeValue( value )
   METHOD Clear()
-  METHOD GetValue AS STRING
+  METHOD DiscardEdits()
+  METHOD GetInsertionPoint()
+  METHOD GetLastPosition()
+  METHOD GetLineLength( line )
+  METHOD GetLineText( line ) AS STRING
+  METHOD GetNumberOfLines()
+  METHOD GetRange( from, to )
+  METHOD GetStringSelection() AS STRING
+  METHOD GetValue() AS STRING
+  METHOD IsEditable()
+  METHOD IsEmpty()
+  METHOD IsModified()
   METHOD IsMultiLine()
-  METHOD SetValue( value )
+  METHOD IsSingleLine()
+  METHOD LoadFile( filename )
+  METHOD MarkDirty()
+  METHOD SaveFile( filename )
+  METHOD SetEditable( editable )
+  METHOD SetInsertionPoint( pos )
+  METHOD SetInsertionPointEnd()
+  METHOD SetMaxLength( len )
+  METHOD SetModified( modified )
+  METHOD SetSelection( from, to )
+  METHOD SetValue( value ) // deprecated
+  METHOD ShowPosition( pos )
+  METHOD WriteText( text )
+
 PUBLISHED:
 ENDCLASS
 

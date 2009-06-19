@@ -550,6 +550,9 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 	  ::GoTopBlock    := {|| dataSource:DbGoTop() }
 	  ::GoBottomBlock := {|| dataSource:DbGoBottom() }
 	  ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
+	  
+	  ::browseTableBase:gridDataIsOEM := dataSource:dataIsOEM
+
 	ELSE
 	  wxhAlert("Invalid object assigned to wxhBrowse...")
 	ENDIF
