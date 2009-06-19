@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-19 17:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * ChangeLog
+    * removed cr/lf eol
+
 2009-06-19 17:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxbase/wx_GridTableBase.h
     * added bool member gridDataIsOEM to indicate Character Set of underling data
