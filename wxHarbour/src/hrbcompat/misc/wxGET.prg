@@ -295,6 +295,8 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
   IF toolTip != NIL
     ::SetToolTip( toolTip )
   ENDIF
+  
+  ::SetSelection()
 
 RETURN Self
 
