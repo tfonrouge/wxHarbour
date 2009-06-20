@@ -2,6 +2,11 @@
  *
  */
 
+2009-06-20 12:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/hrbcompat/misc/wxGET.prg
+  * src/wxbase/controls/wx_TextCtrl.cpp
+    ! Set defaults for SetSelection( from, to ) to -1
+
 2009-06-19 17:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * ChangeLog
     * removed cr/lf eol

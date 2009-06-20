@@ -370,7 +370,7 @@ HB_FUNC( WXTEXTCTRL_SETSELECTION )
   wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( textCtrl )
-	textCtrl->SetSelection( hb_parnl( 1 ), hb_parnl( 2 ) );
+	textCtrl->SetSelection( ISNIL( 1 ) ? -1 : hb_parnl( 1 ), ISNIL( 2 ) ? -1 : hb_parnl( 2 ) );
 }
 
 /*
