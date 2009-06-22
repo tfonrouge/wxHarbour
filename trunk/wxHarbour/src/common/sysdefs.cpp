@@ -222,7 +222,9 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case wxdllimpexp_adv + 1594 : evtNumber = wxEVT_GRID_EDITOR_HIDDEN; break;
     case wxdllimpexp_adv + 1595 : evtNumber = wxEVT_GRID_EDITOR_CREATED; break;
     case wxdllimpexp_adv + 1596 : evtNumber = wxEVT_GRID_CELL_BEGIN_DRAG; break;
+#if wxVERSION > 20804
     case wxdllimpexp_adv + 1597 : evtNumber = wxEVT_GRID_COL_MOVE; break;
+#endif
 
     default : evtNumber = 0;
   }
