@@ -184,7 +184,7 @@ HB_FUNC( WXCOMBOBOX_GETINSERTIONPOINT )
   GetSelection
   Teo. Mexico 2009
 */
-#if wxVERSION > 20806
+#if wxVERSION > 20804
 HB_FUNC( WXCOMBOBOX_GETSELECTION )
 {
   wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );

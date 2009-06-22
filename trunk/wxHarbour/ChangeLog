@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-22 15:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/controls/wx_ComboBox.cpp
+    * added missing source in previous commit
+
 2009-06-22 15:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
     * defined wxVERSION ( seems that wxABI_VERSION doesn't contains 
