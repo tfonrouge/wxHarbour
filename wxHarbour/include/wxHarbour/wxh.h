@@ -43,6 +43,10 @@
 #include "wx/timer.h"
 #include "wx/taskbar.h"
 
+#ifndef wxVERSION
+#define wxVERSION ( wxMAJOR_VERSION * 10000 + wxMINOR_VERSION * 100 + wxRELEASE_NUMBER )
+#endif
+
 #include <iostream>
 
 #include <vector>
