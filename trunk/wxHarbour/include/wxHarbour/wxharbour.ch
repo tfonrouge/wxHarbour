@@ -281,6 +281,7 @@
  * Teo. Mexico 2009
  */
 #xcommand @ BUTTON [<label>] ;
+			[ BITMAP <bmp> ] ;
             [ VAR <btn> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -295,6 +296,7 @@
             [<window>],;
             [<id>],;
             [<label>],;
+			[<bmp>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -859,6 +861,32 @@
 #xcommand @ TEXTCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ TEXTCTRL [<tcclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+  ToolBar
+*/
+#xcommand BEGIN TOOLBAR ;
+            [ VAR <toolBar> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+          [ <toolBar> := ]__wxh_ToolBarBegin( ;
+            [<window>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>] )
+
+#xcommand END TOOLBAR => __wxh_ToolBarEnd()
+
+#xcommand BEGIN TOOLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          BEGIN TOOLBAR [<clauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*

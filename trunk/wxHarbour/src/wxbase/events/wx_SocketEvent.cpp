@@ -40,7 +40,7 @@ HB_FUNC( WXSOCKETEVENT_GETSOCKET )
   wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( socketEvent )
-    hb_itemReturn( wxh_ItemListGet_HB( socketEvent->GetSocket() ) );
+    wxh_itemReturn( socketEvent->GetSocket() );
 }
 
 /*

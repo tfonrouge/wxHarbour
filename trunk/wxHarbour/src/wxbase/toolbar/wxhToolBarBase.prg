@@ -11,21 +11,25 @@
 */
 
 /*
-  wx_FocusEvent: Implementation
+  wxToolBarBase
   Teo. Mexico 2009
 */
 
-#include "wx/wx.h"
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx.ch"
 
-#include "wxh.h"
+/*
+  wxToolBarBase
+  Teo. Mexico 2009
+*/
+CLASS wxToolBarBase FROM wxControl
+PRIVATE:
+PROTECTED:
+PUBLIC:
+PUBLISHED:
+ENDCLASS
 
-HB_FUNC( WXFOCUSEVENT_GETWINDOW )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGet_WX( pSelf );
-
-  if( event )
-  {
-    wxh_itemReturn( event->GetWindow() );
-  }
-}
+/*
+  EndClass wxToolBarBase
+*/

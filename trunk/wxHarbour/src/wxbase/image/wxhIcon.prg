@@ -29,8 +29,15 @@ PUBLIC:
 
   CONSTRUCTOR New( name )
 
+  METHOD CopyFromBitmap( bitmap )
+  METHOD GetDepth()
+  METHOD GetHeight()
+  METHOD GetWidth()
   METHOD IsOk
   METHOD LoadFile( name, type )
+  METHOD SetDepth( depth )
+  METHOD SetHeight( height )
+  METHOD SetWidth( width )
 
 PUBLISHED:
 ENDCLASS

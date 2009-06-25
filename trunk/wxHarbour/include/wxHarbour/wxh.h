@@ -129,10 +129,13 @@ HB_FUNC_EXTERN( WXSOCKETEVENT );
 HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 
+void		  wxh_itemReturn( wxObject* wxObj );
 wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
+wxString	  wxh_parc( int param );
+void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 
 wxString      wxh_CTowxString( const char * szStr, bool convOEM = false );
@@ -142,14 +145,12 @@ wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
+const char*	  wxh_wxStringToC( const wxString& string );
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
 /* generic qoutf for debug output */
 void qoutf( const char* format, ... );
-
-/* string manipulation */
-wxString wxh_parc( int param );
 
 /*
   template for send event handling to harbour objects

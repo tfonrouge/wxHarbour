@@ -178,7 +178,7 @@ HB_FUNC( WXNOTEBOOK_GETCURRENTPAGE )
 
   if( noteBook )
   {
-    hb_itemReturn( wxh_ItemListGet_HB( noteBook->GetCurrentPage() ) );
+    wxh_itemReturn( noteBook->GetCurrentPage() );
   }
 }
 
@@ -195,7 +195,7 @@ HB_FUNC( WXNOTEBOOK_GETIMAGELIST )
   if( noteBook )
   {
     /* TODO: Check why it's neccesary to cast to wxObject* */
-    hb_itemReturn( wxh_ItemListGet_HB( (wxObject *) noteBook->GetImageList() ) ); 
+    wxh_itemReturn( (wxObject *) noteBook->GetImageList() ); 
   }
 }
 
@@ -211,7 +211,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGE )
 
   if( noteBook )
   {
-    hb_itemReturn( wxh_ItemListGet_HB( noteBook->GetPage( hb_parni( 1 ) ) ) );
+    wxh_itemReturn( noteBook->GetPage( hb_parni( 1 ) ) );
   }
 }
 

@@ -630,8 +630,7 @@ HB_FUNC( WXGRID_GETTABLE )
     wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
     if( gridTable )
     {
-      PHB_ITEM pGridTableBase = wxh_ItemListGet_HB( gridTable );
-      hb_itemReturn( pGridTableBase );
+	  wxh_itemReturn( gridTable );
     }
   }
 }

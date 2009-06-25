@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wx_Frame: Implementation
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -24,7 +24,7 @@
 
 /*
   Constructor
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
@@ -32,8 +32,29 @@ wx_Frame::wx_Frame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 }
 
 /*
+  wx_Frame::OnCreateToolBar
+  Teo. Mexico 2009
+ */
+wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString& name )
+{
+  PHB_ITEM pStyle = hb_itemPutNL( NULL, style );
+  PHB_ITEM pId = hb_itemPutNI( NULL, id );
+  PHB_ITEM pName = hb_itemPutC( NULL, wxh_wxStringToC( name ) );
+    
+  hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
+
+  wx_ToolBar* toolBar = (wx_ToolBar *) wxh_ItemListGet_WX( hb_stackReturnItem() );
+  
+  hb_itemRelease( pStyle );
+  hb_itemRelease( pId );
+  hb_itemRelease( pName );
+  
+  return toolBar;
+}
+
+/*
   Constructor: Object
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 HB_FUNC( WXFRAME_NEW )
 {
@@ -60,14 +81,13 @@ HB_FUNC( WXFRAME_NEW )
 }
 
 /*
-  wxFrame::Centre( int direction = wxBOTH )
-  Teo. Mexico 2006
-*/
+ wxFrame::Centre( int direction = wxBOTH )
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXFRAME_CENTRE )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( pSelf );
-
+  wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
   if( frame )
   {
     int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
@@ -76,8 +96,25 @@ HB_FUNC( WXFRAME_CENTRE )
 }
 
 /*
-  SetMenuBar: message
-  Teo. Mexico 2006
+ wxFrame:CreateToolBar
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXFRAME_CREATETOOLBAR )
+{
+  wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( frame )
+  {
+	long style = ISNIL( 1 ) ? wxTB_FLAT | wxTB_HORIZONTAL : hb_parnl( 1 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+	const wxString& name = ISNIL( 3 ) ? _T("toolBar") : wxh_parc( 3 );
+	wxh_itemReturn( frame->CreateToolBar( style, id, name ) );
+  }
+}
+
+/*
+  SetMenuBar
+  Teo. Mexico 2009
 */
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
@@ -95,8 +132,8 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 }
 
 /*
-  SetStatusBar: message
-  Teo. Mexico 2006
+  SetStatusBar
+  Teo. Mexico 2009
 */
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {

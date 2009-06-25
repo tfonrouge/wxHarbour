@@ -107,7 +107,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 
   if( auiNotebook )
   {
-    hb_itemReturn( wxh_ItemListGet_HB( auiNotebook->GetPage( hb_parnl( 1 ) ) ) );
+	wxh_itemReturn( auiNotebook->GetPage( hb_parnl( 1 ) ) );
   }
 }
 

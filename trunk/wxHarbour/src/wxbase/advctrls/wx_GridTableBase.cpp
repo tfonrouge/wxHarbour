@@ -348,7 +348,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
     wx_Grid* grid = (wx_Grid *) gridTable->GetView();
     if( grid )
     {
-      hb_itemReturn( wxh_ItemListGet_HB( grid ) );
+	  wxh_itemReturn( grid );
     }
   }
 }

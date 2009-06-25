@@ -10,22 +10,13 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-  wx_FocusEvent: Implementation
-  Teo. Mexico 2009
-*/
+//----------------------------------------------------------------------------
+// button.ch
+//----------------------------------------------------------------------------
 
-#include "wx/wx.h"
+#ifndef _WXH_BUTTON_CH_BASE_
+#define _WXH_BUTTON_CH_BASE_
 
-#include "wxh.h"
+#define wxBU_AUTODRAW	  0x0004
 
-HB_FUNC( WXFOCUSEVENT_GETWINDOW )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGet_WX( pSelf );
-
-  if( event )
-  {
-    wxh_itemReturn( event->GetWindow() );
-  }
-}
+#endif
