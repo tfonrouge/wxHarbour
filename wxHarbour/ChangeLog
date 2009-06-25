@@ -2,6 +2,22 @@
  *
  */
 
+2009-06-25 16:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/bitmapButton/bitmapButton.prg
+    * modified sample
+
+  * src/common/wxhfuncs.prg
+    + __wxh_GetBitmapResource() to automate the load of a bitmap
+    ! Fixed error on Linux that xpm/bpm (tested) images doesn't load
+      ok if specified on New:
+        wxBitmap():New( "image.xpm", wxBITMAP_TYPE_XPM )
+      instead we need to use
+        wxBitmap:Load( "image.xpm", wxBITMAP_TYPE_XPM )
+      ; TODO: Check if this is a bug in wxWidgets GTK
+
+  * src/raddox/TTable.prg
+    * minor code cleanup
+
 2009-06-25 12:54 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/toolbar/wx_ToolBar.cpp
     ! Fixed Linux compiling error

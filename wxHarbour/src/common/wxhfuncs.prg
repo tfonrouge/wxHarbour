@@ -170,7 +170,7 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
   ELSE
     wxhBrw:AddColumn( column )
   ENDIF
-  
+
   IF type != NIL
     type := Upper( type )
     DO CASE
@@ -198,21 +198,30 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
-  
+
   IF bmp != NIL
     SWITCH ValType( bmp )
 	CASE 'C'
+	  bitmap := wxBitmap():New()
 	  IF Upper( Right( bmp, 3 ) ) == "XPM"
-	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_XPM )
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
+	  ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
+	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
 	  ENDIF
-	  IF Upper( Right( bmp, 3 ) ) == "BMP"
-	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_BMP )
-	  ENDIF
-	  IF Upper( Right( bmp, 3 ) ) == "GIF"
-	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_GIF )
-	  ENDIF
-	  IF Upper( Right( bmp, 3 ) ) == "XBM"
-	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_XBM )
+	  EXIT
+	CASE 'O'
+	  IF bmp:IsDerivedFrom("wxBitmap")
+	    bitmap := bmp
 	  ENDIF
 	  EXIT
 	END
@@ -464,7 +473,7 @@ FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, 
       style := _hb_BitOr( wxTE_MULTILINE, style )
     ENDIF
   ENDIF
-  
+
   __wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
 
   Result := wxHBTextCtrl():New( window, id, wxhGet, pos, size, style, validator, name, picture, warn, toolTip, bAction )
@@ -699,7 +708,7 @@ FUNCTION __wxh_SAY( window, id, label, pos, size, style, name )
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
-  
+
   __wxh_TransWidth( NIL, window, Len( label ), size )
 
   Result := wxStaticText():New( window, id, label, pos, size, style, name )
@@ -921,7 +930,7 @@ RETURN
  */
 PROCEDURE __wxh_Spacer( width, height, strech, align, border )
   LOCAL lastSizer
-  
+
   containerObj():SizerAddOnLastChild()
 
   lastSizer := containerObj():LastSizer()
@@ -1074,7 +1083,7 @@ RETURN
 */
 STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
   LOCAL pointSize
-  
+
   IF window != NIL
 
 	pointSize := window:GetPointSize() - 3
@@ -1082,7 +1091,7 @@ STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
 	IF aSize != NIL
 	  width := aSize[ 1 ]
 	ENDIF
-	
+
 	IF width = NIL
 	  width := -1
 	ENDIF
@@ -1092,13 +1101,13 @@ STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
 	ELSEIF ( width = NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
 	  width := pointSize * defaultWidth
 	ENDIF
-	
+
 	IF aSize != NIL
 	  aSize[ 1 ] := width
 	ENDIF
 
   ENDIF
-  
+
 RETURN width
 
 /*
