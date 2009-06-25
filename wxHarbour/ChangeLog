@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-25 12:54 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/toolbar/wx_ToolBar.cpp
+    ! Fixed Linux compiling error
+
 2009-06-25 12:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.gcc
