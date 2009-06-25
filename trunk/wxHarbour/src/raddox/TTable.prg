@@ -903,7 +903,7 @@ METHOD GetAsString() CLASS TTable
   IF pkField = NIL
     RETURN ""
   ENDIF
-  
+
 RETURN pkField:AsString
 
 /*
@@ -916,7 +916,7 @@ METHOD GetAsVariant() CLASS TTable
   IF pkField = NIL
     RETURN NIL
   ENDIF
-  
+
 RETURN pkField:Value
 
 /*
