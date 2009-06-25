@@ -26,6 +26,39 @@ CLASS wxBitmap FROM wxGDIObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
+
+  /*
+	Implemented:
+	wxBitmap()									  -> New()
+	wxBitmap( const char* const* bits )			  -> New( xpmData )
+	wxBitmap( const wxString& name, long type )	  -> New( file/resourceName, type )
+  */
+  CONSTRUCTOR New()
+  
+  METHOD AddHandler( handler )
+  METHOD CleanUpHandlers()
+  METHOD ConvertToImage()
+  METHOD CopyFromIcon( icon )
+//METHOD FindHandler()
+  METHOD GetDepth()
+//METHOD GetHandlers()
+  METHOD GetHeight()
+  METHOD GetPalette()
+  METHOD GetMask()
+  METHOD GetWidth()
+//METHOD GetSubBitmap( rect )
+  METHOD InitStandardHandlers()
+  METHOD InsertHandler( handler )
+  METHOD LoadFile( name, type )
+  METHOD IsOk()
+  METHOD RemoveHandler( name )
+  METHOD SaveFile( name, type, palette )
+  METHOD SetDepth( depth )
+  METHOD SetHeight( height )
+  METHOD SetMask( mask )
+  METHOD SetPalette( palette )
+  METHOD SetWidth( width )
+
 PUBLISHED:
 ENDCLASS
 

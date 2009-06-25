@@ -338,19 +338,28 @@ void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 {
   PHB_ITEM pSelf = NULL;
-  wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( wxObj );
-
-  if( pWxh_Item )
+  
+  if( wxObj )
   {
-    pSelf = pWxh_Item->pSelf;
-    if( hb_itemType( pSelf ) != HB_IT_OBJECT )
-      pSelf = NULL;
+	wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( wxObj );
+	
+	if( pWxh_Item )
+	{
+	  pSelf = pWxh_Item->pSelf;
+	  if( hb_itemType( pSelf ) != HB_IT_OBJECT )
+		pSelf = NULL;
+	}
+	else {
+	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
+	  const char *ascii = clsName.ToAscii();
+	  qoutf("wxh_ItemListGet_HB: %s", ascii );
+	}
+	
+	//   if( pSelf == NULL )
+	//   {
+	//     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+	//   }
   }
-
-//   if( pSelf == NULL )
-//   {
-//     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-//   }
 
   return pSelf;
 }
@@ -417,6 +426,15 @@ void wxh_ItemListReleaseAll()
     delete it->second;
     //wxh_ItemListDel_WX( it->first );
   }
+}
+
+/*
+ wxh_itemReturn
+ Teo. Mexico 2009
+ */
+void wxh_itemReturn( wxObject *wxObj )
+{
+  hb_itemReturn( wxh_ItemListGet_HB( wxObj ) );  
 }
 
 /*
@@ -536,12 +554,25 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
 }
 
 /*
-  wxh_parc
-  Teo. Mexico 2009
-*/
+ wxh_parc
+ Teo. Mexico 2009
+ */
 wxString wxh_parc( int param )
 {
   return wxh_CTowxString( hb_parc( param ) );
+}
+
+/*
+ wxh_ret_wxSize
+ Teo. Mexico 2009
+ */
+void wxh_ret_wxSize( wxSize* size )
+{
+  PHB_ITEM pSize = hb_itemNew( NULL );
+  hb_arrayNew( pSize, 2 );
+  hb_arraySetNI( pSize, 1, size->GetWidth() );
+  hb_arraySetNI( pSize, 2, size->GetHeight() );
+  hb_itemReturnRelease( pSize );  
 }
 
 /*
@@ -550,7 +581,16 @@ wxString wxh_parc( int param )
  */
 void wxh_retc( const wxString & string )
 {
-  hb_retc( string.mb_str( wxConvUTF8 ) );
+  hb_retc( wxh_wxStringToC( string ) );
+}
+
+/*
+  wxh_wxStringToC
+  Teo. Mexico 2009
+ */
+const char* wxh_wxStringToC( const wxString& string )
+{
+  return string.mb_str( wxConvUTF8 );
 }
 
 /*

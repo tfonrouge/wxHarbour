@@ -28,7 +28,7 @@ HB_FUNC( WXMENUEVENT_GETMENU )
   wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menuEvent )
-    hb_itemReturn( wxh_ItemListGet_HB( menuEvent->GetMenu() ) );
+    wxh_itemReturn( menuEvent->GetMenu() );
 }
 
 /*

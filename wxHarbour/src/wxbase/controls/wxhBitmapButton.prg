@@ -11,21 +11,39 @@
 */
 
 /*
-  wx_FocusEvent: Implementation
+  wxBitmapButton
   Teo. Mexico 2009
 */
 
-#include "wx/wx.h"
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx.ch"
 
-#include "wxh.h"
+/*
+  wxBitmapButton
+  Teo. Mexico 2009
+*/
+CLASS wxBitmapButton FROM wxButton
+PRIVATE:
+PROTECTED:
+PUBLIC:
 
-HB_FUNC( WXFOCUSEVENT_GETWINDOW )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGet_WX( pSelf );
+  CONSTRUCTOR New( parent, id, bitmap, pos, size, style, validator, name )
 
-  if( event )
-  {
-    wxh_itemReturn( event->GetWindow() );
-  }
-}
+  METHOD GetBitmapDisabled()
+  METHOD GetBitmapFocus()
+  METHOD GetBitmapHover()
+  METHOD GetBitmapLabel()
+  METHOD GetBitmapSelected()
+  METHOD SetBitmapDisabled( bitmap )
+  METHOD SetBitmapFocus( bitmap )
+  METHOD SetBitmapHover( bitmap )
+  METHOD SetBitmapLabel( bitmap )
+  METHOD SetBitmapSelected( bitmap )
+
+PUBLISHED:
+ENDCLASS
+
+/*
+  EndClass wxBitmapButton
+*/

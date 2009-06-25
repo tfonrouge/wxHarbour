@@ -2,6 +2,134 @@
  *
  */
 
+2009-06-25 12:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+  + include/wxHarbour/wxbase/wx_Bitmap.h
+  + include/wxHarbour/wxbase/wx_BitmapButton.h
+  + include/wxHarbour/wxbase/wx_ToolBar.h
+  + include/wxHarbour/wxh/button.ch
+  + src/wxbase/controls/wx_BitmapButton.cpp
+  + src/wxbase/controls/wxhBitmapButton.prg
+  + src/wxbase/image/wx_Bitmap.cpp
+  + src/wxbase/toolbar
+  + src/wxbase/toolbar/wx_ToolBar.cpp
+  + src/wxbase/toolbar/wxhToolBar.prg
+  + src/wxbase/toolbar/wxhToolBarBase.prg
+    + added classes:
+      + wxBitmapButton
+      + wxToolBar
+      + wxToolBarBase
+    * extended classes (near full methods implemented)
+      + wxBitmap
+      
+  * include/wxHarbour/wxbase/wx_Button.h
+    * minor code cleanup
+
+  * include/wxHarbour/wxbase/wx_Frame.h
+  * src/wxbase/manwindows/wx_Frame.cpp
+  * src/wxbase/manwindows/wxhFrame.prg
+    + added methods
+      + CreateToolBar
+      + OnCreateToolBar
+      
+  * include/wxHarbour/wxh.h
+    + added:
+      void wxh_itemReturn( wxObject* )
+        * does hb_itemReturn()
+	  TODO: implement creation of HBClass obj if it does not exist
+      void wxh_ret_wxSize( wxSize* )
+        * returns hb array
+      const char* wxh_wxStringToC( const wxString& )
+        * converts wxString to a const char buffer
+
+  * include/wxHarbour/wxharbour.ch
+    * added BITMAP clause to @ BUTTON command, it accepts string of
+      resource filename bitmap (currently xpm, bmp, gif, ico)
+    * added command BEGIN TOOLBAR
+      ; work in progress
+
+  * src/common/wx_harbour.cpp
+    * wxh_ItemListGet_HB()  added protection for GPF on invalid parameter
+      TODO: add automatic creation of HB object if it does not exist
+    * wxh_itemReturn, wxh_ret_wxSize, wxh_wxStringToC. Implementation.
+
+  * src/common/wxhfuncs.prg
+    * added code to create wxBitmap obj from filename on @ BUTTON command
+    * early implementarion of BEGIN TOOLBAR
+      ; work in progress
+
+
+  * src/wxbase/advctrls/wx_Grid.cpp
+  * src/wxbase/advctrls/wx_GridTableBase.cpp
+  * src/wxbase/app/wx_App.cpp
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/books/wx_AuiNotebook.cpp
+  * src/wxbase/books/wx_Notebook.cpp
+  * src/wxbase/controls/wx_SearchCtrl.cpp
+  * src/wxbase/events/wx_Event.cpp
+  * src/wxbase/events/wx_FocusEvent.cpp
+  * src/wxbase/events/wx_MenuEvent.cpp
+  * src/wxbase/events/wx_SocketEvent.cpp
+    * using wxh_itemReturn()    
+
+  * src/wxbase/image/wx_Icon.cpp
+  * src/wxbase/image/wxhIcon.prg
+    + added methods:
+      + CopyFromBitmap
+      + GetDepth
+      + GetHeight
+      + GetWidth
+      + SetDepth
+      + SetHeight
+      + SetWidth
+
+  * src/wxbase/image/wxhBitmap.prg
+    + added methods:
+      + AddHandler
+      + CleanUpHandlers
+      + ConvertToImage
+      + CopyFromIcon
+      + GetDepth
+      + GetHeight
+      + GetPalette
+      + GetMask
+      + GetWidth
+      + InitStandardHandlers
+      + InsertHandler
+      + LoadFile
+      + IsOk
+      + RemoveHandler
+      + SaveFile
+      + SetDepth
+      + SetHeight
+      + SetMask
+      + SetPalette
+      + SetWidth  
+  
+  + samples/bitmapButton
+  + samples/bitmapButton/GNUmakefile
+  + samples/bitmapButton/bitmap2.bmp
+  + samples/bitmapButton/bitmapButton.prg
+  + samples/bitmapButton/fileopen.xpm
+  + samples/bitmapButton/find.xpm
+  + samples/bitmapButton/makefile.gcc
+  + samples/bitmapButton/makefile.vc
+  + samples/bitmapButton/print.xpm
+  + samples/bitmapButton/quit.xpm
+    * sample for wxBitmapButton
+
+  + samples/toolbar
+  + samples/toolbar/GNUmakefile
+  + samples/toolbar/fileopen.xpm
+  + samples/toolbar/helpicon.xpm
+  + samples/toolbar/makefile.gcc
+  + samples/toolbar/makefile.vc
+  + samples/toolbar/toolbar.prg
+    * sample for wxToolBar
+
 2009-06-22 15:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/controls/wx_ComboBox.cpp
     * added missing source in previous commit

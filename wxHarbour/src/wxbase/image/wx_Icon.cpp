@@ -73,13 +73,70 @@ HB_FUNC( WXICON_NEW )
 }
 
 /*
-  wxIcon:IsOk
-  Teo. Mexico 2009
-*/
+ wxIcon:CopyFromBitmap
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_COPYFROMBITMAP )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+	const wxBitmap& bitmap = *(wxBitmap *) wxh_par_WX( 1 );
+    icon->CopyFromBitmap( bitmap );
+  }
+}
+
+/*
+ wxIcon:GetDepth
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_GETDEPTH )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    hb_retni( icon->GetDepth() );
+  }
+}
+
+/*
+ wxIcon:GetHeight
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_GETHEIGHT )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    hb_retni( icon->GetHeight() );
+  }
+}
+
+/*
+ wxIcon:GetWidth
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_GETWIDTH )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    hb_retni( icon->GetWidth() );
+  }
+}
+
+/*
+ wxIcon:IsOk
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXICON_ISOK )
 {
   wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
+  
   if( icon )
   {
     hb_retl( icon->IsOk() );
@@ -103,3 +160,44 @@ HB_FUNC( WXICON_LOADFILE )
   }
 }
 
+/*
+ wxIcon:SetDepth
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_SETDEPTH )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    icon->SetDepth( hb_parni( 1 ) );
+  }
+}
+
+/*
+ wxIcon:SetHeight
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_SETHEIGHT )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    icon->SetHeight( hb_parni( 1 ) );
+  }
+}
+
+/*
+ wxIcon:SetWidth
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXICON_SETWIDTH )
+{
+  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( icon )
+  {
+    icon->SetWidth( hb_parni( 1 ) );
+  }
+}

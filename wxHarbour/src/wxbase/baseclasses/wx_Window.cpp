@@ -100,7 +100,7 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( wnd )
-    hb_itemReturn( wxh_ItemListGet_HB( wnd->FindFocus() ) );
+	wxh_itemReturn( wnd->FindFocus() );
 }
 
 /*
@@ -117,8 +117,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
     long id = hb_parnl(1);
     wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result = wnd->FindWindowById( id, parent );
-    if( result )
-      hb_itemReturn( wxh_ItemListGet_HB( result ) );
+	wxh_itemReturn( result );
   }
 }
 
@@ -136,8 +135,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
     const wxString& label = wxh_parc( 1 );
     wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result =  wnd->FindWindowByLabel( label, parent );
-    if( result )
-      hb_itemReturn( wxh_ItemListGet_HB( result ) );
+	wxh_itemReturn( result );
   }
 }
 
@@ -155,8 +153,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
     const wxString& name = wxh_parc( 1 );
     wxWindow* parent = (wxWindow *) objParams.param( 2 );
     wxWindow* result =  wnd->FindWindowByName( name, parent );
-    if( result )
-      hb_itemReturn( wxh_ItemListGet_HB( result ) );
+	wxh_itemReturn( result );
   }
 }
 
@@ -266,7 +263,7 @@ HB_FUNC( WXWINDOW_GETPARENT )
     wxWindow* parent =  wnd->GetParent();
     if( parent )
     {
-      hb_itemReturn( wxh_ItemListGet_HB( parent ) );
+	  wxh_itemReturn( parent );
     }
   }
 }
@@ -296,7 +293,7 @@ HB_FUNC( WXWINDOW_GETSIZER )
     wxSizer* sizer =  wnd->GetSizer();
     if( sizer )
     {
-      hb_itemReturn( wxh_ItemListGet_HB( sizer ) );
+	  wxh_itemReturn( sizer );
     }
   }
 }

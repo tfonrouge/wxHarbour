@@ -20,6 +20,8 @@
 #include "wx.ch"
 
 #include "wxh/textctrl.ch"
+#include "wxh/bitmap.ch"
+#include "wxh/button.ch"
 
 #include "wxharbour.ch"
 
@@ -189,14 +191,43 @@ RETURN
   __wxh_Button
   Teo. Mexico 2008
 */
-FUNCTION __wxh_Button( window, id, label, pos, size, style, validator, name, default, bAction )
+FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name, default, bAction )
   LOCAL button
+  LOCAL bitmap
 
   IF window = NIL
     window := containerObj():LastParent()
   ENDIF
+  
+  IF bmp != NIL
+    SWITCH ValType( bmp )
+	CASE 'C'
+	  IF Upper( Right( bmp, 3 ) ) == "XPM"
+	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_XPM )
+	  ENDIF
+	  IF Upper( Right( bmp, 3 ) ) == "BMP"
+	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_BMP )
+	  ENDIF
+	  IF Upper( Right( bmp, 3 ) ) == "GIF"
+	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_GIF )
+	  ENDIF
+	  IF Upper( Right( bmp, 3 ) ) == "XBM"
+	    bitmap := wxBitmap():New( bmp, wxBITMAP_TYPE_XBM )
+	  ENDIF
+	  EXIT
+	END
+  ENDIF
 
-  button := wxButton():New( window, id, label, pos, size, style, validator, name )
+  IF bitmap = NIL
+	button := wxButton():New( window, id, label, pos, size, style, validator, name )
+  ELSE
+	IF style = NIL
+	  style := wxBU_AUTODRAW
+	ELSE
+	  style := _hb_BitOr( style, wxBU_AUTODRAW )
+	ENDIF
+	button := wxBitmapButton():New( window, id, bitmap, pos, size, style, validator, name )
+  ENDIF
 
   IF bAction != NIL
     button:ConnectCommandEvt( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
@@ -1009,6 +1040,33 @@ FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
   containerObj():SetLastChild( staticText )
 
 RETURN staticText
+
+/*
+ * __wxh_ToolBarBegin
+ * Teo. Mexico 2008
+ */
+FUNCTION __wxh_ToolBarBegin( parent, id, pos, size, style, name )
+  LOCAL toolBar
+
+  IF parent = NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  toolBar := wxToolbar():New( parent, id, pos, size, style, name )
+
+  containerObj():SetLastChild( toolBar )
+
+  containerObj():AddToParentList( toolBar )
+
+RETURN toolBar
+
+/*
+  __wxh_ToolBarEnd
+  Teo. Mexico 2008
+*/
+PROCEDURE __wxh_ToolBarEnd()
+  containerObj():RemoveLastParent( "wxToolBar" )
+RETURN
 
 /*
   __wxh_TransWidth

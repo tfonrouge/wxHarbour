@@ -33,6 +33,7 @@
       src/wxbase/sizers
       src/wxbase/static
       src/wxbase/system
+      src/wxbase/toolbar
       src/wxbase/validators
       src/wxbase/xmlclasses
     </sources-at>

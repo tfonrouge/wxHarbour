@@ -29,9 +29,7 @@ HB_FUNC( WXEVENT_GETEVENTOBJECT )
 
   if( event )
   {
-    PHB_ITEM pObject = wxh_ItemListGet_HB( event->GetEventObject() );
-    if( pObject )
-      hb_itemReturn( pObject );
+	wxh_itemReturn( event->GetEventObject() );
   }
 }
 

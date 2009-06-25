@@ -152,6 +152,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhAuiNotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhListBook.o \
 	$(__BUILDDIR__)/wxHarbour_wxhNotebook.o \
+	$(__BUILDDIR__)/wxHarbour_wxhBitmapButton.o \
 	$(__BUILDDIR__)/wxHarbour_wxhButton.o \
 	$(__BUILDDIR__)/wxHarbour_wxhCheckBox.o \
 	$(__BUILDDIR__)/wxHarbour_wxhChoice.o \
@@ -203,6 +204,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhGauge.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticLine.o \
 	$(__BUILDDIR__)/wxHarbour_wxhFont.o \
+	$(__BUILDDIR__)/wxHarbour_wxhToolBar.o \
+	$(__BUILDDIR__)/wxHarbour_wxhToolBarBase.o \
 	$(__BUILDDIR__)/wxHarbour_wxhValidator.o \
 	$(__BUILDDIR__)/wxHarbour_wxhXmlDocument.o \
 	$(__BUILDDIR__)/wxHarbour_xdoutils.o \
@@ -230,6 +233,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_AuiNotebook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Listbook.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Notebook.o \
+	$(__BUILDDIR__)/wxHarbour_wx_BitmapButton.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Button.o \
 	$(__BUILDDIR__)/wxHarbour_wx_CheckBox.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Choice.o \
@@ -257,6 +261,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Timer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_Bitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Icon.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Frame.o \
@@ -279,6 +284,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Gauge.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticLine.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Font.o \
+	$(__BUILDDIR__)/wxHarbour_wx_ToolBar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)/wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HEADERS =  \
@@ -299,6 +305,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/auibook.ch \
 	include/wxHarbour/wxh/bitmap.ch \
 	include/wxHarbour/wxh/bookctrl.ch \
+	include/wxHarbour/wxh/button.ch \
 	include/wxHarbour/wxh/filedlg.ch \
 	include/wxHarbour/wxh/gauge.ch \
 	include/wxHarbour/wxh/gdicmn.ch \
@@ -503,6 +510,9 @@ $(__BUILDDIR__)/wxHarbour_wxhListBook.o: ./src/wxbase/books/wxhListBook.prg
 $(__BUILDDIR__)/wxHarbour_wxhNotebook.o: ./src/wxbase/books/wxhNotebook.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhBitmapButton.o: ./src/wxbase/controls/wxhBitmapButton.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhButton.o: ./src/wxbase/controls/wxhButton.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -656,6 +666,12 @@ $(__BUILDDIR__)/wxHarbour_wxhStaticLine.o: ./src/wxbase/static/wxhStaticLine.prg
 $(__BUILDDIR__)/wxHarbour_wxhFont.o: ./src/wxbase/system/wxhFont.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhToolBar.o: ./src/wxbase/toolbar/wxhToolBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
+$(__BUILDDIR__)/wxHarbour_wxhToolBarBase.o: ./src/wxbase/toolbar/wxhToolBarBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhValidator.o: ./src/wxbase/validators/wxhValidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -735,6 +751,9 @@ $(__BUILDDIR__)/wxHarbour_wx_Listbook.o: ./src/wxbase/books/wx_Listbook.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Notebook.o: ./src/wxbase/books/wx_Notebook.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_BitmapButton.o: ./src/wxbase/controls/wx_BitmapButton.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Button.o: ./src/wxbase/controls/wx_Button.cpp
@@ -818,6 +837,9 @@ $(__BUILDDIR__)/wxHarbour_wx_Timer.o: ./src/wxbase/events/wx_Timer.cpp
 $(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o: ./src/wxbase/events/wx_TimerEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
+$(__BUILDDIR__)/wxHarbour_wx_Bitmap.o: ./src/wxbase/image/wx_Bitmap.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
 $(__BUILDDIR__)/wxHarbour_wx_Icon.o: ./src/wxbase/image/wx_Icon.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
@@ -882,6 +904,9 @@ $(__BUILDDIR__)/wxHarbour_wx_StaticLine.o: ./src/wxbase/static/wx_StaticLine.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Font.o: ./src/wxbase/system/wx_Font.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_ToolBar.o: ./src/wxbase/toolbar/wx_ToolBar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Validator.o: ./src/wxbase/validators/wx_Validator.cpp

@@ -10,6 +10,8 @@
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
+#include "wxbase/wx_ToolBar.h"
+
 /*
   wx_Frame: Interface
   Teo. Mexico 2006
@@ -20,5 +22,6 @@ class wx_Frame : public hbWindow<wxFrame>
 private:
 protected:
 public:
-  wx_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
+  wx_Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint( -1, -1 ), const wxSize& size = wxSize( -1, -1 ), long style = wxDEFAULT_FRAME_STYLE, const wxString& name = wxT("") );
+  virtual wx_ToolBar* OnCreateToolBar( long style, wxWindowID id, const wxString& name );
 };

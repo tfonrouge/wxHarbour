@@ -60,7 +60,7 @@ HB_FUNC( WXSEARCHCTRL_GETMENU )
 
   if( searchCtrl )
   {
-    hb_itemReturn( wxh_ItemListGet_HB( searchCtrl->GetMenu() ) );
+    wxh_itemReturn( searchCtrl->GetMenu() );
   }
 }
 
