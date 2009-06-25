@@ -527,10 +527,12 @@ HB_FUNC( WXTOOLBAR_SETMARGINS )
 	{
 	  toolBar->SetMargins( hb_parni( 1 ), hb_parni( 2 ) );
 	}
+#if 0   // Compiles on MacOS, doesn't in Linux (wx 2.8.10)
 	else if( hb_pcount() == 1 )
 	{
 	  toolBar->SetMargins( wxh_par_wxSize( 1 ) );
 	}
+#endif
   }
 }
 
