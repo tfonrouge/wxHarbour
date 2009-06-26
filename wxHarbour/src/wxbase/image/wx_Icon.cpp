@@ -50,7 +50,7 @@ HB_FUNC( WXICON_NEW )
     break;
   case 1 :
     {
-      char * bits = hb_parc( 1 );
+      const char* bits = hb_parc( 1 );
       icon = new wx_Icon( &bits );
     }
     break;
