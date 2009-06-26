@@ -108,7 +108,10 @@ HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( toolBar )
-	wxh_itemReturn( toolBar->AddCheckTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), * (wxBitmap *) wxh_par_WX( 4 ), wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+  {
+	const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
+	wxh_itemReturn( toolBar->AddCheckTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+  }
 }
 
 /*
@@ -120,7 +123,10 @@ HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( toolBar )
-	wxh_itemReturn( toolBar->AddRadioTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), * (wxBitmap *) wxh_par_WX( 4 ), wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+  {
+	const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
+	wxh_itemReturn( toolBar->AddRadioTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+  }
 }
 
 /*

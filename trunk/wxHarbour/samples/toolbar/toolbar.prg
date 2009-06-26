@@ -36,20 +36,30 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL toolBar
+  LOCAL name := wxGetUserName()
+  LOCAL ch1
+  LOCAL cb1
 
   CREATE FRAME oWnd ;
          WIDTH 640 HEIGHT 400 ;
          TITLE "ToolBar Sample"
-		 
-  toolBar := oWnd:CreateToolBar()
-  toolBar:AddControl( wxTextCtrl():New( toolBar ) )
-  toolBar:AddSeparator()
-  toolBar:AddControl( wxChoice():New( toolBar ) )
-  toolBar:AddSeparator()
-  toolBar:AddTool( -1, "File Open", wxBitmap():New( "fileopen.xpm", wxBITMAP_TYPE_XPM ), wxBitmap():New() )
-  toolBar:AddTool( -1, "Help", wxBitmap():New( "helpicon.xpm", wxBITMAP_TYPE_XPM ), wxBitmap():New() )
-  toolBar:Realize()
+
+  BEGIN FRAME TOOLBAR
+	@ SAY "Your Name is:"
+	@ GET name
+	@ TOOL SEPARATOR
+	@ CHOICE ch1 ITEMS {"One","Two","Three"}
+	@ TOOL SEPARATOR
+	@ TOOL CHECK ID 500 LABEL "Check Tool" BITMAP "find.xpm" SHORTHELP "This is a Check Tool" LONGHELP "LongHelp" ACTION {|| wxMessageBox("","Check Tool Executed...") }
+	@ TOOL SEPARATOR
+	@ TOOL RADIO ID 900 BITMAP "find.xpm" SHORTHELP "Tool Radio 1" ACTION {|| wxMessageBox("Tool Radio 1") }
+	@ TOOL RADIO ID 901 BITMAP "find.xpm" SHORTHELP "Tool Radio 2" ACTION {|| wxMessageBox("Tool Radio 2") }
+	@ TOOL RADIO ID 902 BITMAP "find.xpm" SHORTHELP "Tool Radio 3" ACTION {|| wxMessageBox("Tool Radio 3") }
+	@ TOOL SEPARATOR
+	@ TOOL BUTTON ID 1000 BITMAP "find.xpm"  SHORTHELP "Tool Button" ACTION {|| wxMessageBox("","Tool Button Executed...") }
+	@ TOOL SEPARATOR
+	@ COMBOBOX cb1 ITEMS {"MacOS","Linux","Windows"}
+  END TOOLBAR
   
   DEFINE MENUBAR STYLE 1 ON oWnd
     DEFINE MENU "&File"
@@ -61,6 +71,6 @@ METHOD FUNCTION OnInit() CLASS MyApp
     ENDMENU
   ENDMENU
 
-  SHOW WINDOW oWnd CENTRE
+  SHOW WINDOW oWnd FIT CENTRE
 
 RETURN .T.
