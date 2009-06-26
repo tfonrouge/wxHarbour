@@ -40,7 +40,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
-         TITLE "Button Sample"
+         TITLE "BitmapButton Sample"
 
   DEFINE MENUBAR STYLE 1 ON oWnd
     DEFINE MENU "&File"
@@ -58,10 +58,10 @@ METHOD FUNCTION OnInit() CLASS MyApp
   BEGIN BOXSIZER HORIZONTAL
       @ BUTTON ID wxID_OPEN BITMAP bmp
       @ BUTTON ID wxID_CLOSE
-      @ BUTTON "CLOSE" ID wxID_NEW BITMAP "find.xpm" STYLE 4
+      @ BUTTON ID wxID_NEW BITMAP "find.xpm"
       @ BUTTON ID wxID_SAVE BITMAP "print.xpm"
       @ BUTTON ID wxID_CANCEL BITMAP "bitmap2.bmp"
-      @ BUTTON ID wxID_EXIT BITMAP "quit.xpm" ACTION oWnd:Close()
+      @ BUTTON ID wxID_EXIT BITMAP "quit.xpm" ACTION oWnd:Close() DEFAULT
   END SIZER
 
   SHOW WINDOW oWnd FIT CENTRE

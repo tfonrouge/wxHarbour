@@ -352,7 +352,7 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 	else {
 	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
 	  const char *ascii = clsName.ToAscii();
-	  qoutf("wxh_ItemListGet_HB: %s", ascii );
+	  qoutf("no wxh_Item: wxh_ItemListGet_HB: %s", ascii );
 	}
 	
 	//   if( pSelf == NULL )

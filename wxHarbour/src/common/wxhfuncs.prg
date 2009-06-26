@@ -1,5 +1,5 @@
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -7,12 +7,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wxhFuncs
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 
 #include "hbclass.ch"
@@ -52,7 +52,7 @@ ENDCLASS
 
 /*
   ContainerObj
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION ContainerObj
   IF containerObj = NIL
@@ -62,7 +62,7 @@ RETURN containerObj
 
 /*
   __wxh_BookAddPage
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_BookAddPage( title, select, imageId )
 
@@ -72,7 +72,7 @@ RETURN
 
 /*
   __wxh_BookBegin
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
   LOCAL book
@@ -91,7 +91,7 @@ RETURN book
 
 /*
   __wxh_BookEnd
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_BookEnd( book )
   containerObj():RemoveLastParent( book )
@@ -99,7 +99,7 @@ RETURN
 
 /*
  * __wxh_BoxSizerBegin
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 FUNCTION __wxh_BoxSizerBegin( parent, label, orient, strech, align, border, sideBorders )
   LOCAL sizer
@@ -130,7 +130,7 @@ RETURN sizer
 
 /*
   __wxh_Browse
-  Teo. Mexico 2008
+  Teo. Mexico 2009
  */
 FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
   LOCAL wxhBrw
@@ -157,7 +157,7 @@ RETURN wxhBrw
 
 /*
   __wxh_BrowseAddColumn
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp )
   LOCAL column := wxhBColumn():New( title, block )
@@ -189,7 +189,7 @@ RETURN
 
 /*
   __wxh_Button
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name, default, bAction )
   LOCAL button
@@ -200,31 +200,7 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
   ENDIF
 
   IF bmp != NIL
-    SWITCH ValType( bmp )
-	CASE 'C'
-	  bitmap := wxBitmap():New()
-	  IF Upper( Right( bmp, 3 ) ) == "XPM"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
-	  ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
-	    bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
-	  ENDIF
-	  EXIT
-	CASE 'O'
-	  IF bmp:IsDerivedFrom("wxBitmap")
-	    bitmap := bmp
-	  ENDIF
-	  EXIT
-	END
+	bitmap := __wxh_GetBitmapResource( bmp )
   ENDIF
 
   IF bitmap = NIL
@@ -273,7 +249,7 @@ RETURN checkBox
 
 /*
   __wxh_Gauge
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type )
   LOCAL gauge
@@ -297,8 +273,46 @@ FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type
 RETURN gauge
 
 /*
+  __wxh_GetBitmapResource
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_GetBitmapResource( bmp )
+  LOCAL bitmap
+
+  SWITCH ValType( bmp )
+  CASE 'C'
+	bitmap := wxBitmap():New()
+	IF Upper( Right( bmp, 3 ) ) == "XPM"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
+	ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
+	ELSE
+	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_ANY )
+	ENDIF
+	EXIT
+  CASE 'O'
+	IF bmp:IsDerivedFrom("wxBitmap")
+	  bitmap := bmp
+	ENDIF
+	EXIT
+  END
+
+RETURN bitmap
+
+
+/*
   __wxh_Grid
-  Teo. Mexico 2008
+  Teo. Mexico 2009
  */
 FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
   LOCAL grid
@@ -382,7 +396,7 @@ RETURN comboBox
 
 /*
   __wxh_Dialog
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, onClose, initDlg )
   LOCAL dlg
@@ -410,7 +424,7 @@ RETURN dlg
 
 /*
   __wxh_Frame
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, onClose )
   LOCAL oWnd
@@ -457,7 +471,7 @@ RETURN oWnd
 
 /*
  * __wxh_GET
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip, bAction )
   LOCAL Result
@@ -484,7 +498,7 @@ RETURN Result
 
 /*
  * __wxh_GridSizerBegin
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sideBorders )
   LOCAL sizer
@@ -529,7 +543,7 @@ RETURN listCtrl
 
 /*
   __wxh_MenuBarBegin
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_MenuBarBegin( window, style )
   menuData := TGlobal():New()
@@ -544,7 +558,7 @@ RETURN menuData:g_menuBar
 
 /*
   __wxh_MenuBegin
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_MenuBegin( title, evtHandler )
   LOCAL hData := {=>}
@@ -568,7 +582,7 @@ RETURN menu
 
 /*
   __wxh_MenuEnd
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_MenuEnd
   LOCAL hData
@@ -613,7 +627,7 @@ RETURN
 
 /*
   __wxh_MenuItemAdd
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   LOCAL menu
@@ -669,7 +683,7 @@ RETURN menuItem
 
 /*
  * __wxh_PanelBegin
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled )
   LOCAL panel
@@ -692,7 +706,7 @@ RETURN panel
 
 /*
   __wxh_PanelEnd
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_PanelEnd
   containerObj():RemoveLastParent( "wxPanel" )
@@ -700,7 +714,7 @@ RETURN
 
 /*
  * __wxh_SAY
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 FUNCTION __wxh_SAY( window, id, label, pos, size, style, name )
   LOCAL Result
@@ -719,7 +733,7 @@ RETURN Result
 
 /*
   __wxh_ScrollBar
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
   LOCAL sb
@@ -747,7 +761,7 @@ RETURN sb
 
 /*
   __wxh_SetSizer
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_SetSizer( window, sizer )
   LOCAL bookCtrl
@@ -769,7 +783,7 @@ RETURN
 
 /*
   __wxh_ShowWindow : shows wxFrame/wxDialog
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
   LOCAL Result
@@ -809,7 +823,7 @@ RETURN Result
 
 /*
  * __wxh_SizerInfoAdd
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
   LOCAL sizerInfo
@@ -918,7 +932,7 @@ RETURN
 
 /*
  * __wxh_SizerEnd
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 PROCEDURE __wxh_SizerEnd
   containerObj():RemoveLastSizer()
@@ -926,7 +940,7 @@ RETURN
 
 /*
  * __wxh_Spacer
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
 PROCEDURE __wxh_Spacer( width, height, strech, align, border )
   LOCAL lastSizer
@@ -972,7 +986,7 @@ RETURN
 
 /*
   __wxh_SpinCtrl
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_SpinCtrl( parent, id, value, pos, size, style, min, max, initial, name, bAction )
   LOCAL spinCtrl
@@ -993,7 +1007,7 @@ RETURN spinCtrl
 
 /*
   __wxh_StatusBar
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
   LOCAL sb
@@ -1018,7 +1032,7 @@ RETURN sb
 
 /*
   __wxh_StaticLine
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_StaticLine( window, id, pos, orient, name )
   LOCAL sl
@@ -1035,7 +1049,7 @@ RETURN sl
 
 /*
   __wxh_StaticText
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
   LOCAL staticText
@@ -1051,17 +1065,61 @@ FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
 RETURN staticText
 
 /*
+  __wxh_ToolAdd
+  Teo. Mexico 2009
+*/
+PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, bAction )
+  LOCAL toolBar
+  LOCAL bitmap1, bitmap2
+  
+  toolBar := containerObj:LastParent()
+  
+  bitmap1 := __wxh_GetBitmapResource( bmp1 )
+  bitmap2 := __wxh_GetBitmapResource( bmp2 )
+  
+  IF type == "CHECK"
+    toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+  ELSEIF type == "RADIO"
+    toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+  ELSEIF type == "BUTTON"
+	toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
+  ENDIF
+  
+  IF bAction != NIL
+	toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+  ENDIF
+
+RETURN
+
+/*
+  __wxh_ToolAddSeparator
+  Teo. Mexico 2009
+*/
+PROCEDURE __wxh_ToolAddSeparator()
+  LOCAL toolBar
+  
+  toolBar := containerObj():LastParent()
+  
+  toolBar:AddSeparator()
+
+RETURN
+
+/*
  * __wxh_ToolBarBegin
- * Teo. Mexico 2008
+ * Teo. Mexico 2009
  */
-FUNCTION __wxh_ToolBarBegin( parent, id, pos, size, style, name )
+FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
   LOCAL toolBar
 
   IF parent = NIL
     parent := containerObj():LastParent()
   ENDIF
-
-  toolBar := wxToolbar():New( parent, id, pos, size, style, name )
+  
+  IF toFrame == .T.
+	toolBar := parent:CreateToolBar( style, id, name )
+  ELSE
+	toolBar := wxToolbar():New( parent, id, pos, size, style, name )
+  ENDIF
 
   containerObj():SetLastChild( toolBar )
 
@@ -1071,10 +1129,16 @@ RETURN toolBar
 
 /*
   __wxh_ToolBarEnd
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE __wxh_ToolBarEnd()
+  LOCAL toolBar
+  
+  toolBar := containerObj():LastParent()
+  toolBar:Realize()
+
   containerObj():RemoveLastParent( "wxToolBar" )
+
 RETURN
 
 /*
@@ -1112,7 +1176,7 @@ RETURN width
 
 /*
   __wxh_TextCtrl
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_TextCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
   LOCAL textCtrl
@@ -1141,7 +1205,7 @@ RETURN textCtrl
 
 /*
   __wxh_SearchCtrl
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 FUNCTION __wxh_SearchCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
   LOCAL searchCtrl
@@ -1170,7 +1234,7 @@ RETURN searchCtrl
 
 /*
   __wxh_TreeCtrl
-  Teo. Mexico 2008
+  Teo. Mexico 2009
  */
 FUNCTION __wxh_TreeCtrl( window, id, pos, size, style, validator, name )
   LOCAL Result
@@ -1187,7 +1251,7 @@ RETURN Result
 
 /*
   wxhInspectVar
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 PROCEDURE wxhInspectVar( xVar )
   LOCAL oDlg
@@ -1245,7 +1309,7 @@ RETURN
 
 /*
   TContainerObj
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 CLASS TContainerObj
 PRIVATE:
@@ -1274,7 +1338,7 @@ ENDCLASS
 
 /*
   AddSizerInfoToLastItem
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE AddSizerInfoToLastItem( sizerInfo ) CLASS TContainerObj
 
@@ -1292,7 +1356,7 @@ RETURN
 
 /*
   AddToNextBookPage
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE AddToNextBookPage( hInfo ) CLASS TContainerObj
   LOCAL bookCtrl
@@ -1315,7 +1379,7 @@ RETURN
 
 /*
   AddToParentList
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
   IF parent:IsDerivedFrom( "wxFrame" ) .OR. ;
@@ -1332,7 +1396,7 @@ RETURN
 
 /*
   AddToSizerList
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE AddToSizerList( sizer ) CLASS TContainerObj
   AAdd( ATail( ::ParentList )[ "sizers" ], sizer )
@@ -1340,7 +1404,7 @@ RETURN
 
 /*
   ClearData
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE ClearData CLASS TContainerObj
   HB_ADel( ::FMainContainerStack, Len( ::FMainContainerStack ), .T. )
@@ -1348,7 +1412,7 @@ RETURN
 
 /*
   CheckForAddPage
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE CheckForAddPage( window ) CLASS TContainerObj
   LOCAL hInfo
@@ -1375,7 +1439,7 @@ RETURN
 
 /*
   GetLastChild
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetLastChild CLASS TContainerObj
   IF Empty( ::ParentList )
@@ -1385,7 +1449,7 @@ RETURN ATail( ::ParentList )[ "lastChild" ]
 
 /*
   GetLastParent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetLastParent( index ) CLASS TContainerObj
   IF Empty( index )
@@ -1399,7 +1463,7 @@ RETURN ::ParentList[ index ]
 
 /*
   LastParent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION LastParent CLASS TContainerObj
   IF Empty( ::ParentList )
@@ -1409,7 +1473,7 @@ RETURN ATail( ::ParentList )[ "parent" ]
 
 /*
   LastSizer
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION LastSizer CLASS TContainerObj
   IF Empty( ::ParentList )
@@ -1419,7 +1483,7 @@ RETURN ATail( ATail( ::ParentList )[ "sizers" ] )
 
 /*
   RemoveLastParent
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
 
@@ -1439,7 +1503,7 @@ RETURN
 
 /*
   RemoveLastSizer
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE RemoveLastSizer CLASS TContainerObj
   LOCAL a
@@ -1454,9 +1518,10 @@ RETURN
 
 /*
   SetLastChild
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetLastChild( child ) CLASS TContainerObj
+  LOCAL parent
 
   IF Empty( ::ParentList )
     RETURN
@@ -1464,6 +1529,12 @@ METHOD PROCEDURE SetLastChild( child ) CLASS TContainerObj
 
   IF ::GetLastChild()[ "child" ] == child
     RETURN
+  ENDIF
+
+  parent := ::LastParent()
+
+  IF parent != NIL .AND. parent:IsDerivedFrom("wxToolBar")
+    parent:AddControl( child )
   ENDIF
 
   ::SizerAddOnLastChild()
@@ -1477,7 +1548,7 @@ RETURN
 
 /*
   SizerAddOnLastChild
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
   LOCAL child
@@ -1512,7 +1583,7 @@ RETURN
 
 /*
   TGlobal class to hold global vars...
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
 CLASS TGlobal
 PRIVATE:

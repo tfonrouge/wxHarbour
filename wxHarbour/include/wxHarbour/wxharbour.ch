@@ -866,7 +866,7 @@
 /*
   ToolBar
 */
-#xcommand BEGIN TOOLBAR ;
+#xcommand BEGIN [<toFrame: FRAME>] TOOLBAR ;
             [ VAR <toolBar> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -877,6 +877,7 @@
           [ <toolBar> := ]__wxh_ToolBarBegin( ;
             [<window>],;
             [<id>],;
+			[<.toFrame.>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -884,6 +885,29 @@
 
 #xcommand END TOOLBAR => __wxh_ToolBarEnd()
 
+#xcommand @ TOOL <type: CHECK, RADIO, BUTTON> ;
+			ID <id> ;
+			[ LABEL <label> ] ;
+			[ BITMAP <bitmap1> ] ;
+			[ DISBITMAP <bitmap2> ] ;
+			[ SHORTHELP <shortHelp> ] ;
+			[ LONGHELP <longHelp> ] ;
+			[ CLIENTDATA <clientData> ] ;
+			[ ACTION <bAction> ] ;
+			=> ;
+			__wxh_ToolAdd( ;
+			  [<"type">],;
+			  [<id>],;
+			  [<label>],;
+			  [<bitmap1>],;
+			  [<bitmap2>],;
+			  [<shortHelp>],;
+			  [<longHelp>],;
+			  [<clientData>],;
+			  [<{bAction}>] )
+			  
+#xcommand @ TOOL SEPARATOR => __wxh_ToolAddSeparator()
+			
 #xcommand BEGIN TOOLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           BEGIN TOOLBAR [<clauses>] ;;

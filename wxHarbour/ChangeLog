@@ -2,6 +2,34 @@
  *
  */
 
+2009-06-25 20:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+    * added clause FRAME to BEGIN TOOLBAR command to allow to set a toolBar
+      to a wxFrame
+    * added command:
+      @ TOOL [ CHECK | RADIO | BUTTON ] ID ...
+
+  * samples/bitmapButton/bitmapButton.prg
+    * code cleanup
+
+  * samples/toolbar/toolbar.prg
+    % improved sample to show toolbar capabilities
+
+  * src/common/wx_harbour.cpp
+    * improved TODO reminder (create HB Object if wxh_Item not exist)
+
+  * src/common/wxhfuncs.prg
+    * minor code cleanup
+    + __wxh_GetBitmapResource() to automate creation of bitmap's
+      (missed it in previous commit ?)
+      * added a few more formats
+    + added toolBar helper functions:
+      + __wxh_ToolAdd
+      + __wxh_ToolAddSeparator
+
+  * src/wxbase/toolbar/wx_ToolBar.cpp
+    * added code to assign wxNullBitmap to empty params
+
 2009-06-25 16:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/bitmapButton/bitmapButton.prg
     * modified sample
