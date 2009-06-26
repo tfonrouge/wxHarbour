@@ -2,6 +2,11 @@
  *
  */
 
+2009-06-25 22:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/image/wx_Bitmap.cpp
+  * src/wxbase/image/wx_Icon.cpp
+    ! using const char* in hb_parc() (to recent changes in Harbour core)
+
 2009-06-25 20:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   + samples/toolbar/find.xpm
     + added missed xpm file to sample

@@ -49,7 +49,7 @@ HB_FUNC( WXBITMAP_NEW )
 	  break;
 	case 1 :
     {
-      char * bits = hb_parc( 1 );
+      const char* bits = hb_parc( 1 );
       bitmap = new wx_Bitmap( &bits );
     }
 	  break;
