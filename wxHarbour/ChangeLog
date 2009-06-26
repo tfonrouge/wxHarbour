@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-25 20:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  + samples/toolbar/find.xpm
+    + added missed xpm file to sample
+
 2009-06-25 20:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
     * added clause FRAME to BEGIN TOOLBAR command to allow to set a toolBar
