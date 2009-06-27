@@ -906,8 +906,8 @@
 			  [<clientData>],;
 			  [<{bAction}>] )
 			  
-#xcommand @ TOOL SEPARATOR => __wxh_ToolAddSeparator()
-			
+#xcommand @ TOOL SEPARATOR => __wxh_ToolAdd( "SEPARATOR" )
+			  
 #xcommand BEGIN TOOLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           BEGIN TOOLBAR [<clauses>] ;;
