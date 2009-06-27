@@ -2,6 +2,11 @@
  *
  */
 
+2009-06-27 11:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * added protection code for declaring @ TOOL ... without a ToolBar
+
 2009-06-25 22:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/image/wx_Bitmap.cpp
   * src/wxbase/image/wx_Icon.cpp

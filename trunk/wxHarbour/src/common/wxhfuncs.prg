@@ -1074,33 +1074,36 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
   
   toolBar := containerObj:LastParent()
   
-  bitmap1 := __wxh_GetBitmapResource( bmp1 )
-  bitmap2 := __wxh_GetBitmapResource( bmp2 )
+  IF toolBar != NIL .AND. toolBar:IsDerivedFrom("wxToolBar")
   
-  IF type == "CHECK"
-    toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
-  ELSEIF type == "RADIO"
-    toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
-  ELSEIF type == "BUTTON"
-	toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
-  ENDIF
-  
-  IF bAction != NIL
-	toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
-  ENDIF
+	IF type == "SEPARATOR"
 
-RETURN
+	  toolBar:AddSeparator()
 
-/*
-  __wxh_ToolAddSeparator
-  Teo. Mexico 2009
-*/
-PROCEDURE __wxh_ToolAddSeparator()
-  LOCAL toolBar
+	ELSE
+	
+	  bitmap1 := __wxh_GetBitmapResource( bmp1 )
+	  bitmap2 := __wxh_GetBitmapResource( bmp2 )
+	  
+	  IF type == "CHECK"
+		toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+	  ELSEIF type == "RADIO"
+		toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+	  ELSEIF type == "BUTTON"
+		toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
+	  ENDIF
+	  
+	  IF bAction != NIL
+		toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+	  ENDIF
+	
+	ENDIF
+	
+  ELSE
   
-  toolBar := containerObj():LastParent()
-  
-  toolBar:AddSeparator()
+    wxhAlert( "ToolBar control not in sight..." )
+
+  ENDIF
 
 RETURN
 
