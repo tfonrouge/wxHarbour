@@ -1119,7 +1119,11 @@ FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
   ENDIF
   
   IF toFrame == .T.
-	toolBar := parent:CreateToolBar( style, id, name )
+	IF parent:IsDerivedFrom("wxFrame")
+	  toolBar := parent:CreateToolBar( style, id, name )
+	ELSE
+	  wxhAlert( "Frame not in sight..." )
+	ENDIF
   ELSE
 	toolBar := wxToolbar():New( parent, id, pos, size, style, name )
   ENDIF

@@ -2,6 +2,10 @@
  *
  */
 
+2009-06-29 13:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * added code to protect frame ToolBar creation
+
 2009-06-29 10:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
   * src/common/wxhfuncs.prg
