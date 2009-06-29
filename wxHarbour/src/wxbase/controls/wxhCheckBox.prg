@@ -68,7 +68,7 @@ METHOD New( window, id, label, wxhGet, pos, size, style, validator, name ) CLASS
 
   IF wxhGet != NIL
     ::FWXHGet := wxhGet
-    IF name = NIL
+    IF name == NIL
       ::SetName( wxhGet:Name )
     ENDIF
     IF !::Is3State()

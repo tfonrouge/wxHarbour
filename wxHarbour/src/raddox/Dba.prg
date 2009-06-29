@@ -195,7 +195,7 @@ RETURN ret
 STATIC FUNCTION GetNextEmpty( index )
   LOCAL rec:=RecNo(),key
 
-  IF index = NIL
+  IF index == NIL
     index := "X01"
   ENDIF
 

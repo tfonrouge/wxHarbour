@@ -243,7 +243,7 @@ RETURN (::FnWorkArea)->( Get4SeekLast( xField, cKey, indexName, softSeek ) )
   Teo. Mexico 2007
 */
 METHOD FUNCTION IsLocked( RecNo ) CLASS TAlias
-RETURN (::FnWorkArea)->( IsLocked( iif( RecNo = NIL, ::FRecNo, RecNo ) ) )
+RETURN (::FnWorkArea)->( IsLocked( iif( RecNo == NIL, ::FRecNo, RecNo ) ) )
 
 /*
   KeyVal

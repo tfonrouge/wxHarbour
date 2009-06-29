@@ -223,7 +223,7 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
 
   /* nextCtrlOnEnter */
   IF ::nextCtrlOnEnter
-    IF style = NIL
+    IF style == NIL
       style := wxTE_PROCESS_ENTER
     ELSE
       style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
@@ -253,7 +253,7 @@ METHOD New( window, id, wxhGet, pos, size, style, validator, name, picture, warn
     ::dataIsOEM := dataIsOEM
   ENDIF
 
-  IF name = NIL
+  IF name == NIL
     ::SetName( wxhGet:Name )
 //     ::SetLabel( wxhGet:Name )
   ENDIF

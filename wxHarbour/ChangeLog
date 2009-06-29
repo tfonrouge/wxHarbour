@@ -2,6 +2,46 @@
  *
  */
 
+2009-06-29 10:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+  * src/common/wxhfuncs.prg
+  * src/common/wxhutils.prg
+  * src/hrbcompat/misc/wxGET.prg
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  * src/raddox/Dba.prg
+  * src/raddox/TAlias.prg
+  * src/raddox/TDatabase.prg
+  * src/raddox/TField.prg
+  * src/raddox/TIndex.prg
+  * src/raddox/TTable.prg
+  * src/wxbase/controls/wxhCheckBox.prg
+  * src/wxbase/controls/wxhChoice.prg
+  * src/wxbase/controls/wxhComboBox.prg
+  * src/wxbase/controls/wxhRadioBox.prg
+    * change to strict comparison to NIL ( == NIL )
+    ! Fixed error on __wxh_Button due to above wrong comparison
+
+2009-06-29 10:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+  * src/common/wxhfuncs.prg
+  * src/common/wxhutils.prg
+  * src/hrbcompat/misc/wxGET.prg
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  * src/raddox/Dba.prg
+  * src/raddox/TAlias.prg
+  * src/raddox/TDatabase.prg
+  * src/raddox/TField.prg
+  * src/raddox/TIndex.prg
+  * src/raddox/TTable.prg
+  * src/wxbase/controls/wxhCheckBox.prg
+  * src/wxbase/controls/wxhChoice.prg
+  * src/wxbase/controls/wxhComboBox.prg
+  * src/wxbase/controls/wxhRadioBox.prg
+    * change to strict comparison to NIL ( == NIL )
+    ! Fixed error on __wxh_Button due to above wrong comparison
+
 2009-06-28 23:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
     * defined macro for wxh_wxhStringToC()

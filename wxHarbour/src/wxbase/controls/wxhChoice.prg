@@ -60,13 +60,13 @@ ENDCLASS
 */
 METHOD New( parent, id, pos, size, choices, style, validator, name, wxhGet ) CLASS wxHBChoice
 
-  IF choices = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
+  IF choices == NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
 
   Super:New( parent, id, pos, size, choices, style, validator, name )
 
-  IF name = NIL
+  IF name == NIL
     ::SetName( wxhGet:Name )
   ENDIF
 
