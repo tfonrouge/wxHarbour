@@ -2,6 +2,24 @@
  *
  */
 
+2009-06-28 23:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+    * defined macro for wxh_wxhStringToC()
+    ! Fixed error on @ GET reported by Jose Augusto M. de Andrade Jr
+
+  * samples/sayget/sayget.prg
+    * Using a Dialog instead of a Frame for sample
+
+  * src/common/wx_harbour.cpp
+    * converted (BYTE *) to (char *)
+    - removed wxh_wxStringToC() (now #define'd)
+
+  * src/hrbcompat/misc/wxGET.prg
+    * default to .T. for ::dataIsOEM
+
+  * src/wxbase/networking/wx_SocketBase.cpp
+    * converted (BYTE *) to (char *)
+
 2009-06-27 11:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg

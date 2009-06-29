@@ -145,7 +145,8 @@ wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
-const char*	  wxh_wxStringToC( const wxString& string );
+#define		  wxh_wxStringToC( string ) \
+			  (string).mb_str( wxConvUTF8 )
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 

@@ -5,8 +5,6 @@
 
 #include "wxharbour.ch"
 
-#define GRANGE  100
-
 FUNCTION Main
   LOCAL MyApp
 
@@ -36,7 +34,7 @@ ENDCLASS
   Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
+  LOCAL oDlg
   LOCAL name
   LOCAL cURL
   LOCAL comm
@@ -45,18 +43,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   cURL := ""
   comm := ""
 
-  CREATE FRAME oWnd ;
+  CREATE DIALOG oDlg ;
          TITLE "Say/Get Sample"
-
-  DEFINE MENUBAR STYLE 1 ON oWnd
-    DEFINE MENU "&File"
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Quits this sample..."
-    ENDMENU
-    DEFINE MENU "Help"
-      ADD MENUITEM "About..."
-    ENDMENU
-  ENDMENU
 
   BEGIN BOXSIZER VERTICAL
 
@@ -65,12 +53,12 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
     @ SAY ABOVE "Comment:" GET comm MULTILINE
 
-    @ BUTTON ID wxID_APPLY ACTION wxMessageBox( E"Values entered:\n\nName: " + name + E"\n\nURL: " + cURL + E"\n\nComment:\n" + comm, "Values", wxICON_INFORMATION, oWnd )
+    @ BUTTON ID wxID_APPLY ACTION wxMessageBox( E"Values entered:\n\nName: " + name + E"\n\nURL: " + cURL + E"\n\nComment:\n" + comm, "Values", wxICON_INFORMATION, oDlg )
 
-    @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+    @ BUTTON ID wxID_EXIT ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 
   END SIZER
 
-  SHOW WINDOW oWnd FIT CENTRE
+  SHOW WINDOW oDlg FIT CENTRE MODAL
 
-RETURN .T.
+RETURN .F. // If main window is a wxDialog, we need to return false on OnInit

@@ -252,7 +252,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       if( lOffset > 0 )
         usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
 #endif
-      UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTE *) szName, strlen( szName ) );
+      UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const char *) szName, strlen( szName ) );
 
 //       qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
@@ -353,14 +353,8 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
 	  const char *ascii = clsName.ToAscii();
 	  qoutf("no wxh_Item: wxh_ItemListGet_HB: %s", ascii );
-	}
-	
-	//   if( pSelf == NULL )
-	//   {
-	//     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 1, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-	//   }
+	}	
   }
-
   return pSelf;
 }
 
@@ -529,9 +523,9 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
 	if( ulStrLen > 0 && pcp )
 	{
 	  wxString wxStr;
-	  ULONG ulUTF8Len = hb_cdpStringInUTF8Length( pcp, false, (BYTE *) szStr, ulStrLen );
+	  ULONG ulUTF8Len = hb_cdpStringInUTF8Length( pcp, false, (char *) szStr, ulStrLen );
 	  char *strUTF8 = (char *) hb_xgrab( ulUTF8Len + 1 );
-	  hb_cdpStrnToUTF8( pcp, false, (BYTE *) szStr, ulStrLen, (BYTE *) strUTF8 );
+	  hb_cdpStrnToUTF8( pcp, false, (char *) szStr, ulStrLen, (char *) strUTF8 );
 	  wxStr = wxString( strUTF8, mbConv );
 	  hb_xfree( strUTF8 );
 	  return wxStr;
@@ -582,15 +576,6 @@ void wxh_ret_wxSize( wxSize* size )
 void wxh_retc( const wxString & string )
 {
   hb_retc( wxh_wxStringToC( string ) );
-}
-
-/*
-  wxh_wxStringToC
-  Teo. Mexico 2009
- */
-const char* wxh_wxStringToC( const wxString& string )
-{
-  return string.mb_str( wxConvUTF8 );
 }
 
 /*

@@ -315,7 +315,7 @@ HB_FUNC( WXSOCKETBASE_PEEK )
 
   if( socketBase )
   {
-    socketBase->Peek( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    socketBase->Peek( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
 }
@@ -349,9 +349,9 @@ void wxSocketBase_ReadBase( BYTE type )
         hb_itemReSizeString( pBuffer, nbytes );
 
       if( type == '0' )
-        socketBase->Read( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+        socketBase->Read( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
       else
-        socketBase->ReadMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+        socketBase->ReadMsg( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
 
       wxUint32 uiLastCount = socketBase->LastCount();
 
@@ -520,7 +520,7 @@ HB_FUNC( WXSOCKETBASE_UNREAD )
 
   if( socketBase )
   {
-    socketBase->Unread( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    socketBase->Unread( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
 }
@@ -602,7 +602,7 @@ HB_FUNC( WXSOCKETBASE_WRITE )
   {
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
     wxUint32 nbytes = ISNIL( 2 ) ? pBuffer->item.asString.length : hb_parnl( 2 );
-    socketBase->Write( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    socketBase->Write( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
 }
@@ -620,7 +620,7 @@ HB_FUNC( WXSOCKETBASE_WRITEMSG )
   {
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
     wxUint32 nbytes = ISNIL( 2 ) ? pBuffer->item.asString.length : hb_parnl( 2 );
-    socketBase->WriteMsg( (BYTE *) hb_itemGetCPtr( pBuffer ), nbytes );
+    socketBase->WriteMsg( (char *) hb_itemGetCPtr( pBuffer ), nbytes );
     hb_itemReturn( pSelf );
   }
 }
