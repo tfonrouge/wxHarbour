@@ -61,17 +61,17 @@ ENDCLASS
 */
 METHOD New( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet ) CLASS wxHBRadioBox
 
-  IF choices = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
+  IF choices == NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
 
   Super:New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
 
-  IF name = NIL
+  IF name == NIL
     ::SetName( wxhGet:Name )
   ENDIF
 
-  IF label = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL .AND. wxhGet:Field:Label != NIL
+  IF label == NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL .AND. wxhGet:Field:Label != NIL
     ::SetLabel( wxhGet:Field:Label )
   ENDIF
 

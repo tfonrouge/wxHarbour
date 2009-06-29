@@ -82,7 +82,7 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 
   browse:SkipBlock:Eval( 0 )
 
-  IF ::FCurRowIndex = NIL .OR. ( browse:DataSourceType = "O" .AND. browse:DataSource:Eof() )
+  IF ::FCurRowIndex == NIL .OR. ( browse:DataSourceType = "O" .AND. browse:DataSource:Eof() )
     browse:GoFirstPos()
   ENDIF
 
@@ -213,7 +213,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 
   IF !column:Aligned
     column:Aligned := .T.
-    IF column:Align = NIL
+    IF column:Align == NIL
       SWITCH column:ValType
       CASE 'N'
         column:Align := wxALIGN_RIGHT
@@ -285,12 +285,12 @@ METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
   LOCAL itm
   LOCAL browse := ::GetBrowse()
 
-  IF ::FGridBuffer[ row ] = NIL
+  IF ::FGridBuffer[ row ] == NIL
     ::FGridBuffer[ row ] := {=>}
   ENDIF
 
   /* Column Zero */
-  IF ::FColumnZero = NIL
+  IF ::FColumnZero == NIL
     ::FGridBuffer[ row, 0 ] := LTrim( Str( browse:RecNo ) )
   ELSE
     ::FGridBuffer[ row, 0 ] := ::GetCellValueAtCol( 0 )
@@ -378,7 +378,7 @@ METHOD PROCEDURE SetCurRowIndex( rowIndex ) CLASS wxhBrowseTableBase
   LOCAL n
   LOCAL browse := ::GetBrowse()
 
-  IF rowIndex >= browse:RowCount .OR. ::FCurRowIndex = NIL
+  IF rowIndex >= browse:RowCount .OR. ::FCurRowIndex == NIL
     RETURN
   ENDIF
 
@@ -400,7 +400,7 @@ RETURN
 METHOD PROCEDURE SetGridBufferSize( size ) CLASS wxhBrowseTableBase
   LOCAL browse := ::GetBrowse()
 
-  IF ::FGridBuffer = NIL
+  IF ::FGridBuffer == NIL
     ::FGridBuffer := Array( size )
   ELSE
     ASize( ::FGridBuffer, size )

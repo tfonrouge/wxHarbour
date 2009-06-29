@@ -206,7 +206,7 @@ RETURN NIL
 FUNCTION Dec(p,base,fill,n)
   LOCAL s,i,b,c
 
-  IF n = NIL
+  IF n == NIL
     n:=1
   ENDIF
 
@@ -340,7 +340,7 @@ RETURN Str(Day(d),2)+"/"+Left(CMonth(d),3)+"/"+Str(Year(d),4)
 FUNCTION Inc( p, base, fill, n )
   LOCAL s,i,b,c
 
-  IF n = NIL
+  IF n == NIL
     n:=1
   ENDIF
 
@@ -560,7 +560,7 @@ RETURN cString
 FUNCTION wxhAlert( cMessage, aOptions )
   LOCAL Result := 0
 
-  IF wxGetApp() = NIL .OR. wxGetApp():GetTopWindow() = NIL
+  IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
     Alert( cMessage, aOptions )
   ELSE
     wxMessageBox( cMessage, "Message", aOptions )

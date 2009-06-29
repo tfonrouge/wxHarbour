@@ -87,7 +87,7 @@ METHOD AddParentChild( parentTableName, childTableName, indexName, virtual ) CLA
 
   ::FTableList[ childTableName ] := HB_HSetCaseMatch( {=>}, .F. )
   ::FTableList[ childTableName, "IndexName" ] := indexName
-  ::FTableList[ childTableName, "Virtual"   ] := iif( virtual = NIL, .F., virtual )
+  ::FTableList[ childTableName, "Virtual"   ] := iif( virtual == NIL, .F., virtual )
 
   AAdd( ::FParentChildList[ parentTableName ], Upper( childTableName ) )
 
@@ -133,7 +133,7 @@ RETURN
 METHOD FUNCTION GetParentChildList( tableName, Result ) CLASS TDataBase
   LOCAL childTableName
 
-  IF Result = NIL
+  IF Result == NIL
     Result := {}
     /* If Table is VIRTUAL then search for childs in next child level
        Parent tables without parent aren't in the TableList

@@ -55,7 +55,7 @@ ENDCLASS
   Teo. Mexico 2009
 */
 FUNCTION ContainerObj
-  IF containerObj = NIL
+  IF containerObj == NIL
     containerObj := TContainerObj():New()
   ENDIF
 RETURN containerObj
@@ -105,13 +105,13 @@ FUNCTION __wxh_BoxSizerBegin( parent, label, orient, strech, align, border, side
   LOCAL sizer
   LOCAL lastSizer
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
   lastSizer := containerObj():LastSizer()
 
-  IF label = NIL
+  IF label == NIL
     sizer := wxBoxSizer():New( orient )
   ELSE
     sizer := wxStaticBoxSizer():New( orient, parent, label )
@@ -135,7 +135,7 @@ RETURN sizer
 FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
   LOCAL wxhBrw
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -195,7 +195,7 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
   LOCAL button
   LOCAL bitmap
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -203,10 +203,10 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
 	bitmap := __wxh_GetBitmapResource( bmp )
   ENDIF
 
-  IF bitmap = NIL
+  IF bitmap == NIL
 	button := wxButton():New( window, id, label, pos, size, style, validator, name )
   ELSE
-	IF style = NIL
+	IF style == NIL
 	  style := wxBU_AUTODRAW
 	ELSE
 	  style := _hb_BitOr( style, wxBU_AUTODRAW )
@@ -233,7 +233,7 @@ RETURN button
 FUNCTION __wxh_CheckBox( window, id, label, wxhGet, pos, size, style, validator, name, bAction )
   LOCAL checkBox
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -254,12 +254,12 @@ RETURN checkBox
 FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type )
   LOCAL gauge
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
   IF type != NIL
-    IF style = NIL
+    IF style == NIL
       style := type
     ELSE
       style := _hb_BitOr( style, type )
@@ -317,7 +317,7 @@ RETURN bitmap
 FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
   LOCAL grid
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -338,7 +338,7 @@ RETURN grid
 FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name, wxhGet, bAction )
   LOCAL radioBox
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -359,7 +359,7 @@ RETURN radioBox
 FUNCTION __wxh_Choice( parent, id, point, size, choices, style, validator, name, wxhGet, bAction )
   LOCAL choice
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -380,7 +380,7 @@ RETURN choice
 FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, validator, name, wxhGet, bAction )
   LOCAL comboBox
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -476,7 +476,7 @@ RETURN oWnd
 FUNCTION __wxh_GET( window, id, wxhGet, pos, size, multiLine, style, validator, name, picture, warn, toolTip, bAction )
   LOCAL Result
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -527,7 +527,7 @@ RETURN
 FUNCTION __wxh_ListCtrl( window, id, value, pos, size, style, validator, name, bAction )
   LOCAL listCtrl
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -548,7 +548,7 @@ RETURN listCtrl
 FUNCTION __wxh_MenuBarBegin( window, style )
   menuData := TGlobal():New()
   menuData:g_menuBar := wxMenuBar():New( style )
-  IF window = NIL
+  IF window == NIL
     //menuData:g_window := __wxh_LastTopLevelWindow()
     menuData:g_window := containerObj():LastParent( "wxFrame" )
   ELSE
@@ -564,7 +564,7 @@ FUNCTION __wxh_MenuBegin( title, evtHandler )
   LOCAL hData := {=>}
   LOCAL menu
 
-  IF menuData = NIL
+  IF menuData == NIL
     menuData := TGlobal():New()
     AAdd( menuData:g_menuList, NIL ) /* a NULL MenuBar (1st item in array) */
   ENDIF
@@ -611,7 +611,7 @@ PROCEDURE __wxh_MenuEnd
 
     parentMenu := menuData:g_menuList[ nLast -1 ]
 
-    IF parentMenu = NIL
+    IF parentMenu == NIL
       menuData := NIL
       RETURN
     ELSE
@@ -638,7 +638,7 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
     id := menuData:g_menuID++
   ENDIF
 
-  IF menuData:g_menuList = NIL
+  IF menuData:g_menuList == NIL
     wxhAlert( "No Menu at sight to add this MenuItem. Check your DEFINE MENU and ADD MENUITEM definition at line " + LTrim(Str(ProcLine( 1 ))) + " on " + ProcName( 1 ) )
     RETURN NIL
   ENDIF
@@ -688,7 +688,7 @@ RETURN menuItem
 FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled )
   LOCAL panel
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -719,7 +719,7 @@ RETURN
 FUNCTION __wxh_SAY( window, id, label, pos, size, style, name )
   LOCAL Result
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -738,7 +738,7 @@ RETURN Result
 FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
   LOCAL sb
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -832,7 +832,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
     RETURN
   ENDIF
 
-  IF child = NIL .AND. ! ( addSizerInfoToLastItem == .T. )
+  IF child == NIL .AND. ! ( addSizerInfoToLastItem == .T. )
 
     /* Check if last child has been processed */
     IF containerObj():GetLastChild()[ "processed" ]
@@ -858,7 +858,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
   ENDIF
 
   /* collect default parentSizer */
-  IF parentSizer = NIL
+  IF parentSizer == NIL
     /* check if we have a parent control */
     IF containerObj():GetLastChild()[ "child" ] == NIL
       IF containerObj():GetLastParent( -1 ) != NIL
@@ -869,17 +869,17 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
     ENDIF
   ENDIF
 
-  IF parentSizer = NIL
+  IF parentSizer == NIL
     //wxhAlert( "No parent Sizer available.", {"QUIT"})
     //TRACE "Child:", child:ClassName, "No parent Sizer available"
     RETURN
   ENDIF
 
-  IF strech = NIL
+  IF strech == NIL
     strech := 0
   ENDIF
 
-  IF align = NIL
+  IF align == NIL
     IF parentSizer != NIL
       IF parentSizer:IsDerivedFrom("wxGridSizer")
         align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
@@ -900,15 +900,15 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
     align := _hb_BitOr( align, wxALIGN_CENTER_VERTICAL )
   ENDIF
 
-  IF sideBorders = NIL
+  IF sideBorders == NIL
     sideBorders := wxALL
   ENDIF
 
-  IF border = NIL
+  IF border == NIL
     border := 5
   ENDIF
 
-  IF flag = NIL
+  IF flag == NIL
     flag := 0
   ENDIF
 
@@ -954,19 +954,19 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
     RETURN
   ENDIF
 
-  IF width = NIL
+  IF width == NIL
     width := 5
   ENDIF
 
-  IF height = NIL
+  IF height == NIL
     height := 5
   ENDIF
 
-  IF strech = NIL
+  IF strech == NIL
     strech := 1
   ENDIF
 
-  IF align = NIL
+  IF align == NIL
     IF lastSizer:IsDerivedFrom("wxBoxSizer")
       IF !lastSizer:GetOrientation() = wxHORIZONTAL
         align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
@@ -976,7 +976,7 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
     ENDIF
   ENDIF
 
-  IF border = NIL
+  IF border == NIL
     border := 5
   ENDIF
 
@@ -991,7 +991,7 @@ RETURN
 FUNCTION __wxh_SpinCtrl( parent, id, value, pos, size, style, min, max, initial, name, bAction )
   LOCAL spinCtrl
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -1012,7 +1012,7 @@ RETURN spinCtrl
 FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
   LOCAL sb
 
-  IF oW = NIL
+  IF oW == NIL
     oW := containerObj():LastParent()
   ENDIF
 
@@ -1037,7 +1037,7 @@ RETURN sb
 FUNCTION __wxh_StaticLine( window, id, pos, orient, name )
   LOCAL sl
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -1054,7 +1054,7 @@ RETURN sl
 FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
   LOCAL staticText
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
@@ -1114,7 +1114,7 @@ RETURN
 FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
   LOCAL toolBar
 
-  IF parent = NIL
+  IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
   
@@ -1159,13 +1159,13 @@ STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
 	  width := aSize[ 1 ]
 	ENDIF
 
-	IF width = NIL
+	IF width == NIL
 	  width := -1
 	ENDIF
 
 	IF HB_ISCHAR( width )
 	  width := pointSize * Val( width )
-	ELSEIF ( width = NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
+	ELSEIF ( width == NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
 	  width := pointSize * defaultWidth
 	ENDIF
 
@@ -1184,7 +1184,7 @@ RETURN width
 FUNCTION __wxh_TextCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
   LOCAL textCtrl
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -1213,7 +1213,7 @@ RETURN textCtrl
 FUNCTION __wxh_SearchCtrl( window, id, value, pos, size, style, validator, name, multiLine, bAction )
   LOCAL searchCtrl
 
-  IF window = NIL
+  IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
@@ -1242,7 +1242,7 @@ RETURN searchCtrl
 FUNCTION __wxh_TreeCtrl( window, id, pos, size, style, validator, name )
   LOCAL Result
 
-  IF window = NIL
+  IF window == NIL
     window := ContainerObj():LastParent()
   ENDIF
 

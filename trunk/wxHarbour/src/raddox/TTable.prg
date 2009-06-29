@@ -65,14 +65,14 @@ PRIVATE:
   METHOD GetFieldTypes
   METHOD GetFound INLINE ::Alias:Found
   METHOD GetIndexName INLINE ::FIndex:Name
-  METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex = NIL .OR. ::FPrimaryIndex:UniqueKeyField = NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
-  METHOD GetPrimaryMasterKeyField INLINE iif( ::FPrimaryIndex = NIL, NIL, ::FPrimaryIndex:MasterKeyField )
+  METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex == NIL .OR. ::FPrimaryIndex:UniqueKeyField == NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
+  METHOD GetPrimaryMasterKeyField INLINE iif( ::FPrimaryIndex == NIL, NIL, ::FPrimaryIndex:MasterKeyField )
   METHOD SetIndex( AIndex ) INLINE ::FIndex := AIndex
   METHOD SetIndexName( IndexName )
   METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
   METHOD SetMasterSource( MasterSource )
   METHOD GetInstance EXPORTED
-  METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField = NIL, "", ::GetPrimaryMasterKeyField:AsString )
+  METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
   METHOD GetPublishedFieldList
   METHOD GetTableName INLINE ::TableNameValue
   METHOD Process_TableName( tableName )
@@ -245,7 +245,7 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 
   ::OnCreate( Self )
 
-  IF ::DataBase = NIL
+  IF ::DataBase == NIL
     ::DataBase := ::InitDataBase()
   ENDIF
 
@@ -546,15 +546,15 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
     ::FMasterSource:DetailSourceList := HB_HSetAutoAdd( {=>}, .T. )
   ENDIF
 
-  IF ::pSelf = NIL
+  IF ::pSelf == NIL
     ::pSelf := __ClsInst( ::ClassH ):New( ::FMasterSource )
   ENDIF
 
   ::pSelf:DbGoTop()
 
-  WHILE !::pSelf:Eof() .AND. ( bWhileCondition = NIL .OR. bWhileCondition:Eval( ::pSelf ) )
+  WHILE !::pSelf:Eof() .AND. ( bWhileCondition == NIL .OR. bWhileCondition:Eval( ::pSelf ) )
 
-    IF bForCondition = NIL .OR. bForCondition:Eval( ::pSelf )
+    IF bForCondition == NIL .OR. bForCondition:Eval( ::pSelf )
       bBlock:Eval( ::pSelf )
     ENDIF
 
@@ -819,7 +819,7 @@ METHOD FUNCTION FindMasterSourceField( detailField ) CLASS TTable
   LOCAL name
   LOCAL vt := ValType( detailField )
 
-  IF ::FMasterSource = NIL
+  IF ::FMasterSource == NIL
     RETURN NIL
   ENDIF
 
@@ -900,7 +900,7 @@ RETURN ::FAlias
 METHOD GetAsString() CLASS TTable
   LOCAL pkField := ::PrimaryKeyField
 
-  IF pkField = NIL
+  IF pkField == NIL
     RETURN ""
   ENDIF
 
@@ -913,7 +913,7 @@ RETURN pkField:AsString
 METHOD GetAsVariant() CLASS TTable
   LOCAL pkField := ::PrimaryKeyField
 
-  IF pkField = NIL
+  IF pkField == NIL
     RETURN NIL
   ENDIF
 
@@ -937,7 +937,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
   // DetailTable Syncs to a MasterSource
   IF ::FMasterSource != NIL .AND. ::FMasterList
 
-    IF ::FMasterSource:PrimaryKeyField = NIL
+    IF ::FMasterSource:PrimaryKeyField == NIL
       RAISE ERROR "Master Source '"+::FMasterSource:ClassName+"' has no Primary Index..."
       RETURN .F.
     ENDIF
@@ -951,7 +951,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
 
       pkField := ::FindDetailSourceField( ::FMasterSource:PrimaryKeyField, .T. )
 
-      IF pkField = NIL
+      IF pkField == NIL
         RAISE ERROR "Cannot find PrimaryKey Field from MasterSource <" + ::FMasterSource:ClassName  + "> Table..."
       ENDIF
 
@@ -966,7 +966,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
         CASE 'A'
           FOR EACH AField IN mkField:FieldArray
             BField := ::FindDetailSourceField( AField, .T. )
-            IF BField != NIL .AND. BField:IsMasterFieldComponent .AND. !AField:ReadOnly .AND. AField:DefaultValue = NIL
+            IF BField != NIL .AND. BField:IsMasterFieldComponent .AND. !AField:ReadOnly .AND. AField:DefaultValue == NIL
               //BField:GetData()
               AField:Value := BField:Value
             ELSE
@@ -976,7 +976,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
           EXIT
         CASE 'C'
           AField := ::FindDetailSourceField( mkField, .T. )
-          IF AField != NIL .AND. AField:IsMasterFieldComponent .AND. !mkField:ReadOnly .AND. mkField:DefaultValue = NIL
+          IF AField != NIL .AND. AField:IsMasterFieldComponent .AND. !mkField:ReadOnly .AND. mkField:DefaultValue == NIL
             AField:GetData()
             mkField:Value := AField:Value
           ELSE
@@ -1112,9 +1112,9 @@ METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL MessageName
   LOCAL AField
 
-  IF ::FDisplayFields = NIL
+  IF ::FDisplayFields == NIL
 
-    IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] = NIL
+    IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] == NIL
 
       DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields" )
 
@@ -1159,7 +1159,7 @@ RETURN ::FDisplayFields
 */
 METHOD FUNCTION GetFieldTypes CLASS TTable
 
-  IF ::FFieldTypes = NIL
+  IF ::FFieldTypes == NIL
     ::FFieldTypes := {=>}
     ::FFieldTypes['C'] := "TStringField"    /* HB_FT_STRING */
     ::FFieldTypes['L'] := "TLogicalField"   /* HB_FT_LOGICAL */
@@ -1314,7 +1314,7 @@ METHOD FUNCTION InsideScope CLASS TTable
     RETURN .F.
   ENDIF
 
-  IF ::FPrimaryIndex = NIL
+  IF ::FPrimaryIndex == NIL
     RETURN .T.
   ENDIF
 
@@ -1348,7 +1348,7 @@ METHOD FUNCTION Open CLASS TTable
   /*!
   * Make sure that database is open here
   */
-  IF ::FAlias = NIL
+  IF ::FAlias == NIL
     ::FAlias := TAlias():New( Self )
   ENDIF
 
@@ -1387,7 +1387,7 @@ METHOD FUNCTION Open CLASS TTable
     ::DefineIndexes()
   ENDIF
 
-  IF Len( ::FIndexList ) > 0 .AND. ::FIndex = NIL
+  IF Len( ::FIndexList ) > 0 .AND. ::FIndex == NIL
     ::FIndex := ::FIndexList[ 1 ]
   ENDIF
 
@@ -1481,7 +1481,7 @@ RETURN .T.
 METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
   LOCAL s, sHostPort
 
-  IF tableName = NIL
+  IF tableName == NIL
     tableName := ::TableNameValue
   ELSE
     ::TableNameValue := tableName
@@ -1721,7 +1721,7 @@ METHOD PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
 
   ::FPrimaryIndex := AIndex
 
-  IF ::FIndex = NIL
+  IF ::FIndex == NIL
     ::FIndex := AIndex
   ENDIF
 

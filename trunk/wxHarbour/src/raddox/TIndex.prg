@@ -62,7 +62,7 @@ PUBLIC:
   METHOD DbSkip( numRecs )
   METHOD ExistKey( keyValue )
   METHOD InsideScope
-  METHOD MasterKeyString INLINE iif( ::FMasterKeyField = NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
+  METHOD MasterKeyString INLINE iif( ::FMasterKeyField == NIL, ::FTable:PrimaryMasterKeyString, ::FMasterKeyField:AsIndexKeyVal )
   METHOD RawSeek( Value )
 
   METHOD ScopeField( cField, value )
@@ -291,7 +291,7 @@ METHOD FUNCTION InsideScope CLASS TIndex
   
   scopeVal := ::GetScope()
   
-  IF scopeVal = NIL
+  IF scopeVal == NIL
     RETURN Empty( masterKeyString ) .OR. keyValue = masterKeyString
   ENDIF
   
@@ -417,7 +417,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
     ELSE
       AField := ::FTable:FieldByName( XField )
     ENDIF
-    IF AField = NIL
+    IF AField == NIL
       RAISE ERROR "Declared Index Field '" + XField + "' doesn't exist..."
       RETURN
     ENDIF
@@ -459,7 +459,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
     //AField:SecondaryKeyComponent := .T.
   ENDIF
 
-  IF AField = NIL
+  IF AField == NIL
     RETURN
   ENDIF
 
@@ -505,7 +505,7 @@ METHOD FUNCTION SetKeyValueFromArray( aKeys, slot ) CLASS TIndex
 	  key := NIL
 	  IF AField:__enumIndex() <= Len( aKeys )
 	    key := aKeys[ AField:__enumIndex() ]
-		IF key = NIL
+		IF key == NIL
 		  EXIT
 		ENDIF
 		value := AField:FieldCodeBlock:Eval( key )

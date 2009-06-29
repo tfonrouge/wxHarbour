@@ -109,11 +109,11 @@
 
 #xtranslate BEGIN FIELD SECTION ;
             => ;
-            ::FBaseClass := iif( curClass = NIL, Self:ClassName, curClass:ClassName )
+            ::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName )
 
 #xtranslate END FIELD SECTION ;
             => ;
-            Super:DefineFields( iif( curClass = NIL, Self:Super, curClass:Super ) )
+            Super:DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) )
 
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;

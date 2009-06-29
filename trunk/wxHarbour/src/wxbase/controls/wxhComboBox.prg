@@ -80,17 +80,17 @@ ENDCLASS
 */
 METHOD New( parent, id, value, pos, size, choices, style, validator, name, wxhGet ) CLASS wxHBComboBox
 
-  IF choices = NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
+  IF choices == NIL .AND. wxhGet != NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
 
-  IF wxhGet != NIL .AND. value = NIL
+  IF wxhGet != NIL .AND. value == NIL
     value := RTrim( wxhGet:AsString() )
   ENDIF
 
   Super:New( parent, id, value, pos, size, choices, style, validator, name )
 
-  IF name = NIL
+  IF name == NIL
     ::SetName( wxhGet:Name )
   ENDIF
 

@@ -137,7 +137,7 @@ METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
 
   ::grid:SetTable( wxhBrowseTableBase():New(), .T. )
 
-  IF !onKey = NIL
+  IF !onKey == NIL
     ::KeyEventBlock := onKey
   ENDIF
 

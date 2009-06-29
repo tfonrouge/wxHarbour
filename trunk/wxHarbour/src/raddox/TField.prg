@@ -56,7 +56,7 @@ PRIVATE:
   METHOD GetFieldMethod
   METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
   METHOD GetIsPrimaryKeyField INLINE ::Table:PrimaryKeyField == Self
-  METHOD GetLabel INLINE iif( ::FLabel = NIL, ::FName, ::FLabel )
+  METHOD GetLabel INLINE iif( ::FLabel == NIL, ::FName, ::FLabel )
   METHOD GetReadOnly INLINE ::FReadOnly
   METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
   METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
@@ -215,7 +215,7 @@ METHOD PROCEDURE Delete CLASS TField
     RETURN
   ENDIF
 
-  IF !::FFieldMethodType = 'C' .OR. ::FCalculated .OR. ::FFieldWriteBlock = NIL .OR. ::FModStamp
+  IF !::FFieldMethodType = 'C' .OR. ::FCalculated .OR. ::FFieldWriteBlock == NIL .OR. ::FModStamp
     RETURN
   ENDIF
 
@@ -258,7 +258,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
     NEXT
     EXIT
   CASE "B"
-	IF ::FUsingField = NIL
+	IF ::FUsingField == NIL
 	  Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
 	ELSE
 	  Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
@@ -266,7 +266,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
     EXIT
   CASE 'C'
     IF ::FCalculated
-      IF ::FFieldReadBlock = NIL
+      IF ::FFieldReadBlock == NIL
         IF __ObjHasMsg( Self:FTable, "CalcField_" + ::FName )
           ::FFieldReadBlock := &("{|o|" + "o:CalcField_" + ::FName + " }")
         ELSE
@@ -328,7 +328,7 @@ METHOD FUNCTION GetBuffer CLASS TField
     RETURN NIL
   ENDIF
 
-  IF ::FBuffer = NIL
+  IF ::FBuffer == NIL
     ::Reset()
   ENDIF
 
@@ -432,7 +432,7 @@ RETURN ::FGetItPick:Eval( param )
 METHOD FUNCTION GetValidValues() CLASS TField
 
   IF ValType( ::ValidValues ) = "B"
-    IF ::FDataOfValidValues = NIL
+    IF ::FDataOfValidValues == NIL
 	  ::FDataOfValidValues := ::ValidValues:Eval( Self )
 	ENDIF
 	RETURN ::FDataOfValidValues
@@ -449,7 +449,7 @@ RETURN NIL
 METHOD FUNCTION IsValid( Value ) CLASS TField
   LOCAL validValues
 
-  IF Value = NIL
+  IF Value == NIL
     Value := ::GetBuffer()
   ENDIF
 
@@ -493,7 +493,7 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
     ENDSWITCH
   ENDIF
 
-  IF ::OnValidate = NIL
+  IF ::OnValidate == NIL
     RETURN .T.
   ENDIF
 
@@ -543,7 +543,7 @@ METHOD PROCEDURE Reset CLASS TField
 
       IF ::IsDerivedFrom( "TObjectField" )
         value := ::LinkedTable:PrimaryKeyField:GetDefaultValue()
-        IF value = NIL
+        IF value == NIL
           value := ::LinkedTable:PrimaryKeyField:GetEmptyValue()
         ENDIF
       ELSE
@@ -742,7 +742,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
   ELSE
 
-    IF Value = NIL
+    IF Value == NIL
       Value := ::GetBuffer()
     ENDIF
 
@@ -1021,7 +1021,7 @@ PRIVATE:
 PROTECTED:
   DATA FSize
   DATA FValType INIT "C"
-  METHOD GetEmptyValue INLINE iif( ::FSize = NIL, "", Space( ::FSize ) )
+  METHOD GetEmptyValue INLINE iif( ::FSize == NIL, "", Space( ::FSize ) )
   METHOD SetAsString( sValue ) INLINE ::SetAsVariant( sValue )
   METHOD SetBuffer( buffer )
   METHOD SetDefaultValue( DefaultValue )
@@ -1039,7 +1039,7 @@ ENDCLASS
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TStringField
   LOCAL AField
 
-  IF value = NIL
+  IF value == NIL
     IF ::FFieldMethodType = "A"
       value := ""
       FOR EACH AField IN ::FFieldArray
@@ -1107,7 +1107,7 @@ RETURN
 */
 METHOD PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
 
-  IF DefaultValue = NIL
+  IF DefaultValue == NIL
     ::FDefaultValue := NIL
     RETURN
   ENDIF
@@ -1167,7 +1167,7 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TNumericField
-  IF value = NIL
+  IF value == NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsNumeric( value )
     value := AsNumeric( value )
@@ -1184,7 +1184,7 @@ RETURN AsString( value )
 METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
   LOCAL Result
 
-  IF Value = NIL
+  IF Value == NIL
     Value := ::GetAsVariant()
   ENDIF
 
@@ -1231,7 +1231,7 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TLogicalField
-  IF value = NIL
+  IF value == NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsLogical( value )
     value := AsLogical( value )
@@ -1267,7 +1267,7 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDateField
-  IF value = NIL
+  IF value == NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsDate( value )
     value := AsDate( value )
@@ -1300,7 +1300,7 @@ ENDCLASS
   Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDayTimeField
-  IF value = NIL
+  IF value == NIL
     value := ::GetAsVariant()
   ELSEIF !HB_IsDate( value )
     value := AsString( value )
@@ -1372,7 +1372,7 @@ RETURN ::FLinkedTable
   Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
-  IF value = NIL
+  IF value == NIL
     value := ::GetBuffer()
   ENDIF
 RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
@@ -1416,7 +1416,7 @@ RETURN ::FIsTheMasterSource
 */
 METHOD FUNCTION GetLinkedTable CLASS TObjectField
 
-  IF ::FLinkedTable = NIL
+  IF ::FLinkedTable == NIL
 
     IF Empty( ::FObjValue )
       RAISE TFIELD ::Name ERROR "TObjectField has not a ObjValue value."
@@ -1445,7 +1445,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
      * Attach the current DataObj to the one in table to sync when table changes
      * MasterFieldComponents are ignored, a child cannot change his parent :)
      */
-    IF !::IsMasterFieldComponent .AND. ::FLinkedTable:LinkedObjField = NIL
+    IF !::IsMasterFieldComponent .AND. ::FLinkedTable:LinkedObjField == NIL
       /*
        * LinkedObjField is linked to the FIRST TObjectField were it is referenced
        * this has to be the most top level MasterSource table
