@@ -198,7 +198,7 @@ PRIVATE:
   METHOD UpdateVar( event )
 PROTECTED:
 PUBLIC:
-  DATA dataIsOEM INIT .F.
+  DATA dataIsOEM INIT .T.
   DATA Picture
   DATA WarnBlock
   DATA nextCtrlOnEnter INIT .T.
@@ -362,7 +362,7 @@ RETURN
 METHOD PROCEDURE UpdateVar( event ) CLASS wxHBTextCtrl
   LOCAL evtType
   LOCAL value
-
+  
   IF ::FWXHGet == NIL .OR. ::dontUpdateVar
     RETURN
   ENDIF
