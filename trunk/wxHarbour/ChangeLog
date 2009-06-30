@@ -2,6 +2,12 @@
  *
  */
 
+2009-06-30 02:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/toolbar/toolbar.prg
+  + samples/toolbar/wxwin16x16.xpm
+  + samples/toolbar/wxwin32x32.png
+    * updated toolbar sample
+
 2009-06-29 13:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * added code to protect frame ToolBar creation
