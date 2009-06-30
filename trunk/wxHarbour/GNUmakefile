@@ -187,6 +187,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhBitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wxhGDIObject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhIcon.o \
+	$(__BUILDDIR__)/wxHarbour_wxhStaticBitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wxhDialog.o \
 	$(__BUILDDIR__)/wxHarbour_wxhFrame.o \
 	$(__BUILDDIR__)/wxHarbour_wxhMenu.o \
@@ -263,6 +264,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Bitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Icon.o \
+	$(__BUILDDIR__)/wxHarbour_wx_StaticBitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Dialog.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Frame.o \
 	$(__BUILDDIR__)/wxHarbour_wx_MDIChildFrame.o \
@@ -615,6 +617,9 @@ $(__BUILDDIR__)/wxHarbour_wxhGDIObject.o: ./src/wxbase/image/wxhGDIObject.prg
 $(__BUILDDIR__)/wxHarbour_wxhIcon.o: ./src/wxbase/image/wxhIcon.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
+$(__BUILDDIR__)/wxHarbour_wxhStaticBitmap.o: ./src/wxbase/image/wxhStaticBitmap.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+
 $(__BUILDDIR__)/wxHarbour_wxhDialog.o: ./src/wxbase/manwindows/wxhDialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
@@ -841,6 +846,9 @@ $(__BUILDDIR__)/wxHarbour_wx_Bitmap.o: ./src/wxbase/image/wx_Bitmap.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Icon.o: ./src/wxbase/image/wx_Icon.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_StaticBitmap.o: ./src/wxbase/image/wx_StaticBitmap.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Dialog.o: ./src/wxbase/manwindows/wx_Dialog.cpp

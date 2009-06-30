@@ -2,6 +2,25 @@
  *
  */
 
+2009-06-30 17:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  + include/wxHarbour/wxbase/wx_StaticBitmap.h
+  + src/wxbase/image/wx_StaticBitmap.cpp
+  + src/wxbase/image/wxhStaticBitmap.prg
+    + added wxStaticBitmap control ( full methods implemented )
+    + added command @ STATICBITMAP 
+
+  + samples/staticBitmap
+  + samples/staticBitmap/GNUmakefile
+  + samples/staticBitmap/makefile.gcc
+  + samples/staticBitmap/makefile.vc
+  + samples/staticBitmap/staticBitmap.prg
+    * sample for wxStaticBitmap control
+
 2009-06-30 02:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/toolbar/toolbar.prg
   + samples/toolbar/wxwin16x16.xpm

@@ -1031,6 +1031,26 @@ FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
 RETURN sb
 
 /*
+  __wxh_StaticBitmap
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_StaticBitmap( parent, id, label, pos, size, style, name )
+  LOCAL staticBitmap
+  LOCAL bmp
+
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+  
+  bmp := __wxh_GetBitmapResource( label )
+
+  staticBitmap := wxStaticBitmap():New( parent, id, bmp, pos, size, style, name )
+
+  containerObj():SetLastChild( staticBitmap )
+
+RETURN staticBitmap
+
+/*
   __wxh_StaticLine
   Teo. Mexico 2009
 */
