@@ -733,6 +733,32 @@
           @ SIZERINFO [<sizerClauses>]
 
 /*
+ * StaticBitmap
+ * Teo. Mexico 2009
+ */
+#xcommand @ STATICBITMAP [<label>] ;
+            [ VAR <staticBitmap> ] ;
+            [ ON <window> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+          => ;
+          [ <staticBitmap> := ]__wxh_StaticBitmap( ;
+            [<window>],;
+            [<id>],;
+            [<label>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>] )
+
+#xcommand @ STATICBITMAP [<stClauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ STATICBITMAP [<stClauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
   StaticLine
   Teo. Mexico 2009
 */
