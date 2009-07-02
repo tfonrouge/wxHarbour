@@ -2,6 +2,12 @@
  *
  */
 
+2009-07-02 18:15 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+    % Using wildcards instead of listing files explicitly.
+      This way only source dirs/filetypes need to be synced
+      in this make file, not every new source file.
+
 2009-07-02 08:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
     * using a wxhGet ( contains a object that process set/get to vars,
@@ -19,7 +25,7 @@
     % simplified code and removed unneeded subclasses for controls
     * added capability to specify a NUMERIC (0..1  currently) to get default
       bitmaps on __wxh_GetBitmapResource()
-    
+
   * src/hrbcompat/misc/wxGET.prg
     * moved to wxhfuncs.prg
 
@@ -55,7 +61,7 @@
   + src/wxbase/image/wx_StaticBitmap.cpp
   + src/wxbase/image/wxhStaticBitmap.prg
     + added wxStaticBitmap control ( full methods implemented )
-    + added command @ STATICBITMAP 
+    + added command @ STATICBITMAP
 
   + samples/staticBitmap
   + samples/staticBitmap/GNUmakefile
@@ -216,7 +222,7 @@
       + wxToolBarBase
     * extended classes (near full methods implemented)
       + wxBitmap
-      
+
   * include/wxHarbour/wxbase/wx_Button.h
     * minor code cleanup
 
@@ -226,7 +232,7 @@
     + added methods
       + CreateToolBar
       + OnCreateToolBar
-      
+
   * include/wxHarbour/wxh.h
     + added:
       void wxh_itemReturn( wxObject* )
@@ -265,7 +271,7 @@
   * src/wxbase/events/wx_FocusEvent.cpp
   * src/wxbase/events/wx_MenuEvent.cpp
   * src/wxbase/events/wx_SocketEvent.cpp
-    * using wxh_itemReturn()    
+    * using wxh_itemReturn()
 
   * src/wxbase/image/wx_Icon.cpp
   * src/wxbase/image/wxhIcon.prg
@@ -299,8 +305,8 @@
       + SetHeight
       + SetMask
       + SetPalette
-      + SetWidth  
-  
+      + SetWidth
+
   + samples/bitmapButton
   + samples/bitmapButton/GNUmakefile
   + samples/bitmapButton/bitmap2.bmp
@@ -328,7 +334,7 @@
 
 2009-06-22 15:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
-    * defined wxVERSION ( seems that wxABI_VERSION doesn't contains 
+    * defined wxVERSION ( seems that wxABI_VERSION doesn't contains
       wxRELEASE_NUMBER )
 
   * src/common/sysdefs.cpp
@@ -357,7 +363,7 @@
     * added second bool parameter to indicate if a OEM conversion is required (default false)
       TODO: ANSI conversion
     ! fixed parameter needed on wxh_retc() to convert returned string
-    
+
   * src/hrbcompat/misc/wxGET.prg
     * added wxHBTextCtrl:dataIsOEM bool data
     * added code to convert data in the control to/from OEM
@@ -377,7 +383,7 @@
 
   * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
     * minor code cleanup
-    
+
   * src/wxbase/advctrls/wx_GridTableBase.cpp
     % removed double checking for a valid pSelf value
     * if gridDataIsOEM then request a conversion in wxh_CTowxString() for GetValue()
