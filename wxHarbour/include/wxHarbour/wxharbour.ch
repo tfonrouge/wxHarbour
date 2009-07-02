@@ -58,6 +58,14 @@
 #define wxCHK_UNDETERMINED      2
 
 /*
+  GET macro
+  Teo. Mexico 2009
+*/
+#xcommand @ PUSHGET [<dataVar>] [ PICTURE <picture> ] [ WARNING <warn> ]  [ ACTION <bAction> ] ;
+		  => ;
+		  wxhGet():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warn>], [<{bAction}>] )
+	  
+/*
   Calls ::__Destroy() to remove wxh_Item associated to objects
   Teo. Mexico 2009
 */
@@ -324,17 +332,16 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
+		  @ PUSHGET [<dataVar>] [ ACTION <{bAction}> ] ;;
           [ <checkBox> := ]__wxh_CheckBox( ;
             [<window>],;
             [<id>],;
             [<label>],;
-            [ wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ) ],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<validator>],;
-            [<name>],;
-            [<{bAction}>] )
+            [<name>] )
 
 #xcommand @ CHECKBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -389,6 +396,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
+		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <radioBox> := ]__wxh_RadioBox( ;
             [<parent>],;
             [<id>],;
@@ -399,9 +407,7 @@
             [<majorDimension>],;
             [<style>],;
             [<validator>],;
-            [<name>],;
-            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
-            [<{bAction}>] )
+            [<name>] )
 
 #xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -423,6 +429,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
+		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <choice> := ]__wxh_Choice( ;
             [<parent>],;
             [<id>],;
@@ -431,9 +438,7 @@
             [<choices>],;
             [<style>],;
             [<validator>],;
-            [<name>],;
-            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
-            [<{bAction}>] )
+            [<name>] )
 
 #xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -456,6 +461,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
+		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <comboBox> := ]__wxh_ComboBox( ;
             [<parent>],;
             [<id>],;
@@ -465,9 +471,7 @@
             [<choices>],;
             [<style>],;
             [<validator>],;
-            [<name>],;
-            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
-            [<{bAction}>] )
+            [<name>] )
 
 #xcommand @ COMBOBOX [<cbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -590,7 +594,7 @@
           @ SIZERINFO [<sizerClauses>]
 
 /*
- * SAY ... GET
+ * SAY
  */
 #xcommand @ SAY <label> ;
             [ ON <window> ] ;
@@ -613,6 +617,9 @@
           @ SAY [<clauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
+/*
+ * GET
+ */
 #xcommand @ GET <dataVar> ;
             [ VAR <var> ] ;
             [ ON <window> ] ;
@@ -627,20 +634,17 @@
             [ TOOLTIP <toolTip> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          [<var> :=] __wxh_Get(;
+          @ PUSHGET <dataVar> [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
+          [<var> :=] __wxh_TextCtrl(;
             [<window>],;
             [<id>],;
-            wxhGET():New( <"dataVar">, <dataVar>, {|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) } ),;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<.mline.>],;
             [<style>],;
             [<validator>],;
             [<name>],;
-            [<picture>],;
-            [{<{warnWhen}>,<warnMsg>}],;
-            [<{toolTip}>],;
-            [<{bAction}>] )
+            [<{toolTip}>] )
 
 #xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -668,6 +672,12 @@
           @ CHOICE [<choiceclauses>] ;;
           END SIZER
 
+#xcommand @ SAY [<sayclauses,...>] SEARCHCTRL [<scclauses,...>] ;
+          => ;
+          BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND ;;
+          @ SAY [<sayclauses>] STYLE RIGHT ;;
+          @ SEARCHCTRL [<scclauses>] SIZERINFO STRETCH ;;
+          END SIZER
 /*
   ScrollBar
   Teo. Mexico 2009
@@ -829,7 +839,7 @@
  * SearchCtrl
  * Teo. Mexico 2009
  */
-#xcommand @ SEARCHCTRL [<value>] ;
+#xcommand @ SEARCHCTRL <dataVar> ;
             [ VAR <searchCtrl> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -840,17 +850,16 @@
             [ <mline: MULTILINE> ] ;
             [ ACTION <bAction> ] ;
           => ;
+		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <searchCtrl> := ]__wxh_SearchCtrl( ;
             [<window>],;
             [<id>],;
-            [<value>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<validator>],;
             [<name>],;
-            [<.mline.>],;
-            [<{bAction}>] )
+            [<.mline.>] )
 
 #xcommand @ SEARCHCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -858,36 +867,9 @@
           @ SIZERINFO [<sizerClauses>]
 
 /*
- * TextCtrl
- * Teo. Mexico 2009
- */
-#xcommand @ TEXTCTRL [<value>] ;
-            [ VAR <textCtrl> ] ;
-            [ ON <window> ] ;
-            [ ID <id> ] ;
-            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
-            [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
-            [ NAME <name> ] ;
-            [ <mline: MULTILINE> ] ;
-            [ ACTION <bAction> ] ;
-          => ;
-          [ <textCtrl> := ]__wxh_TextCtrl( ;
-            [<window>],;
-            [<id>],;
-            [<value>],;
-            ,;
-            [{<nWidth>,<nHeight>}],;
-            [<style>],;
-            [<validator>],;
-            [<name>],;
-            [<.mline.>],;
-            [<{bAction}>] )
-
-#xcommand @ TEXTCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
-          => ;
-          @ TEXTCTRL [<tcclauses>] ;;
-          @ SIZERINFO [<sizerClauses>]
+  TextCtrl
+*/
+#xcommand @ TEXTCTRL <tcClauses,...> => @ GET <tcClauses>
 
 /*
   ToolBar

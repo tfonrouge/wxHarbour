@@ -37,9 +37,9 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL comboBoxVal1
-  LOCAL comboBoxVal2
-  LOCAL comboBoxVal3
+  LOCAL comboBoxVal1 := ""
+  LOCAL comboBoxVal2 := ""
+  LOCAL comboBoxVal3 := ""
   LOCAL bAction
 
   bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }

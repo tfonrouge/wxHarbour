@@ -26,6 +26,7 @@ PROTECTED:
 PUBLIC:
 
   /* Harbour specific */
+  DATA wxhGet			/* holds a wxhGet object */
   METHOD GetPointSize()
   PROPERTY enableBlock READ GetEnableBlock WRITE SetEnableBlock
   /* Harbour specific */

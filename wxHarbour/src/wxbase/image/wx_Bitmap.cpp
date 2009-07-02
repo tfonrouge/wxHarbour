@@ -21,6 +21,134 @@
 
 #include "wxbase/wx_Bitmap.h"
 
+/* XPM */
+static const char * missimg_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"32 32 5 1",
+"X c Black",
+"o c #FFFFFF",
+"  c None",
+". c #C0C0C0",
+"O c #E0E0E0",
+/* pixels */
+" .............................X ",
+" .ooooooooooooooooooooooooooooX ",
+" .ooooooooooooooooooooooooooooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOXOOOOOOOOOOOOOOOOooX ",
+" XXXOOOOOXX XOOOOOOOOOOOOOOOooX ",
+"    XXXXX    XOOOOOOOOOOOOOOooX ",
+"              XOOOXXXOOOOOOOooX ",
+"               XXX   XXOOOOOooX ",
+"                       XOOOOooX ",
+" .                      XOOOooX ",
+" ..                      XXOooX ",
+" .o..                      XooX ",
+" .ooO...                    XXX ",
+" .ooOOOO..........              ",
+" .ooOOOOOOOOOOOOOO..            ",
+" .ooOOOOOOOOOOOOOOOO..          ",
+" .ooOOOOOOOOOOOOOOOOOO......... ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooOOOOOOOOOOOOOOOOOOOOOOOOooX ",
+" .ooooooooooooooooooooooooooooX ",
+" .ooooooooooooooooooooooooooooX ",
+" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX "
+};
+
+/* XPM */
+static const char * find_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 15 41 1",
+"y c #A06959",
+"9 c #A7DAF2",
+"$ c #B5CAD7",
+"> c #35B4E1",
+"t c #6B98B8",
+"w c #B6E0F4",
+"q c #AEC9D7",
+"1 c #5A89A6",
+"+ c #98B3C6",
+"4 c #EAF6FC",
+"3 c #DEF1FA",
+"= c #4CBCE3",
+"d c #DB916B",
+"X c #85A7BC",
+"s c #D8BCA4",
+"o c #749BB4",
+"e c #BCD9EF",
+"* c #62B4DD",
+"< c #91D2EF",
+"a c #E6DED2",
+"0 c #E9F4FB",
+"  c None",
+"@ c #A0BACB",
+"O c #AABFCD",
+"i c #6591AE",
+": c #B9CBD5",
+"- c #71C5E7",
+"5 c #D3ECF8",
+"% c #81A3B9",
+"6 c #8AD0EE",
+"8 c #FDFDFE",
+"p c #8EA9BC",
+"r c #B6D5EE",
+", c #81CCEB",
+". c #ACC4D3",
+"; c #AFD1DE",
+"7 c #EFF8FC",
+"u c #C2CBDB",
+"# c #C0D1DC",
+"2 c #CAD6E1",
+"& c #8FB0C3",
+/* pixels */
+"       .XooXO   ",
+"      +@###$+%  ",
+"     .&#*==-;@@ ",
+"     o:*>,<--:X ",
+"     12>-345-#% ",
+"     12>678392% ",
+"     %$*,3059q& ",
+"     @Oq,wwer@@ ",
+"      t@q22q&+  ",
+"    yyui+%o%p   ",
+"   yasy         ",
+"  yasdy         ",
+" yasdy          ",
+" ysdy           ",
+"  yy            "
+};
+
+/*
+ * getDefaultBitmap
+ * Teo. Mexico 2009
+ */
+wx_Bitmap* getDefaultBitmap( int i )
+{
+  wx_Bitmap* bitmap;
+  switch ( i ) {
+	case 0 :
+	  bitmap = new wx_Bitmap( missimg_xpm );
+	  break;
+	case 1 :
+	  bitmap = new wx_Bitmap( find_xpm );
+	  break;
+	default:
+	  bitmap = (wx_Bitmap *) &wxNullBitmap;
+	  break;
+  }
+  return bitmap;
+}
+
 /*
  ~wx_Bitmap
  Teo. Mexico 2009
@@ -49,8 +177,15 @@ HB_FUNC( WXBITMAP_NEW )
 	  break;
 	case 1 :
     {
-      const char* bits = hb_parc( 1 );
-      bitmap = new wx_Bitmap( &bits );
+	  if( ISNUM( 1 ) )
+	  {
+		bitmap = getDefaultBitmap( hb_parni( 1 ) );
+	  }
+	  else
+	  {
+		const char* bits = hb_parc( 1 );
+		bitmap = new wx_Bitmap( &bits );
+	  }
     }
 	  break;
 	case 2:

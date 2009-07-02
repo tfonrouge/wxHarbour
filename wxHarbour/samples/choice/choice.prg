@@ -37,9 +37,9 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL choiceVal1
-  LOCAL choiceVal2
-  LOCAL choiceVal3
+  LOCAL choiceVal1 := 0
+  LOCAL choiceVal2 := 1
+  LOCAL choiceVal3 := 2
   LOCAL bAction
 
   bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }
@@ -60,9 +60,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   BEGIN BOXSIZER VERTICAL
 
     @ CHOICE choiceVal1 ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
-
     @ CHOICE choiceVal2 ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
-
     @ CHOICE choiceVal3 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
 
     @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
