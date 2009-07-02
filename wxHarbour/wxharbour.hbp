@@ -61,6 +61,8 @@ src/wxbase/static/*.prg
 src/wxbase/static/*.cpp
 src/wxbase/system/*.prg
 src/wxbase/system/*.cpp
+src/wxbase/toolbar/*.prg
+src/wxbase/toolbar/*.cpp
 src/wxbase/validators/*.prg
 src/wxbase/validators/*.cpp
 src/wxbase/xmlclasses/*.prg
