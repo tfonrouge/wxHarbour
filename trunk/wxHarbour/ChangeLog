@@ -2,6 +2,10 @@
  *
  */
 
+2009-07-02 18:38 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+    + Added toolbar dir.
+
 2009-07-02 18:15 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
     % Using wildcards instead of listing files explicitly.
