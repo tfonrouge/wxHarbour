@@ -36,7 +36,7 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
   LOCAL checkVal1 := .T.
-  LOCAL checkVal2 := .T.
+  LOCAL checkVal2 := .F.
   LOCAL checkVal3 := .T.
   LOCAL bAction
 

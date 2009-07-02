@@ -35,7 +35,7 @@ HB_FUNC( WXBITMAPBUTTON_NEW )
   
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-  const wxBitmap& bitmap = (* (wxBitmap *) wxh_par_WX( 3 ) );
+  const wxBitmap& bitmap = * (wxBitmap *) wxh_par_WX( 3 );
   const wxPoint& pos = wxh_par_wxPoint( 4 );
   const wxSize& size = wxh_par_wxSize( 5 );
   long style = hb_parnl( 6 );

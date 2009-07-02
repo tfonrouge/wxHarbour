@@ -216,7 +216,7 @@ HB_FUNC( WXCONTROLWITHITEMS_SETSELECTION )
 
   if( ctrlWItms )
   {
-    ctrlWItms->SetSelection( hb_parni( 1 ) );
+    ctrlWItms->SetSelection( hb_parni( 1 ) - 1 ); /* HB arrays */
   }
 }
 

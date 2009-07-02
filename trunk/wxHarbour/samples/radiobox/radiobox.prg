@@ -45,8 +45,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   bAction := {|event| wxMessageBox( event:GetEventObject():GetLabel() + ": " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }
 
   CREATE FRAME oWnd ;
-         WIDTH 200 HEIGHT 100 ;
-         ID 999 ;
+         WIDTH 640 HEIGHT 400 ;
          TITLE "RadioBox Sample"
 
   DEFINE MENUBAR STYLE 1 ON oWnd
@@ -61,20 +60,20 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   BEGIN BOXSIZER VERTICAL
 
-    BEGIN BOXSIZER HORIZONTAL
+    BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND
 
-      @ RADIOBOX radioVal1 LABEL "Number Selection" ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) }
+      @ RADIOBOX radioVal1 LABEL "Number Selection" ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) } SIZERINFO STRETCH
 
-      @ RADIOBOX radioval2 LABEL "OS Selection" ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) }
+      @ RADIOBOX radioval2 LABEL "OS Selection" ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO STRETCH
 
     END SIZER
 
-    @ RADIOBOX radioval3 LABEL "Upload VIA" MAJORDIM 1 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) }
+    @ RADIOBOX radioval3 LABEL "Upload VIA" MAJORDIM 1 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO STRETCH
 
     @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
 
   END SIZER
 
-  SHOW WINDOW oWnd FIT CENTRE
+  SHOW WINDOW oWnd CENTRE
 
 RETURN .T.
