@@ -235,7 +235,7 @@ METHOD FUNCTION EvalWarnBlock( control, showWarning ) CLASS wxhGet
   IF ::WarnBlock != NIL .AND. ::WarnBlock[1]:Eval()
     IF showWarning == NIL .OR. showWarning
       msg := iif( Empty( ::WarnBlock[2] ), "Field has invalid data...", ::WarnBlock[2] )
-      wxMessageBox( msg, "Warning", wxOK, control:GetParent() )
+      wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), control:GetParent() )
     ENDIF
     RETURN .T.
   ENDIF
@@ -771,24 +771,26 @@ FUNCTION __wxh_GetBitmapResource( bmp )
 
   SWITCH ValType( bmp )
   CASE 'C'
-	bitmap := wxBitmap():New()
-	IF Upper( Right( bmp, 3 ) ) == "XPM"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
-	ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
-	ELSE
-	  bitmap:LoadFile( bmp, wxBITMAP_TYPE_ANY )
-	ENDIF
+    IF File( bmp )
+      bitmap := wxBitmap():New()
+      IF Upper( Right( bmp, 3 ) ) == "XPM"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
+      ENDIF
+    ELSE
+      bitmap := wxBitmap():New( 0 )  // missing image
+    ENDIF
 	EXIT
   CASE 'O'
 	IF bmp:IsDerivedFrom("wxBitmap")

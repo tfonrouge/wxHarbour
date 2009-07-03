@@ -197,6 +197,18 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
 }
 
 /*
+ GetGrandParent
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETGRANDPARENT )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( wnd )
+    wxh_itemReturn( wnd->GetGrandParent() );
+}
+
+/*
   GetFont
   Teo. Mexico 2008
 */
