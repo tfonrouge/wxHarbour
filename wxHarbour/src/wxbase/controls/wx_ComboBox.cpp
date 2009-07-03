@@ -184,9 +184,9 @@ HB_FUNC( WXCOMBOBOX_GETINSERTIONPOINT )
   GetSelection
   Teo. Mexico 2009
 */
-//#if wxVERSION > 20804
 HB_FUNC( WXCOMBOBOX_GETSELECTION )
 {
+#if wxVERSION > 20804
   wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( comboBox )
@@ -201,8 +201,8 @@ HB_FUNC( WXCOMBOBOX_GETSELECTION )
     else
       hb_errRT_BASE( EG_ARG, 9999, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
   }
+#endif
 }
-//#endif
 
 /*
   GetValue
@@ -343,4 +343,3 @@ HB_FUNC( WXCOMBOBOX_UNDO )
     comboBox->Undo();
   }
 }
-

@@ -66,26 +66,26 @@ HB_FUNC( WXMENUITEM_ENABLE )
   wxMenuItem:GetItemLabel
   Teo. Mexico 2008
 */
-//#if wxVERSION > 20804
 HB_FUNC( WXMENUITEM_GETITEMLABEL )
 {
+#if wxVERSION > 20804
   wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menuItem )
     wxh_retc( menuItem->GetItemLabel() );
+#endif
 }
-//#endif
 
 /*
   wxMenuItem:GetItemLabelText
   Teo. Mexico 2008
 */
-//#if wxVERSION > 20804
 HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
 {
+#if wxVERSION > 20804
   wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menuItem )
     wxh_retc( menuItem->GetItemLabelText() );
+#endif
 }
-//#endif
