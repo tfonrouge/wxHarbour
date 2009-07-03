@@ -2,6 +2,12 @@
  *
  */
 
+2009-07-03 22:03 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+  * wxharbour.hbc
+    + Updated to require no extra configuration on Linux.
+      (requires Harbour 2.0.0 r11630 or newer)
+
 2009-07-03 20:05 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
   * wxharbour.hbc

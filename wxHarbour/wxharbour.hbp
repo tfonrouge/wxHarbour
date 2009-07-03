@@ -5,8 +5,6 @@
 # build wx with this:
 # build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static
 
-# On Linux, build with:
-#   hbmk2 wxharbour.hbp "-cflag=`wx-config --cflags`"
 # On Linux/Ubuntu, install these packages first:
 #   sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev
 
@@ -23,6 +21,7 @@
 -cflag={win}-DWIN32
 -cflag={win}-D__WXMSW__
 -cflag={msvc}/EHsc
+"-cflag={unix&gcc}`wx-config --cflags`"
 
 src/common/*.cpp
 src/common/*.prg
