@@ -2,6 +2,11 @@
  *
  */
 
+2009-07-04 00:58 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * src/wxbase/controls/wx_ComboBox.cpp
+  * src/wxbase/menu/wx_MenuItem.cpp
+    ! Fixed compilation errors with 2.8.4 versions.
+
 2009-07-04 00:29 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbc
     ! Turn on C++ mode on darwin. Otherwise there are link
