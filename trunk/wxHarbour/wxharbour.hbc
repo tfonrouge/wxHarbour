@@ -9,6 +9,9 @@ libs=wxharbour hbct hbtip
 {allmsvc}libpaths=${HB_DIR_WX}\lib\vc_lib
 {bcc}libpaths=${HB_DIR_WX}\lib\bcc_lib
 
-libs=wxbase28 wxbase28_net wxbase28_xml wxmsw28_adv wxmsw28_aui wxmsw28_core wxmsw28_html wxmsw28_media wxmsw28_qa wxmsw28_richtext wxmsw28_xrc
+{win}libs=wxbase28 wxbase28_net wxbase28_xml
+{win}libs=wxmsw28_adv wxmsw28_aui wxmsw28_core wxmsw28_html wxmsw28_media wxmsw28_qa wxmsw28_richtext wxmsw28_xrc
+{linux}libs=wx_baseu-2.8. wx_baseu_net-2.8. wx_baseu_xml-2.8.
+{linux}libs=wx_gtk2u_adv-2.8. wx_gtk2u_aui-2.8. wx_gtk2u_core-2.8. wx_gtk2u_html-2.8. wx_gtk2u_media-2.8. wx_gtk2u_qa-2.8. wx_gtk2u_richtext-2.8. wx_gtk2u_xrc-2.8.
 
 {win}libs=rpcrt4

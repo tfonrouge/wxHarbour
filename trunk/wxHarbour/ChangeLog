@@ -2,6 +2,11 @@
  *
  */
 
+2009-07-03 20:05 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+  * wxharbour.hbc
+    + Added hbmk2 instructions + support for Linux platform.
+
 2009-07-02 18:38 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
     + Added toolbar dir.
