@@ -8,6 +8,8 @@ libs=wxharbour hbct hbtip
 
 ldflags={unix&gcc}"`wx-config --libs`"
 
+{darwin}cpp=yes
+
 {allmsvc}libpaths=${HB_DIR_WX}\lib\vc_lib
 {bcc}libpaths=${HB_DIR_WX}\lib\bcc_lib
 
