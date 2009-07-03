@@ -2,6 +2,36 @@
  *
  */
 
+2009-07-03 17:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    - removed now unneeded wxGET.prg
+
+  * include/wxHarbour/wxharbour.ch
+    * minor code cleanup
+
+  * samples/bitmapButton/bitmapButton.prg
+    * changed sample to show how to deal with a not existent bitmap image
+
+  * src/common/wxhfuncs.prg
+    * enhanced default message box when showing a GET warning
+    * changed code to use a default bitmap if an non existent one is provided
+
+  * src/wxbase/baseclasses/wx_Window.cpp 
+  * src/wxbase/baseclasses/wxhWindow.prg
+    * added method:
+      + GetGrandParent()
+
+  * src/wxbase/controls/wx_ComboBox.cpp
+  * src/wxbase/menu/wx_MenuItem.cpp
+    * removed wrong #ifdef's based on wxWidgets version
+      ; TODO: fix this and check wxHarbour to work with main stream versions
+        installed (MacOS, Linux, Windows)
+
+  - src/hrbcompat/misc/wxGET.prg
+    * removed unneeded source
+
 2009-07-03 22:03 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
   * wxharbour.hbc

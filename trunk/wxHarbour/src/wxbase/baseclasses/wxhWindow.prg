@@ -43,6 +43,7 @@ PUBLIC:
   METHOD Freeze
   METHOD GetChildren()
   METHOD GetFont
+  METHOD GetGrandParent()
   METHOD GetId
   METHOD GetLabel
   METHOD GetName

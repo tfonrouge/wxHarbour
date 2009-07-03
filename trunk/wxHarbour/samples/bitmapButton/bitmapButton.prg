@@ -57,7 +57,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   BEGIN BOXSIZER HORIZONTAL
       @ BUTTON ID wxID_OPEN BITMAP bmp
-      @ BUTTON ID wxID_CLOSE
+      @ BUTTON ID wxID_CLOSE BITMAP "void.xpm"
       @ BUTTON ID wxID_NEW BITMAP "find.xpm"
       @ BUTTON ID wxID_SAVE BITMAP "print.xpm"
       @ BUTTON ID wxID_CANCEL BITMAP "bitmap2.bmp"

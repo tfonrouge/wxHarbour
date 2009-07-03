@@ -123,7 +123,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
 	$(__BUILDDIR__)/wxHarbour_wxherrorsys.o \
-	$(__BUILDDIR__)/wxHarbour_wxGET.o \
 	$(__BUILDDIR__)/wxHarbour_wxhfunctions.o \
 	$(__BUILDDIR__)/wxHarbour_wxhColumn.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBrowse.o \
@@ -423,9 +422,6 @@ $(__BUILDDIR__)/wxHarbour_wxhutils.o: ./src/common/wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxherrorsys.o: ./src/hrbcompat/errorsys/wxherrorsys.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)/wxHarbour_wxGET.o: ./src/hrbcompat/misc/wxGET.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
 
 $(__BUILDDIR__)/wxHarbour_wxhfunctions.o: ./src/hrbcompat/misc/wxhfunctions.prg
