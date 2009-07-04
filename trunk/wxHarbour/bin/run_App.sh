@@ -11,6 +11,11 @@ if [ `uname` == "Darwin" ] ; then
 	SEDCMD=s/__APPNAME__/${1}/
 	sed -i "" ${SEDCMD} ${App_MacPath}/Info.plist
     fi
+    if [ ! -d ${App_MacPath}/Resources ] ; then
+	mkdir -p ${App_MacPath}/Resources/
+	cp ../../config/*.icns ${App_MacPath}/Resources/
+    fi
+    cp ../../config/PkgInfo ${App_MacPath}
     ${App_MacPath}/MacOS/${1}
 else
     ./${1}
