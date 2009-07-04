@@ -2,6 +2,20 @@
  *
  */
 
+2009-07-03 19:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * ChangeLog
+  * src/wxbase/controls/wx_ComboBox.cpp
+  * src/wxbase/menu/wx_MenuItem.cpp
+    * removed eol
+
+  * bin/run_App.sh
+  + config/Info.plist
+  + config/PkgInfo
+  + config/harbour.icns
+  + config/harbour.ico
+  + config/wxmac.icns
+    % a better Mac OS bundle
+
 2009-07-04 00:58 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * src/wxbase/controls/wx_ComboBox.cpp
   * src/wxbase/menu/wx_MenuItem.cpp
