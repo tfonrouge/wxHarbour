@@ -25,7 +25,7 @@ PUBLIC:
   CONSTRUCTOR New
   DESTRUCTOR OnDestruct()
 
-  METHOD __Destroy /* calls delete for wxObjs  */
+  METHOD __Destroy /* programatically calls delete for wxObjs  */
 
   METHOD HB_Destruct
   METHOD ClearObjData VIRTUAL
