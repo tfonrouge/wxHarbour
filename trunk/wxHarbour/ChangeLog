@@ -2,6 +2,14 @@
  *
  */
 
+2009-07-07 11:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/wxbase/baseclasses/wxhObject.prg
+    * minor code cleanup
+
+  * wxharbour.hbc
+    * extending cpp linking mode to all unix formats
+      ; TODO: check on windows linking
+
 2009-07-04 14:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
  M     ChangeLog
  M     config/Info.plist
