@@ -2,29 +2,39 @@
 # $Id$
 #
 
-# On Windows + MSVC, build wx with this:
+# On Windows + msvc, build wx with this:
 #   build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static
-
-# On Windows + MinGW, build wx with this:
+# On Windows + msvc64, build wx with this:
+#   build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static TARGET_CPU=AMD64
+# On Windows + msvcia64, build wx with this:
+#   build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static TARGET_CPU=IA64
+# On Windows + mingw, build wx with this:
 #   build\msw\mingw32-make -f makefile.gcc BUILD=release RUNTIME_LIBS=static
-
+# On Windows + watcom, build wx with this:
+#   build\msw\wmake -f makefile.wat BUILD=release RUNTIME_LIBS=static
+# On Windows + bcc, build wx with this:
+#   build\msw\make -f makefile.bcc BUILD=release RUNTIME_LIBS=static
 # On Linux/Ubuntu, install these packages first:
 #   sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev
 
 -n1 -es2 -w3
 -hblib
 -inc
--owxharbour
+-olib/${hb_arch}/${hb_comp}/wxharbour
 -nohbc
 
--i{allmingw}${HB_DIR_WX}\lib\gcc_lib\msw
--i{allmsvc}${HB_INC_WX}\msvc
+-i{mingw}${HB_DIR_WX}\lib\gcc_lib\msw
+-i{msvc}${HB_DIR_WX}\lib\vc_lib\msw
+-i{msvc64}${HB_DIR_WX}\lib\vc_amd64_lib\msw
+-i{msvcia64}${HB_DIR_WX}\lib\vc_ia64_lib\msw
+-i{win&watcom}${HB_DIR_WX}\lib\wat_lib\msw
+-i{bcc}${HB_DIR_WX}\lib\bcc_lib\msw
 -i${HB_INC_WX}
 -iinclude/wxHarbour
 
 -cflag={win}-DWIN32
 -cflag={win}-D__WXMSW__
--cflag={msvc}/EHsc
+-cflag={win&allmsvc}/EHsc
 "-cflag={unix&gcc}`wx-config --cflags`"
 
 src/common/*.cpp

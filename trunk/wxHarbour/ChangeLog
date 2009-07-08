@@ -1,6 +1,21 @@
 /*
- *
+ * $Id$
  */
+
+2009-07-08 22:21 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+  * wxharbour.hbc
+    + Added support for win/watcom.
+    + Added support for win/bcc.
+    + Added support for win/msvc64.
+    + Added support for win/msvcia64.
+    ; NOTE: mingw64 isn't currently supported by wx.
+
+  * src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+    ! Fixed compiler error with watcom.
+
+  ; TOFIX: Lots of compiler errors with watcom and bcc when
+           building wxHarbour.
 
 2009-07-08 21:24 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp

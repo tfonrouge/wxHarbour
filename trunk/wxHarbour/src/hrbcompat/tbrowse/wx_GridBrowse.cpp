@@ -176,7 +176,7 @@ HB_FUNC( WXHGRIDBROWSE_CALCMAXROWS )
     top = cellRect.GetTop();
     bottom = cellRect.GetBottom();
 
-    gridBrowse->m_maxRows = max( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 1 );
+    gridBrowse->m_maxRows = HB_MAX( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 1 );
   }
 
   hb_retni( gridBrowse->m_maxRows );
@@ -288,7 +288,7 @@ HB_FUNC( WXHGRIDBROWSE_SHOWROW )
 	int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
 	bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
 	int prevRow = gridBrowse->m_selectedRow;
-	
+
 	if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
 	{
 	  wxGridCellAttr *attrDefaultColour;
@@ -296,12 +296,12 @@ HB_FUNC( WXHGRIDBROWSE_SHOWROW )
 	  attrDefaultColour->SetBackgroundColour( gridBrowse->GetDefaultCellBackgroundColour() );
 	  gridBrowse->SetRowAttr( gridBrowse->m_selectedRow, attrDefaultColour );
 	}
-	
+
 	if( row >= 0 && row < gridBrowse->GetNumberRows() )
 	{
 	  prevRow = gridBrowse->m_selectedRow;
 	  wxColour colour;
-	  
+
 	  if( select )
 	  {
 		colour.Set( _T("RGB(194,222,251)") );
@@ -310,12 +310,12 @@ HB_FUNC( WXHGRIDBROWSE_SHOWROW )
 	  {
 		colour = gridBrowse->GetDefaultCellBackgroundColour();
 	  }
-	  
+
 	  wxGridCellAttr *attr;
 	  attr = new wxGridCellAttr;
 	  attr->SetBackgroundColour( colour );
 	  gridBrowse->SetRowAttr( row, attr );
 	  gridBrowse->m_selectedRow = row;
-	}	
+	}
   }
 }
