@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   auinotebook sample
   Teo. Mexico 2009
 */

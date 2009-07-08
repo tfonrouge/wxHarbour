@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
@@ -134,7 +138,7 @@ wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
-wxString	  wxh_parc( int param );
+const wxString&   wxh_parc( int param );
 void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 
@@ -450,7 +454,7 @@ bool hbWindow<tW>::Validate()
 {
   PHB_ITEM pObj = wxh_ItemListGet_HB( this );
   bool result = false;
-  
+
   if( pObj )
   {
 	hb_objSendMsg( pObj, "Validate", 0 );

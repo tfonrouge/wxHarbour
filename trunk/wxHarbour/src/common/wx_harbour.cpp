@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
@@ -338,11 +342,11 @@ void wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj )
 PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 {
   PHB_ITEM pSelf = NULL;
-  
+
   if( wxObj )
   {
 	wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( wxObj );
-	
+
 	if( pWxh_Item )
 	{
 	  pSelf = pWxh_Item->pSelf;
@@ -353,7 +357,7 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
 	  const char *ascii = clsName.ToAscii();
 	  qoutf("no wxh_Item: wxh_ItemListGet_HB: %s", ascii );
-	}	
+	}
   }
   return pSelf;
 }
@@ -428,7 +432,7 @@ void wxh_ItemListReleaseAll()
  */
 void wxh_itemReturn( wxObject *wxObj )
 {
-  hb_itemReturn( wxh_ItemListGet_HB( wxObj ) );  
+  hb_itemReturn( wxh_ItemListGet_HB( wxObj ) );
 }
 
 /*
@@ -519,7 +523,7 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
   {
 	ULONG ulStrLen = strlen( szStr );
 	PHB_CODEPAGE pcp = hb_vmCDP();
-	
+
 	if( ulStrLen > 0 && pcp )
 	{
 	  wxString wxStr;
@@ -551,7 +555,7 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
  wxh_parc
  Teo. Mexico 2009
  */
-wxString wxh_parc( int param )
+const wxString& wxh_parc( int param )
 {
   return wxh_CTowxString( hb_parc( param ) );
 }
@@ -566,7 +570,7 @@ void wxh_ret_wxSize( wxSize* size )
   hb_arrayNew( pSize, 2 );
   hb_arraySetNI( pSize, 1, size->GetWidth() );
   hb_arraySetNI( pSize, 2, size->GetHeight() );
-  hb_itemReturnRelease( pSize );  
+  hb_itemReturnRelease( pSize );
 }
 
 /*

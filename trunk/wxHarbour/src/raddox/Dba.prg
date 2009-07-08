@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   dba : database access
   Teo. Mexico 2008
 */
