@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   wx_hbcompat.ch : To have Harbour compatibility
   Teo. Mexico 2008
 */

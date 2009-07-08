@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2009-07-08 18:15 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * *.cpp, *.prg, *.h, *.ch
+    * changed svn properties:
+      svn:eol-style native
+      svn:keywords Author Date Id Revision
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    * casting wxh_retc() to const wxString&
+
+  * wx_GridBrowse.cpp
+    ! Fixed a error reported by Viktor using bcc/watcom compilers
+
 2009-07-08 22:21 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
   * wxharbour.hbc

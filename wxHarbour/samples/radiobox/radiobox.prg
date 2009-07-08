@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   radiobox sample
   Teo. Mexico 2009
 */

@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   staticBitmap sample
   Teo. Mexico 2009
 */

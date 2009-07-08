@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   xerror.ch - eXtended error manager
   Teo. Mexico 2007
 */

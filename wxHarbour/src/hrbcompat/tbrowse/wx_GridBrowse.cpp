@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
@@ -287,7 +291,6 @@ HB_FUNC( WXHGRIDBROWSE_SHOWROW )
   {
 	int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
 	bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
-	int prevRow = gridBrowse->m_selectedRow;
 
 	if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
 	{
@@ -299,7 +302,6 @@ HB_FUNC( WXHGRIDBROWSE_SHOWROW )
 
 	if( row >= 0 && row < gridBrowse->GetNumberRows() )
 	{
-	  prevRow = gridBrowse->m_selectedRow;
 	  wxColour colour;
 
 	  if( select )

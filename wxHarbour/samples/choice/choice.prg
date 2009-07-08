@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   choice sample
   Teo. Mexico 2009
 */

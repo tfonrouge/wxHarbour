@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   checkbox sample
   Teo. Mexico 2009
 */

@@ -1,4 +1,8 @@
 /*
+ * $Id$
+ */
+
+/*
   (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
