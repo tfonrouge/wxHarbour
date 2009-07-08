@@ -2,6 +2,11 @@
  *
  */
 
+2009-07-08 21:24 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+  * wxharbour.hbc
+    + Added MinGW support.
+
 2009-07-07 11:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/wxbase/baseclasses/wxhObject.prg
     * minor code cleanup

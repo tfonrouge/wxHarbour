@@ -2,8 +2,11 @@
 # $Id$
 #
 
-# build wx with this:
-# build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static
+# On Windows + MSVC, build wx with this:
+#   build\msw\nmake -f makefile.vc BUILD=release RUNTIME_LIBS=static
+
+# On Windows + MinGW, build wx with this:
+#   build\msw\mingw32-make -f makefile.gcc BUILD=release RUNTIME_LIBS=static
 
 # On Linux/Ubuntu, install these packages first:
 #   sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev
@@ -14,6 +17,7 @@
 -owxharbour
 -nohbc
 
+-i{allmingw}${HB_DIR_WX}\lib\gcc_lib\msw
 -i{allmsvc}${HB_INC_WX}\msvc
 -i${HB_INC_WX}
 -iinclude/wxHarbour
