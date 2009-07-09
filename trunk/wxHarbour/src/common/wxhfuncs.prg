@@ -93,7 +93,7 @@ METHOD New( name, var, block, picture, warn, bAction )
     ::FField := var
     block := {|__localVal| iif( PCount() > 0, ::FField:Value := __localVal, ::FField:Value ) }
   ENDIF
-  
+
   ::FBlock := block
 
   IF picture != NIL
@@ -107,9 +107,9 @@ METHOD New( name, var, block, picture, warn, bAction )
   IF bAction != NIL
     ::bAction := bAction
   ENDIF
-  
+
   containerObj():LastItem()[ "wxhGet" ] := Self
-  
+
 RETURN Self
 
 /*
@@ -119,7 +119,7 @@ RETURN Self
 METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
   LOCAL contextListKey := wxGetApp():wxh_ContextListKey
   LOCAL parent := containerObj():LastParent()
-  
+
   /*
    * Assign initial value
    */
@@ -148,12 +148,12 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
 	  control:SetMaxLength( ::maxLength )
 	ENDIF
   ENDIF
-  
+
   /* @ RADIOBOX */
   IF control:IsDerivedFrom( "wxRadioBox" )
     control:SetSelection( ::GetSelection() )
   ENDIF
-  
+
   /*
    * connect events for changes
    */
@@ -161,7 +161,7 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
   IF control:IsDerivedFrom( "wxCheckBox" )
 	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, {|event| ::UpdateVar( event ) } )
   ENDIF
-  
+
   /* @ CHOICE */
   IF control:IsDerivedFrom( "wxChoice" )
 	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
@@ -196,7 +196,7 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
 	  ENDIF
 	ENDIF
   ENDIF
-  
+
   /* @ RADIOBOX */
   IF control:IsDerivedFrom( "wxRadioBox" )
 	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
@@ -207,12 +207,12 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
    */
   /* update var on kill focus, All controls ? */
   control:ConnectFocusEvt( control:GetId(), wxEVT_KILL_FOCUS, {|event| ::UpdateVar( event ) } )
-  
+
   /* set default name if empty */
   IF Empty( control:GetName() )
     control:SetName( ::Name )
   ENDIF
-  
+
   control:wxhGet := Self
 
 RETURN
@@ -255,7 +255,7 @@ METHOD GetChoices CLASS wxhGET
   LOCAL validValues
 
   IF ::FField != NIL .AND. ::FField:ValidValues != NIL
-  
+
 	validValues := ::FField:GetValidValues()
 
     SWITCH ValType( validValues )
@@ -319,7 +319,7 @@ RETURN n
 */
 METHOD FUNCTION GetMaxLength() CLASS wxhGet
   LOCAL maxLength
-  
+
   IF ::FField != NIL .AND. ::FField:IsDerivedFrom("TStringField")
 	maxLength := ::FField:Size
   ENDIF
@@ -356,9 +356,9 @@ METHOD GetSelection CLASS wxhGET
     _SW_OTHERWISE
       EXIT
     END
-	
+
   ELSE
-  
+
     n := key
 
   ENDIF
@@ -371,11 +371,11 @@ RETURN n
 */
 METHOD IsModified( control ) CLASS wxhGet
   LOCAL modified
-  
+
   // TODO: Check why TAB on a TextCtrl marks buffer as dirty
   //modified := control:IsModified()
   modified := .F.
-  
+
   IF !modified
 	IF ::dataIsOEM
 	  modified := ! RTrim( wxh_wxStringToOEM( control:GetValue() ) ) == RTrim( ::AsString() )
@@ -395,7 +395,7 @@ METHOD PROCEDURE PickList( control ) CLASS wxhGet
   LOCAL parentWnd
   LOCAL selectionMade
   LOCAL value, rawValue
-  
+
   parentWnd := control:GetParent()
 
   ::dontUpdateVar := .T.
@@ -415,7 +415,7 @@ METHOD PROCEDURE PickList( control ) CLASS wxhGet
 	ENDIF
 	control:ChangeValue( wxh_OEMTowxString( s ) )
   ENDIF
-  
+
   control:SetFocus()
 
 RETURN
@@ -439,7 +439,7 @@ METHOD PROCEDURE SetValue( value, event ) CLASS wxhGet
 		::bAction:Eval( event )
 	  ENDIF
 	ENDIF
-	
+
   ENDIF
 
 RETURN
@@ -452,11 +452,11 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhGet
   LOCAL evtType
   LOCAL value
   LOCAL control
-  
+
   IF ::dontUpdateVar
     RETURN
   ENDIF
-  
+
   control := event:GetEventObject()
   evtType := event:GetEventType()
 
@@ -501,7 +501,7 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhGet
 	  ::SetValue( value, event )
 	ENDIF
   ENDIF
-  
+
   ::EvalWarnBlock( control )
 
 RETURN
@@ -730,11 +730,11 @@ FUNCTION __wxh_CheckBox( window, id, label, pos, size, style, validator, name )
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
-  
+
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
 
   checkBox := wxCheckBox():New( window, id, label, pos, size, style, validator, name )
-  
+
   wxhGet:AddPostInfo( checkBox )
 
   containerObj():SetLastChild( checkBox )
@@ -841,15 +841,15 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
-  
+
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
-  
+
   IF choices == NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
 
   radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
-  
+
   wxhGet:AddPostInfo( radioBox )
 
   containerObj():SetLastChild( radioBox )
@@ -869,7 +869,7 @@ FUNCTION __wxh_Choice( parent, id, point, size, choices, style, validator, name 
   ENDIF
 
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
-  
+
   IF choices == NIL .AND. wxhGet:Field != NIL
     choices := wxhGet:GetChoices()
   ENDIF
@@ -893,7 +893,7 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, validat
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
-  
+
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
 
   IF choices == NIL .AND. wxhGet:Field != NIL
@@ -905,7 +905,7 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, validat
   ENDIF
 
   comboBox := wxComboBox():New( parent, id, value, point, size, choices, style, validator, name )
-  
+
   wxhGet:AddPostInfo( comboBox )
 
   containerObj():SetLastChild( comboBox )
@@ -999,9 +999,9 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
-  
+
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
-  
+
   IF multiLine == .T.
     IF Empty( style )
       style := wxTE_MULTILINE
@@ -1011,7 +1011,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
   ENDIF
 
   //__wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
-  
+
   /* nextCtrlOnEnter */
   IF nextCtrlOnEnter
     IF style == NIL
@@ -1020,7 +1020,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
       style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
     ENDIF
   ENDIF
-  
+
   pickBtn := wxhGet:Field != NIL .AND. HB_IsBlock( wxhGet:Field:GetItPick )
 
   IF pickBtn
@@ -1031,12 +1031,12 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
 
   IF toolTip != NIL
     textCtrl:SetToolTip( toolTip )
-  ENDIF  
-  
+  ENDIF
+
   wxhGet:AddPostInfo( textCtrl )
-  
+
   containerObj():SetLastChild( textCtrl )
-  
+
   IF pickBtn
 	@ SIZERINFO STRETCH
 	@ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
@@ -1320,7 +1320,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, validator, name, multiL
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
-  
+
   wxhGet := containerObj():LastItem()[ "wxhGet" ]
 
   IF multiLine == .T.
@@ -1341,7 +1341,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, validator, name, multiL
   ENDIF
 
   searchCtrl := wxSearchCtrl():New( window, id, NIL, pos, size, style, validator, name )
-  
+
   wxhGet:AddPostInfo( searchCtrl )
 
   containerObj():SetLastChild( searchCtrl )
@@ -1420,7 +1420,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
   IF Empty( containerObj():ParentList )
     RETURN
   ENDIF
-  
+
   IF HB_HHasKey( containerObj():LastItem(), "ignoreSizerInfoAdd" )
     HB_HDel( containerObj():LastItem(), "ignoreSizerInfoAdd" )
 	RETURN
@@ -1635,7 +1635,7 @@ FUNCTION __wxh_StaticBitmap( parent, id, label, pos, size, style, name )
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
-  
+
   bmp := __wxh_GetBitmapResource( label )
 
   staticBitmap := wxStaticBitmap():New( parent, id, bmp, pos, size, style, name )
@@ -1685,20 +1685,20 @@ RETURN staticText
 PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, bAction )
   LOCAL toolBar
   LOCAL bitmap1, bitmap2
-  
+
   toolBar := containerObj:LastParent()
-  
+
   IF toolBar != NIL .AND. toolBar:IsDerivedFrom("wxToolBar")
-  
+
 	IF type == "SEPARATOR"
 
 	  toolBar:AddSeparator()
 
 	ELSE
-	
+
 	  bitmap1 := __wxh_GetBitmapResource( bmp1 )
 	  bitmap2 := __wxh_GetBitmapResource( bmp2 )
-	  
+
 	  IF type == "CHECK"
 		toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
 	  ELSEIF type == "RADIO"
@@ -1706,15 +1706,15 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
 	  ELSEIF type == "BUTTON"
 		toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
 	  ENDIF
-	  
+
 	  IF bAction != NIL
 		toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
 	  ENDIF
-	
+
 	ENDIF
-	
+
   ELSE
-  
+
     wxhAlert( "ToolBar control not in sight..." )
 
   ENDIF
@@ -1731,7 +1731,7 @@ FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
-  
+
   IF toFrame == .T.
 	IF parent:IsDerivedFrom("wxFrame")
 	  toolBar := parent:CreateToolBar( style, id, name )
@@ -1754,7 +1754,7 @@ RETURN toolBar
 */
 PROCEDURE __wxh_ToolBarEnd()
   LOCAL toolBar
-  
+
   toolBar := containerObj():LastParent()
   toolBar:Realize()
 
