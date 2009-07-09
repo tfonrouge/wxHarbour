@@ -106,13 +106,13 @@ HB_FUNC( WXFRAME_CENTRE )
 HB_FUNC( WXFRAME_CREATETOOLBAR )
 {
   wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
+
   if( frame )
   {
-	long style = ISNIL( 1 ) ? wxTB_FLAT | wxTB_HORIZONTAL : hb_parnl( 1 );
+    long style = ISNIL( 1 ) ? wxTB_FLAT | wxTB_HORIZONTAL : hb_parnl( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-	const wxString& name = ISNIL( 3 ) ? _T("toolBar") : wxh_parc( 3 );
-	wxh_itemReturn( frame->CreateToolBar( style, id, name ) );
+    const wxString& name = ISNIL( 3 ) ? wxString( _T("toolBar") ) : wxh_parc( 3 );
+    wxh_itemReturn( frame->CreateToolBar( style, id, name ) );
   }
 }
 

@@ -30,7 +30,7 @@ wx_MessageDialog::~wx_MessageDialog()
 
 /*
   wx_MessageDialog
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXMESSAGEDIALOG_NEW )
 {
@@ -38,7 +38,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   const wxString& message = wxh_parc( 2 );
-  const wxString& caption = ISNIL( 3 ) ? _T("Message box") : wxh_parc( 3 );
+  const wxString& caption = ISNIL( 3 ) ? wxString( _T("Message box") ) : wxh_parc( 3 );
   long style = ISNIL( 4 ) ? wxOK | wxCANCEL : hb_parni( 4 );
   wxPoint pos = wxh_par_wxPoint( 5 );
 

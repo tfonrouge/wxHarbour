@@ -37,6 +37,10 @@ wx_Notebook::~wx_Notebook()
   wxNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr)
   */
 
+/*
+  New
+  Teo. Mexico 2009
+*/
 HB_FUNC( WXNOTEBOOK_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -50,7 +54,7 @@ HB_FUNC( WXNOTEBOOK_NEW )
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? _T("noteBook") : wxh_parc( 6 );
+    const wxString& name = ISNIL( 6 ) ? wxString( _T("noteBook") ) : wxh_parc( 6 );
     noteBook = new wx_Notebook( parent, id, pos, size, style, name );
   }
   else

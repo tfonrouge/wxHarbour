@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2009-07-09 17:58 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/harbour-bcc.cfg
+  *  makefile.bcc
+  *  src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  *  src/wxbase/advctrls/wx_Panel.cpp
+  *  src/wxbase/advctrls/wx_StatusBar.cpp
+  *  src/wxbase/books/wx_Listbook.cpp
+  *  src/wxbase/books/wx_Notebook.cpp
+  *  src/wxbase/comdialogs/wx_FileDialog.cpp
+  *  src/wxbase/comdialogs/wx_MessageDialog.cpp
+  *  src/wxbase/controls/wx_BitmapButton.cpp
+  *  src/wxbase/manwindows/wx_Frame.cpp
+  *  src/wxbase/static/wx_Gauge.cpp
+     ! Fixed compilation in BCC55
+
 2009-07-09 14:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * added protection for misplaced BEGIN BOXSIZER construction

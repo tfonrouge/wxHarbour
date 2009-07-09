@@ -30,21 +30,21 @@ wx_FileDialog::~wx_FileDialog()
 
 /*
   wxFileDialog
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXFILEDIALOG_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
 
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-  const wxString& message = ISNIL( 2 ) ? _T("Choose a file") : wxh_parc( 2 );
-  const wxString& defaultDir = ISNIL( 3 ) ? _T("") : wxh_parc( 3 );
-  const wxString& defaultFile = ISNIL( 4 ) ? _T("") : wxh_parc( 4 );
-  const wxString& wildcard = ISNIL( 5 ) ? _T("*.*") : wxh_parc( 5 );
+  const wxString& message = ISNIL( 2 ) ? wxString( _T("Choose a file") ) : wxh_parc( 2 );
+  const wxString& defaultDir = wxh_parc( 3 );
+  const wxString& defaultFile = wxh_parc( 4 );
+  const wxString& wildcard = ISNIL( 5 ) ? wxString( _T("*.*") ) : wxh_parc( 5 );
   long style = ISNIL( 6 )  ? wxFD_DEFAULT_STYLE : hb_parni( 6 );
   wxPoint pos = wxh_par_wxPoint( 7 );
   wxSize size = wxh_par_wxSize( 8 );
-  const wxString& name = ISNIL( 9 ) ? _T("FileDlg") : wxh_parc( 9 );
+  const wxString& name = ISNIL( 9 ) ? wxString( _T("FileDlg") ) : wxh_parc( 9 );
 
   wxFileDialog* fileDlg = new wx_FileDialog( parent, message, defaultDir, defaultFile, wildcard, style, pos, size, name );
 

@@ -35,7 +35,7 @@ wx_StatusBar::~wx_StatusBar()
 
 /*
   Constructor: wxStatusBar Object
-  Teo. Mexico 2006
+  Teo. Mexico 2009
 */
 HB_FUNC( WXSTATUSBAR_NEW )
 {
@@ -44,7 +44,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
   wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
   wxWindowID id = (wxWindowID) hb_parni( 2 );
   long style = ISNIL( 3 ) ? wxST_SIZEGRIP : hb_parnl( 3 );
-  const wxString& name = ISNIL( 4 ) ? _T("statusBar") : wxh_parc( 4 );
+  const wxString& name = ISNIL( 4 ) ? wxString( _T("statusBar") ) : wxh_parc( 4 );
 
   wx_StatusBar* statusBar = new wx_StatusBar( parent, id, style, name );
 
