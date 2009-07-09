@@ -117,7 +117,7 @@ HBLIB_GTPCA = no
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
 !ifndef HBFLAGS
-HBFLAGS = -n -a -v -m -go
+HBFLAGS = -n -a -v -m -go -q0
 !endif
 
 # Type of Harbour compiled binaries [debug,release]
@@ -214,7 +214,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
 	$(__BUILDDIR__)\wxHarbour_wxherrorsys.obj \
-	$(__BUILDDIR__)\wxHarbour_wxGET.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhfunctions.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhColumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhBrowse.obj \
@@ -235,17 +234,21 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhApp.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhImageList.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhObject.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhAuiNotebook.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhListBook.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhNotebook.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhBitmapButton.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhButton.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhCheckBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhChoice.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhComboBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhControl.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSearchCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSpinCtrl.obj \
@@ -274,6 +277,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhIcon.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhFrame.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhMenu.obj \
@@ -291,6 +295,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhGauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhFont.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
@@ -310,16 +316,20 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_App.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ImageList.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Object.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Window.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_AuiNotebook.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Listbook.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Notebook.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_BitmapButton.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Button.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_CheckBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Choice.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ComboBox.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_RadioBox.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SearchCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SpinCtrl.obj \
@@ -342,7 +352,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_SocketEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_StaticBitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Dialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Frame.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_MDIChildFrame.obj \
@@ -364,6 +376,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Gauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Font.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
@@ -473,6 +486,7 @@ install_wxHarbour_headers:
 	copy include\wxHarbour\wxh\auibook.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bitmap.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bookctrl.ch $(PREFIX)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\button.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\filedlg.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gauge.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gdicmn.ch $(PREFIX)\include\wxHarbour\wxh
@@ -500,6 +514,7 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxHarbour\wxh\auibook.ch -del $(PREFIX)\include\wxHarbour\wxh\auibook.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bitmap.ch -del $(PREFIX)\include\wxHarbour\wxh\bitmap.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch
+	-if exist $(PREFIX)\include\wxHarbour\wxh\button.ch -del $(PREFIX)\include\wxHarbour\wxh\button.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\filedlg.ch -del $(PREFIX)\include\wxHarbour\wxh\filedlg.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gauge.ch -del $(PREFIX)\include\wxHarbour\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch -del $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch
@@ -525,9 +540,6 @@ $(__BUILDDIR__)\wxHarbour_wxhutils.obj: .\src\common\wxhutils.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxherrorsys.obj: .\src\hrbcompat\errorsys\wxherrorsys.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
-
-$(__BUILDDIR__)\wxHarbour_wxGET.obj: .\src\hrbcompat\misc\wxGET.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhfunctions.obj: .\src\hrbcompat\misc\wxhfunctions.prg
@@ -590,6 +602,12 @@ $(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj: .\src\wxbase\app\wxhTaskBarIcon.pr
 $(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj: .\src\wxbase\baseclasses\wxhControlWithItems.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhImageList.obj: .\src\wxbase\baseclasses\wxhImageList.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhListItem.obj: .\src\wxbase\baseclasses\wxhListItem.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhObject.obj: .\src\wxbase\baseclasses\wxhObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -608,6 +626,9 @@ $(__BUILDDIR__)\wxHarbour_wxhListBook.obj: .\src\wxbase\books\wxhListBook.prg
 $(__BUILDDIR__)\wxHarbour_wxhNotebook.obj: .\src\wxbase\books\wxhNotebook.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhBitmapButton.obj: .\src\wxbase\controls\wxhBitmapButton.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhButton.obj: .\src\wxbase\controls\wxhButton.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -621,6 +642,9 @@ $(__BUILDDIR__)\wxHarbour_wxhComboBox.obj: .\src\wxbase\controls\wxhComboBox.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhControl.obj: .\src\wxbase\controls\wxhControl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj: .\src\wxbase\controls\wxhListCtrl.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj: .\src\wxbase\controls\wxhRadioBox.prg
@@ -707,6 +731,9 @@ $(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj: .\src\wxbase\image\wxhGDIObject.prg
 $(__BUILDDIR__)\wxHarbour_wxhIcon.obj: .\src\wxbase\image\wxhIcon.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
+$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.obj: .\src\wxbase\image\wxhStaticBitmap.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
 $(__BUILDDIR__)\wxHarbour_wxhDialog.obj: .\src\wxbase\manwindows\wxhDialog.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
@@ -756,6 +783,12 @@ $(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj: .\src\wxbase\static\wxhStaticLine.p
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhFont.obj: .\src\wxbase\system\wxhFont.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj: .\src\wxbase\toolbar\wxhToolBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
+
+$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj: .\src\wxbase\toolbar\wxhToolBarBase.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $**
 
 $(__BUILDDIR__)\wxHarbour_wxhValidator.obj: .\src\wxbase\validators\wxhValidator.prg
@@ -815,6 +848,12 @@ $(__BUILDDIR__)\wxHarbour_wx_TaskBarIcon.obj: .\src\wxbase\app\wx_TaskBarIcon.cp
 $(__BUILDDIR__)\wxHarbour_wx_ControlWithItems.obj: .\src\wxbase\baseclasses\wx_ControlWithItems.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ControlWithItems.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_ImageList.obj: .\src\wxbase\baseclasses\wx_ImageList.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ImageList.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_ListItem.obj: .\src\wxbase\baseclasses\wx_ListItem.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ListItem.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_Object.obj: .\src\wxbase\baseclasses\wx_Object.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_Object.cpp
 
@@ -833,6 +872,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Listbook.obj: .\src\wxbase\books\wx_Listbook.cpp
 $(__BUILDDIR__)\wxHarbour_wx_Notebook.obj: .\src\wxbase\books\wx_Notebook.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\books\wx_Notebook.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_BitmapButton.obj: .\src\wxbase\controls\wx_BitmapButton.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_BitmapButton.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_Button.obj: .\src\wxbase\controls\wx_Button.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_Button.cpp
 
@@ -844,6 +886,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Choice.obj: .\src\wxbase\controls\wx_Choice.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_ComboBox.obj: .\src\wxbase\controls\wx_ComboBox.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_ComboBox.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_ListCtrl.obj: .\src\wxbase\controls\wx_ListCtrl.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_ListCtrl.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_RadioBox.obj: .\src\wxbase\controls\wx_RadioBox.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\controls\wx_RadioBox.cpp
@@ -911,8 +956,14 @@ $(__BUILDDIR__)\wxHarbour_wx_Timer.obj: .\src\wxbase\events\wx_Timer.cpp
 $(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj: .\src\wxbase\events\wx_TimerEvent.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_TimerEvent.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj: .\src\wxbase\image\wx_Bitmap.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\image\wx_Bitmap.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_Icon.obj: .\src\wxbase\image\wx_Icon.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\image\wx_Icon.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_StaticBitmap.obj: .\src\wxbase\image\wx_StaticBitmap.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\image\wx_StaticBitmap.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_Dialog.obj: .\src\wxbase\manwindows\wx_Dialog.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\manwindows\wx_Dialog.cpp
@@ -976,6 +1027,9 @@ $(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj: .\src\wxbase\static\wx_StaticLine.c
 
 $(__BUILDDIR__)\wxHarbour_wx_Font.obj: .\src\wxbase\system\wx_Font.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_Font.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj: .\src\wxbase\toolbar\wx_ToolBar.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\toolbar\wx_ToolBar.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_Validator.obj: .\src\wxbase\validators\wx_Validator.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\validators\wx_Validator.cpp

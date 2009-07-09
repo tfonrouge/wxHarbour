@@ -36,7 +36,7 @@ wx_Listbook::~wx_Listbook()
 
 /*
   wxListbook:New
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXLISTBOOK_NEW )
 {
@@ -51,7 +51,7 @@ HB_FUNC( WXLISTBOOK_NEW )
     const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
     const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
     long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? _T("Listbook") : wxh_parc( 6 );
+    const wxString& name = ISNIL( 6 ) ? wxString( _T("Listbook") ) : wxh_parc( 6 );
     listBook = new wx_Listbook( parent, id, pos, size, style, name );
   }
   else

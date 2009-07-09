@@ -48,7 +48,7 @@ HB_FUNC( WXGAUGE_NEW )
   const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
   long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
   //const wxValidator& validator =  ISNIL( 7 ) ?  wxDefaultValidator : (wxValidator ) objParams.param( 7 );
-  const wxString& name = ISNIL( 8 ) ? wxT("gauge") : wxh_parc( 8 );
+  const wxString& name = ISNIL( 8 ) ? wxString( _T("gauge") ) : wxh_parc( 8 );
 
   objParams.Return( new wx_Gauge( parent, id, range, pos, size, style, wxDefaultValidator, name ) );
 }

@@ -33,6 +33,10 @@ wx_BitmapButton::~wx_BitmapButton()
   wxh_ItemListDel_WX( this );
 }
 
+/*
+  New
+  Teo. Mexico 2009
+ */
 HB_FUNC( WXBITMAPBUTTON_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -44,7 +48,7 @@ HB_FUNC( WXBITMAPBUTTON_NEW )
   const wxSize& size = wxh_par_wxSize( 5 );
   long style = hb_parnl( 6 );
   const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
-  const wxString& name = ISNIL( 8 ) ? _T("bitmapButton") : wxh_parc( 8 );
+  const wxString& name = ISNIL( 8 ) ? wxString( _T("bitmapButton") ) : wxh_parc( 8 );
   
   wx_BitmapButton* bitmapButton = new wx_BitmapButton( parent, id, bitmap, pos, size, style, validator, name );
   
