@@ -2,6 +2,38 @@
  * $Id$
  */
 
+2009-07-09 06:29 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+    ! Added compiler option for watcom.
+      watcom builds are clean now.
+
+  * src/common/wx_harbour.cpp
+    ! Fixed unused var warning.
+
+  * src/wxbase/controls/wx_CheckBox.cpp
+    ! Fixed missing 'break's in:
+      WXCHECKBOX_GET3STATEVALUE()
+      WXCHECKBOX_SET3STATEVALUE()
+
+  ; TOFIX: These warnings and errors remain (with bcc):
+    ---
+    Warning W8004 src\common\wx_harbour.cpp 539: 'mbConv' is assigned a value that is never used in function wxh_CTowxString(const char *,bool)
+    Error E2354 src\hrbcompat\tbrowse\wx_GridBrowse.cpp 148: Two operands must evaluate to the same type in function HB_FUN_WXHGRIDBROWSE_NEW()
+    Error E2354 src\wxbase\advctrls\wx_Panel.cpp 49: Two operands must evaluate to the same type in function HB_FUN_WXPANEL_NEW()
+    Error E2354 src\wxbase\advctrls\wx_StatusBar.cpp 47: Two operands must evaluate to the same type in function HB_FUN_WXSTATUSBAR_NEW()
+    Error E2354 src\wxbase\books\wx_Listbook.cpp 54: Two operands must evaluate to the same type in function HB_FUN_WXLISTBOOK_NEW()
+    Error E2354 src\wxbase\books\wx_Notebook.cpp 53: Two operands must evaluate to the same type in function HB_FUN_WXNOTEBOOK_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_FileDialog.cpp 40: Two operands must evaluate to the same type in function HB_FUN_WXFILEDIALOG_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_FileDialog.cpp 41: Two operands must evaluate to the same type in function HB_FUN_WXFILEDIALOG_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_FileDialog.cpp 42: Two operands must evaluate to the same type in function HB_FUN_WXFILEDIALOG_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_FileDialog.cpp 43: Two operands must evaluate to the same type in function HB_FUN_WXFILEDIALOG_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_FileDialog.cpp 47: Two operands must evaluate to the same type in function HB_FUN_WXFILEDIALOG_NEW()
+    Error E2354 src\wxbase\comdialogs\wx_MessageDialog.cpp 41: Two operands must evaluate to the same type in function HB_FUN_WXMESSAGEDIALOG_NEW()
+    Error E2354 src\wxbase\controls\wx_BitmapButton.cpp 47: Two operands must evaluate to the same type in function HB_FUN_WXBITMAPBUTTON_NEW()
+    Error E2354 src\wxbase\manwindows\wx_Frame.cpp 114: Two operands must evaluate to the same type in function HB_FUN_WXFRAME_CREATETOOLBAR()
+    Error E2354 src\wxbase\static\wx_Gauge.cpp 51: Two operands must evaluate to the same type in function HB_FUN_WXGAUGE_NEW()
+    ---
+
 2009-07-08 21:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   +  makefile.bcc

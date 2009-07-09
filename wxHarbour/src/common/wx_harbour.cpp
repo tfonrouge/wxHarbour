@@ -537,6 +537,8 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
   }
 #else
   const wxMBConv& mbConv = wxConvLocal;
+
+  HB_SYMBOL_UNUSED( convOEM );
 #endif
 
   return wxString( szStr, mbConv );

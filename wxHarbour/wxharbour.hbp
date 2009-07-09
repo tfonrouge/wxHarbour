@@ -35,6 +35,7 @@
 -cflag={win}-DWIN32
 -cflag={win}-D__WXMSW__
 -cflag={win&allmsvc}/EHsc
+-cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
 
 src/common/*.cpp
