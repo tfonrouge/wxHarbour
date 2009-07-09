@@ -67,9 +67,9 @@ HB_FUNC( WXCHECKBOX_GET3STATEVALUE )
 
     switch( cbs )
     {
-      case wxCHK_UNCHECKED : value = 0;
-      case wxCHK_CHECKED : value = 1;
-      case wxCHK_UNDETERMINED : value = 2;
+      case wxCHK_UNCHECKED : value = 0; break;
+      case wxCHK_CHECKED : value = 1; break;
+      case wxCHK_UNDETERMINED : value = 2; break;
     }
 
     hb_retnl( value );
@@ -136,8 +136,8 @@ HB_FUNC( WXCHECKBOX_SET3STATEVALUE )
 
     switch ( hb_parni( 1 ) )
     {
-      case 0 : cbs = wxCHK_UNCHECKED;
-      case 1 : cbs = wxCHK_CHECKED;
+      case 0 : cbs = wxCHK_UNCHECKED; break;
+      case 1 : cbs = wxCHK_CHECKED; break;
     }
     checkBox->Set3StateValue( cbs );
   }
