@@ -2,6 +2,24 @@
  * $Id$
  */
 
+2009-07-08 21:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+  +  makefile.bcc
+  +  makefile.wat
+     * adding creation of makefile for watcom compiler
+     ; TODO: Check creation of HBFLAGS for watcom error on include def ( -i= )
+
+  *  include/wxHarbour/wxh.h
+  *  src/common/wx_harbour.cpp
+     ! Fixed bad casting
+
+  *  src/common/wxhfuncs.prg
+  *  src/wxbase/books/wx_AuiNotebook.cpp
+     * minor code cleanup
+
+  *  src/wxbase/books/wx_Notebook.cpp
+     ! Fixed compiling error on watcom
+
 2009-07-08 18:15 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * *.cpp, *.prg, *.h, *.ch
     * changed svn properties:

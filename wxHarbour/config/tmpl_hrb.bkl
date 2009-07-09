@@ -12,7 +12,7 @@
   <echo>platform: $(PLATFORM_UNIX)</echo>
   <echo> toolset: $(TOOLSET)</echo>
   <echo>  format: $(FORMAT)</echo>
-  
+
   <set var="__DEFAULT_HBFLAGS">
     -n -a -v -m -go -q0
   </set>
@@ -23,11 +23,11 @@
   <set var="PREFIX">
     /usr
   </set>
-  
+
   <if cond="FORMAT=='gnu'">
     <set var="_WL_STARTGROUP" make_var="1">
       `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--start-group" ; fi`
-    </set>  
+    </set>
     <set var="_WL_ENDGROUP" make_var="1">
       `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--end-group" ; fi`
     </set>
@@ -663,6 +663,11 @@ Where is wxWidgets installed
     <if cond="FORMAT=='borland'">
       <set var="__COMPILE_PRG_CMD" eval="0">
         $(HBCC) $(__hbflags) -o$@ $**
+      </set>
+    </if>
+    <if cond="FORMAT=='watcom'">
+      <set var="__COMPILE_PRG_CMD" eval="0">
+        $(HBCC) $(__hbflags) -o$@ $&lt;
       </set>
     </if>
   </template>

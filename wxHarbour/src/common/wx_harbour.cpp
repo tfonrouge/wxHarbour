@@ -530,7 +530,7 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
 	  ULONG ulUTF8Len = hb_cdpStringInUTF8Length( pcp, false, (char *) szStr, ulStrLen );
 	  char *strUTF8 = (char *) hb_xgrab( ulUTF8Len + 1 );
 	  hb_cdpStrnToUTF8( pcp, false, (char *) szStr, ulStrLen, (char *) strUTF8 );
-	  wxStr = wxString( strUTF8, mbConv );
+          wxStr = wxString( strUTF8, mbConv );
 	  hb_xfree( strUTF8 );
 	  return wxStr;
 	}
@@ -555,7 +555,7 @@ HB_FUNC( WXH_LASTTOPLEVELWINDOW )
  wxh_parc
  Teo. Mexico 2009
  */
-const wxString& wxh_parc( int param )
+wxString wxh_parc( int param )
 {
   return wxh_CTowxString( hb_parc( param ) );
 }
