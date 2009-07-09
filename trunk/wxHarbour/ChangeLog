@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2009-07-09 07:01 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbc
+    + Added wxzlib lib. watcom complained.
+    ; TOFIX: watcom gives a lot of warnings on linking and the resulting
+             executable GPFs on startup.
+
 2009-07-09 06:29 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
     ! Added compiler option for watcom.
