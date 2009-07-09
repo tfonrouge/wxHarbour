@@ -21,6 +21,6 @@ ldflags={unix&gcc}"`wx-config --libs`"
 {win&(allmsvc|mingw|bcc)}libs=wxmsw28_adv wxmsw28_aui wxmsw28_core wxmsw28_html wxmsw28_media wxmsw28_richtext wxmsw28_xrc
 {win&allmsvc}libs=wxmsw28_qa
 {win&watcom}libs=wxmsw28
-{win}libs=wxjpeg wxpng wxtiff wxexpat wxregex
+{win}libs=wxjpeg wxpng wxtiff wxexpat wxregex wxzlib
 
 {win}libs=rpcrt4
