@@ -612,6 +612,9 @@ FUNCTION __wxh_BoxSizerBegin( parent, label, orient, strech, align, border, side
   ENDIF
 
   IF lastSizer == NIL
+    IF parent == NIL
+      wxhAlert( "Sizer declared with no parent on sight..." )
+    ENDIF
     __wxh_SetSizer( parent, sizer )
   ELSE
     __wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
@@ -1355,7 +1358,7 @@ RETURN searchCtrl
 PROCEDURE __wxh_SetSizer( window, sizer )
   LOCAL bookCtrl
   LOCAL IsWindowBook := .F.
-
+  
   FOR EACH bookCtrl IN containerObj():BookCtrls
     IF window:IsDerivedFrom( bookCtrl )
       IsWindowBook := .T.

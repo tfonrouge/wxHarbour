@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-07-09 14:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * added protection for misplaced BEGIN BOXSIZER construction
+
 2009-07-09 07:01 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbc
     + Added wxzlib lib. watcom complained.
