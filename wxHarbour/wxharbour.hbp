@@ -37,6 +37,7 @@
 -cflag={win&allmsvc}/EHsc
 -cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
+-aflag={bcc}/P64
 
 src/common/*.cpp
 src/common/*.prg
