@@ -83,7 +83,7 @@ HBEXITSL ?= 2
 HB_INC_PATH ?= $(HB_INC_INSTALL)
 
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj\gcc-win32
+__BUILDDIR__ ?= obj\gcc_win32
 
 # ---------------------------------------------------------------
 # wxWidgets flags (version 2.8 required)
@@ -320,17 +320,17 @@ endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),ansi)
-WXHLIBNAME = wxHarbour-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),unicode)
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(HBCOMPILER),harbour)

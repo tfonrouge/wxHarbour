@@ -285,17 +285,17 @@ endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),ansi)
-__WXHLIBNAME_p = -lwxHarbour-$(WX_BUILD)
+__WXHLIBNAME_p = -lwxHarbour_$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),unicode)
-__WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)
+__WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)
 endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
-__WXHLIBNAME_p = -lwxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+__WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(HBLIB_GTCRS),yes)

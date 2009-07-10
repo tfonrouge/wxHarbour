@@ -335,17 +335,17 @@ endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),ansi)
-WXHLIBNAME = wxHarbour-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),unicode)
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 endif
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(HBCOMPILER),harbour)
