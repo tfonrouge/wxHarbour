@@ -524,7 +524,7 @@ Where to search for the Harbour compiler
       obj/$(COMPILER)-$(TOOLSET)
     </if>
     <if cond="TOOLSET=='win32'">
-      obj\$(COMPILER)-$(TOOLSET)
+      obj\$(COMPILER)_$(TOOLSET)
     </if>
   </set>
 
@@ -582,13 +582,13 @@ Where is wxWidgets installed
       wxHarbour
     </if>
     <if cond="WX_ENCODING=='ansi' and WX_BUILD=='debug'">
-      wxHarbour-$(WX_BUILD)
+      wxHarbour_$(WX_BUILD)
     </if>
     <if cond="WX_ENCODING=='unicode' and WX_BUILD=='release'">
-      wxHarbour-$(WX_ENCODING)
+      wxHarbour_$(WX_ENCODING)
     </if>
     <if cond="WX_ENCODING=='unicode' and WX_BUILD=='debug'">
-      wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+      wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
     </if>
   </set>
 

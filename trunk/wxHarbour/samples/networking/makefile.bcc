@@ -132,7 +132,7 @@ HB_LIB_PATH = $(HB_LIB_INSTALL)
 
 # Where the object and lib files are built 
 !ifndef __BUILDDIR__
-__BUILDDIR__ = obj\bcc-win32
+__BUILDDIR__ = obj\bcc_win32
 !endif
 
 # ---------------------------------------------------------------
@@ -312,13 +312,13 @@ __LIB_GTWVT_p = gtwvt.lib
 __WXHLIBNAME_p = wxHarbour.lib
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
-__WXHLIBNAME_p = wxHarbour-$(WX_BUILD).lib
+__WXHLIBNAME_p = wxHarbour_$(WX_BUILD).lib
 !endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "unicode"
-__WXHLIBNAME_p = wxHarbour-$(WX_ENCODING).lib
+__WXHLIBNAME_p = wxHarbour_$(WX_ENCODING).lib
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
-__WXHLIBNAME_p = wxHarbour-$(WX_ENCODING)-$(WX_BUILD).lib
+__WXHLIBNAME_p = wxHarbour_$(WX_ENCODING)-$(WX_BUILD).lib
 !endif
 !if "$(WX_ENCODING)" == "unicode"
 ____D_WX_UNICODE_FILENAMES_p = -D_UNICODE

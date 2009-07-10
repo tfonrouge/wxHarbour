@@ -85,7 +85,7 @@ HBEXITSL = 2
 HB_INC_PATH = $(HB_INC_INSTALL)
 
 # Where the object and lib files are built 
-__BUILDDIR__ = obj\vc-win32
+__BUILDDIR__ = obj\vc_win32
 
 # ---------------------------------------------------------------
 # wxWidgets flags (version 2.8 required)
@@ -319,13 +319,13 @@ __HBDEBUG__ = -b -d_DEBUG_
 WXHLIBNAME = wxHarbour
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
-WXHLIBNAME = wxHarbour-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_BUILD)
 !endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "unicode"
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 !endif
 !if "$(HBCOMPILER)" == "harbour"
 HBCC_DEFINE = -D__HARBOUR__
