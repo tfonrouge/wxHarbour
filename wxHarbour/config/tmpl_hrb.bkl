@@ -638,6 +638,9 @@ Where is wxWidgets installed
     <if cond="TOOLSET=='unix'">
       -fno-strict-aliasing `wx-config --cxxflags`
     </if>
+    <if cond="COMPILER=='wat'">
+      -xs
+    </if>
   </set>
 
   <!-- Defines how to call the Harbour compiler in the makefiles -->
