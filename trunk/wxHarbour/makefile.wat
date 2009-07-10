@@ -10,19 +10,19 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# The common installation prefix for binary and DLL files
+# The common installation prefix for binary and DLL files 
 EXEC_PREFIX = C:\opt\bin
 
-# C compiler
+# C compiler 
 CC = wcc386
 
-# C++ compiler
+# C++ compiler 
 CXX = wpp386
 
-# Standard preprocessor flags (common for CC and CXX)
-CPPFLAGS =
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS = 
 
-# Path for the installed [x]Harbour compiler (bin,lib and include dirs)
+# Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(%HB_INSTALL_PREFIX)
 
 # [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
@@ -30,7 +30,7 @@ HBPATH_INSTALL = $(%HB_INSTALL_PREFIX)
 #   xharbour - www.xharbour.com
 HBCOMPILER = harbour
 
-# [x]Harbour compiler executable name
+# [x]Harbour compiler executable name 
 HBCC = harbour
 
 # Link with Harbour multithread libraries [no,yes]
@@ -69,7 +69,7 @@ HBLIB_GTPCA = no
 # ---------------------------------------------------------------
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
-# Standard flags for Harbour compiler
+# Standard flags for Harbour compiler 
 HBFLAGS = -n -a -v -m -go -q0
 
 # Type of Harbour compiled binaries [debug,release]
@@ -81,17 +81,17 @@ HBWARNL = 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL = 2
 
-# Where to search for Harbour includes
+# Where to search for Harbour includes 
 HB_INC_PATH = $(%HB_INC_INSTALL)
 
-# Where the object and lib files are built
-__BUILDDIR__ = obj\wat-win32
+# Where the object and lib files are built 
+__BUILDDIR__ = obj\wat_win32
 
 # ---------------------------------------------------------------
 # wxWidgets flags (version 2.8 required)
 # ---------------------------------------------------------------
-#
-# Where is wxWidgets installed
+# 
+# Where is wxWidgets installed 
 WX_PATH = C:\wxWidgets-2.8.10
 
 # Encoding [ansi,unicode]
@@ -143,17 +143,17 @@ WXHLIBNAME = wxHarbour
 !endif
 !ifeq WX_BUILD debug
 !ifeq WX_ENCODING ansi
-WXHLIBNAME = wxHarbour-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_BUILD)
 !endif
 !endif
 !ifeq WX_BUILD release
 !ifeq WX_ENCODING unicode
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 !endif
 !endif
 !ifeq WX_BUILD debug
 !ifeq WX_ENCODING unicode
-WXHLIBNAME = wxHarbour-$(WX_ENCODING)-$(WX_BUILD)
+WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 !endif
 !endif
 HBCC_DEFINE =
@@ -207,16 +207,16 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" &
 	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" &
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = /i$(HB_INC_PATH) /iinclude\wxHarbour &
+WXHARBOUR_CFLAGS = -i=$(HB_INC_PATH) -i=include\wxHarbour &
 	-i=$(PREFIX)\include\wxHarbour -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
 	-d__WXMSW__ -i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) &
 	$(HBCC_DEFINE)
 WXHARBOUR_CXXFLAGS = -i=$(HB_INC_PATH) -i=include\wxHarbour &
-	-i=$(PREFIX)\include\wxHarbour -xs -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
+	-i=$(PREFIX)\include\wxHarbour -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
 	-d__WXMSW__ -i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) /fh $(CPPFLAGS) &
-	$(HBCC_DEFINE)
+	$(HBCC_DEFINE) -xs
 WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj &
@@ -387,7 +387,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) &
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i$(HB_INC_PATH) -iinclude\wxHarbour &
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) -i=include\wxHarbour &
 	-i=$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
 
@@ -404,7 +404,7 @@ install : .SYMBOLIC install_wxHarbour install_wxHarbour_headers
 
 uninstall : .SYMBOLIC uninstall_wxHarbour uninstall_wxHarbour_headers
 
-clean : .SYMBOLIC
+clean : .SYMBOLIC 
 	-if exist $(__BUILDDIR__)\*.obj del $(__BUILDDIR__)\*.obj
 	-if exist $(__BUILDDIR__)\*.res del $(__BUILDDIR__)\*.res
 	-if exist $(__BUILDDIR__)\*.lbc del $(__BUILDDIR__)\*.lbc
@@ -424,10 +424,10 @@ install_wxHarbour : .SYMBOLIC $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	-mkdir $(PREFIX)\lib
 	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(PREFIX)\lib
 
-uninstall_wxHarbour : .SYMBOLIC
+uninstall_wxHarbour : .SYMBOLIC 
 	-del $(PREFIX)\lib\$(WXHLIBNAME).lib
 
-install_wxHarbour_headers : .SYMBOLIC
+install_wxHarbour_headers : .SYMBOLIC 
 	if not exist $(PREFIX) mkdir $(PREFIX)
 	if not exist $(PREFIX)\include/wxHarbour/wxh mkdir $(PREFIX)\include/wxHarbour/wxh
 	if not exist $(PREFIX)\include/wxHarbour mkdir $(PREFIX)\include/wxHarbour
@@ -458,7 +458,7 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\wxh\taskbar.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\textctrl.ch $(PREFIX)\include\wxHarbour\wxh
 
-uninstall_wxHarbour_headers : .SYMBOLIC
+uninstall_wxHarbour_headers : .SYMBOLIC 
 	-if exist $(PREFIX)\include\wxHarbour\defs.ch -del $(PREFIX)\include\wxHarbour\defs.ch
 	-if exist $(PREFIX)\include\wxHarbour\dialog.ch -del $(PREFIX)\include\wxHarbour\dialog.ch
 	-if exist $(PREFIX)\include\wxHarbour\event.ch -del $(PREFIX)\include\wxHarbour\event.ch

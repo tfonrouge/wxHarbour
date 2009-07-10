@@ -2,6 +2,47 @@
  * $Id$
  */
 
+2009-07-09 20:12 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  build_bkls.sh
+  *  makefile.wat
+     * added watcom compiler makefile generation
+       ; TODO: Check bad linking of executables with this compiler
+
+  *  config/tmpl_hrb.bkl
+     * added flag needed for compiling on watcom
+       ; TODO: Check bad creation of include defines on HBFLAGS
+
+  +  demos/dbExplorer/makefile.bcc
+  +  demos/helloworld/makefile.bcc
+  +  samples/arrbrowser/makefile.bcc
+  +  samples/auinotebook/makefile.bcc
+  +  samples/bitmapButton/makefile.bcc
+  +  samples/button/makefile.bcc
+  +  samples/checkbox/makefile.bcc
+  +  samples/choice/makefile.bcc
+  +  samples/combobox/makefile.bcc
+  +  samples/dbbrowser/makefile.bcc
+  +  samples/gauge/makefile.bcc
+  +  samples/grid/makefile.bcc
+  +  samples/listbook/makefile.bcc
+  +  samples/menu/makefile.bcc
+  +  samples/notebook/makefile.bcc
+  +  samples/panel/makefile.bcc
+  +  samples/radiobox/makefile.bcc
+  +  samples/sayget/makefile.bcc
+  +  samples/sizers/makefile.bcc
+  +  samples/spinctrl/makefile.bcc
+  +  samples/staticBitmap/makefile.bcc
+  +  samples/taskBarIcon/makefile.bcc
+  +  samples/text/makefile.bcc
+  +  samples/timer/makefile.bcc
+  +  samples/toolbar/makefile.bcc
+  +  samples/treectrl/makefile.bcc
+  +  tests/evtdefcheck/makefile.bcc
+  +  tests/socketCli/makefile.bcc
+  +  tests/socketSrv/makefile.bcc
+     * added makefiles for borland compiler
+
 2009-07-09 19:38 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   *  demos/dbExplorer/GNUmakefile
