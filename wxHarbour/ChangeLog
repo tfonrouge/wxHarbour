@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-07-09 20:26 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * corrected description
+
 2009-07-09 20:12 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  build_bkls.sh
   *  makefile.wat
@@ -135,8 +139,8 @@
   *  tests/socketSrv/GNUmakefile
   *  tests/socketSrv/makefile.gcc
   *  tests/socketSrv/makefile.vc
-     ! Fixed creation of makefiles for borland: "-" now allowed on
-       files on linking time
+     ! Fixed creation of makefiles for borland: char "-" is not allowed on
+       file names, leads to error on linking time
 
 2009-07-10 01:07 UTC+0200 Viktor Szakats (harbour.01 syenar.hu)
   * wxharbour.hbp
