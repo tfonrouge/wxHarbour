@@ -24,6 +24,7 @@ FUNCTION Main()
   port := "27960"
 
   ipv4 := wxIPV4Address():New()
+  ipv4:AnyAddress()
   ipv4:Service(port)
 
   socketServer := wxSocketServer():New( ipv4 )

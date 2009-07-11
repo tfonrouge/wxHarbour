@@ -66,9 +66,9 @@
   Teo. Mexico 2009
 */
 #xcommand @ PUSHGET [<dataVar>] [ PICTURE <picture> ] [ WARNING <warn> ]  [ ACTION <bAction> ] ;
-		  => ;
-		  wxhGet():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warn>], [<{bAction}>] )
-	  
+      => ;
+      wxhGet():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warn>], [<{bAction}>] )
+
 /*
   Calls ::__Destroy() to remove wxh_Item associated to objects
   Teo. Mexico 2009
@@ -293,7 +293,7 @@
  * Teo. Mexico 2009
  */
 #xcommand @ BUTTON [<label>] ;
-			[ BITMAP <bmp> ] ;
+            [ BITMAP <bmp> ] ;
             [ VAR <btn> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -308,7 +308,7 @@
             [<window>],;
             [<id>],;
             [<label>],;
-			[<bmp>],;
+            [<bmp>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -336,7 +336,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-		  @ PUSHGET [<dataVar>] [ ACTION <{bAction}> ] ;;
+          @ PUSHGET [<dataVar>] [ ACTION <{bAction}> ] ;;
           [ <checkBox> := ]__wxh_CheckBox( ;
             [<window>],;
             [<id>],;
@@ -361,7 +361,7 @@
             [ ON <window> ] ;
             [ ID <id> ] ;
             [ <type: HORIZONTAL, VERTICAL> ] ;
-	    [ RANGE <range> ] ;
+            [ RANGE <range> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ VALIDATOR <validator> ] ;
@@ -400,7 +400,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+          @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <radioBox> := ]__wxh_RadioBox( ;
             [<parent>],;
             [<id>],;
@@ -433,7 +433,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <choice> := ]__wxh_Choice( ;
             [<parent>],;
             [<id>],;
@@ -465,7 +465,7 @@
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <comboBox> := ]__wxh_ComboBox( ;
             [<parent>],;
             [<id>],;
@@ -624,7 +624,7 @@
 /*
  * GET
  */
-#xcommand @ GET <dataVar> ;
+#xcommand @ GET [<dataVar>] ;
             [ VAR <var> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -854,7 +854,7 @@
             [ <mline: MULTILINE> ] ;
             [ ACTION <bAction> ] ;
           => ;
-		  @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
           [ <searchCtrl> := ]__wxh_SearchCtrl( ;
             [<window>],;
             [<id>],;
@@ -889,7 +889,7 @@
           [ <toolBar> := ]__wxh_ToolBarBegin( ;
             [<window>],;
             [<id>],;
-			[<.toFrame.>],;
+            [<.toFrame.>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
@@ -898,28 +898,28 @@
 #xcommand END TOOLBAR => __wxh_ToolBarEnd()
 
 #xcommand @ TOOL <type: CHECK, RADIO, BUTTON> ;
-			ID <id> ;
-			[ LABEL <label> ] ;
-			[ BITMAP <bitmap1> ] ;
-			[ DISBITMAP <bitmap2> ] ;
-			[ SHORTHELP <shortHelp> ] ;
-			[ LONGHELP <longHelp> ] ;
-			[ CLIENTDATA <clientData> ] ;
-			[ ACTION <bAction> ] ;
-			=> ;
-			__wxh_ToolAdd( ;
-			  [<"type">],;
-			  [<id>],;
-			  [<label>],;
-			  [<bitmap1>],;
-			  [<bitmap2>],;
-			  [<shortHelp>],;
-			  [<longHelp>],;
-			  [<clientData>],;
-			  [<{bAction}>] )
-			  
+            ID <id> ;
+            [ LABEL <label> ] ;
+            [ BITMAP <bitmap1> ] ;
+            [ DISBITMAP <bitmap2> ] ;
+            [ SHORTHELP <shortHelp> ] ;
+            [ LONGHELP <longHelp> ] ;
+            [ CLIENTDATA <clientData> ] ;
+            [ ACTION <bAction> ] ;
+            => ;
+            __wxh_ToolAdd( ;
+              [<"type">],;
+              [<id>],;
+              [<label>],;
+              [<bitmap1>],;
+              [<bitmap2>],;
+              [<shortHelp>],;
+              [<longHelp>],;
+              [<clientData>],;
+              [<{bAction}>] )
+
 #xcommand @ TOOL SEPARATOR => __wxh_ToolAdd( "SEPARATOR" )
-			  
+
 #xcommand BEGIN TOOLBAR [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           BEGIN TOOLBAR [<clauses>] ;;

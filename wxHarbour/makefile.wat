@@ -387,9 +387,9 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) &
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) -i=include\wxHarbour &
-	-i=$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i=$(WX_PATH)\Include &
-	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i$(HB_INC_PATH) -iinclude\wxHarbour &
+	-i$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i$(WX_PATH)\Include &
+	-i$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
 
 
 all : $(__BUILDDIR__)

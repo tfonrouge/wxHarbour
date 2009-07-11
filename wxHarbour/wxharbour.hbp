@@ -27,6 +27,7 @@
 -i{msvc}${HB_DIR_WX}\lib\vc_lib\msw
 -i{msvc64}${HB_DIR_WX}\lib\vc_amd64_lib\msw
 -i{msvcia64}${HB_DIR_WX}\lib\vc_ia64_lib\msw
+-i{win&watcom}${HB_DIR_WX}\include
 -i{win&watcom}${HB_DIR_WX}\lib\wat_lib\msw
 -i{bcc}${HB_DIR_WX}\lib\bcc_lib\msw
 -i${HB_INC_WX}
