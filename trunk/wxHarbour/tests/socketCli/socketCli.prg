@@ -96,7 +96,7 @@ METHOD PROCEDURE ConnectToServer CLASS MyApp
       RETURN
     ENDIF
 
-    s := "Hola desde el Cliente"
+    s := "Hello from " + wxGetFullHostName()
     ? "WriteMsg 1"
     ::socket:WriteMsg( s, Len( s ) )
     ? "WriteMsg 2"
@@ -142,18 +142,23 @@ METHOD FUNCTION OnInit CLASS MyApp
   CREATE FRAME ::oWnd ;
          TITLE "Socket Client"
 
+  BEGIN FRAME TOOLBAR HEIGHT 20
+    @ TOOL BUTTON ID 100 BITMAP "network.xpm" ACTION ::ConnectToServer()
+    @ GET ::serverName
+  END TOOLBAR
+
   DEFINE MENUBAR
     DEFINE MENU "&File"
       ADD MENUITEM E"Quit\tCtrl+X" ACTION ::oWnd:Close()
     ENDMENU
     DEFINE MENU "&Server"
-      ADD MENUITEM E"Connect\tCtrl+C" ACTION ::ConnectToServer ENABLED {|| ::socket == NIL }
-      ADD MENUITEM "Close" ACTION ::ConnectToServer ENABLED {|| ::socket != NIL }
+      ADD MENUITEM E"Connect\tCtrl+C" ID 100 ACTION ::ConnectToServer() ENABLED {|| ::socket == NIL }
+      ADD MENUITEM "Disconnect" ACTION ::ConnectToServer ENABLED {|| ::socket != NIL }
     ENDMENU
   ENDMENU
 
   BEGIN BOXSIZER VERTICAL
-    @ TEXTCTRL VAR ::logCtrl MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
+    @ GET VAR ::logCtrl MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
     @ SAY "Send:" GET msg NAME "msg" ACTION {|getCtrl| ::SendToServer( getCtrl ) }
     @ BUTTON ID wxID_CLOSE ACTION ::oWnd:Close()
   END SIZER

@@ -14,7 +14,7 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#define nextCtrlOnEnter	.T.
+#define nextCtrlOnEnter   .T.
 
 /*
   wxhFuncs
@@ -71,7 +71,7 @@ PUBLIC:
   METHOD PickList( control )
   METHOD SetValue( value )
   METHOD UpdateVar( event )
-  METHOD ValueCtrl				  /* Value for control */
+  METHOD ValueCtrl              /* Value for control */
 
   PROPERTY Block READ FBlock
   PROPERTY Field READ FField
@@ -120,38 +120,40 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
   LOCAL contextListKey := wxGetApp():wxh_ContextListKey
   LOCAL parent := containerObj():LastParent()
 
-  /*
-   * Assign initial value
-   */
-  /* @ CHECKBOX */
-  IF control:IsDerivedFrom( "wxCheckBox" )
-    IF !control:Is3State()
-      control:SetValue( ::Block:Eval() )
+  IF ::FBlock != NIL
+    /*
+     * Assign initial value
+     */
+    /* @ CHECKBOX */
+    IF control:IsDerivedFrom( "wxCheckBox" )
+      IF !control:Is3State()
+        control:SetValue( ::Block:Eval() )
+      ENDIF
     ENDIF
-  ENDIF
 
-  /* @ CHOICE */
-  IF control:IsDerivedFrom( "wxChoice" )
-    control:SetSelection( ::GetSelection() )
-  ENDIF
+    /* @ CHOICE */
+    IF control:IsDerivedFrom( "wxChoice" )
+      control:SetSelection( ::GetSelection() )
+    ENDIF
 
-  /* @ COMBOBOX */
-  IF control:IsDerivedFrom( "wxComboBox" )
-	control:SetSelection( ::GetSelection() )
-  ENDIF
+    /* @ COMBOBOX */
+    IF control:IsDerivedFrom( "wxComboBox" )
+      control:SetSelection( ::GetSelection() )
+    ENDIF
 
-  /* @ GET */
-  IF control:IsDerivedFrom( "wxTextCtrl" )
-    control:ChangeValue( ::ValueCtrl() )
-	control:SetSelection()
-	IF ::maxLength != NIL
-	  control:SetMaxLength( ::maxLength )
-	ENDIF
-  ENDIF
+    /* @ GET */
+    IF control:IsDerivedFrom( "wxTextCtrl" )
+      control:ChangeValue( ::ValueCtrl() )
+      control:SetSelection()
+      IF ::maxLength != NIL
+        control:SetMaxLength( ::maxLength )
+      ENDIF
+    ENDIF
 
-  /* @ RADIOBOX */
-  IF control:IsDerivedFrom( "wxRadioBox" )
-    control:SetSelection( ::GetSelection() )
+    /* @ RADIOBOX */
+    IF control:IsDerivedFrom( "wxRadioBox" )
+      control:SetSelection( ::GetSelection() )
+    ENDIF
   ENDIF
 
   /*
@@ -159,47 +161,47 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
    */
   /* @ CHECKBOX */
   IF control:IsDerivedFrom( "wxCheckBox" )
-	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, {|event| ::UpdateVar( event ) } )
+    control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, {|event| ::UpdateVar( event ) } )
   ENDIF
 
   /* @ CHOICE */
   IF control:IsDerivedFrom( "wxChoice" )
-	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
+    control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
   ENDIF
 
   /* @ COMBOBOX */
   IF control:IsDerivedFrom( "wxComboBox" )
-	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
-	control:ConnectCommandEvt( control:GetID(), wxEVT_COMMAND_TEXT_UPDATED, {|event| ::UpdateVar( event ) } )
+    control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
+    control:ConnectCommandEvt( control:GetID(), wxEVT_COMMAND_TEXT_UPDATED, {|event| ::UpdateVar( event ) } )
   ENDIF
 
   /* @ GET */
   IF control:IsDerivedFrom( "wxTextCtrl" )
-	IF nextCtrlOnEnter .AND. !control:IsMultiLine()
-	  parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
-	ENDIF
-	IF ::Field != NIL .AND. HB_IsBlock( ::Field:GetItPick )
-	  control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event:GetEventObject() ) } )
-	  IF control:IsDerivedFrom( "wxSearchCtrl" )
-		control:ConnectCommandEvt( control:GetId(), 1120, {|event| ::PickList( event:GetEventObject() ) } )
-	  ENDIF
-	  IF contextListKey != NIL
-		control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
-		  {|event|
-			IF event:GetKeyCode() = contextListKey
-			  ::PickList( event:GetEventObject() )
-			  RETURN NIL
-			ENDIF
-			event:Skip()
-			RETURN NIL
-		  } )
-	  ENDIF
-	ENDIF
+    IF nextCtrlOnEnter .AND. !control:IsMultiLine()
+      parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
+    ENDIF
+    IF ::Field != NIL .AND. HB_IsBlock( ::Field:GetItPick )
+      control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event:GetEventObject() ) } )
+      IF control:IsDerivedFrom( "wxSearchCtrl" )
+        control:ConnectCommandEvt( control:GetId(), 1120, {|event| ::PickList( event:GetEventObject() ) } )
+      ENDIF
+      IF contextListKey != NIL
+        control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
+          {|event|
+            IF event:GetKeyCode() = contextListKey
+              ::PickList( event:GetEventObject() )
+              RETURN NIL
+            ENDIF
+            event:Skip()
+            RETURN NIL
+          } )
+      ENDIF
+    ENDIF
   ENDIF
 
   /* @ RADIOBOX */
   IF control:IsDerivedFrom( "wxRadioBox" )
-	control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
+    control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
   ENDIF
 
   /*
@@ -256,7 +258,7 @@ METHOD GetChoices CLASS wxhGET
 
   IF ::FField != NIL .AND. ::FField:ValidValues != NIL
 
-	validValues := ::FField:GetValidValues()
+    validValues := ::FField:GetValidValues()
 
     SWITCH ValType( validValues )
     CASE 'A'
@@ -321,7 +323,7 @@ METHOD FUNCTION GetMaxLength() CLASS wxhGet
   LOCAL maxLength
 
   IF ::FField != NIL .AND. ::FField:IsDerivedFrom("TStringField")
-	maxLength := ::FField:Size
+    maxLength := ::FField:Size
   ENDIF
 
 RETURN maxLength
@@ -377,11 +379,11 @@ METHOD IsModified( control ) CLASS wxhGet
   modified := .F.
 
   IF !modified
-	IF ::dataIsOEM
-	  modified := ! RTrim( wxh_wxStringToOEM( control:GetValue() ) ) == RTrim( ::AsString() )
-	ELSE
-	  modified := ! RTrim( control:GetValue() ) == RTrim( ::AsString() )
-	ENDIF
+    IF ::dataIsOEM
+      modified := ! RTrim( wxh_wxStringToOEM( control:GetValue() ) ) == RTrim( ::AsString() )
+    ELSE
+      modified := ! RTrim( control:GetValue() ) == RTrim( ::AsString() )
+    ENDIF
   ENDIF
 
 RETURN modified
@@ -403,17 +405,17 @@ METHOD PROCEDURE PickList( control ) CLASS wxhGet
   ::dontUpdateVar := .F.
 
   IF selectionMade
-	s := RTrim( ::Field:Value )
-	rawValue := control:GetValue()
-	IF ::dataIsOEM
-	  value := RTrim( wxh_wxStringToOEM( rawValue ) )
-	ELSE
-	  value := RTrim( rawValue )
-	ENDIF
-	IF s == value
-	  RETURN /* no changes */
-	ENDIF
-	control:ChangeValue( wxh_OEMTowxString( s ) )
+    s := RTrim( ::Field:Value )
+    rawValue := control:GetValue()
+    IF ::dataIsOEM
+      value := RTrim( wxh_wxStringToOEM( rawValue ) )
+    ELSE
+      value := RTrim( rawValue )
+    ENDIF
+    IF s == value
+      RETURN /* no changes */
+    ENDIF
+    control:ChangeValue( wxh_OEMTowxString( s ) )
   ENDIF
 
   control:SetFocus()
@@ -429,16 +431,16 @@ METHOD PROCEDURE SetValue( value, event ) CLASS wxhGet
 
   IF !value == NIL
 
-	oldValue := ::FBlock:Eval()
+    oldValue := ::FBlock:Eval()
 
-	::FBlock:Eval( value )
+    ::FBlock:Eval( value )
 
-	/* changed ? */
-	IF !oldValue == ::FBlock:Eval()
-	  IF ::bAction != NIL
-		::bAction:Eval( event )
-	  ENDIF
-	ENDIF
+    /* changed ? */
+    IF !oldValue == ::FBlock:Eval()
+      IF ::bAction != NIL
+        ::bAction:Eval( event )
+      ENDIF
+    ENDIF
 
   ENDIF
 
@@ -453,7 +455,7 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhGet
   LOCAL value
   LOCAL control
 
-  IF ::dontUpdateVar
+  IF ::dontUpdateVar .OR. ::FBlock == NIL
     RETURN
   ENDIF
 
@@ -461,45 +463,45 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhGet
   evtType := event:GetEventType()
 
   IF control:IsDerivedFrom( "wxTextCtrl" )
-	IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
-	  IF ::IsModified( control ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
-		IF ::dataIsOEM
-		  value := wxh_wxStringToOEM( control:GetValue() )
-		ELSE
-		  value := control:GetValue()
-		ENDIF
-		::SetValue( value, event )
-		control:ChangeValue( wxh_OEMTowxString( RTrim( ::Block:Eval() ) ) )
-	  ENDIF
-	ENDIF
+    IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
+      IF ::IsModified( control ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
+        IF ::dataIsOEM
+          value := wxh_wxStringToOEM( control:GetValue() )
+        ELSE
+          value := control:GetValue()
+        ENDIF
+        ::SetValue( value, event )
+        control:ChangeValue( wxh_OEMTowxString( RTrim( ::Block:Eval() ) ) )
+      ENDIF
+    ENDIF
   ENDIF
 
   IF control:IsDerivedFrom( "wxCheckBox" )
-	IF event:GetEventType() = wxEVT_COMMAND_CHECKBOX_CLICKED
-	  ::SetValue( control:GetValue(), event )
-	ENDIF
+    IF event:GetEventType() = wxEVT_COMMAND_CHECKBOX_CLICKED
+      ::SetValue( control:GetValue(), event )
+    ENDIF
   ENDIF
 
   IF control:IsDerivedFrom( "wxChoice" )
     IF event:GetEventType() = wxEVT_COMMAND_CHOICE_SELECTED
-	  value := ::GetKeyValue( control:GetCurrentSelection() )
-	  ::SetValue( value, event )
-	ENDIF
+      value := ::GetKeyValue( control:GetCurrentSelection() )
+      ::SetValue( value, event )
+    ENDIF
   ENDIF
 
   IF control:IsDerivedFrom( "wxComboBox" )
-	IF evtType = wxEVT_COMMAND_COMBOBOX_SELECTED .OR. evtType = wxEVT_KILL_FOCUS
-	  //value := ::FWXHGet:GetKeyValue( ::GetValue() )
-	  value := control:GetValue()
-	  ::SetValue( value, event )
-	ENDIF
+    IF evtType = wxEVT_COMMAND_COMBOBOX_SELECTED .OR. evtType = wxEVT_KILL_FOCUS
+      //value := ::FWXHGet:GetKeyValue( ::GetValue() )
+      value := control:GetValue()
+      ::SetValue( value, event )
+    ENDIF
   ENDIF
 
   IF control:IsDerivedFrom( "wxRadioBox" )
-	IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
-	  value := ::GetKeyValue( control:GetSelection() )
-	  ::SetValue( value, event )
-	ENDIF
+    IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
+      value := ::GetKeyValue( control:GetSelection() )
+      ::SetValue( value, event )
+    ENDIF
   ENDIF
 
   ::EvalWarnBlock( control )
@@ -516,9 +518,9 @@ METHOD FUNCTION ValueCtrl() CLASS wxhGet
   value := RTrim( ::AsString() )
 
   IF ::Field != NIL
-	IF ::Field:Table:dataIsOEM
-	  value := wxh_OEMTowxString( value )
-	ENDIF
+    IF ::Field:Table:dataIsOEM
+      value := wxh_OEMTowxString( value )
+    ENDIF
   ENDIF
 
 RETURN value
@@ -696,18 +698,18 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
   ENDIF
 
   IF bmp != NIL
-	bitmap := __wxh_GetBitmapResource( bmp )
+    bitmap := __wxh_GetBitmapResource( bmp )
   ENDIF
 
   IF bitmap == NIL
-	button := wxButton():New( window, id, label, pos, size, style, validator, name )
+    button := wxButton():New( window, id, label, pos, size, style, validator, name )
   ELSE
-	IF style == NIL
-	  style := wxBU_AUTODRAW
-	ELSE
-	  style := _hb_BitOr( style, wxBU_AUTODRAW )
-	ENDIF
-	button := wxBitmapButton():New( window, id, bitmap, pos, size, style, validator, name )
+    IF style == NIL
+      style := wxBU_AUTODRAW
+    ELSE
+      style := _hb_BitOr( style, wxBU_AUTODRAW )
+    ENDIF
+    button := wxBitmapButton():New( window, id, bitmap, pos, size, style, validator, name )
   ENDIF
 
   IF bAction != NIL
@@ -798,15 +800,15 @@ FUNCTION __wxh_GetBitmapResource( bmp )
     ELSE
       bitmap := wxBitmap():New( 0 )  // missing image
     ENDIF
-	EXIT
+    EXIT
   CASE 'O'
-	IF bmp:IsDerivedFrom("wxBitmap")
-	  bitmap := bmp
-	ENDIF
-	EXIT
+    IF bmp:IsDerivedFrom("wxBitmap")
+      bitmap := bmp
+    ENDIF
+    EXIT
   CASE 'N'
     bitmap := wxBitmap():New( bmp )
-	EXIT
+    EXIT
   END
 
 RETURN bitmap
@@ -1027,7 +1029,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
   pickBtn := wxhGet:Field != NIL .AND. HB_IsBlock( wxhGet:Field:GetItPick )
 
   IF pickBtn
-	BEGIN BOXSIZER HORIZONTAL STRETCH
+    BEGIN BOXSIZER HORIZONTAL STRETCH
   ENDIF
 
   textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
@@ -1041,10 +1043,10 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
   containerObj():SetLastChild( textCtrl )
 
   IF pickBtn
-	@ SIZERINFO STRETCH
-	@ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
-    END SIZER
-	containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
+    @ SIZERINFO STRETCH
+    @ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
+  END SIZER
+    containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
   ENDIF
 
 RETURN textCtrl
@@ -1358,7 +1360,7 @@ RETURN searchCtrl
 PROCEDURE __wxh_SetSizer( window, sizer )
   LOCAL bookCtrl
   LOCAL IsWindowBook := .F.
-  
+
   FOR EACH bookCtrl IN containerObj():BookCtrls
     IF window:IsDerivedFrom( bookCtrl )
       IsWindowBook := .T.
@@ -1426,7 +1428,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
   IF HB_HHasKey( containerObj():LastItem(), "ignoreSizerInfoAdd" )
     HB_HDel( containerObj():LastItem(), "ignoreSizerInfoAdd" )
-	RETURN
+    RETURN
   ENDIF
 
   IF child == NIL .AND. ! ( addSizerInfoToLastItem == .T. )
@@ -1693,28 +1695,28 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
 
   IF toolBar != NIL .AND. toolBar:IsDerivedFrom("wxToolBar")
 
-	IF type == "SEPARATOR"
+    IF type == "SEPARATOR"
 
-	  toolBar:AddSeparator()
+      toolBar:AddSeparator()
 
-	ELSE
+    ELSE
 
-	  bitmap1 := __wxh_GetBitmapResource( bmp1 )
-	  bitmap2 := __wxh_GetBitmapResource( bmp2 )
+      bitmap1 := __wxh_GetBitmapResource( bmp1 )
+      bitmap2 := __wxh_GetBitmapResource( bmp2 )
 
-	  IF type == "CHECK"
-		toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
-	  ELSEIF type == "RADIO"
-		toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
-	  ELSEIF type == "BUTTON"
-		toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
-	  ENDIF
+      IF type == "CHECK"
+        toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+      ELSEIF type == "RADIO"
+        toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+      ELSEIF type == "BUTTON"
+        toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
+      ENDIF
 
-	  IF bAction != NIL
-		toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
-	  ENDIF
+      IF bAction != NIL
+        toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+      ENDIF
 
-	ENDIF
+    ENDIF
 
   ELSE
 
@@ -1736,13 +1738,13 @@ FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
   ENDIF
 
   IF toFrame == .T.
-	IF parent:IsDerivedFrom("wxFrame")
-	  toolBar := parent:CreateToolBar( style, id, name )
-	ELSE
-	  wxhAlert( "Frame not in sight..." )
-	ENDIF
+    IF parent:IsDerivedFrom("wxFrame")
+      toolBar := parent:CreateToolBar( style, id, name )
+    ELSE
+      wxhAlert( "Frame not in sight..." )
+    ENDIF
   ELSE
-	toolBar := wxToolbar():New( parent, id, pos, size, style, name )
+    toolBar := wxToolbar():New( parent, id, pos, size, style, name )
   ENDIF
 
   containerObj():SetLastChild( toolBar )
@@ -1774,25 +1776,25 @@ STATIC FUNCTION __wxh_TransWidth( width, window, defaultWidth, aSize )
 
   IF window != NIL
 
-	pointSize := window:GetPointSize() - 3
+    pointSize := window:GetPointSize() - 3
 
-	IF aSize != NIL
-	  width := aSize[ 1 ]
-	ENDIF
+    IF aSize != NIL
+      width := aSize[ 1 ]
+    ENDIF
 
-	IF width == NIL
-	  width := -1
-	ENDIF
+    IF width == NIL
+      width := -1
+    ENDIF
 
-	IF HB_ISCHAR( width )
-	  width := pointSize * Val( width )
-	ELSEIF ( width == NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
-	  width := pointSize * defaultWidth
-	ENDIF
+    IF HB_ISCHAR( width )
+      width := pointSize * Val( width )
+    ELSEIF ( width == NIL .OR. ( HB_ISNUMERIC( width ) .AND. width = -1 ) ) .AND. defaultWidth != NIL
+      width := pointSize * defaultWidth
+    ENDIF
 
-	IF aSize != NIL
-	  aSize[ 1 ] := width
-	ENDIF
+    IF aSize != NIL
+      aSize[ 1 ] := width
+    ENDIF
 
   ENDIF
 

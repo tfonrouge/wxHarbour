@@ -2,6 +2,32 @@
  * $Id$
  */
 
+2009-07-11 13:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * minor code cleanup
+    * var container for data in @ GET now are optional
+
+  * makefile.wat
+    ! Fixed makefile (removed wrong include defs for Harbour)
+
+  * samples/networking/simple.prg
+    * added AnyAddress() for ipv4 object
+
+  * src/hrbcompat/misc/wx_functions.cpp
+    + added wx functions:
+      + wxGetFullHostname()
+      + wxGetHostname()
+
+  * tests/socketCli/GNUmakefile
+  + tests/socketCli/network.xpm
+  * tests/socketCli/socketCli.prg
+  * tests/socketSrv/socketSrv.prg
+    * enhanced samples
+
+  * wxharbour.hbp
+    * added missing include dir
+
 2009-07-09 20:26 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * corrected description

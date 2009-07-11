@@ -23,6 +23,24 @@ HB_FUNC( WXEVT_FIRST )
 }
 
 /*
+  wxGetFullHostName
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGETFULLHOSTNAME )
+{
+  wxh_retc( wxGetFullHostName() );
+}
+
+/*
+  wxGetHostName
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGETHOSTNAME )
+{
+  wxh_retc( wxGetHostName() );
+}
+
+/*
   wxGetUserId
   Teo. Mexico 2008
 */
