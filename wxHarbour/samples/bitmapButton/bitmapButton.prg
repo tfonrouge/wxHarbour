@@ -9,6 +9,7 @@
 
 #include "wxharbour.ch"
 #include "wxh/bitmap.ch"
+#include "wxh/filedlg.ch"
 
 FUNCTION Main
   LOCAL MyApp
@@ -60,7 +61,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   bmp:LoadFile("fileopen.xpm", wxBITMAP_TYPE_XPM )
 
   BEGIN BOXSIZER HORIZONTAL
-      @ BUTTON ID wxID_OPEN BITMAP bmp
+      @ BUTTON ID wxID_OPEN BITMAP bmp ACTION { | | fnOpen(oWnd)  }
       @ BUTTON ID wxID_CLOSE BITMAP "void.xpm"
       @ BUTTON ID wxID_NEW BITMAP "find.xpm"
       @ BUTTON ID wxID_SAVE BITMAP "print.xpm"
@@ -71,3 +72,10 @@ METHOD FUNCTION OnInit() CLASS MyApp
   SHOW WINDOW oWnd FIT CENTRE
 
 RETURN .T.
+
+FUNCTION fnOpen(oWnd)
+	Local oDlg := wxFileDialog():New( oWnd,NIL,NIL,NIL,NIL,wxFD_OPEN)
+
+   IF	(oDlg:ShowModal() == wxID_OK)
+	ENDIF
+RETURN .t.
