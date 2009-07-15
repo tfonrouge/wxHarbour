@@ -34,6 +34,8 @@ PUBLIC:
   METHOD GetEventType
   METHOD GetId
   METHOD Skip( skip )
+  METHOD StopPropagation(  )
+  METHOD ResumePropagation( proplevel )
 PUBLISHED:
 ENDCLASS
 

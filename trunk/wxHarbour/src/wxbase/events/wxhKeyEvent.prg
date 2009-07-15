@@ -33,6 +33,9 @@ PUBLIC:
   METHOD ControlDown
   METHOD GetKeyCode
   METHOD GetModifiers
+#ifdef _UNICODE
+  METHOD GetUnicodeKey
+#endif
 PUBLISHED:
 ENDCLASS
 

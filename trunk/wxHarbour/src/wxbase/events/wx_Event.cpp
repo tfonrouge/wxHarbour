@@ -74,3 +74,20 @@ HB_FUNC( WXEVENT_SKIP )
   if( event )
     event->Skip( skip );
 }
+
+HB_FUNC( WXEVENT_STOPPROPAGATION )
+{
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( event )
+			hb_retni(event->StopPropagation());
+}
+
+HB_FUNC( WXEVENT_RESUMEPROPAGATION )
+{
+  wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( event )
+			event->ResumePropagation(hb_parni(1));
+}
+
