@@ -41,7 +41,7 @@ HBLIB_CT ?= yes
 HBLIB_GTTRM ?= yes
 
 # Link in the System GPM library [yes,no]
-HBLIB_GPM ?= no
+HBLIB_GPM ?= yes
 
 # Link in the Harbour GTXWC library [yes,no]
 HBLIB_GTXWC ?= no

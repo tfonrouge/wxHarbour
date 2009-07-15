@@ -65,16 +65,16 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -q0
+HBFLAGS ?= -n -a -v -m -go -q0 
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
 
 # Warning level for the Harbour Compiler [0,1,2,3]
-HBWARNL ?= 3
+HBWARNL ?= 1
 
 # Exit severity level for the Harbour Compiler [0,1,2]
-HBEXITSL ?= 2
+HBEXITSL ?= 1
 
 # Where to search for Harbour includes 
 HB_INC_PATH ?= /usr/include/$(HBCOMPILER)
@@ -103,9 +103,9 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
-AUINOTEBOOK_OBJECTS =  \
-	$(__BUILDDIR__)/auinotebook_auinotebook.o
-AUINOTEBOOK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
+WXGET_OBJECTS =  \
+	$(__BUILDDIR__)/wxget_wxget.o
+WXGET_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
 	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
 	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) \
@@ -312,7 +312,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: ./auinotebook
+all: ./wxget
 
 install: 
 
@@ -321,16 +321,16 @@ uninstall:
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
-	rm -f ./auinotebook
+	rm -f ./wxget
 
-./auinotebook: $(AUINOTEBOOK_OBJECTS)
-	$(CXX) -o $@ $(AUINOTEBOOK_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+./wxget: $(WXGET_OBJECTS)
+	$(CXX) -o $@ $(WXGET_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
-	../../bin/run_App.sh auinotebook
+	../../bin/run_App.sh wxget
 
-$(__BUILDDIR__)/auinotebook_auinotebook.o: ./auinotebook.prg
-	$(HBCC) $(AUINOTEBOOK_HBFLAGS) -o$@ $<
+$(__BUILDDIR__)/wxget_wxget.o: ./wxget.prg
+	$(HBCC) $(WXGET_HBFLAGS) -o$@ $<
 
 .PHONY: all install uninstall clean
 

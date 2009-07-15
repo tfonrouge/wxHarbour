@@ -40,7 +40,7 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL bmp
+//  LOCAL bmp
 
   CREATE FRAME oWnd ;
          WIDTH 800 HEIGHT 600 ;
