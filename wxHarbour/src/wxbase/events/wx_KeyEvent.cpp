@@ -49,6 +49,21 @@ HB_FUNC( WXKEYEVENT_GETMODIFIERS )
     hb_retni( keyEvent->GetModifiers() );
 }
 
+#ifdef _UNICODE
+/*
+  GetUnicodeKey
+  jamaj Brazil 2009
+*/
+HB_FUNC( WXKEYEVENT_GETUNICODEKEY )
+{
+  PHB_ITEM pSelf = hb_stackSelfItem();
+  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+
+  if( keyEvent )
+    hb_retni( keyEvent->GetUnicodeKey() );
+}
+#endif
+
 /*
   ControlDown
   Teo. Mexico 2008
