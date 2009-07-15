@@ -641,3 +641,10 @@ HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
   navEvent.SetDirection( bDirection );
   hb_retl( evtHandler->ProcessEvent( navEvent ) );
 }
+
+HB_FUNC( WXISPRINT )
+{
+	int keycode = hb_parni(1);
+	hb_retl(wxIsprint(keycode));
+}
+
