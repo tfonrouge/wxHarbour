@@ -14,7 +14,7 @@
   <echo>  format: $(FORMAT)</echo>
 
   <set var="__DEFAULT_HBFLAGS">
-    -n -a -v -m -go -q0
+    -n -a -v -m -gc -q0
   </set>
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
@@ -644,33 +644,38 @@ Where is wxWidgets installed
   </set>
 
   <!-- Defines how to call the Harbour compiler in the makefiles -->
-  <template id="__commands_templ_PRG">
+  <template id="__commands_templ_PRG" template="__commands_templ_C">
 
     <!-- gnu Makefiles -->
     <if cond="FORMAT=='gnu'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HBCC) $(__hbflags) -o$@ $&lt;
+        $(HBCC) $(__hbflags) -o$@_.c $&lt;
+	$(CC) -c $(targets[__parent].__cflags_var) -o$@ $@_.c 
       </set>
     </if>
     <!-- mingw Makefiles -->
     <if cond="FORMAT=='mingw'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HBCC) $(__hbflags) -o$@ $&lt;
+        $(HBCC) $(__hbflags) -o$@_.c $&lt;
+	$(CC) -c $(targets[__parent].__cflags_var) -o$@ $@_.c 
       </set>
     </if>
     <if cond="FORMAT=='msvc'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HBCC) $(__hbflags) -o$@ $**
+        $(HBCC) $(__hbflags) -o$@_.c $**
+	$(CC) /c $(targets[__parent].__cflags_var) /Fo$@ $@_.c 
       </set>
     </if>
     <if cond="FORMAT=='borland'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HBCC) $(__hbflags) -o$@ $**
+        $(HBCC) $(__hbflags) -o$@_.c $**
+	$(CC) -c $(targets[__parent].__cflags_var) -o$@ $@_.c 
       </set>
     </if>
     <if cond="FORMAT=='watcom'">
       <set var="__COMPILE_PRG_CMD" eval="0">
-        $(HBCC) $(__hbflags) -o$@ $&lt;
+        $(HBCC) $(__hbflags) -o$@_.c $&lt;
+	$(CC) -c $(targets[__parent].__cflags_var) -o$@ $@_.c 
       </set>
     </if>
   </template>
@@ -680,6 +685,7 @@ Where is wxWidgets installed
     <template template="__commands_templ_PRG">
       <set var="__command">$(__COMPILE_PRG_CMD)</set>
       <set var="__hbflags">$(HBFLAGS)</set>
+      <set var="__cflags"></set>
     </template>
 
     <define-tag name="hbflags">

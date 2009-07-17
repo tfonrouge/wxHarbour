@@ -13,6 +13,9 @@
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX ?= C:\opt\bin
 
+# C compiler 
+CC = gcc
+
 # C++ compiler 
 CXX = g++
 
@@ -68,7 +71,7 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -q0
+HBFLAGS ?= -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
@@ -113,6 +116,10 @@ CPPDEPS = -MT$@ -MF$@.d -MD -MP
 _WL_STARTGROUP = -Wl,--start-group
 _WL_ENDGROUP = -Wl,--end-group
 PREFIX = $(HBPATH_INSTALL)
+EVTDEFCHECK_CFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
+	-D__WXMSW__ -I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+	-I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
 	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
 	-D__WXMSW__ -I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
@@ -350,7 +357,8 @@ run: all
 	.\evtdefcheck.exe
 
 $(__BUILDDIR__)\evtdefcheck_evtdefcheck.o: ./evtdefcheck.prg
-	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@ $<
+	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(EVTDEFCHECK_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\evtdefcheck_getdefs.o: ./getdefs.cpp
 	$(CXX) -c -o $@ $(EVTDEFCHECK_CXXFLAGS) $(CPPDEPS) $<

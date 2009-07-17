@@ -233,6 +233,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     PHB_ITEM pItem = NULL;
 
     pWxh_Item = new wxh_Item;
+    pWxh_Item->nullObj = false;
     pWxh_Item->wxObj = wxObj;
     pWxh_Item->uiClass = pSelf->item.asArray.value->uiClass;
     pWxh_Item->objHandle = pSelf->item.asArray.value;
@@ -256,7 +257,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       if( lOffset > 0 )
         usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
 #endif
-      UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const char *) szName, strlen( szName ) );
+      UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTECHAR *) szName, strlen( szName ) );
 
 //       qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
@@ -269,7 +270,8 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       map_crc32[ uiCrc32 ] = pWxh_Item;
       pWxh_Item->uiProcNameLine = uiCrc32;
 
-      pItem = hb_itemNew( pSelf );
+      pItem = wxh_itemNullObject( pSelf );
+      pWxh_Item->nullObj = true;
       lastTopLevelWindow = pItem;
     }
 
@@ -424,6 +426,23 @@ void wxh_ItemListReleaseAll()
     delete it->second;
     //wxh_ItemListDel_WX( it->first );
   }
+}
+
+/*
+ wxh_itemNullObject
+ Teo. Mexico 2009
+ */
+PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
+{
+  PHB_ITEM pNullObj = NULL;
+
+  if( HB_IS_OBJECT( pSelf ) )
+  {
+    pNullObj = hb_itemNew( NULL );
+    hb_itemRawCpy( pNullObj, pSelf );
+  }
+  
+  return pNullObj;
 }
 
 /*

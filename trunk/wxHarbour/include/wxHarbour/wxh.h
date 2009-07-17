@@ -47,6 +47,19 @@
 #include "wx/timer.h"
 #include "wx/taskbar.h"
 
+/*
+ * type differences between Harbour/xHarbour
+ */
+#ifdef __XHARBOUR__
+
+typedef BYTE  BYTECHAR;
+
+#else
+  
+typedef char  BYTECHAR;
+  
+#endif
+
 #ifndef wxVERSION
 #define wxVERSION ( wxMAJOR_VERSION * 10000 + wxMINOR_VERSION * 100 + wxRELEASE_NUMBER )
 #endif
@@ -78,6 +91,7 @@ class wxh_Item
 {
 public:
   bool delete_WX;
+  bool nullObj;
   wxObject* wxObj;
   USHORT uiClass;
   PHB_BASEARRAY objHandle;
@@ -138,7 +152,7 @@ wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
-wxString          wxh_parc( int param );
+wxString      wxh_parc( int param );
 void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 
@@ -149,6 +163,7 @@ wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
+PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 #define		  wxh_wxStringToC( string ) \
 			  (string).mb_str( wxConvUTF8 )
 void          TRACEOUT( const char* fmt, const void* val);
