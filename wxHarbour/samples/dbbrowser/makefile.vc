@@ -13,6 +13,12 @@
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX = C:\opt\bin
 
+# C compiler 
+CC = cl
+
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS = 
+
 # Standard linker flags 
 LDFLAGS = 
 
@@ -64,7 +70,7 @@ HBLIB_GTPCA = no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS = -n -a -v -m -go -q0
+HBFLAGS = -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD = release
@@ -106,14 +112,18 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
+DBBROWSER_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
+	/Iinclude\wxHarbour /I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) \
+	$(__WX_DEBUG_INFO_5) $(p_1) /Fd.\dbbrowser.pdb /D__WXMSW__ \
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
+	/I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE)
 DBBROWSER_OBJECTS =  \
 	$(__BUILDDIR__)\dbbrowser_dbbrowser.obj
 DBBROWSER_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) /Iinclude\wxHarbour \
-	/I$(PREFIX)\include\wxHarbour $(____D_WX_UNICODE_FILENAMES_p) \
-	$(____D_WX_DEBUG_FILENAMES_p) $(______WX_DEBUG_INFO_7_FILENAMES_p) \
-	/D__WXMSW__ /I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
-	/D_WINDOWS /I..\..\include\wxHarbour
+	/I$(PREFIX)\include\wxHarbour $(p) $(p_0) $(p_1) /D__WXMSW__ \
+	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
+	/I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -125,6 +135,12 @@ __HBMTFLAG__ = -DHB_MT
 !endif
 !if "$(HBBUILD)" == "debug"
 __HBDEBUG__ = -b -d_DEBUG_
+!endif
+!if "$(HBCOMPILER)" == "harbour"
+HBCC_DEFINE = -D__HARBOUR__
+!endif
+!if "$(HBCOMPILER)" == "xharbour"
+HBCC_DEFINE = -D__XHARBOUR__
 !endif
 !if "$(HBCOMPILER)" == "harbour"
 __LIB_VM_p = hbvm$(__HBMTLIB__).lib
@@ -264,17 +280,23 @@ __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING).lib
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING)-$(WX_BUILD).lib
 !endif
-!if "$(WX_ENCODING)" == "unicode"
-____D_WX_UNICODE_FILENAMES_p = /D_UNICODE
-!endif
 !if "$(WX_BUILD)" == "debug"
-____D_WX_DEBUG_FILENAMES_p = /D__WXDEBUG__
+__WX_DEBUG_INFO_5 = /Zi
 !endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_6 = /DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug"
-______WX_DEBUG_INFO_7_FILENAMES_p = /D_DEBUG
+__WX_DEBUG_INFO_8 = d
+!endif
+!if "$(WX_ENCODING)" == "unicode"
+p = /D_UNICODE
+!endif
+!if "$(WX_BUILD)" == "debug"
+p_0 = /D__WXDEBUG__
+!endif
+!if "$(WX_BUILD)" == "debug"
+p_1 = /D_DEBUG
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "ansi"
 WX_LIBID = d
@@ -316,5 +338,6 @@ run: all
 	.\dbbrowser.exe
 
 $(__BUILDDIR__)\dbbrowser_dbbrowser.obj: .\dbbrowser.prg
-	$(HBCC) $(DBBROWSER_HBFLAGS) -o$@ $**
+	$(HBCC) $(DBBROWSER_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(DBBROWSER_CFLAGS) /Fo$@ $@_.c
 

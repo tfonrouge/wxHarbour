@@ -187,14 +187,14 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
       ENDIF
       IF contextListKey != NIL
         control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
-          {|event|
+          BEGIN_CB|event|
             IF event:GetKeyCode() = contextListKey
               ::PickList( event:GetEventObject() )
               RETURN NIL
             ENDIF
             event:Skip()
             RETURN NIL
-          } )
+          END_CB )
       ENDIF
     ENDIF
   ENDIF

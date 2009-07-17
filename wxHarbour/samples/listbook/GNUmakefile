@@ -10,8 +10,14 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
+# C compiler 
+CC = gcc
+
 # C++ compiler 
 CXX = g++
+
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS ?= 
 
 # Standard linker flags 
 LDFLAGS ?= 
@@ -65,7 +71,7 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -q0
+HBFLAGS ?= -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
@@ -103,13 +109,17 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
+LISTBOOK_CFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO) -I/usr/local/include/$(HBCOMPILER) \
+	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 LISTBOOK_OBJECTS =  \
 	$(__BUILDDIR__)/listbook_listbook.o
 LISTBOOK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
 	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p_1) $(__D_WX_DEBUG_p_1) \
-	-I../../include/wxHarbour
+	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	-I/usr/local/include/$(HBCOMPILER) -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -121,6 +131,12 @@ __HBMTFLAG__ = -DHB_MT
 endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
+endif
+ifeq ($(HBCOMPILER),harbour)
+HBCC_DEFINE = -D__HARBOUR__
+endif
+ifeq ($(HBCOMPILER),xharbour)
+HBCC_DEFINE = -D__XHARBOUR__
 endif
 ifeq ($(HBCOMPILER),harbour)
 __LIB_VM_p = -lhbvm$(__HBMTLIB__)
@@ -283,15 +299,6 @@ ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
-ifeq ($(WX_ENCODING),unicode)
-__D_WX_UNICODE_p_1 = -D_UNICODE
-endif
-ifeq ($(WX_BUILD),debug)
-__D_WX_DEBUG_p_1 = -D__WXDEBUG__
-endif
-ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_3 = -g
-endif
 ifeq ($(HBLIB_GTCRS),yes)
 __LIB_NCURSES_p = -lncurses
 endif
@@ -303,6 +310,15 @@ __LIB_GPM_p = -lgpm
 endif
 ifeq ($(HBLIB_GTXWC),yes)
 __LIB_X11_p = -lX11
+endif
+ifeq ($(WX_ENCODING),unicode)
+__D_WX_UNICODE_p = -D_UNICODE
+endif
+ifeq ($(WX_BUILD),debug)
+__D_WX_DEBUG_p = -D__WXDEBUG__
+endif
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO = -g
 endif
 
 
@@ -324,13 +340,14 @@ clean:
 	rm -f ./listbook
 
 ./listbook: $(LISTBOOK_OBJECTS)
-	$(CXX) -o $@ $(LISTBOOK_OBJECTS)  $(__WX_DEBUG_INFO_3)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+	$(CXX) -o $@ $(LISTBOOK_OBJECTS)  $(__WX_DEBUG_INFO)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L/usr/local/lib/$(HBCOMPILER) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	../../bin/run_App.sh listbook
 
 $(__BUILDDIR__)/listbook_listbook.o: ./listbook.prg
-	$(HBCC) $(LISTBOOK_HBFLAGS) -o$@ $<
+	$(HBCC) $(LISTBOOK_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(LISTBOOK_CFLAGS) -o$@ $@_.c
 
 .PHONY: all install uninstall clean
 

@@ -24,6 +24,11 @@ BCCDIR = $(MAKEDIR)\..
 EXEC_PREFIX = C:\opt\bin
 !endif
 
+# C compiler 
+!ifndef CC
+CC = bcc32
+!endif
+
 # C++ compiler 
 !ifndef CXX
 CXX = bcc32
@@ -112,7 +117,7 @@ HBLIB_GTPCA = no
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
 !ifndef HBFLAGS
-HBFLAGS = -n -a -v -m -go -q0
+HBFLAGS = -n -a -v -m -gc -q0
 !endif
 
 # Type of Harbour compiled binaries [debug,release]
@@ -173,6 +178,10 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
+EVTDEFCHECK_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) -D__WXMSW__ \
+	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
+	-I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE)
 EVTDEFCHECK_CXXFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) \
 	-Iinclude\wxHarbour -I$(PREFIX)\include\wxHarbour -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO) -D__WXMSW__ -I$(WX_PATH)\Include \
@@ -393,7 +402,8 @@ run: all
 	.\evtdefcheck.exe
 
 $(__BUILDDIR__)\evtdefcheck_evtdefcheck.obj: .\evtdefcheck.prg
-	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@ $**
+	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@_.c $**
+	$(CC) -c $(EVTDEFCHECK_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\evtdefcheck_getdefs.obj: .\getdefs.cpp
 	$(CXX) -q -c -P -o$@ $(EVTDEFCHECK_CXXFLAGS) .\getdefs.cpp

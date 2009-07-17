@@ -4,6 +4,10 @@
   <include file="../../config/tmpl_hrb.bkl"/>
 
   <wxharbour-exe id="text">
+    <if cond="TOOLSET=='unix'">
+      <include>/usr/local/include/$(HBCOMPILER)</include>
+      <lib-path>/usr/local/lib/$(HBCOMPILER)</lib-path>
+    </if>
     <sources-at>
       .
     </sources-at>

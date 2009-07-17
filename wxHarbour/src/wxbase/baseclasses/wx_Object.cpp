@@ -43,6 +43,11 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 
   if( pWxh_Item )
   {
+    if( pWxh_Item->nullObj )
+    {
+      pWxh_Item->pSelf->type = HB_IT_NIL;
+      hb_itemRelease( pWxh_Item->pSelf );
+    }
     pWxh_Item->pSelf = NULL;
     delete pWxh_Item;
   }

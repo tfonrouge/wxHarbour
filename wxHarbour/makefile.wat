@@ -70,7 +70,7 @@ HBLIB_GTPCA = no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS = -n -a -v -m -go -q0
+HBFLAGS = -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD = release
@@ -387,9 +387,9 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) &
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i$(HB_INC_PATH) -iinclude\wxHarbour &
-	-i$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i$(WX_PATH)\Include &
-	-i$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) -i=include\wxHarbour &
+	-i=$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i=$(WX_PATH)\Include &
+	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
 
 
 all : $(__BUILDDIR__)
@@ -494,269 +494,357 @@ demos : .SYMBOLIC $(__BUILDDIR__)\$(WXHLIBNAME).lib
 sudoinstall :  $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	sudo make install
 
-$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj :  .\src\common\wxhfuncs.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhutils.obj :  .\src\common\wxhutils.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxherrorsys.obj :  .\src\hrbcompat\errorsys\wxherrorsys.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhfunctions.obj :  .\src\hrbcompat\misc\wxhfunctions.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhColumn.obj :  .\src\hrbcompat\tbcolumn\wxhColumn.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhBrowse.obj :  .\src\hrbcompat\tbrowse\wxhBrowse.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj :  .\src\hrbcompat\tbrowse\wxhBrowseDbProvider.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj :  .\src\hrbcompat\tbrowse\wxhGridBrowse.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_Dba.obj :  .\src\raddox\Dba.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TAlias.obj :  .\src\raddox\TAlias.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TDatabase.obj :  .\src\raddox\TDatabase.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TField.obj :  .\src\raddox\TField.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TIndex.obj :  .\src\raddox\TIndex.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TRDOClient.obj :  .\src\raddox\TRDOClient.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TRDOServer.obj :  .\src\raddox\TRDOServer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_TTable.obj :  .\src\raddox\TTable.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGrid.obj :  .\src\wxbase\advctrls\wxhGrid.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGridTableBase.obj :  .\src\wxbase\advctrls\wxhGridTableBase.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhPanel.obj :  .\src\wxbase\advctrls\wxhPanel.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStatusBar.obj :  .\src\wxbase\advctrls\wxhStatusBar.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhApp.obj :  .\src\wxbase\app\wxhApp.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj :  .\src\wxbase\app\wxhTaskBarIcon.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj :  .\src\wxbase\baseclasses\wxhControlWithItems.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhImageList.obj :  .\src\wxbase\baseclasses\wxhImageList.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhListItem.obj :  .\src\wxbase\baseclasses\wxhListItem.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhObject.obj :  .\src\wxbase\baseclasses\wxhObject.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj :  .\src\wxbase\baseclasses\wxhTopLevelWindow.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhWindow.obj :  .\src\wxbase\baseclasses\wxhWindow.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhAuiNotebook.obj :  .\src\wxbase\books\wxhAuiNotebook.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhListBook.obj :  .\src\wxbase\books\wxhListBook.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhNotebook.obj :  .\src\wxbase\books\wxhNotebook.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhBitmapButton.obj :  .\src\wxbase\controls\wxhBitmapButton.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhButton.obj :  .\src\wxbase\controls\wxhButton.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhCheckBox.obj :  .\src\wxbase\controls\wxhCheckBox.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhChoice.obj :  .\src\wxbase\controls\wxhChoice.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhComboBox.obj :  .\src\wxbase\controls\wxhComboBox.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhControl.obj :  .\src\wxbase\controls\wxhControl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj :  .\src\wxbase\controls\wxhListCtrl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj :  .\src\wxbase\controls\wxhRadioBox.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSearchCtrl.obj :  .\src\wxbase\controls\wxhSearchCtrl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSpinCtrl.obj :  .\src\wxbase\controls\wxhSpinCtrl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStaticBox.obj :  .\src\wxbase\controls\wxhStaticBox.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStaticText.obj :  .\src\wxbase\controls\wxhStaticText.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTextCtrl.obj :  .\src\wxbase\controls\wxhTextCtrl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTreeCtrl.obj :  .\src\wxbase\controls\wxhTreeCtrl.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhFileDialog.obj :  .\src\wxbase\comdialogs\wxhFileDialog.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj :  .\src\wxbase\comdialogs\wxhMessageDialog.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj :  .\src\wxbase\events\wxhActivateEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.obj :  .\src\wxbase\events\wxhCloseEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhCommandEvent.obj :  .\src\wxbase\events\wxhCommandEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhEvent.obj :  .\src\wxbase\events\wxhEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhEvtHandler.obj :  .\src\wxbase\events\wxhEvtHandler.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhFocusEvent.obj :  .\src\wxbase\events\wxhFocusEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGridEvent.obj :  .\src\wxbase\events\wxhGridEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.obj :  .\src\wxbase\events\wxhInitDialogEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhKeyEvent.obj :  .\src\wxbase\events\wxhKeyEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMenuEvent.obj :  .\src\wxbase\events\wxhMenuEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj :  .\src\wxbase\events\wxhMouseEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj :  .\src\wxbase\events\wxhSizeEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.obj :  .\src\wxbase\events\wxhSocketEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.obj :  .\src\wxbase\events\wxhTaskBarIconEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTimer.obj :  .\src\wxbase\events\wxhTimer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj :  .\src\wxbase\events\wxhTimerEvent.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj :  .\src\wxbase\image\wxhBitmap.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj :  .\src\wxbase\image\wxhGDIObject.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhIcon.obj :  .\src\wxbase\image\wxhIcon.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.obj :  .\src\wxbase\image\wxhStaticBitmap.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhDialog.obj :  .\src\wxbase\manwindows\wxhDialog.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhFrame.obj :  .\src\wxbase\manwindows\wxhFrame.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMenu.obj :  .\src\wxbase\menu\wxhMenu.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMenuBar.obj :  .\src\wxbase\menu\wxhMenuBar.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhMenuItem.obj :  .\src\wxbase\menu\wxhMenuItem.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhIPV4address.obj :  .\src\wxbase\networking\wxhIPV4address.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSocketBase.obj :  .\src\wxbase\networking\wxhSocketBase.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSocketClient.obj :  .\src\wxbase\networking\wxhSocketClient.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSocketServer.obj :  .\src\wxbase\networking\wxhSocketServer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhScrollBar.obj :  .\src\wxbase\range\wxhScrollBar.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhBoxSizer.obj :  .\src\wxbase\sizers\wxhBoxSizer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGridSizer.obj :  .\src\wxbase\sizers\wxhGridSizer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhSizer.obj :  .\src\wxbase\sizers\wxhSizer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStaticBoxSizer.obj :  .\src\wxbase\sizers\wxhStaticBoxSizer.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhGauge.obj :  .\src\wxbase\static\wxhGauge.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj :  .\src\wxbase\static\wxhStaticLine.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhFont.obj :  .\src\wxbase\system\wxhFont.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj :  .\src\wxbase\toolbar\wxhToolBar.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj :  .\src\wxbase\toolbar\wxhToolBarBase.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhValidator.obj :  .\src\wxbase\validators\wxhValidator.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
-
-$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj :  .\src\wxbase\xmlclasses\wxhXmlDocument.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@ $<
+$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj :  .AUTODEPEND .\src\common\wxhfuncs.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhutils.obj :  .AUTODEPEND .\src\common\wxhutils.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxherrorsys.obj :  .AUTODEPEND .\src\hrbcompat\errorsys\wxherrorsys.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhfunctions.obj :  .AUTODEPEND .\src\hrbcompat\misc\wxhfunctions.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhColumn.obj :  .AUTODEPEND .\src\hrbcompat\tbcolumn\wxhColumn.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wxhBrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wxhBrowseDbProvider.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wxhGridBrowse.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_Dba.obj :  .AUTODEPEND .\src\raddox\Dba.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TAlias.obj :  .AUTODEPEND .\src\raddox\TAlias.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TDatabase.obj :  .AUTODEPEND .\src\raddox\TDatabase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TField.obj :  .AUTODEPEND .\src\raddox\TField.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TIndex.obj :  .AUTODEPEND .\src\raddox\TIndex.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TRDOClient.obj :  .AUTODEPEND .\src\raddox\TRDOClient.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TRDOServer.obj :  .AUTODEPEND .\src\raddox\TRDOServer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_TTable.obj :  .AUTODEPEND .\src\raddox\TTable.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGrid.obj :  .AUTODEPEND .\src\wxbase\advctrls\wxhGrid.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGridTableBase.obj :  .AUTODEPEND .\src\wxbase\advctrls\wxhGridTableBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhPanel.obj :  .AUTODEPEND .\src\wxbase\advctrls\wxhPanel.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStatusBar.obj :  .AUTODEPEND .\src\wxbase\advctrls\wxhStatusBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhApp.obj :  .AUTODEPEND .\src\wxbase\app\wxhApp.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTaskBarIcon.obj :  .AUTODEPEND .\src\wxbase\app\wxhTaskBarIcon.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhControlWithItems.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhControlWithItems.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhImageList.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhImageList.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhListItem.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhListItem.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhObject.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhObject.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhTopLevelWindow.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhWindow.obj :  .AUTODEPEND .\src\wxbase\baseclasses\wxhWindow.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhAuiNotebook.obj :  .AUTODEPEND .\src\wxbase\books\wxhAuiNotebook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhListBook.obj :  .AUTODEPEND .\src\wxbase\books\wxhListBook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhNotebook.obj :  .AUTODEPEND .\src\wxbase\books\wxhNotebook.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhBitmapButton.obj :  .AUTODEPEND .\src\wxbase\controls\wxhBitmapButton.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhButton.obj :  .AUTODEPEND .\src\wxbase\controls\wxhButton.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhCheckBox.obj :  .AUTODEPEND .\src\wxbase\controls\wxhCheckBox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhChoice.obj :  .AUTODEPEND .\src\wxbase\controls\wxhChoice.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhComboBox.obj :  .AUTODEPEND .\src\wxbase\controls\wxhComboBox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhControl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhControl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhListCtrl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhListCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhRadioBox.obj :  .AUTODEPEND .\src\wxbase\controls\wxhRadioBox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSearchCtrl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhSearchCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSpinCtrl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhSpinCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStaticBox.obj :  .AUTODEPEND .\src\wxbase\controls\wxhStaticBox.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStaticText.obj :  .AUTODEPEND .\src\wxbase\controls\wxhStaticText.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTextCtrl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhTextCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTreeCtrl.obj :  .AUTODEPEND .\src\wxbase\controls\wxhTreeCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhFileDialog.obj :  .AUTODEPEND .\src\wxbase\comdialogs\wxhFileDialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj :  .AUTODEPEND .\src\wxbase\comdialogs\wxhMessageDialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhActivateEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhCloseEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhCommandEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhCommandEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhEvtHandler.obj :  .AUTODEPEND .\src\wxbase\events\wxhEvtHandler.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhFocusEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhFocusEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGridEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhGridEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhInitDialogEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhInitDialogEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhKeyEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhKeyEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMenuEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhMenuEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhMouseEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhSizeEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhSocketEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhTaskBarIconEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTimer.obj :  .AUTODEPEND .\src\wxbase\events\wxhTimer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhTimerEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj :  .AUTODEPEND .\src\wxbase\image\wxhBitmap.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj :  .AUTODEPEND .\src\wxbase\image\wxhGDIObject.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhIcon.obj :  .AUTODEPEND .\src\wxbase\image\wxhIcon.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.obj :  .AUTODEPEND .\src\wxbase\image\wxhStaticBitmap.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhDialog.obj :  .AUTODEPEND .\src\wxbase\manwindows\wxhDialog.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhFrame.obj :  .AUTODEPEND .\src\wxbase\manwindows\wxhFrame.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMenu.obj :  .AUTODEPEND .\src\wxbase\menu\wxhMenu.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMenuBar.obj :  .AUTODEPEND .\src\wxbase\menu\wxhMenuBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhMenuItem.obj :  .AUTODEPEND .\src\wxbase\menu\wxhMenuItem.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhIPV4address.obj :  .AUTODEPEND .\src\wxbase\networking\wxhIPV4address.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSocketBase.obj :  .AUTODEPEND .\src\wxbase\networking\wxhSocketBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSocketClient.obj :  .AUTODEPEND .\src\wxbase\networking\wxhSocketClient.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSocketServer.obj :  .AUTODEPEND .\src\wxbase\networking\wxhSocketServer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhScrollBar.obj :  .AUTODEPEND .\src\wxbase\range\wxhScrollBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhBoxSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhBoxSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGridSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhGridSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStaticBoxSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhStaticBoxSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhGauge.obj :  .AUTODEPEND .\src\wxbase\static\wxhGauge.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj :  .AUTODEPEND .\src\wxbase\static\wxhStaticLine.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhFont.obj :  .AUTODEPEND .\src\wxbase\system\wxhFont.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj :  .AUTODEPEND .\src\wxbase\toolbar\wxhToolBar.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj :  .AUTODEPEND .\src\wxbase\toolbar\wxhToolBarBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhValidator.obj :  .AUTODEPEND .\src\wxbase\validators\wxhValidator.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj :  .AUTODEPEND .\src\wxbase\xmlclasses\wxhXmlDocument.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\wxHarbour_xdoutils.obj :  .AUTODEPEND .\src\raddox\xdoutils.c
 	$(CC) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CFLAGS) $<

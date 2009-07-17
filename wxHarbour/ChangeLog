@@ -2,6 +2,159 @@
  * $Id$
  */
 
+2009-07-17 01:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/mkdirstempl.bkl
+  * config/tmpl_hrb.bkl
+  * demos/dbExplorer/GNUmakefile
+  * demos/dbExplorer/makefile.bcc
+  * demos/dbExplorer/makefile.gcc
+  * demos/dbExplorer/makefile.vc
+  * demos/helloworld/GNUmakefile
+  * demos/helloworld/helloworld.bkl
+  * demos/helloworld/makefile.bcc
+  * demos/helloworld/makefile.gcc
+  * demos/helloworld/makefile.vc
+  * samples/arrbrowser/GNUmakefile
+  * samples/arrbrowser/arrbrowser.bkl
+  * samples/arrbrowser/makefile.bcc
+  * samples/arrbrowser/makefile.gcc
+  * samples/arrbrowser/makefile.vc
+  * samples/auinotebook/GNUmakefile
+  * samples/auinotebook/makefile.bcc
+  * samples/auinotebook/makefile.gcc
+  * samples/auinotebook/makefile.vc
+  * samples/bitmapButton/GNUmakefile
+  * samples/bitmapButton/makefile.bcc
+  * samples/bitmapButton/makefile.gcc
+  * samples/bitmapButton/makefile.vc
+  * samples/button/GNUmakefile
+  * samples/button/makefile.bcc
+  * samples/button/makefile.gcc
+  * samples/button/makefile.vc
+  * samples/checkbox/GNUmakefile
+  * samples/checkbox/makefile.bcc
+  * samples/checkbox/makefile.gcc
+  * samples/checkbox/makefile.vc
+  * samples/choice/GNUmakefile
+  * samples/choice/makefile.bcc
+  * samples/choice/makefile.gcc
+  * samples/choice/makefile.vc
+  * samples/combobox/GNUmakefile
+  * samples/combobox/makefile.bcc
+  * samples/combobox/makefile.gcc
+  * samples/combobox/makefile.vc
+  * samples/dbbrowser/GNUmakefile
+  * samples/dbbrowser/dbbrowser.bkl
+  * samples/dbbrowser/makefile.bcc
+  * samples/dbbrowser/makefile.gcc
+  * samples/dbbrowser/makefile.vc
+  * samples/gauge/GNUmakefile
+  * samples/gauge/makefile.bcc
+  * samples/gauge/makefile.gcc
+  * samples/gauge/makefile.vc
+  * samples/grid/GNUmakefile
+  * samples/grid/makefile.bcc
+  * samples/grid/makefile.gcc
+  * samples/grid/makefile.vc
+  * samples/listbook/GNUmakefile
+  * samples/listbook/makefile.bcc
+  * samples/listbook/makefile.gcc
+  * samples/listbook/makefile.vc
+  * samples/menu/GNUmakefile
+  * samples/menu/makefile.bcc
+  * samples/menu/menu.bkl
+  * samples/networking/GNUmakefile
+  * samples/networking/makefile.bcc
+  * samples/networking/makefile.gcc
+  * samples/networking/makefile.vc
+  * samples/notebook/GNUmakefile
+  * samples/notebook/makefile.bcc
+  * samples/notebook/makefile.gcc
+  * samples/notebook/makefile.vc
+  * samples/panel/GNUmakefile
+  * samples/panel/makefile.bcc
+  * samples/panel/makefile.gcc
+  * samples/panel/makefile.vc
+  * samples/radiobox/GNUmakefile
+  * samples/radiobox/makefile.bcc
+  * samples/radiobox/makefile.gcc
+  * samples/radiobox/makefile.vc
+  * samples/sayget/GNUmakefile
+  * samples/sayget/makefile.bcc
+  * samples/sayget/makefile.gcc
+  * samples/sayget/makefile.vc
+  * samples/sizers/GNUmakefile
+  * samples/sizers/makefile.bcc
+  * samples/sizers/makefile.gcc
+  * samples/sizers/sizers.bkl
+  * samples/spinctrl/GNUmakefile
+  * samples/spinctrl/makefile.bcc
+  * samples/spinctrl/makefile.gcc
+  * samples/spinctrl/makefile.vc
+  * samples/staticBitmap/GNUmakefile
+  * samples/staticBitmap/makefile.bcc
+  * samples/staticBitmap/makefile.gcc
+  * samples/staticBitmap/makefile.vc
+  * samples/taskBarIcon/GNUmakefile
+  * samples/taskBarIcon/makefile.bcc
+  * samples/taskBarIcon/makefile.gcc
+  * samples/taskBarIcon/makefile.vc
+  * samples/text/GNUmakefile
+  * samples/text/makefile.bcc
+  * samples/text/text.bkl
+  * samples/timer/GNUmakefile
+  * samples/timer/makefile.bcc
+  * samples/timer/makefile.gcc
+  * samples/timer/makefile.vc
+  * samples/toolbar/GNUmakefile
+  * samples/toolbar/makefile.bcc
+  * samples/toolbar/makefile.gcc
+  * samples/toolbar/makefile.vc
+  * samples/treectrl/GNUmakefile
+  * samples/treectrl/makefile.bcc
+  * samples/treectrl/makefile.gcc
+  * samples/treectrl/makefile.vc
+  * samples/wxget/GNUmakefile
+  * tests/evtdefcheck/GNUmakefile
+  * tests/evtdefcheck/makefile.bcc
+  * tests/evtdefcheck/makefile.gcc
+  * tests/evtdefcheck/makefile.vc
+  * tests/socketCli/GNUmakefile
+  * tests/socketCli/makefile.bcc
+  * tests/socketCli/makefile.gcc
+  * tests/socketCli/makefile.vc
+  * tests/socketSrv/GNUmakefile
+  * tests/socketSrv/makefile.bcc
+  * tests/socketSrv/makefile.gcc
+  * tests/socketSrv/makefile.vc
+  * wxharbour.bkl
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+    * Changed method for creating obj's from prg sources: two steps
+      are used now to create obj's, this eliminates the need for
+      a harbour.cfg file on windows platforms.
+      TODO: we need to improve harbour bakefile template to create
+        intermediate target (prg -> c source file) cleanly
+    ! Fixed using the /usr or /usr/local base for includes/libs
+      on unix targets
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/wxbase/baseclasses/wx_Object.cpp
+    * added typedef for BYTECHAR depending on HB compiler used
+    * wxh_itemNullObject( PHB_ITEM ) function to create a "null" object
+      that doesn't increments the xRef on a object structure, this obj
+      reference can be used to reference to the object structure.
+      Now we can have HB classes volatile on scope.
+      ; work in progress: testing needed (there is an issue on events
+        attached to deleted dialogs)
+
+  * src/common/wxhfuncs.prg
+    ! Fixed statement with extended code block for xHarbour
+
 2009-07-11 13:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg

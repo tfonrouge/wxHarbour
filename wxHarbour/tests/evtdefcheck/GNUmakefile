@@ -10,6 +10,9 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
+# C compiler 
+CC = gcc
+
 # C++ compiler 
 CXX = g++
 
@@ -68,7 +71,7 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -q0
+HBFLAGS ?= -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
@@ -107,10 +110,15 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
+EVTDEFCHECK_CFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	$(__WX_DEBUG_INFO) -I/usr/local/include/$(HBCOMPILER) \
+	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 EVTDEFCHECK_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
 	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	$(__WX_DEBUG_INFO) -I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) \
-	-fno-strict-aliasing `wx-config --cxxflags`
+	$(__WX_DEBUG_INFO) -I/usr/local/include/$(HBCOMPILER) \
+	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing \
+	`wx-config --cxxflags`
 EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)/evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)/evtdefcheck_getdefs.o
@@ -118,7 +126,7 @@ EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
 	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
 	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	-I../../include/wxHarbour
+	-I/usr/local/include/$(HBCOMPILER) -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -339,13 +347,14 @@ clean:
 	rm -f ./evtdefcheck
 
 ./evtdefcheck: $(EVTDEFCHECK_OBJECTS)
-	$(CXX) -o $@ $(EVTDEFCHECK_OBJECTS)  $(__WX_DEBUG_INFO)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+	$(CXX) -o $@ $(EVTDEFCHECK_OBJECTS)  $(__WX_DEBUG_INFO)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L/usr/local/lib/$(HBCOMPILER) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	../../bin/run_App.sh evtdefcheck
 
 $(__BUILDDIR__)/evtdefcheck_evtdefcheck.o: ./evtdefcheck.prg
-	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@ $<
+	$(HBCC) $(EVTDEFCHECK_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(EVTDEFCHECK_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)/evtdefcheck_getdefs.o: ./getdefs.cpp
 	$(CXX) -c -o $@ $(EVTDEFCHECK_CXXFLAGS) $(CPPDEPS) $<

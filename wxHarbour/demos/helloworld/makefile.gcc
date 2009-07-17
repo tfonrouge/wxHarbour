@@ -13,8 +13,14 @@
 # The common installation prefix for binary and DLL files 
 EXEC_PREFIX ?= C:\opt\bin
 
+# C compiler 
+CC = gcc
+
 # C++ compiler 
 CXX = g++
+
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS ?= 
 
 # Standard linker flags 
 LDFLAGS ?= 
@@ -65,7 +71,7 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -go -q0
+HBFLAGS ?= -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
@@ -109,12 +115,15 @@ WX_BUILD ?= release
 _WL_STARTGROUP = -Wl,--start-group
 _WL_ENDGROUP = -Wl,--end-group
 PREFIX = $(HBPATH_INSTALL)
+HELLOWORLD_CFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
+	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
+	-D__WXMSW__ -I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+	-I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)\helloworld_helloworld.o
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) -Iinclude\wxHarbour \
-	-I$(PREFIX)\include\wxHarbour $(____D_WX_UNICODE_FILENAMES_p) \
-	$(____D_WX_DEBUG_FILENAMES_p) -D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(PREFIX)\include\wxHarbour $(p) $(p_0) -D__WXMSW__ -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
@@ -127,6 +136,12 @@ __HBMTFLAG__ = -DHB_MT
 endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
+endif
+ifeq ($(HBCOMPILER),harbour)
+HBCC_DEFINE = -D__HARBOUR__
+endif
+ifeq ($(HBCOMPILER),xharbour)
+HBCC_DEFINE = -D__XHARBOUR__
 endif
 ifeq ($(HBCOMPILER),harbour)
 __LIB_VM_p = -lhbvm$(__HBMTLIB__)
@@ -287,13 +302,13 @@ __WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
 ifeq ($(WX_ENCODING),unicode)
-____D_WX_UNICODE_FILENAMES_p = -D_UNICODE
+p = -D_UNICODE
 endif
 ifeq ($(WX_BUILD),debug)
-____D_WX_DEBUG_FILENAMES_p = -D__WXDEBUG__
+p_0 = -D__WXDEBUG__
 endif
 ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO_3 = -g
+__WX_DEBUG_INFO = -g
 endif
 ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),ansi)
@@ -330,13 +345,14 @@ clean:
 	-if exist .\helloworld.exe del .\helloworld.exe
 
 .\helloworld.exe: $(HELLOWORLD_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD_OBJECTS)  $(__WX_DEBUG_INFO_3) -L$(WX_PATH)\lib\gcc_lib -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__WXHLIBNAME_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(HELLOWORLD_OBJECTS)  $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\gcc_lib -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__WXHLIBNAME_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 run: all
 	.\helloworld.exe
 
 $(__BUILDDIR__)\helloworld_helloworld.o: ./helloworld.prg
-	$(HBCC) $(HELLOWORLD_HBFLAGS) -o$@ $<
+	$(HBCC) $(HELLOWORLD_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(HELLOWORLD_CFLAGS) -o$@ $@_.c
 
 .PHONY: all install uninstall clean
 
