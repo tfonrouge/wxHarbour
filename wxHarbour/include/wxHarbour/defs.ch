@@ -212,15 +212,19 @@
 #define wxTILE            0xc000
 
 // wxBorder
+#define wxBORDER_DEFAULT  0
 
 #define wxBORDER_NONE     0x00200000
 #define wxBORDER_STATIC   0x01000000
 #define wxBORDER_SIMPLE   0x02000000
 #define wxBORDER_RAISED   0x04000000
-#define wxBORDER_SUNKEN   0x08000000
-#define wxBORDER_DOUBLE   0x10000000
+#define wxBORDER_SUNKEN   0x08000000 
+#define wxBORDER_DOUBLE   0x10000000   // deprecated
+#define wxBORDER_THEME    0x10000000
 
+/*  a mask to extract border style from the combination of flags */
 #define wxBORDER_MASK     0x1f200000
+
 
 /*  Window style flags */
 #define wxVSCROLL         0x80000000
@@ -236,7 +240,40 @@
 #define wxSTATIC_BORDER   wxBORDER_STATIC
 #define wxNO_BORDER       wxBORDER_NONE
 
+#define wxALWAYS_SHOW_SB        0x00800000
+
+#define wxCLIP_CHILDREN         0x00400000
+
+/*  Note we're reusing the wxCAPTION style because we won't need captions */
+/*  for subwindows/controls */
+#define wxCLIP_SIBLINGS         0x20000000
+
+#define wxTRANSPARENT_WINDOW    0x00100000
+
 #define wxTAB_TRAVERSAL   0x00080000
+
+/*  Add this style if the control wants to get all keyboard messages (under */
+/*  Windows, it won't normally get the dialog navigation key events) */
+#define wxWANTS_CHARS           0x00040000
+
+/*  set this flag to create a special popup window: it will be always shown on */
+/*  top of other windows, will capture the mouse and will be dismissed when the */
+/*  mouse is clicked outside of it or if it loses focus in any other way */
+#define wxPOPUP_WINDOW          0x00020000
+
+/*  force a full repaint when the window is resized (instead of repainting just */
+/*  the invalidated area) */
+#define wxFULL_REPAINT_ON_RESIZE 0x00010000
+
+/*  obsolete: now this is the default behaviour */
+/*  */
+/*  don't invalidate the whole window (resulting in a PAINT event) when the */
+/*  window is resized (currently, makes sense for wxMSW only) */
+#define wxNO_FULL_REPAINT_ON_RESIZE 0
+
+/* A mask which can be used to filter (out) all wxWindow-specific styles.
+ */
+#define wxWINDOW_STYLE_MASK    (wxVSCROLL|wxHSCROLL|wxBORDER_MASK|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN| wxCLIP_SIBLINGS|wxTRANSPARENT_WINDOW|wxTAB_TRAVERSAL|wxWANTS_CHARS|  wxRETAINED|wxPOPUP_WINDOW|wxFULL_REPAINT_ON_RESIZE)
 
 /*
  * extended dialog specifiers. these values are stored in a different
