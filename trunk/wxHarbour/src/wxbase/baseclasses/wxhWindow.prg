@@ -28,7 +28,7 @@ PRIVATE:
   METHOD SetEnableBlock( enable )
 PROTECTED:
 PUBLIC:
-
+	CONSTRUCTOR NEW( parent, id, pos, size, style, name )
   /* Harbour specific */
   DATA wxhGet			/* holds a wxhGet object */
   METHOD GetPointSize()

@@ -23,11 +23,48 @@
 
 #include "wxh.h"
 
-#include "wxbase/wx_Frame.h"
+#include "wxbase/wx_Window.h"
 #include "wxbase/wx_Menu.h"
 #include "wxbase/wx_Font.h"
 
 HB_FUNC_EXTERN( WXFONT );
+
+/*
+  Constructor
+  Jamaj Brazil 2009
+*/
+
+wx_Window::wx_Window( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
+{
+  Create( parent, id, pos, size, style, name );
+}
+
+
+
+HB_FUNC( WXWINDOW_NEW )
+{
+  wxh_ObjParams objParams = wxh_ObjParams();
+
+  wx_Window* window;
+
+  if( hb_pcount() > 0 )
+  {
+    wxWindow* parent = (wxFrame *) objParams.paramParent( 1 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxPoint point = wxh_par_wxPoint( 3 );
+    wxSize size = wxh_par_wxSize( 4 );
+    long style = ISNIL( 5 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 5 );
+    wxString name = wxh_parc( 6 );
+    window = new wx_Window( parent, id, point, size, style, name );
+  }
+  else
+    window = new wx_Window( NULL );
+
+  objParams.Return( window );
+
+}
+
+
 
 /*
  Centre
