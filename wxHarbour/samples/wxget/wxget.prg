@@ -27,12 +27,16 @@ PUBLIC:
 PUBLISHED:
 ENDCLASS
 
+REQUEST HB_CODEPAGE_PTISO
+
+
 METHOD FUNCTION OnInit() CLASS wxGetSample
   LOCAL oDlg, oTextCtrl, oTextCtrl1, oTextCtrl2
 	Local bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp		
 
 	LOCAL edtNombre := "jamaj corporation", data := date(), edtLog := Space(100), salary := 12345678.34
-
+	
+	HB_CDPSELECT("PTISO")
 	SET DATE TO BRITISH
 	SET CENTURY ON 
 
@@ -55,7 +59,7 @@ METHOD FUNCTION OnInit() CLASS wxGetSample
 		  END SIZER
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your salary is:" 
-				oTextCtrl2 := TEditGet():New( oDlg, 124, "get2", salary, {|_v_| IIF(pcount() > 0, salary := _v_, salary)  } ,"@E 999,999,999.99", bAction )
+				oTextCtrl2 := TEditGet():New( oDlg, 125, "get2", salary, {|_v_| IIF(pcount() > 0, salary := _v_, salary)  } ,"@E 999,999,999.99", bAction )
 				oTextCtrl2:SetToolTip( "salary" )	
 				containerObj():SetLastChild( oTextCtrl2 )
 		  END SIZER
@@ -72,7 +76,7 @@ METHOD FUNCTION OnInit() CLASS wxGetSample
   ? "birthday:", data
   ? "salary:", salary 
 
-RETURN .T.
+RETURN .F.
 
 CLASS TEditGet FROM THackGet,wxTextCtrl
 PRIVATE:
@@ -82,9 +86,9 @@ PRIVATE:
 	DATA	bOnChar	
 	DATA	bOnKeyDown	
 	DATA	bOnKeyUp		
-	DATA  g
 PROTECTED:
 PUBLIC:
+		DATA  lInsert INIT .t.
 		DATA  plvl
 		METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CONSTRUCTOR
 		METHOD display()
@@ -94,14 +98,14 @@ ENDCLASS
 
 METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CLASS TEditGet
 			::wxTextCtrl:New( parent, id, var, NIL, NIL, wxTE_PROCESS_ENTER, NIL, name )
-			::g := ::THackGet:New( 10, 10, block, var, picture , "W/B+" )
+			::THackGet:New( 10, 10, block, var, picture , "W/B+" )
 
-			DEFAULT bAction  	TO { | event | OnAction(SELF,event) }
-			DEFAULT bOnGFocus	TO { | event | OnGFocus(SELF,event) }
-			DEFAULT bOnLFocus	TO { | event | OnLFocus(SELF,event) }
-			DEFAULT bOnChar		TO { | event | OnChar(SELF, event)   }		
-			DEFAULT bOnKeyDown	TO { | event | OnKeyDown(SELF, event) }		
-			DEFAULT bOnKeyUp		TO { | event | OnKeyUp(SELF, event)   }		
+			bAction 		:= IIF( bAction == NIL, { | event | OnAction(SELF,event) }, bAction )
+			bOnGFocus		:= IIF( bOnGFocus == NIL,  { | event | OnGFocus(SELF,event) }, bOnGFocus )
+			bOnLFocus		:= IIF( bOnLFocus == NIL,  { | event | OnLFocus(SELF,event) }, bOnLFocus )
+			bOnChar			:= IIF( bOnChar == NIL,  { | event | OnChar(SELF, event)   }, bOnChar )
+			bOnKeyDown	:= IIF( bOnKeyDown == NIL, { | event | OnKeyDown(SELF, event) }, bOnKeyDown )
+			bOnKeyUp		:= IIF( bOnKeyUp == NIL,  { | event | OnKeyUp(SELF, event)  }, bOnKeyUp )
 
 			::bAction		 := bAction
 			::bOnGFocus	 := bOnGFocus
@@ -114,94 +118,81 @@ METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus
 			::ConnectFocusEvt( ::GetId(), wxEVT_SET_FOCUS, 	  ::bOnGFocus )
 			::ConnectKeyEvt( 	 ::GetId(), wxEVT_KEY_DOWN, 		::bOnKeyDown )
 			::ConnectKeyEvt( 	 ::GetId(), wxEVT_KEY_UP, 			::bOnKeyUp )
-			::ConnectKeyEvt( 	 ::GetId(), wxEVT_CHAR, 				::bOnChar	 )
+			::ConnectKeyEvt( 	 wxID_ANY, wxEVT_CHAR, 				::bOnChar	 )
 
 			::setfocus()
 			::updatebuffer()
-			IIF(HB_ISSTRING(::buffer),::setValue(::buffer),NIL)
 
 RETURN Self
 
 
 METHOD display() CLASS TEditGet
 		LOCAL nCurPos := (::GetInsertionPoint())
+		LOCAL cValue := HB_StrToUTF8(::buffer)
+		#ifdef _DEBUG_
 		? "TEditGet:Display() =>" , " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
-		// SUPER:display() => Would call THackGet():display()
+		//altd()	
+		#endif
+		IIF(HB_ISSTRING(::buffer),::ChangeValue(cValue),NIL)
+		IIF(HB_ISSTRING(::buffer),::SetInsertionPoint(::pos-1),NIL)
 RETURN Self
 
 
 FUNCTION OnAction(event)	
 	LOCAL lRet := .t.
-//	LOCAL window := event:GetWindow()
 	? "OnAction" 
 	event:skip()
 RETURN lRet
 
 FUNCTION OnGFocus(SELF,event)
 	LOCAL lRet := .t.
-	LOCAL window := event:GetWindow()
 	LOCAL nCurPos := (::GetInsertionPoint())
 	::SetFocus()
 	::updatebuffer()
-	IIF(HB_ISSTRING(::buffer),::setValue(::buffer),NIL)
-	IIF(HB_ISSTRING(::buffer),::SetMaxLength(len(::buffer)),NIL)
-	? "OnGFocus", " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
+	#ifdef _DEBUG_
+		? "OnGFocus", " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
+	#endif
 	event:skip()
-RETURN lRet
+RETURN NIL
 
 FUNCTION OnLFocus(SELF,event)
-	LOCAL lRet := .t.
-//	LOCAL window := event:GetWindow()
 	LOCAL nCurPos := (::GetInsertionPoint())
-
-	::ChangeValue( ::buffer )
 	::assign()
 	::killfocus()
-	::Display()
-	? "OnLFocus" , " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
-	event:skip(.f.)
-RETURN lRet
+	#ifdef _DEBUG_
+		? "OnLFocus" , " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
+	#endif
+	event:skip()
+RETURN NIL
 
 FUNCTION OnChar(SELF,event)
 	LOCAL lRet := .t., lSkip
 	LOCAL keycode := event:GetKeyCode()
-	LOCAL ctrlDown := event:ControlDown()
-	//altd()
-	? ("OnChar key=" + Str(keycode) + "-" + GetKeyName(keycode) + " " + "UnicodeKey=" + Str(event:GetUnicodeKey()))
+	#ifdef _DEBUG_
+		? ("OnChar key=" + Str(keycode) + "-" + GetKeyName(keycode) + " " + "UnicodeKey=" + Str(event:GetUnicodeKey()))
+	#endif
 	lSkip := Typer(SELF,event)
 	event:skip(lSkip)
-  IF(!lSkip)
-		::ChangeValue( ::buffer )
-		::SetInsertionPoint(::pos-1)
-		::plvl := event:StopPropagation()
-	ELSE
-		::ChangeValue( ::buffer )
-		::SetInsertionPoint(::pos-1)
-		IF(HB_ISNUMERIC(::plvl))
-			event:ResumePropagation(::plvl)
-		ENDIF
-	ENDIF	
-
-RETURN lRet
+RETURN .f.
 
 FUNCTION OnKeyDown(SELF,event)
 	LOCAL lRet := .t.
 	LOCAL keycode := event:GetKeyCode()
-	LOCAL ctrlDown := event:ControlDown()
+	#ifdef _DEBUG_
 	? ("OnKeyDown key=" + Str(keycode) + "-" + GetKeyName(keycode) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()))
-	event:skip()
+	#endif
+	event:skip(.t.)
 RETURN lRet
 
 FUNCTION OnKeyUp(SELF,event)
 	LOCAL lRet := .t.
 	LOCAL keycode := event:GetKeyCode()
 	LOCAL ctrlDown := event:ControlDown()
-	//LOCAL shiftDown := event:ShiftDown() => Not yet implemented in wxharbour
-	//LOCAL altDown := event:AltDown()		=> Not yet implemented in wxharbour	
+	#ifdef _DEBUG_
 	? ("OnKeyUp key=" + Str(keycode) + "-" + IIF(ctrlDown,"CTRL+","") + GetKeyName(keycode) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()) )
-	event:skip()
+	#endif
+	event:skip(.t.)
 RETURN lRet
-
 
 FUNCTION GetKeyName(keycode)
 	LOCAL cKey :=  ""
@@ -514,29 +505,26 @@ RETURN (cKey)
 
 CLASS THackGet FROM GET
 	METHOD New( nRow, nCol, bVarBlock, cVarName, cPicture, cColorSpec ) CONSTRUCTOR
-	METHOD display() 
 ENDCLASS
 
 METHOD New( nRow, nCol, bVarBlock, cVarName, cPicture, cColorSpec ) CLASS THackGet
 	Super:New( nRow, nCol, bVarBlock, cVarName, cPicture, cColorSpec )
 RETURN Self
 
-METHOD display() CLASS THackGet
-	? "THackGet:Display() =>" + "Buffer: " + ::buffer + " Len(Buffer) = " + Alltrim(Str(Len(::buffer))) + " Cursor: " + Alltrim(Str(::pos))
-RETURN Self
-
-
 FUNCTION Typer(g,event)
-	LOCAL lSkip:=.f., cValue, lInsert := .t., cKey, bExit, lValidOk, lExitRequest := .f.
+	LOCAL lSkip:=.f., cValue, cKey, bExit, lValidOk, lExitRequest := .f.
 	LOCAL nCurPos 
-	LOCAL nKey := event:GetKeyCode()
+//LOCAL nKey := event:GetKeyCode()
+	LOCAL nKey := event:GetUnicodeKey()
 	LOCAL ctrlDown := event:ControlDown()
-	bExit := { |nKey| .f. }
+	bExit := { |nKey| IIF( nKey == WXK_ESCAPE, .t., .f.) }
   //altd()
 	g:SetFocus()
 
 	nCurPos := (g:GetInsertionPoint())	
+	#ifdef _DEBUG_
 	? "Typer(A): GET pos= " + alltrim(str(g:pos)) + " " + "EDIT pos=" + alltrim(str(nCurPos))
+	#endif
 
 	do case
 		case ( nKey == K_ENTER  )
@@ -554,8 +542,9 @@ FUNCTION Typer(g,event)
 		case ( nKEY == K_CTRL_U )
 			g:Undo()
 		case ( nKey == WXK_INSERT )
-			lInsert := !lInsert
-			Set( _SET_INSERT, lInsert )
+			g:lInsert := !g:lInsert
+			Set( _SET_INSERT, g:lInsert )
+			lSkip := .t.
 		case ( nKey == WXK_HOME )
 			g:Home()
 		case ( nKey == WXK_END )
@@ -586,7 +575,7 @@ FUNCTION Typer(g,event)
 					g:ToDecPos()
 				else
 					// send it to the get
-					if ( lInsert )
+					if ( g:lInsert )
 						g:Insert( cKey )
 					else
 						g:Overstrike( cKey )
@@ -598,6 +587,8 @@ FUNCTION Typer(g,event)
 			end
 		endcase
 		nCurPos := (g:GetInsertionPoint())	
+	#ifdef _DEBUG_
 		? "Typer(A): GET pos= " + alltrim(str(g:pos)) + " " + "EDIT pos=" + alltrim(str(nCurPos))
+	#endif
 RETURN (lSkip)
 
