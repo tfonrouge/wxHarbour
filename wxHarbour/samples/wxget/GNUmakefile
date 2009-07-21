@@ -47,7 +47,7 @@ HBLIB_CT ?= yes
 HBLIB_GTTRM ?= yes
 
 # Link in the System GPM library [yes,no]
-HBLIB_GPM ?= no
+HBLIB_GPM ?= yes
 
 # Link in the Harbour GTXWC library [yes,no]
 HBLIB_GTXWC ?= no
@@ -74,13 +74,13 @@ HBLIB_GTPCA ?= no
 HBFLAGS ?= -n -a -v -m -gc -q0
 
 # Type of Harbour compiled binaries [debug,release]
-HBBUILD ?= release
+HBBUILD ?= debug
 
 # Warning level for the Harbour Compiler [0,1,2,3]
-HBWARNL ?= 3
+HBWARNL ?= 1
 
 # Exit severity level for the Harbour Compiler [0,1,2]
-HBEXITSL ?= 2
+HBEXITSL ?= 1
 
 # Where to search for Harbour includes 
 HB_INC_PATH ?= /usr/include/$(HBCOMPILER)

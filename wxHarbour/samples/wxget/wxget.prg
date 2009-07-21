@@ -120,6 +120,9 @@ METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus
 			::ConnectKeyEvt( 	 ::GetId(), wxEVT_KEY_UP, 			::bOnKeyUp )
 			::ConnectKeyEvt( 	 wxID_ANY, wxEVT_CHAR, 				::bOnChar	 )
 
+			::SetBackgroundColour(0,0,0)   // Black
+			::SetForegroundColour(255,255,255) //White
+
 			::setfocus()
 			::updatebuffer()
 
