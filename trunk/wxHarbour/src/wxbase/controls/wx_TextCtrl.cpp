@@ -415,3 +415,37 @@ HB_FUNC( WXTEXTCTRL_WRITETEXT )
   if( textCtrl )
     textCtrl->WriteText( wxh_parc( 1 ) );
 }
+
+/*
+ wxTextCtrl:SetBackgroundColour
+ jamaj Brasil 2009
+ */
+HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
+{
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxColour color;
+ 
+  if( textCtrl )
+	{
+		color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)255 );
+    textCtrl->SetBackgroundColour( color );
+	}
+}
+
+/*
+ wxTextCtrl:SetForegroundColour
+ jamaj Brasil 2009
+ */
+HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
+{
+  wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxColour color;
+  
+  if( textCtrl )
+	{
+		color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ),(unsigned char)255 );
+    textCtrl->SetForegroundColour( color );
+	}
+}
+
+
