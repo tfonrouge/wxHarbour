@@ -63,6 +63,8 @@ PUBLIC:
   METHOD SetValue( value ) // deprecated
   METHOD ShowPosition( pos )
   METHOD WriteText( text )
+  METHOD SetBackgroundColour( red, green, blue, alpha )
+  METHOD SetForegroundColour( red, green, blue, alpha )
 
 PUBLISHED:
 ENDCLASS
