@@ -8,6 +8,11 @@
 #include "inkey.ch"
 #include "button.ch"
 
+#define GET_CLR_UNSELECTED      0
+#define GET_CLR_ENHANCED        1
+#define GET_CLR_CAPTION         2
+#define GET_CLR_ACCEL           3
+
 
 FUNCTION Main
   LOCAL wxGetSample
@@ -48,18 +53,18 @@ METHOD FUNCTION OnInit() CLASS wxGetSample
 		BEGIN BOXSIZER VERTICAL ALIGN EXPAND STRETCH
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your Name is:" 
-				oTextCtrl := TEditGet():New( oDlg, 123, "get1", edtNombre, {|_v_| IIF(pcount() > 0, edtNombre := _v_, edtNombre)  } ,"@!", bAction )
+				oTextCtrl := TEditGet():New( oDlg, 123, "get1", edtNombre, {|_v_| IIF(pcount() > 0, edtNombre := _v_, edtNombre)  } ,"@!", "B/W,W/b", bAction )
 				containerObj():SetLastChild( oTextCtrl )
 		  END SIZER
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your birthday is:" 
-				oTextCtrl1 := TEditGet():New( oDlg, 124, "get2", data, {|_v_| IIF(pcount() > 0, data := _v_, data)  } ,"99/99/9999", bAction )
+				oTextCtrl1 := TEditGet():New( oDlg, 124, "get2", data, {|_v_| IIF(pcount() > 0, data := _v_, data)  } ,"99/99/9999", "R/BG,G/W", bAction )
 				oTextCtrl1:SetToolTip( "birthday" )	
 				containerObj():SetLastChild( oTextCtrl1 )
 		  END SIZER
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your salary is:" 
-				oTextCtrl2 := TEditGet():New( oDlg, 125, "get2", salary, {|_v_| IIF(pcount() > 0, salary := _v_, salary)  } ,"@E 999,999,999.99", bAction )
+				oTextCtrl2 := TEditGet():New( oDlg, 125, "get2", salary, {|_v_| IIF(pcount() > 0, salary := _v_, salary)  } , "@E 999,999,999.99", "G/GR,W/R", bAction )
 				oTextCtrl2:SetToolTip( "salary" )	
 				containerObj():SetLastChild( oTextCtrl2 )
 		  END SIZER
@@ -90,15 +95,17 @@ PROTECTED:
 PUBLIC:
 		DATA  lInsert INIT .t.
 		DATA  plvl
-		METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CONSTRUCTOR
+		METHOD New( parent, id, name, var, block, picture, cColor, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CONSTRUCTOR
 		METHOD display()
 PUBLISHED:
 ENDCLASS
 
 
-METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CLASS TEditGet
+METHOD New( parent, id, name, var, block, picture, cColor, bAction, bOnGFocus, bOnLFocus, bOnChar, bOnKeyDown, bOnKeyUp  ) CLASS TEditGet
+			Local cClrPair
+
 			::wxTextCtrl:New( parent, id, var, NIL, NIL, wxTE_PROCESS_ENTER, NIL, name )
-			::THackGet:New( 10, 10, block, var, picture , "W/B+" )
+			::THackGet:New( 10, 10, block, var, picture , cColor )
 
 			bAction 		:= IIF( bAction == NIL, { | event | OnAction(SELF,event) }, bAction )
 			bOnGFocus		:= IIF( bOnGFocus == NIL,  { | event | OnGFocus(SELF,event) }, bOnGFocus )
@@ -116,28 +123,96 @@ METHOD New( parent, id, name, var, block, picture, bAction, bOnGFocus, bOnLFocus
 			
 			::ConnectFocusEvt( ::GetId(), wxEVT_KILL_FOCUS,   ::bOnLFocus )
 			::ConnectFocusEvt( ::GetId(), wxEVT_SET_FOCUS, 	  ::bOnGFocus )
-			::ConnectKeyEvt( 	 ::GetId(), wxEVT_KEY_DOWN, 		::bOnKeyDown )
-			::ConnectKeyEvt( 	 ::GetId(), wxEVT_KEY_UP, 			::bOnKeyUp )
+			::ConnectKeyEvt( 	 wxID_ANY, wxEVT_KEY_DOWN, 		::bOnKeyDown )
+			::ConnectKeyEvt( 	 wxID_ANY, wxEVT_KEY_UP, 			::bOnKeyUp )
 			::ConnectKeyEvt( 	 wxID_ANY, wxEVT_CHAR, 				::bOnChar	 )
 
-			::SetBackgroundColour(0,0,0)   // Black
-			::SetForegroundColour(255,255,255) //White
+			//altd()
+			cClrPair :=  hb_ColorIndex( ::colorspec, GET_CLR_UNSELECTED )
+			::SetBackgroundColour(ClrToRGB(GetClrBack( cClrPair )))   
+			::SetForegroundColour(ClrToRGB(GetClrFore( cClrPair ))) 
 
 			::setfocus()
 			::updatebuffer()
 
 RETURN Self
 
+function ClrToRGB(cClr)
+		Local aRGB, nI
+		Local aClrs := 	{ ;
+											{"N", 	{000,000,000} },;
+											{"B",		{000,000,255} },;
+											{"G",		{000,255,000} },;
+											{"BG",	{000,255,255} },;
+											{"R",		{255,000,000} },;
+											{"RB",	{255,000,255} },;
+											{"GR",	{255,255,000} },;
+											{"W",		{255,255,255} },;
+											{"N+",	{000,000,000} },;
+											{"B+",	{000,000,255} },;
+											{"G+",	{000,255,000} },;
+											{"BG+",	{000,255,255} },;
+											{"R+",	{255,000,000} },;
+											{"RB+",	{255,000,255} },;
+											{"GR+",	{255,255,000} },;
+											{"W+",	{255,255,255}	};
+										 }
+		nI := aScan( aClrs, { | x | x[1] == upper(alltrim(cClr)) } )		
+		aRGB := IIF( nI > 0, aClrs[nI][2], { 0,0,0} )		
+return aRGB
 
 METHOD display() CLASS TEditGet
 		LOCAL nCurPos := (::GetInsertionPoint())
-		LOCAL cValue := HB_StrToUTF8(::buffer)
+		LOCAL cBuffer
+		LOCAL nDispPos
+		LOCAL nRowPos
+		LOCAL nColPos
+		LOCAL cValue
+
+		IF ::hasFocus
+			cBuffer   := ::cBuffer
+		ELSE
+			::cType   := ValType( ::xVarGet := ::varGet() )
+			::picture := ::cPicture
+			cBuffer   := ::PutMask( ::xVarGet )
+		ENDIF
+
+		::nMaxLen := Len( cBuffer )
+		::nDispLen := iif( ::nPicLen == NIL, ::nMaxLen, ::nPicLen )
+
+		IF ::cType == "N" .AND. ::hasFocus .AND. ! ::lMinusPrinted .AND. ;
+			::decPos != 0 .AND. ::lMinus2 .AND. ;
+			::nPos > ::decPos .AND. Val( Left( cBuffer, ::decPos - 1 ) ) == 0
+			/* Display "-." only in case when value on the left side of
+				 the decimal point is equal 0 */
+			cBuffer := SubStr( cBuffer, 1, ::decPos - 2 ) + "-." + SubStr( cBuffer, ::decPos + 1 )
+		ENDIF
+
+		IF ::nDispLen != ::nMaxLen .AND. ::nPos != 0 /* ; has scroll? */
+			IF ::nDispLen > 8
+				 nDispPos := Max( 1, Min( ::nPos - ::nDispLen + 4       , ::nMaxLen - ::nDispLen + 1 ) )
+			ELSE
+				 nDispPos := Max( 1, Min( ::nPos - Int( ::nDispLen / 2 ), ::nMaxLen - ::nDispLen + 1 ) )
+			ENDIF
+		ELSE
+			nDispPos := 1
+		ENDIF
+
+		/* Display the GET */
+		IF !::lSuppDisplay .OR. nDispPos != ::nOldPos
+			cValue := iif( ::lHideInput, PadR( Replicate( SubStr( ::cStyle, 1, 1 ), Len( RTrim( cBuffer ) ) ), ::nDispLen ), SubStr( cBuffer, nDispPos, ::nDispLen ) )
+			IIF(HB_ISSTRING(::buffer),::ChangeValue(HB_StrToUTF8(cValue)),NIL)
+		ENDIF
+
+		IIF(HB_ISSTRING(::buffer),::SetInsertionPoint(::pos-1),NIL)
+
+		::nOldPos := nDispPos
+		::lSuppDisplay := .F.
+
 		#ifdef _DEBUG_
 		? "TEditGet:Display() =>" , " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
 		//altd()	
 		#endif
-		IIF(HB_ISSTRING(::buffer),::ChangeValue(cValue),NIL)
-		IIF(HB_ISSTRING(::buffer),::SetInsertionPoint(::pos-1),NIL)
 RETURN Self
 
 
@@ -148,10 +223,17 @@ FUNCTION OnAction(event)
 RETURN lRet
 
 FUNCTION OnGFocus(SELF,event)
+	Local cClrPair
 	LOCAL lRet := .t.
 	LOCAL nCurPos := (::GetInsertionPoint())
 	::SetFocus()
 	::updatebuffer()
+
+	cClrPair :=  hb_ColorIndex( ::colorspec, GET_CLR_ENHANCED )
+	? "Color 2: ", cClrPair
+	::SetBackgroundColour(ClrToRGB(GetClrBack( cClrPair )))   
+	::SetForegroundColour(ClrToRGB(GetClrFore( cClrPair ))) 
+
 	#ifdef _DEBUG_
 		? "OnGFocus", " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
 	#endif
@@ -159,9 +241,16 @@ FUNCTION OnGFocus(SELF,event)
 RETURN NIL
 
 FUNCTION OnLFocus(SELF,event)
+	Local cClrPair
 	LOCAL nCurPos := (::GetInsertionPoint())
 	::assign()
 	::killfocus()
+
+	cClrPair :=  hb_ColorIndex( ::colorspec, GET_CLR_UNSELECTED )
+	? "Color 1: ", cClrPair
+	::SetBackgroundColour(ClrToRGB(GetClrBack( cClrPair )))   
+	::SetForegroundColour(ClrToRGB(GetClrFore( cClrPair ))) 
+
 	#ifdef _DEBUG_
 		? "OnLFocus" , " Buffer: " , ::buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(::buffer), Alltrim(Str(Len(::buffer))),0) , " Cursor: " , Alltrim(Str(::pos)) , "/" , Alltrim(Str(nCurPos))
 	#endif
@@ -532,9 +621,8 @@ FUNCTION Typer(g,event)
 	do case
 		case ( nKey == K_ENTER  )
 		case ( nKEY == WXK_TAB )
-			if ( ValType( eval(g:block) ) == "D" )
-				cValue := g:Buffer
-				lValidOk := ( DtoC( CtoD( cValue ) ) == cValue )
+			if ( g:type == "D" )
+				lValidOk := !g:badDate
 			else
 				lValidOk := .t.
 			endif
