@@ -213,7 +213,7 @@ hbEvtHandler<T>::~hbEvtHandler()
   if( pWxh_Item )
   {
     pWxh_Item->delete_WX = false;
-    delete pWxh_Item;
+    //delete pWxh_Item;
   }
 }
 
