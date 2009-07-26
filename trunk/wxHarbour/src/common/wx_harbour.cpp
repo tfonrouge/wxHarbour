@@ -85,13 +85,14 @@ wxh_Item::~wxh_Item()
     if( wxObj )
       delete wxObj;
   }
-
+	/*
   if( pSelf )
   {
     hb_objSendMsg( pSelf, "ClearObjData", 0 );
     hb_itemRelease( pSelf );
     pSelf = NULL;
   }
+	*/
 }
 
 /*
