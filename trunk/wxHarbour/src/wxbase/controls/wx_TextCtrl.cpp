@@ -22,6 +22,7 @@
 #include "wx/wx.h"
 #include "wxh.h"
 
+#include "wxbase/wx_Colour.h"
 #include "wxbase/wx_TextCtrl.h"
 
 /*
@@ -423,40 +424,49 @@ HB_FUNC( WXTEXTCTRL_WRITETEXT )
 HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
 {
   wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	wxColour color;
  
   if( textCtrl )
 	{
 		if (hb_pcount() == 3)
 		{
-			color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)255 );
-		  textCtrl->SetBackgroundColour( color );
+			wxColour* color;
+			color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)255 );
+		  textCtrl->SetBackgroundColour( *color );
 		}
 		else if (hb_pcount() == 4)
 		{
-			color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
-		  textCtrl->SetBackgroundColour( color );
+			wxColour* color;
+			color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
+		  textCtrl->SetBackgroundColour( *color );
 		}
 		else if (hb_pcount() == 1 && ISARRAY(1) )
 		{
 	    PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
 			if (hb_arrayLen( pArray ) == 3)
 			{
+				wxColour* color;
 				unsigned char r,g,b;
 				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
 				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
 				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
-				color = wxColour( r, g, b, 255 );
+				color = new wxColour( r, g, b, (unsigned char)255 );
+			  textCtrl->SetBackgroundColour( *color );
 			}
 			else if (hb_arrayLen( pArray ) == 4)
 			{
+				wxColour* color;
 				unsigned char r,g,b,a;
 				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
 				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
 				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
 				a = hb_arrayGetItemPtr( pArray, 4 )->item.asInteger.value;
-				color = wxColour( r, g, b, a );
+				color = new wxColour( r, g, b, a );
+			  textCtrl->SetBackgroundColour( *color );
 			}
+		}
+		else if (hb_pcount() == 1 && ISOBJECT(1) )			
+		{
+		  const wxColour& color = * (wxColour *) wxh_par_WX( 1 );
 		  textCtrl->SetBackgroundColour( color );
 		}
 	}
@@ -469,39 +479,50 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
 HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
 {
   wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	wxColour color;
-  
+
+
   if( textCtrl )
 	{
 		if (hb_pcount() == 3)
 		{
-			color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)255 );
-		  textCtrl->SetForegroundColour( color );
+			wxColour* color;
+			color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)255 );
+		  textCtrl->SetForegroundColour( *color );
 		}
 		else if (hb_pcount() == 4)
 		{
-			color = wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
-		  textCtrl->SetForegroundColour( color );
+			wxColour* color;
+			color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
+		  textCtrl->SetForegroundColour( *color );
 		}
 		else if (hb_pcount() == 1 && ISARRAY(1) )
 		{
-			unsigned char r,g,b,a;
 	    PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
 			if (hb_arrayLen( pArray ) == 3)
 			{
+				unsigned char r,g,b;
+				wxColour* color;
 				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
 				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
 				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
-				color = wxColour( r, g, b, 255 );
+				color =  new wxColour( r, g, b, (unsigned char)255 );
+			  textCtrl->SetForegroundColour( *color );
 			}
 			else if (hb_arrayLen( pArray ) == 4)
 			{
+				unsigned char r,g,b,a;
+				wxColour* color;
 				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
 				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
 				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
 				a = hb_arrayGetItemPtr( pArray, 4 )->item.asInteger.value;
-				color = wxColour( r, g, b, a );
+				color = new wxColour( r, g, b, a );
+			  textCtrl->SetForegroundColour( *color );
 			}
+		}
+		else if (hb_pcount() == 1 && ISOBJECT(1) )			
+		{
+		  const wxColour& color = * (wxColour *) wxh_par_WX( 1 );
 		  textCtrl->SetForegroundColour( color );
 		}
 	}
