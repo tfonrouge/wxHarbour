@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-07-27 22:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wx_harbour.cpp
+    * reverted changes for new memory handle model.
+      ; I'll finish this work in a few more days.
+
 2009-07-17 01:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/mkdirstempl.bkl
   * config/tmpl_hrb.bkl

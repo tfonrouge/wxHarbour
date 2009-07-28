@@ -85,14 +85,12 @@ wxh_Item::~wxh_Item()
     if( wxObj )
       delete wxObj;
   }
-	/*
   if( pSelf )
   {
     hb_objSendMsg( pSelf, "ClearObjData", 0 );
     hb_itemRelease( pSelf );
     pSelf = NULL;
   }
-	*/
 }
 
 /*
@@ -271,8 +269,9 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
       map_crc32[ uiCrc32 ] = pWxh_Item;
       pWxh_Item->uiProcNameLine = uiCrc32;
 
-      pItem = wxh_itemNullObject( pSelf );
-      pWxh_Item->nullObj = true;
+      //pItem = wxh_itemNullObject( pSelf );
+      //pWxh_Item->nullObj = true;
+      pItem = hb_itemNew( pSelf );
       lastTopLevelWindow = pItem;
     }
 
