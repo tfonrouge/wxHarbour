@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-08-08 13:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    ! fixed root dir for build process
+
 2009-08-08 12:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * wxharbour.spec
     * changed word separarion on lib name from "-" to "_"
