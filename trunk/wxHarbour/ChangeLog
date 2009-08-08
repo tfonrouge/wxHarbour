@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-08-08 12:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * wxharbour.spec
+    * changed word separarion on lib name from "-" to "_"
+
 2009-08-08 12:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
     * using /usr/local and /usr as root for lib/include dirs
