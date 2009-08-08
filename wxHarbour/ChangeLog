@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-08-08 12:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+    * using /usr/local and /usr as root for lib/include dirs
+
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+  * wxharbour.bkl
+    * rebuilded makefiles
+
 2009-07-27 22:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wx_harbour.cpp
     * reverted changes for new memory handle model.

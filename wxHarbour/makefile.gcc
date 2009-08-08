@@ -121,16 +121,14 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 CPPDEPS = -MT$@ -MF$@.d -MD -MP
 PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
-	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
+WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
 	-D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
-	$(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude\wxHarbour \
-	-I$(PREFIX)\include\wxHarbour -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
-	-D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
-	$(HBCC_DEFINE)
+	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) -Iinclude\wxHarbour \
+	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) \
+	$(__WX_DEBUG_INFO_2) -D__WXMSW__ -I$(WX_PATH)\Include \
+	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) -Iinclude\wxHarbour \
+	$(CPPFLAGS) $(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.o \
@@ -196,6 +194,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhTimer.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.o \
+	$(__BUILDDIR__)\wxHarbour_wxhColour.o \
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.o \
 	$(__BUILDDIR__)\wxHarbour_wxhIcon.o \
 	$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.o \
@@ -274,6 +273,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.o \
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.o \
+	$(__BUILDDIR__)\wxHarbour_wx_Colour.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.o \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticBitmap.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Dialog.o \
@@ -301,9 +301,9 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) -Iinclude\wxHarbour \
-	-I$(PREFIX)\include\wxHarbour $(p) $(p_0) -D__WXMSW__ -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES)
+	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) -D__WXMSW__ \
+	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) \
+	-Iinclude\wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -716,6 +716,10 @@ $(__BUILDDIR__)\wxHarbour_wxhBitmap.o: ./src/wxbase/image/wxhBitmap.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhColour.o: ./src/wxbase/image/wxhColour.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhGDIObject.o: ./src/wxbase/image/wxhGDIObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -972,6 +976,9 @@ $(__BUILDDIR__)\wxHarbour_wx_TimerEvent.o: ./src/wxbase/events/wx_TimerEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Bitmap.o: ./src/wxbase/image/wx_Bitmap.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_Colour.o: ./src/wxbase/image/wx_Colour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Icon.o: ./src/wxbase/image/wx_Icon.cpp
