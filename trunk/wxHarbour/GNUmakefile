@@ -13,6 +13,9 @@
 # 'install' program location 
 INSTALL ?= install
 
+# Location where the package is installed by 'make install' 
+prefix ?= /usr/local
+
 # Destination root (/ is used if empty) 
 DESTDIR ?= 
 
@@ -91,9 +94,6 @@ HBWARNL ?= 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL ?= 2
 
-# Where to search for Harbour includes 
-HB_INC_PATH ?= /usr/include/$(HBCOMPILER)
-
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj/gcc-unix
 
@@ -112,13 +112,15 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	$(__WX_DEBUG_INFO_2) -I/usr/local/include/$(HBCOMPILER) $(CPPFLAGS) \
+WXHARBOUR_CFLAGS = -I/usr/include/$(HBCOMPILER) \
+	-I/usr/local/include/$(HBCOMPILER) -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	$(__WX_DEBUG_INFO_2) -I/usr/local/include/$(HBCOMPILER) $(CPPFLAGS) \
+WXHARBOUR_CXXFLAGS = -I/usr/include/$(HBCOMPILER) \
+	-I/usr/local/include/$(HBCOMPILER) -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour $(CPPFLAGS) \
 	$(HBCC_DEFINE) -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
@@ -185,6 +187,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhTimer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBitmap.o \
+	$(__BUILDDIR__)/wxHarbour_wxhColour.o \
 	$(__BUILDDIR__)/wxHarbour_wxhGDIObject.o \
 	$(__BUILDDIR__)/wxHarbour_wxhIcon.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticBitmap.o \
@@ -263,6 +266,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Timer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Bitmap.o \
+	$(__BUILDDIR__)/wxHarbour_wx_Colour.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Icon.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticBitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Dialog.o \
@@ -318,9 +322,10 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	-I/usr/local/include/$(HBCOMPILER)
+	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
+	-I/usr/local/include/$(HBCOMPILER) -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	-Iinclude/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -391,24 +396,24 @@ $(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
-	$(INSTALL) -d $(DESTDIR)/usr/lib
-	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)/usr/lib
+	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(prefix)/lib
 
 uninstall_wxHarbour: 
-	rm -f $(DESTDIR)/usr/lib/lib$(WXHLIBNAME).a
+	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)/usr
+	$(INSTALL) -d $(DESTDIR)$(prefix)
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)/usr/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)/usr/`dirname $$f`; \
+	if test ! -d $(DESTDIR)$(prefix)/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)$(prefix)/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)/usr/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(prefix)/$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)/usr/$$f; \
+	rm -f $(DESTDIR)$(prefix)/$$f; \
 	done
 
 demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
@@ -673,6 +678,10 @@ $(__BUILDDIR__)/wxHarbour_wxhBitmap.o: ./src/wxbase/image/wxhBitmap.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)/wxHarbour_wxhColour.o: ./src/wxbase/image/wxhColour.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)/wxHarbour_wxhGDIObject.o: ./src/wxbase/image/wxhGDIObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -929,6 +938,9 @@ $(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o: ./src/wxbase/events/wx_TimerEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Bitmap.o: ./src/wxbase/image/wx_Bitmap.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_Colour.o: ./src/wxbase/image/wx_Colour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Icon.o: ./src/wxbase/image/wx_Icon.cpp

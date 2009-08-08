@@ -4,9 +4,7 @@
   <include file="config/tmpl_hrb.bkl"/>
 
   <wxharbour-lib id="wxHarbour">
-    <if cond="TOOLSET=='unix'">
-      <include>/usr/local/include/$(HBCOMPILER)</include>
-    </if>
+    <include>include/wxHarbour</include>
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/wxHarbour/*.ch"))

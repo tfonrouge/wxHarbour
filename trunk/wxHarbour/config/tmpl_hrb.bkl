@@ -2,7 +2,7 @@
 
 <!-- Common Harbour template for Bakefiles  -->
 <!-- (C) 2009 Teo Fonrouge. WindTelSoft     -->
-<!-- v0.6                                   -->
+<!-- v0.7                                   -->
 
 <makefile>
 
@@ -18,11 +18,6 @@
   </set>
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
-
-<!--  <set var="prefix" make_var="1">-->
-  <set var="PREFIX">
-    /usr
-  </set>
 
   <if cond="FORMAT=='gnu'">
     <set var="_WL_STARTGROUP" make_var="1">
@@ -466,23 +461,17 @@ Standard flags for Harbour compiler
     </if>
   </set>
 
-  <set var="__HB_INC_PATH">
-    <if cond="TOOLSET=='win32'">
+  <if cond="TOOLSET=='win32'">
+    <set var="__HB_INC_PATH">
       $(envvar("HB_INC_INSTALL"))
-    </if>
-    <if cond="TOOLSET=='unix'">
-      /usr/include/$(HBCOMPILER)
-    </if>
-  </set>
+    </set>
+  </if>
 
-  <set var="__HB_LIB_PATH">
-    <if cond="TOOLSET=='win32'">
+  <if cond="TOOLSET=='win32'">
+    <set var="__HB_LIB_PATH">
       $(envvar("HB_LIB_INSTALL"))
-    </if>
-    <if cond="TOOLSET=='unix'">
-      /usr/lib/$(HBCOMPILER)
-    </if>
-  </set>
+    </set>
+  </if>
 
   <option name="HB_BIN_PATH" category="path">
     <default-value>
@@ -497,23 +486,27 @@ Where to search for the Harbour compiler
     </description>
   </option>
 
-  <option name="HB_INC_PATH" category="path">
-    <default-value force="1">
-      $(__HB_INC_PATH)
-    </default-value>
-    <description>
-      Where to search for Harbour includes
-    </description>
-  </option>
+  <if cond="TOOLSET=='win32'">
+    <option name="HB_INC_PATH" category="path">
+      <default-value force="1">
+        $(__HB_INC_PATH)
+      </default-value>
+      <description>
+        Where to search for Harbour includes
+      </description>
+    </option>
+  </if>
 
-  <option name="HB_LIB_PATH" category="path">
-    <default-value>
-      $(__HB_LIB_PATH)
-    </default-value>
-    <description>
-      Where to search for Harbour libs
-    </description>
-  </option>
+  <if cond="TOOLSET=='win32'">
+    <option name="HB_LIB_PATH" category="path">
+      <default-value>
+        $(__HB_LIB_PATH)
+      </default-value>
+      <description>
+        Where to search for Harbour libs
+      </description>
+    </option>
+  </if>
 
   <set var="__HBDEBUG__">
     <if cond="HBBUILD=='debug'" >-b -d_DEBUG_</if>
@@ -718,11 +711,17 @@ Where is wxWidgets installed
         $(createMakeVar(id, '__hbflags_mv', 'HBFLAGS'))
     </set>
 
-<!--    <include>include</include>-->
-    <include>$(HB_INC_PATH)</include>
-<!--    <include>$(INCLUDEDIR)</include>-->
-    <include>include/wxHarbour</include>
-    <include>$(PREFIX)/include/wxHarbour</include>
+    <!-- includes -->
+    <if cond="TOOLSET=='win32'">
+      <include>$(HB_INC_PATH)</include>
+    </if>
+
+    <if cond="TOOLSET=='unix'">
+      <include>/usr/include/$(HBCOMPILER)</include>
+      <include>/usr/local/include/$(HBCOMPILER)</include>
+      <include>/usr/include/wxHarbour</include>
+      <include>/usr/local/include/wxHarbour</include>
+    </if>
 
     <if cond="COMPILER=='gcc'">
       <ldlibs>$(_WL_STARTGROUP)</ldlibs>
@@ -804,7 +803,6 @@ Where is wxWidgets installed
 
   <template id="common-harbour-exebuild">
     <app-type>gui</app-type>
-    <lib-path>$(HB_LIB_PATH)</lib-path>
     <if cond="TOOLSET=='unix'">
       <sys-lib>m</sys-lib>
       <sys-lib>dl</sys-lib>
@@ -815,6 +813,7 @@ Where is wxWidgets installed
       <sys-lib>$(LIB_X11)</sys-lib>
     </if>
     <if cond="TOOLSET=='win32'">
+      <lib-path>$(HB_LIB_PATH)</lib-path>
       <sys-lib>kernel32</sys-lib>
       <sys-lib>user32</sys-lib>
       <sys-lib>gdi32</sys-lib>
