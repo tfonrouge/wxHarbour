@@ -123,12 +123,12 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 $(p) \
 	$(p_0) $(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
-	/D__WXMSW__ /I$(WX_PATH)\Include \
+	/D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude\wxHarbour \
 	$(CPPFLAGS) $(HBCC_DEFINE)
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 \
 	$(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
-	/D__WXMSW__ /I$(WX_PATH)\Include \
+	/D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour /I$(WX_PATH)\Include \
 	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude\wxHarbour /GR \
 	/EHsc /YX $(CPPFLAGS) $(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
@@ -304,8 +304,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
 	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) $(p) $(p_0) $(p_1) /D__WXMSW__ \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	/Iinclude\wxHarbour
+	/I$(HB_INC_PATH)\wxHarbour /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) /Iinclude\wxHarbour
 
 ### Conditionally set variables: ###
 
