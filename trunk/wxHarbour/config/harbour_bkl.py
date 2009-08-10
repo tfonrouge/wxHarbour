@@ -2,6 +2,8 @@
 #(C) 2008 WindTelSoft de Mexico
 #
 
+# $Id$
+
 import utils
 
 def addSufixToList(sufix, value):

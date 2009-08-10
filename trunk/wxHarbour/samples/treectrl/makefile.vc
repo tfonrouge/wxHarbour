@@ -70,10 +70,13 @@ HBLIB_GTPCA = no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS = -n -a -v -m -gc -q0
+HBFLAGS = -n -a -v -m -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD = release
+
+# Output C source level (0=compact,1=normal,2=verbose,3=real C code) [0,1,2,3]
+HBOUTSRCLEVEL = 0
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL = 3
@@ -112,16 +115,16 @@ WX_BUILD = release
 ### Variables: ###
 
 PREFIX = $(HBPATH_INSTALL)
-TREECTRL_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) \
-	/Iinclude\wxHarbour /I$(PREFIX)\include\wxHarbour /W4 /O2 $(p) $(p_0) \
-	$(__WX_DEBUG_INFO_5) $(p_1) /Fd.\treectrl.pdb /D__WXMSW__ \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
+TREECTRL_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 $(p) \
+	$(p_0) $(__WX_DEBUG_INFO_5) $(p_1) /Fd.\treectrl.pdb /Iinclude\wxHarbour \
+	/D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour /I$(WX_PATH)\Include \
+	/I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
 	/I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE)
 TREECTRL_OBJECTS =  \
 	$(__BUILDDIR__)\treectrl_treectrl.obj
-TREECTRL_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) /Iinclude\wxHarbour \
-	/I$(PREFIX)\include\wxHarbour $(p) $(p_0) $(p_1) /D__WXMSW__ \
+TREECTRL_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) $(p) $(p_0) \
+	$(p_1) /Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour \
 	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) /D_WINDOWS \
 	/I..\..\include\wxHarbour
 

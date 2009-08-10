@@ -16,7 +16,7 @@
   <echo>  format: $(FORMAT)</echo>
 
   <set var="__DEFAULT_HBFLAGS">
-    -n -a -v -m -gc -q0
+    -n -a -v -m -q0
   </set>
 
   <set var="DEFAULT_HBFLAGS">$(__DEFAULT_HBFLAGS)</set>
@@ -438,6 +438,14 @@ Standard flags for Harbour compiler
     </description>
   </option>
 
+  <option name="HBOUTSRCLEVEL">
+    <values>0,1,2,3</values>
+    <default-value>0</default-value>
+    <description>
+      Output C source level (0=compact,1=normal,2=verbose,3=real C code)
+    </description>
+  </option>
+
   <option name="HBWARNL">
     <values>0,1,2,3</values>
     <default-value>3</default-value>
@@ -516,7 +524,7 @@ Where to search for the Harbour compiler
 
   <set var="___BUILDDIR__">
     <if cond="TOOLSET=='unix'">
-      obj/$(COMPILER)-$(TOOLSET)
+      obj/$(COMPILER)_$(TOOLSET)
     </if>
     <if cond="TOOLSET=='win32'">
       obj\$(COMPILER)_$(TOOLSET)
@@ -700,7 +708,7 @@ Where is wxWidgets installed
     <set var="__hbflags_mv" eval="0">
         $(HBFLAGS) $(__hbflags)
     </set>
-    <set var="__hbflags" append="1">-w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__)</set>
+    <set var="__hbflags" append="1">-gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__)</set>
     <set var="__hbflags" append="1">
       <if cond="TOOLSET=='win32'">
         -dHB_OS_WIN_32

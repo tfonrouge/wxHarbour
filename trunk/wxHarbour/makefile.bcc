@@ -117,12 +117,17 @@ HBLIB_GTPCA = no
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
 !ifndef HBFLAGS
-HBFLAGS = -n -a -v -m -gc -q0
+HBFLAGS = -n -a -v -m -q0
 !endif
 
 # Type of Harbour compiled binaries [debug,release]
 !ifndef HBBUILD
 HBBUILD = release
+!endif
+
+# Output C source level (0=compact,1=normal,2=verbose,3=real C code) [0,1,2,3]
+!ifndef HBOUTSRCLEVEL
+HBOUTSRCLEVEL = 0
 !endif
 
 # Warning level for the Harbour Compiler [0,1,2,3]
@@ -194,7 +199,8 @@ MAKEARGS = -DEXEC_PREFIX="$(EXEC_PREFIX)" -DCC="$(CC)" -DCXX="$(CXX)" \
 	-DHBLIB_GTWIN="$(HBLIB_GTWIN)" -DHBLIB_GTXVT="$(HBLIB_GTXVT)" \
 	-DHBLIB_GTWVT="$(HBLIB_GTWVT)" -DHBLIB_GTCGI="$(HBLIB_GTCGI)" \
 	-DHBLIB_GTSTD="$(HBLIB_GTSTD)" -DHBLIB_GTPCA="$(HBLIB_GTPCA)" \
-	-DHBFLAGS="$(HBFLAGS)" -DHBBUILD="$(HBBUILD)" -DHBWARNL="$(HBWARNL)" \
+	-DHBFLAGS="$(HBFLAGS)" -DHBBUILD="$(HBBUILD)" \
+	-DHBOUTSRCLEVEL="$(HBOUTSRCLEVEL)" -DHBWARNL="$(HBWARNL)" \
 	-DHBEXITSL="$(HBEXITSL)" -DHB_BIN_PATH="$(HB_BIN_PATH)" \
 	-DHB_INC_PATH="$(HB_INC_PATH)" -DHB_LIB_PATH="$(HB_LIB_PATH)" \
 	-D__BUILDDIR__="$(__BUILDDIR__)" -DWX_PATH="$(WX_PATH)" \
@@ -381,8 +387,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
-WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) \
+WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) \
 	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(__WX_LIBID_FILENAMES)
 

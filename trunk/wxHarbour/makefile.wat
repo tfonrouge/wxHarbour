@@ -70,10 +70,13 @@ HBLIB_GTPCA = no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS = -n -a -v -m -gc -q0
+HBFLAGS = -n -a -v -m -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD = release
+
+# Output C source level (0=compact,1=normal,2=verbose,3=real C code) [0,1,2,3]
+HBOUTSRCLEVEL = 0
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL = 3
@@ -202,19 +205,20 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" &
 	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" &
 	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" &
 	HBLIB_GTPCA="$(HBLIB_GTPCA)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" &
-	HBWARNL="$(HBWARNL)" HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" &
+	HBOUTSRCLEVEL="$(HBOUTSRCLEVEL)" HBWARNL="$(HBWARNL)" &
+	HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" &
 	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" &
 	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" &
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = -i=$(HB_INC_PATH) -i=include\wxHarbour &
-	-i=$(PREFIX)\include\wxHarbour -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
-	-d__WXMSW__ -i=$(WX_PATH)\Include &
+WXHARBOUR_CFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
+	-i=include\wxHarbour -d__WXMSW__ -i=$(HB_INC_PATH)\wxHarbour &
+	-i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) &
 	$(HBCC_DEFINE)
-WXHARBOUR_CXXFLAGS = -i=$(HB_INC_PATH) -i=include\wxHarbour &
-	-i=$(PREFIX)\include\wxHarbour -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
-	-d__WXMSW__ -i=$(WX_PATH)\Include &
+WXHARBOUR_CXXFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) &
+	$(__WX_DEBUG_INFO_2) -i=include\wxHarbour -d__WXMSW__ &
+	-i=$(HB_INC_PATH)\wxHarbour -i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) /fh $(CPPFLAGS) &
 	$(HBCC_DEFINE) -xs
 WXHARBOUR_OBJECTS =  &
@@ -282,6 +286,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhTimer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhColour.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhIcon.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhStaticBitmap.obj &
@@ -360,6 +365,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_Colour.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_StaticBitmap.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Dialog.obj &
@@ -386,9 +392,10 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
-WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) &
-	$(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) -i=include\wxHarbour &
-	-i=$(PREFIX)\include\wxHarbour $(p) $(p_0) -d__WXMSW__ -i=$(WX_PATH)\Include &
+WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) &
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) $(p) $(p_0) &
+	-i=include\wxHarbour -d__WXMSW__ -i=$(HB_INC_PATH)\wxHarbour &
+	-i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
 
 
@@ -750,6 +757,10 @@ $(__BUILDDIR__)\wxHarbour_wxhBitmap.obj :  .AUTODEPEND .\src\wxbase\image\wxhBit
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhColour.obj :  .AUTODEPEND .\src\wxbase\image\wxhColour.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj :  .AUTODEPEND .\src\wxbase\image\wxhGDIObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1006,6 +1017,9 @@ $(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\w
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj :  .AUTODEPEND .\src\wxbase\image\wx_Bitmap.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_Colour.obj :  .AUTODEPEND .\src\wxbase\image\wx_Colour.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Icon.obj :  .AUTODEPEND .\src\wxbase\image\wx_Icon.cpp

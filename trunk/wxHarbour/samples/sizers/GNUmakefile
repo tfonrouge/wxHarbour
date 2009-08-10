@@ -71,10 +71,13 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -gc -q0
+HBFLAGS ?= -n -a -v -m -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
+
+# Output C source level (0=compact,1=normal,2=verbose,3=real C code) [0,1,2,3]
+HBOUTSRCLEVEL ?= 0
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL ?= 3
@@ -82,14 +85,8 @@ HBWARNL ?= 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL ?= 2
 
-# Where to search for Harbour includes 
-HB_INC_PATH ?= /usr/include/$(HBCOMPILER)
-
-# Where to search for Harbour libs 
-HB_LIB_PATH ?= /usr/lib/$(HBCOMPILER)
-
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc-unix
+__BUILDDIR__ ?= obj/gcc_unix
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -109,18 +106,20 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
-SIZERS_CFLAGS = -I$(HB_INC_PATH) -Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-W -Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) \
-	-I/usr/local/include/$(HBCOMPILER) -I../../include/wxHarbour $(CPPFLAGS) \
-	$(HBCC_DEFINE) -fno-strict-aliasing
+SIZERS_CFLAGS = -I/usr/include/$(HBCOMPILER) \
+	-I/usr/local/include/$(HBCOMPILER) -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour \
+	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
 SIZERS_OBJECTS =  \
 	$(__BUILDDIR__)/sizers_login.o \
 	$(__BUILDDIR__)/sizers_main.o
-SIZERS_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I$(HB_INC_PATH) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	-I/usr/local/include/$(HBCOMPILER) -I../../include/wxHarbour
+SIZERS_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
+	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
+	-I/usr/local/include/$(HBCOMPILER) $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour -I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -341,7 +340,7 @@ clean:
 	rm -f ./sizers
 
 ./sizers: $(SIZERS_OBJECTS)
-	$(CXX) -o $@ $(SIZERS_OBJECTS)  $(__WX_DEBUG_INFO)  -L$(HB_LIB_PATH) -L/usr/X11R6/lib -L/usr/local/lib/$(HBCOMPILER) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+	$(CXX) -o $@ $(SIZERS_OBJECTS)  $(__WX_DEBUG_INFO)  -L/usr/lib/$(HBCOMPILER) -L/usr/local/lib/$(HBCOMPILER) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	../../bin/run_App.sh sizers
