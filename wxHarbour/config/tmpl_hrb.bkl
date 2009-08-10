@@ -719,8 +719,6 @@ Where is wxWidgets installed
     <if cond="TOOLSET=='unix'">
       <include>/usr/include/$(HBCOMPILER)</include>
       <include>/usr/local/include/$(HBCOMPILER)</include>
-      <include>/usr/include/wxHarbour</include>
-      <include>/usr/local/include/wxHarbour</include>
     </if>
 
     <if cond="COMPILER=='gcc'">
@@ -787,6 +785,11 @@ Where is wxWidgets installed
     <debug-info>$(WX_DEBUG_INFO)</debug-info>
     <if cond="TOOLSET=='win32'">
       <define>__WXMSW__</define>
+      <include>$(HB_INC_PATH)/wxHarbour</include>
+    </if>
+    <if cond="TOOLSET=='unix'">
+      <include>/usr/include/wxHarbour</include>
+      <include>/usr/local/include/wxHarbour</include>
     </if>
   </template>
 
@@ -809,6 +812,8 @@ Where is wxWidgets installed
       <sys-lib>$(LIB_NCURSES)</sys-lib>
       <sys-lib>$(LIB_SLANG)</sys-lib>
       <sys-lib>$(LIB_GPM)</sys-lib>
+      <lib-path>/usr/lib/$(HBCOMPILER)</lib-path>
+      <lib-path>/usr/local/lib/$(HBCOMPILER)</lib-path>
       <lib-path>/usr/X11R6/lib</lib-path>
       <sys-lib>$(LIB_X11)</sys-lib>
     </if>

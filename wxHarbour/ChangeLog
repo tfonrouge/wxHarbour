@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2009-08-10 12:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.gcc
+  * makefile.vc
+    ! Fixed adding wxHarbour lib/include dirs on unix TOOLSET
+
 2009-08-08 13:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * wxharbour.spec
     ! fixed root dir for build process
