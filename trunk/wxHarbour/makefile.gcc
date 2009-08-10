@@ -227,10 +227,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.o \
 	$(__BUILDDIR__)\wxHarbour_sysdefs.o \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.o \
-	$(__BUILDDIR__)\wxHarbour_wxh_scopelist.o \
 	$(__BUILDDIR__)\wxHarbour_xhb2hb.o \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.o \
-	$(__BUILDDIR__)\wxHarbour_wx_Browse.o \
 	$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.o \
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.o \
 	$(__BUILDDIR__)\wxHarbour_TTable_c.o \
@@ -830,16 +828,10 @@ $(__BUILDDIR__)\wxHarbour_sysdefs.o: ./src/common/sysdefs.cpp
 $(__BUILDDIR__)\wxHarbour_wx_harbour.o: ./src/common/wx_harbour.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
-$(__BUILDDIR__)\wxHarbour_wxh_scopelist.o: ./src/common/wxh_scopelist.cpp
-	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
-
 $(__BUILDDIR__)\wxHarbour_xhb2hb.o: ./src/common/xhb2hb.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_functions.o: ./src/hrbcompat/misc/wx_functions.cpp
-	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
-
-$(__BUILDDIR__)\wxHarbour_wx_Browse.o: ./src/hrbcompat/tbrowse/wx_Browse.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_GridBrowse.o: ./src/hrbcompat/tbrowse/wx_GridBrowse.cpp

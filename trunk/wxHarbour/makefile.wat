@@ -314,10 +314,8 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj &
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj &
-	$(__BUILDDIR__)\wxHarbour_wxh_scopelist.obj &
 	$(__BUILDDIR__)\wxHarbour_xhb2hb.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj &
-	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj &
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj &
 	$(__BUILDDIR__)\wxHarbour_TTable_c.obj &
@@ -866,16 +864,10 @@ $(__BUILDDIR__)\wxHarbour_sysdefs.obj :  .AUTODEPEND .\src\common\sysdefs.cpp
 $(__BUILDDIR__)\wxHarbour_wx_harbour.obj :  .AUTODEPEND .\src\common\wx_harbour.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
-$(__BUILDDIR__)\wxHarbour_wxh_scopelist.obj :  .AUTODEPEND .\src\common\wxh_scopelist.cpp
-	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
-
 $(__BUILDDIR__)\wxHarbour_xhb2hb.obj :  .AUTODEPEND .\src\common\xhb2hb.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_functions.obj :  .AUTODEPEND .\src\hrbcompat\misc\wx_functions.cpp
-	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
-
-$(__BUILDDIR__)\wxHarbour_wx_Browse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wx_Browse.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wx_GridBrowse.cpp
