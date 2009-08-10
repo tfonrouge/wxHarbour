@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2009-08-10 18:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+MM      bin/run_App.sh
+MM      build_bkls.sh
+MM      build_pkgs.sh
+MM      wxharbour.bkl
+MM      wxharbour.spec
+        * adding svn:keywords (Author, Id, Date, Revision)
+        * adding "Id" tag
+
 2009-08-10 17:53 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   -  demos/helloworld/helloworld.bkl
   -  samples/arrbrowser/arrbrowser.bkl
