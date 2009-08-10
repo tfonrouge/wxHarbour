@@ -4,7 +4,6 @@
   <include file="config/tmpl_hrb.bkl"/>
 
   <wxharbour-lib id="wxHarbour">
-    <include>include/wxHarbour</include>
     <libname>$(WXHLIBNAME)</libname>
     <headers>
       $(fileList("include/wxHarbour/*.ch"))
@@ -38,10 +37,6 @@
       src/wxbase/validators
       src/wxbase/xmlclasses
     </sources-at>
-<!--    <include>
-      include
-    </include>-->
-    <!--<install-to>$(HB_LIB_PATH)</install-to>-->
     <install-to>$(LIBDIR)</install-to>
     <install-headers-to>$(PREFIX)</install-headers-to>
   </wxharbour-lib>
@@ -51,7 +46,7 @@
     <depends>wxHarbour</depends>
     <installable>no</installable>
   </subproject>
-  
+
   <action id="sudoinstall">
     <depends>wxHarbour</depends>
     <command>sudo make install</command>

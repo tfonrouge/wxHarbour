@@ -441,7 +441,7 @@ PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
     pNullObj = hb_itemNew( NULL );
     hb_itemRawCpy( pNullObj, pSelf );
   }
-  
+
   return pNullObj;
 }
 
