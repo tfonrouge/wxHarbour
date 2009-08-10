@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2009-08-10 17:53 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  -  demos/helloworld/helloworld.bkl
+  -  samples/arrbrowser/arrbrowser.bkl
+  -  samples/dbbrowser/dbbrowser.bkl
+  -  samples/menu/menu.bkl
+  -  samples/sizers/sizers.bkl
+  -  samples/text/text.bkl
+     * removed not needed files
+
 2009-08-10 17:35 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   -  config/harbour-bcc.cfg
   -  config/harbour-mingw.cfg
