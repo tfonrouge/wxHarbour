@@ -1,20 +1,19 @@
 <?xml version="1.0" ?>
+
+<!-- $Id:$ -->
+
 <makefile>
 
   <include file="../../config/tmpl_hrb.bkl"/>
 
   <wxharbour-exe id="dbbrowser">
-    <if cond="TOOLSET=='unix'">
-      <include>/usr/local/include/$(HBCOMPILER)</include>
-      <lib-path>/usr/local/lib/$(HBCOMPILER)</lib-path>
-    </if>
+    <include>../../include/wxHarbour</include>
     <sources-at>
       .
     </sources-at>
-    <include>../../include/wxHarbour</include>
     <lib-path>../../$(__BUILDDIR__)</lib-path>
   </wxharbour-exe>
-  
+
   <action id="run">
     <if cond="TOOLSET=='win32'">
       <command>

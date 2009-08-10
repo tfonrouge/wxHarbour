@@ -83,10 +83,13 @@ HBLIB_GTPCA ?= no
 # [x]Harbour compiler options
 # ---------------------------------------------------------------
 # Standard flags for Harbour compiler 
-HBFLAGS ?= -n -a -v -m -gc -q0
+HBFLAGS ?= -n -a -v -m -q0
 
 # Type of Harbour compiled binaries [debug,release]
 HBBUILD ?= release
+
+# Output C source level (0=compact,1=normal,2=verbose,3=real C code) [0,1,2,3]
+HBOUTSRCLEVEL ?= 0
 
 # Warning level for the Harbour Compiler [0,1,2,3]
 HBWARNL ?= 3
@@ -95,7 +98,7 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc-unix
+__BUILDDIR__ ?= obj/gcc_unix
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -320,9 +323,9 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/socket.ch \
 	include/wxHarbour/wxh/taskbar.ch \
 	include/wxHarbour/wxh/textctrl.ch
-WXHARBOUR_HBFLAGS = $(HBFLAGS) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) \
-	$(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo \
-	"-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
+WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
+	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
 	-I/usr/local/include/$(HBCOMPILER) $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
 	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
 	-I/usr/local/include/wxHarbour
