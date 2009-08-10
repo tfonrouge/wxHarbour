@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# $Id$
+#
 
 aMainDirs="demos samples tests"
 

@@ -1,6 +1,8 @@
 #
 # wxharbour.spec
 #
+# $Id$
+#
 # (C) Teo Fonrouge 2008
 #
 

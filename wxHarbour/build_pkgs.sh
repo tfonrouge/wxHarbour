@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# $Id$
+#
 # Build script to generate tgz, rpm, zip files
 #
 # (C) Teo Fonrouge 2008
