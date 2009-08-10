@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-08-10 17:05 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+MM      config/tmpl_hrb.bkl
+    * added svn:keywords (Author, Date, Id, Revision)
+    * added id tag
+
 2009-08-10 16:56 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * GNUmakefile
