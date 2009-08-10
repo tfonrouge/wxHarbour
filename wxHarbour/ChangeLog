@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2009-08-10 16:56 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * config/tmpl_hrb.bkl
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+    * moved first declaration for include file "include/wxHarbour" on top of
+      the others to avoid to use a possible outdated include installed dir
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    * minor cosmetic change
+
+  * wxharbour.bkl
+    * simplified script for above changes to tmpl_hrb.bkl
+    * removed unneeded lines
+
 2009-08-10 12:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * config/tmpl_hrb.bkl
   * GNUmakefile

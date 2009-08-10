@@ -55,9 +55,9 @@
 typedef BYTE  BYTECHAR;
 
 #else
-  
+
 typedef char  BYTECHAR;
-  
+
 #endif
 
 #ifndef wxVERSION
