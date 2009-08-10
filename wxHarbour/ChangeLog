@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-08-10 18:20 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+  -  src/common/wxh_scopelist.cpp
+  -  src/hrbcompat/tbrowse/wx_Browse.cpp
+     * removed empty source files
+
 2009-08-10 18:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 MM      bin/run_App.sh
 MM      build_bkls.sh
