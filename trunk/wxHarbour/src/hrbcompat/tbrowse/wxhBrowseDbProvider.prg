@@ -24,6 +24,8 @@
 
 #include "wxharbour.ch"
 
+#include "wxh/grid.ch"
+
 /*
   wxhBrowseTableBase
   Teo. Mexico 2008
@@ -56,7 +58,7 @@ PUBLIC:
   METHOD Initialized INLINE ::FGridBuffer != NIL
   METHOD SetBlockParam( blockParam )
   METHOD SetColumnList( columnList )
-  METHOD SetColumnZero( columnZero ) INLINE ::FColumnZero := columnZero
+  METHOD SetColumnZero( columnZero )
   METHOD SetValue( row, col, value )
 
   PROPERTY BlockParam READ GetBlockParam WRITE SetBlockParam
@@ -372,6 +374,19 @@ METHOD PROCEDURE SetColumnList( columnList ) CLASS wxhBrowseTableBase
   ::FColumnList := columnList
   ::DeleteCols( 0, ::GetNumberCols() )
   ::AppendCols( Len( columnList ) )
+RETURN
+
+/*
+  SetColumnZero
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetColumnZero( columnZero ) CLASS wxhBrowseTableBase
+  IF columnZero = NIL
+    ::GetBrowse:grid:SetRowLabelSize( 0 )
+  ELSE
+    ::GetBrowse:grid:SetRowLabelSize( wxGRID_AUTOSIZE )
+  ENDIF
+  ::FColumnZero := columnZero
 RETURN
 
 /*

@@ -238,11 +238,11 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
   LOCAL fld
   LOCAL vType := ValType( ::FDataSource )
   LOCAL itm1
-
+  
   DO CASE
   CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
 
-    //__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
+    __wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
 
     FOR EACH fld IN ::FDataSource:FieldList
       __wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
@@ -349,7 +349,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
       RETURN /* event key processed */
     ENDIF
   ENDIF
-
+  
   SWITCH keyEvent:GetKeyCode()
   CASE WXK_UP
     ::Up()
