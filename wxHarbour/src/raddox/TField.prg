@@ -851,10 +851,12 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
       ::TStringField:FSize := 0
     ENDIF
     ::FFieldArray := {}
+    ::FName := ""
     FOR EACH fieldName IN FieldMethod
       AField := ::FTable:FieldByName( fieldName )
       IF AField != NIL
         AAdd( ::FFieldArray, AField )
+        ::FName += fieldName + ";"
       ELSE
         RAISE TFIELD fieldName ERROR "Field is not defined yet..."
       ENDIF
@@ -865,6 +867,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
         ::TStringField:FSize += Len( AField )
       ENDIF
     NEXT
+    ::FName := Left( ::FName, Len( ::FName ) - 1 )
     ::FFieldCodeBlock  := NIL
     ::FFieldReadBlock  := NIL
     ::FFieldWriteBlock := NIL

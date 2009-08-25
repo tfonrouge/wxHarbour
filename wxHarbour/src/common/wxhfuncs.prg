@@ -836,32 +836,6 @@ FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
 RETURN grid
 
 /*
-  __wxh_RadioBox
-  Teo. Mexico 2009
-*/
-FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name )
-  LOCAL radioBox
-  LOCAL wxhGet
-
-  IF parent == NIL
-    parent := containerObj():LastParent()
-  ENDIF
-
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
-
-  IF choices == NIL .AND. wxhGet:Field != NIL
-    choices := wxhGet:GetChoices()
-  ENDIF
-
-  radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
-
-  wxhGet:AddPostInfo( radioBox )
-
-  containerObj():SetLastChild( radioBox )
-
-RETURN radioBox
-
-/*
   __wxh_Choice
   Teo. Mexico 2009
 */
@@ -991,6 +965,32 @@ FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHe
   containerObj():AddToParentList( oWnd )
 
 RETURN oWnd
+
+/*
+  __wxh_RadioBox
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+  LOCAL radioBox
+  LOCAL wxhGet
+
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+
+  IF choices == NIL .AND. wxhGet:Field != NIL
+    choices := wxhGet:GetChoices()
+  ENDIF
+
+  radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+
+  wxhGet:AddPostInfo( radioBox )
+
+  containerObj():SetLastChild( radioBox )
+
+RETURN radioBox
 
 /*
  * __wxh_TextCtrl

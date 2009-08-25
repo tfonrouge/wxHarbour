@@ -2,6 +2,31 @@
  * $Id$
  */
 
+2009-08-25 13:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * minor (reordering) cleanup
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * enabled column zero as RecNo on autofill columns
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    * added logic on SetColumnZero to give the row label size
+      to an default of wxGRID_AUTOSIZE
+
+  * src/raddox/TAlias.prg
+    * removed wrong PushWS/PopWS funcs
+    + added Push/Pop methods to put the dataset status on a stack
+    * code cleanup
+
+  * src/raddox/TDatabase.prg
+    * minor code cleanup
+
+  * src/raddox/TField.prg
+    * added name to index created fields
+
+  + include/wxHarbour/wxh/grid.ch
+    * added defines for wxgridbase
+
 2009-08-10 18:20 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

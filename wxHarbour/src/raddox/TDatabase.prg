@@ -1,18 +1,7 @@
 /*
  * $Id$
+ * TDataBase
  */
-
-// francisco castellanos
-//
-// 41962040
-// 0187
-//
-// # 907809
-
-/*
-  TDataBase
-  Teo. Mexico 2008
-*/
 
 STATIC aDBRelationCommands
 

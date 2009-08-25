@@ -14,12 +14,14 @@
 
 CLASS TAlias
 PRIVATE:
-  DATA FBof       INIT .T.
-  DATA FEof       INIT .T.
-  DATA FFound     INIT .F.
-  DATA FName      INIT ""
-  DATA FnWorkArea INIT 0
-  DATA FRecNo     INIT 0
+  DATA FBof        INIT .T.
+  DATA FEof        INIT .T.
+  DATA FFound      INIT .F.
+  DATA FName       INIT ""
+  DATA FnWorkArea  INIT 0
+  DATA FRecNo      INIT 0
+  DATA FStack      INIT {}
+  DATA FStackLen   INIT 0
   DATA FTable
   METHOD GetRecNo INLINE ::SyncFromRecNo(),::FRecNo
   METHOD SetRecNo( RecNo ) INLINE ::DbGoTo( RecNo )
@@ -47,8 +49,8 @@ PUBLIC:
   METHOD OrdKeyAdd( Name, cBag, KeyVal )
   METHOD OrdKeyDel( Name, cBag, KeyVal )
   METHOD OrdSetFocus( Name, cBag )
-  METHOD PopWS INLINE (::FnWorkArea)->(PopWS())
-  METHOD PushWS INLINE (::FnWorkArea)->(PushWS())
+  METHOD Pop()
+  METHOD Push()
   METHOD RecCount INLINE (::FnWorkArea)->( RecCount() )
   METHOD RecLock( RecNo )
   METHOD RecUnLock( RecNo )
@@ -290,6 +292,34 @@ METHOD FUNCTION OrdSetFocus( Name, cBag ) CLASS TAlias
 RETURN (::FnWorkArea)->( OrdSetFocus( Name, cBag ) )
 
 /*
+  Pop
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE Pop() CLASS TAlias
+  IF ::FStackLen > 0
+    ::FBof   := ::FStack[ ::FStackLen, 1 ]
+    ::FEof   := ::FStack[ ::FStackLen, 2 ]
+    ::FFound := ::FStack[ ::FStackLen, 3 ]
+    ::FRecNo := ::FStack[ ::FStackLen, 4 ]
+    --::FStackLen
+  ENDIF
+RETURN
+
+/*
+  Push
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE Push() CLASS TAlias
+  IF Len( ::FStack ) < ++::FStackLen
+    AAdd( ::FStack, { NIL, NIL, NIL, NIL } )
+  ENDIF
+  ::FStack[ ::FStackLen, 1 ] := ::FBof
+  ::FStack[ ::FStackLen, 2 ] := ::FEof
+  ::FStack[ ::FStackLen, 3 ] := ::FFound
+  ::FStack[ ::FStackLen, 4 ] := ::FRecNo
+RETURN
+
+/*
   RecLock
   Teo. Mexico 2007
 */
@@ -330,9 +360,6 @@ RETURN Result
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromAlias CLASS TAlias
-/*  IF !DbIsOpen::FnWorkArea .AND. !DBF_OPEN::FnWorkArea
-    RAISE ERROR "Cannot open [" + ::FName + "] database..."
-  ENDIF*/
   ::FBof   := (::FnWorkArea)->( Bof() )
   ::FEof   := (::FnWorkArea)->( Eof() )
   ::FFound := (::FnWorkArea)->( Found() )
@@ -344,9 +371,6 @@ RETURN
   Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncFromRecNo CLASS TAlias
-/*  IF !DbIsOpen::FnWorkArea .AND. !DBF_OPEN::FnWorkArea
-    RAISE ERROR "Cannot open [" + ::FName + "] database..."
-  ENDIF*/
   IF (::FnWorkArea)->(RecNo()) != ::FRecNo
     (::FnWorkArea)->(DbGoTo( ::FRecNo ) )
     ::FBof   := (::FnWorkArea)->( Bof() )
