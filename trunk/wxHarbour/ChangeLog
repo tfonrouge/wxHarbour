@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-08-26 14:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * added clause CLASS to @ BROWSE command
+    * made optional the var-value on the @ GET command
+    
+  * src/raddox/TField.prg
+    * added ::Type property
+
+
 2009-08-25 23:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.bcc

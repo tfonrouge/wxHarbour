@@ -251,6 +251,7 @@
   BROWSE
 */
 #xcommand @ BROWSE [ VAR <wxBrw> ] ;
+            [ CLASS <fromClass> ] ;
             [ LABEL <label> ] ;
             [ DATASOURCE <dataSource> ] ;
             [ ON <window> ] ;
@@ -263,6 +264,7 @@
             [ ONSELECTCELL <onSelectCell> ] ;
           => ;
             [<wxBrw>:=]__wxh_Browse( ;
+              [<fromClass>],;
               [<dataSource>],;
               [<window>],;
               [<id>],;
@@ -638,7 +640,7 @@
             [ TOOLTIP <toolTip> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          @ PUSHGET <dataVar> [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
+          @ PUSHGET [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [<var> :=] __wxh_TextCtrl(;
             [<window>],;
             [<id>],;

@@ -90,6 +90,7 @@ PROTECTED:
 
   DATA FName INIT ""
   DATA FTable
+  DATA FType INIT "TField"
   DATA FValType INIT "U"
   DATA FWrittenValue
 
@@ -170,6 +171,7 @@ PUBLISHED:
   PROPERTY ReadOnly READ GetReadOnly WRITE SetReadOnly
   PROPERTY Required READ FRequired WRITE SetRequired
   PROPERTY Table READ FTable
+  PROPERTY Type READ FType
   PROPERTY Unique READ GetUnique
   PROPERTY UniqueKeyIndex READ FUniqueKeyIndex WRITE SetUniqueKeyIndex
   PROPERTY UsingField READ FUsingField WRITE SetUsingField
@@ -1027,6 +1029,7 @@ PRIVATE:
   METHOD SetSize( Size ) INLINE ::FSize := Size
 PROTECTED:
   DATA FSize
+  DATA FType INIT "String"
   DATA FValType INIT "C"
   METHOD GetEmptyValue INLINE iif( ::FSize == NIL, "", Space( ::FSize ) )
   METHOD SetAsString( sValue ) INLINE ::SetAsVariant( sValue )
@@ -1141,6 +1144,7 @@ RETURN
 CLASS TMemoField FROM TStringField
 PRIVATE:
 PROTECTED:
+  DATA FType INIT "Memo"
 PUBLIC:
 PUBLISHED:
 ENDCLASS
@@ -1156,6 +1160,7 @@ ENDCLASS
 CLASS TNumericField FROM TField
 PRIVATE:
 PROTECTED:
+  DATA FType INIT "Numeric"
   DATA FValType INIT "N"
   METHOD GetEmptyValue BLOCK {|| 0 }
   METHOD SetAsString( Text )
@@ -1223,6 +1228,7 @@ RETURN
 CLASS TLogicalField FROM TField
 PRIVATE:
 PROTECTED:
+  DATA FType INIT "Logical"
   DATA FValType INIT "L"
   METHOD GetEmptyValue BLOCK {|| .F. }
 PUBLIC:
@@ -1260,6 +1266,7 @@ CLASS TDateField FROM TField
 PRIVATE:
   DATA FSize INIT 8         // Size on index is 8 = len of DToS()
 PROTECTED:
+  DATA FType INIT "Date"
   DATA FValType INIT "D"
   METHOD GetEmptyValue BLOCK {|| CtoD("") }
 PUBLIC:
@@ -1295,6 +1302,7 @@ RETURN DToS( value )
 CLASS TDayTimeField FROM TField
 PRIVATE:
 PROTECTED:
+  DATA FType INIT "DayTime"
   DATA FValType INIT "C"
   METHOD GetEmptyValue BLOCK {|| DateTimeStampStr() }
 PUBLIC:
@@ -1329,6 +1337,7 @@ RETURN AsString( value )
 CLASS TModTimeField FROM TDayTimeField
 PRIVATE:
 PROTECTED:
+  DATA FType INIT "ModTime"
 PUBLIC:
 PUBLISHED:
 ENDCLASS
@@ -1350,6 +1359,7 @@ PRIVATE:
   METHOD GetSize INLINE Len( ::LinkedTable:PrimaryKeyField )
   METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
+  DATA FType INIT "ObjectField"
   DATA FValType                   INIT "O"
   METHOD GetLinkedTable
   METHOD GetEmptyValue            INLINE ::LinkedTable:PrimaryKeyField:EmptyValue
