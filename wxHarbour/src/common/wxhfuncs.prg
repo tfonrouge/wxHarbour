@@ -85,7 +85,7 @@ ENDCLASS
   New
   Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warn, bAction )
+METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhGet
 
   ::FName  := name
 
@@ -630,14 +630,21 @@ RETURN sizer
   __wxh_Browse
   Teo. Mexico 2009
  */
-FUNCTION __wxh_Browse( dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
+FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
   LOCAL wxhBrw
 
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhBrw := wxhBrowse():New( window, id, label, pos, size, style, name, onKey )
+  IF Empty( fromClass )
+    wxhBrw := wxhBrowse():New( window, id, label, pos, size, style, name, onKey )
+  ELSE
+    wxhBrw := __ClsInstFromName( fromClass ):New( window, id, label, pos, size, style, name, onKey )
+    IF !wxhBrw:IsDerivedFrom( "wxhBrowse" )
+      wxhBrw:IsNotDerivedFrom_wxhBrowse()
+    ENDIF
+  ENDIF
 
   IF dataSource != NIL
     wxhBrw:DataSource := dataSource
@@ -1000,7 +1007,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
   LOCAL textCtrl
   LOCAL wxhGet
   LOCAL pickBtn
-
+  
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
