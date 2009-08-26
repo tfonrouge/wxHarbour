@@ -647,6 +647,31 @@ void qoutf( const char* format, ... )
 }
 
 /*
+  qqoutf
+  Teo. Mexico 2009
+*/
+void qqoutf( const char* format, ... )
+{
+  static char text[512];
+  static PHB_DYNS s___qout = NULL;
+
+  va_list argp;
+
+  va_start( argp, format );
+  vsprintf( text, format, argp );
+  va_end( argp );
+
+  if( s___qout == NULL )
+  {
+    s___qout = hb_dynsymGetCase( "QQOUT" );
+  }
+  hb_vmPushDynSym( s___qout );
+  hb_vmPushNil();
+  hb_vmPushString( text, strlen( text ) );
+  hb_vmDo( 1 );
+}
+
+/*
   wxh_AddNavigationKeyEvent( wxEvtHandler, direction AS LOGICAL )
   Teo. Mexico 2009
 */

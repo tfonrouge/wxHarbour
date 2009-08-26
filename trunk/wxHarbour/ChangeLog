@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2009-08-26 18:01 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+  * src/wxbase/events/wx_EvtHandler.cpp
+    + added qqoutf()
+    * moved implementation of hbEvtHandler<T> to wx_EvtHandler.cpp
+
+  * src/common/wxhfuncs.prg
+    * added explicit REQUEST for QQOUT
+      TODO: find out how to do this at c level
+
 2009-08-26 14:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg
