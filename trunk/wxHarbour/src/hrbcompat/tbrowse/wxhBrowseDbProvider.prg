@@ -258,6 +258,9 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
   CASE 'C'
   CASE 'M'
     EXIT
+  CASE 'O'
+    Result := Result:__Obj:Value()
+    EXIT
   #ifdef __XHARBOUR__
   DEFAULT
   #else

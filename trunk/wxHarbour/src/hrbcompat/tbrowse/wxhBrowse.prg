@@ -241,7 +241,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
   
   DO CASE
   CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
-
+  
     __wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
 
     FOR EACH fld IN ::FDataSource:FieldList

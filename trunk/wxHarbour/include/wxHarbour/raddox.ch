@@ -106,18 +106,25 @@
 
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
+#xtranslate FIELDS BASECLASS => ::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName )
 
-#xtranslate METHOD [PROCEDURE] DefineFields CLASS <className> ;
-            => ;
-            METHOD PROCEDURE DefineFields( curClass ) CLASS <className>
+#xtranslate DEFINE FIELDS => METHOD __DefineFields( curClass )
+#xtranslate DEFINE INDEXES => METHOD __DefineIndexes()
 
-#xtranslate BEGIN FIELD SECTION ;
+#xtranslate BEGIN FIELDS CLASS <className>;
             => ;
-            ::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName )
+            METHOD PROCEDURE __DefineFields( curClass ) CLASS <className> ;;
+            FIELDS BASECLASS
 
-#xtranslate END FIELD SECTION ;
+#xtranslate END FIELDS CLASS ;
             => ;
-            Super:DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) )
+            Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
+            RETURN
+
+#xtranslate BEGIN INDEXES CLASS <className> ;
+            => ;
+            METHOD PROCEDURE __DefineIndexes() CLASS <className>
+#xtranslate END INDEXES CLASS => RETURN
 
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
@@ -128,6 +135,9 @@
             RETURN
 
 #xtranslate CALCFIELD <calcField> => METHOD CalcField_<calcField>
+#xtranslate CALCFIELD <calcField> CLASS <className> ;
+            => ;
+            METHOD FUNCTION CalcField_<calcField>() CLASS <className>
 
 #xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX <cName> ;
             [ MASTERKEYFIELD <cMasterKeyField> ] ;

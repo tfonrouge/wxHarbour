@@ -109,13 +109,14 @@ PUBLIC:
 
   CONSTRUCTOR New( MasterSource )
 
+  DEFINE FIELDS
+  DEFINE INDEXES                      VIRTUAL
+
   METHOD AddMessageField( MessageName, AField )
   METHOD Cancel
   METHOD ChildSource( tableName )
   METHOD CopyRecord( Value )
   METHOD Count
-  METHOD DefineFields
-  METHOD DefineIndexes                VIRTUAL
   METHOD DefineMasterDetailFields     VIRTUAL
   METHOD DefineRelations              VIRTUAL
   METHOD Destroy
@@ -631,10 +632,10 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
 RETURN
 
 /*
-  DefineFields
+  FIELDS
   Teo. Mexico 2008
 */
-METHOD PROCEDURE DefineFields CLASS TTable
+METHOD PROCEDURE __DefineFields( curClass ) CLASS TTable
   LOCAL dbStruct := ::GetDbStruct()
   LOCAL fld
   LOCAL AField
@@ -643,7 +644,7 @@ METHOD PROCEDURE DefineFields CLASS TTable
     RETURN
   ENDIF
 
-  BEGIN FIELD SECTION
+  FIELDS BASECLASS
 
   FOR EACH fld IN dbStruct
 
@@ -653,9 +654,7 @@ METHOD PROCEDURE DefineFields CLASS TTable
 
   NEXT
 
-  //END FIELD SECTION /* no Super:DefineFields to call here */
-
-RETURN
+RETURN /* no Super:__DefineFields to call here */
 
 /*
   Delete
@@ -1383,12 +1382,12 @@ METHOD FUNCTION Open CLASS TTable
    */
   IF Empty( ::FFieldList )
     ::FFieldList := {}
-    ::DefineFields()
+    ::__DefineFields()
   ENDIF
 
   IF Empty( ::FIndexList )
     ::FIndexList := {}
-    ::DefineIndexes()
+    ::__DefineIndexes()
   ENDIF
 
   IF Len( ::FIndexList ) > 0 .AND. ::FIndex == NIL
@@ -1675,17 +1674,21 @@ RETURN AIndex:Seek( Value, lSoftSeek )
 */
 METHOD PROCEDURE SetIndexName( IndexName ) CLASS TTable
   LOCAL AIndex
+  
+  IF !Empty( IndexName )
 
-  IndexName := Upper( IndexName )
+    IndexName := Upper( IndexName )
 
-  FOR EACH AIndex IN ::FIndexList
-    IF Upper( AIndex:Name ) == IndexName
-      ::FIndex := AIndex
-      RETURN
-    ENDIF
-  NEXT
+    FOR EACH AIndex IN ::FIndexList
+      IF Upper( AIndex:Name ) == IndexName
+        ::FIndex := AIndex
+        RETURN
+      ENDIF
+    NEXT
 
-  RAISE ERROR  "<" + ::ClassName + ">: Index name '"+IndexName+"' doesn't exist..."
+    RAISE ERROR  "<" + ::ClassName + ">: Index name '"+IndexName+"' doesn't exist..."
+
+  ENDIF
 
 RETURN
 
