@@ -316,6 +316,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/filedlg.ch \
 	include/wxHarbour/wxh/gauge.ch \
 	include/wxHarbour/wxh/gdicmn.ch \
+	include/wxHarbour/wxh/grid.ch \
 	include/wxHarbour/wxh/gsocket.ch \
 	include/wxHarbour/wxh/notebook.ch \
 	include/wxHarbour/wxh/socket.ch \

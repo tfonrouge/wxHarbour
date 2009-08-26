@@ -2,6 +2,29 @@
  * $Id$
  */
 
+2009-08-25 23:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+    * rebuilded makefiles per added file (grid.ch)
+
+  * include/wxHarbour/raddox.ch
+    * added commands for:
+      * BEGIN FIELDS CLASS ...
+      * BEGIN INDEXES CLASS ...
+      * CALCFIELDS ...
+    * renamed DefineFields, DefineIndexes to have __ prefix
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * minor code change (editor left spaces)
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    % using value on displayfields objects
+
+  * src/raddox/TTable.prg
+    ! Fixed error on NIL param on SetIndexName
+
 2009-08-25 13:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * minor (reordering) cleanup
