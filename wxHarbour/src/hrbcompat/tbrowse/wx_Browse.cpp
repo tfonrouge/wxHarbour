@@ -27,23 +27,23 @@
 HB_FUNC_EXTERN( WXGRIDEVENT);
 HB_FUNC_EXTERN( WXKEYEVENT);
 
-BEGIN_EVENT_TABLE( wxhGridBrowse, wxScrolledWindow )
-  EVT_KEY_DOWN( wxhGridBrowse::OnKeyDown )
-  EVT_SIZE( wxhGridBrowse::OnSize )
-  EVT_GRID_SELECT_CELL( wxhGridBrowse::OnSelectCell )
+BEGIN_EVENT_TABLE( wxhBrowse, wxScrolledWindow )
+  EVT_KEY_DOWN( wxhBrowse::OnKeyDown )
+  EVT_SIZE( wxhBrowse::OnSize )
+  EVT_GRID_SELECT_CELL( wxhBrowse::OnSelectCell )
 END_EVENT_TABLE()
 
 /*
   OnKeyDown
   Teo. Mexico 2009
 */
-void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
+void wxhBrowse::OnKeyDown( wxKeyEvent& event )
 {
   if ( m_inOnKeyDown )
   {
     // shouldn't be here - we are going round in circles...
     //
-    //wxFAIL_MSG( wxT("wxhGridBrowse::OnKeyDown called while already active") );
+    //wxFAIL_MSG( wxT("wxhBrowse::OnKeyDown called while already active") );
   }
 
   m_inOnKeyDown = true;
@@ -86,7 +86,7 @@ void wxhGridBrowse::OnKeyDown( wxKeyEvent& event )
   OnSelectCell
   Teo. Mexico 2009
 */
-void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
+void wxhBrowse::OnSelectCell( wxGridEvent& gridEvent )
 {
 
   PHB_ITEM pWxhBrowse = wxh_ItemListGet_HB( this );
@@ -112,7 +112,7 @@ void wxhGridBrowse::OnSelectCell( wxGridEvent& gridEvent )
   OnSize
   Teo. Mexico 2009
 */
-void wxhGridBrowse::OnSize( wxSizeEvent& event )
+void wxhBrowse::OnSize( wxSizeEvent& event )
 {
   if (m_targetWindow != this)
   {
@@ -133,10 +133,10 @@ void wxhGridBrowse::OnSize( wxSizeEvent& event )
 }
 
 /*
-  Constructor: wxhGridBrowse Object
+  Constructor: wxhBrowse Object
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_NEW )
+HB_FUNC( WXHBROWSE_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
 
@@ -145,20 +145,21 @@ HB_FUNC( WXHGRIDBROWSE_NEW )
   wxPoint pos = wxh_par_wxPoint( 3 );
   wxSize size = wxh_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
-  const wxString& name = ISNIL( 6 ) ? wxString( _T("wxhGridBrowse") ) : wxh_parc( 6 );
+  const wxString& name = ISNIL( 6 ) ? wxString( _T("wxhBrowse") ) : wxh_parc( 6 );
 
-  wxhGridBrowse* gridBrowse = new wxhGridBrowse( browse, id, pos, size, style, name );
+  wxhBrowse* gridBrowse = new wxhBrowse( browse, id, pos, size, style, name );
 
   objParams.Return( gridBrowse );
+  
 }
 
 /*
-  wxhGridBrowse:CalcRowCount
+  wxhBrowse:CalcRowCount
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_CALCMAXROWS )
+HB_FUNC( WXHBROWSE_CALCMAXROWS )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   gridBrowse->m_maxRows = 0;
 
@@ -187,12 +188,12 @@ HB_FUNC( WXHGRIDBROWSE_CALCMAXROWS )
 }
 
 /*
-  wxhGridBrowse:MaxRows
+  wxhBrowse:MaxRows
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_GETMAXROWS )
+HB_FUNC( WXHBROWSE_GETMAXROWS )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( gridBrowse )
   {
@@ -201,12 +202,12 @@ HB_FUNC( WXHGRIDBROWSE_GETMAXROWS )
 }
 
 /*
-  wxhGridBrowse:RowCount
+  wxhBrowse:RowCount
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_GETROWCOUNT )
+HB_FUNC( WXHBROWSE_GETROWCOUNT )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( gridBrowse )
   {
@@ -215,12 +216,12 @@ HB_FUNC( WXHGRIDBROWSE_GETROWCOUNT )
 }
 
 /*
-  wxhGridBrowse:SetColPos
+  wxhBrowse:SetColPos
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_SETCOLPOS )
+HB_FUNC( WXHBROWSE_SETCOLPOS )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   if( gridBrowse )
   {
     int col = hb_parni( 1 ) - 1;
@@ -230,12 +231,12 @@ HB_FUNC( WXHGRIDBROWSE_SETCOLPOS )
 }
 
 /*
-  wxhGridBrowse:SetColWidth
+  wxhBrowse:SetColWidth
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
+HB_FUNC( WXHBROWSE_SETCOLWIDTH )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   if( gridBrowse )
   {
     int col = hb_parni( 1 ) - 1;
@@ -246,12 +247,12 @@ HB_FUNC( WXHGRIDBROWSE_SETCOLWIDTH )
 }
 
 /*
-  wxhGridBrowse:SetRowCount
+  wxhBrowse:SetRowCount
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_SETROWCOUNT )
+HB_FUNC( WXHBROWSE_SETROWCOUNT )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   int rowCount = hb_parni( 1 );
   if( gridBrowse && ( rowCount != gridBrowse->m_rowCount ) )
   {
@@ -264,12 +265,12 @@ HB_FUNC( WXHGRIDBROWSE_SETROWCOUNT )
 }
 
 /*
-  wxhGridBrowse:SetRowPos
+  wxhBrowse:SetRowPos
   Teo. Mexico 2009
 */
-HB_FUNC( WXHGRIDBROWSE_SETROWPOS )
+HB_FUNC( WXHBROWSE_SETROWPOS )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   if( gridBrowse )
   {
     int row = hb_parni( 1 );
@@ -284,9 +285,9 @@ HB_FUNC( WXHGRIDBROWSE_SETROWPOS )
   ShowRow
   Teo. Mexico 2009
  */
-HB_FUNC( WXHGRIDBROWSE_SHOWROW )
+HB_FUNC( WXHBROWSE_SHOWROW )
 {
-  wxhGridBrowse* gridBrowse = (wxhGridBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   if( gridBrowse )
   {
 	int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );

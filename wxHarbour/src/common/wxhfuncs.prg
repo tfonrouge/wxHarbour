@@ -633,34 +633,61 @@ RETURN sizer
   Teo. Mexico 2009
  */
 FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
-  LOCAL wxhBrw
+  LOCAL browse
+  LOCAL panel
+  LOCAL boxSizer
+  LOCAL scrollBar
 
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
-  IF Empty( fromClass )
-    wxhBrw := wxhBrowse():New( window, id, label, pos, size, style, name, onKey )
+  panel := wxPanel():New( window, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name ) /* container of type wxPanel */
+
+  IF label == NIL
+    boxSizer := wxBoxSizer():New( wxHORIZONTAL )
   ELSE
-    wxhBrw := __ClsInstFromName( fromClass ):New( window, id, label, pos, size, style, name, onKey )
-    IF !wxhBrw:IsDerivedFrom( "wxhBrowse" )
-      wxhBrw:IsNotDerivedFrom_wxhBrowse()
-    ENDIF
+    boxSizer := wxStaticBoxSizer():New( wxHORIZONTAL, panel, label )
   ENDIF
 
+  panel:SetSizer( boxSizer )
+  
+  IF !Empty( fromClass )
+    browse := __ClsInstFromName( fromClass ):New( panel, id, NIL, NIL, style, name )
+  ELSE
+    browse := wxhBrowse():New( panel, id, NIL, {200,150}, style, name )
+  ENDIF
+
+  IF !browse:IsDerivedFrom( "wxhBrowse" )
+    browse:IsNotDerivedFrom_wxhBrowse()
+  ENDIF
+  
   IF dataSource != NIL
-    wxhBrw:DataSource := dataSource
+    browse:DataSource := dataSource
   ENDIF
 
-  wxhBrw:SelectCellBlock := onSelectCell
+  browse:KeyEventBlock := onKey
+  browse:SelectCellBlock := onSelectCell
 
   IF minSize != NIL
-    wxhBrw:SetMinSize( minSize )
+    browse:SetMinSize( minSize )
   ENDIF
 
-  containerObj():SetLastChild( wxhBrw )
+//
+  boxSizer:Add( browse, 1, _hb_BitOr( wxGROW, wxALL ), 5 )
 
-RETURN wxhBrw
+  boxSizer:Add( wxStaticLine():New( panel, wxID_ANY, NIL, NIL, wxLI_VERTICAL ), 0, wxGROW, 5 )
+
+  scrollBar := wxScrollBar():New( panel, wxID_ANY, NIL, NIL, wxSB_VERTICAL )
+
+  scrollBar:SetScrollBar( 0, 1, 100, 1 )
+
+  boxSizer:Add( scrollBar, 0, _hb_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
+//
+
+  containerObj():SetLastChild( panel )
+
+RETURN browse
 
 /*
   __wxh_BrowseAddColumn

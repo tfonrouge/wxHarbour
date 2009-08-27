@@ -26,9 +26,14 @@ CLASS wxGridEvent FROM wxEvent
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD GetCol
-  METHOD GetRow
-  METHOD Selecting
+  METHOD AltDown()
+  METHOD ControlDown()
+  METHOD GetCol()
+  METHOD GetPosition()
+  METHOD GetRow()
+  METHOD MetaDown()
+  METHOD Selecting()
+  METHOD ShiftDown()
 PUBLISHED:
 ENDCLASS
 

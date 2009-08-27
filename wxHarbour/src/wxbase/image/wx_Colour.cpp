@@ -39,7 +39,7 @@ wx_Colour::~wx_Colour()
 HB_FUNC( WXCOLOUR_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
-  wx_Colour* colour;
+  wx_Colour* colour = NULL;
   
   switch( hb_pcount() )
   {

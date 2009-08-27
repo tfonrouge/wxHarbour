@@ -286,6 +286,8 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
     linkChildParentParams = true;
     ProcessParamLists();
 
+    hb_objSendMsg( pSelf, "OnCreate", 0 );
+  
     if( hb_stackReturnItem() != pSelf )
     {
       if( bItemRelease )
@@ -592,6 +594,19 @@ void wxh_ret_wxSize( wxSize* size )
   hb_arraySetNI( pSize, 1, size->GetWidth() );
   hb_arraySetNI( pSize, 2, size->GetHeight() );
   hb_itemReturnRelease( pSize );
+}
+
+/*
+ wxh_ret_wxPoint
+ Teo. Mexico 2009
+ */
+void wxh_ret_wxPoint( const wxPoint& point )
+{
+  PHB_ITEM pPoint = hb_itemNew( NULL );
+  hb_arrayNew( pPoint, 2 );
+  hb_arraySetNI( pPoint, 1, point.x );
+  hb_arraySetNI( pPoint, 2, point.y );
+  hb_itemReturnRelease( pPoint );
 }
 
 /*

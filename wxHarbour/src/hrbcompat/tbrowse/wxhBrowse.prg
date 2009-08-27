@@ -3,7 +3,7 @@
  */
 
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -11,42 +11,45 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 #ifdef __XHARBOUR__
 #include "wx_hbcompat.ch"
 #endif
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "inkey.ch"
 #include "wxharbour.ch"
 
 /*
   wxhBrowse
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
-CLASS wxhBrowse FROM wxPanel
+CLASS wxhBrowse FROM wxGrid
 PRIVATE:
-  DATA FAlwaysShowSelectedRow	INIT .T.
+  DATA FAlwaysShowSelectedRow	INIT .F.
   DATA FColPos          INIT 0
   DATA FDataSource
   DATA FDataSourceType
+  DATA FHeight INIT 0
+  DATA FPanel AS OBJECT
   DATA FRecNo           INIT 0
   DATA FRowPos          INIT 0
-  METHOD GetColCount INLINE Len( ::browseTableBase:ColumnList )
+  METHOD GetColCount INLINE Len( ::GetTable():ColumnList )
   METHOD GetRecNo
   METHOD SetDataSource( dataSource )
-  METHOD SetRowCount( rowCount ) INLINE ::grid:RowCount := rowCount
   METHOD SetAlwaysShowSelectedRow( alwaysShowSelectedRow )
 PROTECTED:
-  METHOD browseTableBase INLINE ::grid:GetTable()
+  METHOD CalcMaxRows /* array of { width, height } */
+  METHOD GetMaxRows
+  METHOD GetRowCount
+  METHOD SetColPos( colPos )
+  METHOD SetColWidth( col, colWidth )
+  METHOD SetRowCount( rowCount )
+  METHOD SetRowPos( rowPos )
+  METHOD OnCreate()
 PUBLIC:
 
-  DATA grid AS OBJECT
-
-  CONSTRUCTOR New( dataSource, window, id, pos, size, style, name )
+  CONSTRUCTOR New( window, id, pos, size, style, name )
   METHOD ClearObjData
 
   /* Begin TBrowse compatible */
@@ -57,17 +60,17 @@ PUBLIC:
   DATA SkipBlock
 
   PROPERTY ColCount READ GetColCount
-  PROPERTY ColPos READ FColPos WRITE grid:SetColPos
-  PROPERTY MaxRows READ grid:GetMaxRows
-  PROPERTY RowCount READ grid:GetRowCount WRITE grid:SetRowCount
-  PROPERTY RowPos READ FRowPos WRITE grid:SetRowPos
+  PROPERTY ColPos READ FColPos WRITE SetColPos
+  PROPERTY MaxRows READ GetMaxRows
+  PROPERTY RowCount READ GetRowCount WRITE SetRowCount
+  PROPERTY RowPos READ FRowPos WRITE SetRowPos
 
   /* TBrowse compatible methods */
   METHOD AddColumn( column )
   METHOD DelColumn( pos )
   METHOD Down
   METHOD End
-  METHOD GetColumn( nCol ) INLINE ::browseTableBase:GetColumn( nCol )
+  METHOD GetColumn( nCol ) INLINE ::GetTable():GetColumn( nCol )
   METHOD GoBottom
   METHOD GoTop
   METHOD Home
@@ -87,77 +90,35 @@ PUBLIC:
 
   METHOD DeleteAllColumns
   METHOD FillColumns
-  METHOD Fit INLINE ::grid:Fit
   METHOD GoFirstPos
   METHOD OnKeyDown( event )
   METHOD OnSelectCell( event )
+  METHOD OnSize( sizeEvent )
   METHOD SetColumnAlignment( nCol, align )
 
   PROPERTY AlwaysShowSelectedRow READ FAlwaysShowSelectedRow WRITE SetAlwaysShowSelectedRow
-  PROPERTY BlockParam READ browseTableBase:GetBlockParam WRITE browseTableBase:SetBlockParam
-  PROPERTY ColumnList READ browseTableBase:GetColumnList WRITE browseTableBase:SetColumnList
-  PROPERTY ColumnZero READ browseTableBase:GetColumnZero WRITE browseTableBase:SetColumnZero
+  PROPERTY BlockParam READ GetTable():GetBlockParam WRITE GetTable():SetBlockParam
+  PROPERTY ColumnList READ GetTable():GetColumnList WRITE GetTable():SetColumnList
+  PROPERTY ColumnZero READ GetTable():GetColumnZero WRITE GetTable():SetColumnZero
   PROPERTY DataSource READ FDataSource WRITE SetDataSource
   PROPERTY DataSourceType READ FDataSourceType
+  PROPERTY Panel READ FPanel
   PROPERTY RecNo READ GetRecNo
 
 PUBLISHED:
 ENDCLASS
 
 /*
-  New
-  Teo. Mexico 2008
-*/
-METHOD New( window, id, label, pos, size, style, name, onKey ) CLASS wxhBrowse
-  LOCAL boxSizer
-  LOCAL scrollBar
-
-  Super:New( window, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name ) /* container of type wxPanel */
-
-  IF label == NIL
-    boxSizer := wxBoxSizer():New( wxHORIZONTAL )
-  ELSE
-    boxSizer := wxStaticBoxSizer():New( wxHORIZONTAL, Self, label )
-  ENDIF
-
-  ::SetSizer( boxSizer )
-
-  ::grid := wxhGridBrowse():New( Self, id, NIL, NIL, style, "wxhGridBrowse" )
-
-  boxSizer:Add( ::grid, 1, _hb_BitOr( wxGROW, wxALL ), 5 )
-
-  boxSizer:Add( wxStaticLine():New( Self, wxID_ANY, NIL, NIL, wxLI_VERTICAL ), 0, wxGROW, 5 )
-
-  scrollBar := wxScrollBar():New( Self, wxID_ANY, NIL, NIL, wxSB_VERTICAL )
-
-  scrollBar:SetScrollBar( 0, 1, 100, 1 )
-
-  boxSizer:Add( scrollBar, 0, _hb_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
-  
-  ::grid:EnableGridLines( .F. )
-  ::grid:EnableDragRowSize( .F. )
-  ::grid:SetColLabelSize( 22 )
-  ::grid:SetRowLabelSize( 0 )
-
-  ::grid:SetTable( wxhBrowseTableBase():New(), .T. )
-
-  IF !onKey == NIL
-    ::KeyEventBlock := onKey
-  ENDIF
-
-RETURN Self
-
-/*
   AddColumn
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowse
-  AAdd( ::browseTableBase:ColumnList, column )
-  ::browseTableBase:AppendCols( 1 )
+  AAdd( ::GetTable():ColumnList, column )
+  ::GetTable():AppendCols( 1 )
   IF column:Width != NIL
-    ::grid:SetColWidth( Len( ::browseTableBase:ColumnList ), column:Width )
+    ::SetColWidth( Len( ::GetTable():ColumnList ), column:Width )
   ENDIF
-  //::grid:AutoSizeColumn( Len( ::browseTableBase:ColumnList ) - 1 )
+  //::AutoSizeColumn( Len( ::GetTable():ColumnList ) - 1 )
 RETURN
 
 /*
@@ -165,26 +126,26 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD PROCEDURE ClearObjData CLASS wxhBrowse
-  ::browseTableBase:ClearObjData()
+  //::GetTable():ClearObjData()
   ::GoTopBlock := NIL
   ::GoBottomBlock := NIL
   ::SkipBlock := NIL
-  ::grid:SetTable( NIL )
-  ::grid := NIL
+  ::SetTable( NIL )
+  //:: := NIL
 RETURN
 
 /*
   DelColumn
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION DelColumn( pos ) CLASS wxhBrowse
   LOCAL column
   LOCAL length := ::ColCount
 
-  IF !Empty( pos ) .AND. pos > 0 .AND. pos <= length .AND. ::browseTableBase:DeleteCols( pos - 1, 1 )
-    column := ::browseTableBase:ColumnList[ pos ]
-    ADel( ::browseTableBase:ColumnList, pos )
-    ASize( ::browseTableBase:ColumnList, length - 1 )
+  IF !Empty( pos ) .AND. pos > 0 .AND. pos <= length .AND. ::GetTable():DeleteCols( pos - 1, 1 )
+    column := ::GetTable():ColumnList[ pos ]
+    ADel( ::GetTable():ColumnList, pos )
+    ASize( ::GetTable():ColumnList, length - 1 )
   ENDIF
 
 RETURN column
@@ -201,7 +162,7 @@ RETURN
 
 /*
   Down
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION Down CLASS wxhBrowse
 
@@ -209,10 +170,10 @@ METHOD FUNCTION Down CLASS wxhBrowse
     ::RowPos += 1
   ELSE
     IF ::SkipBlock:Eval( 1 ) = 1
-      ADel( ::browseTableBase:GridBuffer, 1 )
-      ::browseTableBase:GetGridRowData( ::RowCount )
-      ::grid:ForceRefresh()
-      ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
+      ADel( ::GetTable():GridBuffer, 1 )
+      ::GetTable():GetGridRowData( ::RowCount )
+      ::ForceRefresh()
+      ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
     ENDIF
   ENDIF
 
@@ -220,16 +181,16 @@ RETURN Self
 
 /*
   End
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION End() CLASS wxhBrowse
-  ::grid:SetColPos( ::ColCount() )
-  ::grid:MakeCellVisible( ::grid:GetGridCursorRow(), ::grid:GetNumberCols() - 1 )
+  ::SetColPos( ::ColCount() )
+  ::MakeCellVisible( ::GetGridCursorRow(), ::GetNumberCols() - 1 )
 RETURN Self
 
 /*
   FillColumns
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
   STATIC FUNCTION buildBlock( Self, col )
   RETURN {|key| ::DataSource[ key, col ] }
@@ -273,7 +234,7 @@ RETURN
 
 /*
   GetRecNo
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GetRecNo CLASS wxhBrowse
   IF ::FDataSourceType = "O"
@@ -283,21 +244,21 @@ RETURN ::FRecNo
 
 /*
   GoBottom
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
 
   ::GoBottomBlock:Eval()
-  ::browseTableBase:FillGridBuffer()
+  ::GetTable():FillGridBuffer()
   ::RowPos := ::RowCount
 
-  ::grid:ForceRefresh()
+  ::ForceRefresh()
 
 RETURN Self
 
 /*
   GoFirstPos
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE GoFirstPos CLASS wxhBrowse
   IF ::BottomFirst
@@ -309,38 +270,51 @@ RETURN
 
 /*
   GoTop
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
 
   ::GoTopBlock:Eval()
-  ::browseTableBase:FillGridBuffer()
+  ::GetTable():FillGridBuffer()
   ::RowPos := 1
 
-  ::grid:ForceRefresh()
+  ::ForceRefresh()
 
 RETURN Self
 
 /*
   Home
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION Home CLASS wxhBrowse
-  ::grid:SetColPos( 1 ) /* no freeze cols yet implemented */
-  ::grid:MakeCellVisible( ::grid:GetGridCursorRow(), 0 )
+  ::SetColPos( 1 ) /* no freeze cols yet implemented */
+  ::MakeCellVisible( ::GetGridCursorRow(), 0 )
 RETURN Self
 
 /*
   Left
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION Left CLASS wxhBrowse
-  ::grid:MoveCursorLeft()
+  ::MoveCursorLeft()
 RETURN Self
 
 /*
+  OnCreate : Defaults for this class
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE OnCreate() CLASS wxhBrowse
+  ::SetTable( wxhBrowseTableBase():New(), .T. )
+  ::EnableGridLines( .F. )
+  ::EnableDragRowSize( .F. )
+  ::EnableDragColMove( .T. )
+  ::SetColLabelSize( 22 )
+  ::SetRowLabelSize( 0 )
+RETURN
+
+/*
   OnKeyDown
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 
@@ -411,7 +385,7 @@ RETURN
 
 /*
   OnSelectCell
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
   LOCAL row
@@ -424,10 +398,10 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
   row := gridEvent:GetRow()
   
   IF ::FAlwaysShowSelectedRow
-    ::grid:ShowRow( row )
+    ::ShowRow( row )
   ENDIF
 
-  ::browseTableBase:CurRowIndex := row
+  ::GetTable():CurRowIndex := row
 
   ::FColPos := gridEvent:GetCol() + 1
   ::FRowPos := row + 1
@@ -441,47 +415,94 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 RETURN
 
 /*
+  OnSize
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
+  LOCAL Result := .T.
+  LOCAL maxRows,rowCount
+  LOCAL height
+  LOCAL n
+  LOCAL column
+  
+  IF !::FillColumnsChecked .AND. ::AutoFill .AND. ::DataSource != NIL
+    IF ::ColCount = 0
+      ::FillColumns()
+    ENDIF
+    ::FillColumnsChecked := .T.
+  ENDIF
+
+  rowCount := ::GetRowCount()
+  maxRows := ::CalcMaxRows()
+
+  height := size[ 2 ]
+
+  IF ::FHeight != height .AND. maxRows != rowCount
+
+    IF rowCount > 0
+      IF rowCount < ::GetNumberRows()
+        ::DeleteRows( rowCount - 1, ::GetNumberRows() - rowCount )
+      ELSE
+        ::AppendRows( rowCount - ::GetNumberRows() )
+        FOR n:=1 TO ::GetNumberCols
+          column := ::GetTable():ColumnList[ n ]
+          ::SetColumnAlignment( n, column:Align )
+        NEXT
+      ENDIF
+    ELSE
+      ::DeleteRows( 0, ::GetNumberRows() )
+    ENDIF
+
+    ::GetTable():FillGridBuffer()
+
+    ::FHeight := height
+
+  ENDIF
+
+RETURN Result
+
+/*
   PageDown
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION PageDown CLASS wxhBrowse
   LOCAL rowPos := ::RowPos
 
   ::SkipBlock:Eval( ::RowCount - ::RowPos + 1 )
-  ::browseTableBase:FillGridBuffer()
-  ::grid:ForceRefresh()
+  ::GetTable():FillGridBuffer()
+  ::ForceRefresh()
   ::RowPos := rowPos
 
 RETURN Self
 
 /*
   PageUp
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION PageUp CLASS wxhBrowse
 
   ::SkipBlock:Eval( -::RowPos - ::RowCount + 1)
-  ::browseTableBase:FillGridBuffer()
+  ::GetTable():FillGridBuffer()
 
-  ::grid:ForceRefresh()
+  ::ForceRefresh()
 
 RETURN Self
 
 /*
   RefreshAll
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION RefreshAll CLASS wxhBrowse
-  ::browseTableBase:FillGridBuffer()
-  ::grid:ForceRefresh()
+  ::GetTable():FillGridBuffer()
+  ::ForceRefresh()
 RETURN Self
 
 /*
   Right
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION Right CLASS wxhBrowse
-  ::grid:MoveCursorRight()
+  ::MoveCursorRight()
 RETURN Self
 
 /*
@@ -492,14 +513,14 @@ METHOD PROCEDURE SetColumnAlignment( nCol, align ) CLASS wxhBrowse
   LOCAL i
 
   FOR i:=0 TO ::RowCount - 1
-    ::grid:SetCellAlignment( align, i, nCol - 1 )
+    ::SetCellAlignment( align, i, nCol - 1 )
   NEXT
 
 RETURN
 
 /*
   SetDataSource
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   LOCAL table
@@ -510,6 +531,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
   ::ColumnList := {}
   ::ColumnZero := NIL
   ::BlockParam := NIL
+  ::FillColumnsChecked := .F.
 
   ::FDataSource := NIL
 
@@ -555,7 +577,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 	  ::GoBottomBlock := {|| dataSource:DbGoBottom() }
 	  ::SkipBlock     := {|n| dataSource:SkipBrowse( n ) }
 	  
-	  ::browseTableBase:gridDataIsOEM := dataSource:dataIsOEM
+	  ::GetTable():gridDataIsOEM := dataSource:dataIsOEM
 
 	ELSE
 	  wxhAlert("Invalid object assigned to wxhBrowse...")
@@ -572,13 +594,13 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD PROCEDURE SetAlwaysShowSelectedRow( alwaysShowSelectedRow ) CLASS wxhBrowse
-  ::grid:ShowRow( NIL, alwaysShowSelectedRow )
+  ::ShowRow( NIL, alwaysShowSelectedRow )
   ::FAlwaysShowSelectedRow := alwaysShowSelectedRow
 RETURN
 
 /*
   Up
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 METHOD FUNCTION Up CLASS wxhBrowse
 
@@ -586,10 +608,10 @@ METHOD FUNCTION Up CLASS wxhBrowse
     ::RowPos -= 1
   ELSE
     IF ::SkipBlock:Eval( -1 ) = -1
-      AIns( ::browseTableBase:GridBuffer, 1 )
-      ::browseTableBase:GetGridRowData( 1 )
-      ::grid:ForceRefresh()
-      ::grid:SetGridCursor( ::grid:GetGridCursorRow(), ::grid:GetGridCursorCol() )
+      AIns( ::GetTable():GridBuffer, 1 )
+      ::GetTable():GetGridRowData( 1 )
+      ::ForceRefresh()
+      ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
     ENDIF
   ENDIF
 

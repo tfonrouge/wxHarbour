@@ -27,6 +27,7 @@ PROTECTED:
 PUBLIC:
 
   CONSTRUCTOR New
+  METHOD OnCreate() VIRTUAL
   DESTRUCTOR OnDestruct()
 
   METHOD __Destroy /* programatically calls delete for wxObjs  */

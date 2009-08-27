@@ -224,7 +224,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhColumn.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhBrowse.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj \
-	$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj \
 	$(__BUILDDIR__)\wxHarbour_Dba.obj \
 	$(__BUILDDIR__)\wxHarbour_TAlias.obj \
 	$(__BUILDDIR__)\wxHarbour_TDatabase.obj \
@@ -311,7 +310,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxHarbour_xhb2hb.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
-	$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj \
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj \
 	$(__BUILDDIR__)\wxHarbour_TTable_c.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Grid.obj \
@@ -566,10 +565,6 @@ $(__BUILDDIR__)\wxHarbour_wxhBrowse.obj: .\src\hrbcompat\tbrowse\wxhBrowse.prg
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj: .\src\hrbcompat\tbrowse\wxhBrowseDbProvider.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
-	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
-
-$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj: .\src\hrbcompat\tbrowse\wxhGridBrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
@@ -912,8 +907,8 @@ $(__BUILDDIR__)\wxHarbour_xhb2hb.obj: .\src\common\xhb2hb.cpp
 $(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\misc\wx_functions.cpp
 
-$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj: .\src\hrbcompat\tbrowse\wx_GridBrowse.cpp
-	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_GridBrowse.cpp
+$(__BUILDDIR__)\wxHarbour_wx_Browse.obj: .\src\hrbcompat\tbrowse\wx_Browse.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_Browse.cpp
 
 $(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj: .\src\raddox\TRDOServer_c.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\raddox\TRDOServer_c.cpp

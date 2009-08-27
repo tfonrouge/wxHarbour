@@ -1,22 +1,21 @@
 /*
  * $Id$
+ * DbBrowser: Simple browser
+ *
+ * (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+ *
  */
 
-/*
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
-*/
-
-/*
-  DbBrowser: Simple browser
-  Teo. Mexico 2008
-*/
-
-#include "hbclass.ch"
-#include "property.ch"
 #include "wx.ch"
 #include "wxharbour.ch"
 
 #include "wxh/filedlg.ch"
+
+#ifdef _DEBUG_
+#ifdef HB_OS_LINUX
+  REQUEST HB_GT_XWC_DEFAULT
+#endif
+#endif
 
 //REQUEST RDOSENDMESSAGE
 
