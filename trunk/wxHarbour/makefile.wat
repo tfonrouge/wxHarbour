@@ -229,7 +229,6 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhColumn.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBrowse.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj &
-	$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj &
 	$(__BUILDDIR__)\wxHarbour_Dba.obj &
 	$(__BUILDDIR__)\wxHarbour_TAlias.obj &
 	$(__BUILDDIR__)\wxHarbour_TDatabase.obj &
@@ -316,7 +315,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj &
 	$(__BUILDDIR__)\wxHarbour_xhb2hb.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj &
-	$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj &
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj &
 	$(__BUILDDIR__)\wxHarbour_TTable_c.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Grid.obj &
@@ -457,6 +456,7 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\wxh\filedlg.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gauge.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gdicmn.ch $(PREFIX)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\grid.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gsocket.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\notebook.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\socket.ch $(PREFIX)\include\wxHarbour\wxh
@@ -485,6 +485,7 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\wxh\filedlg.ch -del $(PREFIX)\include\wxHarbour\wxh\filedlg.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gauge.ch -del $(PREFIX)\include\wxHarbour\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch -del $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch
+	-if exist $(PREFIX)\include\wxHarbour\wxh\grid.ch -del $(PREFIX)\include\wxHarbour\wxh\grid.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gsocket.ch -del $(PREFIX)\include\wxHarbour\wxh\gsocket.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\notebook.ch -del $(PREFIX)\include\wxHarbour\wxh\notebook.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\socket.ch -del $(PREFIX)\include\wxHarbour\wxh\socket.ch
@@ -524,10 +525,6 @@ $(__BUILDDIR__)\wxHarbour_wxhBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\w
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\wxHarbour_wxhBrowseDbProvider.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wxhBrowseDbProvider.prg
-	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
-	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
-
-$(__BUILDDIR__)\wxHarbour_wxhGridBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wxhGridBrowse.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
@@ -870,7 +867,7 @@ $(__BUILDDIR__)\wxHarbour_xhb2hb.obj :  .AUTODEPEND .\src\common\xhb2hb.cpp
 $(__BUILDDIR__)\wxHarbour_wx_functions.obj :  .AUTODEPEND .\src\hrbcompat\misc\wx_functions.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
-$(__BUILDDIR__)\wxHarbour_wx_GridBrowse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wx_GridBrowse.cpp
+$(__BUILDDIR__)\wxHarbour_wx_Browse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wx_Browse.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj :  .AUTODEPEND .\src\raddox\TRDOServer_c.cpp

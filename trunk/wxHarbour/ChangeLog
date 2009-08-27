@@ -2,6 +2,33 @@
  * $Id$
  */
 
+2009-08-27 17:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * include/wxHarbour/wxh.h
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+  * samples/dbbrowser/dbbrowser.prg
+  * src/common/wx_harbour.cpp
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbrowse/wx_Browse.h
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  * src/wxbase/baseclasses/wxhObject.prg
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wx_GridEvent.cpp
+  * src/wxbase/events/wxhGridEvent.prg
+  * src/wxbase/image/wx_Colour.cpp
+  - src/hrbcompat/tbrowse/wx_GridBrowse.cpp
+  - src/hrbcompat/tbrowse/wxhGridBrowse.prg
+  + src/hrbcompat/tbrowse/wx_Browse.cpp
+    * renamed class from wxhGridBrowse to wxhBrowse
+    * added wxh_ret_wxPoint()
+    % simplified the wxhBrowse class structure
+    ! Fixed using ID of wxhBrowse (direct wxGrid descendant) on events
+    + adding full methods for wxGridEvent
+
 2009-08-26 18:01 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
   * src/common/wx_harbour.cpp

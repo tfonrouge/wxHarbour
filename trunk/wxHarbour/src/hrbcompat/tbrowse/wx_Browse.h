@@ -17,10 +17,10 @@
 #include "wxbase/wx_Panel.h"
 
 /*
-  wxhGridBrowse : Interface
+  wxhBrowse : Interface
   Teo. Mexico 2008
 */
-class wxhGridBrowse : public wx_Grid
+class wxhBrowse : public wx_Grid
 {
 private:
   DECLARE_EVENT_TABLE()
@@ -30,8 +30,8 @@ private:
 protected:
   wxGridSelection  *m_selection;
 public:
-  wxhGridBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = -1; m_selectedRow = -1; }
-  wxhGridBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhGridBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = -1; m_selectedRow = -1; }
+  wxhBrowse() : wx_Grid() { m_rowCount = 0; m_gridWindowHeight = -1; m_selectedRow = -1; }
+  wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxWANTS_CHARS, const wxString& name = _T("wxhBrowse") ) : wx_Grid( parent, id, pos, size, style, name ) { m_rowCount = 0; m_gridWindowHeight = -1; m_selectedRow = -1; }
 
   int m_gridWindowHeight;
   int m_rowCount;
@@ -39,19 +39,5 @@ public:
   int m_selectedRow;
 
   void CalcDimensions() { wx_Grid::CalcDimensions(); };
-
-};
-
-/*
-  wxhBrowse
-  Teo. Mexico 2008
-*/
-class wxhBrowse : public wx_Panel
-{
-private:
-protected:
-public:
-  wxhBrowse() : wx_Panel() {}
-  wxhBrowse( wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTAB_TRAVERSAL, const wxString& name = _T("wxhBrowse") ) : wx_Panel( parent, id, pos, size, style, name ) {}
 
 };

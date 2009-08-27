@@ -3,7 +3,7 @@
  */
 
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
   This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -11,12 +11,12 @@
 
   You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
   wx_GridEvent: Implementation
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -24,26 +24,60 @@
 #include "wxh.h"
 
 /*
+  AltDown
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRIDEVENT_ALTDOWN )
+{
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridEvent )
+    hb_retl( gridEvent->AltDown() );
+}
+
+/*
+  ControlDown
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRIDEVENT_CONTROLDOWN )
+{
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridEvent )
+    hb_retl( gridEvent->ControlDown() );
+}
+
+/*
   GetCol
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXGRIDEVENT_GETCOL )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( pSelf );
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( gridEvent )
     hb_retni( gridEvent->GetCol() );
 }
 
 /*
+  GetPosition
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRIDEVENT_GETPOSITION )
+{
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridEvent )
+    wxh_ret_wxPoint( gridEvent->GetPosition() );
+}
+
+/*
   GetRow
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXGRIDEVENT_GETROW )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( pSelf );
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( gridEvent )
     hb_retni( gridEvent->GetRow() );
@@ -52,14 +86,37 @@ HB_FUNC( WXGRIDEVENT_GETROW )
 }
 
 /*
+  MetaDown
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRIDEVENT_METADOWN )
+{
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridEvent )
+    hb_retl( gridEvent->MetaDown() );
+}
+
+/*
   Selecting
-  Teo. Mexico 2008
+  Teo. Mexico 2009
 */
 HB_FUNC( WXGRIDEVENT_SELECTING )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( pSelf );
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( gridEvent )
     hb_retl( gridEvent->Selecting() );
+}
+
+/*
+  ShiftDown
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXGRIDEVENT_SHIFTDOWN )
+{
+  wxGridEvent *gridEvent = (wxGridEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( gridEvent )
+    hb_retl( gridEvent->ShiftDown() );
 }

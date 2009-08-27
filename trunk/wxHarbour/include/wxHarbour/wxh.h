@@ -153,6 +153,7 @@ wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
 wxArrayString wxh_par_wxArrayString( int param );
 wxString      wxh_parc( int param );
+void		  wxh_ret_wxPoint( const wxPoint& point );
 void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 

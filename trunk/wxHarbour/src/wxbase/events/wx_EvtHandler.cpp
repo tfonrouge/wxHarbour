@@ -47,14 +47,11 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 
     if( pWxh_Item )
     {
-      qoutf("@");
       for( vector<PCONN_PARAMS>::iterator it = pWxh_Item->evtList.begin(); it < pWxh_Item->evtList.end(); it++ )
       {
-        qqoutf("1");
         PCONN_PARAMS pConnParams = *it;
         if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
         {
-          qqoutf("GetId: %d", event.GetId() );
           if( pConnParams->force || ( event.GetId() == wxID_ANY ) || ( event.GetId() >= pConnParams->id && event.GetId() <= pConnParams->lastId ) )
           {
             hb_vmEvalBlockV( pConnParams->pItmActionBlock, 1 , pEvent );
