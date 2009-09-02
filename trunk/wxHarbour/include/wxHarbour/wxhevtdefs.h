@@ -29,5 +29,6 @@
 #define WXH_SOCKETEVENT         10
 #define WXH_TASKBARICONEVENT    11
 #define WXH_TIMEREVENT          12
+#define WXH_UPDATEUIEVENT       13
 
 #endif

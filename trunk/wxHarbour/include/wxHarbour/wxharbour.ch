@@ -288,7 +288,7 @@
 */
 #xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ];
           => ;
-          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <{block}>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}] )
+          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}] )
 
 /*
  * Button

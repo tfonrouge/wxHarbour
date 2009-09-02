@@ -2,6 +2,59 @@
  * $Id$
  */
 
+2009-09-02 00:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+  * include/wxHarbour/wxh.h
+  * include/wxHarbour/wxhevtdefs.h
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+  + src/wxbase/events/wx_UpdateUIEvent.cpp
+  + src/wxbase/events/wxhUpdateUIEvent.prg
+    + added wxUpdateUIEvent class, full methods.
+    
+  * demos/dbExplorer/dbExplorer.prg
+    ! Fixed error per changes on wxhBrowse class
+
+  * include/wxHarbour/wxharbour.ch
+    * changed to excplicitly give a code block on ADD BCOLUMN command
+
+  * samples/timer/timer.prg
+    ! changed @ TEXTCTRL to @ GET
+    * added wxTimerEvent:GetInterval() show usage.
+
+  * src/common/wxhfuncs.prg
+    ! Fixed naming of wxhBrowse control (name was given to wxPanel)
+    ! Fixed __wxh_BrowseAddColumn on using ::grid (obsolete)
+    ! Fixed evaluating for a enabling a wxMenuItem on Mac OS, now using
+      wxEVT_UPDATE_UI (wxUpdateUIEvent class)
+    * code cleanup (ordering by function name)
+    
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    ! Fixed removed ::grid (obsolete)
+    
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * renaming DATA wxhBrowse:KeyEventBlock to ::keyDownEventBlock
+    
+  * src/raddox/TTable.prg
+    % simplified & slightly optimized GetDisplayFieldBlock()
+
+  * src/wxbase/events/wx_TimerEvent.cpp
+    ! Fixed really stupid ommision bug
+
+  * src/wxbase/menu/wx_Menu.cpp
+  * src/wxbase/menu/wxhMenu.prg
+    + added method:
+      + FindItem()
+    * code cleanup    
+    
+  * tests/evtdefcheck/evtdefcheck.prg
+  * tests/evtdefcheck/getdefs.cpp
+    * test updated
+
 2009-08-27 17:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * include/wxHarbour/wxh.h

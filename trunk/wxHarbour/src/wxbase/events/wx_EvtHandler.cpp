@@ -198,6 +198,17 @@ void hbEvtHandler<T>::OnTimerEvent( wxTimerEvent& event )
 }
 
 /*
+  OnUpdateUIEvent
+  Teo. Mexico 2009
+*/
+template <class T>
+void hbEvtHandler<T>::OnUpdateUIEvent( wxUpdateUIEvent& event )
+{
+  HB_FUNC_EXEC( WXUPDATEUIEVENT );
+  __OnEvent( event );
+}
+
+/*
   wxConnect
   Teo. Mexico 2009
 */
@@ -244,6 +255,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_TIMEREVENT:
       objFunc = wxTimerEventHandler( hbEvtHandler<T>::OnTimerEvent );
+      break;
+    case WXH_UPDATEUIEVENT:
+      objFunc = wxUpdateUIEventHandler( hbEvtHandler<T>::OnUpdateUIEvent );
       break;
     default:
       objFunc = NULL;
@@ -427,4 +441,13 @@ HB_FUNC( WXEVTHANDLER_CONNECTTASKBARICONEVT )
 HB_FUNC( WXEVTHANDLER_CONNECTTIMEREVT )
 {
   Connect( WXH_TIMEREVENT );
+}
+
+/*
+  ConnectUpdateUIEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTUPDATEUIEVT )
+{
+  Connect( WXH_UPDATEUIEVENT );
 }

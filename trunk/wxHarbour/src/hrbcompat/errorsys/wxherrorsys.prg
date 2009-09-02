@@ -231,13 +231,13 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
           id := wxID_ANY
         ENDCASE
         @ BUTTON itm ID id ACTION {|| retVal := i, dlg:Close() }
-//         @ BUTTON "Fit" ACTION brwCallStack:grid:Fit()
+//         @ BUTTON "Fit" ACTION brwCallStack:Fit()
       NEXT
     END SIZER
   END SIZER
 
-  brwCallStack:grid:Fit()
-  brwErrObj:Grid:Fit()
+  brwCallStack:Fit()
+  brwErrObj:Fit()
 
   brwCallStack:DeleteAllColumns()
   ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK {|n| aStack[ n, 1 ] } WIDTH 30

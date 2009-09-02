@@ -284,6 +284,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhTimer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhColour.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj &
@@ -361,6 +362,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Colour.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.obj &
@@ -748,6 +750,10 @@ $(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\w
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhUpdateUIEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhBitmap.obj :  .AUTODEPEND .\src\wxbase\image\wxhBitmap.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1003,6 +1009,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Timer.obj :  .AUTODEPEND .\src\wxbase\events\wx_Tim
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_TimerEvent.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_UpdateUIEvent.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj :  .AUTODEPEND .\src\wxbase\image\wx_Bitmap.cpp

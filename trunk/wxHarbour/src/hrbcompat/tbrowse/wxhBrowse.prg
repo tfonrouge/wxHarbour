@@ -19,6 +19,7 @@
 #endif
 
 #include "wxharbour.ch"
+#include "xerror.ch"
 
 /*
   wxhBrowse
@@ -50,7 +51,7 @@ PROTECTED:
 PUBLIC:
 
   CONSTRUCTOR New( window, id, pos, size, style, name )
-  METHOD ClearObjData
+  METHOD ClearObjData()
 
   /* Begin TBrowse compatible */
   /* TBrowse compatible vars */
@@ -85,7 +86,7 @@ PUBLIC:
   DATA AutoFill INIT .T.	/* autofill columns with DataSource data */
   DATA BottomFirst INIT .F.
   DATA FillColumnsChecked INIT .F.
-  DATA KeyEventBlock
+  DATA keyDownEventBlock
   DATA SelectCellBlock
 
   METHOD DeleteAllColumns
@@ -317,13 +318,19 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
-
-  IF ::KeyEventBlock != NIL
-    IF ::KeyEventBlock:Eval( Self, keyEvent )
-      RETURN /* event key processed */
+  LOCAL result
+  
+  IF ::keyDownEventBlock != NIL
+    result := ::keyDownEventBlock:Eval( Self, keyEvent )
+    IF ValType( result ) = "L"
+      IF result
+        RETURN /* event key processed */
+      ENDIF
+    ELSE
+      RAISE ERROR "keyDownEventBlock must return a logical value."
     ENDIF
   ENDIF
-  
+
   SWITCH keyEvent:GetKeyCode()
   CASE WXK_UP
     ::Up()

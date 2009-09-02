@@ -11,9 +11,7 @@
   #include "wx_hbcompat.ch"
 #endif
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "raddox.ch"
+#include "wxharbour.ch"
 #include "xerror.ch"
 
 REQUEST TField
@@ -1052,63 +1050,45 @@ RETURN ::FInstances[ ::TableClass, "DbStruct" ]
   GetDisplayFieldBlock
   Teo. Mexico 2008
 */
-#ifdef __XHARBOUR__
+METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
+  LOCAL AField
+  
+  SWITCH ValType( xField )
+  CASE 'O'
+    AField := xField
+    EXIT
+  CASE 'N'
+    AField := ::FieldList[ xField ]
+    EXIT
+  _SW_OTHERWISE
+    RAISE ERROR "Wrong value"
+    RETURN NIL
+  END
 
-METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
-
-  IF !::FieldList[ n ]:IsDerivedFrom("TObjectField")
+  IF ! AField:IsDerivedFrom("TObjectField")
     RETURN ;
-      <|o|
+      BEGIN_CB|o|
         LOCAL Result
         IF o:__Obj:Eof() .OR. o:__Obj:Bof()
-          Result := o:__Obj:FieldList[ n ]:EmptyValue
+          Result := AField:EmptyValue
         ELSE
-          Result := o:__Obj:FieldList[ n ]:Value
+          Result := AField:Value
         ENDIF
         /*
-          * Alias RecNo maybe changed, so force a record sync
-          */
+         * Alias RecNo maybe changed, so force a record sync
+         */
         o:__FObj:Alias:SyncFromRecNo()
         RETURN Result
-      >
+      END_CB
   ENDIF
 
   RETURN ;
-    <|o|
-      IF o:__Obj:FieldList[ n ]:DataObj != NIL
-        RETURN o:__Obj:FieldList[ n ]:DataObj:DisplayFields
+    BEGIN_CB||
+      IF AField:DataObj != NIL
+        RETURN AField:DataObj:DisplayFields
       ENDIF
       RETURN NIL
-    >
-#else
-
-METHOD FUNCTION GetDisplayFieldBlock( n ) CLASS TTable
-
-  IF !::FieldList[ n ]:IsDerivedFrom("TObjectField")
-    RETURN ;
-      {|o|
-        LOCAL Result
-        IF o:__Obj:Eof() .OR. o:__Obj:Bof()
-          Result := o:__Obj:FieldList[ n ]:EmptyValue
-        ELSE
-          Result := o:__Obj:FieldList[ n ]:Value
-        ENDIF
-        /*
-          * Alias RecNo maybe changed, so force a record sync
-          */
-        o:__FObj:Alias:SyncFromRecNo()
-        RETURN Result
-      }
-  ENDIF
-
-  RETURN ;
-    {|o|
-      IF o:__Obj:FieldList[ n ]:DataObj != NIL
-        RETURN o:__Obj:FieldList[ n ]:DataObj:DisplayFields
-      ENDIF
-      RETURN NIL
-    }
-#endif
+    END_CB
 
 METHOD FUNCTION GetDisplayFields( directAlias ) CLASS TTable
   LOCAL DisplayFieldsClass
