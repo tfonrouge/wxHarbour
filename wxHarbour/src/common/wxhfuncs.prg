@@ -632,7 +632,7 @@ RETURN sizer
   __wxh_Browse
   Teo. Mexico 2009
  */
-FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, onKey, onSelectCell )
+FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, keyDownEventBlock, onSelectCell )
   LOCAL browse
   LOCAL panel
   LOCAL boxSizer
@@ -642,7 +642,7 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
     window := containerObj():LastParent()
   ENDIF
 
-  panel := wxPanel():New( window, wxID_ANY, pos, size, wxTAB_TRAVERSAL, name ) /* container of type wxPanel */
+  panel := wxPanel():New( window, wxID_ANY, pos, size, wxTAB_TRAVERSAL ) /* container of type wxPanel */
 
   IF label == NIL
     boxSizer := wxBoxSizer():New( wxHORIZONTAL )
@@ -666,7 +666,7 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
     browse:DataSource := dataSource
   ENDIF
 
-  browse:KeyEventBlock := onKey
+  browse:keyDownEventBlock := keyDownEventBlock
   browse:SelectCellBlock := onSelectCell
 
   IF minSize != NIL
@@ -709,12 +709,12 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
     type := Upper( type )
     DO CASE
     CASE type == "BOOL"
-      wxhBrw:grid:SetColFormatBool( wxhBrw:ColCount() - 1 )
+      wxhBrw:SetColFormatBool( wxhBrw:ColCount() - 1 )
     CASE type == "NUMBER"
-      wxhBrw:grid:SetColFormatNumber( wxhBrw:ColCount() - 1 )
+      wxhBrw:SetColFormatNumber( wxhBrw:ColCount() - 1 )
     CASE type == "FLOAT"
       IF wp != NIL
-        wxhBrw:grid:SetColFormatFloat( wxhBrw:ColCount() - 1, wp[ 1 ], wp[ 2 ] )
+        wxhBrw:SetColFormatFloat( wxhBrw:ColCount() - 1, wp[ 1 ], wp[ 2 ] )
       ENDIF
     ENDCASE
   ENDIF
@@ -781,95 +781,6 @@ FUNCTION __wxh_CheckBox( window, id, label, pos, size, style, validator, name )
   containerObj():SetLastChild( checkBox )
 
 RETURN checkBox
-
-/*
-  __wxh_Gauge
-  Teo. Mexico 2009
-*/
-FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type )
-  LOCAL gauge
-
-  IF window == NIL
-    window := containerObj():LastParent()
-  ENDIF
-
-  IF type != NIL
-    IF style == NIL
-      style := type
-    ELSE
-      style := _hb_BitOr( style, type )
-    ENDIF
-  ENDIF
-
-  gauge := wxGauge():New( window, id, range, pos, size, style, validator, name )
-
-  containerObj():SetLastChild( gauge )
-
-RETURN gauge
-
-/*
-  __wxh_GetBitmapResource
-  Teo. Mexico 2009
-*/
-FUNCTION __wxh_GetBitmapResource( bmp )
-  LOCAL bitmap
-
-  SWITCH ValType( bmp )
-  CASE 'C'
-    IF File( bmp )
-      bitmap := wxBitmap():New()
-      IF Upper( Right( bmp, 3 ) ) == "XPM"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
-      ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
-        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
-      ENDIF
-    ELSE
-      bitmap := wxBitmap():New( 0 )  // missing image
-    ENDIF
-    EXIT
-  CASE 'O'
-    IF bmp:IsDerivedFrom("wxBitmap")
-      bitmap := bmp
-    ENDIF
-    EXIT
-  CASE 'N'
-    bitmap := wxBitmap():New( bmp )
-    EXIT
-  END
-
-RETURN bitmap
-
-
-/*
-  __wxh_Grid
-  Teo. Mexico 2009
- */
-FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
-  LOCAL grid
-
-  IF window == NIL
-    window := containerObj():LastParent()
-  ENDIF
-
-  grid := wxGrid():New( window, id, pos, size, style, name )
-
-  IF cols != NIL .OR. rows != NIL
-    grid:CreateGrid( rows, cols )
-  ENDIF
-
-  containerObj():SetLastChild( grid )
-
-RETURN grid
 
 /*
   __wxh_Choice
@@ -1003,89 +914,93 @@ FUNCTION __wxh_Frame( frameType, fromClass, oParent, nID, cTitle, nTopnLeft, nHe
 RETURN oWnd
 
 /*
-  __wxh_RadioBox
+  __wxh_Gauge
   Teo. Mexico 2009
 */
-FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name )
-  LOCAL radioBox
-  LOCAL wxhGet
+FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type )
+  LOCAL gauge
 
-  IF parent == NIL
-    parent := containerObj():LastParent()
+  IF window == NIL
+    window := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
-
-  IF choices == NIL .AND. wxhGet:Field != NIL
-    choices := wxhGet:GetChoices()
+  IF type != NIL
+    IF style == NIL
+      style := type
+    ELSE
+      style := _hb_BitOr( style, type )
+    ENDIF
   ENDIF
 
-  radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+  gauge := wxGauge():New( window, id, range, pos, size, style, validator, name )
 
-  wxhGet:AddPostInfo( radioBox )
+  containerObj():SetLastChild( gauge )
 
-  containerObj():SetLastChild( radioBox )
-
-RETURN radioBox
+RETURN gauge
 
 /*
- * __wxh_TextCtrl
- * Teo. Mexico 2009
+  __wxh_GetBitmapResource
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_GetBitmapResource( bmp )
+  LOCAL bitmap
+
+  SWITCH ValType( bmp )
+  CASE 'C'
+    IF File( bmp )
+      bitmap := wxBitmap():New()
+      IF Upper( Right( bmp, 3 ) ) == "XPM"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XPM )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "BMP"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_BMP )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "GIF"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_GIF )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "XBM"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_XBM )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "JPG"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_JPEG )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "PNG"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PNG )
+      ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
+        bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
+      ENDIF
+    ELSE
+      bitmap := wxBitmap():New( 0 )  // missing image
+    ENDIF
+    EXIT
+  CASE 'O'
+    IF bmp:IsDerivedFrom("wxBitmap")
+      bitmap := bmp
+    ENDIF
+    EXIT
+  CASE 'N'
+    bitmap := wxBitmap():New( bmp )
+    EXIT
+  END
+
+RETURN bitmap
+
+
+/*
+  __wxh_Grid
+  Teo. Mexico 2009
  */
-FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, name, toolTip )
-  LOCAL textCtrl
-  LOCAL wxhGet
-  LOCAL pickBtn
-  
-  IF parent == NIL
-    parent := containerObj():LastParent()
+FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
+  LOCAL grid
+
+  IF window == NIL
+    window := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  grid := wxGrid():New( window, id, pos, size, style, name )
 
-  IF multiLine == .T.
-    IF Empty( style )
-      style := wxTE_MULTILINE
-    ELSE
-      style := _hb_BitOr( wxTE_MULTILINE, style )
-    ENDIF
+  IF cols != NIL .OR. rows != NIL
+    grid:CreateGrid( rows, cols )
   ENDIF
 
-  //__wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
+  containerObj():SetLastChild( grid )
 
-  /* nextCtrlOnEnter */
-  IF nextCtrlOnEnter
-    IF style == NIL
-      style := wxTE_PROCESS_ENTER
-    ELSE
-      style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
-    ENDIF
-  ENDIF
-
-  pickBtn := wxhGet:Field != NIL .AND. HB_IsBlock( wxhGet:Field:GetItPick )
-
-  IF pickBtn
-    BEGIN BOXSIZER HORIZONTAL STRETCH
-  ENDIF
-
-  textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
-
-  IF toolTip != NIL
-    textCtrl:SetToolTip( toolTip )
-  ENDIF
-
-  wxhGet:AddPostInfo( textCtrl )
-
-  containerObj():SetLastChild( textCtrl )
-
-  IF pickBtn
-    @ SIZERINFO STRETCH
-    @ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
-  END SIZER
-    containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
-  ENDIF
-
-RETURN textCtrl
+RETURN grid
 
 /*
  * __wxh_GridSizerBegin
@@ -1241,27 +1156,23 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
 
   menu:Append( menuItem )
 
-  IF bAction != NIL
+  IF bAction = NIL
+    menuItem:Enable( .F. )
+  ELSE
     menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
 
   IF bEnabled != NIL
     IF ValType( bEnabled ) = "B"
       menuItem:enableBlock := bEnabled
-      menu:ConnectMenuEvt( -1, wxEVT_MENU_OPEN, ;
-        BEGIN_CB |menuEvent|
+      menuItem:Enable( .F. )
+      menu:ConnectUpdateUIEvt( id, wxEVT_UPDATE_UI, ;
+        BEGIN_CB |updateUIEvent|
           LOCAL menu
-          LOCAL menuItem
-          LOCAL menuItemList
-
-          menu := menuEvent:GetMenu()
-          menuItemList := menu:GetMenuItems()
-
-          FOR EACH menuItem IN menuItemList
-            IF menuItem:enableBlock != NIL
-              menuItem:Enable( menuItem:enableBlock:Eval() )
-            ENDIF
-          NEXT
+          
+          menu := updateUIEvent:GetEventObject()
+          
+          updateUIEvent:Enable( menu:FindItem( updateUIEvent:GetId() ):enableBlock:Eval() )
 
           RETURN NIL
         END_CB )
@@ -1302,6 +1213,32 @@ RETURN panel
 PROCEDURE __wxh_PanelEnd
   containerObj():RemoveLastParent( "wxPanel" )
 RETURN
+
+/*
+  __wxh_RadioBox
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+  LOCAL radioBox
+  LOCAL wxhGet
+
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+
+  IF choices == NIL .AND. wxhGet:Field != NIL
+    choices := wxhGet:GetChoices()
+  ENDIF
+
+  radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+
+  wxhGet:AddPostInfo( radioBox )
+
+  containerObj():SetLastChild( radioBox )
+
+RETURN radioBox
 
 /*
  * __wxh_SAY
@@ -1452,6 +1389,14 @@ FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
 RETURN Result
 
 /*
+ * __wxh_SizerEnd
+ * Teo. Mexico 2009
+ */
+PROCEDURE __wxh_SizerEnd
+  containerObj():RemoveLastSizer()
+RETURN
+
+/*
  * __wxh_SizerInfoAdd
  * Teo. Mexico 2009
  */
@@ -1566,14 +1511,6 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 RETURN
 
 /*
- * __wxh_SizerEnd
- * Teo. Mexico 2009
- */
-PROCEDURE __wxh_SizerEnd
-  containerObj():RemoveLastSizer()
-RETURN
-
-/*
  * __wxh_Spacer
  * Teo. Mexico 2009
  */
@@ -1641,31 +1578,6 @@ FUNCTION __wxh_SpinCtrl( parent, id, value, pos, size, style, min, max, initial,
 RETURN spinCtrl
 
 /*
-  __wxh_StatusBar
-  Teo. Mexico 2009
-*/
-FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
-  LOCAL sb
-
-  IF oW == NIL
-    oW := containerObj():LastParent()
-  ENDIF
-
-  sb := wxStatusBar():New( oW, id, style, name )
-
-  IF widths!=NIL .AND. fields=NIL
-    fields := Len( widths )
-  ENDIF
-
-  IF fields != NIL
-    sb:SetFieldsCount( fields, widths )
-  ENDIF
-
-  oW:SetStatusBar( sb )
-
-RETURN sb
-
-/*
   __wxh_StaticBitmap
   Teo. Mexico 2009
 */
@@ -1718,6 +1630,90 @@ FUNCTION __wxh_StaticText( parent, id, label, pos, size, style, name )
   containerObj():SetLastChild( staticText )
 
 RETURN staticText
+
+/*
+  __wxh_StatusBar
+  Teo. Mexico 2009
+*/
+FUNCTION __wxh_StatusBar( oW, id, style, name, fields, widths )
+  LOCAL sb
+
+  IF oW == NIL
+    oW := containerObj():LastParent()
+  ENDIF
+
+  sb := wxStatusBar():New( oW, id, style, name )
+
+  IF widths!=NIL .AND. fields=NIL
+    fields := Len( widths )
+  ENDIF
+
+  IF fields != NIL
+    sb:SetFieldsCount( fields, widths )
+  ENDIF
+
+  oW:SetStatusBar( sb )
+
+RETURN sb
+
+/*
+ * __wxh_TextCtrl
+ * Teo. Mexico 2009
+ */
+FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, name, toolTip )
+  LOCAL textCtrl
+  LOCAL wxhGet
+  LOCAL pickBtn
+  
+  IF parent == NIL
+    parent := containerObj():LastParent()
+  ENDIF
+
+  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+
+  IF multiLine == .T.
+    IF Empty( style )
+      style := wxTE_MULTILINE
+    ELSE
+      style := _hb_BitOr( wxTE_MULTILINE, style )
+    ENDIF
+  ENDIF
+
+  //__wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
+
+  /* nextCtrlOnEnter */
+  IF nextCtrlOnEnter
+    IF style == NIL
+      style := wxTE_PROCESS_ENTER
+    ELSE
+      style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
+    ENDIF
+  ENDIF
+
+  pickBtn := wxhGet:Field != NIL .AND. HB_IsBlock( wxhGet:Field:GetItPick )
+
+  IF pickBtn
+    BEGIN BOXSIZER HORIZONTAL STRETCH
+  ENDIF
+
+  textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+
+  IF toolTip != NIL
+    textCtrl:SetToolTip( toolTip )
+  ENDIF
+
+  wxhGet:AddPostInfo( textCtrl )
+
+  containerObj():SetLastChild( textCtrl )
+
+  IF pickBtn
+    @ SIZERINFO STRETCH
+    @ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
+  END SIZER
+    containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
+  ENDIF
+
+RETURN textCtrl
 
 /*
   __wxh_ToolAdd

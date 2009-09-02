@@ -40,10 +40,17 @@ PUBLIC:
   DATA spinCtrlEvent
   DATA spinCtrlNotify
   METHOD OnInit
-  METHOD OnTimerEvent INLINE ::textCtrlEvent:AppendText( Str( seconds() ) + E" from Event\n" )
+  METHOD OnTimerEvent
   METHOD StartStopTimers( event )
 PUBLISHED:
 ENDCLASS
+
+/*
+  OnTimerEvent
+*/
+METHOD PROCEDURE OnTimerEvent( timerEvent ) CLASS MyApp
+   ::textCtrlEvent:AppendText( Str( seconds() ) + ", Interval: " + NTrim( timerEvent:GetInterval() ) + ", " + E" from Event\n" )
+RETURN
 
 /*
   EndClass MyApp
@@ -76,7 +83,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
           @ SPINCTRL "1000" VAR ::spinCtrlEvent NAME "spinEvent" MIN 50 MAX 10000
           @ BUTTON "Start" NAME "BtnEvent" ACTION {|event| ::StartStopTimers( event ) }
         END SIZER
-        @ TEXTCTRL VAR ::textCtrlEvent MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
+        @ GET VAR ::textCtrlEvent MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
       END SIZER
       BEGIN BOXSIZER VERTICAL "Timer by Notify" ALIGN EXPAND STRETCH
         BEGIN BOXSIZER HORIZONTAL
@@ -84,7 +91,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
           @ SPINCTRL "1000" VAR ::spinCtrlNotify NAME "spinNotify" MIN 50 MAX 10000
           @ BUTTON "Start" NAME "BtnNotify" ACTION {|event| ::StartStopTimers( event ) }
         END SIZER
-        @ TEXTCTRL VAR ::textCtrlNotify MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
+        @ GET VAR ::textCtrlNotify MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
       END SIZER
     END SIZER
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
@@ -96,7 +103,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   /* timer by Event */
   ::timerEvent:= wxTimer():New( frame, frame:GetId() )
-  frame:ConnectTimerEvt( frame:GetId(), wxEVT_TIMER, {|| ::OnTimerEvent() } )
+  frame:ConnectTimerEvt( frame:GetId(), wxEVT_TIMER, {|timerEvent| ::OnTimerEvent( timerEvent ) } )
 
   /* timer by Notify on wxTimer descendant class */
   ::timerNotify := MyTimer():New()
@@ -129,7 +136,7 @@ METHOD PROCEDURE StartStopTimers( event ) CLASS MyApp
     label := "Stop"
     timer:Start( spinCtrl:GetValue() )
   ENDIF
-
+  
   textCtrl:AppendText( button:GetLabel() + E"\n" )
   button:SetLabel( label )
 

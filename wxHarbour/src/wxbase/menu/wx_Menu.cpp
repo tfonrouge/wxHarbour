@@ -48,8 +48,7 @@ HB_FUNC( WXMENU_NEW )
 
 HB_FUNC( WXMENU_APPEND1 )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( pSelf );
+  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), wxh_parc( 3 ), hb_parnl( 4 ) );
 }
@@ -72,11 +71,24 @@ HB_FUNC( WXMENU_APPEND3 )
 
 HB_FUNC( WXMENU_APPENDSEPARATOR )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( pSelf );
+  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menu )
     menu->AppendSeparator();
+}
+
+/*
+  FindItem
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXMENU_FINDITEM )
+{
+  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( menu )
+  {
+    wxh_itemReturn( menu->FindItem( hb_parni( 1 ), (wxMenu **) wxh_par_WX( 2 ) ) );
+  }
 }
 
 /*

@@ -146,6 +146,7 @@ HB_FUNC_EXTERN( WXMOUSEEVENT );
 HB_FUNC_EXTERN( WXSOCKETEVENT );
 HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
+HB_FUNC_EXTERN( WXUPDATEUIEVENT );
 
 void		  wxh_itemReturn( wxObject* wxObj );
 wxObject*     wxh_par_WX( int param );
@@ -197,6 +198,7 @@ public:
   void OnSocketEvent( wxSocketEvent& event );
   void OnTaskBarIconEvent( wxTaskBarIconEvent& event );
   void OnTimerEvent( wxTimerEvent& event );
+  void OnUpdateUIEvent( wxUpdateUIEvent& event );
 
   void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 

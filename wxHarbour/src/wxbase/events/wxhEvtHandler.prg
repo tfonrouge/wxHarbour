@@ -45,6 +45,7 @@ PUBLIC:
   METHOD ConnectSocketEvt( p1, p2, p3, p4 )
   METHOD ConnectTaskBarIconEvt( p1, p2, p3, p4 )
   METHOD ConnectTimerEvt( p1, p2, p3, p4 )
+  METHOD ConnectUpdateUIEvt( p1, p2, p3, p4 )
 PUBLISHED:
 ENDCLASS
 

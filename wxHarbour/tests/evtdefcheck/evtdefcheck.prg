@@ -43,6 +43,7 @@ METHOD FUNCTION OnInit CLASS MyApp
             "wxEVT_IDLE" => wxEVT_IDLE,;
             "wxEVT_DETAILED_HELP" => wxEVT_DETAILED_HELP,;
             "wxEVT_KILL_FOCUS" => wxEVT_KILL_FOCUS,;
+	    "wxEVT_MENU_OPEN" => wxEVT_MENU_OPEN,;
             "wxTE_PROCESS_ENTER" => wxTE_PROCESS_ENTER,;
             "wxEVT_GRID_COL_MOVE" => wxEVT_GRID_COL_MOVE;
            }
@@ -66,7 +67,7 @@ METHOD FUNCTION OnInit CLASS MyApp
   ADD BCOLUMN TO b "C++" BLOCK {|key| wxh_GetwxDef( key ) }
   ADD BCOLUMN TO b BLOCK {|key| iif( wxh_GetwxDef( key ) == hDefs[ key ], "", "FALSE" ) }
 
-  b:grid:SetRowLabelSize( 250 )
+  b:SetRowLabelSize( 250 )
 
   SHOW WINDOW ::oWnd CENTRE
 

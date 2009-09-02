@@ -14,23 +14,43 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
+#endif
+
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx.ch"
+
 /*
-  wx_TimerEvent: Implementation
+  wxUpdateUIEvent
   Teo. Mexico 2009
 */
-
-#include "wx/wx.h"
-
-#include "wxh.h"
+CLASS wxUpdateUIEvent FROM wxCommandEvent
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  METHOD CanUpdate( window )
+  METHOD Check( check )
+  METHOD Enable( enable )
+  METHOD GetChecked()
+  METHOD GetEnabled()
+  METHOD GetMode()
+  METHOD GetSetChecked()
+  METHOD GetSetEnabled()
+  METHOD GetSetShown()
+  METHOD GetSetText()
+  METHOD GetShown()
+  METHOD GetText()
+  METHOD GetUpdateInterval()
+  METHOD ResetUpdateTime()
+  METHOD SetMode( mode )
+  METHOD SetText( text )
+  METHOD SetUpdateInterval( updateInterval )
+  METHOD Show( show )
+PUBLISHED:
+ENDCLASS
 
 /*
-  GetInterval
-  Teo. Mexico 2009
+  End Class wxUpdateUIEvent
 */
-HB_FUNC( WXTIMEREVENT_GETINTERVAL )
-{
-  wxTimerEvent * timerEvent = (wxTimerEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( timerEvent )
-    hb_retni( timerEvent->GetInterval() );
-}
