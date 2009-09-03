@@ -532,22 +532,6 @@ RETURN value
 */
 
 /*
-  wxMenuItem_1
-  Teo. Mexico 2009
-*/
-CLASS wxMenuItem_1 FROM wxMenuItem
-PRIVATE:
-PROTECTED:
-PUBLIC:
-  DATA enableBlock
-PUBLISHED:
-ENDCLASS
-
-/*
-  EndClass wxMenuItem_1
-*/
-
-/*
   ContainerObj
   Teo. Mexico 2009
 */
@@ -867,6 +851,20 @@ FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth
 RETURN dlg
 
 /*
+  __wxh_EnableControl
+  Teo. Mexico 2009
+*/
+STATIC PROCEDURE __wxh_EnableControl( evtCtrl, ctrl, id, enabled )
+  IF enabled != NIL
+    IF ValType( enabled ) = "B"
+      evtCtrl:ConnectUpdateUIEvt( id, wxEVT_UPDATE_UI, {|updateUIEvent| updateUIEvent:Enable( enabled:Eval() ) } )
+    ELSEIF ctrl != NIL
+      ctrl:Enable( enabled )
+    ENDIF
+  ENDIF
+RETURN
+
+/*
   __wxh_Frame
   Teo. Mexico 2009
 */
@@ -1121,7 +1119,7 @@ PROCEDURE __wxh_MenuEnd
       menuData := NIL
       RETURN
     ELSE
-      menuItem := wxMenuItem_1():New( parentMenu["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
+      menuItem := wxMenuItem():New( parentMenu["menu"], menuData:g_menuID++, hData["title"], "", wxITEM_NORMAL, hData["menu"] )
       parentMenu["menu"]:Append( menuItem )
     ENDIF
 
@@ -1135,7 +1133,7 @@ RETURN
   __wxh_MenuItemAdd
   Teo. Mexico 2009
 */
-FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
+FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, enabled )
   LOCAL menu
   LOCAL menuItem
   LOCAL nLast
@@ -1152,7 +1150,7 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   nLast := menuData:lenMenuList
   menu := menuData:g_menuList[ nLast ]["menu"]
 
-  menuItem := wxMenuItem_1():New( menu, id, text, helpString, kind )
+  menuItem := wxMenuItem():New( menu, id, text, helpString, kind )
 
   menu:Append( menuItem )
 
@@ -1161,25 +1159,8 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, bEnabled )
   ELSE
     menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
   ENDIF
-
-  IF bEnabled != NIL
-    IF ValType( bEnabled ) = "B"
-      menuItem:enableBlock := bEnabled
-      menuItem:Enable( .F. )
-      menu:ConnectUpdateUIEvt( id, wxEVT_UPDATE_UI, ;
-        BEGIN_CB |updateUIEvent|
-          LOCAL menu
-          
-          menu := updateUIEvent:GetEventObject()
-          
-          updateUIEvent:Enable( menu:FindItem( updateUIEvent:GetId() ):enableBlock:Eval() )
-
-          RETURN NIL
-        END_CB )
-    ELSE
-      menuItem:Enable( bEnabled )
-    ENDIF
-  ENDIF
+  
+  __wxh_EnableControl( menu, menuItem, id, enabled )
 
 RETURN menuItem
 
@@ -1719,8 +1700,9 @@ RETURN textCtrl
   __wxh_ToolAdd
   Teo. Mexico 2009
 */
-PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, bAction )
+PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, bAction, enabled )
   LOCAL toolBar
+  LOCAL tbtb    // toolBarToolBase
   LOCAL bitmap1, bitmap2
 
   toolBar := containerObj:LastParent()
@@ -1737,15 +1719,18 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
       bitmap2 := __wxh_GetBitmapResource( bmp2 )
 
       IF type == "CHECK"
-        toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+        tbtb := toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
       ELSEIF type == "RADIO"
-        toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
+        tbtb := toolBar:AddRadioTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
       ELSEIF type == "BUTTON"
-        toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
+        tbtb := toolBar:AddTool( toolId, label, bitmap1, bitmap2, NIL, shortHelp, longHelp, clientData )
       ENDIF
 
-      IF bAction != NIL
-        toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+      IF tbtb != NIL
+        IF bAction != NIL
+          toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+        ENDIF
+        __wxh_EnableControl( toolBar, tbtb, toolId, enabled )
       ENDIF
 
     ENDIF
@@ -1776,7 +1761,7 @@ FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
       wxhAlert( "Frame not in sight..." )
     ENDIF
   ELSE
-    toolBar := wxToolbar():New( parent, id, pos, size, style, name )
+    toolBar := wxToolBar():New( parent, id, pos, size, style, name )
   ENDIF
 
   containerObj():SetLastChild( toolBar )

@@ -144,9 +144,9 @@
               [HELPLINE <cHelpString>] ;
               [<kind: CHECK,RADIO>] ;
               [ACTION <bAction> ] ;
-              [ENABLED <bEnabled> ] ;
+              [ENABLED <enabled> ] ;
           => ;
-          [<menu> :=] __wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<{bEnabled}>] )
+          [<menu> :=] __wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<enabled>] )
 
 #xcommand ADD MENUSEPARATOR ;
           => ;
@@ -908,6 +908,7 @@
             [ LONGHELP <longHelp> ] ;
             [ CLIENTDATA <clientData> ] ;
             [ ACTION <bAction> ] ;
+            [ ENABLED <enabled> ] ;
             => ;
             __wxh_ToolAdd( ;
               [<"type">],;
@@ -918,7 +919,8 @@
               [<shortHelp>],;
               [<longHelp>],;
               [<clientData>],;
-              [<{bAction}>] )
+              [<{bAction}>],;
+              [<enabled>] )
 
 #xcommand @ TOOL SEPARATOR => __wxh_ToolAdd( "SEPARATOR" )
 
