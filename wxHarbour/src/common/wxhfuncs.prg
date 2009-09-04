@@ -38,6 +38,7 @@
 #endif
 
 REQUEST QQOUT
+REQUEST WXTOOLBARTOOLBASE
 
 STATIC containerObj
 STATIC menuData
@@ -855,13 +856,19 @@ RETURN dlg
   Teo. Mexico 2009
 */
 STATIC PROCEDURE __wxh_EnableControl( evtCtrl, ctrl, id, enabled )
-  IF enabled != NIL
-    IF ValType( enabled ) = "B"
-      evtCtrl:ConnectUpdateUIEvt( id, wxEVT_UPDATE_UI, {|updateUIEvent| updateUIEvent:Enable( enabled:Eval() ) } )
-    ELSEIF ctrl != NIL
+  LOCAL vt := ValType( enabled )
+  
+  SWITCH vt
+  CASE 'B'
+    evtCtrl:ConnectUpdateUIEvt( id, wxEVT_UPDATE_UI, {|updateUIEvent| updateUIEvent:Enable( enabled:Eval() ) } )
+    EXIT
+  CASE 'L'
+    IF ctrl != NIL
       ctrl:Enable( enabled )
     ENDIF
-  ENDIF
+    EXIT
+  END
+
 RETURN
 
 /*
@@ -962,9 +969,11 @@ FUNCTION __wxh_GetBitmapResource( bmp )
       ELSEIF Upper( Right( bmp, 3 ) ) == "PCX"
         bitmap:LoadFile( bmp, wxBITMAP_TYPE_PCX )
       ENDIF
-    ELSE
-      bitmap := wxBitmap():New( 0 )  // missing image
+      IF bitmap:IsOk()        
+        EXIT
+      ENDIF
     ENDIF
+    bitmap := wxBitmap():New( 0 )  // missing image
     EXIT
   CASE 'O'
     IF bmp:IsDerivedFrom("wxBitmap")
@@ -974,6 +983,8 @@ FUNCTION __wxh_GetBitmapResource( bmp )
   CASE 'N'
     bitmap := wxBitmap():New( bmp )
     EXIT
+  _SW_OTHERWISE
+    bitmap := wxBitmap():New( 0 )  // missing image
   END
 
 RETURN bitmap
@@ -1133,7 +1144,7 @@ RETURN
   __wxh_MenuItemAdd
   Teo. Mexico 2009
 */
-FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, enabled )
+FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bAction, enabled )
   LOCAL menu
   LOCAL menuItem
   LOCAL nLast
@@ -1151,7 +1162,6 @@ FUNCTION __wxh_MenuItemAdd( text, id, helpString, kind, bAction, enabled )
   menu := menuData:g_menuList[ nLast ]["menu"]
 
   menuItem := wxMenuItem():New( menu, id, text, helpString, kind )
-
   menu:Append( menuItem )
 
   IF bAction = NIL
@@ -1717,7 +1727,7 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
 
       bitmap1 := __wxh_GetBitmapResource( bmp1 )
       bitmap2 := __wxh_GetBitmapResource( bmp2 )
-
+      
       IF type == "CHECK"
         tbtb := toolBar:AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelp, longHelp, clientData )
       ELSEIF type == "RADIO"

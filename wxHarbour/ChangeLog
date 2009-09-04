@@ -2,6 +2,41 @@
  * $Id$
  */
 
+2009-09-04 16:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  + src/wxbase/toolbar/wx_ToolBarToolBase.cpp
+  + src/wxbase/toolbar/wxhToolBarToolBase.prg
+    + added wxToolBarToolBase, only method ::Enable() implemented
+      ; TODO: Check how is implemented in versions greater than 2.8.10
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    * added paramChild/paramParent (PHB_ITEM) versions
+    + added wxh_itemNewReturn(), this class is intended to be used in cases
+      were a new object is created inside a C++ function (i.e. wxMenu:Append)
+      A new HBObject is created and then binded to the new C++ object, check is
+      done if the C++ object has been binded already.
+
+  * include/wxHarbour/wxharbour.ch
+    * minor change in the order of parameters on the ADD MENUITEM command
+
+  * src/common/wxhfuncs.prg
+    * added explicit REQUEST for wxToolBarToolBase
+    ! Fixed __wxh_EnableControl() function per wrong params provided
+    ! Fixed __wxh_GetBitmapResource() on failed bitmap filename
+    
+  * src/wxbase/menu/wx_Menu.cpp
+    * using wxh_itemNewReturn() on ::Append methods
+    ; TODO: check why first version of Append() is a void function
+
+  * src/wxbase/toolbar/wx_ToolBar.cpp
+  * src/wxbase/toolbar/wxhToolBar.prg
+    * using wxh_itemNewReturn() on created wxToolBarToolBase objs
+    * removed deprecated OnLeftClick,OnMouseEnter,OnRightClick methods
+
 2009-09-03 15:21 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg
