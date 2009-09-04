@@ -75,9 +75,9 @@ PUBLIC:
   wxToolBarToolBase * InsertTool(size_t pos, wxToolBarToolBase* tool)
   */
   METHOD InsertTool()
-  METHOD OnLeftClick( toolId, toggleDown )
-  METHOD OnMouseEnter( toolId )
-  METHOD OnRightClick( toolId, x, y )
+  //METHOD OnLeftClick( toolId, toggleDown )
+  //METHOD OnMouseEnter( toolId )
+  //METHOD OnRightClick( toolId, x, y )
   METHOD Realize()
   METHOD RemoveTool( id )
 #ifdef _WINCE  // TODO: Check for valid def for Harbour/xHarbour

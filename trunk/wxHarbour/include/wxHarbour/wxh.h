@@ -127,7 +127,9 @@ public:
   void Return( wxObject* wxObj, bool bItemRelease = false );
 
   wxObject* param( int param );
+  wxObject* paramChild( PHB_ITEM pChildItm );
   wxObject* paramChild( int param );
+  wxObject* paramParent( PHB_ITEM pParentItm );
   wxObject* paramParent( int param );
 
   wxObject* Get_wxObject();
@@ -148,6 +150,7 @@ HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 HB_FUNC_EXTERN( WXUPDATEUIEVENT );
 
+void          wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent = NULL );
 void		  wxh_itemReturn( wxObject* wxObj );
 wxObject*     wxh_par_WX( int param );
 wxPoint       wxh_par_wxPoint( int param );

@@ -58,7 +58,10 @@ HB_FUNC( WXTOOLBAR_ADDCONTROL )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( toolBar )
-    wxh_itemReturn( toolBar->AddControl( (wxControl *) wxh_par_WX( 1 ) ) );
+  {
+    wxToolBarToolBase* tbtb = toolBar->AddControl( (wxControl *) wxh_par_WX( 1 ) );
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
+  }
 }
 
 /*
@@ -83,23 +86,25 @@ HB_FUNC( WXTOOLBAR_ADDTOOL )
   
   if( toolBar )
   {
+    wxToolBarToolBase* tbtb;
 	if( hb_pcount() == 1 )
 	{
-	  wxh_itemReturn( toolBar->AddTool( (wxToolBarToolBase *) wxh_par_WX( 1 ) ) );
+	  tbtb = toolBar->AddTool( (wxToolBarToolBase *) wxh_par_WX( 1 ) );
 	}
 	else if( hb_pcount() > 5 || ISOBJECT( 4 ) )
 	{
 	  const wxBitmap& bitmap1 = * (wxBitmap *) wxh_par_WX( 3 );
 	  const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
 	  wxItemKind kind = ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
-	  wxh_itemReturn( toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, bitmap2, kind, wxh_parc( 6 ), wxh_parc( 7 ), wxh_par_WX( 8 ) ) );
+	  tbtb = toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, bitmap2, kind, wxh_parc( 6 ), wxh_parc( 7 ), wxh_par_WX( 8 ) );
 	}
 	else
 	{
 	  const wxBitmap& bitmap1 = * (wxBitmap *) wxh_par_WX( 3 );
 	  wxItemKind kind = ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
-	  wxh_itemReturn( toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, wxh_parc( 4 ), kind ) );
+	  tbtb = toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, wxh_parc( 4 ), kind );
 	}
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 
@@ -114,7 +119,8 @@ HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
   if( toolBar )
   {
 	const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
-	wxh_itemReturn( toolBar->AddCheckTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+	wxToolBarToolBase* tbtb = toolBar->AddCheckTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) );
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 
@@ -129,7 +135,8 @@ HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
   if( toolBar )
   {
 	const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
-	wxh_itemReturn( toolBar->AddRadioTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) ) );
+	wxToolBarToolBase* tbtb = toolBar->AddRadioTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), wxh_par_WX( 7 ) );
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 
@@ -190,7 +197,9 @@ HB_FUNC( WXTOOLBAR_FINDBYID )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( toolBar )
+  {
 	wxh_itemReturn( toolBar->FindById( hb_parni( 1 ) ) );
+  }
 }
 
 /*
@@ -202,7 +211,9 @@ HB_FUNC( WXTOOLBAR_FINDCONTROL )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( toolBar )
-	wxh_itemReturn( toolBar->FindById( hb_parni( 1 ) ) );
+  {
+	wxh_itemReturn( toolBar->FindControl( hb_parni( 1 ) ) );
+  }
 }
 
 /*
@@ -214,7 +225,9 @@ HB_FUNC( WXTOOLBAR_FINDTOOLFORPOSITION )
   wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( toolBar )
+  {
 	wxh_itemReturn( toolBar->FindToolForPosition( hb_parni( 1 ), hb_parni( 2 ) ) );
+  }
 }
 
 /*
@@ -396,7 +409,8 @@ HB_FUNC( WXTOOLBAR_INSERTCONTROL )
   
   if( toolBar )
   {
-	wxh_itemReturn( toolBar->InsertControl( hb_parnl( 1 ), (wxControl *) wxh_par_WX( 2 ) ) );
+	wxToolBarToolBase* tbtb = toolBar->InsertControl( hb_parnl( 1 ), (wxControl *) wxh_par_WX( 2 ) );
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 
@@ -410,7 +424,8 @@ HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
   
   if( toolBar )
   {
-	wxh_itemReturn( toolBar->InsertSeparator( hb_parnl( 1 ) ) );
+	wxToolBarToolBase* tbtb = toolBar->InsertSeparator( hb_parnl( 1 ) );
+    wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 
@@ -424,58 +439,20 @@ HB_FUNC( WXTOOLBAR_INSERTTOOL )
   
   if( toolBar )
   {
+    wxToolBarToolBase* tbtb = NULL;
 	if( ISOBJECT( 2 ) )
 	{
-	  wxh_itemReturn( toolBar->InsertTool( hb_parnl( 1 ), (wxToolBarToolBase *) wxh_par_WX( 2 ) ) );
+	  tbtb = toolBar->InsertTool( hb_parnl( 1 ), (wxToolBarToolBase *) wxh_par_WX( 2 ) );
 	}
 	else if( hb_pcount() > 2 )
 	{
 	  const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
 	  bool isToggle = ISLOG( 5 ) ? false : hb_parl( 5 );
-	  wxh_itemReturn( toolBar->InsertTool( hb_parnl( 1 ), hb_parni( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, isToggle, wxh_par_WX( 6 ), wxh_parc( 7 ), wxh_parc( 8 ) ) );
+	  tbtb = toolBar->InsertTool( hb_parnl( 1 ), hb_parni( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, isToggle, wxh_par_WX( 6 ), wxh_parc( 7 ), wxh_parc( 8 ) );
 	}
-  }
-}
-
-/*
- wxToolBar:OnLeftClick
- Teo. Mexico 2009
- */
-HB_FUNC( WXTOOLBAR_ONLEFTCLICK )
-{
-  wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( toolBar )
-  {
-	hb_retl( toolBar->OnLeftClick( hb_parni( 1 ), hb_parl( 2 ) ) );
-  }
-}
-
-/*
- wxToolBar:OnMouseEnter
- Teo. Mexico 2009
- */
-HB_FUNC( WXTOOLBAR_ONMOUSEENTER )
-{
-  wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( toolBar )
-  {
-	toolBar->OnMouseEnter( hb_parni( 1 ) );
-  }
-}
-
-/*
- wxToolBar:OnRightClick
- Teo. Mexico 2009
- */
-HB_FUNC( WXTOOLBAR_ONRIGHTCLICK )
-{
-  wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( toolBar )
-  {
-	toolBar->OnRightClick( hb_parni( 1 ), hb_parnd( 2 ), hb_parnd( 3 ) );
+    
+    if( tbtb )
+      wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
   }
 }
 

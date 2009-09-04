@@ -146,11 +146,11 @@
               [ACTION <bAction> ] ;
               [ENABLED <enabled> ] ;
           => ;
-          [<menu> :=] __wxh_MenuItemAdd( <cLabel>, [<nID>], [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<enabled>] )
+          [<menu> :=] __wxh_MenuItemAdd( [<nID>], <cLabel>, [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<enabled>] )
 
 #xcommand ADD MENUSEPARATOR ;
           => ;
-          __wxh_MenuItemAdd( NIL, wxID_SEPARATOR )
+          __wxh_MenuItemAdd( wxID_SEPARATOR )
 
 #xcommand ENDMENU ;
           => ;

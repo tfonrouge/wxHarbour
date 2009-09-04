@@ -148,9 +148,8 @@ wxObject* wxh_ObjParams::param( const int param )
   paramChild
   Teo. Mexico 2009
 */
-wxObject* wxh_ObjParams::paramChild( const int param )
+wxObject* wxh_ObjParams::paramChild( PHB_ITEM pChildItm )
 {
-  PHB_ITEM pChildItm = hb_param( param, HB_IT_OBJECT );
   wxObject* wxObj = NULL;
 
   if( pChildItm )
@@ -168,12 +167,20 @@ wxObject* wxh_ObjParams::paramChild( const int param )
 }
 
 /*
+  paramChild
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::paramChild( const int param )
+{
+  return paramChild( hb_param( param, HB_IT_OBJECT ) );
+}
+
+/*
   paramParent
   Teo. Mexico 2009
 */
-wxObject* wxh_ObjParams::paramParent( const int param )
+wxObject* wxh_ObjParams::paramParent( PHB_ITEM pParentItm )
 {
-  PHB_ITEM pParentItm = hb_param( param, HB_IT_OBJECT );
   wxObject* wxObj = NULL;
 
   if( pParentItm )
@@ -183,14 +190,23 @@ wxObject* wxh_ObjParams::paramParent( const int param )
     if( wxObj )
     {
       if( this->pParamParent == NULL )
-	this->pParamParent = pParentItm;
+        this->pParamParent = pParentItm;
       else
-	hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 3, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+        hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 3, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
       linkChildParentParams = true;
     }
   }
 
   return wxObj;
+}
+
+/*
+  paramParent
+  Teo. Mexico 2009
+*/
+wxObject* wxh_ObjParams::paramParent( const int param )
+{
+  return paramParent( hb_param( param, HB_IT_OBJECT ) );
 }
 
 /*
@@ -360,7 +376,7 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 	else {
 	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
 	  const char *ascii = clsName.ToAscii();
-	  qoutf("no wxh_Item: wxh_ItemListGet_HB: %s", ascii );
+	  qoutf("wxh_ItemListGet_HB (no wxh_Item): %s", ascii );
 	}
   }
   return pSelf;
@@ -427,6 +443,40 @@ void wxh_ItemListReleaseAll()
     it->second->delete_WX = false;
     delete it->second;
     //wxh_ItemListDel_WX( it->first );
+  }
+}
+
+/*
+  wxh_itemNewReturn
+  Teo. Mexico 2009
+*/
+void wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent )
+{
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( ctrl );
+  
+  if( pSelf == NULL )
+  {
+    PHB_DYNS pDynSym = hb_dynsymFindName( szClsName );
+    
+    if( pDynSym )
+    {
+      hb_vmPushDynSym( pDynSym );
+      hb_vmPushNil();
+      hb_vmDo( 0 );
+      
+      pSelf = hb_itemNew( hb_stackReturnItem() );
+      
+      wxh_ObjParams objParams = wxh_ObjParams( pSelf );
+
+      if( parent )
+        objParams.paramParent( wxh_ItemListGet_HB( parent ) );
+
+      objParams.Return( ctrl, true );
+    }
+  }
+  else
+  {
+    hb_itemReturn( pSelf );
   }
 }
 

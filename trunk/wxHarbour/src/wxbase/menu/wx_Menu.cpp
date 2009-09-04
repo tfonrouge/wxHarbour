@@ -23,6 +23,7 @@
 #include "wxh.h"
 
 #include "wxbase/wx_Menu.h"
+#include "wxbase/wx_MenuItem.h"
 
 /*
   ~wx_Menu
@@ -55,18 +56,20 @@ HB_FUNC( WXMENU_APPEND1 )
 
 HB_FUNC( WXMENU_APPEND2 )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  wx_Menu* menu = (wx_Menu *) objParams.Get_wxObject();
+  wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  wxMenuItem* menuItem = menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), (wx_Menu *) wxh_par_WX( 3 ), wxh_parc( 4 ) );
 
-  menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), (wx_Menu *) objParams.paramChild( 3 ), wxh_parc( 4 ) );
+  wxh_itemNewReturn( "wxMenuItem", menuItem, menu );
 }
 
 HB_FUNC( WXMENU_APPEND3 )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
   wx_Menu* menu = (wx_Menu *) objParams.Get_wxObject();
+  wxMenuItem* menuItem = (wxMenuItem *) objParams.paramChild( 1 );
 
-  menu->Append( (wxMenuItem *) objParams.paramChild( 1 ) );
+  menu->Append( menuItem );
+  wxh_itemReturn( menuItem );
 }
 
 HB_FUNC( WXMENU_APPENDSEPARATOR )
@@ -74,7 +77,7 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
   wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
   if( menu )
-    menu->AppendSeparator();
+    wxh_itemNewReturn( "wxMenuItem", menu->AppendSeparator(), menu ) ;
 }
 
 /*

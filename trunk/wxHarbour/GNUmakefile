@@ -213,6 +213,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhFont.o \
 	$(__BUILDDIR__)/wxHarbour_wxhToolBar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhToolBarBase.o \
+	$(__BUILDDIR__)/wxHarbour_wxhToolBarToolBase.o \
 	$(__BUILDDIR__)/wxHarbour_wxhValidator.o \
 	$(__BUILDDIR__)/wxHarbour_wxhXmlDocument.o \
 	$(__BUILDDIR__)/wxHarbour_xdoutils.o \
@@ -293,6 +294,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticLine.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Font.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ToolBar.o \
+	$(__BUILDDIR__)/wxHarbour_wx_ToolBarToolBase.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)/wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HEADERS =  \
@@ -773,6 +775,10 @@ $(__BUILDDIR__)/wxHarbour_wxhToolBarBase.o: ./src/wxbase/toolbar/wxhToolBarBase.
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)/wxHarbour_wxhToolBarToolBase.o: ./src/wxbase/toolbar/wxhToolBarToolBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)/wxHarbour_wxhValidator.o: ./src/wxbase/validators/wxhValidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1013,6 +1019,9 @@ $(__BUILDDIR__)/wxHarbour_wx_Font.o: ./src/wxbase/system/wx_Font.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_ToolBar.o: ./src/wxbase/toolbar/wx_ToolBar.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_ToolBarToolBase.o: ./src/wxbase/toolbar/wx_ToolBarToolBase.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Validator.o: ./src/wxbase/validators/wx_Validator.cpp
