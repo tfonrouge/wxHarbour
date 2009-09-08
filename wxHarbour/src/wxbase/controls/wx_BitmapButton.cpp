@@ -47,7 +47,7 @@ HB_FUNC( WXBITMAPBUTTON_NEW )
   const wxPoint& pos = wxh_par_wxPoint( 4 );
   const wxSize& size = wxh_par_wxSize( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : * ( (wxValidator *) objParams.paramChild( 7 ) );
   const wxString& name = ISNIL( 8 ) ? wxString( _T("bitmapButton") ) : wxh_parc( 8 );
   
   wx_BitmapButton* bitmapButton = new wx_BitmapButton( parent, id, bitmap, pos, size, style, validator, name );

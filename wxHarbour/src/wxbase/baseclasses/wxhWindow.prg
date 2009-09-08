@@ -23,16 +23,11 @@
 */
 CLASS wxWindow FROM wxEvtHandler
 PRIVATE:
-  DATA FenableBlock
-  METHOD GetEnableBlock
-  METHOD SetEnableBlock( enable )
 PROTECTED:
 PUBLIC:
 	CONSTRUCTOR NEW( parent, id, pos, size, style, name )
   /* Harbour specific */
-  DATA wxhGet			/* holds a wxhGet object */
   METHOD GetPointSize()
-  PROPERTY enableBlock READ GetEnableBlock WRITE SetEnableBlock
   /* Harbour specific */
 
   METHOD Centre( direction )
@@ -46,6 +41,7 @@ PUBLIC:
   METHOD FindWindowByName( name, parent )
   METHOD Freeze
   METHOD GetChildren()
+  METHOD GetExtraStyle()
   METHOD GetFont
   METHOD GetGrandParent()
   METHOD GetId
@@ -60,6 +56,8 @@ PUBLIC:
   METHOD PopupMenu( menu, pos )
       /* PopupMenu( menu, x, y ) */
   METHOD Raise
+  METHOD Refresh()
+  METHOD SetExtraStyle( exStyle )
   METHOD SetFocus
   METHOD SetId( id )
   METHOD SetLabel( label )
@@ -68,42 +66,13 @@ PUBLIC:
   METHOD SetName( name )
   METHOD SetSizer( sizer, deleteOld )
   METHOD SetToolTip
+  METHOD SetValidator( validator )
   METHOD Show( Value /* defaults to TRUE */ )
-  METHOD Thaw
+  METHOD Thaw()
+  METHOD TransferDataToWindow()
   METHOD Validate INLINE .T. //VIRTUAL
 PUBLISHED:
 ENDCLASS
-
-/*
-  GetEnableBlock
-  Teo. Mexico 2009
-*/
-METHOD FUNCTION GetEnableBlock CLASS wxWindow
-  LOCAL valType
-
-  valType := ValType( ::FenableBlock )
-
-  IF ! valType $ "BL"
-    RETURN .F.
-  ENDIF
-
-  IF valType = "B"
-    RETURN ::FenableBlock:Eval( Self )
-  ENDIF
-
-RETURN ::FenableBlock
-
-/*
-  SetEnableBlock
-  Teo. Mexico 2009
-*/
-METHOD PROCEDURE SetEnableBlock( enable ) CLASS wxWindow
-
-  ::FenableBlock := enable
-
-  ::Enable( ::GetEnableBlock() )
-
-RETURN
 
 /*
   End Class wxWindow

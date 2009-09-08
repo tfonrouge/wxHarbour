@@ -40,4 +40,30 @@
 #define wxTINY_CAPTION_VERT     0x0080
 #define wxRESIZE_BORDER         0x0040
 
+// default style
+//
+// under Windows CE (at least when compiling with eVC 4) we should create
+// top level windows without any styles at all for them to appear
+// "correctly", i.e. as full screen windows with a "hide" button (same as
+// "close" but round instead of squared and just hides the applications
+// instead of closing it) in the title bar
+#ifdef __WXWINCE__
+    #ifdef __SMARTPHONE__
+        #define wxDEFAULT_FRAME_STYLE (wxMAXIMIZE)
+    #elifdef __WINCE_STANDARDSDK__
+        #define wxDEFAULT_FRAME_STYLE _hb_BitOr(wxMAXIMIZE,wxCLOSE_BOX)
+    #else
+        #define wxDEFAULT_FRAME_STYLE (wxNO_BORDER)
+    #endif
+#else // !__WXWINCE__
+    #define wxDEFAULT_FRAME_STYLE ;
+            _hb_BitOr( wxSYSTEM_MENU, ;
+                       wxRESIZE_BORDER, ;
+                       wxMINIMIZE_BOX, ;
+                       wxMAXIMIZE_BOX, ;
+                       wxCLOSE_BOX, ;
+                       wxCAPTION, ;
+                       wxCLIP_CHILDREN)
+#endif
+
 #endif

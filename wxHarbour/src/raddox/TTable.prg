@@ -170,6 +170,7 @@ PUBLIC:
   METHOD OnAfterPost VIRTUAL
   METHOD OnBeforeInsert VIRTUAL
   METHOD OnBeforePost VIRTUAL
+  METHOD OnDataChange VIRTUAL
 
   PROPERTY Alias READ GetAlias
   PROPERTY AsString READ GetAsString WRITE SetAsString
@@ -539,7 +540,7 @@ RETURN nCount
 
 /*
   DbEval
-  Teo. M�xico 2008
+  Teo. Mexico 2008
 */
 METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
   LOCAL DetailSourceList
@@ -929,112 +930,119 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
   LOCAL AField,BField
   LOCAL state
   LOCAL pSelf
+  LOCAL Result
 
-  IF ::FState != dsBrowse
-    //RAISE ERROR "Table not in dsBrowse mode..."
-    RETURN .F.
-  ENDIF
+  IF ::FState = dsBrowse
 
-  // DetailTable Syncs to a MasterSource
-  IF ::FMasterSource != NIL .AND. ::FMasterList
+    // DetailTable Syncs to a MasterSource
+    IF ::FMasterSource != NIL .AND. ::FMasterList
 
-    IF ::FMasterSource:PrimaryKeyField == NIL
-      RAISE ERROR "Master Source '"+::FMasterSource:ClassName+"' has no Primary Index..."
-      RETURN .F.
-    ENDIF
-
-    IF HB_HHasKey( ::FMasterSource:DetailSourceList, ::ClassName )
-      pSelf := ::FMasterSource:DetailSourceList[ ::ClassName ]
-      ::FMasterSource:DetailSourceList[ ::ClassName ] := NIL
-    ENDIF
-
-    IF ! ( ::Eof() .OR. ::Bof() )
-
-      pkField := ::FindDetailSourceField( ::FMasterSource:PrimaryKeyField, .T. )
-
-      IF pkField == NIL
-        RAISE ERROR "Cannot find PrimaryKey Field from MasterSource <" + ::FMasterSource:ClassName  + "> Table..."
-      ENDIF
-
-      // To Avoid infinite loop when Master updates their DetailSourceList
-      ::PrimaryMasterKeyField:GetData() /* fill MasterKey Field */
-      // Syncs MasterSource MasterKeyField with ::MasterKeyField
-      mkField := ::FMasterSource:PrimaryMasterKeyField
-      IF mkField != NIL
-        state := ::FMasterSource:FState
-        ::FMasterSource:FState := dsReading
-        SWITCH mkField:FieldMethodType
-        CASE 'A'
-          FOR EACH AField IN mkField:FieldArray
-            BField := ::FindDetailSourceField( AField, .T. )
-            IF BField != NIL .AND. BField:IsMasterFieldComponent .AND. !AField:ReadOnly .AND. AField:DefaultValue == NIL
-              //BField:GetData()
-              AField:Value := BField:Value
-            ELSE
-              AField:Reset()
-            ENDIF
-          NEXT
-          EXIT
-        CASE 'C'
-          AField := ::FindDetailSourceField( mkField, .T. )
-          IF AField != NIL .AND. AField:IsMasterFieldComponent .AND. !mkField:ReadOnly .AND. mkField:DefaultValue == NIL
-            AField:GetData()
-            mkField:Value := AField:Value
-          ELSE
-            mkField:Reset()
-          ENDIF
-        END
-        ::FMasterSource:FState := state
-      ENDIF
-      ::FMasterSource:MasterList := .T. // To allow all mastersources processed
-      pkField:GetData()
-      ::FMasterSource:PrimaryKeyField:Value := pkField:Value
-      ::FMasterSource:MasterList := .F.
-      IF ::FMasterSource:Eof() .OR. ::FMasterSource:Bof()
-        ::Reset()
-        IF pSelf != NIL
-          ::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
-        ENDIF
-        //RAISE ERROR "EOF at Master Source '"+::FMasterSource:ClassName+"'"
+      IF ::FMasterSource:PrimaryKeyField == NIL
+        RAISE ERROR "Master Source '"+::FMasterSource:ClassName+"' has no Primary Index..."
         RETURN .F.
       ENDIF
-      state := ::FState
-      ::FState := dsReading
-      pkField:Value := ::FMasterSource:PrimaryKeyField:Value
-      ::FState := state
-      //ENDIF
+
+      IF HB_HHasKey( ::FMasterSource:DetailSourceList, ::ClassName )
+        pSelf := ::FMasterSource:DetailSourceList[ ::ClassName ]
+        ::FMasterSource:DetailSourceList[ ::ClassName ] := NIL
+      ENDIF
+
+      IF ! ( ::Eof() .OR. ::Bof() )
+
+        pkField := ::FindDetailSourceField( ::FMasterSource:PrimaryKeyField, .T. )
+
+        IF pkField == NIL
+          RAISE ERROR "Cannot find PrimaryKey Field from MasterSource <" + ::FMasterSource:ClassName  + "> Table..."
+        ENDIF
+
+        // To Avoid infinite loop when Master updates their DetailSourceList
+        ::PrimaryMasterKeyField:GetData() /* fill MasterKey Field */
+        // Syncs MasterSource MasterKeyField with ::MasterKeyField
+        mkField := ::FMasterSource:PrimaryMasterKeyField
+        IF mkField != NIL
+          state := ::FMasterSource:FState
+          ::FMasterSource:FState := dsReading
+          SWITCH mkField:FieldMethodType
+          CASE 'A'
+            FOR EACH AField IN mkField:FieldArray
+              BField := ::FindDetailSourceField( AField, .T. )
+              IF BField != NIL .AND. BField:IsMasterFieldComponent .AND. !AField:ReadOnly .AND. AField:DefaultValue == NIL
+                //BField:GetData()
+                AField:Value := BField:Value
+              ELSE
+                AField:Reset()
+              ENDIF
+            NEXT
+            EXIT
+          CASE 'C'
+            AField := ::FindDetailSourceField( mkField, .T. )
+            IF AField != NIL .AND. AField:IsMasterFieldComponent .AND. !mkField:ReadOnly .AND. mkField:DefaultValue == NIL
+              AField:GetData()
+              mkField:Value := AField:Value
+            ELSE
+              mkField:Reset()
+            ENDIF
+          END
+          ::FMasterSource:FState := state
+        ENDIF
+        ::FMasterSource:MasterList := .T. // To allow all mastersources processed
+        pkField:GetData()
+        ::FMasterSource:PrimaryKeyField:Value := pkField:Value
+        ::FMasterSource:MasterList := .F.
+        IF ::FMasterSource:Eof() .OR. ::FMasterSource:Bof()
+          ::Reset()
+          IF pSelf != NIL
+            ::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
+          ENDIF
+          //RAISE ERROR "EOF at Master Source '"+::FMasterSource:ClassName+"'"
+          RETURN .F.
+        ENDIF
+        state := ::FState
+        ::FState := dsReading
+        pkField:Value := ::FMasterSource:PrimaryKeyField:Value
+        ::FState := state
+        //ENDIF
+      ELSE
+        ::FMasterSource:DbGoTo( 0 )
+      ENDIF
+      IF pSelf != NIL
+        ::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
+      ENDIF
+    ENDIF
+
+    /*
+     * Record needs to have a valid MasterKeyField
+     */
+    IF ( Result := ::InsideScope() )
+
+      ::FRecNo := ::Alias:RecNo
+
+      FOR EACH AField IN ::FFieldList
+
+        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsTheMasterSource
+          AField:GetData()
+        ENDIF
+
+      NEXT
+
     ELSE
-      ::FMasterSource:DbGoTo( 0 )
+      ::FRecNo := 0
+      ::Alias:DbGoTo( 0 )
+      ::Reset()
     ENDIF
-    IF pSelf != NIL
-      ::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
-    ENDIF
-  ENDIF
 
-  /*
-   * Record needs to have a valid MasterKeyField
-   */
-  IF !::InsideScope
-    ::FRecNo := 0
-    ::Alias:DbGoTo( 0 )
-    ::Reset()
     ::SyncDetailSources()
-    RETURN .F.
-  ENDIF
-
-  ::FRecNo := ::Alias:RecNo
-
-  FOR EACH AField IN ::FFieldList
-
-    IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsTheMasterSource
-      AField:GetData()
+    
+    IF Result
+      ::OnDataChange()
     ENDIF
 
-  NEXT
+  ELSE
+    //RAISE ERROR "Table not in dsBrowse mode..."
+    Result := .F.
+  ENDIF
 
-  ::SyncDetailSources()
-
-RETURN .T.
+RETURN Result
 
 /*
   GetDbStruct
@@ -1758,15 +1766,13 @@ RETURN num_skipped
 METHOD PROCEDURE SyncDetailSources CLASS TTable
   LOCAL DetailSource
 
-  IF Empty( ::DetailSourceList )
-    RETURN
+  IF !Empty( ::DetailSourceList )
+    FOR EACH DetailSource IN ::DetailSourceList
+      IF DetailSource != NIL
+        DetailSource:SyncFromMasterSourceFields()
+      ENDIF
+    NEXT
   ENDIF
-
-  FOR EACH DetailSource IN ::DetailSourceList
-    IF DetailSource != NIL
-      DetailSource:SyncFromMasterSourceFields()
-    ENDIF
-  NEXT
 
 RETURN
 

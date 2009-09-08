@@ -47,7 +47,7 @@ HB_FUNC( WXTREECTRL_NEW )
   const wxPoint& pos = wxh_par_wxPoint( 3 );
   const wxSize& size = wxh_par_wxSize( 4 );
   long style = ISNIL( 5 ) ? wxTR_HAS_BUTTONS : hb_parnl( 5 );
-  const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 6 ))) ;
+  const wxValidator& validator = ISNIL( 6 ) ? wxDefaultValidator : * ( (wxValidator *) objParams.paramChild( 6 ) );
   const wxString& name = wxh_parc( 7 );
   wx_TreeCtrl* treeCtrl = new wx_TreeCtrl( parent, id, pos, size, style, validator, name );
 

@@ -63,6 +63,8 @@ RETURN
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL frame
+  LOCAL sc1 := 1000
+  LOCAL sc2 := 1000
 
   CREATE FRAME frame ;
          WIDTH 640 HEIGHT 400 ;
@@ -73,18 +75,18 @@ METHOD FUNCTION OnInit() CLASS MyApp
       BEGIN BOXSIZER VERTICAL "Timer by Event" ALIGN EXPAND STRETCH
         BEGIN BOXSIZER HORIZONTAL
           @ SAY "Milliseconds"
-          @ SPINCTRL "1000" VAR ::spinCtrlEvent NAME "spinEvent" MIN 50 MAX 10000
+          @ SPINCTRL sc1 VAR ::spinCtrlEvent NAME "spinEvent" MIN 50 MAX 10000
           @ BUTTON "Start" NAME "BtnEvent" ACTION {|event| ::StartStopTimers( event ) }
         END SIZER
-        @ TEXTCTRL VAR ::textCtrlEvent MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
+        @ GET VAR ::textCtrlEvent MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
       END SIZER
       BEGIN BOXSIZER VERTICAL "Timer by Notify" ALIGN EXPAND STRETCH
         BEGIN BOXSIZER HORIZONTAL
           @ SAY "Milliseconds"
-          @ SPINCTRL "1000" VAR ::spinCtrlNotify NAME "spinNotify" MIN 50 MAX 10000
+          @ SPINCTRL sc2 VAR ::spinCtrlNotify NAME "spinNotify" MIN 50 MAX 10000
           @ BUTTON "Start" NAME "BtnNotify" ACTION {|event| ::StartStopTimers( event ) }
         END SIZER
-        @ TEXTCTRL VAR ::textCtrlNotify MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
+        @ GET VAR ::textCtrlNotify MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH
       END SIZER
     END SIZER
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT

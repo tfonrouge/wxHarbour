@@ -276,6 +276,185 @@
 #define wxWINDOW_STYLE_MASK    (wxVSCROLL|wxHSCROLL|wxBORDER_MASK|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN| wxCLIP_SIBLINGS|wxTRANSPARENT_WINDOW|wxTAB_TRAVERSAL|wxWANTS_CHARS|  wxRETAINED|wxPOPUP_WINDOW|wxFULL_REPAINT_ON_RESIZE)
 
 /*
+ * Extra window style flags (use wxWS_EX prefix to make it clear that they
+ * should be passed to wxWindow::SetExtraStyle(), not SetWindowStyle())
+ */
+
+/*  by default, TransferDataTo/FromWindow() only work on direct children of the */
+/*  window (compatible behaviour), set this flag to make them recursively */
+/*  descend into all subwindows */
+#define wxWS_EX_VALIDATE_RECURSIVELY    0x00000001
+
+/*  wxCommandEvents and the objects of the derived classes are forwarded to the */
+/*  parent window and so on recursively by default. Using this flag for the */
+/*  given window allows to block this propagation at this window, i.e. prevent */
+/*  the events from being propagated further upwards. The dialogs have this */
+/*  flag on by default. */
+#define wxWS_EX_BLOCK_EVENTS            0x00000002
+
+/*  don't use this window as an implicit parent for the other windows: this must */
+/*  be used with transient windows as otherwise there is the risk of creating a */
+/*  dialog/frame with this window as a parent which would lead to a crash if the */
+/*  parent is destroyed before the child */
+#define wxWS_EX_TRANSIENT               0x00000004
+
+/*  don't paint the window background, we'll assume it will */
+/*  be done by a theming engine. This is not yet used but could */
+/*  possibly be made to work in the future, at least on Windows */
+#define wxWS_EX_THEMED_BACKGROUND       0x00000008
+
+/*  this window should always process idle events */
+#define wxWS_EX_PROCESS_IDLE            0x00000010
+
+/*  this window should always process UI update events */
+#define wxWS_EX_PROCESS_UI_UPDATES      0x00000020
+
+/*  Draw the window in a metal theme on Mac */
+#define wxFRAME_EX_METAL                0x00000040
+#define wxDIALOG_EX_METAL               0x00000040
+
+/*  Use this style to add a context-sensitive help to the window (currently for */
+/*  Win32 only and it doesn't work if wxMINIMIZE_BOX or wxMAXIMIZE_BOX are used) */
+#define wxWS_EX_CONTEXTHELP             0x00000080
+
+/* synonyms for wxWS_EX_CONTEXTHELP for compatibility */
+#define wxFRAME_EX_CONTEXTHELP          wxWS_EX_CONTEXTHELP
+#define wxDIALOG_EX_CONTEXTHELP         wxWS_EX_CONTEXTHELP
+
+/*  Create a window which is attachable to another top level window */
+#define wxFRAME_DRAWER          0x0020
+
+/*
+ * MDI parent frame style flags
+ * Can overlap with some of the above.
+ */
+
+#define wxFRAME_NO_WINDOW_MENU  0x0100
+
+/*
+ * wxMenuBar style flags
+ */
+/*  use native docking */
+#define wxMB_DOCKABLE       0x0001
+
+/*
+ * wxMenu style flags
+ */
+#define wxMENU_TEAROFF      0x0001
+
+/*
+ * Apply to all panel items
+ */
+#define wxCOLOURED          0x0800
+#define wxFIXED_LENGTH      0x0400
+
+/*
+ * Styles for wxListBox
+ */
+#define wxLB_SORT           0x0010
+#define wxLB_SINGLE         0x0020
+#define wxLB_MULTIPLE       0x0040
+#define wxLB_EXTENDED       0x0080
+/*  wxLB_OWNERDRAW is Windows-only */
+#define wxLB_OWNERDRAW      0x0100
+#define wxLB_NEEDED_SB      0x0200
+#define wxLB_ALWAYS_SB      0x0400
+#define wxLB_HSCROLL        wxHSCROLL
+/*  always show an entire number of rows */
+#define wxLB_INT_HEIGHT     0x0800
+
+#ifdef WXWIN_COMPATIBILITY_2_6
+    /*  deprecated synonyms */
+    #define wxPROCESS_ENTER   0x0400  /*  wxTE_PROCESS_ENTER */
+    #define wxPASSWORD        0x0800  /*  wxTE_PASSWORD */
+#endif
+
+/*
+ * wxComboBox style flags
+ */
+#define wxCB_SIMPLE         0x0004
+#define wxCB_SORT           0x0008
+#define wxCB_READONLY       0x0010
+#define wxCB_DROPDOWN       0x0020
+
+/*
+ * wxRadioBox style flags
+ */
+/*  should we number the items from left to right or from top to bottom in a 2d */
+/*  radiobox? */
+#define wxRA_LEFTTORIGHT    0x0001
+#define wxRA_TOPTOBOTTOM    0x0002
+
+/*  New, more intuitive names to specify majorDim argument */
+#define wxRA_SPECIFY_COLS   wxHORIZONTAL
+#define wxRA_SPECIFY_ROWS   wxVERTICAL
+
+/*  Old names for compatibility */
+#define wxRA_HORIZONTAL     wxHORIZONTAL
+#define wxRA_VERTICAL       wxVERTICAL
+#define wxRA_USE_CHECKBOX   0x0010 /* alternative native subcontrols (wxPalmOS) */
+
+/*
+ * wxRadioButton style flag
+ */
+#define wxRB_GROUP          0x0004
+#define wxRB_SINGLE         0x0008
+#define wxRB_USE_CHECKBOX   0x0010 /* alternative native control (wxPalmOS) */
+
+/*
+ * wxScrollBar flags
+ */
+#define wxSB_HORIZONTAL      wxHORIZONTAL
+#define wxSB_VERTICAL        wxVERTICAL
+
+/*
+ * wxSpinButton flags.
+ * Note that a wxSpinCtrl is sometimes defined as
+ * a wxTextCtrl, and so the flags must be different
+ * from wxTextCtrl's.
+ */
+#define wxSP_HORIZONTAL       wxHORIZONTAL /*  4 */
+#define wxSP_VERTICAL         wxVERTICAL   /*  8 */
+#define wxSP_ARROW_KEYS       0x1000
+#define wxSP_WRAP             0x2000
+
+/*
+ * wxTabCtrl flags
+ */
+#define wxTC_RIGHTJUSTIFY     0x0010
+#define wxTC_FIXEDWIDTH       0x0020
+#define wxTC_TOP              0x0000    /*  default */
+#define wxTC_LEFT             0x0020
+#define wxTC_RIGHT            0x0040
+#define wxTC_BOTTOM           0x0080
+#define wxTC_MULTILINE        0x0200    /* == wxNB_MULTILINE */
+#define wxTC_OWNERDRAW        0x0400
+
+/*
+ * wxStatusBar95 flags
+ */
+#define wxST_SIZEGRIP         0x0010
+
+/*
+ * wxStaticText flags
+ */
+#define wxST_NO_AUTORESIZE    0x0001
+#define wxST_DOTS_MIDDLE      0x0002
+#define wxST_DOTS_END         0x0004
+
+/*
+ * wxStaticBitmap flags
+ */
+#define wxBI_EXPAND           wxEXPAND
+
+/*
+ * wxStaticLine flags
+ */
+#define wxLI_HORIZONTAL         wxHORIZONTAL
+#define wxLI_VERTICAL           wxVERTICAL
+
+
+/*
  * extended dialog specifiers. these values are stored in a different
  * flag and thus do not overlap with other style flags. note that these
  * values do not correspond to the return values of the dialogs (for
@@ -308,18 +487,6 @@
 #define  wxHELP                 0x00008000
 #define  wxMORE                 0x00010000
 #define  wxSETUP                0x00020000
-
-/*
- * wxScrollBar flags
- */
-#define wxSB_HORIZONTAL      wxHORIZONTAL
-#define wxSB_VERTICAL        wxVERTICAL
-
-/*
- * wxStaticLine flags
- */
-#define wxLI_HORIZONTAL         wxHORIZONTAL
-#define wxLI_VERTICAL           wxVERTICAL
 
 /*  Virtual keycodes */
 #define WXK_BACK                8

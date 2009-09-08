@@ -2,6 +2,83 @@
  * $Id$
  */
 
+2009-09-08 14:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    * code cleanup
+
+  * include/wxHarbour/defs.ch
+    * added extra style defines
+
+  * include/wxHarbour/toplevel.ch
+    * added default styles
+
+  * include/wxHarbour/wx.ch
+    * added toplevel, dialog ch's
+
+  * include/wxHarbour/wxbase/wx_Dialog.h
+  * src/wxbase/manwindows/wx_Dialog.cpp
+    ! Fixed using wxDEFAULT_DIALOG_STYLE
+
+  * include/wxHarbour/wxbase/wx_Validator.h
+    * enabling a default HB class of type wxValidator
+    
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    + added wxh_ItemListSwap( oldObj, newObj ):
+      This function allows to drop a existing C++ obj from the tables
+      and attach a new one ( i.e. cloned ) without touch the HB obj data
+    ! Fixed error on missing hb_itemRelease()
+
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    * changes to make data driven per wxValidator methods:
+      TransferToWindow, TransferFromWindow, Validate
+
+  * makefile.wat
+    * updated makefile
+
+  * samples/checkbox/checkbox.prg
+  * samples/gauge/gauge.prg
+  * samples/spinctrl/spinctrl.prg
+  * samples/timer/timer.prg
+  * samples/wxget/wxget.prg
+  * samples/wxwindow/wxwindow.prg
+    ! Fixes to compile/run with latest changes in core
+
+  * src/raddox/TTable.prg
+    + added OnDataChange() : activates when record data changes (i.e. skip, dbgoto)
+    * code cleanup on GetCurrentRecord() method
+
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/baseclasses/wxhWindow.prg
+    * removed now unneeded wxhGet, FEnableBlock, Get/SetEnableBlock, using now
+      the wxValidator class
+    + added methods:
+      + GetExtraStyle()
+      + Refresh()
+      + SetExtraStyle()
+      + SetValidator()
+      + TransferDataToWindow()
+
+  * src/wxbase/controls/wx_BitmapButton.cpp
+  * src/wxbase/controls/wx_Button.cpp
+  * src/wxbase/controls/wx_CheckBox.cpp
+  * src/wxbase/controls/wx_RadioBox.cpp
+  * src/wxbase/controls/wx_SearchCtrl.cpp
+  * src/wxbase/controls/wx_TextCtrl.cpp
+  * src/wxbase/controls/wx_TreeCtrl.cpp
+  * src/wxbase/range/wx_ScrollBar.cpp
+    ! Fixed double assigning of parent control
+
+  * src/wxbase/validators/wx_Validator.cpp
+  * src/wxbase/validators/wxhValidator.prg
+    + added full methods:
+      + GetWindow()
+      + SetWindow()
+      + TransferFromWindow()
+      + TransferToWindow()
+      + Validate()
+
 2009-09-04 16:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.bcc

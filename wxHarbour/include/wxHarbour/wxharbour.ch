@@ -61,13 +61,15 @@
 #define wxCHK_CHECKED           1
 #define wxCHK_UNDETERMINED      2
 
+#define WXH_UNUSED( var )        ( var )
+
 /*
-  GET macro
+  Validator macro
   Teo. Mexico 2009
 */
-#xcommand @ PUSHGET [<dataVar>] [ PICTURE <picture> ] [ WARNING <warn> ]  [ ACTION <bAction> ] ;
+#xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING <warn> ]  [ ACTION <bAction> ] ;
       => ;
-      wxhGet():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warn>], [<{bAction}>] )
+      containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warn>], [<{bAction}>] )
 
 /*
   Calls ::__Destroy() to remove wxh_Item associated to objects
@@ -334,11 +336,10 @@
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          @ PUSHGET [<dataVar>] [ ACTION <{bAction}> ] ;;
+          @ PUSHVALIDATOR [<dataVar>] [ ACTION <{bAction}> ] ;;
           [ <checkBox> := ]__wxh_CheckBox( ;
             [<window>],;
             [<id>],;
@@ -346,7 +347,6 @@
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
-            [<validator>],;
             [<name>] )
 
 #xcommand @ CHECKBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -398,11 +398,10 @@
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+          @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
           [ <radioBox> := ]__wxh_RadioBox( ;
             [<parent>],;
             [<id>],;
@@ -412,7 +411,6 @@
             [<choices>],;
             [<majorDimension>],;
             [<style>],;
-            [<validator>],;
             [<name>] )
 
 #xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -431,11 +429,10 @@
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
           [ <choice> := ]__wxh_Choice( ;
             [<parent>],;
             [<id>],;
@@ -443,7 +440,6 @@
             [{<nWidth>,<nHeight>}],;
             [<choices>],;
             [<style>],;
-            [<validator>],;
             [<name>] )
 
 #xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -463,11 +459,10 @@
             [ VALUE <value> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ ACTION <bAction> ] ;
           => ;
-        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
           [ <comboBox> := ]__wxh_ComboBox( ;
             [<parent>],;
             [<id>],;
@@ -476,7 +471,6 @@
             [{<nWidth>,<nHeight>}],;
             [<choices>],;
             [<style>],;
-            [<validator>],;
             [<name>] )
 
 #xcommand @ COMBOBOX [<cbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -581,7 +575,7 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
-            [ ENABLED <bEnabled> ] ;
+            [ ENABLED <enabled> ] ;
           => ;
           [ <panel> := ]__wxh_PanelBegin( ;
             [<window>],;
@@ -590,7 +584,7 @@
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<name>],;
-            [<{bEnabled}>] )
+            [<enabled>] )
 
 #xcommand END PANEL => __wxh_PanelEnd()
 
@@ -633,14 +627,13 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ <mline: MULTILINE> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ PICTURE <picture> ] ;
             [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
             [ TOOLTIP <toolTip> ] ;
             [ ACTION <bAction> ] ;
           => ;
-          @ PUSHGET [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
+          @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [<var> :=] __wxh_TextCtrl(;
             [<window>],;
             [<id>],;
@@ -648,10 +641,9 @@
             [{<nWidth>,<nHeight>}],;
             [<.mline.>],;
             [<style>],;
-            [<validator>],;
             [<name>],;
             [<{toolTip}>] )
-
+            
 #xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ GET [<clauses>] ;;
@@ -718,7 +710,7 @@
  * SpinCtrl
  * Teo. Mexico 2009
  */
-#xcommand @ SPINCTRL [<value>] ;
+#xcommand @ SPINCTRL [<dataVar>] ;
             [ VAR <spinCtrl> ] ;
             [ ON <window> ] ;
             [ ID <id> ] ;
@@ -726,22 +718,20 @@
             [ STYLE <style> ] ;
             [ MIN <min> ] ;
             [ MAX <max> ] ;
-            [ INITIAL <initial> ] ;
             [ NAME <name> ] ;
+            [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
             [ ACTION <bAction> ] ;
           => ;
+          @ PUSHVALIDATOR [<dataVar>] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [ <spinCtrl> := ]__wxh_SpinCtrl( ;
             [<window>],;
             [<id>],;
-            [<value>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<min>],;
             [<max>],;
-            [<initial>],;
-            [<name>],;
-            [<{bAction}>] )
+            [<name>] )
 
 #xcommand @ SPINCTRL [<scclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
@@ -851,19 +841,17 @@
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
-            [ VALIDATOR <validator> ] ;
             [ NAME <name> ] ;
             [ <mline: MULTILINE> ] ;
             [ ACTION <bAction> ] ;
           => ;
-        @ PUSHGET <dataVar> [ ACTION <{bAction}> ] ;;
+        @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
           [ <searchCtrl> := ]__wxh_SearchCtrl( ;
             [<window>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
-            [<validator>],;
             [<name>],;
             [<.mline.>] )
 

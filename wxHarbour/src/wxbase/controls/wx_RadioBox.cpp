@@ -45,7 +45,7 @@ HB_FUNC( WXRADIOBOX_NEW )
   const wxArrayString& choices = wxh_par_wxArrayString( 6 );
   int majorDimension = hb_parni( 7 );
   long style = hb_parnl( 8 );
-  const wxValidator& validator = ISNIL( 9 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 9 ))) ;
+  const wxValidator& validator = ISNIL( 9 ) ? wxDefaultValidator : * ( (wxValidator *) objParams.paramChild( 9 ) );
   const wxString& name = wxh_parc( 10 );
 
   wx_RadioBox* radioBox = new wx_RadioBox( parent, id, label, pos, size, choices, majorDimension, style, validator, name );

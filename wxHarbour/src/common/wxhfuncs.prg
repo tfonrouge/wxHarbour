@@ -44,10 +44,10 @@ STATIC containerObj
 STATIC menuData
 
 /*
-  wxhGET
+  wxhHBValidator
   Teo. Mexico 2009
 */
-CLASS wxhGET
+CLASS wxhHBValidator FROM wxValidator
 PRIVATE:
   DATA FBlock
   DATA FField
@@ -58,13 +58,14 @@ PROTECTED:
 PUBLIC:
 
   DATA bAction
+  DATA data
   DATA dataIsOEM INIT .T.
   DATA Picture
-  DATA WarnBlock
+  DATA warnBlock
 
-  CONSTRUCTOR New( varName, block )
+  CONSTRUCTOR New()
 
-  METHOD AddPostInfo( control )
+  METHOD AddPostInfo()
   METHOD AsString()
   METHOD EvalWarnBlock()
   METHOD GetChoices()             /* returns a array of values */
@@ -72,9 +73,13 @@ PUBLIC:
   METHOD GetSelection()           /* returns numeric index of ValidValues on TField (if any) */
   METHOD IsModified()
   METHOD PickList( control )
-  METHOD SetValue( value )
+  METHOD TextValue              /* Text Value for control */
   METHOD UpdateVar( event )
-  METHOD ValueCtrl              /* Value for control */
+
+  /* wxValidator methods */
+  METHOD TransferFromWindow()
+  METHOD TransferToWindow()
+  METHOD Validate()
 
   PROPERTY Block READ FBlock
   PROPERTY Field READ FField
@@ -88,13 +93,15 @@ ENDCLASS
   New
   Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhGet
+METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhHBValidator
 
   ::FName  := name
 
   IF HB_IsObject( var ) .AND. var:IsDerivedFrom("TField")
     ::FField := var
     block := {|__localVal| iif( PCount() > 0, ::FField:Value := __localVal, ::FField:Value ) }
+  ELSEIF Empty( name )
+    block := {|__localVal| iif( PCount() > 0, ::data := __localVal, ::data ) }
   ENDIF
 
   ::FBlock := block
@@ -104,82 +111,42 @@ METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhGet
   ENDIF
 
   IF warn != NIL
-    ::WarnBlock := warn
+    ::warnBlock := warn
   ENDIF
 
   IF bAction != NIL
     ::bAction := bAction
   ENDIF
 
-  containerObj():LastItem()[ "wxhGet" ] := Self
-
-RETURN Self
+RETURN Super:New()
 
 /*
   AddPostInfo
   Teo. Mexico 2009
 */
-METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
+METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
   LOCAL contextListKey := wxGetApp():wxh_ContextListKey
   LOCAL parent := containerObj():LastParent()
-
-  IF ::FBlock != NIL
-    /*
-     * Assign initial value
-     */
-    /* @ CHECKBOX */
-    IF control:IsDerivedFrom( "wxCheckBox" )
-      IF !control:Is3State()
-        control:SetValue( ::Block:Eval() )
-      ENDIF
-    ENDIF
-
-    /* @ CHOICE */
-    IF control:IsDerivedFrom( "wxChoice" )
-      control:SetSelection( ::GetSelection() )
-    ENDIF
-
-    /* @ COMBOBOX */
-    IF control:IsDerivedFrom( "wxComboBox" )
-      control:SetSelection( ::GetSelection() )
-    ENDIF
-
-    /* @ GET */
-    IF control:IsDerivedFrom( "wxTextCtrl" )
-      control:ChangeValue( ::ValueCtrl() )
-      control:SetSelection()
-      IF ::maxLength != NIL
-        control:SetMaxLength( ::maxLength )
-      ENDIF
-    ENDIF
-
-    /* @ RADIOBOX */
-    IF control:IsDerivedFrom( "wxRadioBox" )
-      control:SetSelection( ::GetSelection() )
-    ENDIF
-  ENDIF
-
+  LOCAL control := ::GetWindow()
+  
   /*
    * connect events for changes
    */
   /* @ CHECKBOX */
   IF control:IsDerivedFrom( "wxCheckBox" )
     control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, {|event| ::UpdateVar( event ) } )
-  ENDIF
 
   /* @ CHOICE */
-  IF control:IsDerivedFrom( "wxChoice" )
+  ELSEIF control:IsDerivedFrom( "wxChoice" )
     control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_CHOICE_SELECTED, {|event| ::UpdateVar( event ) } )
-  ENDIF
 
   /* @ COMBOBOX */
-  IF control:IsDerivedFrom( "wxComboBox" )
+  ELSEIF control:IsDerivedFrom( "wxComboBox" )
     control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
     control:ConnectCommandEvt( control:GetID(), wxEVT_COMMAND_TEXT_UPDATED, {|event| ::UpdateVar( event ) } )
-  ENDIF
 
   /* @ GET */
-  IF control:IsDerivedFrom( "wxTextCtrl" )
+  ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
     IF nextCtrlOnEnter .AND. !control:IsMultiLine()
       parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
     ENDIF
@@ -200,11 +167,19 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
           END_CB )
       ENDIF
     ENDIF
-  ENDIF
+    control:SetSelection()
+    IF ::maxLength != NIL
+      control:SetMaxLength( ::maxLength )
+    ENDIF
 
   /* @ RADIOBOX */
-  IF control:IsDerivedFrom( "wxRadioBox" )
+  ELSEIF control:IsDerivedFrom( "wxRadioBox" )
     control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
+
+  /* @ SPINCTRL */
+  ELSEIF control:IsDerivedFrom( "wxSpinCtrl" )
+    control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SPINCTRL_UPDATED, {|event| ::UpdateVar( event ) } )
+
   ENDIF
 
   /*
@@ -218,15 +193,13 @@ METHOD PROCEDURE AddPostInfo( control ) CLASS wxhGet
     control:SetName( ::Name )
   ENDIF
 
-  control:wxhGet := Self
-
 RETURN
 
 /*
   AsString
   Teo. Mexico 2009
 */
-METHOD FUNCTION AsString() CLASS wxhGET
+METHOD FUNCTION AsString() CLASS wxhHBValidator
   LOCAL value
   IF ::FField != NIL
     value := ::FField:AsString()
@@ -239,11 +212,11 @@ RETURN value
   EvalWarnBlock
   Teo. Mexico 2009
 */
-METHOD FUNCTION EvalWarnBlock( control, showWarning ) CLASS wxhGet
+METHOD FUNCTION EvalWarnBlock( control, showWarning ) CLASS wxhHBValidator
   LOCAL msg
-  IF ::WarnBlock != NIL .AND. ::WarnBlock[1]:Eval()
+  IF ::warnBlock != NIL .AND. ::warnBlock[ 1 ]:Eval( control )
     IF showWarning == NIL .OR. showWarning
-      msg := iif( Empty( ::WarnBlock[2] ), "Field has invalid data...", ::WarnBlock[2] )
+      msg := iif( Empty( ::warnBlock[ 2 ] ), "Field has invalid data...", ::warnBlock[ 2 ] )
       wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), control:GetParent() )
     ENDIF
     RETURN .T.
@@ -254,7 +227,7 @@ RETURN .F.
   GetChoices
   Teo. Mexico 2009
 */
-METHOD GetChoices CLASS wxhGET
+METHOD FUNCTION GetChoices CLASS wxhHBValidator
   LOCAL Result
   LOCAL itm
   LOCAL validValues
@@ -290,7 +263,7 @@ RETURN Result
   GetKeyValue
   Teo. Mexico 2009
 */
-METHOD GetKeyValue( n ) CLASS wxhGET
+METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
   LOCAL itm
 
   IF ::FField != NIL .AND. ::FField:ValidValues != NIL
@@ -322,7 +295,7 @@ RETURN n
   GetMaxLength
   Teo. Mexico 2009
 */
-METHOD FUNCTION GetMaxLength() CLASS wxhGet
+METHOD FUNCTION GetMaxLength() CLASS wxhHBValidator
   LOCAL maxLength
 
   IF ::FField != NIL .AND. ::FField:IsDerivedFrom("TStringField")
@@ -335,7 +308,7 @@ RETURN maxLength
   GetSelection
   Teo. Mexico 2009
 */
-METHOD GetSelection CLASS wxhGET
+METHOD GetSelection CLASS wxhHBValidator
   LOCAL n := 0
   LOCAL itm
   LOCAL key
@@ -374,7 +347,7 @@ RETURN n
   IsModified
   Teo. Mexico 2009
 */
-METHOD IsModified( control ) CLASS wxhGet
+METHOD IsModified( control ) CLASS wxhHBValidator
   LOCAL modified
 
   // TODO: Check why TAB on a TextCtrl marks buffer as dirty
@@ -395,7 +368,7 @@ RETURN modified
   PickList
   Teo. Mexico 2009
 */
-METHOD PROCEDURE PickList( control ) CLASS wxhGet
+METHOD PROCEDURE PickList( control ) CLASS wxhHBValidator
   LOCAL s
   LOCAL parentWnd
   LOCAL selectionMade
@@ -426,96 +399,10 @@ METHOD PROCEDURE PickList( control ) CLASS wxhGet
 RETURN
 
 /*
-  SetValue
+  TextValue
   Teo. Mexico 2009
 */
-METHOD PROCEDURE SetValue( value, event ) CLASS wxhGet
-  LOCAL oldValue
-
-  IF !value == NIL
-
-    oldValue := ::FBlock:Eval()
-
-    ::FBlock:Eval( value )
-
-    /* changed ? */
-    IF !oldValue == ::FBlock:Eval()
-      IF ::bAction != NIL
-        ::bAction:Eval( event )
-      ENDIF
-    ENDIF
-
-  ENDIF
-
-RETURN
-
-/*
-  UpdateVar
-  Teo. Mexico 2009
-*/
-METHOD PROCEDURE UpdateVar( event ) CLASS wxhGet
-  LOCAL evtType
-  LOCAL value
-  LOCAL control
-
-  IF ::dontUpdateVar .OR. ::FBlock == NIL
-    RETURN
-  ENDIF
-
-  control := event:GetEventObject()
-  evtType := event:GetEventType()
-
-  IF control:IsDerivedFrom( "wxTextCtrl" )
-    IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
-      IF ::IsModified( control ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
-        IF ::dataIsOEM
-          value := wxh_wxStringToOEM( control:GetValue() )
-        ELSE
-          value := control:GetValue()
-        ENDIF
-        ::SetValue( value, event )
-        control:ChangeValue( wxh_OEMTowxString( RTrim( ::Block:Eval() ) ) )
-      ENDIF
-    ENDIF
-  ENDIF
-
-  IF control:IsDerivedFrom( "wxCheckBox" )
-    IF event:GetEventType() = wxEVT_COMMAND_CHECKBOX_CLICKED
-      ::SetValue( control:GetValue(), event )
-    ENDIF
-  ENDIF
-
-  IF control:IsDerivedFrom( "wxChoice" )
-    IF event:GetEventType() = wxEVT_COMMAND_CHOICE_SELECTED
-      value := ::GetKeyValue( control:GetCurrentSelection() )
-      ::SetValue( value, event )
-    ENDIF
-  ENDIF
-
-  IF control:IsDerivedFrom( "wxComboBox" )
-    IF evtType = wxEVT_COMMAND_COMBOBOX_SELECTED .OR. evtType = wxEVT_KILL_FOCUS
-      //value := ::FWXHGet:GetKeyValue( ::GetValue() )
-      value := control:GetValue()
-      ::SetValue( value, event )
-    ENDIF
-  ENDIF
-
-  IF control:IsDerivedFrom( "wxRadioBox" )
-    IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
-      value := ::GetKeyValue( control:GetSelection() )
-      ::SetValue( value, event )
-    ENDIF
-  ENDIF
-
-  ::EvalWarnBlock( control )
-
-RETURN
-
-/*
-  ValueCtrl
-  Teo. Mexico 2009
-*/
-METHOD FUNCTION ValueCtrl() CLASS wxhGet
+METHOD FUNCTION TextValue() CLASS wxhHBValidator
   LOCAL value
 
   value := RTrim( ::AsString() )
@@ -527,6 +414,202 @@ METHOD FUNCTION ValueCtrl() CLASS wxhGet
   ENDIF
 
 RETURN value
+
+/*
+  TransferFromWindow
+  Teo. Mexico 2009
+*/
+METHOD TransferFromWindow() CLASS wxhHBValidator
+  LOCAL control
+  LOCAL value
+  LOCAL Result := .T.
+  
+  control := ::GetWindow()
+
+  IF control:IsDerivedFrom( "wxTextCtrl" )
+
+    IF ::dataIsOEM
+      value := wxh_wxStringToOEM( control:GetValue() )
+    ELSE
+      value := control:GetValue()
+    ENDIF
+
+    ::FBlock:Eval( value )
+
+    control:ChangeValue( wxh_OEMTowxString( RTrim( ::Block:Eval() ) ) )
+
+  ELSEIF control:IsDerivedFrom( "wxCheckBox" )
+
+    ::FBlock:Eval( control:GetValue() )
+
+  ELSEIF control:IsDerivedFrom( "wxChoice" )
+
+    value := ::GetKeyValue( control:GetCurrentSelection() )
+
+    ::FBlock:Eval( value )
+
+  ELSEIF control:IsDerivedFrom( "wxComboBox" )
+
+    value := control:GetValue()
+
+    ::FBlock:Eval( value )
+    
+  ELSEIF control:IsDerivedFrom( "wxRadioBox" )
+
+    value := ::GetKeyValue( control:GetSelection() )
+
+    ::FBlock:Eval( value )
+
+  ELSEIF control:IsDerivedFrom( "wxSpinCtrl" )
+
+    ::FBlock:Eval( control:GetValue() )
+
+  ELSE
+
+    Result := .F.
+
+  ENDIF
+
+RETURN Result
+
+/*
+  TransferToWindow
+  Teo. Mexico 2009
+*/
+METHOD TransferToWindow() CLASS wxhHBValidator
+  LOCAL control
+  LOCAL Result := .T.
+  
+  control := ::GetWindow()
+
+  IF control != NIL .AND. ::FBlock != NIL
+
+    /*
+     * Assign initial value
+     */
+    /* @ CHECKBOX */
+    IF control:IsDerivedFrom( "wxCheckBox" )
+
+      IF !control:Is3State()
+        control:SetValue( ::Block:Eval() )
+      ENDIF
+
+    /* @ CHOICE */
+    ELSEIF control:IsDerivedFrom( "wxChoice" )
+
+      control:SetSelection( ::GetSelection() )
+
+    /* @ COMBOBOX */
+    ELSEIF control:IsDerivedFrom( "wxComboBox" )
+
+      control:SetSelection( ::GetSelection() )
+
+    /* @ GET */
+    ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
+
+      control:ChangeValue( ::TextValue() )
+
+    /* @ RADIOBOX */
+    ELSEIF control:IsDerivedFrom( "wxRadioBox" )
+
+      control:SetSelection( ::GetSelection() )
+
+    /* @ SPINCTRL */
+    ELSEIF control:IsDerivedFrom( "wxSpinCtrl" )
+
+      control:SetValue( ::Block:Eval() )
+
+    ELSE
+
+      Result := .F.
+
+    ENDIF
+    
+  ELSE
+  
+    Result := .F.
+
+  ENDIF
+  
+RETURN Result
+
+/*
+  UpdateVar
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
+  LOCAL evtType
+  LOCAL control
+  LOCAL oldValue
+  
+  IF ::dontUpdateVar .OR. ::FBlock == NIL
+    RETURN
+  ENDIF
+
+  evtType := event:GetEventType()
+  control := event:GetEventObject()
+  oldValue := ::FBlock:Eval()
+
+  IF control:IsDerivedFrom( "wxTextCtrl" )
+    IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
+      IF ::IsModified( control ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
+        ::TransferFromWindow()
+      ENDIF
+    ENDIF
+
+  ELSEIF control:IsDerivedFrom( "wxCheckBox" )
+    IF event:GetEventType() = wxEVT_COMMAND_CHECKBOX_CLICKED
+      ::TransferFromWindow()
+    ENDIF
+
+  ELSEIF control:IsDerivedFrom( "wxChoice" )
+    IF event:GetEventType() = wxEVT_COMMAND_CHOICE_SELECTED
+      ::TransferFromWindow()
+    ENDIF
+
+  ELSEIF control:IsDerivedFrom( "wxComboBox" )
+    IF evtType = wxEVT_COMMAND_COMBOBOX_SELECTED .OR. evtType = wxEVT_KILL_FOCUS
+      ::TransferFromWindow()
+    ENDIF
+
+  ELSEIF control:IsDerivedFrom( "wxRadioBox" )
+    IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
+      ::TransferFromWindow()
+    ENDIF
+
+  ELSEIF control:IsDerivedFrom( "wxSpinCtrl" )
+    IF event:GetEventType() = wxEVT_COMMAND_SPINCTRL_UPDATED
+      ::TransferFromWindow()
+    ENDIF
+
+  ELSE
+
+    RETURN  // no control found
+
+  ENDIF
+
+  /* changed ? */
+  IF !oldValue == ::FBlock:Eval()
+    IF ::bAction != NIL
+      ::bAction:Eval( event )
+    ENDIF
+  ENDIF
+
+  ::EvalWarnBlock( control )
+
+RETURN
+
+/*
+  Validate
+  Teo. Mexico 2009
+*/
+METHOD Validate( parent ) CLASS wxhHBValidator
+  ? "Validate:", parent:ClassName()
+  IF ::warnBlock != NIL
+    WXH_UNUSED( parent )
+    RETURN ::warnBlock[ 1 ]:Eval( ::GetWindow() )
+  ENDIF
+RETURN .T.
 
 /*
   End Class wxGET
@@ -749,19 +832,19 @@ RETURN button
   __wxh_CheckBox
   Teo. Mexico 2009
 */
-FUNCTION __wxh_CheckBox( window, id, label, pos, size, style, validator, name )
+FUNCTION __wxh_CheckBox( window, id, label, pos, size, style, name )
   LOCAL checkBox
-  LOCAL wxhGet
+  LOCAL validator
 
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
   checkBox := wxCheckBox():New( window, id, label, pos, size, style, validator, name )
 
-  wxhGet:AddPostInfo( checkBox )
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( checkBox )
 
@@ -771,23 +854,23 @@ RETURN checkBox
   __wxh_Choice
   Teo. Mexico 2009
 */
-FUNCTION __wxh_Choice( parent, id, point, size, choices, style, validator, name )
+FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name )
   LOCAL choice
-  LOCAL wxhGet
+  LOCAL validator
 
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-  IF choices == NIL .AND. wxhGet:Field != NIL
-    choices := wxhGet:GetChoices()
+  IF choices == NIL .AND. validator:Field != NIL
+    choices := validator:GetChoices()
   ENDIF
 
   choice := wxChoice():New( parent, id, point, size, choices, style, validator, name )
 
-  wxhGet:AddPostInfo( choice )
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( choice )
 
@@ -797,27 +880,27 @@ RETURN choice
   __wxh_ComboBox
   Teo. Mexico 2009
 */
-FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, validator, name )
+FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
   LOCAL comboBox
-  LOCAL wxhGet
+  LOCAL validator
 
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-  IF choices == NIL .AND. wxhGet:Field != NIL
-    choices := wxhGet:GetChoices()
+  IF choices == NIL .AND. validator:Field != NIL
+    choices := validator:GetChoices()
   ENDIF
 
   IF value == NIL
-    value := RTrim( wxhGet:AsString() )
+    value := RTrim( validator:AsString() )
   ENDIF
 
   comboBox := wxComboBox():New( parent, id, value, point, size, choices, style, validator, name )
 
-  wxhGet:AddPostInfo( comboBox )
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( comboBox )
 
@@ -829,7 +912,7 @@ RETURN comboBox
 */
 FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName, onClose, initDlg )
   LOCAL dlg
-
+  
   IF Empty( fromClass )
     dlg := wxDialog():New( oParent, nID, cTitle, nTopnLeft, nHeightnWidth, nStyle, cName )
   ELSE
@@ -838,6 +921,8 @@ FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth
       dlg:IsNotDerivedFrom_wxDialog()
     ENDIF
   ENDIF
+  
+  dlg:SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY )
 
   IF onClose != NIL
     dlg:ConnectCloseEvt( dlg:GetId(), wxEVT_CLOSE_WINDOW, onClose )
@@ -1187,9 +1272,7 @@ FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled )
 
   panel := wxPanel():New( parent, id, pos, size, style, name )
 
-  IF bEnabled != NIL
-    panel:enableBlock := bEnabled
-  ENDIF
+  __wxh_EnableControl( parent, panel, panel:GetId(), bEnabled )
 
   containerObj():SetLastChild( panel )
 
@@ -1209,23 +1292,23 @@ RETURN
   __wxh_RadioBox
   Teo. Mexico 2009
 */
-FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, name )
   LOCAL radioBox
-  LOCAL wxhGet
+  LOCAL validator
 
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-  IF choices == NIL .AND. wxhGet:Field != NIL
-    choices := wxhGet:GetChoices()
+  IF choices == NIL .AND. validator:Field != NIL
+    choices := validator:GetChoices()
   ENDIF
 
   radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
 
-  wxhGet:AddPostInfo( radioBox )
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( radioBox )
 
@@ -1282,15 +1365,15 @@ RETURN sb
   __wxh_SearchCtrl
   Teo. Mexico 2009
 */
-FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, validator, name, multiLine )
+FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, multiLine )
   LOCAL searchCtrl
-  LOCAL wxhGet
+  LOCAL validator
 
   IF window == NIL
     window := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
   IF multiLine == .T.
     IF Empty( style )
@@ -1311,7 +1394,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, validator, name, multiL
 
   searchCtrl := wxSearchCtrl():New( window, id, NIL, pos, size, style, validator, name )
 
-  wxhGet:AddPostInfo( searchCtrl )
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( searchCtrl )
 
@@ -1357,6 +1440,11 @@ FUNCTION __wxh_ShowWindow( oWnd, modal, fit, centre )
 
   IF centre
     oWnd:Centre()
+  ENDIF
+  
+  /* Transfer data to windows for wxFrame's (this in wxDialog's are automatically) */
+  IF oWnd:IsDerivedFrom("wxFrame")
+    oWnd:TransferDataToWindow()
   ENDIF
 
   IF .T. /* Focus on first available control */
@@ -1551,18 +1639,21 @@ RETURN
   __wxh_SpinCtrl
   Teo. Mexico 2009
 */
-FUNCTION __wxh_SpinCtrl( parent, id, value, pos, size, style, min, max, initial, name, bAction )
+FUNCTION __wxh_SpinCtrl( parent, id, pos, size, style, min, max, name )
   LOCAL spinCtrl
+  LOCAL validator
 
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
+  
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-  spinCtrl := wxSpinCtrl():New( parent, id, value, pos, size, style, min, max, initial, name )
-
-  IF bAction != NIL
-    spinCtrl:ConnectCommandEvt( spinCtrl:GetID(), wxEVT_COMMAND_SPINCTRL_UPDATED, bAction )
-  ENDIF
+  spinCtrl := wxSpinCtrl():New( parent, id, /* value */, pos, size, style, min, max, 0 /* initial */, name )
+  
+  spinCtrl:SetValidator( validator )
+  
+  validator:AddPostInfo()
 
   containerObj():SetLastChild( spinCtrl )
 
@@ -1651,16 +1742,16 @@ RETURN sb
  * __wxh_TextCtrl
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, name, toolTip )
+FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip )
   LOCAL textCtrl
-  LOCAL wxhGet
+  LOCAL validator
   LOCAL pickBtn
   
   IF parent == NIL
     parent := containerObj():LastParent()
   ENDIF
 
-  wxhGet := containerObj():LastItem()[ "wxhGet" ]
+  validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
   IF multiLine == .T.
     IF Empty( style )
@@ -1670,7 +1761,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
     ENDIF
   ENDIF
 
-  //__wxh_TransWidth( NIL, window, Len( wxhGet:AsString ), size )
+  //__wxh_TransWidth( NIL, window, Len( wxhHBValidator:AsString ), size )
 
   /* nextCtrlOnEnter */
   IF nextCtrlOnEnter
@@ -1681,7 +1772,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
     ENDIF
   ENDIF
 
-  pickBtn := wxhGet:Field != NIL .AND. HB_IsBlock( wxhGet:Field:GetItPick )
+  pickBtn := validator:Field != NIL .AND. HB_IsBlock( validator:Field:GetItPick )
 
   IF pickBtn
     BEGIN BOXSIZER HORIZONTAL STRETCH
@@ -1693,13 +1784,13 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, validator, nam
     textCtrl:SetToolTip( toolTip )
   ENDIF
 
-  wxhGet:AddPostInfo( textCtrl )
-
+  validator:AddPostInfo()
+  
   containerObj():SetLastChild( textCtrl )
 
   IF pickBtn
     @ SIZERINFO STRETCH
-    @ BUTTON BITMAP 1 ACTION {|| wxhGet:PickList( textCtrl ) }
+    @ BUTTON BITMAP 1 ACTION {|| validator:PickList( textCtrl ) }
   END SIZER
     containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
   ENDIF
@@ -1987,7 +2078,7 @@ METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
     wxhAlert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
     ::QUIT()
   ENDIF
-  AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL, "wxhGet"=>NIL } } )
+  AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL, "wxhHBValidator"=>NIL } } )
 RETURN
 
 /*
