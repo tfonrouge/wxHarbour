@@ -25,6 +25,71 @@
 #include "wxbase/wx_Validator.h"
 
 /*
+  wx_Validator()
+  Teo. Mexico 2009
+*/
+wx_Validator::wx_Validator( const wx_Validator& validator ) : wxValidator()
+{
+  Copy( validator );
+  wxh_ItemListSwap( (wxObject *) &validator, this );
+}
+
+/*
+  TransferFromWindow
+  Teo. Mexico 2009
+*/
+bool wx_Validator::TransferFromWindow()
+{
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( this );
+  bool result = false;
+
+  if( pSelf )
+  {
+    hb_objSendMsg( pSelf, "TransferFromWindow", 0 );
+    result = hb_stackReturnItem()->item.asLogical.value;
+  }
+  return result;
+}
+
+/*
+  TransferToWindow
+  Teo. Mexico 2009
+*/
+bool wx_Validator::TransferToWindow()
+{
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( this );
+  bool result = false;
+  
+  if( pSelf )
+  {
+    hb_objSendMsg( pSelf, "TransferToWindow", 0 );
+    result = hb_stackReturnItem()->item.asLogical.value;
+  }
+  return result;
+}
+
+/*
+  Validate
+  Teo. Mexico 2009
+*/
+bool wx_Validator::Validate( wxWindow* parent )
+{
+  PHB_ITEM pSelf = wxh_ItemListGet_HB( this );
+  bool result = false;
+
+  if( pSelf )
+  {
+    PHB_ITEM pParent = wxh_ItemListGet_HB( parent );
+    if( pParent )
+    {
+      hb_objSendMsg( hb_stackSelfItem(), "Validate", 1, pParent );
+      result = hb_stackReturnItem()->item.asLogical.value;
+    }
+  }
+  return result;
+}
+
+/*
   ~wx_Validator
   Teo. Mexico 2006
 */
@@ -33,12 +98,85 @@ wx_Validator::~wx_Validator()
   wxh_ItemListDel_WX( this );
 }
 
+/*
+  New
+  Teo. Mexico 2009
+*/
 HB_FUNC( WXVALIDATOR_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
 
   wx_Validator* validator = new wx_Validator;
-
+  
   objParams.Return( validator );
 }
 
+/*
+  GetWindow()
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXVALIDATOR_GETWINDOW )
+{
+  wx_Validator* validator = (wx_Validator *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( validator )
+  {
+    wxh_itemReturn( validator->GetWindow() );
+  }
+}
+
+/*
+  SetWindow()
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXVALIDATOR_SETWINDOW )
+{
+  wxValidator* validator = (wxValidator *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( validator )
+  {
+    validator->SetWindow( (wxWindow *) wxh_par_WX( 1 ) );
+  }
+}
+
+/*
+  TransferFromWindow
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXVALIDATOR_TRANSFERFROMWINDOW )
+{
+  wxValidator* validator = (wxValidator *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( validator )
+  {
+    hb_retl( false );
+  }
+}
+
+/*
+  TransferToWindow
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXVALIDATOR_TRANSFERTOWINDOW )
+{
+  wxValidator* validator = (wxValidator *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( validator )
+  {
+    hb_retl( false );
+  }
+}
+
+/*
+  Validate
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXVALIDATOR_VALIDATE )
+{
+  wxValidator* validator = (wxValidator *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( validator )
+  {
+    hb_retl( false );
+  }
+}

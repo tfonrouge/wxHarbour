@@ -168,6 +168,7 @@ wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
 wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
 void          wxh_ItemListReleaseAll();
+bool          wxh_ItemListSwap( wxObject *oldObj, wxObject *newObj );
 PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 #define		  wxh_wxStringToC( string ) \
 			  (string).mb_str( wxConvUTF8 )

@@ -243,7 +243,7 @@ FUNCTION OnGFocus(g,event)
 	//::SetBackgroundColour(::oColor_S_B) 
 
 	#ifdef _DEBUG_
-		? "OnGFocus", " Buffer: " , g:buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(g:buffer), Alltrim(Str(Len(g:buffer))),0) , " Cursor: " , Alltrim(Str(g:pos)) , "/" , Alltrim(Str(g:GetInsertionPoint()s))
+		? "OnGFocus", " Buffer: " , g:buffer , " Len(Buffer) = " , IIF(HB_ISSTRING(g:buffer), Alltrim(Str(Len(g:buffer))),0) , " Cursor: " , Alltrim(Str(g:pos)) , "/" , Alltrim(Str(g:GetInsertionPoint()))
 	#endif
 	event:skip()
 RETURN NIL
@@ -282,7 +282,7 @@ RETURN .t.
 FUNCTION OnKeyUp(event)
 	LOCAL lRet := .t.
 	//LOCAL keycode := 
-	//LOCAL ctrlDown := event:ControlDown()
+	LOCAL ctrlDown := event:ControlDown()
 	#ifdef _DEBUG_
 	? ("OnKeyUp key=" + Str(event:GetKeyCode()) + "-" + IIF(ctrlDown,"CTRL+","") + GetKeyName(event:GetKeyCode()) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()) )
 	#endif

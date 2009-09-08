@@ -39,8 +39,10 @@ wx_Window::wx_Window( wxWindow* parent, wxWindowID id, const wxPoint& pos, const
   Create( parent, id, pos, size, style, name );
 }
 
-
-
+/*
+  New
+  Teo. Mexico 2009
+*/
 HB_FUNC( WXWINDOW_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
@@ -238,15 +240,15 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
 }
 
 /*
- GetGrandParent
+ GetExtraStyle
  Teo. Mexico 2009
  */
-HB_FUNC( WXWINDOW_GETGRANDPARENT )
+HB_FUNC( WXWINDOW_GETEXTRASTYLE )
 {
   wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( wnd )
-    wxh_itemReturn( wnd->GetGrandParent() );
+    hb_retnl( wnd->GetExtraStyle() );
 }
 
 /*
@@ -265,6 +267,18 @@ HB_FUNC( WXWINDOW_GETFONT )
     wxh_ObjParams objParams = wxh_ObjParams( pFont );
     objParams.Return( font, true );
   }
+}
+
+/*
+ GetGrandParent
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETGRANDPARENT )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( wnd )
+    wxh_itemReturn( wnd->GetGrandParent() );
 }
 
 /*
@@ -445,6 +459,30 @@ HB_FUNC( WXWINDOW_RAISE )
 }
 
 /*
+ Refresh
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_REFRESH )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    wnd->Refresh();
+}
+
+/*
+ SetExtraStyle
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_SETEXTRASTYLE )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+    wnd->SetExtraStyle( hb_parnl( 1 ) );
+}
+
+/*
  SetFocus
  Teo. Mexico 2009
  */
@@ -560,6 +598,22 @@ HB_FUNC( WXWINDOW_SETTOOLTIP )
 }
 
 /*
+ SetValidator
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_SETVALIDATOR )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    wxValidator* val = (wxValidator *) wxh_par_WX( 1 );
+    const wxValidator& validator = *val;
+    wnd->SetValidator( validator );
+  }
+}
+
+/*
  Show
  Teo. Mexico 2009
  */
@@ -584,4 +638,18 @@ HB_FUNC( WXWINDOW_THAW )
 
   if( wnd )
     wnd->Thaw();
+}
+
+/*
+  TransferDataToWindow
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+  
+  if( wnd )
+  {
+    hb_retl( wnd->TransferDataToWindow() );
+  }
 }

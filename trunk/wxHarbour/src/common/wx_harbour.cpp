@@ -306,11 +306,11 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
   
     if( hb_stackReturnItem() != pSelf )
     {
-      if( bItemRelease )
-        hb_itemReturnRelease( pSelf );
-      else
-        hb_itemReturn( pSelf );
+      hb_itemReturn( pSelf );
     }
+    
+    if( bItemRelease )
+      hb_itemRelease( pSelf );
 
   }else
     hb_errRT_BASE_SubstR( EG_ARG, WXH_ERRBASE + 4, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
@@ -444,6 +444,25 @@ void wxh_ItemListReleaseAll()
     delete it->second;
     //wxh_ItemListDel_WX( it->first );
   }
+}
+
+/*
+  wxh_ItemListSwap
+  Teo. Mexico 2009
+*/
+bool wxh_ItemListSwap( wxObject *oldObj, wxObject *newObj )
+{
+  wxh_Item *pWxh_Item = wxh_ItemListGet_PWXH_ITEM( oldObj );
+  
+  if( pWxh_Item )
+  {
+    pWxh_Item->wxObj = newObj;
+    map_wxObject.erase( oldObj );
+    map_wxObject[ newObj ] = pWxh_Item;
+    delete oldObj;
+    return true;
+  }
+  return false;
 }
 
 /*

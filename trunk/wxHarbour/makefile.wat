@@ -309,6 +309,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhFont.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj &
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj &
@@ -389,6 +390,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Font.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_ToolBarToolBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) &
@@ -850,6 +852,10 @@ $(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj :  .AUTODEPEND .\src\wxbase\toolbar
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj :  .AUTODEPEND .\src\wxbase\toolbar\wxhToolBarToolBase.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhValidator.obj :  .AUTODEPEND .\src\wxbase\validators\wxhValidator.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1090,6 +1096,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Font.obj :  .AUTODEPEND .\src\wxbase\system\wx_Font
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj :  .AUTODEPEND .\src\wxbase\toolbar\wx_ToolBar.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_ToolBarToolBase.obj :  .AUTODEPEND .\src\wxbase\toolbar\wx_ToolBarToolBase.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Validator.obj :  .AUTODEPEND .\src\wxbase\validators\wx_Validator.cpp

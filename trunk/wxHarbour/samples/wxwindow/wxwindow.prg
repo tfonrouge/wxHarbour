@@ -29,7 +29,8 @@ ENDCLASS
 
 METHOD FUNCTION OnInit() CLASS wxWinSample
 	Local oDlg, oWnd
-	Local parent, id, pos, size, style := wxBORDER_SIMPLE, name
+//	Local parent, id, pos, size, name
+	Local style := wxBORDER_SIMPLE
 
 	
 
@@ -38,7 +39,7 @@ METHOD FUNCTION OnInit() CLASS wxWinSample
          TITLE "Text Sample"
 
 	BEGIN BOXSIZER VERTICAL 
-		oWnd := TEditGet():New(oDlg, wxID_ANY, pos, size, style, "wxWinSampleWindow")	
+		oWnd := TEditGet():New(oDlg, wxID_ANY, NIL, NIL, style, "wxWinSampleWindow")	
 		containerObj():SetLastChild( oWnd )
 		@ BUTTON ID wxID_OK ACTION oDlg:Close()
 	END SIZER
@@ -90,21 +91,24 @@ RETURN Self
 
 FUNCTION OnGFocus(SELF,event)
 	LOCAL lRet := .t.
+	(SELF)
 	? "OnGFocus"
 	event:skip()
 RETURN lRet
 
 FUNCTION OnLFocus(SELF,event)
 	LOCAL lRet := .t.
+	(SELF)
 	? "OnLFocus"
 	event:skip()
 RETURN lRet
 
 
 FUNCTION OnChar(SELF,event)
-	LOCAL lRet := .t., lSkip
+	LOCAL lRet := .t.
 	LOCAL keycode := event:GetKeyCode()
 //	LOCAL ctrlDown := event:ControlDown()
+	(SELF)
 	//altd()
 	? ("OnChar key=" + Str(keycode) + "-" + GetKeyName(keycode) + " " + "UnicodeKey=" + Str(event:GetUnicodeKey()))
 	event:skip(.t.)
@@ -113,6 +117,7 @@ RETURN lRet
 FUNCTION OnKeyDown(SELF,event)
 	LOCAL lRet := .t.
 	LOCAL keycode := event:GetKeyCode()
+	(SELF)
 	//LOCAL ctrlDown := event:ControlDown()
 	? ("OnKeyDown key=" + Str(keycode) + "-" + GetKeyName(keycode) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()))
 	event:skip(.t.)
@@ -122,6 +127,7 @@ FUNCTION OnKeyUp(SELF,event)
 	LOCAL lRet := .t.
 	LOCAL keycode := event:GetKeyCode()
 	LOCAL ctrlDown := event:ControlDown()
+	(SELF)
 	//LOCAL shiftDown := event:ShiftDown() => Not yet implemented in wxharbour
 	//LOCAL altDown := event:AltDown()		=> Not yet implemented in wxharbour	
 	? ("OnKeyUp key=" + Str(keycode) + "-" + IIF(ctrlDown,"CTRL+","") + GetKeyName(keycode) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()) )

@@ -43,7 +43,7 @@ HB_FUNC( WXBUTTON_NEW )
   const wxPoint& pos = wxh_par_wxPoint( 4 );
   const wxSize& size = wxh_par_wxSize( 5 );
   long style = hb_parnl( 6 );
-  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.paramParent( 7 ))) ;
+  const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : * ( (wxValidator *) objParams.paramChild( 7 ) );
   const wxString& name = wxh_parc( 8 );
 
   wx_Button* button = new wx_Button( parent, id, label, pos, size, style, validator, name );

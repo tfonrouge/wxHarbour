@@ -21,3 +21,5 @@
 
 #include "defs.ch"
 #include "event.ch"
+#include "toplevel.ch"
+#include "dialog.ch"
