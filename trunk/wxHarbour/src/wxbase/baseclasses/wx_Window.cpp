@@ -366,6 +366,20 @@ HB_FUNC( WXWINDOW_GETSIZER )
 }
 
 /*
+ GetValidator
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETVALIDATOR )
+{
+  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( wnd )
+  {
+    wxh_itemReturn( wnd->GetValidator() );
+  }
+}
+
+/*
  Hide
  Teo. Mexico 2009
  */

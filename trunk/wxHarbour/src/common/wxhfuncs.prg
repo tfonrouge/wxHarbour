@@ -647,7 +647,7 @@ FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
   ENDIF
 
   book := bookClass:New( parent, id, pos, size, style, name )
-
+  
   containerObj():SetLastChild( book )
 
   containerObj():AddToParentList( book )
@@ -922,8 +922,6 @@ FUNCTION __wxh_Dialog( fromClass, oParent, nID, cTitle, nTopnLeft, nHeightnWidth
     ENDIF
   ENDIF
   
-  dlg:SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY )
-
   IF onClose != NIL
     dlg:ConnectCloseEvt( dlg:GetId(), wxEVT_CLOSE_WINDOW, onClose )
   ENDIF
@@ -2078,6 +2076,9 @@ METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
     wxhAlert( "Trying to add a NIL value to the ParentList stack",{"QUIT"})
     ::QUIT()
   ENDIF
+  
+  parent:SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY )
+
   AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL, "wxhHBValidator"=>NIL } } )
 RETURN
 
