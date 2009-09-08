@@ -49,6 +49,7 @@ PUBLIC:
   METHOD GetName
   METHOD GetParent
   METHOD GetSizer
+  METHOD GetValidator()
   METHOD Hide( Value )
   METHOD IsEnabled
   METHOD IsShown

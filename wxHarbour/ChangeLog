@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-09-08 15:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    * setting the wxWS_EX_VALIDATE_RECURSIVELY to all container controls
+      (i.e. wxFrame, wxPanel...)
+
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/baseclasses/wxhWindow.prg
+    + added method:
+      + GetValidator()
+
 2009-09-08 14:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     * code cleanup
