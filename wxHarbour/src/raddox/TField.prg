@@ -847,6 +847,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
   SWITCH (::FFieldMethodType := ValType( FieldMethod ))
   CASE "A"
+    ::FReadOnly := .T.
     IF ::IsDerivedFrom("TObjectField")
       RAISE TFIELD ::Name ERROR "Array of Fields Not Allowed in <TObjectField>..."
     ENDIF
@@ -877,6 +878,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
     ::FFieldExpression := NIL
     EXIT
   CASE "B"
+    ::FReadOnly := .T.
     ::FFieldArray := NIL
     ::FFieldCodeBlock  := FieldMethod
     ::FFieldReadBlock  := NIL
