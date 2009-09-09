@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-09-09 16:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TField.prg
+    ! Fixed marked as ReadOnly TFields who has FieldMethod type "B" .OR. "A"
+      ( codeblocks or arrays ).
+
 2009-09-09 15:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     % setting value of TField:IsReadOnly() to control
