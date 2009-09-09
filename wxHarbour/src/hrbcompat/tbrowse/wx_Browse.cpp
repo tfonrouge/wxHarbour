@@ -275,7 +275,6 @@ HB_FUNC( WXHBROWSE_SETROWPOS )
   {
     int row = hb_parni( 1 );
     int col = gridBrowse->GetGridCursorCol();
-    gridBrowse->SetFocus();
     gridBrowse->MakeCellVisible( row - 1, col );
     gridBrowse->SetGridCursor( row - 1, col );
   }

@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2009-09-09 15:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/common/wxhfuncs.prg
+    % setting value of TField:IsReadOnly() to control
+
+  * src/hrbcompat/tbrowse/wx_Browse.cpp
+    ! Fixed wrong behavior on updating wxhBrowse by removing a unneeded
+      gridBrowse->SetFocus() on ::SetRowPos
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+  * src/raddox/TTable.prg
+    % improved logic to not fire OnDataChange() when in move methods
+    ! Fixed PageUp/PageDown methods on wrong relocating ::RowPos
+    
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    % improved FillGridBuffer(), now accepting a paramter to indicate RecNo
+      were to start
+    % improved speed of scan for data
+    
+  * src/raddox/TField.prg
+    + added method:
+      + IsReadOnly, returns value of ::FReadOnly | ::FCalculated
+
 2009-09-08 15:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * setting the wxWS_EX_VALIDATE_RECURSIVELY to all container controls
