@@ -181,6 +181,13 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
     control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SPINCTRL_UPDATED, {|event| ::UpdateVar( event ) } )
 
   ENDIF
+  
+  /* TField attributes */
+  IF ::FField != NIL
+    IF control:IsEnabled() .AND. ::FField:IsReadOnly()
+      control:Disable()
+    ENDIF
+  ENDIF
 
   /*
    * Common to all controls

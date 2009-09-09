@@ -97,6 +97,7 @@ PUBLIC:
 
   CLASSDATA DataBase
 
+  DATA allowDataChange INIT .T.
   DATA dataIsOEM  INIT .T.
   /*!
     array of possible TObjectField's that have this (SELF) object referenced
@@ -1033,7 +1034,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
 
     ::SyncDetailSources()
     
-    IF Result
+    IF Result .AND. ::allowDataChange
       ::OnDataChange()
     ENDIF
 

@@ -116,6 +116,7 @@ PUBLIC:
   METHOD GetData
   METHOD GetItDoPick
   METHOD GetValidValues
+  METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
   METHOD IsValid( Value )
   METHOD Reset
   METHOD SetAsVariant( Value )

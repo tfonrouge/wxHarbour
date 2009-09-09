@@ -37,6 +37,7 @@ PRIVATE:
   DATA FRowPos          INIT 0
   METHOD GetColCount INLINE Len( ::GetTable():ColumnList )
   METHOD GetRecNo
+  METHOD SetAllowDataChange( allowDataChange )
   METHOD SetDataSource( dataSource )
   METHOD SetAlwaysShowSelectedRow( alwaysShowSelectedRow )
 PROTECTED:
@@ -166,7 +167,10 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD FUNCTION Down CLASS wxhBrowse
+  LOCAL allowDataChange
 
+  allowDataChange := ::SetAllowDataChange( .F. )
+  
   IF ::RowPos < ::RowCount
     ::RowPos += 1
   ELSE
@@ -177,6 +181,8 @@ METHOD FUNCTION Down CLASS wxhBrowse
       ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
     ENDIF
   ENDIF
+  
+  ::SetAllowDataChange( allowDataChange )
 
 RETURN Self
 
@@ -248,13 +254,18 @@ RETURN ::FRecNo
   Teo. Mexico 2009
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
+  LOCAL allowDataChange
+  
+  allowDataChange := ::SetAllowDataChange( .F. )
 
   ::GoBottomBlock:Eval()
-  ::GetTable():FillGridBuffer()
-  ::RowPos := ::RowCount
+  ::GetTable():FillGridBuffer( 0 )
+  ::RowPos := ::RowCount()
 
   ::ForceRefresh()
 
+  ::SetAllowDataChange( allowDataChange )
+  
 RETURN Self
 
 /*
@@ -274,12 +285,17 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
+  LOCAL allowDataChange
+
+  allowDataChange := ::SetAllowDataChange( .F. )
 
   ::GoTopBlock:Eval()
-  ::GetTable():FillGridBuffer()
+  ::GetTable():FillGridBuffer( 0 )
   ::RowPos := 1
 
   ::ForceRefresh()
+
+  ::SetAllowDataChange( allowDataChange )
 
 RETURN Self
 
@@ -366,22 +382,14 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
     IF keyEvent:GetModifiers() = wxMOD_CONTROL
       ::GoTop()
     ELSE
-      IF ::RowPos = 1
-        ::PageUp()
-      ELSE
-        ::RowPos := 1
-      ENDIF
+      ::PageUp()
     ENDIF
     EXIT
   CASE WXK_PAGEDOWN
     IF keyEvent:GetModifiers() = wxMOD_CONTROL
       ::GoBottom()
     ELSE
-      IF ::RowPos = ::RowCount
-        ::PageDown()
-      ELSE
-        ::RowPos := ::RowCount
-      ENDIF
+      ::PageDown()
     ENDIF
     EXIT
   _SW_OTHERWISE
@@ -407,7 +415,7 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
   IF ::FAlwaysShowSelectedRow
     ::ShowRow( row )
   ENDIF
-
+  
   ::GetTable():CurRowIndex := row
 
   ::FColPos := gridEvent:GetCol() + 1
@@ -460,7 +468,7 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
       ::DeleteRows( 0, ::GetNumberRows() )
     ENDIF
 
-    ::GetTable():FillGridBuffer()
+    ::GetTable():FillGridBuffer( 0 )
 
     ::FHeight := height
 
@@ -473,12 +481,18 @@ RETURN Result
   Teo. Mexico 2009
 */
 METHOD FUNCTION PageDown CLASS wxhBrowse
-  LOCAL rowPos := ::RowPos
+  LOCAL allowDataChange
 
-  ::SkipBlock:Eval( ::RowCount - ::RowPos + 1 )
-  ::GetTable():FillGridBuffer()
-  ::ForceRefresh()
-  ::RowPos := rowPos
+  allowDataChange := ::SetAllowDataChange( .F. )
+  
+  IF ::RowPos = ::RowCount
+    ::GetTable():FillGridBuffer( ::RowCount )
+    ::ForceRefresh()
+  ELSE
+    ::RowPos := ::RowCount
+  ENDIF
+
+  ::SetAllowDataChange( allowDataChange )
 
 RETURN Self
 
@@ -487,11 +501,18 @@ RETURN Self
   Teo. Mexico 2009
 */
 METHOD FUNCTION PageUp CLASS wxhBrowse
+  LOCAL allowDataChange
 
-  ::SkipBlock:Eval( -::RowPos - ::RowCount + 1)
-  ::GetTable():FillGridBuffer()
+  allowDataChange := ::SetAllowDataChange( .F. )
+  
+  IF ::RowPos = 1
+    ::GetTable():FillGridBuffer( - ::RowCount )
+    ::ForceRefresh()
+  ELSE
+    ::RowPos := 1
+  ENDIF
 
-  ::ForceRefresh()
+  ::SetAllowDataChange( allowDataChange )
 
 RETURN Self
 
@@ -500,7 +521,7 @@ RETURN Self
   Teo. Mexico 2009
 */
 METHOD FUNCTION RefreshAll CLASS wxhBrowse
-  ::GetTable():FillGridBuffer()
+  ::GetTable():FillGridBuffer( 0 )
   ::ForceRefresh()
 RETURN Self
 
@@ -511,6 +532,32 @@ RETURN Self
 METHOD FUNCTION Right CLASS wxhBrowse
   ::MoveCursorRight()
 RETURN Self
+
+/*
+  SetAlwaysShowSelectedRow
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetAlwaysShowSelectedRow( alwaysShowSelectedRow ) CLASS wxhBrowse
+  ::ShowRow( NIL, alwaysShowSelectedRow )
+  ::FAlwaysShowSelectedRow := alwaysShowSelectedRow
+RETURN
+
+/*
+  SetAllowDataChange
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION SetAllowDataChange( allowDataChange ) CLASS wxhBrowse
+  LOCAL oldValue
+  
+  IF ::DataSourceType = "O"
+    oldValue := ::DataSource:allowDataChange
+    ::DataSource:allowDataChange := allowDataChange
+    IF allowDataChange
+      ::DataSource:OnDataChange()
+    ENDIF
+  ENDIF
+  
+RETURN oldValue
 
 /*
   SetColumnAlignment
@@ -597,19 +644,13 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 RETURN
 
 /*
-  SetAlwaysShowSelectedRow
-  Teo. Mexico 2009
-*/
-METHOD PROCEDURE SetAlwaysShowSelectedRow( alwaysShowSelectedRow ) CLASS wxhBrowse
-  ::ShowRow( NIL, alwaysShowSelectedRow )
-  ::FAlwaysShowSelectedRow := alwaysShowSelectedRow
-RETURN
-
-/*
   Up
   Teo. Mexico 2009
 */
 METHOD FUNCTION Up CLASS wxhBrowse
+  LOCAL allowDataChange
+
+  allowDataChange := ::SetAllowDataChange( .F. )
 
   IF ::RowPos > 1
     ::RowPos -= 1
@@ -621,6 +662,8 @@ METHOD FUNCTION Up CLASS wxhBrowse
       ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
     ENDIF
   ENDIF
+  
+  ::SetAllowDataChange( allowDataChange )
 
 RETURN Self
 

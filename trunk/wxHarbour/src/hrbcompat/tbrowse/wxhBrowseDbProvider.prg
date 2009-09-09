@@ -49,7 +49,7 @@ PUBLIC:
 
   METHOD ClearObjData INLINE ::FColumnList := NIL
 
-  METHOD FillGridBuffer
+  METHOD FillGridBuffer( start )
   METHOD GetColLabelValue( col )
   METHOD GetGridRowData( row )
   METHOD GetRowLabelValue( row )
@@ -72,23 +72,34 @@ ENDCLASS
   FillGridBuffer
   Teo. Mexico 2008
 */
-METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
+METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
   LOCAL i
   LOCAL n
   LOCAL direction
   LOCAL totalSkipped := 0
   LOCAL topRecord
-  LOCAL rowPos
+  LOCAL curRowPos
   LOCAL browse := ::GetView()
+  LOCAL allowDataChange
   
   IF browse:SkipBlock == NIL
     RETURN
   ENDIF
-
+  
+  curRowPos := browse:RowPos
+  
+  /* TODO: ask Harbour team if it's possible to have ++start -= curRowPos */
+  ++start
+  start -= curRowPos
+  
   browse:SkipBlock:Eval( 0 )
 
   IF ::FCurRowIndex == NIL .OR. ( browse:DataSourceType = "O" .AND. browse:DataSource:Eof() )
     browse:GoFirstPos()
+  ENDIF
+  
+  IF start != 0
+    browse:SkipBlock:Eval( start )
   ENDIF
 
   ::FCurRowIndex := 0
@@ -106,6 +117,11 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
   IF Empty( ::FGridBuffer )
     RETURN
   ENDIF
+  
+  IF browse:DataSourceType = "O"
+    allowDataChange := browse:DataSource:allowDataChange
+    browse:DataSource:allowDataChange := .F.
+  ENDIF
 
   n := browse:SkipBlock:Eval( -1 )
   topRecord := n = 0
@@ -116,8 +132,6 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
 
   /* Fill in the First row */
   ::GetGridRowData( 1 )
-
-  rowPos := 1
 
   direction := 1
   i := 2
@@ -133,10 +147,12 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
           EXIT
         ENDIF
         /* go to first record */
-        browse:SkipBlock:Eval( - totalSkipped )
+        IF totalSkipped != 0
+          browse:SkipBlock:Eval( - totalSkipped )
+        ENDIF
         direction := -1
         LOOP
-      ELSE /* we are at an premature bof */
+      ELSE /* we are at a premature bof */
         ::SetGridBufferSize( i - 1 )
         EXIT
       ENDIF
@@ -146,7 +162,6 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
     ELSE
       n := 1
       AIns( ::FGridBuffer, 1 )
-      ++rowPos
     ENDIF
 
     ::GetGridRowData( n )
@@ -154,13 +169,21 @@ METHOD PROCEDURE FillGridBuffer CLASS wxhBrowseTableBase
     i++
 
   ENDDO
-
+  
   /* normal fill (top-down) require repos at rowIndex 1 */
-  IF direction = 1
+  IF direction = 1 .AND. totalSkipped != 0
     browse:SkipBlock:Eval( - totalSkipped )
   ENDIF
-
-  browse:RowPos := rowPos /* the very first record from where scan was started */
+  
+  IF curRowPos > browse:RowCount
+    browse:RowPos := browse:RowCount
+  ELSE
+    browse:RowPos := curRowPos
+  ENDIF
+  
+  IF allowDataChange != NIL
+    browse:DataSource:allowDataChange := allowDataChange
+  ENDIF
 
 RETURN
 
