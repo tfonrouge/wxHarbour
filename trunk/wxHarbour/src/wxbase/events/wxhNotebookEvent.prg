@@ -14,22 +14,29 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#ifndef _WXH_EVTDEFS_H_
-#define _WXH_EVTDEFS_H_
-
-#define WXH_ACTIVATEEVENT       1
-#define WXH_CLOSEEVENT          2
-#define WXH_COMMANDEVENT        3
-#define WXH_FOCUSEVENT          4
-#define WXH_GRIDEVENT           5
-#define WXH_INITDIALOGEVENT     6
-#define WXH_KEYEVENT		    7
-#define WXH_MENUEVENT           8
-#define WXH_MOUSEEVENT          9
-#define WXH_NOTEBOOKEVENT       10
-#define WXH_SOCKETEVENT         11
-#define WXH_TASKBARICONEVENT    12
-#define WXH_TIMEREVENT          13
-#define WXH_UPDATEUIEVENT       14
-
+#ifdef __XHARBOUR__
+  #include "wx_hbcompat.ch"
 #endif
+
+#include "hbclass.ch"
+#include "property.ch"
+#include "wx.ch"
+
+/*
+  wxNotebookEvent
+  Teo. Mexico 2009
+*/
+CLASS wxNotebookEvent FROM wxNotifyEvent
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  METHOD GetOldSelection()
+  METHOD GetSelection()
+  METHOD SetOldSelection( page )
+  METHOD SetSelection( page )
+PUBLISHED:
+ENDCLASS
+
+/*
+  End Class wxNotebookEvent
+*/

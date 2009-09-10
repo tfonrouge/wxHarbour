@@ -192,6 +192,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhKeyEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhMenuEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.o \
@@ -272,6 +274,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_GridEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_KeyEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_MenuEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.o \
+	$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_SizeEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_SocketEvent.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.o \
@@ -696,6 +700,14 @@ $(__BUILDDIR__)\wxHarbour_wxhMouseEvent.o: ./src/wxbase/events/wxhMouseEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.o: ./src/wxbase/events/wxhNotebookEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.o: ./src/wxbase/events/wxhNotifyEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhSizeEvent.o: ./src/wxbase/events/wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -967,6 +979,12 @@ $(__BUILDDIR__)\wxHarbour_wx_KeyEvent.o: ./src/wxbase/events/wx_KeyEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_MenuEvent.o: ./src/wxbase/events/wx_MenuEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.o: ./src/wxbase/events/wx_NotebookEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.o: ./src/wxbase/events/wx_NotifyEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_SizeEvent.o: ./src/wxbase/events/wx_SizeEvent.cpp

@@ -14,22 +14,47 @@
   (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#ifndef _WXH_EVTDEFS_H_
-#define _WXH_EVTDEFS_H_
+/*
+  wx_NotifyEvent: Implementation
+  Teo. Mexico 2009
+*/
 
-#define WXH_ACTIVATEEVENT       1
-#define WXH_CLOSEEVENT          2
-#define WXH_COMMANDEVENT        3
-#define WXH_FOCUSEVENT          4
-#define WXH_GRIDEVENT           5
-#define WXH_INITDIALOGEVENT     6
-#define WXH_KEYEVENT		    7
-#define WXH_MENUEVENT           8
-#define WXH_MOUSEEVENT          9
-#define WXH_NOTEBOOKEVENT       10
-#define WXH_SOCKETEVENT         11
-#define WXH_TASKBARICONEVENT    12
-#define WXH_TIMEREVENT          13
-#define WXH_UPDATEUIEVENT       14
+#include "wx/wx.h"
 
-#endif
+#include "wxh.h"
+
+/*
+  Allow
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXNOTIFYEVENT_ALLOW )
+{
+  wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( notifyEvent )
+    notifyEvent->Allow();
+}
+
+/*
+  IsAllowed
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXNOTIFYEVENT_ISALLOWED )
+{
+  wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( notifyEvent )
+    hb_retl( notifyEvent->IsAllowed() );
+}
+
+/*
+  Veto
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXNOTIFYEVENT_VETO )
+{
+  wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+  if( notifyEvent )
+    notifyEvent->Veto();
+}

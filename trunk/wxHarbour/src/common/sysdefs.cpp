@@ -204,6 +204,9 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 505 : evtNumber = wxEVT_COMMAND_KILL_FOCUS; break;
     case 506 : evtNumber = wxEVT_COMMAND_ENTER; break;
 
+        // Notebook events
+    case 802 : evtNumber = wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED; break;
+    case 803 : evtNumber = wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING; break;
         // Help events
     case 1050 : evtNumber = wxEVT_HELP; break;
     case 1051 : evtNumber = wxEVT_DETAILED_HELP; break;

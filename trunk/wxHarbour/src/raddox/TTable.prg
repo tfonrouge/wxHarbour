@@ -43,6 +43,7 @@ PRIVATE:
   DATA FIndexList
   DATA FMasterList    INIT .F.  // Needed to tell when listing a Detail DataSource.
   DATA FMasterSource
+  DATA FContainerField
   DATA FPort
   DATA FPrimaryIndex
 
@@ -55,6 +56,7 @@ PRIVATE:
   DATA FRemote	      INIT .F.
   DATA FState INIT dsInactive
   DATA FSubState INIT dssNone
+  DATA FSyncToContainerField INIT .F.
   DATA FTableFileName
   DATA FTimer INIT 0
   DATA FUndoList INIT HB_HSetCaseMatch( {=>}, .F. )
@@ -67,16 +69,18 @@ PRIVATE:
   METHOD GetFieldTypes
   METHOD GetFound INLINE ::Alias:Found
   METHOD GetIndexName INLINE ::FIndex:Name
+  METHOD GetInstance EXPORTED
   METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex == NIL .OR. ::FPrimaryIndex:UniqueKeyField == NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
   METHOD GetPrimaryMasterKeyField INLINE iif( ::FPrimaryIndex == NIL, NIL, ::FPrimaryIndex:MasterKeyField )
+  METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
+  METHOD GetPublishedFieldList
+  METHOD GetTableName INLINE ::TableNameValue
   METHOD SetIndex( AIndex ) INLINE ::FIndex := AIndex
   METHOD SetIndexName( IndexName )
   METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
   METHOD SetMasterSource( MasterSource )
-  METHOD GetInstance EXPORTED
-  METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
-  METHOD GetPublishedFieldList
-  METHOD GetTableName INLINE ::TableNameValue
+  METHOD SetContainerField( parentField ) INLINE ::FContainerField := parentField
+  METHOD SetSyncToContainerField( value ) INLINE ::FSyncToContainerField := value
   METHOD Process_TableName( tableName )
 #ifndef __XHARBOUR__
   METHOD SendToServer
@@ -193,6 +197,7 @@ PUBLIC:
   PROPERTY RecNo READ FRecNo WRITE DbGoTo
   PROPERTY State READ FState
   PROPERTY SubState READ FSubState
+  PROPERTY SyncToContainerField READ FSyncToContainerField WRITE SetSyncToContainerField
   PROPERTY TableFileName READ FTableFileName
 
 PUBLISHED:
@@ -205,6 +210,7 @@ PUBLISHED:
   PROPERTY IndexName READ GetIndexName WRITE SetIndexName
   PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
   PROPERTY MasterSource READ FMasterSource WRITE SetMasterSource
+  PROPERTY ContainerField READ FContainerField WRITE SetContainerField
   PROPERTY PrimaryKeyField READ GetPrimaryKeyField
   PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
   PROPERTY PrimaryIndex READ FPrimaryIndex WRITE SetPrimaryIndex
@@ -932,7 +938,7 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
   LOCAL state
   LOCAL pSelf
   LOCAL Result
-
+  
   IF ::FState = dsBrowse
 
     // DetailTable Syncs to a MasterSource

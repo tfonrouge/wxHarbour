@@ -38,6 +38,7 @@ void fill_map_defs()
   map_defs[ "wxEVT_DETAILED_HELP" ] = wxEVT_DETAILED_HELP;
   map_defs[ "wxEVT_KILL_FOCUS" ] = wxEVT_KILL_FOCUS;
   map_defs[ "wxEVT_MENU_OPEN" ] = wxEVT_MENU_OPEN;
+  map_defs[ "wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED" ] = wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED;
   map_defs[ "wxTE_PROCESS_ENTER" ] = wxTE_PROCESS_ENTER;
 }
 

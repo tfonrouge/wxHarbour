@@ -279,6 +279,8 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhKeyEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhMenuEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.obj &
@@ -359,6 +361,8 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_GridEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_KeyEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_MenuEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_SizeEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj &
@@ -732,6 +736,14 @@ $(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj :  .AUTODEPEND .\src\wxbase\events\w
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhNotebookEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhNotifyEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1003,6 +1015,12 @@ $(__BUILDDIR__)\wxHarbour_wx_KeyEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_MenuEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_MenuEvent.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_NotebookEvent.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_NotifyEvent.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_SizeEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_SizeEvent.cpp
