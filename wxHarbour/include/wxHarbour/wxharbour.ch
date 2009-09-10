@@ -94,7 +94,7 @@
  */
 #xcommand CREATE [<type: MDIPARENT,MDICHILD>] FRAME <oFrame> ;
           [ CLASS <fromClass> ] ;
-          [ PARENT <oParent> ] ;
+          [ PARENT <parent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
           [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -102,11 +102,11 @@
           [ NAME <cName> ] ;
           [ ON CLOSE <onClose> ] ;
           => ;
-          <oFrame> := __wxh_Frame( [<"type">], [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] )
+          <oFrame> := __wxh_Frame( [<"type">], [<fromClass>], [<parent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] )
 
 #xcommand CREATE DIALOG <oDlg> ;
           [ CLASS <fromClass> ] ;
-          [ PARENT <oParent> ] ;
+          [ PARENT <parent> ] ;
           [ ID <nID> ] ;
           [ TITLE <cTitle> ] ;
           [ FROM <nTop>, <nLeft> ] [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -115,7 +115,7 @@
           [ ON CLOSE <onClose> ] ;
           [ ON INITDIALOG <initDlg> ] ;
           => ;
-          <oDlg> := __wxh_Dialog( [<fromClass>], [<oParent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] [<initDlg>] )
+          <oDlg> := __wxh_Dialog( [<fromClass>], [<parent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] [<initDlg>] )
 
 #xcommand FIT WINDOW <oWnd> ;
           => ;
@@ -132,13 +132,13 @@
 /*
   Menues
 */
-#xcommand DEFINE MENUBAR [ VAR <oMB>] [STYLE <nStyle>] [ON <oWindow>] ;
+#xcommand DEFINE MENUBAR [ VAR <oMB>] [STYLE <nStyle>] [PARENT <parent>] ;
           => ;
-          [<oMB> := ] __wxh_MenuBarBegin( [<oWindow>], [<nStyle>] )
+          [<oMB> := ] __wxh_MenuBarBegin( [<parent>], [<nStyle>] )
 
-#xcommand DEFINE MENU [<cLabel>] [VAR <menu>] [ON <evtHandler>] ;
+#xcommand DEFINE MENU [<cLabel>] [VAR <menu>] [PARENT <parent>] ;
           => ;
-          [<menu> :=] __wxh_MenuBegin( [<cLabel>], [<evtHandler>] )
+          [<menu> :=] __wxh_MenuBegin( [<cLabel>], [<parent>] )
 
 #xcommand ADD MENUITEM <cLabel> ;
               [VAR <menu>] ;
@@ -191,7 +191,7 @@
 
 #xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
           [ VAR <bs> ] ;
-          [ ON <parent> ] ;
+          [ PARENT <parent> ] ;
           [ [LABEL] <label> ] ;
           [ <stretch: STRETCH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
@@ -256,7 +256,7 @@
             [ CLASS <fromClass> ] ;
             [ LABEL <label> ] ;
             [ DATASOURCE <dataSource> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ MINSIZE <minWidth>,<minHeight> ] ;
@@ -268,7 +268,7 @@
             [<wxBrw>:=]__wxh_Browse( ;
               [<fromClass>],;
               [<dataSource>],;
-              [<window>],;
+              [<parent>],;
               [<id>],;
               [<label>],;
               ,;
@@ -299,7 +299,7 @@
 #xcommand @ BUTTON [<label>] ;
             [ BITMAP <bmp> ] ;
             [ VAR <btn> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -309,7 +309,7 @@
             [ ACTION <bAction> ] ;
           => ;
           [ <btn> := ]__wxh_Button( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<label>],;
             [<bmp>],;
@@ -332,7 +332,7 @@
  */
 #xcommand @ CHECKBOX [<dataVar>] [ LABEL <label> ] ;
             [ VAR <checkBox> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -341,7 +341,7 @@
           => ;
           @ PUSHVALIDATOR [<dataVar>] [ ACTION <{bAction}> ] ;;
           [ <checkBox> := ]__wxh_CheckBox( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<label>],;
             ,;
@@ -360,7 +360,7 @@
  */
 #xcommand @ GAUGE ;
             [ VAR <gauge> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ <type: HORIZONTAL, VERTICAL> ] ;
             [ RANGE <range> ] ;
@@ -371,7 +371,7 @@
             [ ACTION <bAction> ] ;
           => ;
           [ <gauge> := ]__wxh_Gauge( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<range>],;
             ,;
@@ -394,7 +394,7 @@
             [ ITEMS <choices> ] ;
             [ MAJORDIM <majorDimension> ] ;
             [ VAR <radioBox> ] ;
-            [ ON <parent> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -425,7 +425,7 @@
 #xcommand @ CHOICE <dataVar> ;
             [ ITEMS <choices> ] ;
             [ VAR <choice> ] ;
-            [ ON <parent> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -454,7 +454,7 @@
 #xcommand @ COMBOBOX <dataVar> ;
             [ ITEMS <choices> ] ;
             [ VAR <comboBox> ] ;
-            [ ON <parent> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ VALUE <value> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -482,7 +482,7 @@
   wxGrid
 */
 #xcommand @ GRID [ VAR <grid> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -491,7 +491,7 @@
             [ COLS <cols> ] ;
           => ;
             [<grid>:=]__wxh_Grid( ;
-              [<window>],;
+              [<parent>],;
               [<id>],;
               ,;
               [{<nWidth>,<nHeight>}],;
@@ -511,7 +511,7 @@
  */
 #xcommand @ LISTCTRL [<value>] ;
             [ VAR <listCtrl> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -520,7 +520,7 @@
             [ ACTION <bAction> ] ;
           => ;
           [ <listCtrl> := ]__wxh_ListCtrl( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<value>],;
             ,;
@@ -540,11 +540,13 @@
 */
 #xcommand BEGIN <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> ;
             [ VAR <nb> ] ;
-            [ ON <parent> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
+            [ ON PAGE CHANGED <opChanged> ] ;
+            [ ON PAGE CHANGING <opChanging> ] ;
           => ;
           [ <nb> := ]__wxh_BookBegin( wx<bookType>(), ;
             [<parent>],;
@@ -552,7 +554,9 @@
             ,;
             [{<nWidth>,<nHeight>}],;
             [<style>],;
-            [<name>] )
+            [<name>],;
+            [<opChanged>],;
+            [<opChanging>] )
 
 #xcommand END <bookType: NOTEBOOK, LISTBOOK, AUINOTEBOOK> => __wxh_BookEnd( "wx"+<"bookType"> )
 
@@ -570,7 +574,7 @@
 */
 #xcommand BEGIN PANEL ;
             [ VAR <panel> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -578,7 +582,7 @@
             [ ENABLED <enabled> ] ;
           => ;
           [ <panel> := ]__wxh_PanelBegin( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
@@ -597,14 +601,14 @@
  * SAY
  */
 #xcommand @ SAY <label> ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style: LEFT, RIGHT, CENTRE, CENTER> ] ;
             [ NAME <name> ] ;
           => ;
           __wxh_Say( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             <label>,;
             ,;
@@ -622,7 +626,7 @@
  */
 #xcommand @ GET [<dataVar>] ;
             [ VAR <var> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ <mline: MULTILINE> ] ;
@@ -635,7 +639,7 @@
           => ;
           @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [<var> :=] __wxh_TextCtrl(;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
@@ -682,7 +686,7 @@
 */
 #xcommand @ SCROLLBAR <orient: HORIZONTAL, VERTICAL>;
             [ VAR <sb> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -691,7 +695,7 @@
             [ ACTION <bAction> ] ;
           => ;
           [ <sb> := ]__wxh_ScrollBar( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
@@ -712,7 +716,7 @@
  */
 #xcommand @ SPINCTRL [<dataVar>] ;
             [ VAR <spinCtrl> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -724,7 +728,7 @@
           => ;
           @ PUSHVALIDATOR [<dataVar>] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [ <spinCtrl> := ]__wxh_SpinCtrl( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
@@ -744,14 +748,14 @@
  */
 #xcommand @ STATICBITMAP [<label>] ;
             [ VAR <staticBitmap> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
           [ <staticBitmap> := ]__wxh_StaticBitmap( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<label>],;
             ,;
@@ -770,12 +774,12 @@
 */
 #xcommand @ STATICLINE <orient: HORIZONTAL, VERTICAL>;
             [ VAR <sl> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ NAME <name> ] ;
           => ;
           [ <sl> := ]__wxh_StaticLine( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [wxLI_<orient>],;
@@ -792,14 +796,14 @@
  */
 #xcommand @ STATICTEXT [<label>] ;
             [ VAR <staticText> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
           [ <staticText> := ]__wxh_StaticText( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<label>],;
             ,;
@@ -821,10 +825,10 @@
             [ NAME <cName> ] ;
             [ FIELDS <nFields> ] ;
             [ WIDTHS <aWidths,...> ] ;
-            [ ON <oFrame> ] ;
+            [ PARENT <parent> ] ;
           => ;
           [ <oSB> := ] __wxh_StatusBar( ;
-            [<oFrame>], ;
+            [<parent>], ;
             [<nID>], ;
             [<nStyle>], ;
             [<cName>], ;
@@ -837,7 +841,7 @@
  */
 #xcommand @ SEARCHCTRL <dataVar> ;
             [ VAR <searchCtrl> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -847,7 +851,7 @@
           => ;
         @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
           [ <searchCtrl> := ]__wxh_SearchCtrl( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             ,;
             [{<nWidth>,<nHeight>}],;
@@ -870,14 +874,14 @@
 */
 #xcommand BEGIN [<toFrame: FRAME>] TOOLBAR ;
             [ VAR <toolBar> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
           => ;
           [ <toolBar> := ]__wxh_ToolBarBegin( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<.toFrame.>],;
             ,;
@@ -923,7 +927,7 @@
  */
 #xcommand @ TREECTRL [<label>] ;
             [ VAR <btn> ] ;
-            [ ON <window> ] ;
+            [ PARENT <parent> ] ;
             [ ID <id> ] ;
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
@@ -932,7 +936,7 @@
             [ ACTION <bAction> ] ;
           => ;
           [ <btn> := ]__wxh_TreeCtrl( ;
-            [<window>],;
+            [<parent>],;
             [<id>],;
             [<label>],;
             ,;

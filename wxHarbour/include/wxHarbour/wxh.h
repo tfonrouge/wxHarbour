@@ -46,6 +46,7 @@
 #include "wx/socket.h"
 #include "wx/timer.h"
 #include "wx/taskbar.h"
+#include "wx/notebook.h"
 
 /*
  * type differences between Harbour/xHarbour
@@ -145,6 +146,7 @@ HB_FUNC_EXTERN( WXINITDIALOGEVENT );
 HB_FUNC_EXTERN( WXKEYEVENT );
 HB_FUNC_EXTERN( WXMENUEVENT );
 HB_FUNC_EXTERN( WXMOUSEEVENT );
+HB_FUNC_EXTERN( WXNOTEBOOKEVENT );
 HB_FUNC_EXTERN( WXSOCKETEVENT );
 HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
@@ -199,6 +201,7 @@ public:
   void OnKeyEvent( wxKeyEvent& event );
   void OnMenuEvent( wxMenuEvent& event );
   void OnMouseEvent( wxMouseEvent& event );
+  void OnNotebookEvent( wxNotebookEvent& event );
   void OnSocketEvent( wxSocketEvent& event );
   void OnTaskBarIconEvent( wxTaskBarIconEvent& event );
   void OnTimerEvent( wxTimerEvent& event );

@@ -2,6 +2,53 @@
  * $Id$
  */
 
+2009-09-10 14:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+  * include/wxHarbour/event.ch
+  * include/wxHarbour/wxh.h
+  * include/wxHarbour/wxharbour.ch
+  * include/wxHarbour/wxhevtdefs.h
+  * src/common/sysdefs.cpp
+  * src/common/wxhfuncs.prg
+  * src/wxbase/events/wx_EvtHandler.cpp
+  * src/wxbase/events/wxhEvtHandler.prg
+  + src/wxbase/events/wx_NotebookEvent.cpp
+  + src/wxbase/events/wx_NotifyEvent.cpp
+  + src/wxbase/events/wxhNotebookEvent.prg
+  + src/wxbase/events/wxhNotifyEvent.prg
+    + added wxNotifyEvent, full methods
+    + added wxNotebookEvent, full methods
+    + added clauses (ON PAGE CHANGED, ON PAGE CHANGING) to @ NOTEBOOK
+      command
+
+  * demos/dbExplorer/dbExplorer.prg
+    * renamed clause ON to PARENT to minimize name collisions with new added
+      clauses to control commands
+
+  * include/wxHarbour/raddox.ch
+    * minor comment fix
+
+  * src/raddox/TField.prg
+  * src/raddox/TTable.prg
+    * added logic to syncronize data on fields for TObjectField's on to their
+      linked DataSources, so the following construct is valid in @ GET:
+        @ GET table:ObjField:DataObj:Field_Scalar
+	where "ObjField" is a valid TObjectField attached to "table"
+	"DataObj" retrieves the TTable object
+	"Field_Scalar" is a valid field in the DataObj table
+    ; TODO: Check the assigning of this type of constructs
+
+  * tests/evtdefcheck/evtdefcheck.prg
+  * tests/evtdefcheck/getdefs.cpp
+    * updated tests
+
+  + src/wxbase/manwindows/find.xpm
+    + added missing xpm file to default "find" image on wxBitmap's
+
 2009-09-09 16:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TField.prg
     ! Fixed marked as ReadOnly TFields who has FieldMethod type "B" .OR. "A"

@@ -488,7 +488,7 @@ METHOD TransferToWindow() CLASS wxhHBValidator
   LOCAL Result := .T.
   
   control := ::GetWindow()
-
+  
   IF control != NIL .AND. ::FBlock != NIL
 
     /*
@@ -611,7 +611,6 @@ RETURN
   Teo. Mexico 2009
 */
 METHOD Validate( parent ) CLASS wxhHBValidator
-  ? "Validate:", parent:ClassName()
   IF ::warnBlock != NIL
     WXH_UNUSED( parent )
     RETURN ::warnBlock[ 1 ]:Eval( ::GetWindow() )
@@ -646,7 +645,7 @@ RETURN
   __wxh_BookBegin
   Teo. Mexico 2009
 */
-FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
+FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name, opChanged, opChanging )
   LOCAL book
 
   IF parent == NIL
@@ -654,6 +653,14 @@ FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name )
   ENDIF
 
   book := bookClass:New( parent, id, pos, size, style, name )
+  
+  IF opChanged != NIL
+    book:ConnectNotebookEvt( book:GetID(), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, opChanging )
+  ENDIF
+  
+  IF opChanging != NIL
+    book:ConnectNotebookEvt( book:GetID(), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING, opChanging )
+  ENDIF
   
   containerObj():SetLastChild( book )
 

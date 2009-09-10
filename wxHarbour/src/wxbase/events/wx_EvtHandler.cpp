@@ -165,6 +165,17 @@ void hbEvtHandler<T>::OnMouseEvent( wxMouseEvent& event )
 }
 
 /*
+  OnNotebookEvent
+  Teo. Mexico 2009
+*/
+template <class T>
+void hbEvtHandler<T>::OnNotebookEvent( wxNotebookEvent& event )
+{
+  HB_FUNC_EXEC( WXNOTEBOOKEVENT );
+  __OnEvent( event );
+}
+
+/*
   OnSocketEvent
   Teo. Mexico 2009
 */
@@ -246,6 +257,9 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
       break;
     case WXH_MOUSEEVENT:
       objFunc = wxMouseEventHandler( hbEvtHandler<T>::OnMouseEvent );
+      break;
+    case WXH_NOTEBOOKEVENT:
+      objFunc = wxNotebookEventHandler( hbEvtHandler<T>::OnNotebookEvent );
       break;
     case WXH_SOCKETEVENT:
       objFunc = wxSocketEventHandler( hbEvtHandler<T>::OnSocketEvent );
@@ -414,6 +428,15 @@ HB_FUNC( WXEVTHANDLER_CONNECTMENUEVT )
 HB_FUNC( WXEVTHANDLER_CONNECTMOUSEEVT )
 {
   Connect( WXH_MOUSEEVENT );
+}
+
+/*
+  ConnectNotebookEvt
+  Teo. Mexico 2009
+*/
+HB_FUNC( WXEVTHANDLER_CONNECTNOTEBOOKEVT )
+{
+  Connect( WXH_NOTEBOOKEVENT );
 }
 
 /*

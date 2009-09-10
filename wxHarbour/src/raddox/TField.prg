@@ -113,7 +113,7 @@ PUBLIC:
   METHOD GetAsString INLINE "<" + ::ClassName + ">"
   METHOD GetBuffer
   METHOD GetEditText
-  METHOD GetData
+  METHOD GetData()
   METHOD GetItDoPick
   METHOD GetValidValues
   METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
@@ -248,6 +248,14 @@ METHOD FUNCTION GetAsVariant CLASS TField
   LOCAL AField
   LOCAL Result
   LOCAL value
+  STATIC n := 0
+  
+  IF ::FTable:ContainerField != NIL .AND. ::FTable:SyncToContainerField
+    ::FTable:SyncToContainerField := .F.
+    IF ! ::FTable:Value == ::FTable:ContainerField:Value
+      ::FTable:Value := ::FTable:ContainerField:Value
+    ENDIF
+  ENDIF
 
   SWITCH ::FFieldMethodType
   CASE "A"
@@ -271,7 +279,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 	  Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
 	ENDIF
     EXIT
-  CASE 'C'
+  CASE "C"
     IF ::FCalculated
       IF ::FFieldReadBlock == NIL
         IF __ObjHasMsg( Self:FTable, "CalcField_" + ::FName )
@@ -345,7 +353,7 @@ RETURN ::FBuffer
   GetData
   Teo. Mexico 2006
 */
-METHOD FUNCTION GetData CLASS TField
+METHOD PROCEDURE GetData() CLASS TField
   LOCAL AField
 
   SWITCH ::FFieldMethodType
@@ -367,7 +375,7 @@ METHOD FUNCTION GetData CLASS TField
     EXIT
   END
 
-RETURN .T.
+RETURN
 
 /*
   GetDefaultValue
@@ -1370,6 +1378,8 @@ PUBLIC:
   METHOD DataObj
   METHOD AsIndexKeyVal( value )
   METHOD GetAsString              //INLINE ::LinkedTable:PrimaryKeyField:AsString()
+  METHOD GetData()
+  METHOD ObjField( fieldName )
   METHOD SetAsVariant
   PROPERTY LinkedTable READ GetLinkedTable
   PROPERTY IsTheMasterSource READ GetIsTheMasterSource
@@ -1377,15 +1387,6 @@ PUBLIC:
   PROPERTY Size READ GetSize
 PUBLISHED:
 ENDCLASS
-
-/*
-  DataObj
-  Syncs the Table with the key in buffer
-  Teo. Mexico 2009
-*/
-METHOD FUNCTION DataObj CLASS TObjectField
-  ::LinkedTable:Value := ::GetBuffer()
-RETURN ::FLinkedTable
 
 /*
   AsIndexKeyVal
@@ -1398,6 +1399,15 @@ METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
 RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
 
 /*
+  DataObj
+  Syncs the Table with the key in buffer
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION DataObj CLASS TObjectField
+  ::LinkedTable:Value := ::GetBuffer()
+RETURN ::FLinkedTable
+
+/*
   GetAsString
   Teo. Mexico 2009
 */
@@ -1407,6 +1417,15 @@ METHOD FUNCTION GetAsString CLASS TObjectField
   Result := ::GetBuffer()
 
 RETURN Result
+
+/*
+  GetData
+  Teo. Mexico 2009
+*/
+METHOD PROCEDURE GetData() CLASS TObjectField
+  ::LinkedTable:SyncToContainerField := .T.
+  Super:GetData()
+RETURN
 
 /*
   GetIsTheMasterSource
@@ -1460,6 +1479,12 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
     IF !HB_IsObject( ::FLinkedTable ) .OR. ! ::FLinkedTable:IsDerivedFrom( "TTable" )
       RAISE TFIELD ::Name ERROR "Default value is not a TTable object."
     ENDIF
+    
+    IF ::FLinkedTable:ContainerField != NIL
+      RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
+    ENDIF
+    
+    ::FLinkedTable:ContainerField := Self
 
     /*
      * Attach the current DataObj to the one in table to sync when table changes
@@ -1483,6 +1508,13 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
   ENDIF
 
 RETURN ::FLinkedTable
+
+/*
+  ObjField
+  Teo. Mexico 2009
+*/
+METHOD FUNCTION ObjField( fieldName ) CLASS TObjectField
+RETURN ::DataObj:FieldByName( fieldName )
 
 METHOD PROCEDURE SetAsVariant( value ) CLASS TObjectField
   Super:SetAsVariant( value )

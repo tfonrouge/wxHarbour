@@ -193,6 +193,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhKeyEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhMenuEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhSocketEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTaskBarIconEvent.obj \
@@ -273,6 +275,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_GridEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_KeyEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_MenuEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SizeEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_SocketEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj \
@@ -695,6 +699,14 @@ $(__BUILDDIR__)\wxHarbour_wxhMouseEvent.obj: .\src\wxbase\events\wxhMouseEvent.p
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhNotebookEvent.obj: .\src\wxbase\events\wxhNotebookEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhNotifyEvent.obj: .\src\wxbase\events\wxhNotifyEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhSizeEvent.obj: .\src\wxbase\events\wxhSizeEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
@@ -967,6 +979,12 @@ $(__BUILDDIR__)\wxHarbour_wx_KeyEvent.obj: .\src\wxbase\events\wx_KeyEvent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_MenuEvent.obj: .\src\wxbase\events\wx_MenuEvent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_MenuEvent.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_NotebookEvent.obj: .\src\wxbase\events\wx_NotebookEvent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_NotebookEvent.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_NotifyEvent.obj: .\src\wxbase\events\wx_NotifyEvent.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_NotifyEvent.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_SizeEvent.obj: .\src\wxbase\events\wx_SizeEvent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_SizeEvent.cpp

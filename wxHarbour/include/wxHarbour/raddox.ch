@@ -44,7 +44,7 @@
             ADD _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
 #xtranslate T_StringField => TStringField
 
-/* To REQUIRE SIZE in TObjectField */
+/* To REQUIRE OBJVALUE in TObjectField */
 #xtranslate ADD OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
             => ;
             ADD _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
