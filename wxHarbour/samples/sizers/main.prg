@@ -125,6 +125,20 @@ FUNCTION Login
             END SIZER
           END SIZER
         END PANEL
+	  ADD BOOKPAGE "FlexGridSizer" FROM
+	    BEGIN PANEL
+		
+			BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2
+			
+				@ SAY "Name:" SIZERINFO ALIGN RIGHT
+				@ GET edtNombre SIZERINFO ALIGN EXPAND
+			
+				@ SAY "Button (col 1):"
+				@ BUTTON "Growable (col 2)" SIZERINFO ALIGN EXPAND
+
+			END SIZER
+		
+		END PANEL
     END NOTEBOOK
     @ SAY "More Text"
     BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
