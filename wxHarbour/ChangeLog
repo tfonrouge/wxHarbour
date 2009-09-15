@@ -2,6 +2,50 @@
  * $Id$
  */
 
+2009-09-15 15:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+  + include/wxHarbour/wxbase/wx_FlexGridSizer.h
+  + src/wxbase/sizers/wx_FlexGridSizer.cpp
+  + src/wxbase/sizers/wxhFlexGridSizer.prg
+    + added wxFlexGridSizer, full methods:
+      + AddGrowableCol()
+      + AddGrowableRow()
+      + GetFlexibleDirection()
+      + GetNonFlexibleGrowMode()
+      + RemoveGrowableCol()
+      + RemoveGrowableRow()
+      + SetFlexibleDirection()
+      + SetNonFlexibleGrowMode()
+
+  * include/wxHarbour/event.ch
+  * src/common/sysdefs.cpp
+    + added defines for:
+      + wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN
+      + wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN
+
+  * include/wxHarbour/wxharbour.ch
+    * added command (similar to BEGIN GRIDSIZER):
+       BEGIN FLEXGRIDSIZER ... GROWABLECOLS n,n1,... GROWABLEROWS n,n1,...
+
+  * samples/text/text.prg
+    * code cleanup
+
+  * src/common/wxhfuncs.prg
+    % enhanced command @ SEARCHCTRL
+    + added __wxh_FlexGridSizerBegin()
+    * using a wxSearchCtrl on @ GET when a TField has a picklist valid value
+
+  * src/wxbase/sizers/wx_GridSizer.cpp
+    * code cleanup
+
+  + samples/searchCtrl
+  + samples/searchCtrl/searchCtrl.prg
+    * added sample for @ SEARCHCTRL
+
 2009-09-10 14:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.bcc

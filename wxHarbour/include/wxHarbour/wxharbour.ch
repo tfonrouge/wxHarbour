@@ -208,6 +208,27 @@
             [ _hb_BitOr(0,<sideborders>) ] ;
           )
 
+#xcommand BEGIN FLEXGRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
+          [ GROWABLECOLS <growableCols,...> ] ;
+          [ GROWABLEROWS <growableRows,...> ] ;
+          [ <stretch: STRETCH> ] ;
+          [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+          [ BORDER <border> ] ;
+          [ SIDEBORDERS <sideborders,...> ] ;
+          => ;
+          __wxh_FlexGridSizerBegin( ;
+            [ <rows> ],;
+            [ <cols> ],;
+            [ <vgap> ],;
+            [ <hgap> ],;
+			[ {<growableCols>} ],;
+			[ {<growableRows>} ],;
+            [ wx<stretch> ],;
+            [ wxALIGN_<align> ],;
+            [ <border> ],;
+            [ _hb_BitOr(0,<sideborders>) ] ;
+          )
+
 #xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
           [ <stretch: STRETCH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
@@ -846,10 +867,13 @@
             [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
-            [ <mline: MULTILINE> ] ;
+            [ ON SEARCH <onSearch> ] ;
+            [ ON CANCEL <onCancel> ] ;
+            [ PICTURE <picture> ] ;
+            [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
             [ ACTION <bAction> ] ;
           => ;
-        @ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
+          @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
           [ <searchCtrl> := ]__wxh_SearchCtrl( ;
             [<parent>],;
             [<id>],;
@@ -857,7 +881,8 @@
             [{<nWidth>,<nHeight>}],;
             [<style>],;
             [<name>],;
-            [<.mline.>] )
+            [<onSearch>],;
+            [<onCancel>] )
 
 #xcommand @ SEARCHCTRL [<tcclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;

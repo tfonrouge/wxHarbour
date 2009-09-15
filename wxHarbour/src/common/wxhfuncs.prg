@@ -60,6 +60,7 @@ PUBLIC:
   DATA bAction
   DATA data
   DATA dataIsOEM INIT .T.
+  DATA onSearch
   DATA Picture
   DATA warnBlock
 
@@ -150,10 +151,13 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
     IF nextCtrlOnEnter .AND. !control:IsMultiLine()
       parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|  wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
     ENDIF
+    IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch != NIL
+      control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
+    ENDIF
     IF ::Field != NIL .AND. HB_IsBlock( ::Field:GetItPick )
       control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event:GetEventObject() ) } )
-      IF control:IsDerivedFrom( "wxSearchCtrl" )
-        control:ConnectCommandEvt( control:GetId(), 1120, {|event| ::PickList( event:GetEventObject() ) } )
+      IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch = NIL
+        control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event:GetEventObject() ) } )
       ENDIF
       IF contextListKey != NIL
         control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
@@ -969,6 +973,43 @@ STATIC PROCEDURE __wxh_EnableControl( evtCtrl, ctrl, id, enabled )
 RETURN
 
 /*
+ * __wxh_FlexGridSizerBegin
+ * Teo. Mexico 2009
+ */
+PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growableRows, strech, align, border, sideBorders )
+  LOCAL sizer
+  LOCAL parent
+  LOCAL lastSizer
+  LOCAL itm
+  
+  sizer := wxFlexGridSizer():New( rows, cols, vgap, hgap )
+  
+  IF !Empty( growableRows )
+	FOR EACH itm IN growableRows
+		sizer:AddGrowableRow( itm - 1 )  // ROW 1 becomes ROW 0
+	NEXT
+  ENDIF
+
+  IF !Empty( growableCols )
+	FOR EACH itm IN growableCols
+		sizer:AddGrowableCol( itm  - 1 )  // COLUMN 1 becomes COLUMN 0
+	NEXT
+  ENDIF
+
+  parent := containerObj():LastParent()
+  lastSizer := containerObj():LastSizer
+
+  IF lastSizer == NIL
+    __wxh_SetSizer( parent, sizer )
+  ELSE
+    __wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+  ENDIF
+
+  containerObj():AddToSizerList( sizer )
+
+RETURN
+
+/*
   __wxh_Frame
   Teo. Mexico 2009
 */
@@ -1377,7 +1418,7 @@ RETURN sb
   __wxh_SearchCtrl
   Teo. Mexico 2009
 */
-FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, multiLine )
+FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, onSearch, onCancel )
   LOCAL searchCtrl
   LOCAL validator
 
@@ -1386,14 +1427,6 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, multiLine )
   ENDIF
 
   validator := containerObj():LastItem()[ "wxhHBValidator" ]
-
-  IF multiLine == .T.
-    IF Empty( style )
-      style := wxTE_MULTILINE
-    ELSE
-      style := _hb_BitOr( wxTE_MULTILINE, style )
-    ENDIF
-  ENDIF
 
   /* nextCtrlOnEnter */
   IF nextCtrlOnEnter
@@ -1405,6 +1438,14 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, multiLine )
   ENDIF
 
   searchCtrl := wxSearchCtrl():New( window, id, NIL, pos, size, style, validator, name )
+
+  IF onSearch != NIL
+    validator:onSearch := onSearch
+  ENDIF
+  
+  IF onCancel != NIL
+    searchCtrl:ConnectCommandEvt( searchCtrl:GetID(), wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN, onCancel )
+  ENDIF
 
   validator:AddPostInfo()
 
@@ -1787,10 +1828,10 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip 
   pickBtn := validator:Field != NIL .AND. HB_IsBlock( validator:Field:GetItPick )
 
   IF pickBtn
-    BEGIN BOXSIZER HORIZONTAL STRETCH
+    textCtrl := wxSearchCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+  ELSE
+    textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
   ENDIF
-
-  textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
 
   IF toolTip != NIL
     textCtrl:SetToolTip( toolTip )
@@ -1799,13 +1840,6 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip 
   validator:AddPostInfo()
   
   containerObj():SetLastChild( textCtrl )
-
-  IF pickBtn
-    @ SIZERINFO STRETCH
-    @ BUTTON BITMAP 1 ACTION {|| validator:PickList( textCtrl ) }
-  END SIZER
-    containerObj():LastItem()[ "ignoreSizerInfoAdd" ] := NIL // the one at this @ GET ...
-  ENDIF
 
 RETURN textCtrl
 

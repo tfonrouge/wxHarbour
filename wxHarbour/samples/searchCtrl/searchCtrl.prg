@@ -39,21 +39,17 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oDlg
-  LOCAL edtNombre,edtMemo,edtPassword
+  LOCAL edtNombre
 
   edtNombre := wxGetUserId()
-  edtMemo := ""
-  edtPassword := "password"
 
   CREATE DIALOG oDlg ;
          WIDTH 640 HEIGHT 400 ;
-         TITLE "Text Sample"
+         TITLE "SearchCtrl Sample"
 
   BEGIN BOXSIZER VERTICAL
 
-    @ SAY "Single Line:" WIDTH 70 GET edtNombre
-    @ SAY "Multi Line:" WIDTH 70 GET edtMemo MULTILINE
-    @ SAY "Password:" WIDTH 70 GET edtPassword WIDTH 200 STYLE wxTE_PASSWORD
+    @ SEARCHCTRL edtNombre ON SEARCH {|| wxMessageBox( "Searching..." ) }
 
     @ BUTTON ID wxID_OK ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 
@@ -64,7 +60,5 @@ METHOD FUNCTION OnInit() CLASS MyApp
   oDlg:Destroy()
 
   ? "edtNombre:", edtNombre
-  ? "edtMemo:", edtMemo
-  ? "edtPassword:", edtPassword
 
 RETURN .T.

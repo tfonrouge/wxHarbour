@@ -303,6 +303,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhSocketServer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhScrollBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBoxSizer.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhFlexGridSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhGridSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhStaticBoxSizer.obj &
@@ -387,6 +388,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketServer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_ScrollBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_BoxSizer.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_FlexGridSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_GridSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Sizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_StaticBoxSizer.obj &
@@ -832,6 +834,10 @@ $(__BUILDDIR__)\wxHarbour_wxhBoxSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxh
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhFlexGridSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhFlexGridSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhGridSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wxhGridSizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1093,6 +1099,9 @@ $(__BUILDDIR__)\wxHarbour_wx_ScrollBar.obj :  .AUTODEPEND .\src\wxbase\range\wx_
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_BoxSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wx_BoxSizer.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_FlexGridSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wx_FlexGridSizer.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_GridSizer.obj :  .AUTODEPEND .\src\wxbase\sizers\wx_GridSizer.cpp

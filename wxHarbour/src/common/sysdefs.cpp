@@ -20,6 +20,7 @@
 */
 
 #include "wx/wx.h"
+#include "wx/srchctrl.h"
 #include "wxh.h"
 
 #define wxdllimpexp_base        9953
@@ -210,6 +211,10 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
         // Help events
     case 1050 : evtNumber = wxEVT_HELP; break;
     case 1051 : evtNumber = wxEVT_DETAILED_HELP; break;
+    
+        // SearchCtrl events
+    case 1119 : evtNumber = wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN; break;
+    case 1120 : evtNumber = wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN; break;
 
     /* grid events */
     case wxdllimpexp_adv + 1580 : evtNumber = wxEVT_GRID_CELL_LEFT_CLICK; break;
