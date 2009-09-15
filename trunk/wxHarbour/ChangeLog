@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-09-15 18:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TTable.prg
+    ! Fixed OnBeforeInsert/OnAfterInsert return values
+
 2009-09-15 15:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/sizers/main.prg
     * added "BEGIN FLEXGRIDSIZER ..." sample

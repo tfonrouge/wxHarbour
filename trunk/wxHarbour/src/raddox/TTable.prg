@@ -171,9 +171,9 @@ PUBLIC:
   METHOD ValidateFields
 
   METHOD OnCreate VIRTUAL
-  METHOD OnAfterInsert VIRTUAL
+  METHOD OnAfterInsert INLINE .T.
   METHOD OnAfterPost VIRTUAL
-  METHOD OnBeforeInsert VIRTUAL
+  METHOD OnBeforeInsert() INLINE .T.
   METHOD OnBeforePost VIRTUAL
   METHOD OnDataChange VIRTUAL
 
@@ -1273,20 +1273,16 @@ METHOD FUNCTION Insert CLASS TTable
     RETURN .F.
   ENDIF
 
-  ::OnBeforeInsert( Self )
+  IF ::OnBeforeInsert() .AND. ::AddRec() .AND. ::OnAfterInsert()
 
-  IF !::AddRec()
-    RETURN .F.
+    /* To Flush !!! */
+    ::Alias:DbSkip( 0 )
+	
+	RETURN .T.
+
   ENDIF
 
-  ::OnAfterInsert( Self )
-
-  /* To Flush !!! */
-  ::Alias:DbSkip( 0 )
-
-RETURN .T.
-
-// dOMINOS PIZZA CANTAROS 58274343
+RETURN .F.
 
 /*
   InsertRecord
