@@ -207,6 +207,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketServer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhScrollBar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBoxSizer.o \
+	$(__BUILDDIR__)/wxHarbour_wxhFlexGridSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhGridSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhStaticBoxSizer.o \
@@ -291,6 +292,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketServer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ScrollBar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_BoxSizer.o \
+	$(__BUILDDIR__)/wxHarbour_wx_FlexGridSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_GridSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Sizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_StaticBoxSizer.o \
@@ -755,6 +757,10 @@ $(__BUILDDIR__)/wxHarbour_wxhBoxSizer.o: ./src/wxbase/sizers/wxhBoxSizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)/wxHarbour_wxhFlexGridSizer.o: ./src/wxbase/sizers/wxhFlexGridSizer.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)/wxHarbour_wxhGridSizer.o: ./src/wxbase/sizers/wxhGridSizer.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1016,6 +1022,9 @@ $(__BUILDDIR__)/wxHarbour_wx_ScrollBar.o: ./src/wxbase/range/wx_ScrollBar.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_BoxSizer.o: ./src/wxbase/sizers/wx_BoxSizer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_FlexGridSizer.o: ./src/wxbase/sizers/wx_FlexGridSizer.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_GridSizer.o: ./src/wxbase/sizers/wx_GridSizer.cpp
