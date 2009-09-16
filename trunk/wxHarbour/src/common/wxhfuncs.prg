@@ -986,13 +986,13 @@ PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growab
   
   IF !Empty( growableRows )
 	FOR EACH itm IN growableRows
-		sizer:AddGrowableRow( itm - 1 )  // ROW 1 becomes ROW 0
+		sizer:AddGrowableRow( itm )  // ROW 1 becomes ROW 0
 	NEXT
   ENDIF
 
   IF !Empty( growableCols )
 	FOR EACH itm IN growableCols
-		sizer:AddGrowableCol( itm  - 1 )  // COLUMN 1 becomes COLUMN 0
+		sizer:AddGrowableCol( itm )  // COLUMN 1 becomes COLUMN 0
 	NEXT
   ENDIF
 

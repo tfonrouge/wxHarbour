@@ -3,7 +3,7 @@
  */
 
 /*
- wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+ wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
  
  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
  
@@ -11,12 +11,12 @@
  
  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  
- (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+ (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
  */
 
 /*
  wx_FlexGridSizer: Implementation
- Teo. Mexico 2006
+ Teo. Mexico 2009
  */
 
 #include "wx/wx.h"
@@ -26,7 +26,7 @@
 
 /*
  ~wx_FlexGridSizer
- Teo. Mexico 2006
+ Teo. Mexico 2009
  */
 wx_FlexGridSizer::~wx_FlexGridSizer()
 {
@@ -44,31 +44,31 @@ HB_FUNC( WXFLEXGRIDSIZER_NEW )
 
 /*
  AddGrowableCol
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLECOL )
 {
 	wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	
 	if( flexGridSizer )
-		flexGridSizer->AddGrowableCol( hb_parnl( 1 ), hb_parni( 2 ) );
+		flexGridSizer->AddGrowableCol( hb_parnl( 1 ) - 1, hb_parni( 2 ) );
 }
 
 /*
  AddGrowableRow
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLEROW )
 {
 	wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	
 	if( flexGridSizer )
-		flexGridSizer->AddGrowableRow( hb_parnl( 1 ), hb_parni( 2 ) );
+		flexGridSizer->AddGrowableRow( hb_parnl( 1 ) - 1, hb_parni( 2 ) );
 }
 
 /*
  GetFlexibleDirection
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_GETFLEXIBLEDIRECTION )
 {
@@ -80,7 +80,7 @@ HB_FUNC( WXFLEXGRIDSIZER_GETFLEXIBLEDIRECTION )
 
 /*
  GetNonFlexibleGrowMode
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_GETNONFLEXIBLEGROWMODE )
 {
@@ -92,19 +92,19 @@ HB_FUNC( WXFLEXGRIDSIZER_GETNONFLEXIBLEGROWMODE )
 
 /*
  RemoveGrowableCol
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLECOL )
 {
 	wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	
 	if( flexGridSizer )
-		flexGridSizer->RemoveGrowableCol( hb_parnl( 1 ) );
+		flexGridSizer->RemoveGrowableCol( hb_parnl( 1 ) - 1 );
 }
 
 /*
  RemoveGrowableRow
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLEROW )
 {
@@ -116,19 +116,19 @@ HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLEROW )
 
 /*
  SetFlexibleDirection
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_SETFLEXIBLEDIRECTION )
 {
 	wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	
 	if( flexGridSizer )
-		flexGridSizer->SetFlexibleDirection( hb_parni( 1 ) );
+		flexGridSizer->SetFlexibleDirection( hb_parni( 1 ) - 1 );
 }
 
 /*
  SetNonFlexibleGrowMode
- Teo. Mexico 2007
+ Teo. Mexico 2009
  */
 HB_FUNC( WXFLEXGRIDSIZER_SETNONFLEXIBLEGROWMODE )
 {
