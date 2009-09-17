@@ -128,7 +128,7 @@ PUBLIC:
   METHOD DbGoTo( RecNo )
   METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
   METHOD DbSkip( numRecs )
-  METHOD Delete
+  METHOD Delete()
   METHOD DeleteChilds
   METHOD Edit
   METHOD FieldByName
