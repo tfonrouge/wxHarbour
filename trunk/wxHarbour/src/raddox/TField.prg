@@ -1481,7 +1481,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
     ENDIF
     
     IF ::FLinkedTable:ContainerField != NIL
-      RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
+      //RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
     ENDIF
     
     ::FLinkedTable:ContainerField := Self

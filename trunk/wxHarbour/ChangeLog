@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2009-09-16 21:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * samples/dbbrowser/dbbrowser.prg
+    ! Fixed sample per changes on MENU command
+
+  * src/raddox/TField.prg
+    * commented out checking for a reassigned TObjectField on a field on the
+      linked table
+      ; TODO: Check if this check is needed at all
+
+  * src/raddox/TTable.prg
+    * minor code cleanup
+
 2009-09-15 23:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
   * src/wxbase/sizers/wx_FlexGridSizer.cpp
