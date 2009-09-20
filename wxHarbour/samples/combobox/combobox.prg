@@ -51,7 +51,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   CREATE FRAME oWnd ;
          TITLE "ComboBox Sample"
 
-  DEFINE MENUBAR STYLE 1 ON oWnd
+  DEFINE MENUBAR STYLE 1
     DEFINE MENU "&File"
       ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
           HELPLINE "Quits this sample..."
