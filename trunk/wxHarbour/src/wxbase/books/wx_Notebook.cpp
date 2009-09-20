@@ -134,7 +134,7 @@ HB_FUNC( WXNOTEBOOK_CHANGESELECTION )
 
   if( noteBook )
   {
-    hb_retni( noteBook->ChangeSelection( hb_parni( 1 ) ) );
+    hb_retni( noteBook->ChangeSelection( hb_parni( 1 ) - 1 ) + 1 );
   }
 }
 
@@ -166,7 +166,7 @@ HB_FUNC( WXNOTEBOOK_DELETEPAGE )
 
   if( noteBook )
   {
-    hb_retl( noteBook->DeletePage( hb_parni( 1 ) ) );
+    hb_retl( noteBook->DeletePage( hb_parni( 1 ) - 1 ) );
   }
 }
 
@@ -215,7 +215,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGE )
 
   if( noteBook )
   {
-    wxh_itemReturn( noteBook->GetPage( hb_parni( 1 ) ) );
+    wxh_itemReturn( noteBook->GetPage( hb_parni( 1 ) - 1 ) );
   }
 }
 
@@ -231,7 +231,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGECOUNT )
 
   if( noteBook )
   {
-    hb_retni( noteBook->GetPageCount() );
+    hb_retnl( noteBook->GetPageCount() );
   }
 }
 
@@ -247,7 +247,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGEIMAGE )
 
   if( noteBook )
   {
-    hb_retni( noteBook->GetPageImage( hb_parni( 1 ) ) );
+    hb_retni( noteBook->GetPageImage( hb_parnl( 1 ) - 1 ) );
   }
 }
 
@@ -263,7 +263,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
 
   if( noteBook )
   {
-    wxh_retc( noteBook->GetPageText( hb_parni( 1 ) ) );
+    wxh_retc( noteBook->GetPageText( hb_parnl( 1 ) - 1 ) );
   }
 }
 
@@ -295,7 +295,7 @@ HB_FUNC( WXNOTEBOOK_GETSELECTION )
 
   if( noteBook )
   {
-    hb_retni( noteBook->GetSelection() );
+    hb_retni( noteBook->GetSelection() + 1 );
   }
 }
 
@@ -351,7 +351,7 @@ HB_FUNC( WXNOTEBOOK_INSERTPAGE )
     {
       bool select = ISNIL( 4 ) ? false : hb_parl( 4 );
       int imageld = ISNIL( 5 ) ? -1 : hb_parni( 5 );
-      hb_retl( noteBook->InsertPage( hb_parnl( 1 ), page, wxh_parc( 3 ), select, imageld ) );
+      hb_retl( noteBook->InsertPage( hb_parnl( 1 ) - 1, page, wxh_parc( 3 ), select, imageld ) );
     }
   }
 }
@@ -368,7 +368,7 @@ HB_FUNC( WXNOTEBOOK_REMOVEPAGE )
 
   if( noteBook )
   {
-    hb_retl( noteBook->RemovePage( hb_parnl( 1 ) ) );
+    hb_retl( noteBook->RemovePage( hb_parnl( 1 ) - 1 ) );
   }
 }
 
@@ -436,7 +436,7 @@ HB_FUNC( WXNOTEBOOK_SETPAGEIMAGE )
 
   if( noteBook )
   {
-    hb_retl( noteBook->SetPageImage( hb_parnl( 1 ), hb_parni( 2 ) ) );
+    hb_retl( noteBook->SetPageImage( hb_parnl( 1 ) - 1, hb_parni( 2 ) ) );
   }
 }
 
@@ -452,6 +452,6 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
 
   if( noteBook )
   {
-    hb_retl( noteBook->SetPageText( hb_parnl( 1 ), wxh_parc( 2 ) ) );
+    hb_retl( noteBook->SetPageText( hb_parnl( 1 ) - 1, wxh_parc( 2 ) ) );
   }
 }

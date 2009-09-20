@@ -17,7 +17,7 @@ STATIC aws:={}                  // stack de PushWS/PopWS
 */
 FUNCTION AddRec(nrec,index)
   LOCAL rn:=RecNo()
-
+  
   IF GetNextEmpty(index)
     nrec := RecNo()
     RETURN .T.
@@ -40,6 +40,9 @@ FUNCTION AddRec(nrec,index)
     DbAppend(.F.)
 
     IF ! NetErr()
+	  IF Deleted()
+        DbRecall()
+      ENDIF
       nrec := RecNo()
       RETURN .T.
     ENDIF
@@ -87,7 +90,7 @@ FUNCTION Clear()
       fieldput(i,.F.)
     ENDCASE
   NEXT
-  dbrecall()
+  DbRecall()
 RETURN .T.
 
 /*
@@ -200,7 +203,11 @@ STATIC FUNCTION GetNextEmpty( index )
   LOCAL rec:=RecNo(),key
 
   IF index == NIL
-    index := "X01"
+    IF OrdNumber( "X01" ) > 0
+      index := "X01"
+    ELSE
+      index := OrdName()
+    ENDIF
   ENDIF
 
   DbGoTopX(index)

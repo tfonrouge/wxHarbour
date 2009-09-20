@@ -61,7 +61,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   CREATE FRAME oWnd ;
          TITLE "Hello World Sample"
 
-  DEFINE MENUBAR STYLE 1 ON oWnd
+  DEFINE MENUBAR STYLE 1
     DEFINE MENU "&File"
       DEFINE MENU "New"
         ADD MENUITEM "From A"

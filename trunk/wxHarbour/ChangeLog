@@ -2,6 +2,76 @@
  * $Id$
  */
 
+2009-09-19 20:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/helloworld/helloworld.prg
+  * samples/auinotebook/auinotebook.prg
+  * samples/bitmapButton/bitmapButton.prg
+  * samples/button/button.prg
+  * samples/checkbox/checkbox.prg
+  * samples/choice/choice.prg
+  * samples/combobox/combobox.prg
+  * samples/gauge/gauge.prg
+  * samples/grid/grid.prg
+  * samples/listbook/listbook.prg
+  * samples/notebook/notebook.prg
+  * samples/panel/panel.prg
+  * samples/radiobox/radiobox.prg
+  * samples/staticBitmap/staticBitmap.prg
+  * samples/toolbar/toolbar.prg
+  * samples/treectrl/treectrl.prg
+    ! Fixed DEFINE MENU ... command per changes in wxHarbour.ch
+
+  * src/common/wxhfuncs.prg
+    * changed 2 space indentation to tab's
+    ! Fixed wxhHBValidator:GetSelection for hash of valid values
+    ! Fixed wxhHBValidator:TransferFromWindow for wxTextCtrl dealing
+      with "D" and "N" types
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * changed 2 space indentation to tab's
+    + added method:
+      + RefreshCurrent()
+    * changed GetParent() method to return GetGrandParent() (parent of this
+      control is a wxPanel)
+    
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    * changed 2 space indentation to tab's
+    ! Fixed error on FillGridBuffer to not dispatch a OnDataChange event
+      when retrieving first row pos to scan
+
+  * src/raddox/Dba.prg
+    ! Fixed GetNextEmpty() to use the index on the parameter and check for
+      a possible primary key index
+
+  * src/raddox/TAlias.prg
+    * changed 2 space indentation to tab's
+    + added methods:
+      + DbDelete()
+      + DbRecall()
+      + OrdNumber()
+
+  * src/raddox/TField.prg
+    * changed 2 space indentation to tab's
+    * added TNumericField:SetAsVariant to deal with strings values
+    * added TDateField:SetAsVariant to deal with strings values
+
+  * src/raddox/TTable.prg
+    * changed 2 space indentation to tab's
+    * added logic to use a "Deleted" index field name containing available
+      records to reuse deleted records
+    + added methods:
+      + OnAfterCancel
+      + OnAfterOpen
+    % Improved speed and fixed bug on retrieving values for the class
+      created by TTable:GetDisplayFields
+    * throwing error on attempt to lock at eof
+
+
+  * src/wxbase/books/wx_Notebook.cpp
+  * src/wxbase/events/wx_NotebookEvent.cpp
+    ! Fixed index base used for functions storing/returning the selected page
+      now using 1 based index (Harbour compatible)
+
 2009-09-16 21:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * samples/dbbrowser/dbbrowser.prg
     ! Fixed sample per changes on MENU command
