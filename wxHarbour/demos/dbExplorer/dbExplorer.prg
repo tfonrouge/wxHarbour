@@ -178,7 +178,7 @@ METHOD FUNCTION GetBrw CLASS MyApp
     RETURN NIL
   ENDIF
 
-RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 0 )
+RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 0 ):FindWindowByName("table")
 
 /*
   OpenDB

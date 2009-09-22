@@ -205,6 +205,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketBase.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketClient.o \
 	$(__BUILDDIR__)/wxHarbour_wxhSocketServer.o \
+	$(__BUILDDIR__)/wxHarbour_wxhDatePickerCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wxhScrollBar.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBoxSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhFlexGridSizer.o \
@@ -290,6 +291,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketBase.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketClient.o \
 	$(__BUILDDIR__)/wxHarbour_wx_SocketServer.o \
+	$(__BUILDDIR__)/wxHarbour_wx_DatePickerCtrl.o \
 	$(__BUILDDIR__)/wxHarbour_wx_ScrollBar.o \
 	$(__BUILDDIR__)/wxHarbour_wx_BoxSizer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_FlexGridSizer.o \
@@ -322,6 +324,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/bitmap.ch \
 	include/wxHarbour/wxh/bookctrl.ch \
 	include/wxHarbour/wxh/button.ch \
+	include/wxHarbour/wxh/dateevt.ch \
 	include/wxHarbour/wxh/filedlg.ch \
 	include/wxHarbour/wxh/gauge.ch \
 	include/wxHarbour/wxh/gdicmn.ch \
@@ -749,6 +752,10 @@ $(__BUILDDIR__)/wxHarbour_wxhSocketServer.o: ./src/wxbase/networking/wxhSocketSe
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)/wxHarbour_wxhDatePickerCtrl.o: ./src/wxbase/pickers/wxhDatePickerCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)/wxHarbour_wxhScrollBar.o: ./src/wxbase/range/wxhScrollBar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1016,6 +1023,9 @@ $(__BUILDDIR__)/wxHarbour_wx_SocketClient.o: ./src/wxbase/networking/wx_SocketCl
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_SocketServer.o: ./src/wxbase/networking/wx_SocketServer.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_DatePickerCtrl.o: ./src/wxbase/pickers/wx_DatePickerCtrl.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_ScrollBar.o: ./src/wxbase/range/wx_ScrollBar.cpp

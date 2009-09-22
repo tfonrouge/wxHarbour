@@ -51,6 +51,7 @@
 #include "wxh/gauge.ch"
 #include "wxh/notebook.ch"
 #include "wxh/textctrl.ch"
+#include "wxh/dateevt.ch"
 
 #define wxhLABEL_QUIT           "Quit"
 #define wxhLABEL_RETRY          "Retry"
@@ -497,6 +498,36 @@
 #xcommand @ COMBOBOX [<cbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
           @ COMBOBOX [<cbclauses>] ;;
+          @ SIZERINFO [<sizerClauses>]
+
+/*
+ * wxDatePickCtrl
+ */
+#xcommand @ DATEPICKERCTRL [<dataVar>] ;
+            [ VAR <var> ] ;
+            [ PARENT <parent> ] ;
+            [ ID <id> ] ;
+            [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+            [ STYLE <style> ] ;
+            [ NAME <name> ] ;
+            [ PICTURE <picture> ] ;
+            [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
+            [ TOOLTIP <toolTip> ] ;
+            [ ACTION <bAction> ] ;
+          => ;
+          @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
+          [<var> :=] __wxh_DatePickerCtrl(;
+            [<parent>],;
+            [<id>],;
+            ,;
+            [{<nWidth>,<nHeight>}],;
+            [<style>],;
+            [<name>],;
+            [<{toolTip}>] )
+            
+#xcommand @ DATEPICKERCTRL [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
+          => ;
+          @ DATEPICKERCTRL [<clauses>] ;;
           @ SIZERINFO [<sizerClauses>]
 
 /*

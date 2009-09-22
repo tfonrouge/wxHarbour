@@ -53,6 +53,7 @@ PRIVATE:
 
 	DATA FRecNoBeforeInsert
 
+	DATA FReadOnly              INIT .F.
 	DATA FRecNo					INIT 0
 	DATA FRemote				INIT .F.
 	DATA FState INIT dsInactive
@@ -81,6 +82,8 @@ PRIVATE:
 	METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
 	METHOD SetMasterSource( MasterSource )
 	METHOD SetContainerField( parentField ) INLINE ::FContainerField := parentField
+	METHOD SetReadOnly( readOnly )
+	METHOD SetState( state )
 	METHOD SetSyncToContainerField( value ) INLINE ::FSyncToContainerField := value
 	METHOD Process_TableName( tableName )
 #ifndef __XHARBOUR__
@@ -169,7 +172,7 @@ PUBLIC:
 	METHOD SyncRecNo()
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
-	METHOD ValidateFields
+	METHOD Validate()
 
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
@@ -179,12 +182,15 @@ PUBLIC:
 	METHOD OnBeforeInsert() INLINE .T.
 	METHOD OnBeforePost() VIRTUAL
 	METHOD OnDataChange() VIRTUAL
+	METHOD OnPickList( param ) VIRTUAL
+	METHOD OnStateChange( state ) VIRTUAL
 
 	PROPERTY Alias READ GetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
 	PROPERTY BaseClass READ FBaseClass
 	PROPERTY Bof READ GetBof
 	PROPERTY DbStruct READ GetDbStruct
+	PROPERTY Deleted READ Alias:Deleted()
 	PROPERTY DisplayFields READ GetDisplayFields
 	PROPERTY Eof READ GetEof
 	PROPERTY FieldList READ FFieldList
@@ -218,6 +224,7 @@ PUBLISHED:
 	PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
 	PROPERTY PrimaryIndex READ FPrimaryIndex WRITE SetPrimaryIndex
 	PROPERTY PublishedFieldList READ GetPublishedFieldList
+	PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
 	PROPERTY TableName READ GetTableName
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
 
@@ -368,7 +375,7 @@ METHOD FUNCTION AddRec CLASS TTable
 
 	::FRecNo := ::Alias:RecNo
 
-	::FState := dsInsert
+	::SetState( dsInsert )
 	::FSubState := dssAdding
 
 	/*
@@ -402,7 +409,7 @@ METHOD FUNCTION AddRec CLASS TTable
 
 		ErrorBlock():Eval( errObj )
 
-		::Delete()
+		::TTable:Delete()
 		::RecUnLock()
 
 		Result := .F.
@@ -432,7 +439,7 @@ METHOD PROCEDURE Cancel CLASS TTable
 				AField:Reset()
 			ENDIF
 		NEXT
-		::Delete()
+		::TTable:Delete()
 		EXIT
 	CASE dsEdit
 		FOR EACH AField IN ::FieldList
@@ -731,7 +738,7 @@ METHOD FUNCTION DeleteChilds CLASS TTable
 		ENDIF
 
 		WHILE ChildDB:DbGoTop()
-			ChildDB:Delete( .T. )
+			ChildDB:TTable:Delete( .T. )
 		ENDDO
 
 	NEXT
@@ -1419,7 +1426,7 @@ METHOD FUNCTION Open() CLASS TTable
 		::FIndex := ::FIndexList[ 1 ]
 	ENDIF
 
-	::FState := dsBrowse
+	::SetState( dsBrowse )
 
 	::FActive := .T.
 
@@ -1612,7 +1619,7 @@ METHOD FUNCTION RecLock CLASS TTable
 	ENDIF
 
 	IF ::GetCurrentRecord()
-		::FState := dsEdit
+		::SetState( dsEdit )
 	ELSE
 		::Alias:RecUnLock()
 		RETURN .F.
@@ -1627,7 +1634,7 @@ RETURN .T.
 METHOD FUNCTION RecUnLock CLASS TTable
 	LOCAL Result
 	IF ( Result := ::Alias:RecUnLock() )
-		::FState := dsBrowse
+		::SetState( dsBrowse )
 	ENDIF
 RETURN Result
 
@@ -1768,6 +1775,25 @@ METHOD PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
 RETURN
 
 /*
+	SetReadOnly
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetReadOnly( readOnly ) CLASS TTable
+	IF ::FState = dsBrowse
+		::FReadOnly := readOnly
+	ENDIF
+RETURN
+
+/*
+	SetState
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetState( state ) CLASS TTable
+	::OnStateChange( state )
+	::FState := state
+RETURN
+
+/*
 	SkipBrowse : BROWSE skipblock
 	Teo. Mexico 2008
 */
@@ -1855,10 +1881,10 @@ METHOD PROCEDURE SyncRecNo( fromAlias ) CLASS TTable
 RETURN
 
 /*
-	ValidateFields
-	Teo. Mexico 2007
+	Validate
+	Teo. Mexico 2009
 */
-METHOD FUNCTION ValidateFields CLASS TTable
+METHOD FUNCTION Validate() CLASS TTable
 	LOCAL AField
 
 	FOR EACH AField IN ::FFieldList

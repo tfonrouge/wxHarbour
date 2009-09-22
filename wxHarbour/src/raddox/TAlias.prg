@@ -37,6 +37,7 @@ PUBLIC:
 	METHOD DbStruct INLINE (::FnWorkArea)->(DbStruct())
 	METHOD DbOpen
 	METHOD DbRecall()
+	METHOD Deleted()
 	METHOD Eval( codeBlock )
 	METHOD ExistKey( KeyValue, IndexName, RecNo )
 	METHOD FCount INLINE (::FnWorkArea)->(FCount())
@@ -227,6 +228,14 @@ METHOD FUNCTION DbSkip( nRecords, indexName ) CLASS TAlias
 	::SyncFromAlias()
 
 RETURN Result
+
+/*
+	Deleted
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION Deleted() CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::FnWorkArea)->( Deleted() )
 
 /*
 	Eval

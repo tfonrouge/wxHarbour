@@ -2,6 +2,57 @@
  * $Id$
  */
 
+2009-09-21 23:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+  * makefile.bcc
+  * makefile.gcc
+  * makefile.vc
+  * makefile.wat
+  * include/wxHarbour/event.ch
+  * src/common/sysdefs.cpp
+  * src/common/wxhfuncs.prg
+  * wxharbour.bkl
+  + include/wxHarbour/wxbase/wx_DatePickerCtrl.h
+  + include/wxHarbour/wxh/dateevt.ch
+  + src/wxbase/pickers
+  + src/wxbase/pickers/wx_DatePickerCtrl.cpp
+  + src/wxbase/pickers/wxhDatePickerCtrl.prg
+    + added control wxDatePickerCtrl, methods:
+      + GetValue()
+      + SetValue()
+        * implemented only DATE type values (there is not much sense
+	  to use TimeStamp types on a control that only process dates)
+      ; TODO: Implement full TimeStamp types and the remaining (two)
+        methods
+
+  * include/wxHarbour/wxharbour.ch
+    * added @ DATEPICKERCTRL command
+
+  * demos/dbExplorer/dbExplorer.prg
+    ! Fixed procedure to get the wxhBrowse var
+
+  * include/wxHarbour/raddox.ch
+    * renamed clause GETITPICK to PICKLIST on FIELD command
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * column zero shows recno() plus state of deleted record (*) on
+      ::FillColumns
+
+  * src/raddox/TAlias.prg
+    + added Deleted() method
+
+  * src/raddox/TField.prg
+    ! Fixed value assigning on TDateField
+
+  * src/raddox/TTable.prg
+    + added ::ReadOnly property, when ReadOnly == .T. attempts to write
+      a TField are ignored (usefull to show a frame filled with controls
+      attached to a DataSource to prevent a modifications)
+    * renamed method ValidateFields to Validate
+    + added OnStateChange() event handler
+    + added Deleted() method
+    * calls to Delete method are performed on TTable
+
 2009-09-19 20:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/helloworld/helloworld.prg
   * samples/auinotebook/auinotebook.prg

@@ -32,6 +32,7 @@
       src/wxbase/menu
       src/wxbase/miscfuncs
       src/wxbase/networking
+      src/wxbase/pickers
       src/wxbase/range
       src/wxbase/sizers
       src/wxbase/static

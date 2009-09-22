@@ -301,6 +301,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhSocketBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhSocketClient.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhSocketServer.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhDatePickerCtrl.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhScrollBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBoxSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhFlexGridSizer.obj &
@@ -386,6 +387,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketClient.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_SocketServer.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_DatePickerCtrl.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_ScrollBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_BoxSizer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_FlexGridSizer.obj &
@@ -463,6 +465,7 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\wxh\bitmap.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bookctrl.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\button.ch $(PREFIX)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\dateevt.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\filedlg.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gauge.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gdicmn.ch $(PREFIX)\include\wxHarbour\wxh
@@ -492,6 +495,7 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bitmap.ch -del $(PREFIX)\include\wxHarbour\wxh\bitmap.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\button.ch -del $(PREFIX)\include\wxHarbour\wxh\button.ch
+	-if exist $(PREFIX)\include\wxHarbour\wxh\dateevt.ch -del $(PREFIX)\include\wxHarbour\wxh\dateevt.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\filedlg.ch -del $(PREFIX)\include\wxHarbour\wxh\filedlg.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gauge.ch -del $(PREFIX)\include\wxHarbour\wxh\gauge.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch -del $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch
@@ -826,6 +830,10 @@ $(__BUILDDIR__)\wxHarbour_wxhSocketServer.obj :  .AUTODEPEND .\src\wxbase\networ
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhDatePickerCtrl.obj :  .AUTODEPEND .\src\wxbase\pickers\wxhDatePickerCtrl.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhScrollBar.obj :  .AUTODEPEND .\src\wxbase\range\wxhScrollBar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -1093,6 +1101,9 @@ $(__BUILDDIR__)\wxHarbour_wx_SocketClient.obj :  .AUTODEPEND .\src\wxbase\networ
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_SocketServer.obj :  .AUTODEPEND .\src\wxbase\networking\wx_SocketServer.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_DatePickerCtrl.obj :  .AUTODEPEND .\src\wxbase\pickers\wx_DatePickerCtrl.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_ScrollBar.obj :  .AUTODEPEND .\src\wxbase\range\wx_ScrollBar.cpp

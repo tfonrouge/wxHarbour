@@ -146,6 +146,10 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 		control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, {|event| ::UpdateVar( event ) } )
 		control:ConnectCommandEvt( control:GetID(), wxEVT_COMMAND_TEXT_UPDATED, {|event| ::UpdateVar( event ) } )
 
+	/* @ DATEPICKERCTRL */
+	ELSEIF control:IsDerivedFrom( "wxDatePickerCtrl" )
+		control:ConnectCommandEvt( control:GetId(), wxEVT_DATE_CHANGED, {|event| ::UpdateVar( event ) } )
+
 	/* @ GET */
 	ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 		IF nextCtrlOnEnter .AND. !control:IsMultiLine()
@@ -154,7 +158,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 		IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch != NIL
 			control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
 		ENDIF
-		IF ::Field != NIL .AND. HB_IsBlock( ::Field:GetItPick )
+		IF ::Field != NIL .AND. !::Field:PickList == NIL
 			control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event:GetEventObject() ) } )
 			IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch = NIL
 				control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event:GetEventObject() ) } )
@@ -362,7 +366,7 @@ METHOD IsModified( control ) CLASS wxhHBValidator
 	LOCAL modified
 
 	// TODO: Check why TAB on a TextCtrl marks buffer as dirty
-	//modified := control:IsModified()
+	// modified := control:IsModified()
 	modified := .F.
 
 	IF !modified
@@ -384,11 +388,11 @@ METHOD PROCEDURE PickList( control ) CLASS wxhHBValidator
 	LOCAL parentWnd
 	LOCAL selectionMade
 	LOCAL value, rawValue
-
+	
 	parentWnd := control:GetParent()
 
 	::dontUpdateVar := .T.
-	selectionMade := ::Field:GetItDoPick( parentWnd )
+	selectionMade := ::Field:OnPickList( parentWnd )
 	::dontUpdateVar := .F.
 
 	IF selectionMade
@@ -482,6 +486,12 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
 		::FBlock:Eval( value )
 		
+	ELSEIF control:IsDerivedFrom( "wxDatePickerCtrl" )
+
+		value := control:GetValue()
+
+		::FBlock:Eval( value )
+		
 	ELSEIF control:IsDerivedFrom( "wxRadioBox" )
 
 		value := ::GetKeyValue( control:GetSelection() )
@@ -531,6 +541,11 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		ELSEIF control:IsDerivedFrom( "wxComboBox" )
 
 			control:SetSelection( ::GetSelection() )
+
+		/* @ DATEPICKERCTRL */
+		ELSEIF control:IsDerivedFrom( "wxDatePickerCtrl" )
+
+			control:SetValue( ::Block:Eval() )
 
 		/* @ GET */
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
@@ -586,12 +601,12 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
 		ENDIF
 
 	ELSEIF control:IsDerivedFrom( "wxCheckBox" )
-		IF event:GetEventType() = wxEVT_COMMAND_CHECKBOX_CLICKED
+		IF evtType = wxEVT_COMMAND_CHECKBOX_CLICKED
 			::TransferFromWindow()
 		ENDIF
 
 	ELSEIF control:IsDerivedFrom( "wxChoice" )
-		IF event:GetEventType() = wxEVT_COMMAND_CHOICE_SELECTED
+		IF evtType = wxEVT_COMMAND_CHOICE_SELECTED
 			::TransferFromWindow()
 		ENDIF
 
@@ -600,13 +615,18 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
 			::TransferFromWindow()
 		ENDIF
 
+	ELSEIF control:IsDerivedFrom( "wxDatePickerCtrl" )
+		IF evtType = wxEVT_DATE_CHANGED
+			::TransferFromWindow()
+		ENDIF
+
 	ELSEIF control:IsDerivedFrom( "wxRadioBox" )
-		IF event:GetEventType() = wxEVT_COMMAND_RADIOBOX_SELECTED
+		IF evtType = wxEVT_COMMAND_RADIOBOX_SELECTED
 			::TransferFromWindow()
 		ENDIF
 
 	ELSEIF control:IsDerivedFrom( "wxSpinCtrl" )
-		IF event:GetEventType() = wxEVT_COMMAND_SPINCTRL_UPDATED
+		IF evtType = wxEVT_COMMAND_SPINCTRL_UPDATED
 			::TransferFromWindow()
 		ENDIF
 
@@ -615,6 +635,8 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
 		RETURN	// no control found
 
 	ENDIF
+
+	::TransferToWindow()
 
 	/* changed ? */
 	IF !oldValue == ::FBlock:Eval()
@@ -632,10 +654,12 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD Validate( parent ) CLASS wxhHBValidator
+
 	IF ::warnBlock != NIL
 		WXH_UNUSED( parent )
 		RETURN ::warnBlock[ 1 ]:Eval( ::GetWindow() )
 	ENDIF
+
 RETURN .T.
 
 /*
@@ -940,6 +964,32 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
 	containerObj():SetLastChild( comboBox )
 
 RETURN comboBox
+
+/*
+ * __wxh_DatePickerCtrl
+ * Teo. Mexico 2009
+ */
+FUNCTION __wxh_DatePickerCtrl( parent, id, pos, size, style, name, toolTip )
+	LOCAL dateCtrl
+	LOCAL validator
+	
+	IF parent == NIL
+		parent := containerObj():LastParent()
+	ENDIF
+
+	validator := containerObj():LastItem()[ "wxhHBValidator" ]
+
+	dateCtrl := wxDatePickerCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+
+	IF toolTip != NIL
+		dateCtrl:SetToolTip( toolTip )
+	ENDIF
+
+	validator:AddPostInfo()
+	
+	containerObj():SetLastChild( dateCtrl )
+
+RETURN dateCtrl
 
 /*
 	__wxh_Dialog
@@ -1842,7 +1892,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip 
 		ENDIF
 	ENDIF
 
-	pickBtn := validator:Field != NIL .AND. HB_IsBlock( validator:Field:GetItPick )
+	pickBtn := validator:Field != NIL .AND. !validator:Field:PickList == NIL
 
 	IF pickBtn
 		textCtrl := wxSearchCtrl():New( parent, id, NIL, pos, size, style, validator, name )

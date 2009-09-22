@@ -23,6 +23,8 @@
 #include "wx/srchctrl.h"
 #include "wxh.h"
 
+#include "wx/dateevt.h"
+
 #define wxdllimpexp_base        9953
 #define wxdllimpexp_adv         8586
 
@@ -212,7 +214,10 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 1050 : evtNumber = wxEVT_HELP; break;
     case 1051 : evtNumber = wxEVT_DETAILED_HELP; break;
     
-        // SearchCtrl events
+    /* datePickerCtrl events */
+    case wxdllimpexp_adv + 1101 : evtNumber = wxEVT_DATE_CHANGED; break;
+
+		  // SearchCtrl events
     case 1119 : evtNumber = wxEVT_COMMAND_SEARCHCTRL_CANCEL_BTN; break;
     case 1120 : evtNumber = wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN; break;
 
