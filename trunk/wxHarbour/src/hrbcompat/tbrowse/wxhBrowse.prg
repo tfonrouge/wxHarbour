@@ -210,11 +210,11 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 	LOCAL fld
 	LOCAL vType := ValType( ::FDataSource )
 	LOCAL itm1
-	
+
 	DO CASE
 	CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
 	
-		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| ::FDataSource:RecNo }, "9999999" )//, fld:Size )
+		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
 		FOR EACH fld IN ::FDataSource:FieldList
 			__wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )

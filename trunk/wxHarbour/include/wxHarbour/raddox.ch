@@ -61,7 +61,7 @@
             [ <rq: REQUIRED> ] ;
             [ GROUP <cGroup> ] ;
             [ DESCRIPTION <cDesc> ] ;
-            [ GETITPICK <bGetItPick> ] ;
+            [ PICKLIST <pickList> ] ;
             [ SIZE <nSize> ] ;
             [ PICTURE <pict> ] ;
             [ <pv: PRIVATE> ] ;
@@ -87,7 +87,7 @@
               [ :Required := <.rq.> ] ;;
               [ :Group := <cGroup> ] ;;
               [ :Description := <cDesc> ] ;;
-              [ :GetItPick := <bGetItPick> ] ;;
+              [ :PickList := <pickList> ] ;;
               [ :Size := <nSize> ] ;;
               [ :Picture := <pict> ] ;;
               [ :Published := !<.pv.> ] ;;

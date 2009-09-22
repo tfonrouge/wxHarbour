@@ -42,7 +42,7 @@ PRIVATE:
 	DATA FFieldCodeBlock									// Code Block
 	DATA FFieldWriteBlock									// Code Block to do WRITE
 	DATA FFieldExpression									// Literal Field expression on the Database
-	DATA FGetItPick												// codeblock to help to pick a value
+	DATA FPickList											// codeblock to help to pick a value
 	DATA FGroup														// A Text label for grouping
 	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField only 'C' TFields
 	DATA FIsTheMasterSource INIT .F.			// Field is TObjectField type and is the MasterSource Table
@@ -66,12 +66,12 @@ PRIVATE:
 	METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
 	METHOD SetDescription( Description ) INLINE ::FDescription := Description
 	METHOD SetFieldMethod( FieldMethod )
-	METHOD SetGetItPick( block )
 	METHOD SetGroup( Group ) INLINE ::FGroup := Group
 	METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
 	METHOD SetKeyIndex( Index ) INLINE ::FKeyIndex := Index
 	METHOD SetLabel( label ) INLINE ::FLabel := label
 	METHOD SetName( Name )
+	METHOD SetPickList( pickList )
 	METHOD SetPrimaryKeyComponent( PrimaryKeyComponent )
 	METHOD SetPublished( Published ) INLINE ::FPublished := Published
 	METHOD SetReadOnly( ReadOnly ) INLINE ::FReadOnly := ReadOnly
@@ -114,10 +114,10 @@ PUBLIC:
 	METHOD GetBuffer
 	METHOD GetEditText
 	METHOD GetData()
-	METHOD GetItDoPick
 	METHOD GetValidValues
 	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
 	METHOD IsValid( Value )
+	METHOD OnPickList( param )
 	METHOD Reset
 	METHOD SetAsVariant( Value )
 	METHOD SetData( Value )
@@ -129,7 +129,7 @@ PUBLIC:
 	PROPERTY Calculated READ FCalculated
 	PROPERTY DisplayText READ GetEditText
 	PROPERTY EmptyValue READ GetEmptyValue
-	PROPERTY GetItPick READ FGetItPick WRITE SetGetItPick
+	PROPERTY PickList READ FPickList WRITE SetPickList
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
 	PROPERTY IsTheMasterSource READ FIsTheMasterSource
@@ -255,6 +255,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 		IF ! ::FTable:Value == ::FTable:ContainerField:Value
 			::FTable:Value := ::FTable:ContainerField:Value
 		ENDIF
+		::FTable:SyncToContainerField := .T.
 	ENDIF
 
 	SWITCH ::FFieldMethodType
@@ -429,18 +430,6 @@ METHOD FUNCTION GetFieldMethod CLASS TField
 RETURN NIL
 
 /*
-	GetItDoPick
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetItDoPick( param ) CLASS TField
-
-	IF !HB_IsBlock( ::FGetItPick )
-		RETURN NIL
-	ENDIF
-
-RETURN ::FGetItPick:Eval( param )
-
-/*
 	GetValidValues
 	Teo. Mexico 2009
 */
@@ -515,6 +504,25 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
 RETURN ::OnValidate:Eval( Value )
 
 /*
+	OnPickList
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION OnPickList( param ) CLASS TField
+
+	IF ::FPickList == NIL
+		RETURN NIL
+	ENDIF
+	
+	SWITCH ValType( ::FPickList )
+	CASE 'B'
+		RETURN ::FPickList:Eval( param )
+	CASE 'L'
+		RETURN ::FTable:OnPickList( param )
+	END
+
+RETURN NIL
+
+/*
 	Reset
 	Teo. Mexico 2009
 */
@@ -581,6 +589,10 @@ RETURN
 */
 METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 	LOCAL Value
+	
+	IF ::FTable:ReadOnly
+		RETURN
+	ENDIF
 
 	/* if Browsing then do a SeekKey() with the rawValue */
 	IF ::FTable:State = dsBrowse
@@ -608,7 +620,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 		ELSE
 	
 			//RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
-		wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
+			wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
 
 		ENDIF
 
@@ -954,14 +966,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 RETURN
 
 /*
-	SetGetItPick
-	Teo. Mexico 2009
-*/
-METHOD PROCEDURE SetGetItPick( block ) CLASS TField
-	::FGetItPick := block
-RETURN
-
-/*
 	SetIsMasterFieldComponent
 	Teo. Mexico 2009
 */
@@ -994,6 +998,23 @@ METHOD PROCEDURE SetName( Name ) CLASS TField
 
 	::Table:AddMessageField( Name, Self )
 
+RETURN
+
+/*
+	SetPickList
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetPickList( pickList ) CLASS TField
+	SWITCH ValType( pickList )
+	CASE 'B'
+		::FPickList := pickList
+		EXIT
+	CASE 'L'
+		IF pickList
+			::FPickList := .T.
+		ENDIF
+		EXIT
+	END
 RETURN
 
 /*
@@ -1331,6 +1352,9 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateField
 	CASE 'C'
 		Super:SetAsVariant( AsDate( variant ) )
 		EXIT
+	CASE 'D'
+		Super:SetAsVariant( variant )
+		EXIT
 	END
 
 RETURN
@@ -1514,7 +1538,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		ENDIF
 		
 		IF ::FLinkedTable:ContainerField != NIL
-			//RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
+			RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
 		ENDIF
 		
 		::FLinkedTable:ContainerField := Self
