@@ -1319,7 +1319,7 @@ METHOD FUNCTION Insert CLASS TTable
 		/* To Flush !!! */
 		::Alias:DbSkip( 0 )
 	
-	RETURN .T.
+		RETURN .T.
 
 	ENDIF
 
