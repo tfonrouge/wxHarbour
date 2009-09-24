@@ -684,9 +684,10 @@
             [ <mline: MULTILINE> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
+            [ TOOLTIP <toolTip> ] ;
+			[ ENABLED <enabled> ] ;
             [ PICTURE <picture> ] ;
             [ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
-            [ TOOLTIP <toolTip> ] ;
             [ ACTION <bAction> ] ;
           => ;
           @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION {<bAction>}] ;;
@@ -698,7 +699,8 @@
             [<.mline.>],;
             [<style>],;
             [<name>],;
-            [<{toolTip}>] )
+            [<{toolTip}>],;
+			[<enabled>] )
             
 #xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;
