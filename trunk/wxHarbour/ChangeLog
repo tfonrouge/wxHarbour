@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-09-24 11:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+    % added ENABLED clause to @ GET command
+
 2009-09-23 23:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxh.h
   * src/common/wx_harbour.cpp

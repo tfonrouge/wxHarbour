@@ -1862,7 +1862,7 @@ RETURN sb
  * __wxh_TextCtrl
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip )
+FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip, enabled )
 	LOCAL textCtrl
 	LOCAL validator
 	LOCAL pickBtn
@@ -1905,6 +1905,8 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip 
 	ENDIF
 
 	validator:AddPostInfo()
+
+	__wxh_EnableControl( containerObj():LastParent(), textCtrl, textCtrl:GetId(), enabled )
 	
 	containerObj():SetLastChild( textCtrl )
 
