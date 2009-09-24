@@ -26,8 +26,6 @@
 
 #include "wxbase/wx_DatePickerCtrl.h"
 
-#include "hbdate.h"
-
 /*
  ~wx_DatePickerCtrl
  Teo. Mexico 2009
@@ -45,15 +43,9 @@ HB_FUNC( WXDATEPICKERCTRL_NEW )
 {
 	wxh_ObjParams objParams = wxh_ObjParams();
 	
-	long lDate, lTime;
-	wxDateTime dt;
-
 	wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
 	wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-
-	if( hb_partdt( &lDate, &lTime, 3 ) )
-		dt = wxDateTime( lDate );
-		
+	wxDateTime dt = wxh_par_wxDateTime( 3 );
 	const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
 	const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
 	long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
@@ -88,12 +80,6 @@ HB_FUNC( WXDATEPICKERCTRL_SETVALUE )
 	
 	if( dateCtrl )
 	{
-		long lDate = hb_pardl( 1 );
-		int iYear, iMonth, iDay;
-		hb_dateDecode( lDate, &iYear, &iMonth, &iDay );
-		wxDateTime::Month month;
-		month = (wxDateTime::Month) iMonth;
-		wxDateTime dt = wxDateTime( iDay, month, iYear, 0, 0, 0, 0 );
-		dateCtrl->SetValue( dt );
+		dateCtrl->SetValue( wxh_par_wxDateTime( 1 ) );
 	}
 }

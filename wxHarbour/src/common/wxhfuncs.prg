@@ -1375,7 +1375,7 @@ FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bAction, enabled )
 		menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
 	ENDIF
 	
-	__wxh_EnableControl( menu, menuItem, id, enabled )
+	__wxh_EnableControl( containerObj():LastParent(), menuItem, id, enabled )
 
 RETURN menuItem
 

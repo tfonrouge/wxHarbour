@@ -2,6 +2,26 @@
  * $Id$
  */
 
+2009-09-23 23:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    + added function:
+      + wxh_par_wxDateTime( int param ): wxDateTime from HB "D"
+        ; TODO: implement full datetime type
+
+  * samples/taskBarIcon/taskBarIcon.prg
+    ! Fixed DEFINE MENU command
+
+  * src/common/wxhfuncs.prg
+    ! Fixed wxUpdateUIEvent fired from wxMenuItem's on wxMSW
+
+  * src/wxbase/pickers/wx_DatePickerCtrl.cpp
+    * using wxh_par_wxDateTime()
+
+  * tests/evtdefcheck/evtdefcheck.prg
+  * tests/evtdefcheck/getdefs.cpp
+    + added wxEVT_UPDATE_UI
+
 2009-09-23 00:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TTable.prg
     * minor code cleanup

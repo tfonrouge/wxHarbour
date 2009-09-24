@@ -196,7 +196,7 @@ ENDCLASS
 METHOD FUNCTION CreatePopupMenu CLASS MyTaskBarIcon
   LOCAL menu
 
-  DEFINE MENU VAR menu ON Self
+  DEFINE MENU VAR menu PARENT Self
     ADD MENUITEM "Show TaskBarIcon Sample" ACTION wxGetApp():mainWnd:Show( .T. )
     DEFINE MENU "Sub"
       ADD MENUITEM "Sub-Item"

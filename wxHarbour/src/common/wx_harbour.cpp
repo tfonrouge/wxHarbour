@@ -25,6 +25,7 @@
 #include "wxh.h"
 
 #include "hbapicdp.h"
+#include "hbdate.h"
 
 #ifdef __XHARBOUR__
   ULONG hb_crc32( ULONG crc, const BYTE *buf, size_t size );
@@ -558,6 +559,18 @@ wxArrayString wxh_par_wxArrayString( int param )
   }
 
   return arrayString;
+}
+
+/*
+ wxh_par_wxDateTime
+ Teo. Mexico 2009
+ */
+wxDateTime wxh_par_wxDateTime( int param )
+{
+	long lDate = hb_pardl( param );
+	int iYear, iMonth, iDay;
+	hb_dateDecode( lDate, &iYear, &iMonth, &iDay );
+	return wxDateTime( iDay, (wxDateTime::Month) iMonth, iYear, 0, 0, 0, 0 );
 }
 
 /*
