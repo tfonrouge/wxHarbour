@@ -96,15 +96,27 @@ HB_FUNC( WXWINDOW_CLOSE )
 }
 
 /*
-  Disable
-  Teo. Mexico 2009
-*/
+ DestroyChildren
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_DESTROYCHILDREN )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		wnd->DestroyChildren();
+}
+
+/*
+ Disable
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_DISABLE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( wnd )
-    hb_retl( wnd->Disable() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retl( wnd->Disable() );
 }
 
 /*

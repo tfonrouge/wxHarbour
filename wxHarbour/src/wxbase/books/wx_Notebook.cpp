@@ -455,3 +455,19 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
     hb_retl( noteBook->SetPageText( hb_parnl( 1 ) - 1, wxh_parc( 2 ) ) );
   }
 }
+
+/*
+ wxNotebook:SetSelection
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXNOTEBOOK_SETSELECTION )
+{
+	wxh_ObjParams objParams = wxh_ObjParams();
+	
+	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+	
+	if( noteBook )
+	{
+		hb_retl( noteBook->SetSelection( hb_parnl( 1 ) - 1 ) );
+	}
+}

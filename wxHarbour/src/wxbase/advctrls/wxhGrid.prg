@@ -38,8 +38,8 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
   CONSTRUCTOR New( parent, id, pos, size, style, name )
-  METHOD AppendCols( numCols ) INLINE ::GetTable():AppendCols( numCols )
-  METHOD AppendRows( numRows ) INLINE ::GetTable():AppendRows( numRows )
+  METHOD AppendCols( numCols )
+  METHOD AppendRows( numRows )
   METHOD AutoSize
   METHOD AutoSizeColumn( col, setAsMin )
   METHOD AutoSizeColumns( setAsMin )
@@ -57,8 +57,8 @@ PUBLIC:
   METHOD ClearGrid
   METHOD ClearSelection
   METHOD CreateGrid( numRows, numCols, selmode )
-  METHOD DeleteCols( pos, numCols ) INLINE ::GetTable():DeleteCols( pos, numCols )
-  METHOD DeleteRows( pos, numRows ) INLINE ::GetTable():DeleteRows( pos, numRows )
+  METHOD DeleteCols( pos, numCols )
+  METHOD DeleteRows( pos, numRows )
   METHOD DisableCellEditControl
   METHOD DisableDragColMove
   METHOD DisableDragColSize
@@ -85,8 +85,8 @@ PUBLIC:
   METHOD GetRowLabelSize()
   METHOD GetRowSize()
   METHOD GetTable()
-  METHOD InsertCols( pos, numCols ) INLINE ::GetTable():InsertCols( pos, numCols )
-  METHOD InsertRows( pos, numRows ) INLINE ::GetTable():InsertRows( pos, numRows )
+  METHOD InsertCols( pos, numCols )
+  METHOD InsertRows( pos, numRows )
   METHOD IsVisible( row, col, wholeCellVisible )
   METHOD MakeCellVisible( row, col )
   METHOD MoveCursorLeft( expandSelection )
@@ -94,12 +94,16 @@ PUBLIC:
   METHOD SelectCol( col, addToSelected )
   METHOD SelectRow( row, addToSelected )
   METHOD SetCellAlignment( /* two methods */ )
+  METHOD SetCellBackgroundColour( row, col,  colour )
+  METHOD SetCellTextColour( row, col, colour )
+  METHOD SetCellValue( row, col, s )
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
   METHOD SetColFormatBool( col )
   METHOD SetColFormatNumber( col )
   METHOD SetColFormatFloat( col, width, precision )
   METHOD SetColSize( col, width )
+  METHOD SetDefaultCellAlignment( horz, vert )
   METHOD SetDefaultColSize( width, resizeExistingCols )
   METHOD SetDefaultRowSize( height, resizeExistingRows )
   METHOD SetGridCursor( row, col )

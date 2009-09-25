@@ -58,6 +58,7 @@ PUBLIC:
   METHOD SetPageSize( size )
   METHOD SetPageImage( nPage, image )
   METHOD SetPageText( nPage, text )
+  METHOD SetSelection( page )
 
 PUBLISHED:
 ENDCLASS

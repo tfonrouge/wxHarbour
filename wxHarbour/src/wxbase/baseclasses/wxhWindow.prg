@@ -32,7 +32,8 @@ PUBLIC:
 
   METHOD Centre( direction )
   METHOD Close( force )
-  METHOD Destroy
+  METHOD Destroy()
+  METHOD DestroyChildren()
   METHOD Disable
   METHOD Enable( enable )
   METHOD FindFocus

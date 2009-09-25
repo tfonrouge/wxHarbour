@@ -97,7 +97,7 @@ PROTECTED:
 	METHOD GetAsVariant
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
-	METHOD SetAsString( string ) VIRTUAL
+	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
@@ -1064,7 +1064,6 @@ PROTECTED:
 	DATA FType INIT "String"
 	DATA FValType INIT "C"
 	METHOD GetEmptyValue INLINE iif( ::FSize == NIL, "", Space( ::FSize ) )
-	METHOD SetAsString( sValue ) INLINE ::SetAsVariant( sValue )
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue )
 PUBLIC:
@@ -1195,7 +1194,6 @@ PROTECTED:
 	DATA FType INIT "Numeric"
 	DATA FValType INIT "N"
 	METHOD GetEmptyValue BLOCK {|| 0 }
-	METHOD SetAsString( Text )
 	METHOD SetAsVariant( variant )
 PUBLIC:
 
@@ -1243,14 +1241,6 @@ METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
 RETURN Result
 
 /*
-	SetAsString
-	Teo. Mexico 2009
-*/
-METHOD PROCEDURE SetAsString( Text ) CLASS TNumericField
-	::SetAsVariant( Val( Text ) )
-RETURN
-
-/*
 	SetAsVariant
 	Teo. Mexico 2009
 */
@@ -1269,6 +1259,43 @@ RETURN
 
 /*
 	ENDCLASS TNumericField
+*/
+
+/*
+	TIntegerField
+	Teo. Mexico 2009
+*/
+CLASS TIntegerField FROM TNumericField
+PRIVATE:
+PROTECTED:
+	DATA FType INIT "Integer"
+	METHOD SetAsVariant( variant )
+PUBLIC:
+
+	PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
+
+PUBLISHED:
+ENDCLASS
+
+/*
+	SetAsVariant
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetAsVariant( variant ) CLASS TIntegerField
+
+	SWITCH ValType( variant )
+	CASE 'C'
+		Super:SetAsVariant( Int( Val( variant ) ) )
+		EXIT
+	CASE 'N'
+		Super:SetAsVariant( Int( variant ) )
+		EXIT
+	END
+
+RETURN
+
+/*
+	ENDCLASS TIntegerField
 */
 
 /*

@@ -39,6 +39,7 @@
 
 REQUEST QQOUT
 REQUEST WXTOOLBARTOOLBASE
+REQUEST WXSTATICBOX
 
 STATIC containerObj
 STATIC menuData
@@ -1766,13 +1767,13 @@ FUNCTION __wxh_SpinCtrl( parent, id, pos, size, style, min, max, name )
 	IF parent == NIL
 		parent := containerObj():LastParent()
 	ENDIF
-	
+
 	validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
 	spinCtrl := wxSpinCtrl():New( parent, id, /* value */, pos, size, style, min, max, 0 /* initial */, name )
-	
+
 	spinCtrl:SetValidator( validator )
-	
+
 	validator:AddPostInfo()
 
 	containerObj():SetLastChild( spinCtrl )

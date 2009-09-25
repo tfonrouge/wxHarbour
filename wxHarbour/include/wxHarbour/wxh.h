@@ -156,6 +156,7 @@ void          wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObjec
 void		  wxh_itemReturn( wxObject* wxObj );
 wxObject*     wxh_par_WX( int param );
 wxArrayString wxh_par_wxArrayString( int param );
+wxColour      wxh_par_wxColour( int param );
 wxDateTime    wxh_par_wxDateTime( int param );
 wxPoint       wxh_par_wxPoint( int param );
 wxSize        wxh_par_wxSize( int param );
