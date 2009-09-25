@@ -56,19 +56,43 @@ HB_FUNC( WXGRID_NEW )
 }
 
 /*
-  AutoSize
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXGRID_AUTOSIZE )
+ AppendCols
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_APPENDCOLS )
 {
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( grid )
-    grid->AutoSize();
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->AppendCols( hb_parni( 1 ) ) );
 }
 
 /*
-  AutoSizeColumn
+ AppendRows
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_APPENDROWS )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->AppendRows( hb_parni( 1 ) ) );
+}
+
+/*
+ AutoSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_AUTOSIZE )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		grid->AutoSize();
+}
+
+/*
+ AutoSizeColumn
   Teo. Mexico 2009
 */
 HB_FUNC( WXGRID_AUTOSIZECOLUMN )
@@ -256,6 +280,30 @@ HB_FUNC( WXGRID_CREATEGRID )
     hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
   else
     hb_ret();
+}
+
+/*
+ DeleteCols
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_DELETECOLS )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->DeleteCols( hb_parni( 1 ), hb_parni( 2 ) ) );
+}
+
+/*
+ DeleteRows
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_DELETEROWS )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->DeleteRows( hb_parni( 1 ), hb_parni( 2 ) ) );
 }
 
 /*
@@ -640,6 +688,30 @@ HB_FUNC( WXGRID_GETTABLE )
 }
 
 /*
+ InsertCols
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_INSERTCOLS )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->InsertCols( hb_parni( 1 ), hb_parni( 2 ) ) );
+}
+
+/*
+ InsertRows
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_INSERTROWS )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+		hb_retl( grid->InsertRows( hb_parni( 1 ), hb_parni( 2 ) ) );
+}
+
+/*
   IsVisible
   Teo. Mexico 2009
 */
@@ -743,6 +815,48 @@ HB_FUNC( WXGRID_SETCELLALIGNMENT )
 }
 
 /*
+ SetCellBackgroundColour
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SETCELLBACKGROUNDCOLOUR )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->SetCellBackgroundColour( hb_parni( 1 ), hb_parni( 2 ), wxh_par_wxColour( 3 ) );
+	}
+}
+
+/*
+ SetCellTextColour
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SETCELLTEXTCOLOUR )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->SetCellTextColour( hb_parni( 1 ), hb_parni( 2 ), wxh_par_wxColour( 3 ) );
+	}
+}
+
+/*
+ SetCellValue
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SETCELLVALUE )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->SetCellValue( hb_parni( 1 ), hb_parni( 2 ), wxh_parc( 3 ) );
+	}
+}
+
+/*
   SetColFormatBool
   Teo. Mexico 2009
 */
@@ -821,6 +935,20 @@ HB_FUNC( WXGRID_SETCOLSIZE )
     int width = hb_parni( 2 );
     grid->SetColSize( col, width );
   }
+}
+
+/*
+ SetDefaultCellAlignment
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SETDEFAULTCELLALIGNMENT )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->SetDefaultCellAlignment( hb_parni( 1 ), hb_parni( 2 ) );
+	}
 }
 
 HB_FUNC( WXGRID_SETDEFAULTCOLSIZE )

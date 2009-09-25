@@ -2,6 +2,60 @@
  * $Id$
  */
 
+2009-09-25 03:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+  * src/raddox/TField.prg
+    + added TIntegerField
+    % simplified assigning strings to TNumericField/TIntegerFields
+
+  * include/wxHarbour/wxh.h
+  * src/common/wx_harbour.cpp
+    + added function wxh_par_wxColour( int param )
+      ; implemented only creating wxColour from a color string
+
+  * include/wxHarbour/wxharbour.ch
+    ! Fixed really stupid bug on constructing a command for an codeblock
+
+  * samples/spinctrl/spinctrl.prg
+    * updated sample
+
+  * src/common/wxhfuncs.prg
+    * added explicit REQUEST for WXSTATICBOX
+
+  * src/wxbase/advctrls/wx_Grid.cpp
+  * src/wxbase/advctrls/wxhGrid.prg
+    + added default methods
+      + AppendCols
+      + AppendRows
+      + DeleteCols
+      + DeleteRows
+      + InsertCols
+      + InsertRows
+    + added methods
+      + SetCellBackgroundColour
+      + SetCellTextColour
+      + SetCellValue
+      + SetDefaultCellAlignment
+
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/baseclasses/wxhWindow.prg
+    + added method
+      + DestroyChildren
+    
+  * src/wxbase/books/wx_Notebook.cpp
+  * src/wxbase/books/wxhNotebook.prg
+    + added method
+      + SetSelection
+        ; this method fires events
+
+  * src/wxbase/sizers/wx_BoxSizer.cpp
+    * small code cleanup
+
+  * src/wxbase/sizers/wx_StaticBoxSizer.cpp
+  * src/wxbase/sizers/wxhStaticBoxSizer.prg
+    ; done TODO for method
+    + GetStaticBox
+
 2009-09-24 11:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/wxharbour.ch
   * src/common/wxhfuncs.prg

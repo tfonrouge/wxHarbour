@@ -54,22 +54,16 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
   objParams.Return( boxSizer );
 }
 
-/*! IMPLEMENT THIS (SEE .prg SOURCE)
+/*
   wxStaticBoxSizer::GetStaticBox
-  Teo. Mexico 2007
+  Teo. Mexico 2009
 */
-// HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
-// {
-//   PHB_ITEM pSelf = hb_stackSelfItem();
-//   PHB_ITEM pResult = NULL;
-//   wx_StaticBoxSizer* sbSizer;
-//   wxStaticBox* staticBox;
-//
-//   if( pSelf && (sbSizer = (wx_StaticBoxSizer *) wxh_ItemListGet_WX( pSelf ) ) )
-//     pResult = wxh_ItemListGet_HB( staticBox );
-//
-//   if(pResult)
-//     hb_itemReturn( pResult );
-//   else
-//     hb_ret();
-// }
+HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
+{
+	wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( sbSizer )
+	{
+		wxh_itemNewReturn( "wxStaticBox", sbSizer->GetStaticBox(), sbSizer );
+	}
+}

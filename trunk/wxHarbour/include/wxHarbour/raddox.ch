@@ -51,7 +51,7 @@
 #xtranslate T_ObjectField => TObjectField
 
 
-#xtranslate ADD <type: _STRING, MEMO, NUMERIC, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
+#xtranslate ADD <type: _STRING, MEMO, NUMERIC, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
             [ NAME <cName> ] ;
             [ LABEL <label> ] ;
             [ <ro: READONLY> ] ;

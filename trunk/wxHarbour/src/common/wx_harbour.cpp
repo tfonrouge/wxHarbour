@@ -562,6 +562,25 @@ wxArrayString wxh_par_wxArrayString( int param )
 }
 
 /*
+ wxh_par_wxColour
+ Teo. Mexico 2009
+ */
+wxColour wxh_par_wxColour( int param )
+{
+	PHB_ITEM pItem = hb_param( param, HB_IT_ANY );
+	
+	switch ( hb_itemType( pItem ) )
+	{
+		case HB_IT_STRING:
+			return wxColour( wxh_parc( param ) );
+			break;
+		default:
+			break;
+	}
+	return wxColour();
+}
+
+/*
  wxh_par_wxDateTime
  Teo. Mexico 2009
  */

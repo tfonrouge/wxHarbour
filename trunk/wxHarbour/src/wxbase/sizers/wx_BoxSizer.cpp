@@ -43,7 +43,7 @@ HB_FUNC( WXBOXSIZER_NEW )
 }
 
 /*
-  wxTextCtrl:GetValue
+  wxBoxSizer:GetValue
   Teo. Mexico 2007
 */
 HB_FUNC( WXBOXSIZER_GETORIENTATION )
