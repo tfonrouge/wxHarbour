@@ -1550,6 +1550,9 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		 */
 		SWITCH ValType( ::FObjValue )
 		CASE 'C'
+			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue )
+				RAISE TFIELD ::Name ERROR "Trying to create a new link to a MasterSource derived class, Try to use TDatabase relations or use the MasterSource as OBJVALUE"
+			ENDIF
 			::FLinkedTable := __ClsInstFromName( ::FObjValue ):New()
 			EXIT
 		CASE 'B'

@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-09-25 14:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TField.prg
+    * raise an error if user is trying to link an TObjectField to a MasterSource derived
+      class (if MasterSource was assigned of course)
+
 2009-09-25 03:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
   * src/raddox/TField.prg
