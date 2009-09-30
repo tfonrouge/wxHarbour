@@ -69,12 +69,6 @@ PUBLIC:
   METHOD InsertControl( pos, control )
   METHOD InsertSeparator( pos )
   
-  /*
-  wxToolBarToolBase * InsertTool(size_t pos, int toolId, const wxBitmap& bitmap1, const wxBitmap& bitmap2 = wxNullBitmap, bool isToggle = false, wxObject* clientData = NULL, const wxString& shortHelpString = "", const wxString& longHelpString = "")
-
-  wxToolBarToolBase * InsertTool(size_t pos, wxToolBarToolBase* tool)
-  */
-  METHOD InsertTool()
   //METHOD OnLeftClick( toolId, toggleDown )
   //METHOD OnMouseEnter( toolId )
   //METHOD OnRightClick( toolId, x, y )

@@ -193,7 +193,7 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
     ? s
     ?
     //? HB_ValToExp( oErr )
-    wxMessageBox( s, "Error", wxICON_ERROR )
+    wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ) )
     BREAK( 0 )
   ENDIF
 

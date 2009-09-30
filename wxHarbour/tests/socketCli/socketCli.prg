@@ -90,7 +90,7 @@ METHOD PROCEDURE ConnectToServer CLASS MyApp
     ::socket:Notify( .T. )
 
     IF !::socket:Connect( ipv4, .T. )
-      wxMessageBox( "Cannot connect to server '" + ::serverName + "'", "Error", wxICON_ERROR, ::oWnd )
+      wxMessageBox( "Cannot connect to server '" + ::serverName + "'", "Error", HB_BitOr( wxOK, wxICON_ERROR ), ::oWnd )
       DESTROY ::socket
       DESTROY oDlg
       RETURN

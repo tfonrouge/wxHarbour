@@ -180,34 +180,6 @@ HB_FUNC( WXGRID_CANDRAGCOLMOVE )
 }
 
 /*
-  CanDragColSize
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXGRID_CANDRAGCOLSIZE )
-{
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( grid )
-  {
-    hb_retl( grid->CanDragColSize() );
-  }
-}
-
-/*
-  CanDragRowSize
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXGRID_CANDRAGROWSIZE )
-{
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( grid )
-  {
-    hb_retl( grid->CanDragRowSize() );
-  }
-}
-
-/*
   CanDragGridSize
   Teo. Mexico 2009
 */
@@ -688,6 +660,20 @@ HB_FUNC( WXGRID_GETTABLE )
 }
 
 /*
+ HideCellEditControl
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_HIDECELLEDITCONTROL )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->HideCellEditControl();
+	}
+}
+
+/*
  InsertCols
  Teo. Mexico 2009
  */
@@ -709,6 +695,90 @@ HB_FUNC( WXGRID_INSERTROWS )
 	
 	if( grid )
 		hb_retl( grid->InsertRows( hb_parni( 1 ), hb_parni( 2 ) ) );
+}
+
+/*
+ IsCellEditControlEnabled
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISCELLEDITCONTROLENABLED )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsCellEditControlEnabled() );
+	}
+}
+
+/*
+ IsCurrentCellReadOnly
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISCURRENTCELLREADONLY )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsCurrentCellReadOnly() );
+	}
+}
+
+/*
+ IsEditable
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISEDITABLE )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsEditable() );
+	}
+}
+
+/*
+ IsInSelection
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISINSELECTION )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsInSelection( hb_parni( 1 ), hb_parni( 2 ) ) );
+	}
+}
+
+/*
+ IsReadOnly
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISREADONLY )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsReadOnly( hb_parni( 1 ), hb_parni( 2 ) ) );
+	}
+}
+
+/*
+ IsSelection
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_ISSELECTION )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		hb_retl( grid->IsSelection() );
+	}
 }
 
 /*
@@ -857,17 +927,37 @@ HB_FUNC( WXGRID_SETCELLVALUE )
 }
 
 /*
-  SetColFormatBool
-  Teo. Mexico 2009
-*/
+ SetColAttr
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXGRID_SETCOLATTR )
+{
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		wxColour colour = wxColour( wxh_parc( 2 ) );
+		
+		wxGridCellAttr *attr;
+		attr = new wxGridCellAttr;
+		attr->SetBackgroundColour( colour );
+
+		grid->SetColAttr( hb_parni( 1 ), attr );
+	}
+}
+
+/*
+ SetColFormatBool
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXGRID_SETCOLFORMATBOOL )
 {
-  wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( grid )
-  {
-    grid->SetColFormatBool( hb_parni( 1 ) );
-  }
+	wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( grid )
+	{
+		grid->SetColFormatBool( hb_parni( 1 ) );
+	}
 }
 
 /*

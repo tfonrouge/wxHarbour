@@ -125,10 +125,22 @@ HB_FUNC( WXWINDOW_DISABLE )
  */
 HB_FUNC( WXWINDOW_DESTROY )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retl( wnd->Destroy() );
+}
 
-  if( wnd )
-    hb_retl( wnd->Destroy() );
+/*
+ DragAcceptFiles
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		wnd->DragAcceptFiles( hb_parl( 1 ) );
 }
 
 /*
@@ -421,10 +433,22 @@ HB_FUNC( WXWINDOW_ISENABLED )
  */
 HB_FUNC( WXWINDOW_ISSHOWN )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retl( wnd->IsShown() );
+}
 
-  if( wnd )
-    hb_retl( wnd->IsShown() );
+/*
+ Layout
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_LAYOUT )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		wnd->Layout();
 }
 
 /*

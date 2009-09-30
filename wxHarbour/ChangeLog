@@ -2,6 +2,119 @@
  * $Id$
  */
 
+2009-09-30 11:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    % new functionality added, active index is controlled by a
+      @ CHOICE control
+
+  * include/wxHarbour/wxharbour.ch
+    % added command to allow specify a custom parent for a set of ctrls:
+      BEGIN CUSTOM PARENT <parent> / END CUSTOM PARENT
+    * added clause READONLY to @ BROWSE command
+    * added command to directly add a TField control to an wxBrowse obj
+    * added clause READONLY to @ GRID command
+    * added clause COLOR to ADD BCOLUMN ... commands
+
+  * samples/checkbox/checkbox.prg
+  * samples/choice/choice.prg
+  * samples/combobox/combobox.prg
+  * samples/radiobox/radiobox.prg
+  * samples/sayget/sayget.prg
+  * samples/searchCtrl/searchCtrl.prg
+  * samples/spinctrl/spinctrl.prg
+  * samples/taskBarIcon/taskBarIcon.prg
+  * samples/toolbar/toolbar.prg
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+  * tests/socketCli/socketCli.prg
+  * tests/socketSrv/socketSrv.prg
+    * fixed adding wxOK parameter to wxMessageBox (complaint given when
+      compiling with SVN wxWidgets 2.9.1)
+      
+  * src/common/sysdefs.cpp
+    * modified to compile with wxWidgets 2.9.1 (SVN)
+
+  * src/common/wxhfuncs.prg
+  * src/hrbcompat/tbcolumn/wxhColumn.prg
+    * selecting whole text when displaying a wxTextCtrl
+    * removed unused (and wrongly) parent parameter on __wxh_BoxSizerBegin()
+    * READONLY clauses to @ BROWSE/ @ GRID commands
+    * added parameter for clause COLOR on __wxh_BrowseAddColumn()
+    * added __wxh_BrowseAddColumnFromField()
+    * added __wxh_CustomParentBegin()/__wxh_CustomParentEnd()
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * using __wxh_BrowseAddColumnFromField() on ::FillColumns()
+    % enhanced ::OnKeyDown() to trigger the cell edition on WXH_F2/WXH_RETURN keys
+
+  * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+    ! Fixed ::GetColumn( nCol )
+    % enhanced ::SetValue() to deal with the cell edition when using TFields linked
+      to column objects
+     
+  * src/raddox/TAlias.prg
+    + added methods:
+      + DbUnLock()
+      + FLock()
+
+  * src/raddox/TField.prg
+    * eliminated the Alert when trying to do a search on a not indexed field 
+      (::SetAsVariant( value ) )
+    ! Fixed validation for a existing ::Table:PrimaryIndex
+    * removed in TObjectField:
+      - ObjField
+      - SetAsVariant (redundant)
+    * Fixed adding a MasterSource from a type "C" OBJVALUE, validating the field
+      to be a ::MasterFieldComponent
+    * removed the RAISE ERROR if the ::LinkedTable has been already assigned
+
+  * src/raddox/TTable.prg
+    * added property:
+      + UndoList
+    ! Fixed error when error in ::Post(), now cleanly exits if post fails
+    ! Fixed repositioning a DetailSource if it is into a valid scope, fixed the error
+      when sync a MasterSource from one of his DetailSource's
+
+  * src/wxbase/advctrls/wx_Grid.cpp
+  * src/wxbase/advctrls/wxhGrid.prg
+    * removed (deprecated in 2.9.1)
+      - CanDragColSize
+      - CanDragRowSize
+    + added methods:
+      + HideCellEditControl()
+      + IsCellEditControlEnabled()
+      + IsCurrentCellReadOnly()
+      + IsEditable()
+      + IsInSelection( row, col )
+      + IsReadOnly( row,col )
+      + IsSelection()
+      + SetColAttr( col, attr ) // attr is a valid colour string. (only)
+     
+  * src/wxbase/baseclasses/wx_Window.cpp
+  * src/wxbase/baseclasses/wxhWindow.prg
+    + added methods:
+      + DragAcceptFiles( .T. )
+      + Layout()
+
+  * src/wxbase/controls/wx_BitmapButton.cpp
+    ! Fixed error when compiling with 2.9.1
+
+  * src/wxbase/events/wx_KeyEvent.cpp
+  * src/wxbase/events/wxhKeyEvent.prg
+    + added methods:
+      + AltDown()
+      + CmdDown()
+      + GetPosition()
+      + GetX()
+      + GetY()
+      + HasModifiers()
+      + MetaDown()
+      + ShiftDown()
+
+  * src/wxbase/toolbar/wx_ToolBar.cpp
+  * src/wxbase/toolbar/wxhToolBar.prg
+    - removed (deprecated on 2.9.1)
+      - InsertTool()
+
 2009-09-25 14:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TField.prg
     * raise an error if user is trying to link an TObjectField to a MasterSource derived

@@ -41,12 +41,12 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oWnd
-  LOCAL choiceVal1 := 0
+  LOCAL choiceVal1 := 3
   LOCAL choiceVal2 := 1
   LOCAL choiceVal3 := 2
   LOCAL bAction
 
-  bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }
+  bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
 
   CREATE FRAME oWnd ;
          TITLE "Choice Sample"

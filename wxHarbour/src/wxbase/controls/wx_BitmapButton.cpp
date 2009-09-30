@@ -65,8 +65,8 @@ HB_FUNC( WXBITMAPBUTTON_GETBITMAPDISABLED )
   
   if( bitmapButton )
   {
-	wxBitmap& bitmap = bitmapButton->GetBitmapDisabled();
-    wxh_itemReturn( &bitmap );
+	const wxBitmap& bitmap = bitmapButton->GetBitmapDisabled();
+    wxh_itemReturn( (wxObject *) &bitmap );
   }
 }
 
@@ -80,8 +80,8 @@ HB_FUNC( WXBITMAPBUTTON_GETBITMAPFOCUS )
   
   if( bitmapButton )
   {
-	wxBitmap& bitmap = bitmapButton->GetBitmapFocus();
-    wxh_itemReturn( &bitmap );
+	const wxBitmap& bitmap = bitmapButton->GetBitmapFocus();
+    wxh_itemReturn( (wxObject *) &bitmap );
   }
 }
 
@@ -95,8 +95,8 @@ HB_FUNC( WXBITMAPBUTTON_GETBITMAPHOVER )
   
   if( bitmapButton )
   {
-	wxBitmap& bitmap = bitmapButton->GetBitmapHover();
-    wxh_itemReturn( &bitmap );
+	const wxBitmap& bitmap = bitmapButton->GetBitmapHover();
+    wxh_itemReturn( (wxObject *) &bitmap );
   }
 }
 
@@ -110,8 +110,8 @@ HB_FUNC( WXBITMAPBUTTON_GETBITMAPLABEL )
   
   if( bitmapButton )
   {
-	wxBitmap& bitmap = bitmapButton->GetBitmapLabel();
-    wxh_itemReturn( &bitmap );
+	const wxBitmap& bitmap = bitmapButton->GetBitmapLabel();
+    wxh_itemReturn( (wxObject *) &bitmap );
   }
 }
 
@@ -125,8 +125,8 @@ HB_FUNC( WXBITMAPBUTTON_GETBITMAPSELECTED )
   
   if( bitmapButton )
   {
-	wxBitmap& bitmap = bitmapButton->GetBitmapSelected();
-    wxh_itemReturn( &bitmap );
+	const wxBitmap& bitmap = bitmapButton->GetBitmapSelected();
+    wxh_itemReturn( (wxObject *) &bitmap );
   }
 }
 

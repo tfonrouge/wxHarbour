@@ -48,8 +48,6 @@ PUBLIC:
   METHOD BeginBatch
 //   METHOD BlockToDeviceRect
   METHOD CanDragColMove
-  METHOD CanDragColSize
-  METHOD CanDragRowSize
   METHOD CanDragGridSize
   METHOD CanEnableCellControl
 //   METHOD CanHaveAttributes
@@ -85,8 +83,15 @@ PUBLIC:
   METHOD GetRowLabelSize()
   METHOD GetRowSize()
   METHOD GetTable()
+  METHOD HideCellEditControl()
   METHOD InsertCols( pos, numCols )
   METHOD InsertRows( pos, numRows )
+  METHOD IsCellEditControlEnabled()
+  METHOD IsCurrentCellReadOnly()
+  METHOD IsEditable()
+  METHOD IsInSelection( row, col )
+  METHOD IsReadOnly( row, col )
+  METHOD IsSelection()
   METHOD IsVisible( row, col, wholeCellVisible )
   METHOD MakeCellVisible( row, col )
   METHOD MoveCursorLeft( expandSelection )
@@ -97,6 +102,7 @@ PUBLIC:
   METHOD SetCellBackgroundColour( row, col,  colour )
   METHOD SetCellTextColour( row, col, colour )
   METHOD SetCellValue( row, col, s )
+  METHOD SetColAttr( col, attr ) // attr == colour, at the moment.
   METHOD SetColLabelSize( height )
   METHOD SetColLabelValue( col, value )
   METHOD SetColFormatBool( col )
@@ -107,6 +113,7 @@ PUBLIC:
   METHOD SetDefaultColSize( width, resizeExistingCols )
   METHOD SetDefaultRowSize( height, resizeExistingRows )
   METHOD SetGridCursor( row, col )
+  //METHOD SetRowAttr( row, attr )
   METHOD SetRowLabelSize( width )
   METHOD SetTable( table, takeOwnership, selmode )
 PUBLISHED:

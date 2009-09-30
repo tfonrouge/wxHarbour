@@ -49,7 +49,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
   BEGIN BOXSIZER VERTICAL
 
-    @ SEARCHCTRL edtNombre ON SEARCH {|| wxMessageBox( "Searching..." ) }
+    @ SEARCHCTRL edtNombre ON SEARCH {|| wxMessageBox( "Searching...", "", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 
     @ BUTTON ID wxID_OK ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 

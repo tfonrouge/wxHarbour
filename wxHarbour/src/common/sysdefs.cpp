@@ -24,6 +24,7 @@
 #include "wxh.h"
 
 #include "wx/dateevt.h"
+#include "wx/spinctrl.h"
 
 #define wxdllimpexp_base        9953
 #define wxdllimpexp_adv         8586
@@ -100,6 +101,7 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 115 : evtNumber = wxEVT_MOUSEWHEEL; break;
 
         // Non-client mouse events
+	/*
     case 200 : evtNumber = wxEVT_NC_LEFT_DOWN; break;
     case 201 : evtNumber = wxEVT_NC_LEFT_UP; break;
     case 202 : evtNumber = wxEVT_NC_MIDDLE_DOWN; break;
@@ -112,6 +114,7 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 209 : evtNumber = wxEVT_NC_LEFT_DCLICK; break;
     case 210 : evtNumber = wxEVT_NC_MIDDLE_DCLICK; break;
     case 211 : evtNumber = wxEVT_NC_RIGHT_DCLICK; break;
+	 */
 
         // Character input event type
     case 212 : evtNumber = wxEVT_CHAR; break;
@@ -165,14 +168,14 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 417 : evtNumber = wxEVT_PAINT; break;
     case 418 : evtNumber = wxEVT_ERASE_BACKGROUND; break;
     case 419 : evtNumber = wxEVT_NC_PAINT; break;
-    case 420 : evtNumber = wxEVT_PAINT_ICON; break;
+    //case 420 : evtNumber = wxEVT_PAINT_ICON; break;
     case 421 : evtNumber = wxEVT_MENU_OPEN; break;
     case 422 : evtNumber = wxEVT_MENU_CLOSE; break;
     case 423 : evtNumber = wxEVT_MENU_HIGHLIGHT; break;
     case 424 : evtNumber = wxEVT_CONTEXT_MENU; break;
     case 425 : evtNumber = wxEVT_SYS_COLOUR_CHANGED; break;
     case 426 : evtNumber = wxEVT_DISPLAY_CHANGED; break;
-    case 427 : evtNumber = wxEVT_SETTING_CHANGED; break;
+    //case 427 : evtNumber = wxEVT_SETTING_CHANGED; break;
     case 428 : evtNumber = wxEVT_QUERY_NEW_PALETTE; break;
     case 429 : evtNumber = wxEVT_PALETTE_CHANGED; break;
     case 430 : evtNumber = wxEVT_JOY_BUTTON_DOWN; break;
@@ -180,9 +183,9 @@ HB_FUNC( WXH_TRANSLATE_EVT_DEFS )
     case 432 : evtNumber = wxEVT_JOY_MOVE; break;
     case 433 : evtNumber = wxEVT_JOY_ZMOVE; break;
     case 434 : evtNumber = wxEVT_DROP_FILES; break;
-    case 435 : evtNumber = wxEVT_DRAW_ITEM; break;
-    case 436 : evtNumber = wxEVT_MEASURE_ITEM; break;
-    case 437 : evtNumber = wxEVT_COMPARE_ITEM; break;
+    //case 435 : evtNumber = wxEVT_DRAW_ITEM; break;
+    //case 436 : evtNumber = wxEVT_MEASURE_ITEM; break;
+    //case 437 : evtNumber = wxEVT_COMPARE_ITEM; break;
     case 438 : evtNumber = wxEVT_INIT_DIALOG; break;
 //     DECLARE_EXPORTED_EVENT_TYPE(WXDLLIMPEXP_BASE, wxEVT_IDLE, 439)
     case wxdllimpexp_base + 439 :evtNumber = wxEVT_IDLE; break;

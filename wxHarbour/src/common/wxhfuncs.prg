@@ -552,6 +552,7 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 
 			control:ChangeValue( ::TextValue() )
+			control:SetSelection()
 
 		/* @ RADIOBOX */
 		ELSEIF control:IsDerivedFrom( "wxRadioBox" )
@@ -726,14 +727,12 @@ RETURN
  * __wxh_BoxSizerBegin
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_BoxSizerBegin( parent, label, orient, strech, align, border, sideBorders )
+FUNCTION __wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
 	LOCAL sizer
+	LOCAL parent
 	LOCAL lastSizer
 
-	IF parent == NIL
-		parent := containerObj():LastParent()
-	ENDIF
-
+	parent := containerObj():LastParent()
 	lastSizer := containerObj():LastSizer()
 
 	IF label == NIL
@@ -760,7 +759,7 @@ RETURN sizer
 	__wxh_Browse
 	Teo. Mexico 2009
  */
-FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, keyDownEventBlock, onSelectCell )
+FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, keyDownEventBlock, onSelectCell, readOnly )
 	LOCAL browse
 	LOCAL panel
 	LOCAL boxSizer
@@ -789,6 +788,8 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 	IF !browse:IsDerivedFrom( "wxhBrowse" )
 		browse:IsNotDerivedFrom_wxhBrowse()
 	ENDIF
+	
+	browse:EnableEditing( ! readOnly )
 	
 	IF dataSource != NIL
 		browse:DataSource := dataSource
@@ -821,7 +822,7 @@ RETURN browse
 	__wxh_BrowseAddColumn
 	Teo. Mexico 2009
 */
-PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp )
+PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp, colour )
 	LOCAL column := wxhBColumn():New( title, block )
 
 	column:Picture := picture
@@ -831,6 +832,9 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
 		wxhBrw:ColumnZero := column
 	ELSE
 		wxhBrw:AddColumn( column )
+		IF colour != NIL
+			wxhBrw:SetColAttr( wxhBrw:ColCount() - 1, colour )
+		ENDIF
 	ENDIF
 
 	IF type != NIL
@@ -845,6 +849,47 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
 				wxhBrw:SetColFormatFloat( wxhBrw:ColCount() - 1, wp[ 1 ], wp[ 2 ] )
 			ENDIF
 		ENDCASE
+	ENDIF
+
+RETURN
+
+/*
+	__wxh_BrowseAddColumnFromField
+	Teo. Mexico 2009
+*/
+PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xfield, editable, colour )
+	LOCAL AField
+	LOCAL column
+
+	SWITCH ValType( xfield )
+	CASE 'O'
+		IF xfield:IsDerivedFrom( "TField" )
+			AField := xfield
+		ENDIF
+		EXIT
+	CASE 'C'
+		IF ValType( wxhBrw:DataSource ) = "O" .AND. wxhBrw:DataSource:IsDerivedFrom( "TTable" )
+			AField := wxhBrw:DataSource:FieldByName( xfield )
+		ENDIF
+		EXIT
+	END
+	
+	IF AField != NIL
+		column := wxhBColumn():New( AField )
+		column:Picture := AField:Picture
+		column:IsEditable := editable
+		wxhBrw:AddColumn( column )
+		IF AField:IsDerivedFrom( "TLogicalField" )
+			wxhBrw:SetColFormatBool( wxhBrw:ColCount() - 1 )
+		ELSEIF AField:IsDerivedFrom( "TIntegerField" )
+			wxhBrw:SetColFormatNumber( wxhBrw:ColCount() - 1 )
+		ELSEIF AField:IsDerivedFrom( "TNumericField" )
+			wxhBrw:SetColFormatFloat( wxhBrw:ColCount() - 1, 10, 2 )
+		ENDIF
+	ENDIF
+
+	IF colour != NIL
+		wxhBrw:SetColAttr( wxhBrw:ColCount() - 1, colour )
 	ENDIF
 
 RETURN
@@ -967,6 +1012,22 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
 RETURN comboBox
 
 /*
+	__wxh_CustomParentBegin
+	Teo. Mexico 2009
+*/
+PROCEDURE __wxh_CustomParentBegin( parent )
+	containerObj():AddToParentList( parent )
+RETURN
+
+/*
+	__wxh_CustomParentEnd
+	Teo. Mexico 2009
+*/
+PROCEDURE __wxh_CustomParentEnd()
+	containerObj():RemoveLastParent()
+RETURN
+
+/*
  * __wxh_DatePickerCtrl
  * Teo. Mexico 2009
  */
@@ -1053,15 +1114,15 @@ PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growab
 	sizer := wxFlexGridSizer():New( rows, cols, vgap, hgap )
 	
 	IF !Empty( growableRows )
-	FOR EACH itm IN growableRows
-		sizer:AddGrowableRow( itm )	 // ROW 1 becomes ROW 0
-	NEXT
+		FOR EACH itm IN growableRows
+			sizer:AddGrowableRow( itm )	 // ROW 1 becomes ROW 0
+		NEXT
 	ENDIF
 
 	IF !Empty( growableCols )
-	FOR EACH itm IN growableCols
-		sizer:AddGrowableCol( itm )	 // COLUMN 1 becomes COLUMN 0
-	NEXT
+		FOR EACH itm IN growableCols
+			sizer:AddGrowableCol( itm )	 // COLUMN 1 becomes COLUMN 0
+		NEXT
 	ENDIF
 
 	parent := containerObj():LastParent()
@@ -1200,7 +1261,7 @@ RETURN bitmap
 	__wxh_Grid
 	Teo. Mexico 2009
  */
-FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
+FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols, readOnly )
 	LOCAL grid
 
 	IF window == NIL
@@ -1208,6 +1269,8 @@ FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols )
 	ENDIF
 
 	grid := wxGrid():New( window, id, pos, size, style, name )
+	
+	grid:EnableEditing( ! readOnly )
 
 	IF cols != NIL .OR. rows != NIL
 		grid:CreateGrid( rows, cols )
@@ -2089,7 +2152,7 @@ PROCEDURE wxhInspectVar( xVar )
 	END
 
 	IF Empty( a )
-		wxMessageBox("Cannot inspect value.","wxhInspectVar", wxICON_EXCLAMATION )
+		wxMessageBox("Cannot inspect value.","wxhInspectVar", HB_BitOr( wxOK, wxICON_EXCLAMATION ) )
 		RETURN
 	ENDIF
 

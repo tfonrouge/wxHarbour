@@ -44,7 +44,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL checkVal3 := .T.
   LOCAL bAction
 
-  bAction := {|event| wxMessageBox( event:GetEventObject():GetLabel() + ": " + iif( event:GetEventObject():GetValue(), "Selected", "Deselected" ), "Status", wxICON_INFORMATION, oWnd ) }
+  bAction := {|event| wxMessageBox( event:GetEventObject():GetLabel() + ": " + iif( event:GetEventObject():GetValue(), "Selected", "Deselected" ), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
 
   CREATE FRAME oWnd ;
          WIDTH 200 HEIGHT 100 ;

@@ -208,6 +208,7 @@ PUBLIC:
 	PROPERTY SubState READ FSubState
 	PROPERTY SyncToContainerField READ FSyncToContainerField WRITE SetSyncToContainerField
 	PROPERTY TableFileName READ FTableFileName
+	PROPERTY UndoList READ FUndoList
 
 PUBLISHED:
 
@@ -705,7 +706,7 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
 	FOR EACH AField IN ::FieldList
 		AField:Delete()
 	NEXT
-	
+
 	IF ::FHasDeletedOrder()
 		::Alias:DbDelete()
 	ENDIF
@@ -1090,7 +1091,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	SWITCH ValType( xField )
 	CASE 'C'
 		AField := ::FieldByName( xField )
-	EXIT
+		EXIT
 	CASE 'O'
 		AField := xField
 		EXIT
@@ -1101,7 +1102,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	
 	IF AField == NIL
 		RAISE ERROR "Wrong value"
-	RETURN NIL
+		RETURN NIL
 	ENDIF
 	
 	msgName := AField:Name
@@ -1110,21 +1111,21 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 		RETURN ;
 			BEGIN_CB|o|
 				LOCAL Result
-		LOCAL AField
-		
-		IF HB_HHasKey( o:__FFields, msgName )
-			AField := o:__FFields[ msgName ]
-		ELSE
-			AField := o:__FObj:FieldByName( msgName )
-			o:__FFields[ msgName ] := AField
-		ENDIF
-		
+				LOCAL AField
+				
+				IF HB_HHasKey( o:__FFields, msgName )
+					AField := o:__FFields[ msgName ]
+				ELSE
+					AField := o:__FObj:FieldByName( msgName )
+					o:__FFields[ msgName ] := AField
+				ENDIF
+				
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
 					Result := AField:EmptyValue
 				ELSE
 					Result := AField:Value
 				ENDIF
-
+				
 				RETURN Result
 
 			END_CB
@@ -1133,7 +1134,8 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 
 	RETURN ;
 		BEGIN_CB|o|
-		LOCAL AField
+			LOCAL AField
+			LOCAL Result
 
 			IF HB_HHasKey( o:__FFields, msgName )
 				AField := o:__FFields[ msgName ]
@@ -1141,8 +1143,10 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				AField := o:__FObj:FieldByName( msgName )
 				o:__FFields[ msgName ] := AField
 			ENDIF
-		
-		RETURN AField:DataObj:DisplayFields()
+
+			Result := AField:DataObj:DisplayFields()
+				
+			RETURN Result
 
 		END_CB
 
@@ -1186,7 +1190,7 @@ METHOD FUNCTION GetDisplayFields() CLASS TTable
 
 		::FDisplayFields := ::FInstances[ ::TableClass, "DisplayFieldsClass" ]:Instance()
 		::FDisplayFields:__FObj := Self
-	::FDisplayFields:__FFields := {=>}
+		::FDisplayFields:__FFields := {=>}
 
 	ENDIF
 
@@ -1477,7 +1481,7 @@ METHOD FUNCTION Post CLASS TTable
 		NEXT
 	ENDIF
 
-	TRY
+	BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
 
 		FOR EACH AField IN ::FieldList
 
@@ -1491,17 +1495,17 @@ METHOD FUNCTION Post CLASS TTable
 
 		NEXT
 
-	CATCH errObj
+	RECOVER USING errObj
 
 		::Cancel()
 
-		Throw( errObj )
+		//Throw( errObj )
 
-	FINALLY
+	ALWAYS
 
 		::FSubState := dssNone
 
-	END
+	END SEQUENCE
 
 	IF errObj != NIL
 		RETURN .F.
@@ -1858,7 +1862,7 @@ METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
 		::PrimaryMasterKeyField:Reset()
 	ENDIF
 
-	IF ::FActive
+	IF ::FActive .AND. !::InsideScope()
 		::DbGoTop()
 	ENDIF
 

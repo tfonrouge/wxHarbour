@@ -24,6 +24,42 @@
 #include "wxh.h"
 
 /*
+ AltDown
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_ALTDOWN )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->AltDown() );
+}
+/*
+ CmdDown
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_CMDDOWN )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->CmdDown() );
+}
+/*
+ ControlDown
+ Teo. Mexico 2008
+ */
+HB_FUNC( WXKEYEVENT_CONTROLDOWN )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->ControlDown() );
+}
+/*
   GetKeyCode
   Teo. Mexico 2008
 */
@@ -49,6 +85,18 @@ HB_FUNC( WXKEYEVENT_GETMODIFIERS )
     hb_retni( keyEvent->GetModifiers() );
 }
 
+/*
+ GetPosition
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_GETPOSITION )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		wxh_ret_wxPoint( keyEvent->GetPosition() );
+}
 #ifdef _UNICODE
 /*
   GetUnicodeKey
@@ -65,14 +113,64 @@ HB_FUNC( WXKEYEVENT_GETUNICODEKEY )
 #endif
 
 /*
-  ControlDown
-  Teo. Mexico 2008
-*/
-HB_FUNC( WXKEYEVENT_CONTROLDOWN )
+ GetX
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_GETX )
 {
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retnl( keyEvent->GetX() );
+}
 
-  if( keyEvent )
-    hb_retl( keyEvent->ControlDown() );
+/*
+ GetY
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_GETY )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retnl( keyEvent->GetY() );
+}
+/*
+ HasModifiers
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_HASMODIFIERS )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->HasModifiers() );
+}
+/*
+ MetaDown
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_METADOWN )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->MetaDown() );
+}
+
+/*
+ ShiftDown
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXKEYEVENT_SHIFTDOWN )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+	
+	if( keyEvent )
+		hb_retl( keyEvent->ShiftDown() );
 }
