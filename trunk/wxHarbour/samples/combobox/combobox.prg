@@ -46,7 +46,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL comboBoxVal3 := ""
   LOCAL bAction
 
-  bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }
+  bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
 
   CREATE FRAME oWnd ;
          TITLE "ComboBox Sample"

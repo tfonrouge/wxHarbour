@@ -64,13 +64,13 @@ METHOD FUNCTION OnInit() CLASS MyApp
 	@ CHOICE ch1 ITEMS {"One","Two","Three"}
 
 	@ TOOL SEPARATOR
-	@ TOOL CHECK ID 500 LABEL "Check Tool" BITMAP "find.xpm" SHORTHELP "This is a Check Tool" LONGHELP "LongHelp" ACTION {|| wxMessageBox("","Check Tool Executed...") }
+	@ TOOL CHECK ID 500 LABEL "Check Tool" BITMAP "find.xpm" SHORTHELP "This is a Check Tool" LONGHELP "LongHelp" ACTION {|| wxMessageBox("","Check Tool Executed...", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 	@ TOOL SEPARATOR
-	@ TOOL RADIO ID 900 BITMAP "find.xpm" SHORTHELP "Tool Radio 1" ACTION {|| wxMessageBox("Tool Radio 1") }
-	@ TOOL RADIO ID 901 BITMAP "find.xpm" SHORTHELP "Tool Radio 2" ACTION {|| wxMessageBox("Tool Radio 2") }
-	@ TOOL RADIO ID 902 BITMAP "find.xpm" SHORTHELP "Tool Radio 3" ACTION {|| wxMessageBox("Tool Radio 3") }
+	@ TOOL RADIO ID 900 BITMAP "find.xpm" SHORTHELP "Tool Radio 1" ACTION {|| wxMessageBox("Tool Radio 1","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+	@ TOOL RADIO ID 901 BITMAP "find.xpm" SHORTHELP "Tool Radio 2" ACTION {|| wxMessageBox("Tool Radio 2","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+	@ TOOL RADIO ID 902 BITMAP "find.xpm" SHORTHELP "Tool Radio 3" ACTION {|| wxMessageBox("Tool Radio 3","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 	@ TOOL SEPARATOR
-	@ TOOL BUTTON ID 1000 BITMAP "find.xpm"  SHORTHELP "Tool Button" ACTION {|| wxMessageBox("","Tool Button Executed...") }
+	@ TOOL BUTTON ID 1000 BITMAP "find.xpm"  SHORTHELP "Tool Button" ACTION {|| wxMessageBox("","Tool Button Executed...",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 
 	@ TOOL SEPARATOR
 	@ COMBOBOX cb1 ITEMS {"MacOS","Linux","Windows"}
@@ -82,7 +82,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
           HELPLINE "Quits this sample..."
     ENDMENU
     DEFINE MENU "Help"
-      ADD MENUITEM "About..." ACTION wxMessageBox( "ToolBar sample" )
+      ADD MENUITEM "About..." ACTION wxMessageBox( "ToolBar sample", "About", HB_BitOr( wxOK, wxICON_INFORMATION ) )
     ENDMENU
   ENDMENU
 

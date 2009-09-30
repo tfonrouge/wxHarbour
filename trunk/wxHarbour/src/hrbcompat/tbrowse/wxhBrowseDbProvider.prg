@@ -51,6 +51,7 @@ PUBLIC:
 
 	METHOD FillGridBuffer( start )
 	METHOD GetColLabelValue( col )
+	METHOD GetColumn( nCol ) INLINE ::FColumnList[ nCol ]
 	METHOD GetGridRowData( row )
 	METHOD GetRowLabelValue( row )
 	METHOD GetValue( row, col )
@@ -217,7 +218,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 
 	picture	 := column:Picture
 	width		 := column:Width
-
+	
 	IF ::FIgnoreCellEvalError
 		TRY
 			Result := column:Block:Eval( ::BlockParam )
@@ -227,7 +228,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	ELSE
 		Result := column:Block:Eval( ::BlockParam )
 	ENDIF
-
+	
 	IF column:ValType == NIL
 		column:ValType := ValType( Result )
 	ENDIF
@@ -455,8 +456,27 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
-
-	? "Changing:","Row:", row, "Col:", col, "Value:",value
+	LOCAL oCol
+	LOCAL state
+	
+	oCol := ::GetView():GetColumn( col + 1 )
+	
+	IF oCol:TField != NIL
+		IF oCol:TField:Table:Eof()
+			RETURN
+		ENDIF
+		state := oCol:TField:Table:State
+		IF state = dsBrowse
+			oCol:TField:Table:TTable:Edit()
+		ENDIF
+		oCol:TField:AsString := value
+		IF state = dsBrowse
+			oCol:TField:Table:TTable:Post()
+		ENDIF
+		::GetView():RefreshCurrent()
+	ELSE
+		? "Changing:","Row:", row, "Col:", col, "Value:",value
+	ENDIF
 
 RETURN
 

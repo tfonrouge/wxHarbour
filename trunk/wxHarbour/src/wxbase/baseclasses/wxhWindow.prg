@@ -35,6 +35,7 @@ PUBLIC:
   METHOD Destroy()
   METHOD DestroyChildren()
   METHOD Disable
+  METHOD DragAcceptFiles( accept )
   METHOD Enable( enable )
   METHOD FindFocus
   METHOD FindWindowById( id, parent )
@@ -54,6 +55,7 @@ PUBLIC:
   METHOD Hide( Value )
   METHOD IsEnabled
   METHOD IsShown
+  METHOD Layout()
   METHOD MakeModal( flag )
   METHOD PopupMenu( menu, pos )
       /* PopupMenu( menu, x, y ) */

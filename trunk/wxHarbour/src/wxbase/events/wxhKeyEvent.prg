@@ -30,12 +30,22 @@ CLASS wxKeyEvent FROM wxEvent
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD ControlDown
-  METHOD GetKeyCode
-  METHOD GetModifiers
+  METHOD AltDown()
+  METHOD CmdDown()
+  METHOD ControlDown()
+  METHOD GetKeyCode()
+  METHOD GetModifiers()
+  METHOD GetPosition()
+  //METHOD GetRawKeyCode()
+  //METHOD GetRawKeyFlags()
 #ifdef _UNICODE
-  METHOD GetUnicodeKey
+  METHOD GetUnicodeKey()
 #endif
+  METHOD GetX()
+  METHOD GetY()
+  METHOD HasModifiers()
+  METHOD MetaDown()
+  METHOD ShiftDown()
 PUBLISHED:
 ENDCLASS
 

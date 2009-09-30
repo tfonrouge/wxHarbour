@@ -203,7 +203,7 @@ METHOD FUNCTION CreatePopupMenu CLASS MyTaskBarIcon
       ADD MENUITEM "Sub-Item"
       ADD MENUITEM "Sub-Item"
     ENDMENU
-    ADD MENUITEM "About" ACTION wxMessageBox("Close","TaskBarIcon",wxICON_INFORMATION,wxGetApp():mainWnd)
+    ADD MENUITEM "About" ACTION wxMessageBox("Close","TaskBarIcon",HB_BitOr( wxOK, wxICON_INFORMATION),wxGetApp():mainWnd)
     ADD MENUSEPARATOR
     ADD MENUITEM "Remove Tray Icon" ACTION wxGetApp():RemoveTrayIcon()
     ADD MENUSEPARATOR

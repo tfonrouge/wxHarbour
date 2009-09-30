@@ -189,10 +189,17 @@
             NIL,;
             [ <.useLast.> ],;
             .T. ) /* No processing, sizer info to stack */
+			
+#xcommand BEGIN CUSTOM PARENT <parent> ;
+          => ;
+          __wxh_CustomParentBegin( <parent > )
+
+#xcommand END CUSTOM PARENT ;
+          => ;
+		  __wxh_CustomParentEnd()
 
 #xcommand BEGIN BOXSIZER <orient: VERTICAL, HORIZONTAL> ;
           [ VAR <bs> ] ;
-          [ PARENT <parent> ] ;
           [ [LABEL] <label> ] ;
           [ <stretch: STRETCH> ] ;
           [ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
@@ -200,7 +207,6 @@
           [ SIDEBORDERS <sideborders,...> ] ;
           => ;
           [ <bs> := ]__wxh_BoxSizerBegin( ;
-            [ <parent> ], ;
             [ <label> ], ;
             wx<orient>,;
             [ wx<stretch> ],;
@@ -286,6 +292,7 @@
             [ NAME <name> ] ;
             [ ONKEY <onKey> ] ;
             [ ONSELECTCELL <onSelectCell> ] ;
+			[ <readOnly: READONLY> ] ;
           => ;
             [<wxBrw>:=]__wxh_Browse( ;
               [<fromClass>],;
@@ -299,7 +306,8 @@
               [<style>],;
               [<name>],;
               [<onKey>],;
-              [<onSelectCell>] ;
+              [<onSelectCell>], ;
+			  <.readOnly.> ;
             )
 
 #xcommand @ BROWSE [<bclauses,...>] SIZERINFO [<sizerClauses,...>] ;
@@ -310,9 +318,13 @@
 /*
   BCOLUMN
 */
-#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ];
+#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ] [ COLOUR <colour> ] ;
           => ;
-          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}] )
+          __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>] )
+
+#xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<editable: EDITABLE>] [ COLOUR <colour> ] ;
+          => ;
+		  __wxh_BrowseAddColumnFromField( <wxBrw>, <field>, <.editable.>, [<colour>] )
 
 /*
  * Button
@@ -541,6 +553,7 @@
             [ NAME <name> ] ;
             [ ROWS <rows> ] ;
             [ COLS <cols> ] ;
+			[ <readOnly: READONLY> ] ;
           => ;
             [<grid>:=]__wxh_Grid( ;
               [<parent>],;
@@ -550,7 +563,8 @@
               [<style>],;
               [<name>],;
               [ <rows> ],;
-              [ <cols> ] )
+              [ <cols> ],;
+			  <.readOnly.> )
 
 #xcommand @ GRID [<bclauses,...>] SIZERINFO [<sizerClauses,...>] ;
           => ;

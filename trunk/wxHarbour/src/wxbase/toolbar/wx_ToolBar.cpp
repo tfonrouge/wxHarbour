@@ -430,33 +430,6 @@ HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
 }
 
 /*
- wxToolBar:InsertTool
- Teo. Mexico 2009
- */
-HB_FUNC( WXTOOLBAR_INSERTTOOL )
-{
-  wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( toolBar )
-  {
-    wxToolBarToolBase* tbtb = NULL;
-	if( ISOBJECT( 2 ) )
-	{
-	  tbtb = toolBar->InsertTool( hb_parnl( 1 ), (wxToolBarToolBase *) wxh_par_WX( 2 ) );
-	}
-	else if( hb_pcount() > 2 )
-	{
-	  const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) wxh_par_WX( 4 );
-	  bool isToggle = ISLOG( 5 ) ? false : hb_parl( 5 );
-	  tbtb = toolBar->InsertTool( hb_parnl( 1 ), hb_parni( 2 ), * (wxBitmap *) wxh_par_WX( 3 ), bitmap2, isToggle, wxh_par_WX( 6 ), wxh_parc( 7 ), wxh_parc( 8 ) );
-	}
-    
-    if( tbtb )
-      wxh_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
-  }
-}
-
-/*
  wxToolBar:Realize
  Teo. Mexico 2009
  */

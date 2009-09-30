@@ -57,7 +57,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
     @ SAY ABOVE "Comment:" GET comm MULTILINE
 
-    @ BUTTON ID wxID_APPLY ACTION wxMessageBox( E"Values entered:\n\nName: " + name + E"\n\nURL: " + cURL + E"\n\nComment:\n" + comm, "Values", wxICON_INFORMATION, oDlg )
+    @ BUTTON ID wxID_APPLY ACTION wxMessageBox( E"Values entered:\n\nName: " + name + E"\n\nURL: " + cURL + E"\n\nComment:\n" + comm, "Values", HB_BitOr( wxOK, wxICON_INFORMATION ), oDlg )
 
     @ BUTTON ID wxID_EXIT ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 

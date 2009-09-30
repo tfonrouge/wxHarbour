@@ -46,7 +46,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL radioVal3
   LOCAL bAction
 
-  bAction := {|event| wxMessageBox( event:GetEventObject():GetLabel() + ": " + event:GetEventObject():GetStringSelection(), "Status", wxICON_INFORMATION, oWnd ) }
+  bAction := {|event| wxMessageBox( event:GetEventObject():GetLabel() + ": " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
 
   CREATE FRAME oWnd ;
          WIDTH 640 HEIGHT 400 ;

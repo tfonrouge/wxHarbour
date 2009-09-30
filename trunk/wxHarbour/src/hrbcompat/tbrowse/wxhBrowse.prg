@@ -217,7 +217,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
 		FOR EACH fld IN ::FDataSource:FieldList
-			__wxh_BrowseAddColumn( .F., Self, fld:Label, ::FDataSource:GetDisplayFieldBlock( fld:__enumIndex() ), fld:Picture )//, fld:Size )
+			__wxh_BrowseAddColumnFromField( Self, fld, ::IsEditable() )
 		NEXT
 
 	CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
@@ -339,7 +339,23 @@ RETURN
 */
 METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 	LOCAL result
+	LOCAL nKey := keyEvent:GetKeyCode()
 	
+	/* start cell edition keys */
+	SWITCH nKey
+	CASE WXK_RETURN
+	CASE WXK_F2
+		IF ( ::GetColumn( ::ColPos ):IsEditable .OR. ::IsEditable ) .AND. ! keyEvent:HasModifiers()
+			IF ::IsCellEditControlEnabled()
+				::HideCellEditControl()
+				::RefreshAll()
+			ELSE
+				::EnableCellEditControl( .T. )
+			ENDIF
+			RETURN
+		ENDIF
+	END
+
 	IF ::keyDownEventBlock != NIL
 		result := ::keyDownEventBlock:Eval( Self, keyEvent )
 		IF ValType( result ) = "L"
@@ -351,7 +367,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 		ENDIF
 	ENDIF
 
-	SWITCH keyEvent:GetKeyCode()
+	SWITCH nKey
 	CASE WXK_UP
 		::Up()
 		EXIT
@@ -635,20 +651,20 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
 	CASE 'O'
 	
-	IF dataSource:IsDerivedFrom("TTable")
-		::FDataSource := dataSource
-		::FDataSourceType := "O"
-		::BlockParam := dataSource:DisplayFields()
+		IF dataSource:IsDerivedFrom("TTable")
+			::FDataSource := dataSource
+			::FDataSourceType := "O"
+			::BlockParam := dataSource:DisplayFields()
 
-		::GoTopBlock		:= {|| dataSource:DbGoTop() }
-		::GoBottomBlock := {|| dataSource:DbGoBottom() }
-		::SkipBlock			:= {|n| dataSource:SkipBrowse( n ) }
-		
-		::GetTable():gridDataIsOEM := dataSource:dataIsOEM
+			::GoTopBlock		:= {|| dataSource:DbGoTop() }
+			::GoBottomBlock := {|| dataSource:DbGoBottom() }
+			::SkipBlock			:= {|n| dataSource:SkipBrowse( n ) }
+			
+			::GetTable():gridDataIsOEM := dataSource:dataIsOEM
 
-	ELSE
-		wxhAlert("Invalid object assigned to wxhBrowse...")
-	ENDIF
+		ELSE
+			wxhAlert("Invalid object assigned to wxhBrowse...")
+		ENDIF
 
 		EXIT
 

@@ -75,7 +75,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
       BEGIN BOXSIZER VERTICAL "Timer by Event" ALIGN EXPAND STRETCH
         BEGIN BOXSIZER HORIZONTAL
           @ SAY "Milliseconds"
-          @ SPINCTRL sc1 VAR ::spinCtrlEvent NAME "spinEvent" MIN 50 MAX 10000 ACTION {|| wxMessageBox("!") }
+          @ SPINCTRL sc1 VAR ::spinCtrlEvent NAME "spinEvent" MIN 50 MAX 10000 ACTION {|| wxMessageBox( "!", "", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
           @ BUTTON "Start" NAME "BtnEvent" ACTION {|event| ::StartStopTimers( event ) }
         END SIZER
         @ GET VAR ::textCtrlEvent MULTILINE STYLE wxTE_READONLY SIZERINFO ALIGN EXPAND STRETCH

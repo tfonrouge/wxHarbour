@@ -94,7 +94,7 @@ METHOD FUNCTION OnInit CLASS MyApp
   LOCAL ipv4
 
   IF !HB_MTVM()
-    wxMessageBox( "This program requieres an Multithread VM.", "Error", wxICON_WARNING )
+    wxMessageBox( "This program requieres an Multithread VM.", "Error", HB_BitOr( wxOK, wxICON_WARNING ) )
     RETURN .F.
   ENDIF
 
@@ -105,7 +105,7 @@ METHOD FUNCTION OnInit CLASS MyApp
   ::socket := wxSocketServer():New( ipv4 )
 
   IF !::socket:IsOk()
-    wxMessageBox( "Cannot create socket", "Error", wxICON_ERROR, )
+    wxMessageBox( "Cannot create socket", "Error", HB_BitOr( wxOK, wxICON_ERROR ), )
     RETURN .F.
   ENDIF
 

@@ -467,7 +467,8 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
 		wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
 		RETURN .F.
 	ENDIF
-	 */		 IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
+	 */		 
+		IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
 			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( Value ) + "'")
 			RETURN .F.
 		ENDIF
@@ -620,7 +621,8 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 		ELSE
 	
 			//RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
-			wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
+			//wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
+			//Beep()
 
 		ENDIF
 
@@ -654,8 +656,8 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 		ENDIF
 
 		/* Check if we are really changing values here */
-	IF value == ::GetBuffer()
-		RETURN
+		IF value == ::GetBuffer()
+			RETURN
 		ENDIF
 
 		::SetData( Value )
@@ -781,7 +783,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	ENDIF
 
 	/* Check if field is a masterkey in child tables */
-	IF ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
+	IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
 		IF ::FTable:HasChilds()
 			wxhAlert( "Can't modify key <"+::FName+"> with "+Value+";Has dependant child tables.")
 			RETURN
@@ -825,7 +827,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		/*
 		 * Check if has to propagate change to a child sources
 		 */
-		IF ::FTable:PrimaryIndex:UniqueKeyField == Self
+		IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self
 			::FTable:SyncDetailSources()
 		ENDIF
 
@@ -1443,7 +1445,7 @@ ENDCLASS
 
 /*
 	TObjectField
-	Teo. Mexico 2006
+	Teo. Mexico 2009
 */
 CLASS TObjectField FROM TField
 PRIVATE:
@@ -1463,8 +1465,6 @@ PUBLIC:
 	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString							//INLINE ::LinkedTable:PrimaryKeyField:AsString()
 	METHOD GetData()
-	METHOD ObjField( fieldName )
-	METHOD SetAsVariant
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY IsTheMasterSource READ GetIsTheMasterSource
 	PROPERTY ObjValue READ FObjValue WRITE SetObjValue
@@ -1551,9 +1551,13 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		SWITCH ValType( ::FObjValue )
 		CASE 'C'
 			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue )
-				RAISE TFIELD ::Name ERROR "Trying to create a new link to a MasterSource derived class, Try to use TDatabase relations or use the MasterSource as OBJVALUE"
+				IF ! ::IsMasterFieldComponent
+					RAISE TFIELD ::Name ERROR "MasterSource table has to be assigned to a master field component."
+				ENDIF
+				::FLinkedTable := ::FTable:MasterSource
+			ELSE
+				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New()
 			ENDIF
-			::FLinkedTable := __ClsInstFromName( ::FObjValue ):New()
 			EXIT
 		CASE 'B'
 			::FLinkedTable := ::FObjValue:Eval( ::FTable )
@@ -1568,7 +1572,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		ENDIF
 		
 		IF ::FLinkedTable:ContainerField != NIL
-			RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
+			//RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
 		ENDIF
 		
 		::FLinkedTable:ContainerField := Self
@@ -1595,17 +1599,6 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 	ENDIF
 
 RETURN ::FLinkedTable
-
-/*
-	ObjField
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION ObjField( fieldName ) CLASS TObjectField
-RETURN ::DataObj:FieldByName( fieldName )
-
-METHOD PROCEDURE SetAsVariant( value ) CLASS TObjectField
-	Super:SetAsVariant( value )
-RETURN
 
 /*
 	ENDCLASS TObjectField
