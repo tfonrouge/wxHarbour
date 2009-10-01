@@ -412,10 +412,10 @@ METHOD FUNCTION AddRec CLASS TTable
 
 	RECOVER USING errObj
 
-		ErrorBlock():Eval( errObj )
-
 		::TTable:Delete()
 		::RecUnLock()
+
+		SHOW ERROR errObj
 
 		Result := .F.
 
@@ -1464,9 +1464,9 @@ METHOD FUNCTION Post CLASS TTable
 
 	RECOVER USING errObj
 	
-		SHOW ERROR errObj
-
 		::Cancel()
+
+		SHOW ERROR errObj
 
 		RETURN .F.
 
@@ -1504,6 +1504,8 @@ METHOD FUNCTION Post CLASS TTable
 	RECOVER USING errObj
 
 		::Cancel()
+
+		SHOW ERROR errObj
 
 		//Throw( errObj )
 
