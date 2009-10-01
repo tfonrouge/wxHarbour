@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2009-10-01 14:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * src/raddox/TField.prg
+    * changed some TRY/CATCH/END to BEGIN/END SEQUENCE
+    * removed parameter on IsValid(), now when the validation is executed the original
+      value is stored and if the validation fails the value is restored
+    * changed behavior for ON VALIDATION, now the codeblock receives the TField object
+      as parameter
+
+  * src/raddox/TTable.prg
+    ! Fixed some wrongly constructed RECOVER USING sequences under BEGIN/END SEQUENCE
+
 2009-10-01 05:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
   * src/raddox/TField.prg

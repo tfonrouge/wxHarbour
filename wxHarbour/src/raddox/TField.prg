@@ -11,9 +11,7 @@
 	#include "wx_hbcompat.ch"
 #endif
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "raddox.ch"
+#include "wxharbour.ch"
 #include "xerror.ch"
 
 /*
@@ -116,7 +114,7 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetValidValues
 	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
-	METHOD IsValid( Value )
+	METHOD IsValid()
 	METHOD OnPickList( param )
 	METHOD Reset()
 	METHOD SetAsVariant( Value )
@@ -226,15 +224,15 @@ METHOD PROCEDURE Delete CLASS TField
 		RETURN
 	ENDIF
 
-	TRY
+	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		::Table:Alias:Eval( ::FFieldWriteBlock, ::EmptyValue() )
 
 		::Reset()
 
-	CATCH errObj
+	RECOVER USING errObj
 
-		Throw( errObj )
+		SHOW ERROR errObj
 
 	END
 
@@ -450,26 +448,25 @@ RETURN NIL
 	IsValid
 	Teo. Mexico 2009
 */
-METHOD FUNCTION IsValid( Value ) CLASS TField
+METHOD FUNCTION IsValid() CLASS TField
 	LOCAL validValues
+	LOCAL value
 
-	IF Value == NIL
-		Value := ::GetBuffer()
-	ENDIF
+	value := ::GetBuffer()
 
-	IF ::FRequired .AND. Empty( Value )
+	IF ::FRequired .AND. Empty( value )
 		wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
 		RETURN .F.
 	ENDIF
 
 	IF ::Unique
-	/* IF Empty( Value )
+	/* IF Empty( value )
 		wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
 		RETURN .F.
 	ENDIF
 	 */		 
-		IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( Value ) + "'")
+		IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( value ) )
+			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( value ) + "'")
 			RETURN .F.
 		ENDIF
 	ENDIF
@@ -480,12 +477,12 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
 		
 	SWITCH ValType( validValues )
 		CASE 'A'
-			IF AScan( validValues, {|e| e == Value } ) = 0
+			IF AScan( validValues, {|e| e == value } ) = 0
 				RETURN .F.
 			ENDIF
 			EXIT
 		CASE 'H'
-			IF AScan( HB_HKeys( validValues ), {|e| e == Value } ) = 0
+			IF AScan( HB_HKeys( validValues ), {|e| e == value } ) = 0
 				RETURN .F.
 			ENDIF
 			EXIT
@@ -494,7 +491,7 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
 		#else
 		OTHERWISE
 		#endif
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( Value ) + "'")
+			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( value ) + "'")
 		ENDSWITCH
 	ENDIF
 
@@ -502,7 +499,7 @@ METHOD FUNCTION IsValid( Value ) CLASS TField
 		RETURN .T.
 	ENDIF
 
-RETURN ::OnValidate:Eval( Value )
+RETURN ::OnValidate:Eval( Self )
 
 /*
 	OnPickList
@@ -707,6 +704,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	LOCAL nTries
 	LOCAL errObj
 	LOCAL abort
+	LOCAL buffer
 
 	/* SetData is only for the physical fields on the database */
 	SWITCH ::FFieldMethodType
@@ -790,11 +788,6 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		ENDIF
 	ENDIF
 
-	/* Validate before the physical writting */
-	IF !::IsValid( Value )
-		RETURN
-	ENDIF
-
 	IF ::OnBeforeChange != NIL
 		abort := .F.
 		::OnBeforeChange:Eval( ::FTable, @abort )
@@ -802,10 +795,18 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 			RETURN
 		ENDIF
 	ENDIF
+	
+	buffer := ::GetBuffer()
 
 	::SetBuffer( Value )
 
-	TRY
+	/* Validate before the physical writting */
+	IF !::IsValid()
+		::SetBuffer( buffer )  // revert the change
+		RETURN
+	ENDIF
+
+	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		/*
 		 * Check for a key violation
@@ -835,10 +836,9 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 			::OnChange:Eval( ::FTable )
 		ENDIF
 
-	CATCH errObj
+	RECOVER USING errObj
 
-		//ShowError( errObj )
-		ErrorBlock():Eval( errObj )
+		SHOW ERROR errObj
 
 	END
 
