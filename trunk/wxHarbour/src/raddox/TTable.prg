@@ -113,6 +113,7 @@ PUBLIC:
 	 */
 	DATA DetailSourceList INIT HB_HSetCaseMatch( {=>}, .F. )
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
+	DATA FUnderReset INIT .F.
 	DATA LinkedObjField
 
 	CONSTRUCTOR New( MasterSource )
@@ -159,7 +160,7 @@ PUBLIC:
 	METHOD RecLock
 	METHOD RecUnLock
 	METHOD Refresh
-	METHOD Reset								// Set Field Record to their default values, Sync MasterKeyString Value
+	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyString Value
 	METHOD Seek( Value, AIndex, SoftSeek )
 	METHOD SetAsString( Value ) INLINE ::PrimaryKeyField:AsString := Value
 	METHOD SetAsVariant( Value ) INLINE ::PrimaryKeyField:Value := Value
@@ -1685,6 +1686,8 @@ METHOD PROCEDURE Reset CLASS TTable
 	LOCAL AField
 
 	::FRecNo := 0
+	
+	::FUnderReset := .T.
 
 	FOR EACH AField IN ::FFieldList
 
@@ -1693,6 +1696,8 @@ METHOD PROCEDURE Reset CLASS TTable
 		ENDIF
 
 	NEXT
+	
+	::FUnderReset := .F.
 
 RETURN
 

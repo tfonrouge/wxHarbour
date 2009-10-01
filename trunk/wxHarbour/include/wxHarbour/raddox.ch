@@ -65,6 +65,7 @@
             [ SIZE <nSize> ] ;
             [ PICTURE <pict> ] ;
             [ <pv: PRIVATE> ] ;
+			[ MASTERSOURCE <linkedTableMasterSource> ] ;
             [ OBJVALUE <objValue> ] ;
             [ ON GETTEXT <bOnGetText> ] ;
             [ ON SETTEXT <bOnSetText> ] ;
@@ -91,6 +92,7 @@
               [ :Size := <nSize> ] ;;
               [ :Picture := <pict> ] ;;
               [ :Published := !<.pv.> ] ;;
+			  [ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
               [ :ObjValue := <objValue> ] ;;
               [ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
               [ :OnSetText := {|field,Text| <bOnSetText> } ] ;;

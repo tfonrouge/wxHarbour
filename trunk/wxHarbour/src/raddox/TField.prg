@@ -118,7 +118,7 @@ PUBLIC:
 	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
 	METHOD IsValid( Value )
 	METHOD OnPickList( param )
-	METHOD Reset
+	METHOD Reset()
 	METHOD SetAsVariant( Value )
 	METHOD SetData( Value )
 	METHOD SetEditText( Text )
@@ -131,6 +131,7 @@ PUBLIC:
 	PROPERTY EmptyValue READ GetEmptyValue
 	PROPERTY PickList READ FPickList WRITE SetPickList
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
+	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
 	PROPERTY IsTheMasterSource READ FIsTheMasterSource
 	PROPERTY Text READ GetEditText WRITE SetEditText
@@ -153,7 +154,6 @@ PUBLISHED:
 
 	PROPERTY AutoIncrement READ GetAutoIncrement
 	PROPERTY AutoIncrementKeyIndex READ FAutoIncrementKeyIndex WRITE SetAutoIncrementKeyIndex
-	PROPERTY TableBaseClass READ FTableBaseClass
 	PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
 	PROPERTY Description READ FDescription WRITE SetDescription
 	PROPERTY FieldArray READ FFieldArray WRITE SetFieldMethod
@@ -163,15 +163,15 @@ PUBLISHED:
 	PROPERTY FieldMethodType READ FFieldMethodType
 	PROPERTY FieldReadBlock READ FFieldReadBlock
 	PROPERTY Group READ FGroup WRITE SetGroup
-	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
 	PROPERTY KeyIndex READ FKeyIndex WRITE SetKeyIndex
 	PROPERTY Label READ GetLabel WRITE SetLabel
+	PROPERTY Name READ FName WRITE SetName
 	PROPERTY PrimaryKeyComponent READ FPrimaryKeyComponent WRITE SetPrimaryKeyComponent
 	PROPERTY Published READ FPublished WRITE SetPublished
-	PROPERTY Name READ FName WRITE SetName
 	PROPERTY ReadOnly READ GetReadOnly WRITE SetReadOnly
 	PROPERTY Required READ FRequired WRITE SetRequired
 	PROPERTY Table READ FTable
+	PROPERTY TableBaseClass READ FTableBaseClass
 	PROPERTY Type READ FType
 	PROPERTY Unique READ GetUnique
 	PROPERTY UniqueKeyIndex READ FUniqueKeyIndex WRITE SetUniqueKeyIndex
@@ -530,7 +530,7 @@ RETURN NIL
 METHOD PROCEDURE Reset CLASS TField
 	LOCAL AField
 	LOCAL value
-
+	
 	IF ::FFieldMethodType = 'A'
 
 		FOR EACH AField IN ::FFieldArray
@@ -1452,8 +1452,10 @@ PRIVATE:
 	DATA FIsTheMasterSource
 	DATA FObjValue
 	DATA FLinkedTable									 /* holds the Table object */
+	DATA FLinkedTableMasterSource
 	METHOD GetIsTheMasterSource
 	METHOD GetSize INLINE Len( ::LinkedTable:PrimaryKeyField )
+	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
 	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
 	DATA FType INIT "ObjectField"
@@ -1465,8 +1467,9 @@ PUBLIC:
 	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString							//INLINE ::LinkedTable:PrimaryKeyField:AsString()
 	METHOD GetData()
-	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY IsTheMasterSource READ GetIsTheMasterSource
+	PROPERTY LinkedTable READ GetLinkedTable
+	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
 	PROPERTY ObjValue READ FObjValue WRITE SetObjValue
 	PROPERTY Size READ GetSize
 PUBLISHED:
@@ -1488,7 +1491,11 @@ RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
 	Teo. Mexico 2009
 */
 METHOD FUNCTION DataObj CLASS TObjectField
-	::LinkedTable:Value := ::GetBuffer()
+	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
+	
+	ELSE
+		::LinkedTable:Value := ::GetBuffer()
+	ENDIF
 RETURN ::FLinkedTable
 
 /*
@@ -1538,6 +1545,7 @@ RETURN ::FIsTheMasterSource
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetLinkedTable CLASS TObjectField
+	LOCAL linkedTableMasterSource
 
 	IF ::FLinkedTable == NIL
 
@@ -1556,7 +1564,10 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 				ENDIF
 				::FLinkedTable := ::FTable:MasterSource
 			ELSE
-				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New()
+				IF ::FLinkedTableMasterSource != NIL
+					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
+				ENDIF
+				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
 			ENDIF
 			EXIT
 		CASE 'B'
