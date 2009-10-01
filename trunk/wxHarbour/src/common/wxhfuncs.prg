@@ -1476,7 +1476,7 @@ RETURN
 	__wxh_RadioBox
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension, style, name )
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorDimension, style, name )
 	LOCAL radioBox
 	LOCAL validator
 
@@ -1488,6 +1488,13 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, majorDimension
 
 	IF choices == NIL .AND. validator:Field != NIL
 		choices := validator:GetChoices()
+	ENDIF
+	
+	IF specRC != NIL
+		IF style = NIL
+			style := 0
+		ENDIF
+		style := _hb_BitOr( style, specRC )
 	ENDIF
 
 	radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
@@ -1926,7 +1933,7 @@ RETURN sb
  * __wxh_TextCtrl
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip, enabled )
+FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditable, toolTip, enabled )
 	LOCAL textCtrl
 	LOCAL validator
 	LOCAL pickBtn
@@ -1962,6 +1969,10 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, toolTip,
 		textCtrl := wxSearchCtrl():New( parent, id, NIL, pos, size, style, validator, name )
 	ELSE
 		textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+	ENDIF
+	
+	IF noEditable != NIL
+		textCtrl:SetEditable( .F. )
 	ENDIF
 
 	IF toolTip != NIL

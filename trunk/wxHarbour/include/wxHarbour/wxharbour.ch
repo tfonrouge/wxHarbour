@@ -56,6 +56,7 @@
 #define wxhLABEL_QUIT           "Quit"
 #define wxhLABEL_RETRY          "Retry"
 #define wxhLABEL_DEFAULT        "Default"
+#define wxhLABEL_ACCEPT			"Accept"
 
 /* CheckBox 3 states */
 #define wxCHK_UNCHECKED         0
@@ -426,7 +427,7 @@
  */
 #xcommand @ RADIOBOX <dataVar> [ LABEL <label> ] ;
             [ ITEMS <choices> ] ;
-            [ MAJORDIM <majorDimension> ] ;
+			[ <specRC: ROWS, COLS> <nmaxRC> ] ;
             [ VAR <radioBox> ] ;
             [ PARENT <parent> ] ;
             [ ID <id> ] ;
@@ -443,7 +444,7 @@
             ,;
             [{<nWidth>,<nHeight>}],;
             [<choices>],;
-            [<majorDimension>],;
+            [wxRA_SPECIFY_<specRC>],[<nmaxRC>];
             [<style>],;
             [<name>] )
 
@@ -698,6 +699,7 @@
             [ <mline: MULTILINE> ] ;
             [ STYLE <style> ] ;
             [ NAME <name> ] ;
+			[ <noEdit: NOEDITABLE> ] ;
             [ TOOLTIP <toolTip> ] ;
 			[ ENABLED <enabled> ] ;
             [ PICTURE <picture> ] ;
@@ -713,6 +715,7 @@
             [<.mline.>],;
             [<style>],;
             [<name>],;
+			[<.noEdit.>], ;
             [<{toolTip}>],;
 			[<enabled>] )
             

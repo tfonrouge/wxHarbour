@@ -2,6 +2,37 @@
  * $Id$
  */
 
+2009-09-30 21:44 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/wxharbour.ch
+  * src/common/wxhfuncs.prg
+  * samples/radiobox/radiobox.prg
+    + added wxhLABEL_ACCEPT for wxhShowError() handling
+    * on @ RADIOBOX command, changed clause MAJORDIM to ROWS/COLS to better readability
+    + on @ GET command, added NOEDITABLE clause
+
+  * include/wxHarbour/xerror.ch
+  * src/hrbcompat/errorsys/wxherrorsys.prg
+    + added SHOW ERROR ... command to help on show errors trapped on BEGIN/END SEQUENCE's
+
+  * src/hrbcompat/tbrowse/wxhBrowse.prg
+    * changing evaluating order for trigger key to start cell edition, now user
+      defined process key is done before that
+
+  * src/raddox/Dba.prg
+    ! removed sending !Eof() parameter on evaluation in Get4SeekLast()
+
+  * src/raddox/TField.prg
+    ! assigning value of ::GetBuffer() to ::FWrittenValue to make sure that on TStringFields
+      the sizes are equal
+
+  * src/raddox/TTable.prg
+    + added methods:
+      + Get4Seek()
+      + Get4SeekLast()
+    * changed some TRY/CATCH/END to BEGIN/END SEQUENCE
+      ! Fixes trapping of errors on some process
+    % added processing of ::OnDataChange() on ::RecUnLock() calls
+
 2009-09-30 11:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     % new functionality added, active index is controlled by a

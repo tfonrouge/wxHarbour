@@ -100,6 +100,7 @@ PROTECTED:
 	METHOD AddRec
 	METHOD FindDetailSourceField( masterField )
 	METHOD InitDataBase INLINE TDataBase():New()
+	METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
 
 PUBLIC:
 
@@ -139,6 +140,8 @@ PUBLIC:
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
 	METHOD FullFileName
+	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
+	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
 	METHOD GetAsVariant
 	METHOD GetCurrentRecord
@@ -151,7 +154,7 @@ PUBLIC:
 	METHOD InsideScope
 	METHOD MasterSourceClassName
 	METHOD Open
-	METHOD Post
+	METHOD Post()
 	METHOD RawSeek( Value )
 	METHOD RecLock
 	METHOD RecUnLock
@@ -384,7 +387,7 @@ METHOD FUNCTION AddRec CLASS TTable
 	 * Write the PrimaryKeyField
 	 * Write the Fields that have a DefaultValue
 	 */
-	TRY
+	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		IF ::FPrimaryIndex != NIL
 			IF ::FPrimaryIndex:MasterKeyField != NIL
@@ -406,7 +409,7 @@ METHOD FUNCTION AddRec CLASS TTable
 			ENDIF
 		NEXT
 
-	CATCH errObj
+	RECOVER USING errObj
 
 		ErrorBlock():Eval( errObj )
 
@@ -415,7 +418,7 @@ METHOD FUNCTION AddRec CLASS TTable
 
 		Result := .F.
 
-	END
+	END SEQUENCE
 
 	::FSubState := dssNone
 
@@ -1454,17 +1457,19 @@ METHOD FUNCTION Post CLASS TTable
 	LOCAL errObj
 	LOCAL table
 
-	TRY
+	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		::OnBeforePost( Self )
 
-	CATCH
+	RECOVER USING errObj
+	
+		SHOW ERROR errObj
 
 		::Cancel()
 
 		RETURN .F.
 
-	END
+	END SEQUENCE
 
 	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
 		::Error_Table_Not_In_Edit_or_Insert_mode()
@@ -1481,7 +1486,7 @@ METHOD FUNCTION Post CLASS TTable
 		NEXT
 	ENDIF
 
-	BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
+	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		FOR EACH AField IN ::FieldList
 
@@ -1564,6 +1569,24 @@ METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
 RETURN
 
 /*
+	RawGet4Seek
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION RawGet4Seek( direction, xField, keyVal, index, softSeek ) CLASS TTable
+	IF ValType( xField ) = "O"
+		xField := xField:FieldReadBlock
+	ENDIF
+	IF ValType( index ) = "O"
+		keyVal := index:MasterKeyField:Value + keyVal
+	ELSE
+		keyVal := ::IndexByName( index ):MasterKeyField:Value + keyVal
+	ENDIF
+	IF direction = 1
+		RETURN ::Alias:Get4Seek( xField, keyVal, index, softSeek )
+	ENDIF
+RETURN ::Alias:Get4SeekLast( xField, keyVal, index, softSeek )
+
+/*
 	RawSeek
 	Teo. Mexico 2008
 */
@@ -1639,6 +1662,7 @@ METHOD FUNCTION RecUnLock CLASS TTable
 	LOCAL Result
 	IF ( Result := ::Alias:RecUnLock() )
 		::SetState( dsBrowse )
+		::OnDataChange()
 	ENDIF
 RETURN Result
 

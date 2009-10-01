@@ -72,7 +72,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
     END SIZER
 
-    @ RADIOBOX radioval3 LABEL "Upload VIA" MAJORDIM 1 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO STRETCH
+    @ RADIOBOX radioval3 LABEL "Upload VIA" COLS 2 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO STRETCH
 
     @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
 

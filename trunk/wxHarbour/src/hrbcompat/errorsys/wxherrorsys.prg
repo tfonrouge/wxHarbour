@@ -162,7 +162,7 @@ STATIC FUNCTION ErrorMessage( oError )
   wxhShowError
   Teo. Mexico 2008
 */
-STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
+FUNCTION wxhShowError( cMessage, aOptions, oErr )
   LOCAL retVal := 0
   LOCAL dlg
   LOCAL itm
@@ -171,7 +171,7 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   LOCAL brwErrObj,brwCallStack
   LOCAL aStack := {}
   LOCAL s
-
+  
   /*
     TODO: Check if we have enough resources to do this
   */
@@ -183,7 +183,7 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
 
   aErrLst := __objGetValueList( oErr, .T., 0 )
 
-  IF .T.
+  IF .F.
     s := cMessage + E":\n\n" + oErr:Description + E"\n\n"
     i := 3
     WHILE !Empty( ProcName( i ) )
@@ -197,7 +197,9 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
     BREAK( 0 )
   ENDIF
 
-  aOptions := { wxhLABEL_QUIT }
+  IF Empty( cMessage )
+    cMessage := oErr:Description + ": " + oErr:Operation
+  ENDIF
 
   CREATE DIALOG dlg ;
          WIDTH 640 HEIGHT 400 ;
@@ -227,6 +229,9 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
         CASE itm == wxhLABEL_DEFAULT
           id := wxID_DEFAULT
           itm := NIL
+		CASE itm == wxhLABEL_ACCEPT
+          id := wxID_OK
+          itm := NIL
         OTHERWISE
           id := wxID_ANY
         ENDCASE
@@ -235,9 +240,6 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
       NEXT
     END SIZER
   END SIZER
-
-  brwCallStack:Fit()
-  brwErrObj:Fit()
 
   brwCallStack:DeleteAllColumns()
   ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK {|n| aStack[ n, 1 ] } WIDTH 30
@@ -248,6 +250,8 @@ STATIC FUNCTION wxhShowError( cMessage, aOptions, oErr )
   ADD BCOLUMN TO brwErrObj "MsgName" BLOCK {|n| brwErrObj:DataSource[ n, 1 ] } WIDTH 30
   ADD BCOLUMN TO brwErrObj "Value" BLOCK {|n| brwErrObj:DataSource[ n, 2 ] } WIDTH 20
 
-  SHOW WINDOW dlg MODAL //FIT
+  SHOW WINDOW dlg MODAL CENTRE
+  
+  DESTROY dlg
 
 RETURN retVal
