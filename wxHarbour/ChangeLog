@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2009-10-01 05:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+  * src/raddox/TField.prg
+    + on TObjectField, added clause MASTERSOURCE to give the MasterSource for
+      the linked table
+    ! Fixed error on complex relations from TObjectField's using another TObjectField
+      in the same Table as MasterSource and an Eof was found leading to an attemp to Reset 
+      (reassign the MasterKeyField) and reinitialize the whole database again (infinite loop)
+
+  * src/raddox/TTable.prg
+    + added DATA flag to indicate that an Reset is performed in the Table, this informs to
+      the TObjectFields that such operation is in progress
+
 2009-10-01 01:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/common/wxhfuncs.prg
     * changed type of parameter from 'control' to 'event' on wxhHBValidator:PickList()
