@@ -74,9 +74,9 @@ PUBLIC:
 	METHOD GetKeyValue()						/* returns key of ValidValues on TField (if any) */
 	METHOD GetSelection()						/* returns numeric index of ValidValues on TField (if any) */
 	METHOD IsModified()
-	METHOD PickList( control )
+	METHOD PickList( event )
 	METHOD TextValue()							/* Text Value for control */
-	METHOD UpdateVar( event )
+	METHOD UpdateVar( event, force )
 
 	/* wxValidator methods */
 	METHOD TransferFromWindow()
@@ -160,15 +160,15 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 			control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
 		ENDIF
 		IF ::Field != NIL .AND. !::Field:PickList == NIL
-			control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event:GetEventObject() ) } )
+			control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event ) } )
 			IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch = NIL
-				control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event:GetEventObject() ) } )
+				control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event ) } )
 			ENDIF
 			IF contextListKey != NIL
 				control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
 					BEGIN_CB|event|
 						IF event:GetKeyCode() = contextListKey
-							::PickList( event:GetEventObject() )
+							::PickList( event )
 							RETURN NIL
 						ENDIF
 						event:Skip()
@@ -384,11 +384,12 @@ RETURN modified
 	PickList
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE PickList( control ) CLASS wxhHBValidator
+METHOD PROCEDURE PickList( event ) CLASS wxhHBValidator
 	LOCAL s
 	LOCAL parentWnd
 	LOCAL selectionMade
 	LOCAL value, rawValue
+	LOCAL control := event:GetEventObject()
 	
 	parentWnd := control:GetParent()
 
@@ -408,9 +409,10 @@ METHOD PROCEDURE PickList( control ) CLASS wxhHBValidator
 			RETURN /* no changes */
 		ENDIF
 		control:ChangeValue( wxh_OEMTowxString( s ) )
+		::UpdateVar( event, .T. )
 	ENDIF
 
-	control:SetFocus()
+	//control:SetFocus()
 
 RETURN
 
@@ -582,7 +584,7 @@ RETURN Result
 	UpdateVar
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
+METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 	LOCAL evtType
 	LOCAL control
 	LOCAL oldValue
@@ -641,7 +643,7 @@ METHOD PROCEDURE UpdateVar( event ) CLASS wxhHBValidator
 	::TransferToWindow()
 
 	/* changed ? */
-	IF !oldValue == ::FBlock:Eval()
+	IF !oldValue == ::FBlock:Eval() .OR. force == .T.
 		IF ::bAction != NIL
 			::bAction:Eval( event )
 		ENDIF
