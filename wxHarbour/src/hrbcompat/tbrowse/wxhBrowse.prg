@@ -341,6 +341,17 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 	LOCAL result
 	LOCAL nKey := keyEvent:GetKeyCode()
 	
+	IF ::keyDownEventBlock != NIL
+		result := ::keyDownEventBlock:Eval( Self, keyEvent )
+		IF ValType( result ) = "L"
+			IF result
+				RETURN /* event key processed */
+			ENDIF
+		ELSE
+			RAISE ERROR "keyDownEventBlock must return a logical value."
+		ENDIF
+	ENDIF
+
 	/* start cell edition keys */
 	SWITCH nKey
 	CASE WXK_RETURN
@@ -355,17 +366,6 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 			RETURN
 		ENDIF
 	END
-
-	IF ::keyDownEventBlock != NIL
-		result := ::keyDownEventBlock:Eval( Self, keyEvent )
-		IF ValType( result ) = "L"
-			IF result
-				RETURN /* event key processed */
-			ENDIF
-		ELSE
-			RAISE ERROR "keyDownEventBlock must return a logical value."
-		ENDIF
-	ENDIF
 
 	SWITCH nKey
 	CASE WXK_UP

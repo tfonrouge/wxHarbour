@@ -185,7 +185,7 @@ FUNCTION Get4SeekLast(var,xs,no,ss)
   LOCAL nrec:=RecNo()
   (seeklast(xs,no,ss))
   IF valtype(var)=="B"
-    ret := var:eval( !Eof() )
+    ret := var:eval()
     DbGoTo(nrec)
     RETURN ret
   ELSE

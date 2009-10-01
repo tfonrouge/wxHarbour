@@ -7,6 +7,8 @@
   Teo. Mexico 2007
 */
 
+#ifndef __XERROR_CH__
+#define __XERROR_CH__
 /* THROW => generate error */
 #xtranslate THROW(<oErr>) => (Eval(ErrorBlock(), <oErr>), Break(<oErr>))
 
@@ -31,3 +33,8 @@
                               ProcLine() ;
                             ) ;
                 )
+
+#xcommand SHOW ERROR <errObj> ;
+          => ;
+		  wxhShowError( "", { wxhLABEL_ACCEPT }, <errObj> )
+#endif

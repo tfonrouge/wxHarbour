@@ -817,7 +817,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		/* The physical write to the field */
 		::FTable:Alias:Eval( ::FFieldWriteBlock, Value )
 
-		::FWrittenValue := Value
+		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
 
 		/* Check if has to update Custom Index */
 		//IF ::CustomIndexed
