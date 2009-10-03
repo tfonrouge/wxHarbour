@@ -95,6 +95,7 @@ PROTECTED:
 	METHOD GetAsVariant
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
+	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
@@ -133,6 +134,7 @@ PUBLIC:
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
 	PROPERTY IsTheMasterSource READ FIsTheMasterSource
 	PROPERTY Text READ GetEditText WRITE SetEditText
+	PROPERTY UndoValue READ GetUndoValue
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
@@ -145,7 +147,7 @@ PUBLISHED:
 	DATA OnSetText			// Params: Sender: TField, Text: String
 	DATA OnSetValue			// Parama:
 	DATA OnBeforeChange
-	DATA OnChange				// Params: Sender: TField
+	DATA OnAfterChange				// Params: Sender: TField
 	DATA OnValidate			// Params: Sender: TField
 	
 	DATA ValidValues
@@ -428,6 +430,16 @@ METHOD FUNCTION GetFieldMethod CLASS TField
 RETURN NIL
 
 /*
+	GetUndoValue
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetUndoValue() CLASS TField
+	IF !Empty( ::FTable:UndoList ) .AND. HB_HHasKey( ::FTable:UndoList, ::FName )
+		RETURN ::FTable:UndoList[ ::FName ]
+	ENDIF
+RETURN NIL
+
+/*
 	GetValidValues
 	Teo. Mexico 2009
 */
@@ -703,7 +715,6 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	LOCAL AField
 	LOCAL nTries
 	LOCAL errObj
-	LOCAL abort
 	LOCAL buffer
 
 	/* SetData is only for the physical fields on the database */
@@ -789,9 +800,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	ENDIF
 
 	IF ::OnBeforeChange != NIL
-		abort := .F.
-		::OnBeforeChange:Eval( ::FTable, @abort )
-		IF abort
+		IF ! ::OnBeforeChange:Eval( Self, value )
 			RETURN
 		ENDIF
 	ENDIF
@@ -817,8 +826,13 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	
 		/* The physical write to the field */
 		::FTable:Alias:Eval( ::FFieldWriteBlock, Value )
-
+		
 		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
+
+		/* fill undolist */
+		IF ::FTable:State = dsEdit .AND. ! HB_HHasKey( ::FTable:UndoList, ::FName )
+			::FTable:UndoList[ ::FName ] := buffer
+		ENDIF
 
 		/* Check if has to update Custom Index */
 		//IF ::CustomIndexed
@@ -826,14 +840,14 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		//ENDIF
 
 		/*
-		 * Check if has to propagate change to a child sources
+		 * Check if has to propagate change to child sources
 		 */
 		IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self
 			::FTable:SyncDetailSources()
 		ENDIF
 
-		IF ::OnChange != NIL
-			::OnChange:Eval( ::FTable )
+		IF ::OnAfterChange != NIL
+			::OnAfterChange:Eval( Self, buffer )
 		ENDIF
 
 	RECOVER USING errObj

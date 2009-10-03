@@ -73,7 +73,7 @@
             [ ON INDEXKEYVAL <bIndexKeyVal> ] ;
             [ ON VALIDATE <bOnValidate> ] ;
             [ ON BEFORE CHANGE <bOnBeforeChange> ] ;
-            [ ON [AFTER] CHANGE <bOnChange> ] ;
+            [ ON AFTER CHANGE <bOnAfterChange> ] ;
             [ VALIDVALUES <validValues> ] ;
 			[ USING <usingField> ] ;
            => ;
@@ -100,7 +100,7 @@
               [ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
               [ :OnValidate := <bOnValidate> ] ;;
               [ :OnBeforeChange := <bOnBeforeChange> ] ;;
-              [ :OnChange := <bOnChange> ] ;;
+              [ :OnAfterChange := <bOnAfterChange> ] ;;
               [ :ValidValues := <validValues> ] ;;
 			  [ :UsingField := <usingField> ] ;;
               :ValidateFieldInfo() ;;

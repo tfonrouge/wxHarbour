@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2009-10-03 01:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * include/wxHarbour/raddox.ch
+    * on command ADD [...] FIELD, clause "ON CHANGE" is changed to "ON AFTER CHANGE" 
+      a more meaningfull description
+
+  * src/raddox/TField.prg
+    * added method:
+      + UndoValue() : stores the original value before editing
+    * changed ::OnBeforeChange usage, now it must return a logical value indicating
+      the success of the operation (Veto is allowed here)
+
+  * src/raddox/TTable.prg
+    ! Fixed incrementing of AutoIncrement fields on secondary indexes
+    % optimized the process to store undo values on edition
+
 2009-10-01 14:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * src/raddox/TField.prg
     * changed some TRY/CATCH/END to BEGIN/END SEQUENCE
