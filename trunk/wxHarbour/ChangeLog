@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-10-03 11:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * demos/dbExplorer/dbExplorer.prg
+    ! Fixed updating the controls on wxBrowse:OnSelect()
+
 2009-10-03 01:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
     * on command ADD [...] FIELD, clause "ON CHANGE" is changed to "ON AFTER CHANGE" 
