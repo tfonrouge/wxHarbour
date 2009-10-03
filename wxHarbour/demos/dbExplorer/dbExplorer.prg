@@ -244,7 +244,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 			BEGIN BOXSIZER VERTICAL
 				@ BROWSE VAR oBrw NAME "table" DATASOURCE table ;
 					ONKEY {|b,keyEvent| k_Process( b, keyEvent ) } ;
-					ONSELECTCELL {|oBrw| ::OnSelectCell( oBrw ) } ;
+					ONSELECTCELL {|| ::OnSelectCell( oBrw ) } ;
 					SIZERINFO ALIGN EXPAND STRETCH
 				@ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
 				BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
@@ -302,9 +302,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE OnSelectCell( oBrw ) CLASS MyApp
-	oBrw:GetParent():FindWindowByName( "key" ):SetLabel( ordKey() )
-	oBrw:GetParent():FindWindowByName( "for" ):SetLabel( ordFor() )
-	oBrw:GetParent():FindWindowByName( "keyval" ):SetValue( ordKeyVal() )
+	oBrw:GetParent():FindWindowByName( "key", oBrw:GetParent() ):SetLabel( ordKey() )
+	oBrw:GetParent():FindWindowByName( "for", oBrw:GetParent() ):SetLabel( ordFor() )
+	oBrw:GetParent():FindWindowByName( "keyval", oBrw:GetParent() ):SetValue( ordKeyVal() )
 RETURN
 
 /*
