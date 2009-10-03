@@ -61,7 +61,7 @@ PRIVATE:
 	DATA FSyncToContainerField INIT .F.
 	DATA FTableFileName
 	DATA FTimer INIT 0
-	DATA FUndoList INIT HB_HSetCaseMatch( {=>}, .F. )
+	DATA FUndoList
 
 	METHOD DbGoBottomTop( type )
 	METHOD GetAlias
@@ -404,7 +404,7 @@ METHOD FUNCTION AddRec CLASS TTable
 
 		FOR EACH AField IN ::FFieldList
 			IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent
-				IF AField:DefaultValue != NIL
+				IF AField:DefaultValue != NIL .OR. AField:AutoIncrement
 					AField:SetData()
 				ENDIF
 			ENDIF
@@ -784,7 +784,6 @@ RETURN
 	Teo. Mexico 2006
 */
 METHOD FUNCTION Edit() CLASS TTable
-	LOCAL AField
 
 	IF !::State = dsBrowse
 		::Error_TableNotInBrowseState()
@@ -794,15 +793,8 @@ METHOD FUNCTION Edit() CLASS TTable
 	IF !::RecLock()
 		RETURN .F.
 	ENDIF
-
-	FOR EACH AField IN ::FieldList
-
-		IF AField:FieldMethodType = "C"
-			//::FUndoList[ AField:Name ] := AField:Value
-			::FUndoList[ AField:Name ] := AField:GetBuffer()
-		ENDIF
-
-	NEXT
+	
+	::FUndoList := HB_HSetCaseMatch( {=>}, .F. )
 
 RETURN .T.
 
