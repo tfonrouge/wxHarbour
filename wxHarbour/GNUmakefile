@@ -26,10 +26,10 @@ AR ?= ar
 RANLIB ?= ranlib
 
 # C compiler 
-CC = gcc
+CC = gcc -arch i386
 
 # C++ compiler 
-CXX = g++
+CXX = g++ -arch i386
 
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 

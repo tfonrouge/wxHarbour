@@ -2,6 +2,20 @@
  * $Id$
  */
 
+2009-10-05 21:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  demos/dbExplorer/GNUmakefile
+  *  samples/arrbrowser/GNUmakefile
+  *  samples/dbbrowser/GNUmakefile
+     * temporary hack to allow compiling on snow leopard
+
+  *  src/raddox/TField.prg
+     * small modification on text for error output
+
+  *  src/wxbase/controls/wx_ComboBox.cpp
+     ! Fixed stupid typo on ::GetSelection(), this fixes selecting text on the
+       text area
+
 2009-10-03 11:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * demos/dbExplorer/dbExplorer.prg
     ! Fixed updating the controls on wxBrowse:OnSelect()

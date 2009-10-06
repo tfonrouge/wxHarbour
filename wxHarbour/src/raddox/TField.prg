@@ -20,7 +20,7 @@
 */
 
 #xcommand RAISE TFIELD <name> ERROR <cDescription> => ;
-					RAISE ERROR E"\nTable: <" + ::FTable:TableName + ">, FieldExpression: <" + <name> + ">" + ;
+					RAISE ERROR E"\nTable: <" + ::FTable:ClassName() + ">, FieldExpression: <" + <name> + ">" + ;
 											E"\n" + ;
 											<cDescription> + E"\n" ;
 								SUBSYSTEM ::ClassName + "<" + ::Name + ">"	;
@@ -764,7 +764,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		IF !( ::FTable:SubState = dssAdding )
 			RETURN
 		ENDIF
-
+		
 		/* Try to obtain a unique key */
 		nTries := 1000
 		WHILE .T.

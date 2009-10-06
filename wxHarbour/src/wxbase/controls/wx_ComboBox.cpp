@@ -195,15 +195,16 @@ HB_FUNC( WXCOMBOBOX_GETSELECTION )
 
   if( comboBox )
   {
-    if( ISBYREF( 1 ) && ISBYREF( 2 ) )
+    //if( ISBYREF( 1 ) && ISBYREF( 2 ) )
     {
-      long from, to;
-      comboBox->GetSelection( &from, &to );
-      hb_stornl( from, 1 );
-      hb_stornl( to, 2 );
+      //long from, to;
+      //comboBox->GetSelection( &from, &to );
+		hb_retni( comboBox->GetSelection() );
+      //hb_stornl( from, 1 );
+      //hb_stornl( to, 2 );
     }
-    else
-      hb_errRT_BASE( EG_ARG, 9999, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+    //else
+      //hb_errRT_BASE( EG_ARG, 9999, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
   }
 #endif
 }
