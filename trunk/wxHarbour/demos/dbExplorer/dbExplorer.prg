@@ -87,7 +87,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 			ADD MENUITEM "Configure dbExplorer" ACTION ::Configure()
 		ENDMENU
 		DEFINE MENU "Help"
-			ADD MENUITEM "Fit Grid" ACTION ::GetBrw():AutoSizeColumns() ENABLED ::GetBrw() != NIL
+			ADD MENUITEM "Fit Grid" ACTION ::GetBrw():AutoSizeColumns( .F. ) ENABLED ::GetBrw() != NIL
 			ADD MENUSEPARATOR
 			ADD MENUITEM "About..."
 		ENDMENU
@@ -274,7 +274,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	ADD BCOLUMN TO oBrwIndexList "IsDesc" BLOCK {|key| hIndex[ key, "IsDesc" ] }
 	ADD BCOLUMN TO oBrwIndexList "Unique" BLOCK {|key| hIndex[ key, "Unique" ] }
 
-	oBrwIndexList:AutoSizeColumns()
+	oBrwIndexList:AutoSizeColumns( .F. )
 
 	oBrwStruct:DeleteAllColumns()
 	ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|n| aStruDbf[ n, 1 ]	 }
@@ -282,7 +282,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|n| aStruDbf[ n, 3 ]	} PICTURE "99999" AS NUMBER
 	ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|n| aStruDbf[ n, 4 ]	 } PICTURE "99" AS NUMBER
 
-	oBrwStruct:AutoSizeColumns()
+	oBrwStruct:AutoSizeColumns( .F. )
 
 	noteBook:SetSelection( 0 )
 //	 noteBook:ChangeSelection( 1 )
@@ -291,7 +291,7 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	
 	noteBook:FindWindowByName( "choice" ):SetSelection( ordNumber )
 
-	noteBook:FindWindowByName("table"):AutoSizeColumns()
+	noteBook:FindWindowByName("table"):AutoSizeColumns( .F. )
 
 //	 DESTROY fileDlg
 
