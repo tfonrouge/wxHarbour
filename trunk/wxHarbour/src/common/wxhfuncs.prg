@@ -56,6 +56,7 @@ PRIVATE:
 	DATA dontUpdateVar INIT .F.
 	METHOD GetMaxLength()
 PROTECTED:
+	DATA FValidValues
 PUBLIC:
 
 	DATA bAction
@@ -70,7 +71,7 @@ PUBLIC:
 	METHOD AddPostInfo()
 	METHOD AsString()
 	METHOD EvalWarnBlock()
-	METHOD GetChoices()							/* returns a array of values */
+	METHOD GetChoices( xList )							/* returns a array of values */
 	METHOD GetKeyValue()						/* returns key of ValidValues on TField (if any) */
 	METHOD GetSelection()						/* returns numeric index of ValidValues on TField (if any) */
 	METHOD IsModified()
@@ -243,19 +244,26 @@ RETURN .F.
 	GetChoices
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetChoices CLASS wxhHBValidator
+METHOD FUNCTION GetChoices( xList ) CLASS wxhHBValidator
 	LOCAL Result
 	LOCAL itm
-	LOCAL validValues
-
+	
 	IF ::FField != NIL .AND. ::FField:ValidValues != NIL
 
-		validValues := ::FField:GetValidValues()
+		::FValidValues := ::FField:GetValidValues()
+		
+	ELSEIF xList != NIL
+	
+		::FValidValues := xList
+	
+	ENDIF
+	
+	IF ::FValidValues != NIL
 
-		SWITCH ValType( validValues )
+		SWITCH ValType( ::FValidValues )
 		CASE 'A'
 			Result := {}
-			FOR EACH itm IN validValues
+			FOR EACH itm IN ::FValidValues
 				IF HB_IsArray( itm )
 					AAdd( Result, itm[ 1 ] )
 				ELSE
@@ -265,7 +273,7 @@ METHOD FUNCTION GetChoices CLASS wxhHBValidator
 			EXIT
 		CASE 'H'
 			Result := {}
-			FOR EACH itm IN validValues
+			FOR EACH itm IN ::FValidValues
 				AAdd( Result, itm:__enumValue() )
 			NEXT
 			EXIT
@@ -281,22 +289,32 @@ RETURN Result
 */
 METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
 	LOCAL itm
-
+	
 	IF ::FField != NIL .AND. ::FField:ValidValues != NIL
 
-		SWITCH ValType( ::FField:ValidValues )
+		::FValidValues := ::FField:GetValidValues()
+		
+	ENDIF
+	
+	IF ::FValidValues != NIL
+
+		SWITCH ValType( ::FValidValues )
 		CASE 'A'
-			IF n > 0 .AND. n <= Len( ::FField:ValidValues )
-				itm := ::FField:ValidValues[ n ]
-				IF HB_IsArray( itm )
-					RETURN itm[ 1 ]
+			IF n > 0 .AND. n <= Len( ::FValidValues )
+				IF ValType( ::Block:Eval() ) = "N"
+					RETURN n
 				ELSE
-					RETURN itm
+					itm := ::FValidValues[ n ]
+					IF HB_IsArray( itm )
+						RETURN itm[ 1 ]
+					ELSE
+						RETURN itm
+					ENDIF
 				ENDIF
 			ENDIF
 			EXIT
 		CASE 'H'
-			itm := HB_HKeys( ::FField:ValidValues )
+			itm := HB_HKeys( ::FValidValues )
 			IF n > 0 .AND. n <= len( itm )
 				RETURN itm[ n ]
 			ENDIF
@@ -328,24 +346,39 @@ METHOD GetSelection CLASS wxhHBValidator
 	LOCAL n := 0
 	LOCAL itm
 	LOCAL key
-
+	
 	key := ::FBlock:Eval()
 
 	IF ::FField != NIL .AND. ::FField:ValidValues != NIL
 
-		SWITCH ValType( ::FField:ValidValues )
+		::FValidValues := ::FField:GetValidValues()
+		
+	ENDIF
+	
+	IF ::FValidValues != NIL
+
+		SWITCH ValType( ::FValidValues )
 		CASE 'A'		/* Array */
-			FOR EACH itm IN ::FField:ValidValues
-				IF HB_IsArray( itm )
-					IF ValType( itm[ 1 ] ) == ValType( key ) .AND. itm[ 1 ] == key
-						RETURN itm:__enumIndex()
-					ENDIF
-				ELSE
+			IF ValType( key ) = "N"
+				IF key > 0 .AND. key <= len( ::FValidValues )
+					RETURN key
 				ENDIF
-			NEXT
+			ELSE
+				FOR EACH itm IN ::FValidValues
+					IF HB_IsArray( itm )
+						IF ValType( itm[ 1 ] ) == ValType( key ) .AND. itm[ 1 ] == key
+							RETURN itm:__enumIndex()
+						ENDIF
+					ELSE
+						IF ValType( itm ) == ValType( key ) .AND. itm == key
+							RETURN itm:__enumIndex()
+						ENDIF
+					ENDIF
+				NEXT
+			ENDIF
 			EXIT
 		CASE 'H'		/* Hash */
-		n := HB_HPos( ::FField:ValidValues, key )
+			n := HB_HPos( ::FValidValues, key )
 			EXIT
 		_SW_OTHERWISE
 			EXIT
@@ -537,7 +570,7 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 
 		/* @ CHOICE */
 		ELSEIF control:IsDerivedFrom( "wxChoice" )
-	
+		
 			control:SetSelection( ::GetSelection() )
 
 		/* @ COMBOBOX */
@@ -971,11 +1004,7 @@ FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name )
 
 	validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-	IF choices == NIL .AND. validator:Field != NIL
-		choices := validator:GetChoices()
-	ENDIF
-
-	choice := wxChoice():New( parent, id, point, size, choices, style, validator, name )
+	choice := wxChoice():New( parent, id, point, size, validator:GetChoices( choices ), style, validator, name )
 
 	validator:AddPostInfo()
 
@@ -997,15 +1026,11 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
 
 	validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-	IF choices == NIL .AND. validator:Field != NIL
-		choices := validator:GetChoices()
-	ENDIF
-
 	IF value == NIL
 		value := RTrim( validator:AsString() )
 	ENDIF
 
-	comboBox := wxComboBox():New( parent, id, value, point, size, choices, style, validator, name )
+	comboBox := wxComboBox():New( parent, id, value, point, size, validator:GetChoices( choices ), style, validator, name )
 
 	validator:AddPostInfo()
 
@@ -1488,10 +1513,6 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorD
 
 	validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
-	IF choices == NIL .AND. validator:Field != NIL
-		choices := validator:GetChoices()
-	ENDIF
-	
 	IF specRC != NIL
 		IF style = NIL
 			style := 0
@@ -1499,7 +1520,7 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorD
 		style := _hb_BitOr( style, specRC )
 	ENDIF
 
-	radioBox := wxRadioBox():New( parent, id, label, point, size, choices, majorDimension, style, validator, name )
+	radioBox := wxRadioBox():New( parent, id, label, point, size, validator:GetChoices( choices ), majorDimension, style, validator, name )
 
 	validator:AddPostInfo()
 
