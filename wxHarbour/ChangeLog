@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-10-08 12:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed problem on updating a wxTextCtrl by pressing WXH_TAB key
+
 2009-10-07 19:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % extended capabilities for controls that deals with ITEMS (array/hash)
