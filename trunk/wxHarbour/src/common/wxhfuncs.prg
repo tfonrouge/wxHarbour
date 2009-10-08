@@ -154,8 +154,18 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 
 	/* @ GET */
 	ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
+		control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
+			BEGIN_CB|event|
+				SWITCH event:GetKeyCode()
+				CASE WXK_TAB
+					::UpdateVar( event )
+					EXIT
+				END
+				event:Skip()
+				RETURN NIL
+			END_CB )
 		IF nextCtrlOnEnter .AND. !control:IsMultiLine()
-			parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event|	 wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
+			parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event| wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
 		ENDIF
 		IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch != NIL
 			control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
@@ -631,7 +641,7 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 	oldValue := ::FBlock:Eval()
 
 	IF control:IsDerivedFrom( "wxTextCtrl" )
-		IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER }, evtType ) > 0
+		IF AScan( { wxEVT_KILL_FOCUS, wxEVT_COMMAND_TEXT_ENTER, wxEVT_KEY_DOWN }, evtType ) > 0
 			IF ::IsModified( control ) .OR. evtType == wxEVT_COMMAND_TEXT_ENTER
 				::TransferFromWindow()
 			ENDIF
