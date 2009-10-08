@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2009-10-08 16:21 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * dont set minimun autocolumn size when calling AutoColumnSize
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed bug when calling ::PickList twice due to event keeps propagated
+
+  *  src/wxbase/events/wx_Event.cpp
+  *  src/wxbase/events/wxhEvent.prg
+     + implemented almost all method's, except:
+       * m_propagationLevel
+       * Clone()
+
 2009-10-08 12:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed problem on updating a wxTextCtrl by pressing WXH_TAB key

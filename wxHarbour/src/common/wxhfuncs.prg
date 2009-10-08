@@ -180,6 +180,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 					BEGIN_CB|event|
 						IF event:GetKeyCode() = contextListKey
 							::PickList( event )
+							event:Skip( .F. )
 							RETURN NIL
 						ENDIF
 						event:Skip()
