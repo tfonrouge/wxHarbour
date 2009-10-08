@@ -447,11 +447,11 @@ METHOD FUNCTION GetValidValues() CLASS TField
 
 	IF ValType( ::ValidValues ) = "B"
 		IF ::FDataOfValidValues == NIL
-		::FDataOfValidValues := ::ValidValues:Eval( Self )
-	ENDIF
-	RETURN ::FDataOfValidValues
+			::FDataOfValidValues := ::ValidValues:Eval( Self )
+		ENDIF
+		RETURN ::FDataOfValidValues
 	ELSE
-	RETURN ::ValidValues
+		RETURN ::ValidValues
 	ENDIF
 
 RETURN NIL

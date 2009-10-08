@@ -2,6 +2,26 @@
  * $Id$
  */
 
+2009-10-07 19:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % extended capabilities for controls that deals with ITEMS (array/hash)
+       to store retrieve either of numeric or string values
+
+  *  src/raddox/TField.prg
+     * minor code cleanup
+
+  *  src/raddox/TTable.prg
+     ! Fixed moving a MasterSource when refreshing one of their child tables
+       ; TODO: Maybe it's requiered to be directly in ::DbGoTop()/::DbGoBottom()
+
+  *  src/wxbase/manwindows/wx_Dialog.cpp
+  *  src/wxbase/manwindows/wxhDialog.prg
+     + added methods:
+       + GetAffirmativeId()
+       + GetEscapeId()
+       + SetAffirmativeId()
+       + SetEscapeId()
+
 2009-10-05 21:16 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  demos/dbExplorer/GNUmakefile

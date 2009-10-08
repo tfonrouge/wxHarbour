@@ -1886,7 +1886,12 @@ METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
 	ENDIF
 
 	IF ::FActive .AND. !::InsideScope()
-		::DbGoTop()
+		/* TODO: evaluate to move this to DbGoTop/DbGoBottom time */
+		IF ::MasterSource != NIL .AND. !::MasterSource:Eof()
+			::Reset()
+		ELSE
+			::DbGoTop()
+		ENDIF
 	ENDIF
 
 RETURN
