@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-10-09 09:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * RTrim() to fields type "C" and "M", this allows to optimize the column width
+
 2009-10-08 22:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/wxbase/baseclasses/wx_Window.cpp
   *  src/wxbase/baseclasses/wxhWindow.prg

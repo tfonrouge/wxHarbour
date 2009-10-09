@@ -273,6 +273,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 		EXIT
 	CASE 'C'
 	CASE 'M'
+		Result := RTrim( Result )
 		EXIT
 	CASE 'O'
 		Result := Result:__FObj:Value()
