@@ -50,6 +50,7 @@ PUBLIC:
   METHOD GetLabel
   METHOD GetName
   METHOD GetParent
+  METHOD GetSize()
   METHOD GetSizer
   METHOD GetValidator()
   METHOD Hide( Value )

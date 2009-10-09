@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2009-10-08 22:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     + added method:
+       + GetSize()
+
 2009-10-08 16:21 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * dont set minimun autocolumn size when calling AutoColumnSize

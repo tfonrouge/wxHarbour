@@ -372,21 +372,36 @@ HB_FUNC( WXWINDOW_GETPOINTSIZE )
 }
 
 /*
+ GetSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETSIZE )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+	{
+		wxSize size = wnd->GetSize();
+		wxh_ret_wxSize( &size );
+	}
+}
+
+/*
  GetSizer
  Teo. Mexico 2009
  */
 HB_FUNC( WXWINDOW_GETSIZER )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-
-  if( wnd )
-  {
-    wxSizer* sizer =  wnd->GetSizer();
-    if( sizer )
-    {
-	  wxh_itemReturn( sizer );
-    }
-  }
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+	{
+		wxSizer* sizer =  wnd->GetSizer();
+		if( sizer )
+		{
+			wxh_itemReturn( sizer );
+		}
+	}
 }
 
 /*
