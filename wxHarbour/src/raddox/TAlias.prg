@@ -12,7 +12,7 @@
 #include "raddox.ch"
 #include "xerror.ch"
 
-CLASS TAlias
+CLASS TAlias FROM WXHBaseClass
 PRIVATE:
 	DATA FBof				 INIT .T.
 	DATA FEof				 INIT .T.

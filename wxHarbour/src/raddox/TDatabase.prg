@@ -20,7 +20,7 @@ STATIC aDBRelationCommands
   TDataBase
   Teo. Mexico 2008
 */
-CLASS TDataBase
+CLASS TDataBase FROM WXHBaseClass
 PRIVATE:
   DATA FName INIT ""
   DATA FParentChildList INIT HB_HSetCaseMatch( {=>}, .F. )
@@ -42,7 +42,7 @@ PUBLIC:
   METHOD cmdEndChild()
 
   METHOD GetParentChildList( tableName )
-  METHOD TableIsDerivedFrom( table, fromTable )
+  METHOD TableIsChildOf( table, fromTable )
 
   PROPERTY ChildParentList READ FChildParentList
   PROPERTY ParentChildList READ FParentChildList
@@ -156,10 +156,10 @@ METHOD FUNCTION GetParentChildList( tableName, Result ) CLASS TDataBase
 RETURN Result
 
 /*
-  TableIsDerivedFrom
+  TableIsChildOf
   Teo. Mexico 2008
 */
-METHOD FUNCTION TableIsDerivedFrom( table, fromTable ) CLASS TDataBase
+METHOD FUNCTION TableIsChildOf( table, fromTable ) CLASS TDataBase
   LOCAL Result
 
   Result := HB_HHasKey( ::FParentChildList, fromTable ) .AND. AScan( ::FParentChildList[ fromTable ], {|e| e == Upper( table ) } ) > 0

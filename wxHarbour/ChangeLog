@@ -2,6 +2,53 @@
  * $Id$
  */
 
+2009-10-12 10:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wx_harbour.cpp
+  *  src/common/wxhfuncs.prg
+     + added wxhBaseClass to be the base class for all wxHarbour related classes
+     + added method to wxhBaseClass to return the string representation of HB object base array
+       + wxhBaseClass:ObjectH()
+     * commented out a debug string output
+
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     ! Fixed some display issues when displaying error info
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     ! Fixed error on ::RefreshAll() when there is not a DataBaseProvider available
+
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TIndex.prg
+     * inherit from wxhBaseClass
+
+  *  src/raddox/TDatabase.prg
+     * inherit from wxhBaseClass
+     * renamed method ::TableIsDerivedFrom() to ::TableIsChildOf()
+
+  *  src/raddox/TField.prg
+     * inherit from wxhBaseClass
+     ! Fixed error when trying to assign a value to a TField and the database is inactive
+     
+  *  src/raddox/TTable.prg
+     * inherit from wxhBaseClass
+     + added capability to set a MasterSource from a TObjectField ( ::SetMasterSource() )
+     + added method to initialize field/index info and separate this process from ::Open
+       + InitTable()
+     % enhanced error message when fails to reach the master source field
+     ! Fixed behavior of ::SetState() to be processed after setting the table state, the old state
+       is passed as parameter
+
+  *  src/wxbase/baseclasses/wx_Object.cpp
+  *  src/wxbase/baseclasses/wxhObject.prg
+     * inherit from wxhBaseClass
+     - removed feature now in wxhBaseClass
+       - wxObject:ObjectH()
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     + added method:
+       + GetClientSize()
+     * minor code cleanup
+
 2009-10-09 09:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
      * RTrim() to fields type "C" and "M", this allows to optimize the column width

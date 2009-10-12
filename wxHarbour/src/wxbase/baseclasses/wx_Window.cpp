@@ -3,20 +3,20 @@
  */
 
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
-  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+	(C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wx_Window: Implementation
-  Teo. Mexico 2006
+	wx_Window: Implementation
+	Teo. Mexico 2006
 */
 
 #include "wx/wx.h"
@@ -30,39 +30,39 @@
 HB_FUNC_EXTERN( WXFONT );
 
 /*
-  Constructor
-  Jamaj Brazil 2009
+	Constructor
+	Jamaj Brazil 2009
 */
 
 wx_Window::wx_Window( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
 {
-  Create( parent, id, pos, size, style, name );
+	Create( parent, id, pos, size, style, name );
 }
 
 /*
-  New
-  Teo. Mexico 2009
+	New
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_NEW )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
+	wxh_ObjParams objParams = wxh_ObjParams();
 
-  wx_Window* window;
+	wx_Window* window;
 
-  if( hb_pcount() > 0 )
-  {
-    wxWindow* parent = (wxFrame *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-    wxPoint point = wxh_par_wxPoint( 3 );
-    wxSize size = wxh_par_wxSize( 4 );
-    long style = ISNIL( 5 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 5 );
-    wxString name = wxh_parc( 6 );
-    window = new wx_Window( parent, id, point, size, style, name );
-  }
-  else
-    window = new wx_Window( NULL );
+	if( hb_pcount() > 0 )
+	{
+		wxWindow* parent = (wxFrame *) objParams.paramParent( 1 );
+		wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+		wxPoint point = wxh_par_wxPoint( 3 );
+		wxSize size = wxh_par_wxSize( 4 );
+		long style = ISNIL( 5 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 5 );
+		wxString name = wxh_parc( 6 );
+		window = new wx_Window( parent, id, point, size, style, name );
+	}
+	else
+		window = new wx_Window( NULL );
 
-  objParams.Return( window );
+	objParams.Return( window );
 
 }
 
@@ -74,13 +74,13 @@ HB_FUNC( WXWINDOW_NEW )
  */
 HB_FUNC( WXWINDOW_CENTRE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
-    wnd->Centre( hb_parni( direction ) );
-  }
+	if( wnd )
+	{
+		int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
+		wnd->Centre( hb_parni( direction ) );
+	}
 }
 
 /*
@@ -89,10 +89,10 @@ HB_FUNC( WXWINDOW_CENTRE )
  */
 HB_FUNC( WXWINDOW_CLOSE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    hb_retl( wnd->Close( hb_parl( 1 ) ) );
+	if( wnd )
+		hb_retl( wnd->Close( hb_parl( 1 ) ) );
 }
 
 /*
@@ -144,29 +144,29 @@ HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
 }
 
 /*
-  wxWindow:Enable
-  Teo. Mexico 2009
+	wxWindow:Enable
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_ENABLE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
-    hb_retl( wnd->Enable( enable ) );
-  }
+	if( wnd )
+	{
+		bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+		hb_retl( wnd->Enable( enable ) );
+	}
 }
 
 /*
-  wxWindow:FindFocus
-  Teo. Mexico 2009
+	wxWindow:FindFocus
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_FINDFOCUS )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
+	if( wnd )
 	wxh_itemReturn( wnd->FindFocus() );
 }
 
@@ -176,16 +176,16 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+	wxh_ObjParams objParams = wxh_ObjParams();
+	wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  if( wnd )
-  {
-    long id = hb_parnl(1);
-    wxWindow* parent = (wxWindow *) objParams.param( 2 );
-    wxWindow* result = wnd->FindWindowById( id, parent );
+	if( wnd )
+	{
+		long id = hb_parnl(1);
+		wxWindow* parent = (wxWindow *) objParams.param( 2 );
+		wxWindow* result = wnd->FindWindowById( id, parent );
 	wxh_itemReturn( result );
-  }
+	}
 }
 
 /*
@@ -194,16 +194,16 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+	wxh_ObjParams objParams = wxh_ObjParams();
+	wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  if( wnd )
-  {
-    const wxString& label = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) objParams.param( 2 );
-    wxWindow* result =  wnd->FindWindowByLabel( label, parent );
+	if( wnd )
+	{
+		const wxString& label = wxh_parc( 1 );
+		wxWindow* parent = (wxWindow *) objParams.param( 2 );
+		wxWindow* result =	wnd->FindWindowByLabel( label, parent );
 	wxh_itemReturn( result );
-  }
+	}
 }
 
 /*
@@ -212,55 +212,70 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+	wxh_ObjParams objParams = wxh_ObjParams();
+	wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  if( wnd )
-  {
-    const wxString& name = wxh_parc( 1 );
-    wxWindow* parent = (wxWindow *) objParams.param( 2 );
-    wxWindow* result =  wnd->FindWindowByName( name, parent );
+	if( wnd )
+	{
+		const wxString& name = wxh_parc( 1 );
+		wxWindow* parent = (wxWindow *) objParams.param( 2 );
+		wxWindow* result =	wnd->FindWindowByName( name, parent );
 	wxh_itemReturn( result );
-  }
+	}
 }
 
 /*
-  Freeze
-  Teo. Mexico 2009
+	Freeze
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_FREEZE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->Freeze();
+	if( wnd )
+		wnd->Freeze();
 }
 
 /*
-  GetChildren
-  Teo. Mexico 2009
-*/
+ GetClientSize
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXWINDOW_GETCLIENTSIZE )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+	{
+		wxSize size = wnd->GetClientSize();
+		wxh_ret_wxSize( &size );
+	}
+}
+
+/*
+ GetChildren
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXWINDOW_GETCHILDREN )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wxWindowList windowList = wnd->GetChildren();
-    wxWindowList::iterator iter;
-    wxWindow* window;
-    PHB_ITEM pList = hb_itemArrayNew( windowList.GetCount() );
-    PHB_ITEM pItm;
-    UINT index = 0;
-    for( iter = windowList.begin(); iter != windowList.end(); ++iter )
-    {
-      window = *iter;
-      pItm = wxh_ItemListGet_HB( window );
-      if( pItm )
-        hb_arraySet( pList, ++index, pItm );
-    }
-    hb_itemReturnRelease( pList );
-  }
+	if( wnd )
+	{
+		wxWindowList windowList = wnd->GetChildren();
+		wxWindowList::iterator iter;
+		wxWindow* window;
+		PHB_ITEM pList = hb_itemArrayNew( windowList.GetCount() );
+		PHB_ITEM pItm;
+		UINT index = 0;
+		for( iter = windowList.begin(); iter != windowList.end(); ++iter )
+		{
+			window = *iter;
+			pItm = wxh_ItemListGet_HB( window );
+			if( pItm )
+				hb_arraySet( pList, ++index, pItm );
+		}
+		hb_itemReturnRelease( pList );
+	}
 }
 
 /*
@@ -269,28 +284,28 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
  */
 HB_FUNC( WXWINDOW_GETEXTRASTYLE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( wnd )
-    hb_retnl( wnd->GetExtraStyle() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retnl( wnd->GetExtraStyle() );
 }
 
 /*
-  GetFont
-  Teo. Mexico 2008
+	GetFont
+	Teo. Mexico 2008
 */
 HB_FUNC( WXWINDOW_GETFONT )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wxFont *font = new wxFont( wnd->GetFont() );
-    HB_FUNC_EXEC( WXFONT );
-    PHB_ITEM pFont = hb_stackReturnItem();
-    wxh_ObjParams objParams = wxh_ObjParams( pFont );
-    objParams.Return( font, true );
-  }
+	if( wnd )
+	{
+		wxFont *font = new wxFont( wnd->GetFont() );
+		HB_FUNC_EXEC( WXFONT );
+		PHB_ITEM pFont = hb_stackReturnItem();
+		wxh_ObjParams objParams = wxh_ObjParams( pFont );
+		objParams.Return( font, true );
+	}
 }
 
 /*
@@ -299,10 +314,10 @@ HB_FUNC( WXWINDOW_GETFONT )
  */
 HB_FUNC( WXWINDOW_GETGRANDPARENT )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( wnd )
-    wxh_itemReturn( wnd->GetGrandParent() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		wxh_itemReturn( wnd->GetGrandParent() );
 }
 
 /*
@@ -311,10 +326,10 @@ HB_FUNC( WXWINDOW_GETGRANDPARENT )
  */
 HB_FUNC( WXWINDOW_GETID )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( wnd )
-    hb_retnl( wnd->GetId() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retnl( wnd->GetId() );
 }
 
 /*
@@ -323,10 +338,10 @@ HB_FUNC( WXWINDOW_GETID )
  */
 HB_FUNC( WXWINDOW_GETLABEL )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wxh_retc( wnd->GetLabel() );
+	if( wnd )
+		wxh_retc( wnd->GetLabel() );
 }
 
 /*
@@ -335,10 +350,10 @@ HB_FUNC( WXWINDOW_GETLABEL )
  */
 HB_FUNC( WXWINDOW_GETNAME )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wxh_retc( wnd->GetName() );
+	if( wnd )
+		wxh_retc( wnd->GetName() );
 }
 
 /*
@@ -347,16 +362,16 @@ HB_FUNC( WXWINDOW_GETNAME )
  */
 HB_FUNC( WXWINDOW_GETPARENT )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wxWindow* parent =  wnd->GetParent();
-    if( parent )
-    {
-	  wxh_itemReturn( parent );
-    }
-  }
+	if( wnd )
+	{
+		wxWindow* parent =	wnd->GetParent();
+		if( parent )
+		{
+		wxh_itemReturn( parent );
+		}
+	}
 }
 
 /*
@@ -365,10 +380,10 @@ HB_FUNC( WXWINDOW_GETPARENT )
  */
 HB_FUNC( WXWINDOW_GETPOINTSIZE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( wnd )
-    hb_retni( wnd->GetFont().GetPointSize() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		hb_retni( wnd->GetFont().GetPointSize() );
 }
 
 /*
@@ -396,7 +411,7 @@ HB_FUNC( WXWINDOW_GETSIZER )
 	
 	if( wnd )
 	{
-		wxSizer* sizer =  wnd->GetSizer();
+		wxSizer* sizer =	wnd->GetSizer();
 		if( sizer )
 		{
 			wxh_itemReturn( sizer );
@@ -410,12 +425,12 @@ HB_FUNC( WXWINDOW_GETSIZER )
  */
 HB_FUNC( WXWINDOW_GETVALIDATOR )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wxh_itemReturn( wnd->GetValidator() );
-  }
+	if( wnd )
+	{
+		wxh_itemReturn( wnd->GetValidator() );
+	}
 }
 
 /*
@@ -424,22 +439,22 @@ HB_FUNC( WXWINDOW_GETVALIDATOR )
  */
 HB_FUNC( WXWINDOW_HIDE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    hb_retl( wnd->Hide() );
+	if( wnd )
+		hb_retl( wnd->Hide() );
 }
 
 /*
-  wxWindow:IsEnabled
-  Teo. Mexico 2009
+	wxWindow:IsEnabled
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_ISENABLED )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    hb_retl( wnd->IsEnabled() );
+	if( wnd )
+		hb_retl( wnd->IsEnabled() );
 }
 
 /*
@@ -472,10 +487,10 @@ HB_FUNC( WXWINDOW_LAYOUT )
  */
 HB_FUNC( WXWINDOW_MAKEMODAL )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->MakeModal( hb_parl( 1 ) );
+	if( wnd )
+		wnd->MakeModal( hb_parl( 1 ) );
 }
 
 /*
@@ -484,30 +499,30 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
  */
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
+	wxh_ObjParams objParams = wxh_ObjParams();
 
-  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+	wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  wx_Menu* menu = (wx_Menu *) objParams.paramParent( 1 );
+	wx_Menu* menu = (wx_Menu *) objParams.paramParent( 1 );
 
-  if( !( wnd && menu ) )
-  {
-    return;
-  }
+	if( !( wnd && menu ) )
+	{
+		return;
+	}
 
-  if( hb_pcount() == 1 )
-  {
-    hb_retl( wnd->PopupMenu( menu ) );
-    return;
-  }
+	if( hb_pcount() == 1 )
+	{
+		hb_retl( wnd->PopupMenu( menu ) );
+		return;
+	}
 
-  if( hb_pcount() == 2 )
-  {
-    hb_retl( wnd->PopupMenu( menu, wxh_par_wxPoint( 2 ) ) );
-    return;
-  }
+	if( hb_pcount() == 2 )
+	{
+		hb_retl( wnd->PopupMenu( menu, wxh_par_wxPoint( 2 ) ) );
+		return;
+	}
 
-  hb_retl( wnd->PopupMenu( menu, hb_parni( 2 ), hb_parni( 3 ) ) );
+	hb_retl( wnd->PopupMenu( menu, hb_parni( 2 ), hb_parni( 3 ) ) );
 
 }
 
@@ -517,10 +532,10 @@ HB_FUNC( WXWINDOW_POPUPMENU )
  */
 HB_FUNC( WXWINDOW_RAISE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->Raise();
+	if( wnd )
+		wnd->Raise();
 }
 
 /*
@@ -529,10 +544,10 @@ HB_FUNC( WXWINDOW_RAISE )
  */
 HB_FUNC( WXWINDOW_REFRESH )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->Refresh();
+	if( wnd )
+		wnd->Refresh();
 }
 
 /*
@@ -541,10 +556,10 @@ HB_FUNC( WXWINDOW_REFRESH )
  */
 HB_FUNC( WXWINDOW_SETEXTRASTYLE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->SetExtraStyle( hb_parnl( 1 ) );
+	if( wnd )
+		wnd->SetExtraStyle( hb_parnl( 1 ) );
 }
 
 /*
@@ -553,10 +568,10 @@ HB_FUNC( WXWINDOW_SETEXTRASTYLE )
  */
 HB_FUNC( WXWINDOW_SETFOCUS )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->SetFocus();
+	if( wnd )
+		wnd->SetFocus();
 }
 
 /*
@@ -565,10 +580,10 @@ HB_FUNC( WXWINDOW_SETFOCUS )
  */
 HB_FUNC( WXWINDOW_SETID )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->SetId( hb_parni( 1 ) );
+	if( wnd )
+		wnd->SetId( hb_parni( 1 ) );
 }
 
 /*
@@ -577,41 +592,41 @@ HB_FUNC( WXWINDOW_SETID )
  */
 HB_FUNC( WXWINDOW_SETLABEL )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    const wxString& label = wxh_parc( 1 );
-    wnd->SetLabel( label );
-  }
+	if( wnd )
+	{
+		const wxString& label = wxh_parc( 1 );
+		wnd->SetLabel( label );
+	}
 }
 
 /*
-  SetMaxSize
-  Teo. Mexico 2009
+	SetMaxSize
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_SETMAXSIZE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wnd->SetMaxSize( wxh_par_wxSize( 1 ) );
-  }
+	if( wnd )
+	{
+		wnd->SetMaxSize( wxh_par_wxSize( 1 ) );
+	}
 }
 
 /*
-  SetMinSize
-  Teo. Mexico 2009
+	SetMinSize
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_SETMINSIZE )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wnd->SetMinSize( wxh_par_wxSize( 1 ) );
-  }
+	if( wnd )
+	{
+		wnd->SetMinSize( wxh_par_wxSize( 1 ) );
+	}
 }
 
 /*
@@ -620,13 +635,13 @@ HB_FUNC( WXWINDOW_SETMINSIZE )
  */
 HB_FUNC( WXWINDOW_SETNAME )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    const wxString& name = wxh_parc( 1 );
-    wnd->SetName( name );
-  }
+	if( wnd )
+	{
+		const wxString& name = wxh_parc( 1 );
+		wnd->SetName( name );
+	}
 }
 
 /*
@@ -635,17 +650,17 @@ HB_FUNC( WXWINDOW_SETNAME )
  */
 HB_FUNC( WXWINDOW_SETSIZER )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+	wxh_ObjParams objParams = wxh_ObjParams();
+	wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
-  if( wnd )
-  {
-    wxSizer* sizer = (wxSizer *) objParams.paramChild( 1 );
-    if( sizer )
-    {
-      wnd->SetSizer( sizer, hb_parl( 2 ) );
-    }
-  }
+	if( wnd )
+	{
+		wxSizer* sizer = (wxSizer *) objParams.paramChild( 1 );
+		if( sizer )
+		{
+			wnd->SetSizer( sizer, hb_parl( 2 ) );
+		}
+	}
 }
 
 /*
@@ -654,12 +669,12 @@ HB_FUNC( WXWINDOW_SETSIZER )
  */
 HB_FUNC( WXWINDOW_SETTOOLTIP )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wnd->SetToolTip( wxh_parc( 1 ) );
-  }
+	if( wnd )
+	{
+		wnd->SetToolTip( wxh_parc( 1 ) );
+	}
 }
 
 /*
@@ -668,14 +683,14 @@ HB_FUNC( WXWINDOW_SETTOOLTIP )
  */
 HB_FUNC( WXWINDOW_SETVALIDATOR )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    wxValidator* val = (wxValidator *) wxh_par_WX( 1 );
-    const wxValidator& validator = *val;
-    wnd->SetValidator( validator );
-  }
+	if( wnd )
+	{
+		wxValidator* val = (wxValidator *) wxh_par_WX( 1 );
+		const wxValidator& validator = *val;
+		wnd->SetValidator( validator );
+	}
 }
 
 /*
@@ -684,37 +699,37 @@ HB_FUNC( WXWINDOW_SETVALIDATOR )
  */
 HB_FUNC( WXWINDOW_SHOW )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-  {
-    bool show = hb_pcount() > 0 ? hb_parl( 1 ) : FALSE;
-    hb_retl( wnd->Show( show ) );
-  }
+	if( wnd )
+	{
+		bool show = hb_pcount() > 0 ? hb_parl( 1 ) : FALSE;
+		hb_retl( wnd->Show( show ) );
+	}
 }
 
 /*
-  Thaw
-  Teo. Mexico 2009
+	Thaw
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_THAW )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( wnd )
-    wnd->Thaw();
+	if( wnd )
+		wnd->Thaw();
 }
 
 /*
-  TransferDataToWindow
-  Teo. Mexico 2009
+	TransferDataToWindow
+	Teo. Mexico 2009
 */
 HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
 {
-  wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( wnd )
-  {
-    hb_retl( wnd->TransferDataToWindow() );
-  }
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+	{
+		hb_retl( wnd->TransferDataToWindow() );
+	}
 }

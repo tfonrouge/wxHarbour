@@ -14,6 +14,11 @@
 #include "wxharbour.ch"
 #include "xerror.ch"
 
+#define rxMasterSourceTypeNone     0
+#define rxMasterSourceTypeTTable   1
+#define rxMasterSourceTypeTField   2
+#define rxMasterSourceTypeBlock    3
+
 REQUEST TField
 
 /*
@@ -27,7 +32,7 @@ RETURN __ClsInstName( Upper( ClassName ) )
 	TTable
 	Teo. Mexico 2007
 */
-CLASS TTable
+CLASS TTable FROM WXHBaseClass
 PRIVATE:
 
 	DATA pSelf
@@ -44,6 +49,7 @@ PRIVATE:
 	DATA FIndexList
 	DATA FMasterList		INIT .F.	// Needed to tell when listing a Detail DataSource.
 	DATA FMasterSource
+	DATA FMasterSourceType  INIT rxMasterSourceTypeNone
 	DATA FContainerField
 	DATA FPort
 	DATA FPrimaryIndex
@@ -58,6 +64,7 @@ PRIVATE:
 	DATA FRemote				INIT .F.
 	DATA FState INIT dsInactive
 	DATA FSubState INIT dssNone
+	DATA FSyncinFromMasterSource
 	DATA FSyncToContainerField INIT .F.
 	DATA FTableFileName
 	DATA FTimer INIT 0
@@ -72,6 +79,7 @@ PRIVATE:
 	METHOD GetFound INLINE ::Alias:Found
 	METHOD GetIndexName INLINE ::FIndex:Name
 	METHOD GetInstance EXPORTED
+	METHOD GetMasterSource()
 	METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex == NIL .OR. ::FPrimaryIndex:UniqueKeyField == NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
 	METHOD GetPrimaryMasterKeyField INLINE iif( ::FPrimaryIndex == NIL, NIL, ::FPrimaryIndex:MasterKeyField )
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
@@ -80,7 +88,7 @@ PRIVATE:
 	METHOD SetIndex( AIndex ) INLINE ::FIndex := AIndex
 	METHOD SetIndexName( IndexName )
 	METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
-	METHOD SetMasterSource( MasterSource )
+	METHOD SetMasterSource( masterSource )
 	METHOD SetContainerField( parentField ) INLINE ::FContainerField := parentField
 	METHOD SetReadOnly( readOnly )
 	METHOD SetState( state )
@@ -100,6 +108,7 @@ PROTECTED:
 	METHOD AddRec
 	METHOD FindDetailSourceField( masterField )
 	METHOD InitDataBase INLINE TDataBase():New()
+	METHOD InitTable()
 	METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
 
 PUBLIC:
@@ -145,7 +154,7 @@ PUBLIC:
 	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
 	METHOD GetAsVariant
-	METHOD GetCurrentRecord
+	METHOD GetCurrentRecord()
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( directAlias )
 	METHOD HasChilds
@@ -172,7 +181,7 @@ PUBLIC:
 	METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
 	METHOD SkipBrowse( n )
 	METHOD SyncDetailSources
-	METHOD SyncFromMasterSourceFields
+	METHOD SyncFromMasterSourceFields()
 	METHOD SyncRecNo()
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
@@ -223,7 +232,7 @@ PUBLISHED:
 	PROPERTY IndexList READ FIndexList
 	PROPERTY IndexName READ GetIndexName WRITE SetIndexName
 	PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
-	PROPERTY MasterSource READ FMasterSource WRITE SetMasterSource
+	PROPERTY MasterSource READ GetMasterSource WRITE SetMasterSource
 	PROPERTY ContainerField READ FContainerField WRITE SetContainerField
 	PROPERTY PrimaryKeyField READ GetPrimaryKeyField
 	PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
@@ -277,23 +286,7 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 	 * Sets the MasterSource (maybe will be needed in the fields definitions ahead )
 	 */
 	IF MasterSource != NIL
-
-		/*!
-		 * Check for a valid MasterSourceClassName (if any)
-		 */
-		IF ::MasterSourceClassName != NIL
-			IF !MasterSource:IsDerivedFrom( ::MasterSourceClassName ) .AND. !::DataBase:TableIsDerivedFrom( ::MasterSourceClassName, MasterSource:ClassName )
-				RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceClassName + ">"
-			ENDIF
-		ENDIF
-
-		/*
-		 * removes any previous entry for Self in MasterSource:DetailSourceList
-		 */
-		IF HB_HHasKey( MasterSource:DetailSourceList, ::ClassName )
-			HB_HDel( MasterSource:DetailSourceList, ::ClassName )
-		ENDIF
-
+	
 		/*
 		 * As we have not fields defined yet, this will not execute SyncFromMasterSourceFields()
 		 */
@@ -314,6 +307,8 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 	IF Empty( ::TableName )
 		::Error_Empty_TableName()
 	ENDIF
+	
+	::InitTable()
 
 	::OnCreate()
 
@@ -572,8 +567,8 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
 	LOCAL DetailSourceList
 
 	IF ::FMasterSource != NIL
-		DetailSourceList := ::FMasterSource:DetailSourceList
-		::FMasterSource:DetailSourceList := HB_HSetAutoAdd( {=>}, .T. )
+		DetailSourceList := ::MasterSource:DetailSourceList
+		::MasterSource:DetailSourceList := HB_HSetAutoAdd( {=>}, .T. )
 	ENDIF
 
 	IF ::pSelf == NIL
@@ -593,7 +588,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
 	ENDDO
 
 	IF DetailSourceList != NIL
-		::FMasterSource:DetailSourceList := DetailSourceList
+		::MasterSource:DetailSourceList := DetailSourceList
 	ENDIF
 
 RETURN
@@ -858,11 +853,11 @@ METHOD FUNCTION FindMasterSourceField( detailField ) CLASS TTable
 
 	FOR EACH enum IN ::MasterDetailFieldList
 		IF name == Upper( enum:__enumValue )
-			RETURN ::FMasterSource:FieldByName( enum:__enumValue )
+			RETURN ::MasterSource:FieldByName( enum:__enumValue )
 		ENDIF
 	NEXT
 
-RETURN ::FMasterSource:FieldByName( name )
+RETURN ::MasterSource:FieldByName( name )
 
 /*
 	FindTable : returns a ObjectField that has the table parameter
@@ -884,7 +879,7 @@ METHOD FUNCTION FindTable( table ) CLASS TTable
 	 * search in mastersource
 	 */
 	IF ::FMasterSource != NIL
-		RETURN ::FMasterSource:FindTable( table )
+		RETURN ::MasterSource:FindTable( table )
 	ENDIF
 
 RETURN NIL
@@ -947,7 +942,7 @@ RETURN pkField:Value
 	GetCurrentRecord
 	Teo. Mexico 2007
 */
-METHOD FUNCTION GetCurrentRecord CLASS TTable
+METHOD FUNCTION GetCurrentRecord() CLASS TTable
 	LOCAL pkField,mkField
 	LOCAL AField,BField
 	LOCAL state
@@ -959,31 +954,31 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
 		// DetailTable Syncs to a MasterSource
 		IF ::FMasterSource != NIL .AND. ::FMasterList
 
-			IF ::FMasterSource:PrimaryKeyField == NIL
-				RAISE ERROR "Master Source '"+::FMasterSource:ClassName+"' has no Primary Index..."
+			IF ::MasterSource:PrimaryKeyField == NIL
+				RAISE ERROR "Master Source '"+::MasterSource:ClassName+"' has no Primary Index..."
 				RETURN .F.
 			ENDIF
 
-			IF HB_HHasKey( ::FMasterSource:DetailSourceList, ::ClassName )
-				pSelf := ::FMasterSource:DetailSourceList[ ::ClassName ]
-				::FMasterSource:DetailSourceList[ ::ClassName ] := NIL
+			IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName )
+				pSelf := ::MasterSource:DetailSourceList[ ::ClassName ]
+				::MasterSource:DetailSourceList[ ::ClassName ] := NIL
 			ENDIF
 
 			IF ! ( ::Eof() .OR. ::Bof() )
 
-				pkField := ::FindDetailSourceField( ::FMasterSource:PrimaryKeyField, .T. )
+				pkField := ::FindDetailSourceField( ::MasterSource:PrimaryKeyField, .T. )
 
 				IF pkField == NIL
-					RAISE ERROR "Cannot find PrimaryKey Field from MasterSource <" + ::FMasterSource:ClassName	+ "> Table..."
+					RAISE ERROR "In Table '" + ::ClassName() + "', Cannot find PrimaryKey Field from MasterSource <" + ::MasterSource:ClassName	+ "> Table..."
 				ENDIF
 
 				// To Avoid infinite loop when Master updates their DetailSourceList
 				::PrimaryMasterKeyField:GetData() /* fill MasterKey Field */
 				// Syncs MasterSource MasterKeyField with ::MasterKeyField
-				mkField := ::FMasterSource:PrimaryMasterKeyField
+				mkField := ::MasterSource:PrimaryMasterKeyField
 				IF mkField != NIL
-					state := ::FMasterSource:FState
-					::FMasterSource:FState := dsReading
+					state := ::MasterSource:FState
+					::MasterSource:FState := dsReading
 					SWITCH mkField:FieldMethodType
 					CASE 'A'
 						FOR EACH AField IN mkField:FieldArray
@@ -1005,30 +1000,30 @@ METHOD FUNCTION GetCurrentRecord CLASS TTable
 							mkField:Reset()
 						ENDIF
 					END
-					::FMasterSource:FState := state
+					::MasterSource:FState := state
 				ENDIF
-				::FMasterSource:MasterList := .T. // To allow all mastersources processed
+				::MasterSource:MasterList := .T. // To allow all mastersources processed
 				pkField:GetData()
-				::FMasterSource:PrimaryKeyField:Value := pkField:Value
-				::FMasterSource:MasterList := .F.
-				IF ::FMasterSource:Eof() .OR. ::FMasterSource:Bof()
+				::MasterSource:PrimaryKeyField:Value := pkField:Value
+				::MasterSource:MasterList := .F.
+				IF ::MasterSource:Eof() .OR. ::MasterSource:Bof()
 					::Reset()
 					IF pSelf != NIL
-						::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
+						::MasterSource:DetailSourceList[ ::ClassName ] := pSelf
 					ENDIF
-					//RAISE ERROR "EOF at Master Source '"+::FMasterSource:ClassName+"'"
+					//RAISE ERROR "EOF at Master Source '"+::MasterSource:ClassName+"'"
 					RETURN .F.
 				ENDIF
 				state := ::FState
 				::FState := dsReading
-				pkField:Value := ::FMasterSource:PrimaryKeyField:Value
+				pkField:Value := ::MasterSource:PrimaryKeyField:Value
 				::FState := state
 				//ENDIF
 			ELSE
-				::FMasterSource:DbGoTo( 0 )
+				::MasterSource:DbGoTo( 0 )
 			ENDIF
 			IF pSelf != NIL
-				::FMasterSource:DetailSourceList[ ::ClassName ] := pSelf
+				::MasterSource:DetailSourceList[ ::ClassName ] := pSelf
 			ENDIF
 		ENDIF
 
@@ -1243,6 +1238,24 @@ METHOD FUNCTION GetInstance CLASS TTable
 RETURN ::FInstances[ ::TableClass ]
 
 /*
+	GetMasterSource
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetMasterSource() CLASS TTable
+	
+	SWITCH ::FMasterSourceType
+	CASE rxMasterSourceTypeTTable
+		RETURN ::FMasterSource
+	CASE rxMasterSourceTypeTField
+		//RETURN ::FMasterSource:DataObj
+		RETURN ::FMasterSource:LinkedTable
+	CASE rxMasterSourceTypeBlock
+		RETURN ::FMasterSource:Eval()
+	END
+
+RETURN NIL
+
+/*
 	GetPublishedFieldList
 	Teo. Mexico 2007
 */
@@ -1302,6 +1315,60 @@ METHOD FUNCTION IndexByName( IndexName ) CLASS TTable
 	NEXT
 
 RETURN NIL
+
+/*
+	InitTable
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE InitTable() CLASS TTable
+
+	/*!
+	* Make sure that database is open here
+	*/
+	IF ::FAlias == NIL
+		::FAlias := TAlias():New( Self )
+	ENDIF
+
+	IF !HB_HHasKey( ::FInstances, ::TableClass )
+
+		::FInstances[ ::TableClass ] := HB_HSetCaseMatch( { "Initializing" => .T. }, .F. )
+
+	ENDIF
+
+	IF ::FInstances[ ::TableClass, "Initializing" ]
+
+		::FInstances[ ::TableClass, "ChildReferenceList" ] := {}
+
+		::DefineRelations()
+
+		::FInstances[ ::TableClass, "MasterDetailFieldList" ] := HB_HSetCaseMatch( {=>}, .F. )
+
+		::DefineMasterDetailFields()
+
+		::FInstances[ ::TableClass, "DisplayFieldsClass" ] := NIL
+
+		::FInstances[ ::TableClass, "Initializing" ] := .F.
+
+	ENDIF
+
+	/*!
+	 * Load definitions for Fields and Indexes
+	 */
+	IF Empty( ::FFieldList )
+		::FFieldList := {}
+		::__DefineFields()
+	ENDIF
+
+	IF Empty( ::FIndexList )
+		::FIndexList := {}
+		::__DefineIndexes()
+	ENDIF
+
+	IF Len( ::FIndexList ) > 0 .AND. ::FIndex == NIL
+		::FIndex := ::FIndexList[ 1 ]
+	ENDIF
+
+RETURN
 
 /*
 	Insert
@@ -1380,54 +1447,6 @@ RETURN Result
 */
 METHOD FUNCTION Open() CLASS TTable
 
-	/*!
-	* Make sure that database is open here
-	*/
-	IF ::FAlias == NIL
-		::FAlias := TAlias():New( Self )
-	ENDIF
-
-	IF !HB_HHasKey( ::FInstances, ::TableClass )
-
-		::FInstances[ ::TableClass ] := HB_HSetCaseMatch( { "Initializing" => .T. }, .F. )
-
-	ENDIF
-
-	IF ::FInstances[ ::TableClass, "Initializing" ]
-
-		::FInstances[ ::TableClass, "ChildReferenceList" ] := {}
-
-		::DefineRelations()
-
-		::FInstances[ ::TableClass, "MasterDetailFieldList" ] := HB_HSetCaseMatch( {=>}, .F. )
-
-		::DefineMasterDetailFields()
-
-		::FInstances[ ::TableClass, "DisplayFieldsClass" ] := NIL
-
-		::FInstances[ ::TableClass, "Initializing" ] := .F.
-
-	ENDIF
-
-	/*!
-	 * Load definitions for Fields and Indexes
-	 */
-	IF Empty( ::FFieldList )
-		::FFieldList := {}
-		::__DefineFields()
-	ENDIF
-
-	IF Empty( ::FIndexList )
-		::FIndexList := {}
-		::__DefineIndexes()
-	ENDIF
-
-	IF Len( ::FIndexList ) > 0 .AND. ::FIndex == NIL
-		::FIndex := ::FIndexList[ 1 ]
-	ENDIF
-
-	::SetState( dsBrowse )
-
 	::FActive := .T.
 
 	/*
@@ -1436,6 +1455,8 @@ METHOD FUNCTION Open() CLASS TTable
 	::SyncFromMasterSourceFields()
 	
 	::FHasDeletedOrder := ::Alias:OrdNumber( "Deleted" ) > 0
+
+	::SetState( dsBrowse )
 
 	::OnAfterOpen()
 
@@ -1763,27 +1784,67 @@ RETURN
 	SetMasterSource
 	Teo. Mexico 2007
 */
-METHOD PROCEDURE SetMasterSource( MasterSource ) CLASS TTable
+METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 
-	IF ::FMasterSource == MasterSource
+	IF ::FMasterSource == masterSource
 		RETURN
 	ENDIF
 
-	::FMasterSource := MasterSource
+	::FMasterSource := masterSource
+	
+	SWITCH ValType( masterSource )
+	CASE 'O'
+		IF masterSource:IsDerivedFrom( "TTable" )
+			::FMasterSourceType := rxMasterSourceTypeTTable
+		ELSEIF masterSource:IsDerivedFrom( "TObjectField" )
+			::FMasterSourceType := rxMasterSourceTypeTField
+		ELSE
+			RAISE ERROR "Invalid object in assigning MasterSource..."
+		ENDIF
+		EXIT
+	CASE 'B'
+		::FMasterSourceType := rxMasterSourceTypeBlock
+		EXIT
+	CASE 'U'
+		::FMasterSourceType := rxMasterSourceTypeNone
+		EXIT
+	OTHERWISE
+		RAISE ERROR "Invalid type in assigning MasterSource..."
+	END
+
+	/*!
+	 * Check for a valid MasterSourceClassName (if any)
+	 */
+	IF ::MasterSourceClassName != NIL
+		IF !::MasterSource:IsDerivedFrom( ::MasterSourceClassName ) .AND. !::DataBase:TableIsChildOf( ::MasterSourceClassName, ::MasterSource:ClassName )
+			RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + ::MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceClassName + ">"
+		ENDIF
+	ELSE
+		RAISE ERROR "Table '" + ::ClassName() + "' has not declared the MasterSource '" + ::MasterSource:ClassName() + "' in the DataBase structure..."
+	ENDIF
+
+	/*
+	 * removes any previous entry for Self in MasterSource:DetailSourceList
+	 */
+	IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName )
+		HB_HDel( ::MasterSource:DetailSourceList, ::ClassName )
+	ENDIF
 
 	/*
 	 * Check if another Self is already in the MasterSource DetailSourceList
 	 * and RAISE ERROR if another Self is trying to break the previous link
 	 */
-	IF HB_HHasKey( MasterSource:DetailSourceList, ::ClassName) .AND. ;
-		 MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
-		 !MasterSource:DetailSourceList[ ::ClassName ] == Self
-		RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"
+	IF ! ::FMasterSource == NIL
+		IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName) .AND. ;
+			::MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
+			!::MasterSource:DetailSourceList[ ::ClassName ] == Self
+			RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"
+		ENDIF
+
+		::MasterSource:DetailSourceList[ ::ClassName ] := Self
+
+		::SyncFromMasterSourceFields()
 	ENDIF
-
-	MasterSource:DetailSourceList[ ::ClassName ] := Self
-
-	::SyncFromMasterSourceFields()
 
 RETURN
 
@@ -1816,8 +1877,12 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetState( state ) CLASS TTable
-	::OnStateChange( state )
+	LOCAL oldState
+
+	oldState := ::FState
 	::FState := state
+	::OnStateChange( oldState )
+
 RETURN
 
 /*
@@ -1878,7 +1943,9 @@ RETURN
 	SyncFromMasterSourceFields
 	Teo. Mexico 2007
 */
-METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
+METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
+
+	::FSyncinFromMasterSource := .T.
 
 	/* TField:Reset does the job */
 	IF ::PrimaryMasterKeyField != NIL
@@ -1886,13 +1953,12 @@ METHOD PROCEDURE SyncFromMasterSourceFields CLASS TTable
 	ENDIF
 
 	IF ::FActive .AND. !::InsideScope()
-		/* TODO: evaluate to move this to DbGoTop/DbGoBottom time */
-		IF ::MasterSource != NIL .AND. !::MasterSource:Eof()
-			::Reset()
-		ELSE
-			::DbGoTop()
-		ENDIF
+		::DbGoTop()
+	ELSE
+		::GetCurrentRecord()
 	ENDIF
+	
+	::FSyncinFromMasterSource := NIL
 
 RETURN
 
