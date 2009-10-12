@@ -30,7 +30,7 @@
 	TField
 	Teo. Mexico 2009
 */
-CLASS TField
+CLASS TField FROM WXHBaseClass
 PRIVATE:
 
 	DATA FActive	INIT .F.
@@ -599,8 +599,8 @@ RETURN
 */
 METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 	LOCAL Value
-	
-	IF ::FTable:ReadOnly
+
+	IF ::FTable:ReadOnly .OR. ::Table:State = dsInactive
 		RETURN
 	ENDIF
 

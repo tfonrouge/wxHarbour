@@ -72,17 +72,6 @@ HB_FUNC( TBASECLASS___DESTROY )
 */
 
 /*
-  wxObject:ObjectH
-  Teo. Mexico 2009
-*/
-HB_FUNC( WXOBJECT_OBJECTH )
-{
-  PHB_ITEM pSelf = hb_stackSelfItem();
-  if( pSelf )
-    hb_retptr( pSelf->item.asArray.value );
-}
-
-/*
   wxObject:ObjectP
   Teo. Mexico 2009
 */

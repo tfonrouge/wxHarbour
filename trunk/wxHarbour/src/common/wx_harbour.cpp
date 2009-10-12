@@ -46,6 +46,17 @@ static MAP_CRC32 map_crc32;
 
 static PHB_ITEM lastTopLevelWindow;
 
+/*
+ WXHBaseClass:ObjectH : returns the harbour's object handle
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXHBASECLASS_OBJECTH )
+{
+	PHB_ITEM pSelf = hb_stackSelfItem();
+	if( pSelf )
+		hb_retptr( pSelf->item.asArray.value );
+}
+
 #ifdef __XHARBOUR__
 
 void hb_procname( UINT uiProcOffset, char* szName, bool fMethodName )
@@ -377,7 +388,7 @@ PHB_ITEM wxh_ItemListGet_HB( wxObject* wxObj )
 	else {
 	  wxString clsName( wxObj->GetClassInfo()->GetClassName() );
 	  const char *ascii = clsName.ToAscii();
-	  qoutf("wxh_ItemListGet_HB (no wxh_Item): %s", ascii );
+	  //qoutf("wxh_ItemListGet_HB (no wxh_Item): %s", ascii );
 	}
   }
   return pSelf;

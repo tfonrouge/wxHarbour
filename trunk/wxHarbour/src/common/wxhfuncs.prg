@@ -45,6 +45,21 @@ STATIC containerObj
 STATIC menuData
 
 /*
+	WXHBaseClass
+	Teo. Mexico 2009
+*/
+CLASS WXHBaseClass
+PRIVATE:
+PROTECTED:
+PUBLIC:
+  METHOD ObjectH()        /* Harbour object handle */
+PUBLISHED:
+ENDCLASS
+/*
+	EndClass WXHBaseClass
+*/
+
+/*
 	wxhHBValidator
 	Teo. Mexico 2009
 */

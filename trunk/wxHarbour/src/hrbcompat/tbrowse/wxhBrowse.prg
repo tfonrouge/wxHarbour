@@ -541,8 +541,13 @@ RETURN Self
 	Teo. Mexico 2009
 */
 METHOD FUNCTION RefreshAll() CLASS wxhBrowse
-	::GetTable():FillGridBuffer( 0 )
-	::ForceRefresh()
+	LOCAL dbProvider := ::GetTable()
+	
+	IF dbProvider != NIL// .AND. dbProvider:IsDerivedFrom("wxhBrowseTableBase")
+		dbProvider:FillGridBuffer( 0 )
+		::ForceRefresh()
+	ENDIF
+
 RETURN Self
 
 /*

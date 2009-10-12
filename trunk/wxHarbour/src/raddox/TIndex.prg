@@ -20,7 +20,7 @@
   CLASS TIndex
   Teo. Mexico 2006
 */
-CLASS TIndex
+CLASS TIndex FROM WXHBaseClass
 PRIVATE:
   DATA FAutoIncrementKeyField
   DATA FCaseSensitive INIT .F.

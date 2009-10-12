@@ -171,7 +171,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
   LOCAL brwErrObj,brwCallStack
   LOCAL aStack := {}
   LOCAL s
-  
+
   /*
     TODO: Check if we have enough resources to do this
   */
@@ -200,15 +200,15 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
   IF Empty( cMessage )
     cMessage := oErr:Description + ": " + oErr:Operation
   ENDIF
-
+  
   CREATE DIALOG dlg ;
-         WIDTH 640 HEIGHT 400 ;
-         TITLE "Error System" ;
-         STYLE _hb_BitOr( wxDEFAULT_DIALOG_STYLE, wxSTAY_ON_TOP )
+		WIDTH 640 HEIGHT 400 ;
+		TITLE "Error System" ;
+		STYLE _hb_BitOr( wxDEFAULT_DIALOG_STYLE, wxSTAY_ON_TOP )
 
   BEGIN BOXSIZER VERTICAL
     BEGIN BOXSIZER HORIZONTAL "" ALIGN EXPAND
-      @ SAY cMessage
+      @ GET cMessage MULTILINE NOEDITABLE SIZERINFO ALIGN EXPAND STRETCH
     END SIZER
     BEGIN NOTEBOOK SIZERINFO ALIGN EXPAND STRETCH
       ADD BOOKPAGE "Call Stack" FROM
@@ -242,13 +242,15 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
   END SIZER
 
   brwCallStack:DeleteAllColumns()
-  ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK {|n| aStack[ n, 1 ] } WIDTH 30
+  ADD BCOLUMN TO brwCallStack TITLE "ProcName" BLOCK {|n| aStack[ n, 1 ] }
   ADD BCOLUMN TO brwCallStack TITLE "ProcLine" BLOCK {|n| aStack[ n, 2 ] } PICTURE "99999"
-  ADD BCOLUMN TO brwCallStack TITLE "ProcFile" BLOCK {|n| aStack[ n, 3 ] } WIDTH 20
+  ADD BCOLUMN TO brwCallStack TITLE "ProcFile" BLOCK {|n| aStack[ n, 3 ] }
 
   brwErrObj:DeleteAllColumns()
-  ADD BCOLUMN TO brwErrObj "MsgName" BLOCK {|n| brwErrObj:DataSource[ n, 1 ] } WIDTH 30
-  ADD BCOLUMN TO brwErrObj "Value" BLOCK {|n| brwErrObj:DataSource[ n, 2 ] } WIDTH 20
+  ADD BCOLUMN TO brwErrObj "MsgName" BLOCK {|n| brwErrObj:DataSource[ n, 1 ] }
+  ADD BCOLUMN TO brwErrObj "Value" BLOCK {|n| brwErrObj:DataSource[ n, 2 ] }
+  
+  brwCallStack:AutoSizeColumns( .F. )
 
   SHOW WINDOW dlg MODAL CENTRE
   

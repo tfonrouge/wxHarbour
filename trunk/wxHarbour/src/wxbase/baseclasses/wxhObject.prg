@@ -21,12 +21,11 @@
   TBaseClass
   Teo. Mexico 2009
 */
-CLASS TBaseClass
+CLASS TBaseClass FROM WXHBaseClass
 PRIVATE:
 PROTECTED:
 PUBLIC:
 
-  CONSTRUCTOR New
   METHOD OnCreate() VIRTUAL
   DESTRUCTOR OnDestruct()
 
@@ -37,13 +36,6 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
-
-/*
-  Constructor
-  Teo. Mexico 2009
-*/
-METHOD New CLASS TBaseClass
-RETURN Self
 
 /*
   OnDestruct
@@ -65,8 +57,7 @@ CLASS wxObject FROM TBaseClass
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD ObjectH        /* handle */
-  METHOD ObjectP        /* pointer */
+  METHOD ObjectP()        /* pointer */
 PUBLISHED:
 ENDCLASS
 
