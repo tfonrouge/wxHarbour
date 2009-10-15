@@ -2,6 +2,41 @@
  * $Id$
  */
 
+2009-10-14 23:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TIndex.prg
+     * changed method for declaring indexes, now index definition is inherited in subclasses,
+       also the primarykey index are keeped, so now is valid to subclass and mastersource and
+       keep it valid to any child that uses the original class (mastersource)
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed wxhHBValidator:PickList to ignore calls when control is wxTextCtrl and !IsEditable()
+
+  *  src/raddox/TField.prg
+     ! Fixed really stupid bug on using ::ContainerField on each linked table, this limited the
+       links available to just one
+     * added PROPERTY
+       + WrittenValue
+     % simplified and optimized method for syncing LinkedTable's
+     - removed unused TObjectField:GetData()
+
+  *  src/raddox/TTable.prg
+     * using a hash to hold PrimaryIndex and Index lists
+     * removed property PrimaryKeyField and substituted by GetPrimaryKeyField which returns the
+       field searched by traversing the indexes existing in the parent classes
+     ! Fixed filling the primary indexes fields on AddRec
+     + added PROPERTY
+       + Active
+     + added Method
+       + OnAfterDelete
+     ! Fixed validation if ::ReadOnly is true, avoids Insert/Edit/Delete
+     * GetPrimaryIndex now returns the index as described in the DataBase structure
+     ! Fixed checking for ::Active and ::MasterSource:Active on syncs
+     % simplified :GetCurrentRecord, now checking is only done to detail tables
+
+  *  src/wxbase/controls/wx_TextCtrl.cpp
+     ! Fixed typo on wxTextCtrl:IsEditable
+
 2009-10-12 10:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wx_harbour.cpp
   *  src/common/wxhfuncs.prg

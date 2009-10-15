@@ -46,13 +46,9 @@ PRIVATE:
 	DATA FDisplayFields										// Contains a Object
 	DATA FHasDeletedOrder INIT .F.
 	DATA FIndex														// Current TIndex in Table
-	DATA FIndexList
-	DATA FMasterList		INIT .F.	// Needed to tell when listing a Detail DataSource.
 	DATA FMasterSource
 	DATA FMasterSourceType  INIT rxMasterSourceTypeNone
-	DATA FContainerField
 	DATA FPort
-	DATA FPrimaryIndex
 
 	/* TODO: Check if we can re-use a client socket */
 	DATA FRDOClient
@@ -64,8 +60,7 @@ PRIVATE:
 	DATA FRemote				INIT .F.
 	DATA FState INIT dsInactive
 	DATA FSubState INIT dssNone
-	DATA FSyncinFromMasterSource
-	DATA FSyncToContainerField INIT .F.
+	DATA FSyncingToContainerField INIT .F.
 	DATA FTableFileName
 	DATA FTimer INIT 0
 	DATA FUndoList
@@ -80,32 +75,33 @@ PRIVATE:
 	METHOD GetIndexName INLINE ::FIndex:Name
 	METHOD GetInstance EXPORTED
 	METHOD GetMasterSource()
-	METHOD GetPrimaryKeyField INLINE iif( ::FPrimaryIndex == NIL .OR. ::FPrimaryIndex:UniqueKeyField == NIL, NIL, ::FPrimaryIndex:UniqueKeyField )
-	METHOD GetPrimaryMasterKeyField INLINE iif( ::FPrimaryIndex == NIL, NIL, ::FPrimaryIndex:MasterKeyField )
+	METHOD GetPrimaryIndex()
+	METHOD GetPrimaryMasterKeyField()
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
 	METHOD GetPublishedFieldList
 	METHOD GetTableName INLINE ::TableNameValue
 	METHOD SetIndex( AIndex ) INLINE ::FIndex := AIndex
 	METHOD SetIndexName( IndexName )
-	METHOD SetMasterList( MasterList ) INLINE ::FMasterList := MasterList
 	METHOD SetMasterSource( masterSource )
-	METHOD SetContainerField( parentField ) INLINE ::FContainerField := parentField
 	METHOD SetReadOnly( readOnly )
 	METHOD SetState( state )
-	METHOD SetSyncToContainerField( value ) INLINE ::FSyncToContainerField := value
+	METHOD SetSyncingToContainerField( value ) INLINE ::FSyncingToContainerField := value
 	METHOD Process_TableName( tableName )
 #ifndef __XHARBOUR__
 	METHOD SendToServer
 #endif
-	METHOD SetPrimaryIndex( AIndex )
 
 PROTECTED:
 
 	DATA FBaseClass
 	DATA FFieldList
+	DATA FIndexList        INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
+	DATA FPrimaryIndexList INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
+	DATA MasterSourceBaseClass EXPORTED
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 
-	METHOD AddRec
+	METHOD AddRec()
+	METHOD FillPrimaryIndexes( table )
 	METHOD FindDetailSourceField( masterField )
 	METHOD InitDataBase INLINE TDataBase():New()
 	METHOD InitTable()
@@ -157,12 +153,13 @@ PUBLIC:
 	METHOD GetCurrentRecord()
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( directAlias )
+	METHOD GetMasterSourceClassName()
+	METHOD GetPrimaryKeyField( masterSourceBaseClass )
 	METHOD HasChilds
 	METHOD IndexByName( IndexName )
-	METHOD Insert
+	METHOD Insert()
 	METHOD InsertRecord( Value )
 	METHOD InsideScope
-	METHOD MasterSourceClassName
 	METHOD Open
 	METHOD Post()
 	METHOD RawSeek( Value )
@@ -171,8 +168,8 @@ PUBLIC:
 	METHOD Refresh
 	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyString Value
 	METHOD Seek( Value, AIndex, SoftSeek )
-	METHOD SetAsString( Value ) INLINE ::PrimaryKeyField:AsString := Value
-	METHOD SetAsVariant( Value ) INLINE ::PrimaryKeyField:Value := Value
+	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
+	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
 	/*
 	 * TODO: Enhance this to:
 	 *			 <order> can be "fieldname" or "fieldname1;fieldname2"
@@ -189,6 +186,7 @@ PUBLIC:
 
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
+	METHOD OnAfterDelete() VIRTUAL
 	METHOD OnAfterInsert() INLINE .T.
 	METHOD OnAfterOpen() VIRTUAL
 	METHOD OnAfterPost VIRTUAL
@@ -198,6 +196,7 @@ PUBLIC:
 	METHOD OnPickList( param ) VIRTUAL
 	METHOD OnStateChange( state ) VIRTUAL
 
+	PROPERTY Active READ FActive
 	PROPERTY Alias READ GetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
 	PROPERTY BaseClass READ FBaseClass
@@ -212,14 +211,14 @@ PUBLIC:
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
 	PROPERTY KeyVal READ GetAlias():KeyVal()
-	PROPERTY MasterList READ FMasterList WRITE SetMasterList
+	PROPERTY PrimaryIndexList READ FPrimaryIndexList
 	PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
 	PROPERTY RDOClient READ FRDOClient
 	PROPERTY RecCount READ GetAlias:RecCount()
 	PROPERTY RecNo READ FRecNo WRITE DbGoTo
 	PROPERTY State READ FState
 	PROPERTY SubState READ FSubState
-	PROPERTY SyncToContainerField READ FSyncToContainerField WRITE SetSyncToContainerField
+	PROPERTY SyncingToContainerField READ FSyncingToContainerField WRITE SetSyncingToContainerField
 	PROPERTY TableFileName READ FTableFileName
 	PROPERTY UndoList READ FUndoList
 
@@ -233,10 +232,8 @@ PUBLISHED:
 	PROPERTY IndexName READ GetIndexName WRITE SetIndexName
 	PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
 	PROPERTY MasterSource READ GetMasterSource WRITE SetMasterSource
-	PROPERTY ContainerField READ FContainerField WRITE SetContainerField
-	PROPERTY PrimaryKeyField READ GetPrimaryKeyField
 	PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
-	PROPERTY PrimaryIndex READ FPrimaryIndex WRITE SetPrimaryIndex
+	PROPERTY PrimaryIndex READ GetPrimaryIndex
 	PROPERTY PublishedFieldList READ GetPublishedFieldList
 	PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
 	PROPERTY TableName READ GetTableName
@@ -248,7 +245,7 @@ ENDCLASS
 	New
 	Teo. Mexico 2006
 */
-METHOD New( MasterSource, tableName ) CLASS TTable
+METHOD New( masterSource, tableName ) CLASS TTable
 	LOCAL rdoClient
 	LOCAL Result,itm
 
@@ -258,7 +255,7 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 
 		rdoClient := ::FRDOClient
 
-		Result := ::SendToServer( MasterSource, ::TableFileName )
+		Result := ::SendToServer( masterSource, ::TableFileName )
 
 		? "Result from Server:"
 		? "ClassName:",Result:ClassName,":",Result
@@ -285,21 +282,19 @@ METHOD New( MasterSource, tableName ) CLASS TTable
 	/*!
 	 * Sets the MasterSource (maybe will be needed in the fields definitions ahead )
 	 */
-	IF MasterSource != NIL
+	IF masterSource != NIL
 	
 		/*
 		 * As we have not fields defined yet, this will not execute SyncFromMasterSourceFields()
 		 */
-		::SetMasterSource( MasterSource )
+		::SetMasterSource( masterSource )
 
 	ELSE
 
-		IF ::MasterSourceClassName != NIL
-			::SetMasterSource( __ClsInstFromName( Upper( ::MasterSourceClassName ) ):New() )
-			/*
-			 * DetailSource declared without a MasterSource
-			 */
-			::FMasterList := .T.
+		masterSource := ::GetMasterSourceClassName
+
+		IF masterSource != NIL
+			RAISE ERROR "Table '" + ::ClassName() + "' needs a MasterSource of type '" + masterSource  + "'..."
 		ENDIF
 
 	ENDIF
@@ -359,10 +354,15 @@ METHOD FUNCTION AddRec CLASS TTable
 	LOCAL errObj
 	LOCAL index
 
+	IF ::FReadOnly
+		wxhAlert( "Table '" + ::ClassName() + "' is marked as READONLY...")
+		RETURN .F.
+	ENDIF
+
 	IF ::FHasDeletedOrder
 		index := "Deleted"
-	ELSEIF ::FPrimaryIndex != NIL
-		index := ::FPrimaryIndex:Name
+	ELSEIF ::PrimaryIndex != NIL
+		index := ::PrimaryIndex:Name
 	ENDIF
 
 	::FRecNoBeforeInsert := ::RecNo()
@@ -384,21 +384,11 @@ METHOD FUNCTION AddRec CLASS TTable
 	 * Write the Fields that have a DefaultValue
 	 */
 	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-
-		IF ::FPrimaryIndex != NIL
-			IF ::FPrimaryIndex:MasterKeyField != NIL
-				::FPrimaryIndex:MasterKeyField:SetData()
-			ENDIF
-			/*!
-			 * AutoIncrement fields always need to be written (to set a value)
-			 */
-			IF ::FPrimaryIndex:UniqueKeyField != NIL .AND. ( ::FPrimaryIndex:AutoIncrement .OR. !Empty( ::FPrimaryIndex:UniqueKeyField:Value ) )
-				::FPrimaryIndex:UniqueKeyField:SetData()
-			ENDIF
-		ENDIF
+	
+		::FillPrimaryIndexes( Self )
 
 		FOR EACH AField IN ::FFieldList
-			IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent
+			IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent .AND. AField:WrittenValue == NIL
 				IF AField:DefaultValue != NIL .OR. AField:AutoIncrement
 					AField:SetData()
 				ENDIF
@@ -602,7 +592,7 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TTable
 	IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
 		::Post()
 	ENDIF
-
+	
 	IF ::FIndex != NIL
 		IF n = 0
 			RETURN ::FIndex:DbGoTop()
@@ -711,6 +701,8 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
 	ENDIF
 
 	::RecUnLock()
+	
+	::OnAfterDelete()
 
 RETURN .T.
 
@@ -815,6 +807,45 @@ METHOD FUNCTION FieldByName( Name ) CLASS TTable
 RETURN NIL
 
 /*
+	FillPrimaryIndexes
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
+	LOCAL className
+	LOCAL AIndex
+	LOCAL AField
+
+	className := curClass:ClassName()
+
+	IF !className == "TTABLE"
+	
+		::FillPrimaryIndexes( curClass:Super )
+		
+		IF HB_HHasKey( ::FPrimaryIndexList, className )
+			AIndex := ::FIndexList[ className, ::FPrimaryIndexList[ className ] ]
+		ELSE
+			AIndex := NIL
+		ENDIF
+
+		IF AIndex != NIL
+			AField := AIndex:MasterKeyField
+			IF AField != NIL
+				AField:SetData()
+			ENDIF
+			/*!
+			 * AutoIncrement fields always need to be written (to set a value)
+			 */
+			AField := AIndex:UniqueKeyField
+			IF AField != NIL .AND. ( AIndex:AutoIncrement .OR. !Empty( AField:Value ) )
+				AField:SetData()
+			ENDIF
+		ENDIF
+	
+	ENDIF
+
+RETURN
+
+/*
 	FindDetailSourceField
 	Teo. Mexico 2007
 */
@@ -917,7 +948,7 @@ RETURN ::FAlias
 	Teo. Mexico 2009
 */
 METHOD GetAsString() CLASS TTable
-	LOCAL pkField := ::PrimaryKeyField
+	LOCAL pkField := ::GetPrimaryKeyField()
 
 	IF pkField == NIL
 		RETURN ""
@@ -930,7 +961,7 @@ RETURN pkField:AsString
 	Teo. Mexico 2009
 */
 METHOD GetAsVariant() CLASS TTable
-	LOCAL pkField := ::PrimaryKeyField
+	LOCAL pkField := ::GetPrimaryKeyField()
 
 	IF pkField == NIL
 		RETURN NIL
@@ -943,89 +974,10 @@ RETURN pkField:Value
 	Teo. Mexico 2007
 */
 METHOD FUNCTION GetCurrentRecord() CLASS TTable
-	LOCAL pkField,mkField
-	LOCAL AField,BField
-	LOCAL state
-	LOCAL pSelf
+	LOCAL AField
 	LOCAL Result
 	
 	IF ::FState = dsBrowse
-
-		// DetailTable Syncs to a MasterSource
-		IF ::FMasterSource != NIL .AND. ::FMasterList
-
-			IF ::MasterSource:PrimaryKeyField == NIL
-				RAISE ERROR "Master Source '"+::MasterSource:ClassName+"' has no Primary Index..."
-				RETURN .F.
-			ENDIF
-
-			IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName )
-				pSelf := ::MasterSource:DetailSourceList[ ::ClassName ]
-				::MasterSource:DetailSourceList[ ::ClassName ] := NIL
-			ENDIF
-
-			IF ! ( ::Eof() .OR. ::Bof() )
-
-				pkField := ::FindDetailSourceField( ::MasterSource:PrimaryKeyField, .T. )
-
-				IF pkField == NIL
-					RAISE ERROR "In Table '" + ::ClassName() + "', Cannot find PrimaryKey Field from MasterSource <" + ::MasterSource:ClassName	+ "> Table..."
-				ENDIF
-
-				// To Avoid infinite loop when Master updates their DetailSourceList
-				::PrimaryMasterKeyField:GetData() /* fill MasterKey Field */
-				// Syncs MasterSource MasterKeyField with ::MasterKeyField
-				mkField := ::MasterSource:PrimaryMasterKeyField
-				IF mkField != NIL
-					state := ::MasterSource:FState
-					::MasterSource:FState := dsReading
-					SWITCH mkField:FieldMethodType
-					CASE 'A'
-						FOR EACH AField IN mkField:FieldArray
-							BField := ::FindDetailSourceField( AField, .T. )
-							IF BField != NIL .AND. BField:IsMasterFieldComponent .AND. !AField:ReadOnly .AND. AField:DefaultValue == NIL
-								//BField:GetData()
-								AField:Value := BField:Value
-							ELSE
-								AField:Reset()
-							ENDIF
-						NEXT
-						EXIT
-					CASE 'C'
-						AField := ::FindDetailSourceField( mkField, .T. )
-						IF AField != NIL .AND. AField:IsMasterFieldComponent .AND. !mkField:ReadOnly .AND. mkField:DefaultValue == NIL
-							AField:GetData()
-							mkField:Value := AField:Value
-						ELSE
-							mkField:Reset()
-						ENDIF
-					END
-					::MasterSource:FState := state
-				ENDIF
-				::MasterSource:MasterList := .T. // To allow all mastersources processed
-				pkField:GetData()
-				::MasterSource:PrimaryKeyField:Value := pkField:Value
-				::MasterSource:MasterList := .F.
-				IF ::MasterSource:Eof() .OR. ::MasterSource:Bof()
-					::Reset()
-					IF pSelf != NIL
-						::MasterSource:DetailSourceList[ ::ClassName ] := pSelf
-					ENDIF
-					//RAISE ERROR "EOF at Master Source '"+::MasterSource:ClassName+"'"
-					RETURN .F.
-				ENDIF
-				state := ::FState
-				::FState := dsReading
-				pkField:Value := ::MasterSource:PrimaryKeyField:Value
-				::FState := state
-				//ENDIF
-			ELSE
-				::MasterSource:DbGoTo( 0 )
-			ENDIF
-			IF pSelf != NIL
-				::MasterSource:DetailSourceList[ ::ClassName ] := pSelf
-			ENDIF
-		ENDIF
 
 		/*
 		 * Record needs to have a valid MasterKeyField
@@ -1238,6 +1190,54 @@ METHOD FUNCTION GetInstance CLASS TTable
 RETURN ::FInstances[ ::TableClass ]
 
 /*
+	GetPrimaryIndex
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetPrimaryIndex( curClass ) CLASS TTable
+	LOCAL className
+
+	curClass := iif( curClass = NIL, Self, curClass )
+	className := curClass:ClassName()
+
+	IF ! className == "TTABLE"
+		IF HB_HHasKey( ::FPrimaryIndexList, className )
+			RETURN ::FIndexList[ className, ::FPrimaryIndexList[ className ] ]
+		ENDIF
+		RETURN ::GetPrimaryIndex( curClass:Super )
+	ENDIF
+
+RETURN NIL
+
+/*
+	GetPrimaryKeyField
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetPrimaryKeyField( masterSourceBaseClass ) CLASS TTable
+	LOCAL pkField
+	LOCAL AIndex
+
+	IF !Empty( masterSourceBaseClass )
+		pkField := ::IndexList[ masterSourceBaseClass, ::PrimaryIndexList[ masterSourceBaseClass ] ]:KeyField
+	ELSE
+		AIndex := ::PrimaryIndex
+		IF AIndex != NIL
+			pkField := AIndex:UniqueKeyField
+		ENDIF
+	ENDIF
+
+RETURN pkField
+
+/*
+	GetPrimaryMasterKeyField
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetPrimaryMasterKeyField() CLASS TTable
+	IF ::PrimaryIndex != NIL
+		RETURN ::PrimaryIndex:MasterKeyField
+	ENDIF
+RETURN NIL
+
+/*
 	GetMasterSource
 	Teo. Mexico 2009
 */
@@ -1247,7 +1247,9 @@ METHOD FUNCTION GetMasterSource() CLASS TTable
 	CASE rxMasterSourceTypeTTable
 		RETURN ::FMasterSource
 	CASE rxMasterSourceTypeTField
-		//RETURN ::FMasterSource:DataObj
+		IF ::Active .AND. ::FMasterSource:Table:Active
+			RETURN ::FMasterSource:DataObj
+		ENDIF
 		RETURN ::FMasterSource:LinkedTable
 	CASE rxMasterSourceTypeBlock
 		RETURN ::FMasterSource:Eval()
@@ -1305,14 +1307,20 @@ RETURN .F.
 	IndexByName
 	Teo. Mexico 2006
 */
-METHOD FUNCTION IndexByName( IndexName ) CLASS TTable
-	LOCAL AIndex
-
-	FOR EACH AIndex IN ::FIndexList
-		IF IndexName == AIndex:Name
-			RETURN AIndex
+METHOD FUNCTION IndexByName( indexName, curClass ) CLASS TTable
+	LOCAL className
+	
+	curClass := iif( curClass = NIL, Self, curClass )
+	className := curClass:ClassName()
+	
+	IF ! className == "TTABLE"
+		IF HB_HHasKey( ::FIndexList, className )
+			IF HB_HHasKey( ::FIndexList[ className ], indexName )
+				RETURN ::FIndexList[ className, indexName ]
+			ENDIF
 		ENDIF
-	NEXT
+		RETURN ::IndexByName( indexName, curClass:Super )
+	ENDIF
 
 RETURN NIL
 
@@ -1360,12 +1368,11 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	ENDIF
 
 	IF Empty( ::FIndexList )
-		::FIndexList := {}
 		::__DefineIndexes()
 	ENDIF
 
-	IF Len( ::FIndexList ) > 0 .AND. ::FIndex == NIL
-		::FIndex := ::FIndexList[ 1 ]
+	IF ::FIndex = NIL
+		::FIndex := ::PrimaryIndex
 	ENDIF
 
 RETURN
@@ -1380,7 +1387,7 @@ METHOD FUNCTION Insert CLASS TTable
 		::Error_TableNotInBrowseState()
 		RETURN .F.
 	ENDIF
-
+	
 	IF ::OnBeforeInsert() .AND. ::AddRec() .AND. ::OnAfterInsert()
 
 		/* To Flush !!! */
@@ -1416,17 +1423,17 @@ METHOD FUNCTION InsideScope CLASS TTable
 		RETURN .F.
 	ENDIF
 
-	IF ::FPrimaryIndex == NIL
+	IF ::PrimaryIndex == NIL
 		RETURN .T.
 	ENDIF
 
 RETURN ::PrimaryIndex:InsideScope()
 
 /*
-	MasterSourceClassName
+	GetMasterSourceClassName
 	Teo. Mexico 2008
 */
-METHOD FUNCTION MasterSourceClassName CLASS TTable
+METHOD FUNCTION GetMasterSourceClassName CLASS TTable
 	LOCAL Result
 
 	IF HB_HHasKey( ::DataBase:ChildParentList, ::ClassName )
@@ -1615,16 +1622,9 @@ METHOD FUNCTION RawSeek( Value, index ) CLASS TTable
 		EXIT
 	CASE 'C'
 		IF Empty( index )
-			AIndex := ::FPrimaryIndex
+			AIndex := ::PrimaryIndex
 		ELSE
 			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'N'
-		IF index = 0
-			AIndex := ::FPrimaryIndex
-		ELSE
-			AIndex := ::FIndexList[ index ]
 		ENDIF
 		EXIT
 	CASE 'O'
@@ -1653,6 +1653,11 @@ METHOD FUNCTION RecLock CLASS TTable
 		RETURN .F.
 	ENDIF
 	
+	IF ::FReadOnly
+		wxhAlert( "Table '" + ::ClassName() + "' is marked as READONLY...")
+		RETURN .F.
+	ENDIF
+
 	IF ::Eof()
 		RAISE ERROR "Attempt to lock record at EOF..."
 	ENDIF
@@ -1729,16 +1734,9 @@ METHOD FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
 		EXIT
 	CASE 'C'
 		IF Empty( index )
-			AIndex := ::FPrimaryIndex
+			AIndex := ::PrimaryIndex
 		ELSE
 			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'N'
-		IF index = 0
-			AIndex := ::FPrimaryIndex
-		ELSE
-			AIndex := ::FIndexList[ index ]
 		ENDIF
 		EXIT
 	CASE 'O'
@@ -1760,21 +1758,19 @@ RETURN AIndex:Seek( Value, lSoftSeek )
 	SetIndexName
 	Teo. Mexico 2007
 */
-METHOD PROCEDURE SetIndexName( IndexName ) CLASS TTable
-	LOCAL AIndex
+METHOD PROCEDURE SetIndexName( indexName ) CLASS TTable
+	LOCAL index
+
+	IF !Empty( indexName )
 	
-	IF !Empty( IndexName )
+		index := ::IndexByName( indexName )
+	
+		IF index != NIL
+			::FIndex := index
+			RETURN
+		ENDIF
 
-		IndexName := Upper( IndexName )
-
-		FOR EACH AIndex IN ::FIndexList
-			IF Upper( AIndex:Name ) == IndexName
-				::FIndex := AIndex
-				RETURN
-			ENDIF
-		NEXT
-
-		RAISE ERROR	 "<" + ::ClassName + ">: Index name '"+IndexName+"' doesn't exist..."
+		RAISE ERROR	 "<" + ::ClassName + ">: Index name '" + indexName + "' doesn't exist..."
 
 	ENDIF
 
@@ -1798,6 +1794,8 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 			::FMasterSourceType := rxMasterSourceTypeTTable
 		ELSEIF masterSource:IsDerivedFrom( "TObjectField" )
 			::FMasterSourceType := rxMasterSourceTypeTField
+		ELSEIF masterSource:IsDerivedFrom( "TField" )
+			RAISE ERROR "need to specify TField generic syncing..."
 		ELSE
 			RAISE ERROR "Invalid object in assigning MasterSource..."
 		ENDIF
@@ -1807,17 +1805,21 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 		EXIT
 	CASE 'U'
 		::FMasterSourceType := rxMasterSourceTypeNone
-		EXIT
+		RETURN
 	OTHERWISE
 		RAISE ERROR "Invalid type in assigning MasterSource..."
 	END
 
+	::MasterSourceBaseClass := ::GetMasterSourceClassName
+
 	/*!
-	 * Check for a valid MasterSourceClassName (if any)
+	 * Check for a valid GetMasterSourceClassName (if any)
 	 */
-	IF ::MasterSourceClassName != NIL
-		IF !::MasterSource:IsDerivedFrom( ::MasterSourceClassName ) .AND. !::DataBase:TableIsChildOf( ::MasterSourceClassName, ::MasterSource:ClassName )
-			RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + ::MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceClassName + ">"
+	IF ::MasterSourceBaseClass != NIL
+		//IF !::MasterSource:IsDerivedFrom( ::GetMasterSourceClassName ) .AND. !::DataBase:TableIsChildOf( ::GetMasterSourceClassName, ::MasterSource:ClassName )
+		//IF ! Upper( ::GetMasterSourceClassName ) == ::MasterSource:ClassName
+		IF ! ::MasterSource:IsDerivedFrom( ::MasterSourceBaseClass )
+			RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + ::MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceBaseClass + ">"
 		ENDIF
 	ELSE
 		RAISE ERROR "Table '" + ::ClassName() + "' has not declared the MasterSource '" + ::MasterSource:ClassName() + "' in the DataBase structure..."
@@ -1834,31 +1836,15 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 	 * Check if another Self is already in the MasterSource DetailSourceList
 	 * and RAISE ERROR if another Self is trying to break the previous link
 	 */
-	IF ! ::FMasterSource == NIL
-		IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName) .AND. ;
-			::MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
-			!::MasterSource:DetailSourceList[ ::ClassName ] == Self
-			RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"
-		ENDIF
-
-		::MasterSource:DetailSourceList[ ::ClassName ] := Self
-
-		::SyncFromMasterSourceFields()
+	IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName) .AND. ;
+		::MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
+		!::MasterSource:DetailSourceList[ ::ClassName ] == Self
+		RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"
 	ENDIF
 
-RETURN
+	::MasterSource:DetailSourceList[ ::ClassName ] := Self
 
-/*
-	SetPrimaryIndex
-	Teo. Mexico 2007
-*/
-METHOD PROCEDURE SetPrimaryIndex( AIndex ) CLASS TTable
-
-	::FPrimaryIndex := AIndex
-
-	IF ::FIndex == NIL
-		::FIndex := AIndex
-	ENDIF
+	::SyncFromMasterSourceFields()
 
 RETURN
 
@@ -1867,6 +1853,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetReadOnly( readOnly ) CLASS TTable
+	IF ! HB_IsLogical( readOnly )
+		RAISE ERROR "Invalid value on SetReadOnly..."
+	ENDIF
 	IF ::FState = dsBrowse
 		::FReadOnly := readOnly
 	ENDIF
@@ -1945,21 +1934,19 @@ RETURN
 */
 METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 
-	::FSyncinFromMasterSource := .T.
+	IF ::MasterSource != NIL .AND. ::Active .AND. ::MasterSource:Active
+		/* TField:Reset does the job */
+		IF ::PrimaryMasterKeyField != NIL
+			::PrimaryMasterKeyField:Reset()
+		ENDIF
 
-	/* TField:Reset does the job */
-	IF ::PrimaryMasterKeyField != NIL
-		::PrimaryMasterKeyField:Reset()
-	ENDIF
-
-	IF ::FActive .AND. !::InsideScope()
-		::DbGoTop()
-	ELSE
-		::GetCurrentRecord()
+		IF ::FActive .AND. !::InsideScope()
+			::DbGoTop()
+		ELSE
+			::GetCurrentRecord()
+		ENDIF
 	ENDIF
 	
-	::FSyncinFromMasterSource := NIL
-
 RETURN
 
  /*

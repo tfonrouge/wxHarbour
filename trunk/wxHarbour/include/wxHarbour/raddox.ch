@@ -125,8 +125,11 @@
 
 #xtranslate BEGIN INDEXES CLASS <className> ;
             => ;
-            METHOD PROCEDURE __DefineIndexes() CLASS <className>
-#xtranslate END INDEXES CLASS => RETURN
+            METHOD PROCEDURE __DefineIndexes( curClass ) CLASS <className>
+#xtranslate END INDEXES CLASS ;
+            => ;
+			Super:__DefineIndexes( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
+			RETURN
 
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
@@ -141,6 +144,12 @@
             => ;
             METHOD FUNCTION CalcField_<calcField>() CLASS <className>
 
+/* TODO: Implement this, needs to use a index declared in ancestor class
+#xtranslate DEFINE PRIMARY INDEX <cName> ;
+			=> ;
+			TIndex():New( Self, <cName>, "PRIMARY" )
+*/
+
 #xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX <cName> ;
             [ MASTERKEYFIELD <cMasterKeyField> ] ;
             [ KEYFIELD <cKeyField> ] ;
@@ -151,8 +160,8 @@
             [ <un: UNIQUE> ] ;
             [ <ai: AUTOINCREMENT> ] ;
             => ;
-            WITH OBJECT TIndex():New( Self , <"type"> ) ;;
-                :AddIndex( <cName> , [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<.cu.>] ) ;;
+            WITH OBJECT TIndex():New( Self , <cName>, <"type">, curClass ) ;;
+                :AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<.cu.>] ) ;;
             ENDWITH
 
 #endif

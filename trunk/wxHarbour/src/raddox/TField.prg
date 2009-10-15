@@ -1,11 +1,9 @@
 /*
  * $Id$
+ *
+ * TField
+ *
  */
-
-/*
-	TField
-	Teo. Mexico 2009
-*/
 
 #ifdef __XHARBOUR__
 	#include "wx_hbcompat.ch"
@@ -57,7 +55,7 @@ PRIVATE:
 	METHOD GetAutoIncrementValue
 	METHOD GetFieldMethod
 	METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
-	METHOD GetIsPrimaryKeyField INLINE ::Table:PrimaryKeyField == Self
+	METHOD GetIsPrimaryKeyField( masterSourceBaseClass ) INLINE ::Table:GetPrimaryKeyField( masterSourceBaseClass ) == Self
 	METHOD GetLabel INLINE iif( ::FLabel == NIL, ::FName, ::FLabel )
 	METHOD GetReadOnly INLINE ::FReadOnly
 	METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
@@ -136,6 +134,7 @@ PUBLIC:
 	PROPERTY Text READ GetEditText WRITE SetEditText
 	PROPERTY UndoValue READ GetUndoValue
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
+	PROPERTY WrittenValue READ FWrittenValue
 
 PUBLISHED:
 
@@ -186,7 +185,7 @@ ENDCLASS
 */
 METHOD New( Table ) CLASS TField
 
-	::FTable	 := Table
+	::FTable := Table
 	::FTableBaseClass := Table:BaseClass
 
 	AAdd( ::FTable:FieldList, Self )
@@ -248,15 +247,8 @@ METHOD FUNCTION GetAsVariant CLASS TField
 	LOCAL AField
 	LOCAL Result
 	LOCAL value
-	STATIC n := 0
-	
-	IF ::FTable:ContainerField != NIL .AND. ::FTable:SyncToContainerField
-		::FTable:SyncToContainerField := .F.
-		IF ! ::FTable:Value == ::FTable:ContainerField:Value
-			::FTable:Value := ::FTable:ContainerField:Value
-		ENDIF
-		::FTable:SyncToContainerField := .T.
-	ENDIF
+
+	//::SyncToContainerField()
 
 	SWITCH ::FFieldMethodType
 	CASE "A"
@@ -575,9 +567,9 @@ METHOD PROCEDURE Reset CLASS TField
 		ELSE
 
 			IF ::IsDerivedFrom( "TObjectField" )
-				value := ::LinkedTable:PrimaryKeyField:GetDefaultValue()
+				value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
 				IF value == NIL
-					value := ::LinkedTable:PrimaryKeyField:GetEmptyValue()
+					value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
 				ENDIF
 			ELSE
 				value := ::GetEmptyValue()
@@ -603,7 +595,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 	IF ::FTable:ReadOnly .OR. ::Table:State = dsInactive
 		RETURN
 	ENDIF
-
+	
 	/* if Browsing then do a SeekKey() with the rawValue */
 	IF ::FTable:State = dsBrowse
 	
@@ -618,11 +610,11 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 			IF ::FTable:LinkedObjField != NIL
 
 				IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
-					::FTable:LinkedObjField:SetAsVariant( ::FTable:PrimaryKeyField:GetBuffer() )
+					::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
 				ENDIF
 
-				IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:PrimaryKeyField:GetBuffer()
-					::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, 0 )
+				IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
+					::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
 				ENDIF
 
 			ENDIF
@@ -1468,19 +1460,18 @@ PRIVATE:
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
 	METHOD GetIsTheMasterSource
-	METHOD GetSize INLINE Len( ::LinkedTable:PrimaryKeyField )
+	METHOD GetSize INLINE Len( ::LinkedTable:GetPrimaryKeyField() )
 	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
 	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
 	DATA FType INIT "ObjectField"
-	DATA FValType										INIT "O"
+	DATA FValType INIT "O"
 	METHOD GetLinkedTable
-	METHOD GetEmptyValue						INLINE ::LinkedTable:PrimaryKeyField:EmptyValue
+	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
 PUBLIC:
 	METHOD DataObj
 	METHOD AsIndexKeyVal( value )
-	METHOD GetAsString							//INLINE ::LinkedTable:PrimaryKeyField:AsString()
-	METHOD GetData()
+	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
 	PROPERTY IsTheMasterSource READ GetIsTheMasterSource
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
@@ -1494,10 +1485,15 @@ ENDCLASS
 	Teo. Mexico 2009
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
+	LOCAL pkField
+
 	IF value == NIL
 		value := ::GetBuffer()
 	ENDIF
-RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
+	
+	pkField := ::LinkedTable:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
+
+RETURN pkField:AsIndexKeyVal( value )
 
 /*
 	DataObj
@@ -1505,11 +1501,17 @@ RETURN ::LinkedTable:PrimaryKeyField:AsIndexKeyVal( value )
 	Teo. Mexico 2009
 */
 METHOD FUNCTION DataObj CLASS TObjectField
+
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 	
 	ELSE
-		::LinkedTable:Value := ::GetBuffer()
+		/* Syncs with the current value */
+		//? ::LinkedTable:Value, "==", ::Value
+		IF !::FTable:MasterSource == ::LinkedTable .AND. !::LinkedTable:Value == ::Value
+			::LinkedTable:Value := ::Value
+		ENDIF
 	ENDIF
+
 RETURN ::FLinkedTable
 
 /*
@@ -1522,15 +1524,6 @@ METHOD FUNCTION GetAsString CLASS TObjectField
 	Result := ::GetBuffer()
 
 RETURN Result
-
-/*
-	GetData
-	Teo. Mexico 2009
-*/
-METHOD PROCEDURE GetData() CLASS TObjectField
-	::LinkedTable:SyncToContainerField := .T.
-	Super:GetData()
-RETURN
 
 /*
 	GetIsTheMasterSource
@@ -1596,12 +1589,6 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			RAISE TFIELD ::Name ERROR "Default value is not a TTable object."
 		ENDIF
 		
-		IF ::FLinkedTable:ContainerField != NIL
-			//RAISE TFIELD ::Name ERROR "ObjField already has a parent field (is in use)."
-		ENDIF
-		
-		::FLinkedTable:ContainerField := Self
-
 		/*
 		 * Attach the current DataObj to the one in table to sync when table changes
 		 * MasterFieldComponents are ignored, a child cannot change his parent :)
