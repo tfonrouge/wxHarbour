@@ -213,7 +213,7 @@ HB_FUNC( WXTEXTCTRL_ISEDITABLE )
   wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
   
   if( textCtrl )
-	hb_parl( textCtrl->IsEditable() );
+	hb_retl( textCtrl->IsEditable() );
 }
 
 /*

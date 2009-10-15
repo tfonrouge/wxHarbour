@@ -450,29 +450,33 @@ METHOD PROCEDURE PickList( event ) CLASS wxhHBValidator
 	LOCAL value, rawValue
 	LOCAL control := event:GetEventObject()
 	
-	parentWnd := control:GetParent()
+	IF !control:IsDerivedFrom( "wxTextCtrl" ) .OR. control:IsEditable()
 
-	::dontUpdateVar := .T.
-	selectionMade := ::Field:OnPickList( parentWnd )
-	::dontUpdateVar := .F.
+		parentWnd := control:GetParent()
 
-	IF selectionMade
-		s := RTrim( ::Field:Value )
-		rawValue := control:GetValue()
-		IF ::dataIsOEM
-			value := RTrim( wxh_wxStringToOEM( rawValue ) )
-		ELSE
-			value := RTrim( rawValue )
+		::dontUpdateVar := .T.
+		selectionMade := ::Field:OnPickList( parentWnd )
+		::dontUpdateVar := .F.
+
+		IF selectionMade
+			s := RTrim( ::Field:Value )
+			rawValue := control:GetValue()
+			IF ::dataIsOEM
+				value := RTrim( wxh_wxStringToOEM( rawValue ) )
+			ELSE
+				value := RTrim( rawValue )
+			ENDIF
+			IF s == value
+				RETURN /* no changes */
+			ENDIF
+			control:ChangeValue( wxh_OEMTowxString( s ) )
+			::UpdateVar( event, .T. )
 		ENDIF
-		IF s == value
-			RETURN /* no changes */
-		ENDIF
-		control:ChangeValue( wxh_OEMTowxString( s ) )
-		::UpdateVar( event, .T. )
+
+		//control:SetFocus()
+
 	ENDIF
-
-	//control:SetFocus()
-
+	
 RETURN
 
 /*
