@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-10-19 12:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     + added handling of HBNETIO library
+
 2009-10-14 23:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TIndex.prg
