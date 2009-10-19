@@ -89,6 +89,12 @@ Link in the Harbour TIP library
     </description>
   </option>
 
+  <option name="HBLIB_HBNETIO">
+    <values>yes,no</values>
+    <default-value>yes</default-value>
+    <description>Link in the Harbour HBNETIO library</description>
+  </option>
+
   <option name="HBLIB_FM">
     <values>yes,no</values>
     <default-value>no</default-value>
@@ -414,6 +420,15 @@ Link in the Harbour TIP library
     </if>
     <if cond="HBLIB_TIP=='yes' and HBCOMPILER=='xharbour'">
       tip
+    </if>
+  </set>
+
+  <set var="LIB_HBNETIO" make_var="1">
+    <if cond="HBLIB_HBNETIO=='yes' and HBCOMPILER=='harbour'">
+      hbnetio
+    </if>
+    <if cond="HBLIB_HBNETIO=='yes' and HBCOMPILER=='xharbour'">
+      notyet
     </if>
   </set>
 
@@ -753,6 +768,7 @@ Where is wxWidgets installed
     <sys-lib>$(LIB_FM)</sys-lib>
     <sys-lib>$(LIB_CT)</sys-lib>
     <sys-lib>$(LIB_TIP)</sys-lib>
+    <sys-lib>$(LIB_HBNETIO)</sys-lib>
     <if cond="TOOLSET=='unix'">
       <sys-lib>$(LIB_GTTRM)</sys-lib>
       <sys-lib>$(LIB_GTXWC)</sys-lib>
