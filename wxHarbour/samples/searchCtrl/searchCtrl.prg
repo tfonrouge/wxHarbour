@@ -39,9 +39,11 @@ ENDCLASS
 */
 METHOD FUNCTION OnInit() CLASS MyApp
   LOCAL oDlg
-  LOCAL edtNombre
+  LOCAL edtNombre, s1, s2
 
   edtNombre := wxGetUserId()
+  s1 := ""
+  s2 := ""
 
   CREATE DIALOG oDlg ;
          WIDTH 640 HEIGHT 400 ;
@@ -50,6 +52,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
   BEGIN BOXSIZER VERTICAL
 
     @ SEARCHCTRL edtNombre ON SEARCH {|| wxMessageBox( "Searching...", "", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+    @ SEARCHCTRL s1 ON SEARCH {|| wxMessageBox( "Searching...", "", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+    @ SEARCHCTRL s2 ON SEARCH {|| wxMessageBox( "Searching...", "", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 
     @ BUTTON ID wxID_OK ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 

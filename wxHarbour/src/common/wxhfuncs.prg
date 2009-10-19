@@ -1620,6 +1620,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, onSearch, onCance
 	validator := containerObj():LastItem()[ "wxhHBValidator" ]
 
 	/* nextCtrlOnEnter */
+	/*
 	IF nextCtrlOnEnter
 		IF style == NIL
 			style := wxTE_PROCESS_ENTER
@@ -1627,6 +1628,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, onSearch, onCance
 			style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
 		ENDIF
 	ENDIF
+	*/
 
 	searchCtrl := wxSearchCtrl():New( window, id, NIL, pos, size, style, validator, name )
 
@@ -2008,6 +2010,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 	//__wxh_TransWidth( NIL, window, Len( wxhHBValidator:AsString ), size )
 
 	/* nextCtrlOnEnter */
+	/*
 	IF nextCtrlOnEnter
 		IF style == NIL
 			style := wxTE_PROCESS_ENTER
@@ -2015,6 +2018,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 			style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
 		ENDIF
 	ENDIF
+	*/
 
 	pickBtn := validator:Field != NIL .AND. !validator:Field:PickList == NIL
 
