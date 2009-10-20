@@ -2023,8 +2023,12 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 	pickBtn := validator:Field != NIL .AND. !validator:Field:PickList == NIL
 
 	IF pickBtn
-		//textCtrl := wxSearchCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+#ifdef HB_OS_WIN_32
+		/* TODO: Fix this, using wxSearchCtrl with wxMSW */
 		textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+#else
+		textCtrl := wxSearchCtrl():New( parent, id, NIL, pos, size, style, validator, name )
+#endif
 	ELSE
 		textCtrl := wxTextCtrl():New( parent, id, NIL, pos, size, style, validator, name )
 	ENDIF

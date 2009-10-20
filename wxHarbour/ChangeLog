@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2009-10-20 16:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * problem description extended
+
+  *  src/common/wxhfuncs.prg
+     ! hacked wxMSW version
+
 2009-10-19 19:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! bad fix by hacking current wxHarbour code: temporary disabled using wxSearchCtrl
@@ -11,11 +18,12 @@
      % sample enhanced
 
   *  src/common/wxhfuncs.prg
-     * hack due to a bug on wxSearchCtrl (2.8.10 and 2.9.0 tested)
+     * hack due to bugs on wxSearchCtrl (2.8.10 and 2.9.0 tested)
      : TODO: we need to fix the bug in the wxSearchCtrl, it does not receives any
        wxEVT_CHAR under wxMSW and if the flags wxTE_PROCESS_ENTER/TAB are set then
        the control does not respect the wxTAB_TRAVERSAL from the parent. Also there
-       is a bug that makes unusable the wxEVT_SET_FOCUS/wxEVT_KILL_FOCUS events
+       is a bug that makes unusable the wxEVT_SET_FOCUS/wxEVT_KILL_FOCUS events.
+       This bugs are present in wxMSW
 
 2009-10-19 12:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
