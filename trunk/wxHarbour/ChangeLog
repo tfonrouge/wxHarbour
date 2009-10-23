@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2009-10-23 11:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed evaluation of codeblocks containing a TField rooted in a TObjectField
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * enabled gridlines by default
+
 2009-10-20 16:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * problem description extended

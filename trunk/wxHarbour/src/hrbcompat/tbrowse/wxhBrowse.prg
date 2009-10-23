@@ -326,7 +326,7 @@ RETURN Self
 */
 METHOD PROCEDURE OnCreate() CLASS wxhBrowse
 	::SetTable( wxhBrowseTableBase():New(), .T. )
-	::EnableGridLines( .F. )
+	//::EnableGridLines( .F. )
 	::EnableDragRowSize( .F. )
 	::EnableDragColMove( .T. )
 	::SetColLabelSize( 22 )

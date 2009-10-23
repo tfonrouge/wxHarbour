@@ -65,13 +65,14 @@ ENDCLASS
 */
 CLASS wxhHBValidator FROM wxValidator
 PRIVATE:
+PROTECTED:
 	DATA FBlock
 	DATA FField
+	DATA FFieldBlock
 	DATA FName
+	DATA FValidValues
 	DATA dontUpdateVar INIT .F.
 	METHOD GetMaxLength()
-PROTECTED:
-	DATA FValidValues
 PUBLIC:
 
 	DATA bAction
@@ -117,7 +118,8 @@ METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhHBValidator
 
 	IF HB_IsObject( var ) .AND. var:IsDerivedFrom("TField")
 		::FField := var
-		block := {|__localVal| iif( PCount() > 0, ::FField:Value := __localVal, ::FField:Value ) }
+		::FFieldBlock := block
+		block := {|__localVal| iif( PCount() > 0, ::FFieldBlock:Eval():Value := __localVal, ::FFieldBlock:Eval():Value ) }
 	ELSEIF Empty( name )
 		block := {|__localVal| iif( PCount() > 0, ::data := __localVal, ::data ) }
 	ENDIF
@@ -244,8 +246,8 @@ RETURN
 */
 METHOD FUNCTION AsString() CLASS wxhHBValidator
 	LOCAL value
-	IF ::FField != NIL
-		value := ::FField:AsString()
+	IF ::FFieldBlock != NIL
+		value := ::FFieldBlock:Eval():AsString()
 	ELSE
 		value := AsString( ::FBlock:Eval() )
 	ENDIF
@@ -587,7 +589,7 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 	control := ::GetWindow()
 	
 	IF control != NIL .AND. ::FBlock != NIL
-
+		
 		/*
 		 * Assign initial value
 		 */
