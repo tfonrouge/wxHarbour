@@ -90,6 +90,7 @@ PROTECTED:
 	DATA FValType INIT "U"
 	DATA FWrittenValue
 	
+	METHOD GetChanged()
 	METHOD GetAsVariant
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
@@ -153,6 +154,7 @@ PUBLISHED:
 
 	PROPERTY AutoIncrement READ GetAutoIncrement
 	PROPERTY AutoIncrementKeyIndex READ FAutoIncrementKeyIndex WRITE SetAutoIncrementKeyIndex
+	PROPERTY Changed READ GetChanged()
 	PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
 	PROPERTY Description READ FDescription WRITE SetDescription
 	PROPERTY FieldArray READ FFieldArray WRITE SetFieldMethod
@@ -286,6 +288,8 @@ METHOD FUNCTION GetAsVariant CLASS TField
 						ELSE
 							IF Empty( ::FFieldExpression )
 								RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+							ELSEIF ::IsDerivedFrom("TObjectField")
+								::FFieldReadBlock := {|| ::LinkedTable:Value }
 							ELSE
 								::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
 							ENDIF
@@ -343,6 +347,16 @@ METHOD FUNCTION GetBuffer CLASS TField
 RETURN ::FBuffer
 
 /*
+	GetChanged
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetChanged() CLASS TField
+	IF ! ::FWrittenValue == NIL
+		RETURN .T.
+	ENDIF
+RETURN .F.
+
+/*
 	GetData
 	Teo. Mexico 2006
 */
@@ -357,8 +371,7 @@ METHOD PROCEDURE GetData() CLASS TField
 		IF ::FCalculated
 			::SetBuffer( ::GetAsVariant() )
 		ELSE
-			::FWrittenValue := ::Table:Alias:Eval( ::FFieldReadBlock )
-			::SetBuffer( ::FWrittenValue )
+			::SetBuffer( ::Table:Alias:Eval( ::FFieldReadBlock ) )
 		ENDIF
 		EXIT
 	CASE 'A'
@@ -1573,6 +1586,10 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			ELSE
 				IF ::FLinkedTableMasterSource != NIL
 					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
+				ELSE
+					IF Upper( ::Table:GetMasterSourceClassName( ::FObjValue ) ) == ::FTable:ClassName
+						linkedTableMasterSource := ::FTable
+					ENDIF
 				ENDIF
 				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
 			ENDIF

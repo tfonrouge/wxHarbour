@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2009-10-25 10:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TAlias.prg
+     + added method's
+       + GetFieldValue
+       + SetFieldValue
+
+  *  src/raddox/TField.prg
+     + added method:
+       + Changed() : returns TRUE if field has been changed in edit operation
+     ! Fixed return of Value on TObjectField calcfields
+     ! Fixed testing if the ::Table is a valid mastersource on calculated TObjectField's
+
+  *  src/raddox/TTable.prg
+     ! Fixing checking a valid MasterSource (value != NIL)
+     % added parameter 'className' to GetMasterSourceClassName
+
 2009-10-23 11:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed evaluation of codeblocks containing a TField rooted in a TObjectField
