@@ -291,9 +291,9 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 	ELSE
 
-		masterSource := ::GetMasterSourceClassName
+		masterSource := ::GetMasterSourceClassName()
 
-		IF masterSource != NIL
+		IF ! Empty( masterSource )
 			RAISE ERROR "Table '" + ::ClassName() + "' needs a MasterSource of type '" + masterSource  + "'..."
 		ENDIF
 
@@ -1433,11 +1433,15 @@ RETURN ::PrimaryIndex:InsideScope()
 	GetMasterSourceClassName
 	Teo. Mexico 2008
 */
-METHOD FUNCTION GetMasterSourceClassName CLASS TTable
-	LOCAL Result
+METHOD FUNCTION GetMasterSourceClassName( className ) CLASS TTable
+	LOCAL Result := ""
+	
+	IF className = NIL
+		className := ::ClassName
+	ENDIF
 
-	IF HB_HHasKey( ::DataBase:ChildParentList, ::ClassName )
-		Result := ::DataBase:ChildParentList[ ::ClassName ]
+	IF HB_HHasKey( ::DataBase:ChildParentList, className )
+		Result := ::DataBase:ChildParentList[ className ]
 		WHILE HB_HHasKey( ::DataBase:TableList, Result ) .AND. ::DataBase:TableList[ Result, "Virtual" ]
 			IF !HB_HHasKey ( ::DataBase:ChildParentList, Result )
 				EXIT
@@ -1810,12 +1814,12 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 		RAISE ERROR "Invalid type in assigning MasterSource..."
 	END
 
-	::MasterSourceBaseClass := ::GetMasterSourceClassName
+	::MasterSourceBaseClass := ::GetMasterSourceClassName()
 
 	/*!
 	 * Check for a valid GetMasterSourceClassName (if any)
 	 */
-	IF ::MasterSourceBaseClass != NIL
+	IF !Empty( ::MasterSourceBaseClass )
 		//IF !::MasterSource:IsDerivedFrom( ::GetMasterSourceClassName ) .AND. !::DataBase:TableIsChildOf( ::GetMasterSourceClassName, ::MasterSource:ClassName )
 		//IF ! Upper( ::GetMasterSourceClassName ) == ::MasterSource:ClassName
 		IF ! ::MasterSource:IsDerivedFrom( ::MasterSourceBaseClass )

@@ -35,7 +35,7 @@ PUBLIC:
 	METHOD DbGoTop( indexName )
 	METHOD DbSkip( nRecords, indexName )
 	METHOD DbStruct INLINE (::FnWorkArea)->(DbStruct())
-	METHOD DbOpen
+	METHOD DbOpen()
 	METHOD DbRecall()
 	METHOD DbUnLock() INLINE (::FnWorkArea)->( DbUnLock() )
 	METHOD Deleted()
@@ -43,10 +43,10 @@ PUBLIC:
 	METHOD ExistKey( KeyValue, IndexName, RecNo )
 	METHOD FCount INLINE (::FnWorkArea)->(FCount())
 	METHOD FieldPos( FieldName ) INLINE (::FnWorkArea)->( FieldPos( FieldName ) )
-	METHOD FieldValue( fieldName )
 	METHOD FLock() INLINE (::FnWorkArea)->( FLock() )
 	METHOD Get4Seek( xField, cKey, indexName, softSeek )
 	METHOD Get4SeekLast( xField, cKey, indexName, softSeek )
+	METHOD GetFieldValue( fieldName )
 	METHOD IsLocked( RecNo )
 	METHOD KeyVal( indexName )
 	METHOD LastRec INLINE (::FnWorkArea)->( LastRec() )
@@ -62,6 +62,7 @@ PUBLIC:
 	METHOD RecUnLock( RecNo )
 	METHOD Seek( cKey, indexName, softSeek )
 	METHOD SeekLast( cKey, indexName, softSeek )
+	METHOD SetFieldValue( fieldName, value )
 	METHOD SyncFromAlias
 	METHOD SyncFromRecNo
 
@@ -174,7 +175,7 @@ RETURN Result
 	DbOpen
 	Teo. Mexico 2008
 */
-METHOD DbOpen CLASS TAlias
+METHOD DbOpen() CLASS TAlias
 	LOCAL n
 
 	/* Check for a previously open workarea */
@@ -255,14 +256,6 @@ METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
 RETURN (::FnWorkArea)->( ExistKey( KeyValue, IndexName, RecNo ) )
 
 /*
-	FieldValue
-	Teo. Mexico 2007
-*/
-METHOD FUNCTION FieldValue( fieldName ) CLASS TAlias
-	::SyncFromRecNo()
-RETURN (::FnWorkArea)->( FieldGet( FieldPos( fieldName ) ) )
-
-/*
 	Get4Seek
 	Teo. Mexico 2008
 */
@@ -275,6 +268,14 @@ RETURN (::FnWorkArea)->( Get4Seek( xField, cKey, indexName, softSeek ) )
 */
 METHOD FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
 RETURN (::FnWorkArea)->( Get4SeekLast( xField, cKey, indexName, softSeek ) )
+
+/*
+	GetFieldValue
+	Teo. Mexico 2007
+*/
+METHOD FUNCTION GetFieldValue( fieldName ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::FnWorkArea)->( FieldGet( FieldPos( fieldName ) ) )
 
 /*
 	IsLocked
@@ -394,6 +395,14 @@ METHOD FUNCTION SeekLast( cKey, indexName, softSeek ) CLASS TAlias
 	Result := (::FnWorkArea)->( SeekLast( cKey, indexName, softSeek ) )
 	::SyncFromAlias()
 RETURN Result
+
+/*
+	SetFieldValue
+	Teo. Mexico 2007
+*/
+METHOD FUNCTION SetFieldValue( fieldName, value ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::FnWorkArea)->( FieldPut( FieldPos( fieldName ), value ) )
 
 /*
 	SyncFromAlias
