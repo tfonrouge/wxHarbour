@@ -112,6 +112,7 @@ PUBLIC:
 	CLASSDATA DataBase
 
 	DATA allowDataChange INIT .T.
+	DATA autoOpen INIT .T.
 	DATA dataIsOEM	INIT .T.
 	/*!
 		array of possible TObjectField's that have this (SELF) object referenced
@@ -187,11 +188,11 @@ PUBLIC:
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
 	METHOD OnAfterDelete() VIRTUAL
-	METHOD OnAfterInsert() INLINE .T.
+	METHOD OnAfterInsert() VIRTUAL
 	METHOD OnAfterOpen() VIRTUAL
 	METHOD OnAfterPost VIRTUAL
 	METHOD OnBeforeInsert() INLINE .T.
-	METHOD OnBeforePost() VIRTUAL
+	METHOD OnBeforePost() INLINE .T.
 	METHOD OnDataChange() VIRTUAL
 	METHOD OnPickList( param ) VIRTUAL
 	METHOD OnStateChange( state ) VIRTUAL
@@ -289,14 +290,6 @@ METHOD New( masterSource, tableName ) CLASS TTable
 		 */
 		::SetMasterSource( masterSource )
 
-	ELSE
-
-		masterSource := ::GetMasterSourceClassName()
-
-		IF ! Empty( masterSource )
-			RAISE ERROR "Table '" + ::ClassName() + "' needs a MasterSource of type '" + masterSource  + "'..."
-		ENDIF
-
 	ENDIF
 
 	IF Empty( ::TableName )
@@ -307,7 +300,9 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 	::OnCreate()
 
-	::Open()
+	IF ::autoOpen
+		::Open()
+	ENDIF
 	
 RETURN Self
 
@@ -1388,10 +1383,12 @@ METHOD FUNCTION Insert CLASS TTable
 		RETURN .F.
 	ENDIF
 	
-	IF ::OnBeforeInsert() .AND. ::AddRec() .AND. ::OnAfterInsert()
+	IF ::OnBeforeInsert() .AND. ::AddRec()
 
 		/* To Flush !!! */
 		::Alias:DbSkip( 0 )
+		
+		::OnAfterInsert()
 	
 		RETURN .T.
 
@@ -1457,6 +1454,13 @@ RETURN Result
 	Teo. Mexico 2008
 */
 METHOD FUNCTION Open() CLASS TTable
+	LOCAL masterSource := ::GetMasterSourceClassName()
+
+	IF ::MasterSource == NIL .AND. !Empty( masterSource )
+
+		RAISE ERROR "Table '" + ::ClassName() + "' needs a MasterSource of type '" + masterSource  + "'..."
+	
+	ENDIF
 
 	::FActive := .T.
 
@@ -1481,10 +1485,43 @@ METHOD FUNCTION Post CLASS TTable
 	LOCAL AField
 	LOCAL errObj
 	LOCAL table
+	LOCAL result := .F.
+
+	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
+		::Error_Table_Not_In_Edit_or_Insert_mode()
+	ENDIF
 
 	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
-		::OnBeforePost( Self )
+		::FSubState := dssPosting
+
+		IF ::OnBeforePost()
+
+			IF Len( ::DetailSourceList ) > 0
+				FOR EACH table IN ::DetailSourceList
+					IF AScan( { dsEdit, dsInsert }, table:State ) > 0
+						table:Post()
+					ENDIF
+				NEXT
+			ENDIF
+
+			FOR EACH AField IN ::FieldList
+
+				IF !AField:IsValid()
+					RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
+				ENDIF
+
+				IF AField:FieldMethodType = "C"
+					AField:SetData()
+				ENDIF
+
+			NEXT
+
+			::RecUnLock()
+
+			result := .T.
+
+		ENDIF
 
 	RECOVER USING errObj
 	
@@ -1492,62 +1529,17 @@ METHOD FUNCTION Post CLASS TTable
 
 		SHOW ERROR errObj
 
-		RETURN .F.
-
-	END SEQUENCE
-
-	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
-		::Error_Table_Not_In_Edit_or_Insert_mode()
-		RETURN .F.
-	ENDIF
-
-	::FSubState := dssPosting
-
-	IF Len( ::DetailSourceList ) > 0
-		FOR EACH table IN ::DetailSourceList
-			IF AScan( { dsEdit, dsInsert }, table:State ) > 0
-				table:Post()
-			ENDIF
-		NEXT
-	ENDIF
-
-	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-
-		FOR EACH AField IN ::FieldList
-
-			IF !AField:IsValid()
-				RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
-			ENDIF
-
-			IF AField:FieldMethodType = "C"
-				AField:SetData()
-			ENDIF
-
-		NEXT
-
-	RECOVER USING errObj
-
-		::Cancel()
-
-		SHOW ERROR errObj
-
-		//Throw( errObj )
-
 	ALWAYS
 
 		::FSubState := dssNone
 
 	END SEQUENCE
 
-	IF errObj != NIL
-		RETURN .F.
+	IF result
+		::OnAfterPost()
 	ENDIF
 
-	::RecUnLock()
-
-	::OnAfterPost( Self )
-
-RETURN .T.
+RETURN result
 
 /*
 	Process_TableName

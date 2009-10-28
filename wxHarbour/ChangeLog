@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2009-10-28 14:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wx_harbour.cpp
+     ! Fixed compiling warning
+
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     ! Fixed to allow linking with non GUI apps
+
+  *  src/raddox/TField.prg
+     ! Fixed error getting value at AsIndexKeyVal()
+     
+  *  src/raddox/TTable.prg
+     % added ::autoOpen flag
+     * changed OnAfterInsert() removed logical value required, now is a PROCEDURE
+     * changed OnBeforePost() now is a FUNCTION and a logical value is required
+     * simplified setting of the mastersource value at obj creation
+     % simplified checking of errors at ::Post()
+
 2009-10-25 10:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
      + added method's
