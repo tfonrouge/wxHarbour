@@ -568,7 +568,7 @@ METHOD PROCEDURE Reset CLASS TField
 
 #ifdef _DEBUG_
 		IF ::FDefaultValue != NIL
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
+			//wxhAlert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
 		ENDIF
 #endif
 	ELSE
@@ -1503,8 +1503,9 @@ METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
 	IF value == NIL
 		value := ::GetBuffer()
 	ENDIF
-	
-	pkField := ::LinkedTable:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
+
+	//pkField := ::LinkedTable:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
+	pkField := ::LinkedTable:GetPrimaryKeyField()
 
 RETURN pkField:AsIndexKeyVal( value )
 
