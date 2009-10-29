@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2009-10-28 20:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  * GNUmakefile
+    * updated makefile
+
+  * src/wxbase/baseclasses/wx_Window.cpp
+    ! Fixed to compile with wx 2.8.9 (ubuntu 9.04)
+
+
 2009-10-28 14:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wx_harbour.cpp
      ! Fixed compiling warning

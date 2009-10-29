@@ -139,8 +139,10 @@ HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
 {
 	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	
+/*
 	if( wnd )
 		wnd->DragAcceptFiles( hb_parl( 1 ) );
+*/
 }
 
 /*
