@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2009-10-31 11:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+     * updated makefiles
+
 2009-10-28 20:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
     * updated makefile
