@@ -250,7 +250,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 //				 ::GetView():SetColFormatBool( nCol - 1 )
 				::GetView():SetColumnAlignment( nCol, column:Align )
 				EXIT
-			_SW_OTHERWISE
+			_OTHERWISE
 				column:Align := wxALIGN_CENTRE
 			END
 		ENDIF

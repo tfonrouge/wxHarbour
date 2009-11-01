@@ -1529,10 +1529,11 @@ METHOD FUNCTION Post CLASS TTable
 
 		SHOW ERROR errObj
 
+#ifndef __XHARBOUR__
 	ALWAYS
 
 		::FSubState := dssNone
-
+#endif
 	END SEQUENCE
 
 	IF result
@@ -1802,7 +1803,7 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 	CASE 'U'
 		::FMasterSourceType := rxMasterSourceTypeNone
 		RETURN
-	OTHERWISE
+	_OTHERWISE
 		RAISE ERROR "Invalid type in assigning MasterSource..."
 	END
 

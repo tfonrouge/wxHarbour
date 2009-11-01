@@ -2,6 +2,24 @@
  * $Id$
  */
 
+2009-11-01 13:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh.h
+  *  src/common/wxhfuncs.prg
+  *  src/raddox/TTable.prg
+  *  src/wxbase/networking/wx_SocketBase.cpp
+     * changes to allow creating the wxHarbour lib with xHarbour (1.20.01) and BCC55
+     ; TODO: check linking with xHarbour
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * renamed translate _SW_OTHERWISE to _OTHERWISE
+
+  *  src/common/wx_harbour.cpp
+     
+  +  include/wxHarbour/xhbcompat.h
+     * will contain defines needed to compiling with xHarbour libs
+
 2009-10-31 11:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  makefile.bcc
   *  makefile.gcc

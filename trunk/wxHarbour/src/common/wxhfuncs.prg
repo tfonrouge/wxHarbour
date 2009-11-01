@@ -408,7 +408,7 @@ METHOD GetSelection CLASS wxhHBValidator
 		CASE 'H'		/* Hash */
 			n := HB_HPos( ::FValidValues, key )
 			EXIT
-		_SW_OTHERWISE
+		_OTHERWISE
 			EXIT
 		END
 
@@ -1309,7 +1309,7 @@ FUNCTION __wxh_GetBitmapResource( bmp )
 	CASE 'N'
 		bitmap := wxBitmap():New( bmp )
 		EXIT
-	_SW_OTHERWISE
+	_OTHERWISE
 		bitmap := wxBitmap():New( 0 )	 // missing image
 	END
 
