@@ -412,7 +412,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 			::PageDown()
 		ENDIF
 		EXIT
-	_SW_OTHERWISE
+	_OTHERWISE
 		keyEvent:Skip()
 	END
 

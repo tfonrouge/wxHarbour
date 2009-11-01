@@ -41,6 +41,10 @@
 #include "hbchksum.h"
 #endif
 
+#ifdef __XHARBOUR__
+#include "classes.h"
+#endif
+
 #include "wx/grid.h"
 #include "wxhevtdefs.h"
 #include "wx/socket.h"
@@ -49,17 +53,9 @@
 #include "wx/notebook.h"
 
 /*
- * type differences between Harbour/xHarbour
+ * differences between Harbour/xHarbour
  */
-#ifdef __XHARBOUR__
-
-typedef BYTE  BYTECHAR;
-
-#else
-
-typedef char  BYTECHAR;
-
-#endif
+#include "xhbcompat.h"
 
 #ifndef wxVERSION
 #define wxVERSION ( wxMAJOR_VERSION * 10000 + wxMINOR_VERSION * 100 + wxRELEASE_NUMBER )

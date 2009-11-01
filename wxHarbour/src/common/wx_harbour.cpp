@@ -511,6 +511,7 @@ void wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent
   }
 }
 
+#ifndef __XHARBOUR__
 /*
  wxh_itemNullObject
  Teo. Mexico 2009
@@ -527,6 +528,7 @@ PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
 
   return pNullObj;
 }
+#endif
 
 /*
  wxh_itemReturn
@@ -584,7 +586,6 @@ wxColour wxh_par_wxColour( int param )
 	{
 		case HB_IT_STRING:
 			return wxColour( wxh_parc( param ) );
-			break;
 		default:
 			break;
 	}
@@ -649,6 +650,12 @@ wxSize wxh_par_wxSize( int param )
 */
 wxString wxh_CTowxString( const char * szStr, bool convOEM )
 {
+#ifdef __XHARBOUR__
+
+	return wxString().FromAscii( szStr );
+	
+#else
+
 #ifdef _UNICODE
   const wxMBConv& mbConv = wxConvUTF8;
 
@@ -669,12 +676,17 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
 	}
   }
 #else
-  const wxMBConv& mbConv = wxConvLocal;
+
+	const wxMBConv& mbConv = wxConvLocal;
 
   HB_SYMBOL_UNUSED( convOEM );
+
 #endif
 
-  return wxString( szStr, mbConv );
+	return wxString( szStr, mbConv );
+	
+#endif
+
 }
 
 /*

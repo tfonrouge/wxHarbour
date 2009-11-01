@@ -53,7 +53,7 @@ PHB_ITEM hb_itemReSizeString( PHB_ITEM pItem, ULONG ulSize )
       pItem->item.asString.value = ( char* )
                      hb_xRefResize( pItem->item.asString.value,
                                     pItem->item.asString.length,
-                                    ulAlloc, &pItem->item.asString.allocated );
+                                    ulAlloc );
       pItem->item.asString.length = ulSize;
       pItem->item.asString.value[ ulSize ] = '\0';
    }

@@ -25,19 +25,17 @@
 #xcommand IMPLEMENT_APP( <app> ) => <app>:Implement()
 
 #ifdef __XHARBOUR__
+
 #xtranslate BEGIN_CB => \<
 #xtranslate END_CB   => >
-
 #xtranslate BEGIN SEQUENCE WITH <w> => BEGIN SEQUENCE
-
-#xtranslate _SW_OTHERWISE => DEFAULT
+#xtranslate _OTHERWISE => DEFAULT
 
 #else
+
 #xtranslate BEGIN_CB => \{
 #xtranslate END_CB   => }
-
-#xtranslate _SW_OTHERWISE => OTHERWISE
-
+#xtranslate _OTHERWISE => OTHERWISE
 #xtranslate _hb_BitOr(  => HB_BitOr(
 
 #endif
