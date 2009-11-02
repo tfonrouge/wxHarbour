@@ -19,10 +19,9 @@
   Teo. Mexico 2008
 */
 
-#include "wx/wx.h"
-#include "wx/srchctrl.h"
 #include "wxh.h"
 
+#include "wx/srchctrl.h"
 #include "wx/dateevt.h"
 #include "wx/spinctrl.h"
 
