@@ -2,12 +2,20 @@
  * $Id$
  */
 
+2009-11-01 18:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * corrected info
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+    ! Fixed warning
+
 2009-11-01 13:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  src/common/wxhfuncs.prg
   *  src/raddox/TTable.prg
   *  src/wxbase/networking/wx_SocketBase.cpp
-     * changes to allow creating the wxHarbour lib with xHarbour (1.20.01) and BCC55
+     * changes to allow creating the wxHarbour lib with xHarbour (1.20.6601) and BCC55
+       (downloaded from free.xharbour.com, BUT the harbour compiler says it's 6596 rev!)
      ; TODO: check linking with xHarbour
 
   *  include/wxHarbour/wxharbour.ch
