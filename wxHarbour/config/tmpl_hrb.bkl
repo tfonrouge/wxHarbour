@@ -744,6 +744,8 @@ Where is wxWidgets installed
     <if cond="TOOLSET=='unix'">
       <include>/usr/include/$(HBCOMPILER)</include>
       <include>/usr/local/include/$(HBCOMPILER)</include>
+      <include>/usr/include</include>
+      <include>/usr/local/include</include>
     </if>
 
     <if cond="COMPILER=='gcc'">

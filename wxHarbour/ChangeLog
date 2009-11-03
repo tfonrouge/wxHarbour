@@ -2,6 +2,47 @@
  * $Id$
  */
 
+2009-11-03 12:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * adding the following directories to the include's list:
+       + /usr/include
+       + /usr/local/include
+
+  *  demos/dbExplorer/GNUmakefile
+  *  demos/helloworld/GNUmakefile
+  *  GNUmakefile
+  *  samples/arrbrowser/GNUmakefile
+  *  samples/auinotebook/GNUmakefile
+  *  samples/bitmapButton/GNUmakefile
+  *  samples/button/GNUmakefile
+  *  samples/checkbox/GNUmakefile
+  *  samples/choice/GNUmakefile
+  *  samples/combobox/GNUmakefile
+  *  samples/dbbrowser/GNUmakefile
+  *  samples/gauge/GNUmakefile
+  *  samples/grid/GNUmakefile
+  *  samples/listbook/GNUmakefile
+  *  samples/menu/GNUmakefile
+  *  samples/networking/GNUmakefile
+  *  samples/notebook/GNUmakefile
+  *  samples/panel/GNUmakefile
+  *  samples/radiobox/GNUmakefile
+  *  samples/sayget/GNUmakefile
+  *  samples/sizers/GNUmakefile
+  *  samples/spinctrl/GNUmakefile
+  *  samples/staticBitmap/GNUmakefile
+  *  samples/taskBarIcon/GNUmakefile
+  *  samples/text/GNUmakefile
+  *  samples/timer/GNUmakefile
+  *  samples/toolbar/GNUmakefile
+  *  samples/treectrl/GNUmakefile
+  *  samples/wxget/GNUmakefile
+  *  samples/wxwindow/GNUmakefile
+  *  tests/evtdefcheck/GNUmakefile
+  *  tests/socketCli/GNUmakefile
+  *  tests/socketSrv/GNUmakefile
+     * updated makefiles
+
 2009-11-02 21:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/wxget/wxget.prg
      ! minor fix to compile with -es3 Harbour compiler flag

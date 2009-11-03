@@ -110,19 +110,21 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
 SIZERS_CFLAGS = -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour \
-	-I../../include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include -W \
+	-Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) \
+	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour -I../../include/wxHarbour $(CPPFLAGS) \
+	$(HBCC_DEFINE) -fno-strict-aliasing
 SIZERS_OBJECTS =  \
 	$(__BUILDDIR__)/sizers_login.o \
 	$(__BUILDDIR__)/sizers_main.o
 SIZERS_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
 	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
 	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-I/usr/local/include/wxHarbour -I../../include/wxHarbour
+	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include \
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour \
+	-I../../include/wxHarbour
 
 ### Conditionally set variables: ###
 
