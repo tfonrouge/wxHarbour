@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-11-02 21:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/wxget/wxget.prg
+     ! minor fix to compile with -es3 Harbour compiler flag
+
 2009-11-02 18:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * added parameter to ::GetDisplayFields( syncFromAlias ) to allow to force a sync

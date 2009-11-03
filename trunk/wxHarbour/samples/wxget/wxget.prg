@@ -282,8 +282,8 @@ RETURN .t.
 FUNCTION OnKeyUp(event)
 	LOCAL lRet := .t.
 	//LOCAL keycode := 
-	LOCAL ctrlDown := event:ControlDown()
 	#ifdef _DEBUG_
+	LOCAL ctrlDown := event:ControlDown()
 	? ("OnKeyUp key=" + Str(event:GetKeyCode()) + "-" + IIF(ctrlDown,"CTRL+","") + GetKeyName(event:GetKeyCode()) +" " + "UnicodeKey=" + Str(event:GetUnicodeKey()) )
 	#endif
 	event:skip(.t.)
