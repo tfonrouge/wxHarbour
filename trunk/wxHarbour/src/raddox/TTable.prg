@@ -1058,6 +1058,10 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 					o:__FFields[ msgName ] := AField
 				ENDIF
 				
+				IF o:__FSyncFromAlias
+					o:__FObj:SyncRecNo( .T. )
+				ENDIF
+				
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
 					Result := AField:EmptyValue
 				ELSE
@@ -1082,13 +1086,17 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				o:__FFields[ msgName ] := AField
 			ENDIF
 
+			IF o:__FSyncFromAlias
+				o:__FObj:SyncRecNo( .T. )
+			ENDIF
+
 			Result := AField:DataObj:DisplayFields()
 				
 			RETURN Result
 
 		END_CB
 
-METHOD FUNCTION GetDisplayFields() CLASS TTable
+METHOD FUNCTION GetDisplayFields( syncFromAlias ) CLASS TTable
 	LOCAL DisplayFieldsClass
 	LOCAL msgName
 	LOCAL AField
@@ -1101,6 +1109,7 @@ METHOD FUNCTION GetDisplayFields() CLASS TTable
 
 			DisplayFieldsClass:AddData( "__FObj" )
 			DisplayFieldsClass:AddData( "__FFields" )
+			DisplayFieldsClass:AddData( "__FSyncFromAlias" )
 
 			FOR EACH AField IN ::FFieldList
 
@@ -1129,6 +1138,7 @@ METHOD FUNCTION GetDisplayFields() CLASS TTable
 		::FDisplayFields := ::FInstances[ ::TableClass, "DisplayFieldsClass" ]:Instance()
 		::FDisplayFields:__FObj := Self
 		::FDisplayFields:__FFields := {=>}
+		::FDisplayFields:__FSyncFromAlias := syncFromAlias == .T.
 
 	ENDIF
 

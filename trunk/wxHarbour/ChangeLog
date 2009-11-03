@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-11-02 18:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * added parameter to ::GetDisplayFields( syncFromAlias ) to allow to force a sync
+       with the current alias of the table
+
 2009-11-02 18:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/GNUmakefile
   *  demos/dbExplorer/makefile.bcc
