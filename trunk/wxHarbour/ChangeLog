@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-11-04 14:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * minor code cleanup
+
 2009-11-03 12:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      * adding the following directories to the include's list:

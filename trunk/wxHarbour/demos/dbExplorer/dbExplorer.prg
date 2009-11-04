@@ -11,9 +11,6 @@
 	Teo. Mexico 2008
 */
 
-#include "hbclass.ch"
-#include "property.ch"
-#include "wx.ch"
 #include "wxharbour.ch"
 
 #include "wxh/filedlg.ch"
@@ -240,27 +237,27 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	
 	BEGIN AUINOTEBOOK VAR noteBook PARENT ::auiNotebook STYLE wxAUI_NB_BOTTOM
 		ADD BOOKPAGE "Data Grid" FROM
-		BEGIN PANEL SIZERINFO ALIGN EXPAND STRETCH
-			BEGIN BOXSIZER VERTICAL
-				@ BROWSE VAR oBrw NAME "table" DATASOURCE table ;
-					ONKEY {|b,keyEvent| k_Process( b, keyEvent ) } ;
-					ONSELECTCELL {|| ::OnSelectCell( oBrw ) } ;
-					SIZERINFO ALIGN EXPAND STRETCH
-				@ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
-				BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
-					@ SAY "Index:" SIZERINFO ALIGN RIGHT
-						@ CHOICE ordNumber ITEMS HB_HKeys( hIndex ) NAME "choice" WIDTH 200 ;
-							ACTION {|| table:Alias:OrdSetFocus( HB_HKeys( hIndex )[ ordNumber ] ), oBrw:GoTop() } ;
-							SIZERINFO ALIGN LEFT
-					@ SAY "Key:" SIZERINFO ALIGN RIGHT
-						@ STATICTEXT NAME "key" SIZERINFO ALIGN EXPAND
-					@ SAY "ForKey:" SIZERINFO ALIGN RIGHT
-						@ STATICTEXT NAME "for" SIZERINFO ALIGN EXPAND
-					@ SAY "KeyVal:" SIZERINFO ALIGN RIGHT
-						@ GET keyVal NAME "keyval" SIZERINFO ALIGN EXPAND
+			BEGIN PANEL SIZERINFO ALIGN EXPAND STRETCH
+				BEGIN BOXSIZER VERTICAL
+					@ BROWSE VAR oBrw NAME "table" DATASOURCE table ;
+						ONKEY {|b,keyEvent| k_Process( b, keyEvent ) } ;
+						ONSELECTCELL {|| ::OnSelectCell( oBrw ) } ;
+						SIZERINFO ALIGN EXPAND STRETCH
+					@ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
+					BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
+						@ SAY "Index:" SIZERINFO ALIGN RIGHT
+							@ CHOICE ordNumber ITEMS HB_HKeys( hIndex ) NAME "choice" WIDTH 200 ;
+								ACTION {|| table:Alias:OrdSetFocus( HB_HKeys( hIndex )[ ordNumber ] ), oBrw:GoTop() } ;
+								SIZERINFO ALIGN LEFT
+						@ SAY "Key:" SIZERINFO ALIGN RIGHT
+							@ STATICTEXT NAME "key" SIZERINFO ALIGN EXPAND
+						@ SAY "ForKey:" SIZERINFO ALIGN RIGHT
+							@ STATICTEXT NAME "for" SIZERINFO ALIGN EXPAND
+						@ SAY "KeyVal:" SIZERINFO ALIGN RIGHT
+							@ GET keyVal NAME "keyval" SIZERINFO ALIGN EXPAND
+					END SIZER
 				END SIZER
-			END SIZER
-		END PANEL
+			END PANEL
 		ADD BOOKPAGE "Indexes" FROM
 			@ BROWSE VAR oBrwIndexList DATASOURCE hIndex
 		ADD BOOKPAGE "Structure" FROM
