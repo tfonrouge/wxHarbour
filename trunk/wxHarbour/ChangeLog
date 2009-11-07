@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-11-07 00:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     % variable to add '64' prefix to lib path on x86_64 Linux based machines
+       * HB_LIB_ARCH
+
 2009-11-04 14:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * minor code cleanup

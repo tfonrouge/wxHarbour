@@ -492,6 +492,12 @@ Standard flags for Harbour compiler
     </set>
   </if>
 
+  <if cond="TOOLSET=='unix'">
+    <set var="__HB_LIB_ARCH">
+      `if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi`
+    </set>
+  </if>
+
   <if cond="TOOLSET=='win32'">
     <set var="__HB_LIB_PATH">
       $(envvar("HB_LIB_INSTALL"))
@@ -518,6 +524,17 @@ Where to search for the Harbour compiler
       </default-value>
       <description>
         Where to search for Harbour includes
+      </description>
+    </option>
+  </if>
+
+  <if cond="TOOLSET=='unix'">
+    <option name="HB_LIB_ARCH" category="path">
+      <default-value>
+        $(__HB_LIB_ARCH)
+      </default-value>
+      <description>
+        Suffix '64' to lib path on x86_64 machines
       </description>
     </option>
   </if>
@@ -841,8 +858,8 @@ Where is wxWidgets installed
       <sys-lib>$(LIB_NCURSES)</sys-lib>
       <sys-lib>$(LIB_SLANG)</sys-lib>
       <sys-lib>$(LIB_GPM)</sys-lib>
-      <lib-path>/usr/lib/$(HBCOMPILER)</lib-path>
-      <lib-path>/usr/local/lib/$(HBCOMPILER)</lib-path>
+      <lib-path>/usr/lib$(HB_LIB_ARCH)/$(HBCOMPILER)</lib-path>
+      <lib-path>/usr/local/lib$(HB_LIB_ARCH)/$(HBCOMPILER)</lib-path>
       <lib-path>/usr/X11R6/lib</lib-path>
       <sys-lib>$(LIB_X11)</sys-lib>
     </if>
