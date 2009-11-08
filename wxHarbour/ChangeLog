@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2009-11-08 10:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.bcc
+     * updated makefile
+
+  *  src/common/wx_harbour.cpp
+     ! Fixed per last changes in Harbour CDP api
+
 2009-11-07 00:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      % variable to add '64' prefix to lib path on x86_64 Linux based machines
