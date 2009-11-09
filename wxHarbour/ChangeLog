@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2009-11-09 14:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+  *  wxharbour.bkl
+     * changed indentation from spaces to tab's
+
 2009-11-08 10:24 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  makefile.bcc
      * updated makefile
