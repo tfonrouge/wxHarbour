@@ -49,7 +49,7 @@ LDFLAGS =
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 !endif
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
 !ifndef HBCOMPILER
 HBCOMPILER = harbour
 !endif
@@ -220,7 +220,7 @@ WXHARBOUR_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) -O2 $(p) $(p_0) \
 WXHARBOUR_CXXFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO_3) -Iinclude\wxHarbour -D__WXMSW__ \
 	-I$(HB_INC_PATH)\wxHarbour -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\bcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	-I$(WX_PATH)\lib\bcc_lib\msw$(__WX_LIBID_FILENAMES) -Hu $(CPPFLAGS) \
 	$(HBCC_DEFINE)
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
@@ -942,7 +942,7 @@ $(__BUILDDIR__)\wxHarbour_xdoutils.obj: .\src\raddox\xdoutils.c
 	$(CC) -q -c -P- -o$@ $(WXHARBOUR_CFLAGS) .\src\raddox\xdoutils.c
 
 $(__BUILDDIR__)\wxHarbour_sysdefs.obj: .\src\common\sysdefs.cpp
-	$(CXX) -q -c -P- -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\sysdefs.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\sysdefs.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp

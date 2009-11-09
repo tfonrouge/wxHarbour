@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2009-11-09 15:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+  *  wxharbour.bkl
+     * removed tag declaration "wxharbour-lib" inside of wxharbour.bkl
+
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+     * updated makefiles
+
 2009-11-09 14:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   *  wxharbour.bkl

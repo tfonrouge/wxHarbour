@@ -6,6 +6,15 @@
 
 	<include file="config/tmpl_hrb.bkl"/>
 
+	<define-rule name="wxharbour-lib" extends="harbour-lib">
+		<template template="wx-common-build">
+			<if cond="TOOLSET=='win32'">
+				<include>$(WX_PATH)/Include</include>
+				<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
+			</if>
+		</template>
+	</define-rule>
+
 	<wxharbour-lib id="wxHarbour">
 		<libname>$(WXHLIBNAME)</libname>
 		<headers>

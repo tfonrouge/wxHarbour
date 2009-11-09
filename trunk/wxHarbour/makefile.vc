@@ -25,7 +25,7 @@ CPPFLAGS =
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
 #   harbour - www.harbour-project.org
 #   xharbour - www.xharbour.com
 HBCOMPILER = harbour
