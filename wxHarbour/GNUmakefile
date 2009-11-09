@@ -34,7 +34,7 @@ CXX = g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
+# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
 HBCOMPILER ?= harbour
 
 # [x]Harbour compiler executable name 

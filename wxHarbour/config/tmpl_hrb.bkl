@@ -886,15 +886,6 @@ Where is wxWidgets installed
 		<dirname>.</dirname>
 	</template>
 
-	<define-rule name="wxharbour-lib" extends="harbour-lib">
-		<template template="wx-common-build">
-			<if cond="TOOLSET=='win32'">
-				<include>$(WX_PATH)/Include</include>
-				<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
-			</if>
-		</template>
-	</define-rule>
-
 	<template id="dummy-template">
 	</template>
 
