@@ -44,9 +44,9 @@ LDFLAGS =
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 !endif
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-!ifndef HBCOMPILER
-HBCOMPILER = harbour
+# Linked against static or shared Harbour libraries [static,shared]
+!ifndef HBLINKMODE
+HBLINKMODE = shared
 !endif
 
 # [x]Harbour compiler executable name 
@@ -187,7 +187,7 @@ CHECKBOX_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO) -Iinclude\wxHarbour -D__WXMSW__ \
 	-I$(HB_INC_PATH)\wxHarbour -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour \
-	$(CPPFLAGS) $(HBCC_DEFINE)
+	$(CPPFLAGS) -D__HARBOUR__
 CHECKBOX_OBJECTS =  \
 	$(__BUILDDIR__)\checkbox_checkbox.obj
 CHECKBOX_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
@@ -207,144 +207,6 @@ __HBMTFLAG__ = -DHB_MT
 !if "$(HBBUILD)" == "debug"
 __HBDEBUG__ = -b -d_DEBUG_
 !endif
-!if "$(HBCOMPILER)" == "harbour"
-HBCC_DEFINE = -D__HARBOUR__
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-HBCC_DEFINE = -D__XHARBOUR__
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_VM_p = hbvm$(__HBMTLIB__).lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_VM_p = vm$(__HBMTLIB__).lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_PP_p = hbpp.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_PP_p = pp.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_RTL_p = hbrtl.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_RTL_p = rtl.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_RDD_p = hbrdd.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_RDD_p = rdd.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_RDDFPT_p = rddfpt.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_RDDFPT_p = dbffpt.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_RDDCDX_p = rddcdx.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_RDDCDX_p = dbfcdx.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_RDDNTX_p = rddntx.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_RDDNTX_p = dbfntx.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_USRRDD_p = hbusrrdd.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_USRRDD_p = usrrdd.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_MACRO_p = hbmacro.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_MACRO_p = macro.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_COMMON_p = hbcommon.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_COMMON_p = common.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_LANG_p = hblang.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_LANG_p = lang.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_CPAGE_p = hbcpage.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_CPAGE_p = codepage.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_DEBUG_p = hbdebug.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_DEBUG_p = debug.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_CPLR_p = hbcplr.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_CPLR_p = 
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-__LIB_PCRE_p = hbpcre.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-__LIB_PCRE_p = pcrepos.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour" && "$(HBLIB_FM)" == "yes"
-__LIB_FM_p = hbfm.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour" && "$(HBLIB_FM)" == "yes"
-__LIB_FM_p = fm.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour" && "$(HBLIB_CT)" == "yes"
-__LIB_CT_p = hbct.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour" && "$(HBLIB_CT)" == "yes"
-__LIB_CT_p = ct.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour" && "$(HBLIB_TIP)" == "yes"
-__LIB_TIP_p = hbtip.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour" && "$(HBLIB_TIP)" == "yes"
-__LIB_TIP_p = tip.lib
-!endif
-!if "$(HBCOMPILER)" == "harbour" && "$(HBLIB_HBNETIO)" == "yes"
-__LIB_HBNETIO_p = hbnetio.lib
-!endif
-!if "$(HBCOMPILER)" == "xharbour" && "$(HBLIB_HBNETIO)" == "yes"
-__LIB_HBNETIO_p = notyet.lib
-!endif
-!if "$(HBLIB_GTCGI)" == "yes"
-__LIB_GTCGI_p = gtcgi.lib
-!endif
-!if "$(HBLIB_GTSTD)" == "yes"
-__LIB_GTSTD_p = gtstd.lib
-!endif
-!if "$(HBLIB_GTPCA)" == "yes"
-__LIB_GTPCA_p = gtpca.lib
-!endif
-!if "$(HBLIB_GTXVT)" == "yes"
-__LIB_GTXVT_p = gtxvt.lib
-!endif
-!if "$(HBLIB_GTWIN)" == "yes"
-__LIB_GTWIN_p = gtwin.lib
-!endif
-!if "$(HBLIB_GTWVT)" == "yes"
-__LIB_GTWVT_p = gtwvt.lib
-!endif
 !if "$(WX_BUILD)" == "release" && "$(WX_ENCODING)" == "ansi"
 __WXHLIBNAME_p = wxHarbour.lib
 !endif
@@ -356,6 +218,93 @@ __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING).lib
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING)-$(WX_BUILD).lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBEXTERN_p = hbextern.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBVM_p = hbvm$(__HBMTLIB__).lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBRTL_p = hbrtl.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBLANG_p = hblang.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBCPAGE_p = hbcpage.lib
+!endif
+!if "$(HBLIB_GTCGI)" == "yes"
+__LIB_GTCGI_p = gtcgi.lib
+!endif
+!if "$(HBLIB_GTSTD)" == "yes"
+__LIB_GTSTD_p = gtstd.lib
+!endif
+!if "$(HBLIB_GTPCA)" == "yes"
+__LIB_GTPCA_p = gtpca.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBRDD_p = hbrdd.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBUDDALL_p = hbuddall.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBUSRRDD_p = hbusrrdd.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_RDDNTX_p = rddntx.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_RDDCDX_p = rddcdx.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_RDDNSX_p = rddnsx.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_RDDFPT_p = rddfpt.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBHSX_p = hbhsx.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBSIX_p = hbsix.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBMACRO_p = hbmacro.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBPP_p = hbpp.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBCOMMON_p = hbcommon.lib
+!endif
+!if "$(HBLINKMODE)" == "static"
+__LIB_HBPCRE_p = hbpcre.lib
+!endif
+!if "$(HBLIB_FM)" == "yes"
+__LIB_HBFM_p = hbfm.lib
+!endif
+!if "$(HBLIB_CT)" == "yes"
+__LIB_HBCT_p = hbct.lib
+!endif
+!if "$(HBLIB_TIP)" == "yes"
+__LIB_HBTIP_p = hbtip.lib
+!endif
+!if "$(HBLIB_HBNETIO)" == "yes"
+__LIB_HBNETIO_p = hbnetio.lib
+!endif
+!if "$(HBLIB_GTXVT)" == "yes"
+__LIB_GTXVT_p = gtxvt.lib
+!endif
+!if "$(HBLIB_GTWIN)" == "yes"
+__LIB_GTWIN_p = gtwin.lib
+!endif
+!if "$(HBLIB_GTWVT)" == "yes"
+__LIB_GTWVT_p = gtwvt.lib
+!endif
+!if "$(HBLINKMODE)" == "shared"
+__SLIB_HARBOUR_p = harbour.lib
 !endif
 !if "$(WX_ENCODING)" == "unicode"
 p = -D_UNICODE
@@ -401,8 +350,8 @@ clean:
 	-if exist .\checkbox.ils del .\checkbox.ils
 
 .\checkbox.exe: $(CHECKBOX_OBJECTS)
-	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\bcc_lib -aa -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS) @&&|
-	c0w32.obj $(CHECKBOX_OBJECTS),$@,, $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) hbsix.lib $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__WXHLIBNAME_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib import32.lib cw32.lib,,
+	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -aa -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\bcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS) @&&|
+	c0w32.obj $(CHECKBOX_OBJECTS),$@,, $(__WXHLIBNAME_p) $(__LIB_HBEXTERN_p) hbdebug.lib $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) hbcplr.lib $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__SLIB_HARBOUR_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib import32.lib cw32.lib,,
 |
 
 run: all

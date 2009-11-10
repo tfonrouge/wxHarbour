@@ -25,8 +25,8 @@ CPPFLAGS ?=
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL ?= $(HB_INSTALL_PREFIX)
 
-# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
-HBCOMPILER ?= harbour
+# Linked against static or shared Harbour libraries [static,shared]
+HBLINKMODE ?= shared
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -115,7 +115,7 @@ WX_BUILD ?= release
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
 	LINK_MODULE_FLAGS="$(LINK_MODULE_FLAGS)" CC="$(CC)" CXX="$(CXX)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
+	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBLINKMODE="$(HBLINKMODE)" \
 	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" \
 	HBLIB_HBNETIO="$(HBLIB_HBNETIO)" HBLIB_FM="$(HBLIB_FM)" \
 	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
@@ -132,12 +132,12 @@ PREFIX = $(HBPATH_INSTALL)
 WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
 	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) \
-	$(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+	$(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO_2) -Iinclude\wxHarbour -D__WXMSW__ \
 	-I$(HB_INC_PATH)\wxHarbour -I$(WX_PATH)\Include \
 	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
-	$(HBCC_DEFINE)
+	-D__HARBOUR__
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.o \
@@ -350,12 +350,6 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-HBCC_DEFINE = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-HBCC_DEFINE = -D__XHARBOUR__
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_2 = -g

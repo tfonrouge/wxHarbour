@@ -30,7 +30,7 @@ CLASS wxXmlDocument FROM wxObject
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  CONSTRUCTOR New
+  CONSTRUCTOR New( fileName, encoding )
 PUBLISHED:
 ENDCLASS
 

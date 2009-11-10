@@ -28,13 +28,11 @@
   Constructor
   Teo. Mexico 2008
 */
-HB_FUNC( XMLDOCUMENT_NEW )
+HB_FUNC( WXXMLDOCUMENT_NEW )
 {
   wxh_ObjParams objParams = wxh_ObjParams();
 
-  wx_XmlDocument* xmlDocument;
-
-  xmlDocument = new wx_XmlDocument;
+  wx_XmlDocument* xmlDocument = new wx_XmlDocument;
 
   objParams.Return( xmlDocument );
 }

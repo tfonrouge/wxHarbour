@@ -22,8 +22,8 @@ CPPFLAGS ?=
 # Standard linker flags 
 LDFLAGS ?= 
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-HBCOMPILER ?= harbour
+# Linked against static or shared Harbour libraries [static,shared]
+HBLINKMODE ?= shared
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -88,6 +88,9 @@ HBWARNL ?= 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL ?= 2
 
+# Suffix '64' to lib path on x86_64 machines 
+HB_LIB_ARCH ?= `if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi`
+
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj/gcc_unix
 
@@ -109,18 +112,17 @@ _WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else
 	"-Wl,--start-group" ; fi`
 _WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
 	"-Wl,--end-group" ; fi`
-CHECKBOX_CFLAGS = -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include -W \
-	-Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) \
-	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-I/usr/local/include/wxHarbour -I../../include/wxHarbour $(CPPFLAGS) \
-	$(HBCC_DEFINE) -fno-strict-aliasing
+CHECKBOX_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
+	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour \
+	-I../../include/wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
 CHECKBOX_OBJECTS =  \
 	$(__BUILDDIR__)/checkbox_checkbox.o
 CHECKBOX_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
 	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
-	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include \
+	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/harbour \
+	-I/usr/local/include/harbour -I/usr/include -I/usr/local/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
 	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour \
 	-I../../include/wxHarbour
@@ -135,163 +137,6 @@ __HBMTFLAG__ = -DHB_MT
 endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
-endif
-ifeq ($(HBCOMPILER),harbour)
-HBCC_DEFINE = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-HBCC_DEFINE = -D__XHARBOUR__
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_VM_p = -lhbvm$(__HBMTLIB__)
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_VM_p = -lvm$(__HBMTLIB__)
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_PP_p = -lhbpp
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_PP_p = -lpp
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RTL_p = -lhbrtl
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RTL_p = -lrtl
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDD_p = -lhbrdd
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDD_p = -lrdd
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDFPT_p = -lrddfpt
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDFPT_p = -ldbffpt
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDCDX_p = -lrddcdx
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDCDX_p = -ldbfcdx
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDNTX_p = -lrddntx
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDNTX_p = -ldbfntx
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_USRRDD_p = -lhbusrrdd
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_USRRDD_p = -lusrrdd
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_MACRO_p = -lhbmacro
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_MACRO_p = -lmacro
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_COMMON_p = -lhbcommon
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_COMMON_p = -lcommon
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_LANG_p = -lhblang
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_LANG_p = -llang
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_CPAGE_p = -lhbcpage
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_CPAGE_p = -lcodepage
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_DEBUG_p = -lhbdebug
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_DEBUG_p = -ldebug
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_CPLR_p = -lhbcplr
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_CPLR_p = 
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_PCRE_p = -lhbpcre
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_PCRE_p = -lpcrepos
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_FM),yes)
-__LIB_FM_p = -lhbfm
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_FM),yes)
-__LIB_FM_p = -lfm
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_CT),yes)
-__LIB_CT_p = -lhbct
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_CT),yes)
-__LIB_CT_p = -lct
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_TIP),yes)
-__LIB_TIP_p = -lhbtip
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_TIP),yes)
-__LIB_TIP_p = -ltip
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_HBNETIO),yes)
-__LIB_HBNETIO_p = -lhbnetio
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_HBNETIO),yes)
-__LIB_HBNETIO_p = -lnotyet
-endif
-endif
-ifeq ($(HBLIB_GTTRM),yes)
-__LIB_GTTRM_p = -lgttrm
-endif
-ifeq ($(HBLIB_GTXWC),yes)
-__LIB_GTXWC_p = -lgtxwc
-endif
-ifeq ($(HBLIB_GTCRS),yes)
-__LIB_GTCRS_p = -lgtcrs
-endif
-ifeq ($(HBLIB_GTSLN),yes)
-__LIB_GTSLN_p = -lgtsln
-endif
-ifeq ($(HBLIB_GTCGI),yes)
-__LIB_GTCGI_p = -lgtcgi
-endif
-ifeq ($(HBLIB_GTSTD),yes)
-__LIB_GTSTD_p = -lgtstd
-endif
-ifeq ($(HBLIB_GTPCA),yes)
-__LIB_GTPCA_p = -lgtpca
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -312,6 +157,96 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBEXTERN_p = -lhbextern
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBVM_p = -lhbvm$(__HBMTLIB__)
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBRTL_p = -lhbrtl
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBLANG_p = -lhblang
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBCPAGE_p = -lhbcpage
+endif
+ifeq ($(HBLIB_GTCGI),yes)
+__LIB_GTCGI_p = -lgtcgi
+endif
+ifeq ($(HBLIB_GTSTD),yes)
+__LIB_GTSTD_p = -lgtstd
+endif
+ifeq ($(HBLIB_GTPCA),yes)
+__LIB_GTPCA_p = -lgtpca
+endif
+ifeq ($(HBLIB_GTTRM),yes)
+__LIB_GTTRM_p = -lgttrm
+endif
+ifeq ($(HBLIB_GTXWC),yes)
+__LIB_GTXWC_p = -lgtxwc
+endif
+ifeq ($(HBLIB_GTCRS),yes)
+__LIB_GTCRS_p = -lgtcrs
+endif
+ifeq ($(HBLIB_GTSLN),yes)
+__LIB_GTSLN_p = -lgtsln
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBRDD_p = -lhbrdd
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBUDDALL_p = -lhbuddall
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBUSRRDD_p = -lhbusrrdd
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDNTX_p = -lrddntx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDCDX_p = -lrddcdx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDNSX_p = -lrddnsx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDFPT_p = -lrddfpt
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBHSX_p = -lhbhsx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBSIX_p = -lhbsix
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBMACRO_p = -lhbmacro
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBPP_p = -lhbpp
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBCOMMON_p = -lhbcommon
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBPCRE_p = -lhbpcre
+endif
+ifeq ($(HBLIB_FM),yes)
+__LIB_HBFM_p = -lhbfm
+endif
+ifeq ($(HBLIB_CT),yes)
+__LIB_HBCT_p = -lhbct
+endif
+ifeq ($(HBLIB_TIP),yes)
+__LIB_HBTIP_p = -lhbtip
+endif
+ifeq ($(HBLIB_HBNETIO),yes)
+__LIB_HBNETIO_p = -lhbnetio
+endif
+ifeq ($(HBLINKMODE),shared)
+__SLIB_HARBOUR_p = -lharbour
 endif
 ifeq ($(HBLIB_GTCRS),yes)
 __LIB_NCURSES_p = -lncurses
@@ -354,7 +289,7 @@ clean:
 	rm -f ./checkbox
 
 ./checkbox: $(CHECKBOX_OBJECTS)
-	$(CXX) -o $@ $(CHECKBOX_OBJECTS)  $(__WX_DEBUG_INFO)  -L/usr/lib/$(HBCOMPILER) -L/usr/local/lib/$(HBCOMPILER) -L/usr/X11R6/lib -L../../$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__WXHLIBNAME_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+	$(CXX) -o $@ $(CHECKBOX_OBJECTS)   -L/usr/lib$(HB_LIB_ARCH)/harbour -L/usr/local/lib$(HB_LIB_ARCH)/harbour -L/usr/X11R6/lib $(__WX_DEBUG_INFO) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	../../bin/run_App.sh checkbox

@@ -2,6 +2,290 @@
  * $Id$
  */
 
+2009-11-10 17:01 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * dropped xHarbour compiler support
+     * renamed some internal vars per lib name
+     % added new variable to makefiles:
+       + HBLINKMODE=static|shared
+         ; to link final executable to static|shared Harbour libs
+     % added new bakefile target's:
+       + harbour-dll (similar to bakefile "dll", creates dynamic libraries (.so | .dll)
+       + wxharbour-dll (inherits from harbour-dll but includes wxHarbour support)
+
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+  *  demos/dbExplorer/GNUmakefile
+  *  demos/dbExplorer/makefile.bcc
+  *  demos/dbExplorer/makefile.gcc
+  *  demos/dbExplorer/makefile.vc
+  *  demos/helloworld/GNUmakefile
+  *  demos/helloworld/makefile.bcc
+  *  demos/helloworld/makefile.gcc
+  *  demos/helloworld/makefile.vc
+  *  samples/arrbrowser/GNUmakefile
+  *  samples/arrbrowser/makefile.bcc
+  *  samples/arrbrowser/makefile.gcc
+  *  samples/arrbrowser/makefile.vc
+  *  samples/auinotebook/GNUmakefile
+  *  samples/auinotebook/makefile.bcc
+  *  samples/auinotebook/makefile.gcc
+  *  samples/auinotebook/makefile.vc
+  *  samples/bitmapButton/GNUmakefile
+  *  samples/bitmapButton/makefile.bcc
+  *  samples/bitmapButton/makefile.gcc
+  *  samples/bitmapButton/makefile.vc
+  *  samples/button/GNUmakefile
+  *  samples/button/makefile.bcc
+  *  samples/button/makefile.gcc
+  *  samples/button/makefile.vc
+  *  samples/checkbox/GNUmakefile
+  *  samples/checkbox/makefile.bcc
+  *  samples/checkbox/makefile.gcc
+  *  samples/checkbox/makefile.vc
+  *  samples/choice/GNUmakefile
+  *  samples/choice/makefile.bcc
+  *  samples/choice/makefile.gcc
+  *  samples/choice/makefile.vc
+  *  samples/combobox/GNUmakefile
+  *  samples/combobox/makefile.bcc
+  *  samples/combobox/makefile.gcc
+  *  samples/combobox/makefile.vc
+  *  samples/dbbrowser/GNUmakefile
+  *  samples/dbbrowser/makefile.bcc
+  *  samples/dbbrowser/makefile.gcc
+  *  samples/dbbrowser/makefile.vc
+  *  samples/gauge/GNUmakefile
+  *  samples/gauge/makefile.bcc
+  *  samples/gauge/makefile.gcc
+  *  samples/gauge/makefile.vc
+  *  samples/grid/GNUmakefile
+  *  samples/grid/makefile.bcc
+  *  samples/grid/makefile.gcc
+  *  samples/grid/makefile.vc
+  *  samples/listbook/GNUmakefile
+  *  samples/listbook/makefile.bcc
+  *  samples/listbook/makefile.gcc
+  *  samples/listbook/makefile.vc
+  *  samples/menu/GNUmakefile
+  *  samples/menu/makefile.bcc
+  *  samples/networking/GNUmakefile
+  *  samples/networking/makefile.bcc
+  *  samples/networking/makefile.gcc
+  *  samples/networking/makefile.vc
+  *  samples/notebook/GNUmakefile
+  *  samples/notebook/makefile.bcc
+  *  samples/notebook/makefile.gcc
+  *  samples/notebook/makefile.vc
+  *  samples/panel/GNUmakefile
+  *  samples/panel/makefile.bcc
+  *  samples/panel/makefile.gcc
+  *  samples/panel/makefile.vc
+  *  samples/radiobox/GNUmakefile
+  *  samples/radiobox/makefile.bcc
+  *  samples/radiobox/makefile.gcc
+  *  samples/radiobox/makefile.vc
+  *  samples/sayget/GNUmakefile
+  *  samples/sayget/makefile.bcc
+  *  samples/sayget/makefile.gcc
+  *  samples/sayget/makefile.vc
+  *  samples/sizers/GNUmakefile
+  *  samples/sizers/makefile.bcc
+  *  samples/sizers/makefile.gcc
+  *  samples/spinctrl/GNUmakefile
+  *  samples/spinctrl/makefile.bcc
+  *  samples/spinctrl/makefile.gcc
+  *  samples/spinctrl/makefile.vc
+  *  samples/staticBitmap/GNUmakefile
+  *  samples/staticBitmap/makefile.bcc
+  *  samples/staticBitmap/makefile.gcc
+  *  samples/staticBitmap/makefile.vc
+  *  samples/taskBarIcon/GNUmakefile
+  *  samples/taskBarIcon/makefile.bcc
+  *  samples/taskBarIcon/makefile.gcc
+  *  samples/taskBarIcon/makefile.vc
+  *  samples/text/GNUmakefile
+  *  samples/text/makefile.bcc
+  *  samples/timer/GNUmakefile
+  *  samples/timer/makefile.bcc
+  *  samples/timer/makefile.gcc
+  *  samples/timer/makefile.vc
+  *  samples/toolbar/GNUmakefile
+  *  samples/toolbar/makefile.bcc
+  *  samples/toolbar/makefile.gcc
+  *  samples/toolbar/makefile.vc
+  *  samples/treectrl/GNUmakefile
+  *  samples/treectrl/makefile.bcc
+  *  samples/treectrl/makefile.gcc
+  *  samples/treectrl/makefile.vc
+  *  samples/wxget/GNUmakefile
+  *  samples/wxwindow/GNUmakefile
+  *  tests/evtdefcheck/GNUmakefile
+  *  tests/evtdefcheck/makefile.bcc
+  *  tests/evtdefcheck/makefile.gcc
+  *  tests/evtdefcheck/makefile.vc
+  *  tests/socketCli/GNUmakefile
+  *  tests/socketCli/makefile.bcc
+  *  tests/socketCli/makefile.gcc
+  *  tests/socketCli/makefile.vc
+  *  tests/socketSrv/GNUmakefile
+  *  tests/socketSrv/makefile.bcc
+  *  tests/socketSrv/makefile.gcc
+  *  tests/socketSrv/makefile.vc
+     * rebuilded makefiles per last changes in "tmpl_hrb.bkl"
+
+  *  include/wxHarbour/wxbase/wx_XmlDocument.h
+  *  src/wxbase/xmlclasses/wx_XmlDocument.cpp
+  *  src/wxbase/xmlclasses/wxhXmlDocument.prg
+
+  *  wxharbour.bkl
+     * reverted last change in this file
+
+2009-11-10 16:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * dropped xHarbour compiler support
+     * renamed some internal vars per lib name
+     % added new variable to makefiles:
+       + HBLINKMODE=static|shared
+         ; to link final executable to static|shared Harbour libs
+     % added new bakefile target's:
+       + harbour-dll (similar to bakefile "dll", creates dynamic libraries (.so | .dll)
+       + wxharbour-dll (inherits from harbour-dll but includes wxHarbour support)
+
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+  *  demos/dbExplorer/GNUmakefile
+  *  demos/dbExplorer/makefile.bcc
+  *  demos/dbExplorer/makefile.gcc
+  *  demos/dbExplorer/makefile.vc
+  *  demos/helloworld/GNUmakefile
+  *  demos/helloworld/makefile.bcc
+  *  demos/helloworld/makefile.gcc
+  *  demos/helloworld/makefile.vc
+  *  samples/arrbrowser/GNUmakefile
+  *  samples/arrbrowser/makefile.bcc
+  *  samples/arrbrowser/makefile.gcc
+  *  samples/arrbrowser/makefile.vc
+  *  samples/auinotebook/GNUmakefile
+  *  samples/auinotebook/makefile.bcc
+  *  samples/auinotebook/makefile.gcc
+  *  samples/auinotebook/makefile.vc
+  *  samples/bitmapButton/GNUmakefile
+  *  samples/bitmapButton/makefile.bcc
+  *  samples/bitmapButton/makefile.gcc
+  *  samples/bitmapButton/makefile.vc
+  *  samples/button/GNUmakefile
+  *  samples/button/makefile.bcc
+  *  samples/button/makefile.gcc
+  *  samples/button/makefile.vc
+  *  samples/checkbox/GNUmakefile
+  *  samples/checkbox/makefile.bcc
+  *  samples/checkbox/makefile.gcc
+  *  samples/checkbox/makefile.vc
+  *  samples/choice/GNUmakefile
+  *  samples/choice/makefile.bcc
+  *  samples/choice/makefile.gcc
+  *  samples/choice/makefile.vc
+  *  samples/combobox/GNUmakefile
+  *  samples/combobox/makefile.bcc
+  *  samples/combobox/makefile.gcc
+  *  samples/combobox/makefile.vc
+  *  samples/dbbrowser/GNUmakefile
+  *  samples/dbbrowser/makefile.bcc
+  *  samples/dbbrowser/makefile.gcc
+  *  samples/dbbrowser/makefile.vc
+  *  samples/gauge/GNUmakefile
+  *  samples/gauge/makefile.bcc
+  *  samples/gauge/makefile.gcc
+  *  samples/gauge/makefile.vc
+  *  samples/grid/GNUmakefile
+  *  samples/grid/makefile.bcc
+  *  samples/grid/makefile.gcc
+  *  samples/grid/makefile.vc
+  *  samples/listbook/GNUmakefile
+  *  samples/listbook/makefile.bcc
+  *  samples/listbook/makefile.gcc
+  *  samples/listbook/makefile.vc
+  *  samples/menu/GNUmakefile
+  *  samples/menu/makefile.bcc
+  *  samples/networking/GNUmakefile
+  *  samples/networking/makefile.bcc
+  *  samples/networking/makefile.gcc
+  *  samples/networking/makefile.vc
+  *  samples/notebook/GNUmakefile
+  *  samples/notebook/makefile.bcc
+  *  samples/notebook/makefile.gcc
+  *  samples/notebook/makefile.vc
+  *  samples/panel/GNUmakefile
+  *  samples/panel/makefile.bcc
+  *  samples/panel/makefile.gcc
+  *  samples/panel/makefile.vc
+  *  samples/radiobox/GNUmakefile
+  *  samples/radiobox/makefile.bcc
+  *  samples/radiobox/makefile.gcc
+  *  samples/radiobox/makefile.vc
+  *  samples/sayget/GNUmakefile
+  *  samples/sayget/makefile.bcc
+  *  samples/sayget/makefile.gcc
+  *  samples/sayget/makefile.vc
+  *  samples/sizers/GNUmakefile
+  *  samples/sizers/makefile.bcc
+  *  samples/sizers/makefile.gcc
+  *  samples/spinctrl/GNUmakefile
+  *  samples/spinctrl/makefile.bcc
+  *  samples/spinctrl/makefile.gcc
+  *  samples/spinctrl/makefile.vc
+  *  samples/staticBitmap/GNUmakefile
+  *  samples/staticBitmap/makefile.bcc
+  *  samples/staticBitmap/makefile.gcc
+  *  samples/staticBitmap/makefile.vc
+  *  samples/taskBarIcon/GNUmakefile
+  *  samples/taskBarIcon/makefile.bcc
+  *  samples/taskBarIcon/makefile.gcc
+  *  samples/taskBarIcon/makefile.vc
+  *  samples/text/GNUmakefile
+  *  samples/text/makefile.bcc
+  *  samples/timer/GNUmakefile
+  *  samples/timer/makefile.bcc
+  *  samples/timer/makefile.gcc
+  *  samples/timer/makefile.vc
+  *  samples/toolbar/GNUmakefile
+  *  samples/toolbar/makefile.bcc
+  *  samples/toolbar/makefile.gcc
+  *  samples/toolbar/makefile.vc
+  *  samples/treectrl/GNUmakefile
+  *  samples/treectrl/makefile.bcc
+  *  samples/treectrl/makefile.gcc
+  *  samples/treectrl/makefile.vc
+  *  samples/wxget/GNUmakefile
+  *  samples/wxwindow/GNUmakefile
+  *  tests/evtdefcheck/GNUmakefile
+  *  tests/evtdefcheck/makefile.bcc
+  *  tests/evtdefcheck/makefile.gcc
+  *  tests/evtdefcheck/makefile.vc
+  *  tests/socketCli/GNUmakefile
+  *  tests/socketCli/makefile.bcc
+  *  tests/socketCli/makefile.gcc
+  *  tests/socketCli/makefile.vc
+  *  tests/socketSrv/GNUmakefile
+  *  tests/socketSrv/makefile.bcc
+  *  tests/socketSrv/makefile.gcc
+  *  tests/socketSrv/makefile.vc
+     * rebuilded makefiles per last changes in "tmpl_hrb.bkl"
+
+  *  include/wxHarbour/wxbase/wx_XmlDocument.h
+  *  src/wxbase/xmlclasses/wx_XmlDocument.cpp
+  *  src/wxbase/xmlclasses/wxhXmlDocument.prg
+
+  *  wxharbour.bkl
+     * reverted last change in this file
+
 2009-11-09 15:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   *  wxharbour.bkl

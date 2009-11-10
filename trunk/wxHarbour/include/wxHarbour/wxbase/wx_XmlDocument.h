@@ -30,5 +30,5 @@ public:
 
   wx_XmlDocument( const wxString& filename, const wxString& encoding = wxT("UTF-8") ) : wxXmlDocument( filename, encoding ) {}
 
-  ~wx_XmlDocument();
+  //~wx_XmlDocument();
 };

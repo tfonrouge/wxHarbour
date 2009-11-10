@@ -34,8 +34,8 @@ CXX = g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 
 
-# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
-HBCOMPILER ?= harbour
+# Linked against static or shared Harbour libraries [static,shared]
+HBLINKMODE ?= shared
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -118,18 +118,16 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include -W \
-	-Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-I/usr/local/include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) \
-	-fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include -W \
-	-Wall -O2 $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) \
-	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-I/usr/local/include/wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) \
-	-fno-strict-aliasing `wx-config --cxxflags`
+WXHARBOUR_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
+	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
+	-D__HARBOUR__ -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
+	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
+	-D__HARBOUR__ -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
@@ -342,8 +340,8 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
 	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
-	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/$(HBCOMPILER) \
-	-I/usr/local/include/$(HBCOMPILER) -I/usr/include -I/usr/local/include \
+	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/harbour \
+	-I/usr/local/include/harbour -I/usr/include -I/usr/local/include \
 	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
 	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour
 
@@ -374,12 +372,6 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-HBCC_DEFINE = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-HBCC_DEFINE = -D__XHARBOUR__
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_2 = -g
