@@ -28,8 +28,8 @@ LDFLAGS ?=
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL ?= $(HB_INSTALL_PREFIX)
 
-# [x]Harbour compiler used (www.harbour-project.org  or  www.xharbour.com) [harbour,xharbour]
-HBCOMPILER ?= harbour
+# Linked against static or shared Harbour libraries [static,shared]
+HBLINKMODE ?= shared
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -124,7 +124,7 @@ PREFIX = $(HBPATH_INSTALL)
 DBBROWSER_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
 	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
 	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
-	-I..\..\include\wxHarbour $(CPPFLAGS) $(HBCC_DEFINE) -fno-strict-aliasing
+	-I..\..\include\wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
 DBBROWSER_OBJECTS =  \
 	$(__BUILDDIR__)\dbbrowser_dbbrowser.o
 DBBROWSER_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
@@ -143,160 +143,6 @@ __HBMTFLAG__ = -DHB_MT
 endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
-endif
-ifeq ($(HBCOMPILER),harbour)
-HBCC_DEFINE = -D__HARBOUR__
-endif
-ifeq ($(HBCOMPILER),xharbour)
-HBCC_DEFINE = -D__XHARBOUR__
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_VM_p = -lhbvm$(__HBMTLIB__)
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_VM_p = -lvm$(__HBMTLIB__)
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_PP_p = -lhbpp
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_PP_p = -lpp
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RTL_p = -lhbrtl
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RTL_p = -lrtl
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDD_p = -lhbrdd
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDD_p = -lrdd
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDFPT_p = -lrddfpt
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDFPT_p = -ldbffpt
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDCDX_p = -lrddcdx
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDCDX_p = -ldbfcdx
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_RDDNTX_p = -lrddntx
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_RDDNTX_p = -ldbfntx
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_USRRDD_p = -lhbusrrdd
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_USRRDD_p = -lusrrdd
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_MACRO_p = -lhbmacro
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_MACRO_p = -lmacro
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_COMMON_p = -lhbcommon
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_COMMON_p = -lcommon
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_LANG_p = -lhblang
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_LANG_p = -llang
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_CPAGE_p = -lhbcpage
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_CPAGE_p = -lcodepage
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_DEBUG_p = -lhbdebug
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_DEBUG_p = -ldebug
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_CPLR_p = -lhbcplr
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_CPLR_p = 
-endif
-ifeq ($(HBCOMPILER),harbour)
-__LIB_PCRE_p = -lhbpcre
-endif
-ifeq ($(HBCOMPILER),xharbour)
-__LIB_PCRE_p = -lpcrepos
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_FM),yes)
-__LIB_FM_p = -lhbfm
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_FM),yes)
-__LIB_FM_p = -lfm
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_CT),yes)
-__LIB_CT_p = -lhbct
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_CT),yes)
-__LIB_CT_p = -lct
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_TIP),yes)
-__LIB_TIP_p = -lhbtip
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_TIP),yes)
-__LIB_TIP_p = -ltip
-endif
-endif
-ifeq ($(HBCOMPILER),harbour)
-ifeq ($(HBLIB_HBNETIO),yes)
-__LIB_HBNETIO_p = -lhbnetio
-endif
-endif
-ifeq ($(HBCOMPILER),xharbour)
-ifeq ($(HBLIB_HBNETIO),yes)
-__LIB_HBNETIO_p = -lnotyet
-endif
-endif
-ifeq ($(HBLIB_GTCGI),yes)
-__LIB_GTCGI_p = -lgtcgi
-endif
-ifeq ($(HBLIB_GTSTD),yes)
-__LIB_GTSTD_p = -lgtstd
-endif
-ifeq ($(HBLIB_GTPCA),yes)
-__LIB_GTPCA_p = -lgtpca
-endif
-ifeq ($(HBLIB_GTXVT),yes)
-__LIB_GTXVT_p = -lgtxvt
-endif
-ifeq ($(HBLIB_GTWIN),yes)
-__LIB_GTWIN_p = -lgtwin
-endif
-ifeq ($(HBLIB_GTWVT),yes)
-__LIB_GTWVT_p = -lgtwvt
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)
@@ -317,6 +163,93 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBEXTERN_p = -lhbextern
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBVM_p = -lhbvm$(__HBMTLIB__)
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBRTL_p = -lhbrtl
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBLANG_p = -lhblang
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBCPAGE_p = -lhbcpage
+endif
+ifeq ($(HBLIB_GTCGI),yes)
+__LIB_GTCGI_p = -lgtcgi
+endif
+ifeq ($(HBLIB_GTSTD),yes)
+__LIB_GTSTD_p = -lgtstd
+endif
+ifeq ($(HBLIB_GTPCA),yes)
+__LIB_GTPCA_p = -lgtpca
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBRDD_p = -lhbrdd
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBUDDALL_p = -lhbuddall
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBUSRRDD_p = -lhbusrrdd
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDNTX_p = -lrddntx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDCDX_p = -lrddcdx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDNSX_p = -lrddnsx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_RDDFPT_p = -lrddfpt
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBHSX_p = -lhbhsx
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBSIX_p = -lhbsix
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBMACRO_p = -lhbmacro
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBPP_p = -lhbpp
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBCOMMON_p = -lhbcommon
+endif
+ifeq ($(HBLINKMODE),static)
+__LIB_HBPCRE_p = -lhbpcre
+endif
+ifeq ($(HBLIB_FM),yes)
+__LIB_HBFM_p = -lhbfm
+endif
+ifeq ($(HBLIB_CT),yes)
+__LIB_HBCT_p = -lhbct
+endif
+ifeq ($(HBLIB_TIP),yes)
+__LIB_HBTIP_p = -lhbtip
+endif
+ifeq ($(HBLIB_HBNETIO),yes)
+__LIB_HBNETIO_p = -lhbnetio
+endif
+ifeq ($(HBLIB_GTXVT),yes)
+__LIB_GTXVT_p = -lgtxvt
+endif
+ifeq ($(HBLIB_GTWIN),yes)
+__LIB_GTWIN_p = -lgtwin
+endif
+ifeq ($(HBLIB_GTWVT),yes)
+__LIB_GTWVT_p = -lgtwvt
+endif
+ifeq ($(HBLINKMODE),shared)
+__SLIB_HARBOUR_p = -lharbour
 endif
 ifeq ($(WX_ENCODING),unicode)
 p = -D_UNICODE
@@ -362,7 +295,7 @@ clean:
 	-if exist .\dbbrowser.exe del .\dbbrowser.exe
 
 .\dbbrowser.exe: $(DBBROWSER_OBJECTS)
-	$(CXX) -o $@ $(DBBROWSER_OBJECTS)  $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\gcc_lib -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_VM_p) $(__LIB_PP_p) $(__LIB_RTL_p) $(__LIB_RDD_p) $(__LIB_RDDFPT_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNTX_p) -lhbsix $(__LIB_USRRDD_p) $(__LIB_MACRO_p) $(__LIB_COMMON_p) $(__LIB_LANG_p) $(__LIB_CPAGE_p) $(__LIB_DEBUG_p) $(__LIB_CPLR_p) $(__LIB_PCRE_p) $(__LIB_FM_p) $(__LIB_CT_p) $(__LIB_TIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__WXHLIBNAME_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(DBBROWSER_OBJECTS)  -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 run: all
 	.\dbbrowser.exe

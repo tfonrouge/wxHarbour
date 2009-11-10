@@ -25,10 +25,10 @@ CPPFLAGS =
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(%HB_INSTALL_PREFIX)
 
-# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
-#   harbour - www.harbour-project.org
-#   xharbour - www.xharbour.com
-HBCOMPILER = harbour
+# Linked against static or shared Harbour libraries [static,shared]
+#   static - Linked against static
+#   shared - shared Harbour libraries
+HBLINKMODE = shared
 
 # [x]Harbour compiler executable name 
 HBCC = harbour
@@ -162,13 +162,6 @@ WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 !endif
 !endif
-HBCC_DEFINE =
-!ifeq HBCOMPILER harbour
-HBCC_DEFINE = -D__HARBOUR__
-!endif
-!ifeq HBCOMPILER xharbour
-HBCC_DEFINE = -D__XHARBOUR__
-!endif
 __WX_DEBUG_INFO_2 =
 !ifeq WX_BUILD debug
 __WX_DEBUG_INFO_2 = -d2
@@ -202,7 +195,7 @@ __WX_LIBID_FILENAMES = u
 
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" &
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" &
-	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" &
+	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBLINKMODE="$(HBLINKMODE)" &
 	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" &
 	HBLIB_HBNETIO="$(HBLIB_HBNETIO)" HBLIB_FM="$(HBLIB_FM)" &
 	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" &
@@ -219,12 +212,12 @@ WXHARBOUR_CFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2
 	-i=include\wxHarbour -d__WXMSW__ -i=$(HB_INC_PATH)\wxHarbour &
 	-i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) &
-	$(HBCC_DEFINE)
+	-D__HARBOUR__
 WXHARBOUR_CXXFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) &
 	$(__WX_DEBUG_INFO_2) -i=include\wxHarbour -d__WXMSW__ &
 	-i=$(HB_INC_PATH)\wxHarbour -i=$(WX_PATH)\Include &
 	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) /fh $(CPPFLAGS) &
-	$(HBCC_DEFINE) -xs
+	-D__HARBOUR__ -xs
 WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj &

@@ -25,10 +25,10 @@ CPPFLAGS =
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
 
-# [x]Harbour compiler used (www.harbour-project.org	 or	 www.xharbour.com) [harbour,xharbour]
-#   harbour - www.harbour-project.org
-#   xharbour - www.xharbour.com
-HBCOMPILER = harbour
+# Linked against static or shared Harbour libraries [static,shared]
+#   static - Linked against static
+#   shared - shared Harbour libraries
+HBLINKMODE = shared
 
 # [x]Harbour compiler executable name 
 HBCC = harbour
@@ -116,7 +116,7 @@ WX_BUILD = release
 
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCOMPILER="$(HBCOMPILER)" \
+	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBLINKMODE="$(HBLINKMODE)" \
 	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" \
 	HBLIB_HBNETIO="$(HBLIB_HBNETIO)" HBLIB_FM="$(HBLIB_FM)" \
 	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
@@ -133,12 +133,12 @@ WXHARBOUR_CFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 $(p)
 	$(p_0) $(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
 	/Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour \
 	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	$(CPPFLAGS) $(HBCC_DEFINE)
+	$(CPPFLAGS) -D__HARBOUR__
 WXHARBOUR_CXXFLAGS = /MD$(__WX_DEBUG_INFO_8) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 \
 	$(p) $(p_0) $(__WX_DEBUG_INFO_5) $(p_1) /Fd$(__BUILDDIR__)\$(WXHLIBNAME).pdb \
 	/Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour \
 	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(__WX_LIBID_FILENAMES) \
-	/GR /EHsc /YX $(CPPFLAGS) $(HBCC_DEFINE)
+	/GR /EHsc /YX $(CPPFLAGS) -D__HARBOUR__
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhutils.obj \
@@ -343,12 +343,6 @@ WXHLIBNAME = wxHarbour_$(WX_ENCODING)
 !endif
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
-!endif
-!if "$(HBCOMPILER)" == "harbour"
-HBCC_DEFINE = -D__HARBOUR__
-!endif
-!if "$(HBCOMPILER)" == "xharbour"
-HBCC_DEFINE = -D__XHARBOUR__
 !endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_5 = /Zi
