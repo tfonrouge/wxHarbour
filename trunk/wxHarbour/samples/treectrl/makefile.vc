@@ -180,6 +180,15 @@ __LIB_GTSTD_p = gtstd.lib
 !if "$(HBLIB_GTPCA)" == "yes"
 __LIB_GTPCA_p = gtpca.lib
 !endif
+!if "$(HBLIB_GTXVT)" == "yes"
+__LIB_GTXVT_p = gtxvt.lib
+!endif
+!if "$(HBLIB_GTWIN)" == "yes"
+__LIB_GTWIN_p = gtwin.lib
+!endif
+!if "$(HBLIB_GTWVT)" == "yes"
+__LIB_GTWVT_p = gtwvt.lib
+!endif
 !if "$(HBLIBSTYPE)" == "static"
 __LIB_HBRDD_p = hbrdd.lib
 !endif
@@ -230,15 +239,6 @@ __LIB_HBTIP_p = hbtip.lib
 !endif
 !if "$(HBLIB_HBNETIO)" == "yes"
 __LIB_HBNETIO_p = hbnetio.lib
-!endif
-!if "$(HBLIB_GTXVT)" == "yes"
-__LIB_GTXVT_p = gtxvt.lib
-!endif
-!if "$(HBLIB_GTWIN)" == "yes"
-__LIB_GTWIN_p = gtwin.lib
-!endif
-!if "$(HBLIB_GTWVT)" == "yes"
-__LIB_GTWVT_p = gtwvt.lib
 !endif
 !if "$(HBLIBSTYPE)" == "shared"
 __SLIB_HARBOUR_p = harbour-20.lib
@@ -297,7 +297,7 @@ clean:
 
 .\treectrl.exe: $(TREECTRL_OBJECTS)
 	link /NOLOGO /OUT:$@  /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) $(__WX_DEBUG_INFO_8) /pdb:".\treectrl.pdb" $(__WX_DEBUG_INFO_12) /LIBPATH:$(WX_PATH)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
-	$(TREECTRL_OBJECTS)   $(__WXHLIBNAME_p) $(__LIB_HBEXTERN_p) hbdebug.lib $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) hbcplr.lib $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__SLIB_HARBOUR_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib /NODEFAULTLIB:LIBCMT /FORCE
+	$(TREECTRL_OBJECTS)   $(__WXHLIBNAME_p) $(__LIB_HBEXTERN_p) hbdebug.lib $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) hbcplr.lib $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib advapi32.lib ws2_32.lib winspool.lib comctl32.lib comdlg32.lib shell32.lib uuid.lib ole32.lib oleaut32.lib mpr.lib winmm.lib mapi32.lib imm32.lib msimg32.lib wininet.lib
 <<
 
 run: all
