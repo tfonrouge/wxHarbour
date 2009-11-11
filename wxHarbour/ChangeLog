@@ -2,10 +2,14 @@
  * $Id$
  */
 
+2009-11-11 16:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * corrected typo on last commit
+
 2009-11-11 16:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      * using shell cmd on some values
-     % added prefix to BUILDDIR based in `uname' on 'unix' platforms to avoid collisions
+     % added suffix to BUILDDIR based in `uname' on 'unix' platforms to avoid collisions
        (i.e. MacOS and Linux working in the same project)
      * on 'unix' based platforms added Harbour flag -d (define) by using the uname value:
        + HB_OS_LINUX
