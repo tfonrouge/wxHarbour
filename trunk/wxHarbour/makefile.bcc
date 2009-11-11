@@ -44,14 +44,16 @@ CPPFLAGS = -a8 -g0
 LDFLAGS = 
 !endif
 
+# Sets which type of Harbour Libraries will be used at link stage: shared or static
+# If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
+# valid values are [static,shared]
+!ifndef HBLIBSTYPE
+HBLIBSTYPE = static
+!endif
+
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 !ifndef HBPATH_INSTALL
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
-!endif
-
-# Linked against static or shared Harbour libraries [static,shared]
-!ifndef HBLINKMODE
-HBLINKMODE = shared
 !endif
 
 # [x]Harbour compiler executable name 
@@ -198,7 +200,7 @@ WX_BUILD = release
 
 MAKEARGS = -DEXEC_PREFIX="$(EXEC_PREFIX)" -DCC="$(CC)" -DCXX="$(CXX)" \
 	-DCPPFLAGS="$(CPPFLAGS)" -DLDFLAGS="$(LDFLAGS)" \
-	-DHBPATH_INSTALL="$(HBPATH_INSTALL)" -DHBLINKMODE="$(HBLINKMODE)" \
+	-DHBLIBSTYPE="$(HBLIBSTYPE)" -DHBPATH_INSTALL="$(HBPATH_INSTALL)" \
 	-DHBCC="$(HBCC)" -DHBMT="$(HBMT)" -DHBLIB_TIP="$(HBLIB_TIP)" \
 	-DHBLIB_HBNETIO="$(HBLIB_HBNETIO)" -DHBLIB_FM="$(HBLIB_FM)" \
 	-DHBLIB_CT="$(HBLIB_CT)" -DHBLIB_GTWIN="$(HBLIB_GTWIN)" \
