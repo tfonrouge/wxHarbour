@@ -22,8 +22,10 @@ CPPFLAGS ?=
 # Standard linker flags 
 LDFLAGS ?= 
 
-# Linked against static or shared Harbour libraries [static,shared]
-HBLINKMODE ?= shared
+# Sets which type of Harbour Libraries will be used at link stage: shared or static
+# If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
+# valid values are [static,shared]
+HBLIBSTYPE ?= static
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -159,19 +161,19 @@ ifeq ($(WX_ENCODING),unicode)
 __WXHLIBNAME_p = -lwxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBEXTERN_p = -lhbextern
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBVM_p = -lhbvm$(__HBMTLIB__)
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBRTL_p = -lhbrtl
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBLANG_p = -lhblang
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBCPAGE_p = -lhbcpage
 endif
 ifeq ($(HBLIB_GTCGI),yes)
@@ -195,43 +197,43 @@ endif
 ifeq ($(HBLIB_GTSLN),yes)
 __LIB_GTSLN_p = -lgtsln
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBRDD_p = -lhbrdd
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBUDDALL_p = -lhbuddall
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBUSRRDD_p = -lhbusrrdd
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_RDDNTX_p = -lrddntx
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_RDDCDX_p = -lrddcdx
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_RDDNSX_p = -lrddnsx
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_RDDFPT_p = -lrddfpt
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBHSX_p = -lhbhsx
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBSIX_p = -lhbsix
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBMACRO_p = -lhbmacro
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBPP_p = -lhbpp
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBCOMMON_p = -lhbcommon
 endif
-ifeq ($(HBLINKMODE),static)
+ifeq ($(HBLIBSTYPE),static)
 __LIB_HBPCRE_p = -lhbpcre
 endif
 ifeq ($(HBLIB_FM),yes)
@@ -246,7 +248,7 @@ endif
 ifeq ($(HBLIB_HBNETIO),yes)
 __LIB_HBNETIO_p = -lhbnetio
 endif
-ifeq ($(HBLINKMODE),shared)
+ifeq ($(HBLIBSTYPE),shared)
 __SLIB_HARBOUR_p = -lharbour
 endif
 ifeq ($(HBLIB_GTCRS),yes)

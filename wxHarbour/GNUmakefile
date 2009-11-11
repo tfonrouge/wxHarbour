@@ -19,8 +19,11 @@ prefix ?= /usr/local
 # Destination root (/ is used if empty) 
 DESTDIR ?= 
 
-# Compiler flags to link shared library 
-LINK_DLL_FLAGS ?= -shared
+#  
+AR ?= ar
+
+#  
+RANLIB ?= ranlib
 
 # C compiler 
 CC = gcc
@@ -31,13 +34,10 @@ CXX = g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 
 
-# Standard linker flags 
-LDFLAGS ?= 
-
 # Sets which type of Harbour Libraries will be used at link stage: shared or static
 # If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
 # valid values are [static,shared]
-HBLIBSTYPE ?= shared
+HBLIBSTYPE ?= static
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -102,9 +102,6 @@ HBWARNL ?= 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL ?= 2
 
-# Suffix '64' to lib path on x86_64 machines 
-HB_LIB_ARCH ?= `if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi`
-
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj/gcc_unix
 
@@ -123,20 +120,16 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-_WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
-	"-Wl,--start-group" ; fi`
-_WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
-	"-Wl,--end-group" ; fi`
 WXHARBOUR_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
 	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour -fPIC -DPIC \
-	$(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
+	-D__HARBOUR__ -fno-strict-aliasing
 WXHARBOUR_CXXFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
 	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour -fPIC -DPIC \
-	$(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing `wx-config --cxxflags`
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
+	-D__HARBOUR__ -fno-strict-aliasing `wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
@@ -349,13 +342,13 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
 	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
-	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi`
+	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/harbour \
+	-I/usr/local/include/harbour -I/usr/include -I/usr/local/include \
+	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
+	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour
 
 ### Conditionally set variables: ###
 
-ifeq ($(HBMT),yes)
-__HBMTLIB__ = mt
-endif
 ifeq ($(HBMT),yes)
 __HBMTFLAG__ = -DHB_MT
 endif
@@ -382,116 +375,14 @@ ifeq ($(WX_ENCODING),unicode)
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
 endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBEXTERN_p = -lhbextern
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBVM_p = -lhbvm$(__HBMTLIB__)
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBRTL_p = -lhbrtl
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBLANG_p = -lhblang
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBCPAGE_p = -lhbcpage
-endif
-ifeq ($(HBLIB_GTCGI),yes)
-__LIB_GTCGI_p = -lgtcgi
-endif
-ifeq ($(HBLIB_GTSTD),yes)
-__LIB_GTSTD_p = -lgtstd
-endif
-ifeq ($(HBLIB_GTPCA),yes)
-__LIB_GTPCA_p = -lgtpca
-endif
-ifeq ($(HBLIB_GTTRM),yes)
-__LIB_GTTRM_p = -lgttrm
-endif
-ifeq ($(HBLIB_GTXWC),yes)
-__LIB_GTXWC_p = -lgtxwc
-endif
-ifeq ($(HBLIB_GTCRS),yes)
-__LIB_GTCRS_p = -lgtcrs
-endif
-ifeq ($(HBLIB_GTSLN),yes)
-__LIB_GTSLN_p = -lgtsln
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBRDD_p = -lhbrdd
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBUDDALL_p = -lhbuddall
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBUSRRDD_p = -lhbusrrdd
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_RDDNTX_p = -lrddntx
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_RDDCDX_p = -lrddcdx
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_RDDNSX_p = -lrddnsx
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_RDDFPT_p = -lrddfpt
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBHSX_p = -lhbhsx
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBSIX_p = -lhbsix
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBMACRO_p = -lhbmacro
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBPP_p = -lhbpp
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBCOMMON_p = -lhbcommon
-endif
-ifeq ($(HBLIBSTYPE),static)
-__LIB_HBPCRE_p = -lhbpcre
-endif
-ifeq ($(HBLIB_FM),yes)
-__LIB_HBFM_p = -lhbfm
-endif
-ifeq ($(HBLIB_CT),yes)
-__LIB_HBCT_p = -lhbct
-endif
-ifeq ($(HBLIB_TIP),yes)
-__LIB_HBTIP_p = -lhbtip
-endif
-ifeq ($(HBLIB_HBNETIO),yes)
-__LIB_HBNETIO_p = -lhbnetio
-endif
-ifeq ($(HBLIBSTYPE),shared)
-__SLIB_HARBOUR_p = -lharbour
+ifeq ($(WX_BUILD),debug)
+__WX_DEBUG_INFO_2 = -g
 endif
 ifeq ($(WX_ENCODING),unicode)
 __D_WX_UNICODE_p = -D_UNICODE
 endif
 ifeq ($(WX_BUILD),debug)
 __D_WX_DEBUG_p = -D__WXDEBUG__
-endif
-ifeq ($(HBLIB_GTCRS),yes)
-__LIB_NCURSES_p = -lncurses
-endif
-ifeq ($(HBLIB_GTSLN),yes)
-__LIB_SLANG_p = -lslang
-endif
-ifeq ($(HBLIB_GPM),yes)
-__LIB_GPM_p = -lgpm
-endif
-ifeq ($(HBLIB_GTXWC),yes)
-__LIB_X11_p = -lX11
-endif
-ifeq ($(WX_BUILD),debug)
-__WX_DEBUG_INFO = -g
 endif
 
 
@@ -501,7 +392,7 @@ $(__BUILDDIR__):
 
 ### Targets: ###
 
-all: $(__BUILDDIR__)/lib$(WXHLIBNAME).so
+all: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 
 install: install_wxHarbour install_wxHarbour_headers
 
@@ -510,21 +401,20 @@ uninstall: uninstall_wxHarbour uninstall_wxHarbour_headers
 clean: 
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
-	rm -f $(__BUILDDIR__)/lib$(WXHLIBNAME).so
-	rm -f $(__BUILDDIR__)/lib$(WXHLIBNAME).so
+	rm -f $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	-(cd demos && $(MAKE) clean)
 
-$(__BUILDDIR__)/lib$(WXHLIBNAME).so: $(WXHARBOUR_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(WXHARBOUR_OBJECTS)  -L/usr/lib$(HB_LIB_ARCH)/harbour -L/usr/local/lib$(HB_LIB_ARCH)/harbour -L/usr/X11R6/lib $(__WX_DEBUG_INFO) $(LDFLAGS)  $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+$(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
+	rm -f $@
+	$(AR) rcu $@ $(WXHARBOUR_OBJECTS)
+	$(RANLIB) $@
 
-install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).so
+install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
-	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).so $(DESTDIR)$(prefix)/lib
-	install -c $(__BUILDDIR__)/lib$(WXHLIBNAME).so $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(prefix)/lib
 
 uninstall_wxHarbour: 
-	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).so
-	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).so
+	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
 	$(INSTALL) -d $(DESTDIR)$(prefix)
@@ -540,10 +430,10 @@ uninstall_wxHarbour_headers:
 	rm -f $(DESTDIR)$(prefix)/$$f; \
 	done
 
-demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).so
+demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	(cd demos && $(MAKE) all)
 
-sudoinstall: $(__BUILDDIR__)/lib$(WXHLIBNAME).so
+sudoinstall: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
 	sudo make install
 
 $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg

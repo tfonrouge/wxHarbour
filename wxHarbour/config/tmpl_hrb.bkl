@@ -3,8 +3,8 @@
 <!-- $Id$ -->
 
 <!-- Common Harbour template for Bakefiles	-->
-<!-- (C) 2009 Teo Fonrouge. WindTelSoft			-->
-<!-- v0.7																		-->
+<!-- (C) 2009 Teo Fonrouge. WindTelSoft		-->
+<!-- v0.8									-->
 
 <makefile>
 
@@ -38,6 +38,17 @@
 			-Wl,--end-group
 		</set>
 	</if>
+	
+	<option name="HBLIBSTYPE">
+		<default-value>static</default-value>
+		<description>
+Sets which type of Harbour Libraries will be used at link stage: shared or static
+If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
+valid values are
+		</description>
+		<values>static,shared</values>
+		<values-description>HBLIBSTYPE=shared : link with shared Harbour libraries,HBLIBSTYPE=static : link with static Harbour libraries</values-description>
+	</option>
 
 	<if cond="FORMAT!='gnu'">
 		<set var="HB_INSTALL_PREFIX">
@@ -54,13 +65,6 @@
 		</set>
 	</if>
 	
-	<option name="HBLINKMODE">
-		<values>static,shared</values>
-		<values-description>Linked against static,shared Harbour libraries</values-description>
-		<default-value>shared</default-value>
-		<description>Linked against static or shared Harbour libraries</description>
-	</option>
-
 	<option name="HBCC">
 		<default-value>harbour</default-value>
 		<description>
@@ -247,15 +251,21 @@ Link in the Harbour TIP library
 		<!-- shared libraries names -->
 		
 	<set var="SLIB_HARBOUR">
-		<if cond="HBLINKMODE=='shared'">
+		<if cond="HBLIBSTYPE=='shared' and TOOLSET!='win32'">
 			harbour
+		</if>
+		<if cond="HBLIBSTYPE=='shared' and TOOLSET=='win32' and COMPILER!='bcc'">
+			harbour-20
+		</if>
+		<if cond="HBLIBSTYPE=='shared' and TOOLSET=='win32' and COMPILER=='bcc'">
+			harbour-20-bcc
 		</if>
 	</set>
 		
 		<!-- static/shared libraries names -->
 
 	<set var="LIB_HBEXTERN">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbextern
 		</if>
 	</set>
@@ -265,25 +275,25 @@ Link in the Harbour TIP library
 	</set>
 
 	<set var="LIB_HBVM">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbvm$(__HBMTLIB__)
 		</if>
 	</set>
 
 	<set var="LIB_HBRTL">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbrtl
 		</if>
 	</set>
 
 	<set var="LIB_HBLANG">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hblang
 		</if>
 	</set>
 
 	<set var="LIB_HBCPAGE">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbcpage
 		</if>
 	</set>
@@ -307,61 +317,61 @@ Link in the Harbour TIP library
 	</set>
 
 	<set var="LIB_HBRDD">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbrdd
 		</if>
 	</set>
 
 	<set var="LIB_HBUDDALL">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbuddall
 		</if>
 	</set>
 
 	<set var="LIB_HBUSRRDD">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbusrrdd
 		</if>
 	</set>
 
 	<set var="LIB_RDDNTX">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			rddntx
 		</if>
 	</set>
 
 	<set var="LIB_RDDCDX">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			rddcdx
 		</if>
 	</set>
 
 	<set var="LIB_RDDNSX">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			rddnsx
 		</if>
 	</set>
 
 	<set var="LIB_RDDFPT">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			rddfpt
 		</if>
 	</set>
 
 	<set var="LIB_HBHSX">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbhsx
 		</if>
 	</set>
 
 	<set var="LIB_HBSIX">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbsix
 		</if>
 	</set>
 
 	<set var="LIB_HBMACRO">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbmacro
 		</if>
 	</set>
@@ -371,19 +381,19 @@ Link in the Harbour TIP library
 	</set>
 
 	<set var="LIB_HBPP">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbpp
 		</if>
 	</set>
 
 	<set var="LIB_HBCOMMON">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbcommon
 		</if>
 	</set>
 
 	<set var="LIB_HBPCRE">
-		<if cond="HBLINKMODE=='static'">
+		<if cond="HBLIBSTYPE=='static'">
 			hbpcre
 		</if>
 	</set>
@@ -826,47 +836,42 @@ Where is wxWidgets installed
 		<if cond="TOOLSET=='win32'">
 			<define>__WXMSW__</define>
 			<include>$(HB_INC_PATH)/wxHarbour</include>
+			<include>$(WX_PATH)/Include</include>
+			<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
 		</if>
 		<if cond="TOOLSET=='unix'">
 			<include>/usr/include/wxHarbour</include>
 			<include>/usr/local/include/wxHarbour</include>
 		</if>
 	</template>
+	
+	<template id="__wxwidgets_libs">
+		<if cond="TOOLSET=='unix'">
+			<ldlibs>`wx-config --libs`</ldlibs>
+		</if>
+		<if cond="TOOLSET=='win32'">
+			<lib-path>$(WX_PATH)/lib/$(COMPILER)_lib</lib-path>
+		</if>
+		<if cond="TOOLSET=='win32'">
+			<sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_aui</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_core</sys-lib>
+			<sys-lib>wxbase28$(WX_LIBID)</sys-lib>
+			<sys-lib>wxtiff</sys-lib>
+			<sys-lib>wxjpeg</sys-lib>
+			<sys-lib>wxpng</sys-lib>
+			<sys-lib>wxzlib</sys-lib>
+			<sys-lib>wxregex$(WX_LIBID)</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_adv</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_html</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_xrc</sys-lib>
+			<sys-lib>wxbase28$(WX_LIBID)_net</sys-lib>
+			<sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
+			<sys-lib>wxexpat</sys-lib>
+		</if>
+	</template>
 
-	<define-rule name="harbour-lib" extends="lib">
-		<template template="__commands_harbour">
-		</template>
-	</define-rule>
-
-	<define-rule name="wxharbour-lib" extends="harbour-lib">
-		<template template="wx-common-build">
-			<if cond="TOOLSET=='win32'">
-				<include>$(WX_PATH)/Include</include>
-				<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
-			</if>
-		</template>
-	</define-rule>
-
-	<define-rule name="harbour-dll" extends="dll">
-		<template template="__commands_harbour">
-		</template>
-		<template template="__harbour_libs">
-		</template>
-	</define-rule>
-
-	<define-rule name="wxharbour-dll" extends="harbour-dll">
-		<template template="wx-common-build">
-			<if cond="TOOLSET=='unix'">
-				<ldlibs>`wx-config --libs`</ldlibs>
-			</if>
-			<if cond="TOOLSET=='win32'">
-				<include>$(WX_PATH)/Include</include>
-				<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
-			</if>
-		</template>
-	</define-rule>
-
-	<template id="common-harbour-exebuild">
+	<template id="__system_libs_base">
 		<if cond="TOOLSET=='unix'">
 			<sys-lib>m</sys-lib>
 			<sys-lib>dl</sys-lib>
@@ -894,15 +899,47 @@ Where is wxWidgets installed
 				<ldlibs>/NODEFAULTLIB:LIBCMT /FORCE</ldlibs>
 			</if>
 		</if>
-		<dirname>.</dirname>
 	</template>
+
+	<define-rule name="harbour-lib" extends="lib">
+		<template template="__commands_harbour">
+		</template>
+	</define-rule>
+
+	<define-rule name="wxharbour-lib" extends="harbour-lib">
+		<template template="wx-common-build">
+		</template>
+	</define-rule>
+
+	<define-rule name="harbour-dll" extends="dll">
+		<template template="__commands_harbour">
+		</template>
+		<template template="__harbour_libs">
+		</template>
+		<template template="__system_libs_base">
+		</template>
+	</define-rule>
+
+	<define-rule name="wxharbour-dll" extends="dll">
+		<template template="__commands_harbour">
+		</template>
+		<template template="__harbour_libs">
+		</template>
+		<template template="wx-common-build">
+		</template>
+		<template template="__wxwidgets_libs">
+		</template>
+		<template template="__system_libs_base">
+		</template>
+	</define-rule>
 
 	<define-rule name="harbour-exe" extends="exe">
 		<template template="__commands_harbour">
 		</template>
 		<template template="__harbour_libs">
 		</template>
-		<template template="common-harbour-exebuild">
+		<template template="__system_libs_base">
+			<dirname>.</dirname>
 		</template>
 	</define-rule>
 
@@ -914,33 +951,11 @@ Where is wxWidgets installed
 		<template template="__harbour_libs">
 		</template>
 		<template template="wx-common-build">
-			<if cond="TOOLSET=='unix'">
-				<ldlibs>`wx-config --libs`</ldlibs>
-			</if>
-			<if cond="TOOLSET=='win32'">
-				<include>$(WX_PATH)/Include</include>
-				<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
-				<lib-path>$(WX_PATH)/lib/$(COMPILER)_lib</lib-path>
-			</if>
-			<if cond="TOOLSET=='win32'">
-				<sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>
-				<sys-lib>wxmsw28$(WX_LIBID)_aui</sys-lib>
-				<sys-lib>wxmsw28$(WX_LIBID)_core</sys-lib>
-				<sys-lib>wxbase28$(WX_LIBID)</sys-lib>
-				<sys-lib>wxtiff</sys-lib>
-				<sys-lib>wxjpeg</sys-lib>
-				<sys-lib>wxpng</sys-lib>
-				<sys-lib>wxzlib</sys-lib>
-				<sys-lib>wxregex$(WX_LIBID)</sys-lib>
-				<sys-lib>wxmsw28$(WX_LIBID)_adv</sys-lib>
-				<sys-lib>wxmsw28$(WX_LIBID)_html</sys-lib>
-				<sys-lib>wxmsw28$(WX_LIBID)_xrc</sys-lib>
-				<sys-lib>wxbase28$(WX_LIBID)_net</sys-lib>
-				<sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
-				<sys-lib>wxexpat</sys-lib>
-			</if>
 		</template>
-		<template template="common-harbour-exebuild">
+		<template template="__wxwidgets_libs">
+		</template>
+		<template template="__system_libs_base">
+			<dirname>.</dirname>
 		</template>
 	</define-rule>
 

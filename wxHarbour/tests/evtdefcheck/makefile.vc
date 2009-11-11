@@ -25,13 +25,15 @@ CPPFLAGS =
 # Standard linker flags 
 LDFLAGS = 
 
+# Sets which type of Harbour Libraries will be used at link stage: shared or static
+# If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
+# valid values are [static,shared]
+#   static - HBLIBSTYPE=shared : link with shared Harbour libraries
+#   shared - HBLIBSTYPE=static : link with static Harbour libraries
+HBLIBSTYPE = static
+
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
-
-# Linked against static or shared Harbour libraries [static,shared]
-#   static - Linked against static
-#   shared - shared Harbour libraries
-HBLINKMODE = shared
 
 # [x]Harbour compiler executable name 
 HBCC = harbour
@@ -163,19 +165,19 @@ __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING).lib
 !if "$(WX_BUILD)" == "debug" && "$(WX_ENCODING)" == "unicode"
 __WXHLIBNAME_p = wxHarbour_$(WX_ENCODING)-$(WX_BUILD).lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBEXTERN_p = hbextern.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBVM_p = hbvm$(__HBMTLIB__).lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBRTL_p = hbrtl.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBLANG_p = hblang.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBCPAGE_p = hbcpage.lib
 !endif
 !if "$(HBLIB_GTCGI)" == "yes"
@@ -187,43 +189,43 @@ __LIB_GTSTD_p = gtstd.lib
 !if "$(HBLIB_GTPCA)" == "yes"
 __LIB_GTPCA_p = gtpca.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBRDD_p = hbrdd.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBUDDALL_p = hbuddall.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBUSRRDD_p = hbusrrdd.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_RDDNTX_p = rddntx.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_RDDCDX_p = rddcdx.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_RDDNSX_p = rddnsx.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_RDDFPT_p = rddfpt.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBHSX_p = hbhsx.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBSIX_p = hbsix.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBMACRO_p = hbmacro.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBPP_p = hbpp.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBCOMMON_p = hbcommon.lib
 !endif
-!if "$(HBLINKMODE)" == "static"
+!if "$(HBLIBSTYPE)" == "static"
 __LIB_HBPCRE_p = hbpcre.lib
 !endif
 !if "$(HBLIB_FM)" == "yes"
@@ -247,8 +249,8 @@ __LIB_GTWIN_p = gtwin.lib
 !if "$(HBLIB_GTWVT)" == "yes"
 __LIB_GTWVT_p = gtwvt.lib
 !endif
-!if "$(HBLINKMODE)" == "shared"
-__SLIB_HARBOUR_p = harbour.lib
+!if "$(HBLIBSTYPE)" == "shared"
+__SLIB_HARBOUR_p = harbour-20.lib
 !endif
 !if "$(WX_BUILD)" == "debug"
 __WX_DEBUG_INFO_7 = /Zi

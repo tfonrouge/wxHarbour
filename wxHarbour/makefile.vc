@@ -22,13 +22,15 @@ CXX = cl
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS = 
 
+# Sets which type of Harbour Libraries will be used at link stage: shared or static
+# If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
+# valid values are [static,shared]
+#   static - HBLIBSTYPE=shared : link with shared Harbour libraries
+#   shared - HBLIBSTYPE=static : link with static Harbour libraries
+HBLIBSTYPE = static
+
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
 HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
-
-# Linked against static or shared Harbour libraries [static,shared]
-#   static - Linked against static
-#   shared - shared Harbour libraries
-HBLINKMODE = shared
 
 # [x]Harbour compiler executable name 
 HBCC = harbour
@@ -115,11 +117,10 @@ WX_BUILD = release
 ### Variables: ###
 
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" \
-	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBLINKMODE="$(HBLINKMODE)" \
-	HBCC="$(HBCC)" HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" \
-	HBLIB_HBNETIO="$(HBLIB_HBNETIO)" HBLIB_FM="$(HBLIB_FM)" \
-	HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
+	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" HBLIBSTYPE="$(HBLIBSTYPE)" \
+	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCC="$(HBCC)" HBMT="$(HBMT)" \
+	HBLIB_TIP="$(HBLIB_TIP)" HBLIB_HBNETIO="$(HBLIB_HBNETIO)" \
+	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
 	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" \
 	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" \
 	HBLIB_GTPCA="$(HBLIB_GTPCA)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
