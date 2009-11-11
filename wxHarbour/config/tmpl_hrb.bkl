@@ -748,6 +748,12 @@ Where is wxWidgets installed
 			<sys-lib>$(LIB_GTCRS)</sys-lib>
 			<sys-lib>$(LIB_GTSLN)</sys-lib>
 		</if>
+		<if cond="TOOLSET=='win32'">
+			<sys-lib>$(LIB_GTXVT)</sys-lib>
+			<sys-lib>$(LIB_GTWIN)</sys-lib>
+			<sys-lib>$(LIB_GTWVT)</sys-lib>
+			<sys-lib>hbwin</sys-lib>
+		</if>
 		<sys-lib>$(LIB_HBRDD)</sys-lib>
 		<sys-lib>$(LIB_HBUDDALL)</sys-lib>
 		<sys-lib>$(LIB_HBUSRRDD)</sys-lib>
@@ -766,12 +772,6 @@ Where is wxWidgets installed
 		<sys-lib>$(LIB_HBCT)</sys-lib>
 		<sys-lib>$(LIB_HBTIP)</sys-lib>
 		<sys-lib>$(LIB_HBNETIO)</sys-lib>
-		<if cond="TOOLSET=='win32'">
-			<sys-lib>$(LIB_GTXVT)</sys-lib>
-			<sys-lib>$(LIB_GTWIN)</sys-lib>
-			<sys-lib>$(LIB_GTWVT)</sys-lib>
-			<sys-lib>hbwin</sys-lib>
-		</if>
 		<sys-lib>$(SLIB_HARBOUR)</sys-lib>
 		<if cond="COMPILER=='gcc'">
 			<ldlibs>$(_WL_ENDGROUP)</ldlibs>
@@ -884,20 +884,24 @@ Where is wxWidgets installed
 			<sys-lib>kernel32</sys-lib>
 			<sys-lib>user32</sys-lib>
 			<sys-lib>gdi32</sys-lib>
-			<sys-lib>comdlg32</sys-lib>
+			<sys-lib>advapi32</sys-lib>
+			<sys-lib>ws2_32</sys-lib>
 			<sys-lib>winspool</sys-lib>
-			<sys-lib>winmm</sys-lib>
-			<sys-lib>shell32</sys-lib>
 			<sys-lib>comctl32</sys-lib>
+			<sys-lib>comdlg32</sys-lib>
+			<sys-lib>shell32</sys-lib>
+			<sys-lib>uuid</sys-lib>
 			<sys-lib>ole32</sys-lib>
 			<sys-lib>oleaut32</sys-lib>
-			<sys-lib>uuid</sys-lib>
-			<sys-lib>rpcrt4</sys-lib>
-			<sys-lib>advapi32</sys-lib>
-			<sys-lib>wsock32</sys-lib>
-			<if cond="COMPILER=='vc'">
-				<ldlibs>/NODEFAULTLIB:LIBCMT /FORCE</ldlibs>
-			</if>
+			<sys-lib>mpr</sys-lib>
+			<sys-lib>winmm</sys-lib>
+			<sys-lib>mapi32</sys-lib>
+			<sys-lib>imm32</sys-lib>
+			<sys-lib>msimg32</sys-lib>
+			<sys-lib>wininet</sys-lib>
+			<!--if cond="COMPILER=='vc'">
+				<ldlibs>/NODEFAULTLIB:LIBCRT</ldlibs>
+			</if-->
 		</if>
 	</template>
 
