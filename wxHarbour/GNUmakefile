@@ -102,8 +102,11 @@ HBWARNL ?= 3
 # Exit severity level for the Harbour Compiler [0,1,2]
 HBEXITSL ?= 2
 
+# Name of the *nix OS (uname) 
+NIXOS ?= $(shell uname)
+
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc_unix
+__BUILDDIR__ ?= obj/gcc_$(NIXOS)
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -341,11 +344,11 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/taskbar.ch \
 	include/wxHarbour/wxh/textctrl.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; \
-	then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` -I/usr/include/harbour \
-	-I/usr/local/include/harbour -I/usr/include -I/usr/local/include \
-	$(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_UNIX $(HBOSUNIXDEF) \
+	-I/usr/include/harbour -I/usr/local/include/harbour -I/usr/include \
+	-I/usr/local/include $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
+	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
+	-I/usr/local/include/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -374,6 +377,12 @@ ifeq ($(WX_BUILD),debug)
 ifeq ($(WX_ENCODING),unicode)
 WXHLIBNAME = wxHarbour_$(WX_ENCODING)-$(WX_BUILD)
 endif
+endif
+ifeq ($(NIXOS),Darwin)
+HBOSUNIXDEF = -dHB_OS_DARWIN
+endif
+ifeq ($(NIXOS),Linux)
+HBOSUNIXDEF = -dHB_OS_LINUX
 endif
 ifeq ($(WX_BUILD),debug)
 __WX_DEBUG_INFO_2 = -g

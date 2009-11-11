@@ -2,6 +2,51 @@
  * $Id$
  */
 
+2009-11-11 16:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * using shell cmd on some values
+     % added prefix to BUILDDIR based in `uname' on 'unix' platforms to avoid collisions
+       (i.e. MacOS and Linux working in the same project)
+     * on 'unix' based platforms added Harbour flag -d (define) by using the uname value:
+       + HB_OS_LINUX
+       + HB_OS_DARWIN
+       ; HB_OS_UNIX is always present
+
+  *  GNUmakefile
+  *  demos/dbExplorer/GNUmakefile
+  *  demos/helloworld/GNUmakefile
+  *  samples/arrbrowser/GNUmakefile
+  *  samples/auinotebook/GNUmakefile
+  *  samples/bitmapButton/GNUmakefile
+  *  samples/button/GNUmakefile
+  *  samples/checkbox/GNUmakefile
+  *  samples/choice/GNUmakefile
+  *  samples/combobox/GNUmakefile
+  *  samples/dbbrowser/GNUmakefile
+  *  samples/gauge/GNUmakefile
+  *  samples/grid/GNUmakefile
+  *  samples/listbook/GNUmakefile
+  *  samples/menu/GNUmakefile
+  *  samples/networking/GNUmakefile
+  *  samples/notebook/GNUmakefile
+  *  samples/panel/GNUmakefile
+  *  samples/radiobox/GNUmakefile
+  *  samples/sayget/GNUmakefile
+  *  samples/sizers/GNUmakefile
+  *  samples/spinctrl/GNUmakefile
+  *  samples/staticBitmap/GNUmakefile
+  *  samples/taskBarIcon/GNUmakefile
+  *  samples/text/GNUmakefile
+  *  samples/timer/GNUmakefile
+  *  samples/toolbar/GNUmakefile
+  *  samples/treectrl/GNUmakefile
+  *  samples/wxget/GNUmakefile
+  *  samples/wxwindow/GNUmakefile
+  *  tests/evtdefcheck/GNUmakefile
+  *  tests/socketCli/GNUmakefile
+  *  tests/socketSrv/GNUmakefile
+     * regenerated makefiles per last changes in "tmpl_hrb.bkl"
+
 2009-11-11 11:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      ! Fixed define tag for wxharbour-dll rule
