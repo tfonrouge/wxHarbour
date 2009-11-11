@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-11-11 11:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     ! Fixed define tag for wxharbour-dll rule
+
 2009-11-11 10:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      * changed the order of libs for 'win32'
