@@ -91,10 +91,13 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Suffix '64' to lib path on x86_64 machines 
-HB_LIB_ARCH ?= `if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi`
+HB_LIB_ARCH ?= $(shell if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi)
+
+# Name of the *nix OS (uname) 
+NIXOS ?= $(shell uname)
 
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc_unix
+__BUILDDIR__ ?= obj/gcc_$(NIXOS)
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -111,10 +114,10 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-_WL_STARTGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
-	"-Wl,--start-group" ; fi`
-_WL_ENDGROUP = `if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
-	"-Wl,--end-group" ; fi`
+_WL_STARTGROUP = $(shell if gcc --version | grep apple >/dev/null ; then echo "" ; else \
+	echo "-Wl,--start-group" ; fi)
+_WL_ENDGROUP = $(shell if gcc --version | grep apple >/dev/null ; then echo "" ; else echo \
+	"-Wl,--end-group" ; fi)
 EVTDEFCHECK_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
 	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
 	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO) -Iinclude/wxHarbour \
@@ -130,8 +133,7 @@ EVTDEFCHECK_OBJECTS =  \
 	$(__BUILDDIR__)/evtdefcheck_evtdefcheck.o \
 	$(__BUILDDIR__)/evtdefcheck_getdefs.o
 EVTDEFCHECK_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) \
-	-es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_LINUX `if uname | grep \
-	Darwin >/dev/null ; then echo "-dHB_OS_DARWIN" ; else echo "" ; fi` \
+	-es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_UNIX $(HBOSUNIXDEF) \
 	-I/usr/include/harbour -I/usr/local/include/harbour -I/usr/include \
 	-I/usr/local/include $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
 	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
@@ -147,6 +149,12 @@ __HBMTFLAG__ = -DHB_MT
 endif
 ifeq ($(HBBUILD),debug)
 __HBDEBUG__ = -b -d_DEBUG_
+endif
+ifeq ($(NIXOS),Darwin)
+HBOSUNIXDEF = -dHB_OS_DARWIN
+endif
+ifeq ($(NIXOS),Linux)
+HBOSUNIXDEF = -dHB_OS_LINUX
 endif
 ifeq ($(WX_BUILD),release)
 ifeq ($(WX_ENCODING),ansi)

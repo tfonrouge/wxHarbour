@@ -23,10 +23,10 @@
 
 	<if cond="FORMAT=='gnu'">
 		<set var="_WL_STARTGROUP" make_var="1">
-			`if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--start-group" ; fi`
+			$(DOLLAR)(shell if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--start-group" ; fi)
 		</set>
 		<set var="_WL_ENDGROUP" make_var="1">
-			`if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--end-group" ; fi`
+			$(DOLLAR)(shell if gcc --version | grep apple >/dev/null ; then echo "" ; else echo "-Wl,--end-group" ; fi)
 		</set>
 	</if>
 
@@ -484,7 +484,7 @@ Standard flags for Harbour compiler
 
 	<if cond="TOOLSET=='unix'">
 		<set var="__HB_LIB_ARCH">
-			`if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi`
+			$(DOLLAR)(shell if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi)
 		</set>
 	</if>
 
@@ -544,9 +544,16 @@ Where to search for the Harbour compiler
 		<if cond="HBBUILD=='debug'" >-b -d_DEBUG_</if>
 	</set>
 
+	<if cond="TOOLSET=='unix'">
+		<option name="NIXOS">
+			<default-value>$(DOLLAR)(shell uname)</default-value>
+			<description>Name of the *nix OS (uname)</description>
+		</option>
+	</if>
+	
 	<set var="___BUILDDIR__">
 		<if cond="TOOLSET=='unix'">
-			obj/$(COMPILER)_$(TOOLSET)
+			obj/$(COMPILER)_$(NIXOS)
 		</if>
 		<if cond="TOOLSET=='win32'">
 			obj\$(COMPILER)_$(TOOLSET)
@@ -778,18 +785,31 @@ Where is wxWidgets installed
 		</if>
 	</template>
 
+	<if cond="TOOLSET=='unix'">
+		<set var="HBOSUNIXDEF">
+			<if cond="NIXOS=='Darwin'">
+				-dHB_OS_DARWIN
+			</if>
+			<if cond="NIXOS=='Linux'">
+				-dHB_OS_LINUX
+			</if>
+		</set>
+	</if>
+	
 	<template id="__commands_harbour" template="__commands_templ">
 		<set var="__hbflags"/>
 		<set var="__hbflags_mv" eval="0">
 				$(HBFLAGS) $(__hbflags)
 		</set>
-		<set var="__hbflags" append="1">-gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__)</set>
+		<set var="__hbflags" append="1">
+			-gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__)
+		</set>
 		<set var="__hbflags" append="1">
 			<if cond="TOOLSET=='win32'">
 				-dHB_OS_WIN_32
 			</if>
 			<if cond="TOOLSET=='unix'">
-				-dHB_OS_LINUX `if uname | grep Darwin >/dev/null ; then echo "-dHB_OS_DARWIN" ; else echo "" ; fi`
+				-dHB_OS_UNIX $(HBOSUNIXDEF)
 			</if>
 		</set>
 		<set var="__hbflags_var">
