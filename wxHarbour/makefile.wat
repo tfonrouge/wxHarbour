@@ -209,15 +209,15 @@ MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" &
 	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" &
 	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
-	-i=include\wxHarbour -d__WXMSW__ -i=$(HB_INC_PATH)\wxHarbour &
-	-i=$(WX_PATH)\Include &
-	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) &
+WXHARBOUR_CFLAGS = -i$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) $(__WX_DEBUG_INFO_2) &
+	-iinclude\wxHarbour -d__WXMSW__ -i$(HB_INC_PATH)\wxHarbour &
+	-i$(WX_PATH)\Include &
+	-i$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) &
 	-D__HARBOUR__
-WXHARBOUR_CXXFLAGS = -i=$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) &
-	$(__WX_DEBUG_INFO_2) -i=include\wxHarbour -d__WXMSW__ &
-	-i=$(HB_INC_PATH)\wxHarbour -i=$(WX_PATH)\Include &
-	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) /fh $(CPPFLAGS) &
+WXHARBOUR_CXXFLAGS = -i$(HB_INC_PATH) -wx -ot -ox $(p) $(p_0) &
+	$(__WX_DEBUG_INFO_2) -iinclude\wxHarbour -d__WXMSW__ &
+	-i$(HB_INC_PATH)\wxHarbour -i$(WX_PATH)\Include &
+	-i$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES) /fh $(CPPFLAGS) &
 	-D__HARBOUR__ -xs
 WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.obj &
@@ -400,10 +400,10 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.obj
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) &
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -i=$(HB_INC_PATH) $(p) $(p_0) &
-	-i=include\wxHarbour -d__WXMSW__ -i=$(HB_INC_PATH)\wxHarbour &
-	-i=$(WX_PATH)\Include &
-	-i=$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -i$(HB_INC_PATH) $(p) $(p_0) &
+	-iinclude\wxHarbour -d__WXMSW__ -i$(HB_INC_PATH)\wxHarbour &
+	-i$(WX_PATH)\Include &
+	-i$(WX_PATH)\lib\wat_lib\msw$(__WX_LIBID_FILENAMES)
 
 
 all : $(__BUILDDIR__)
