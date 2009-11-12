@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2009-11-12 00:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.wat
+     ! fixed flag for include in Harbour compilation
+       ; TODO: revise this deeplely seems broken in several aspects
+
+  *  src/raddox/TField.prg
+     * added parameter to ::IsValid( showAlert ), defaults to false, and indicates if
+       the alert error is showed or it's passed silently
+     ! Fixed ::Reset on TObjectField's if the linked table has not primary key field
+     ! Fixed ::AsIndexKeyVal to return "" if there is not primary key field on linked table
+
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+     % added ::SeekLast
+
 2009-11-11 16:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * corrected typo on last commit

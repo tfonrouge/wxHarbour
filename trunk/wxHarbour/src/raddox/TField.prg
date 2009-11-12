@@ -114,7 +114,7 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetValidValues
 	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated
-	METHOD IsValid()
+	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
 	METHOD SetAsVariant( Value )
@@ -465,14 +465,17 @@ RETURN NIL
 	IsValid
 	Teo. Mexico 2009
 */
-METHOD FUNCTION IsValid() CLASS TField
+METHOD FUNCTION IsValid( showAlert ) CLASS TField
 	LOCAL validValues
 	LOCAL value
+	LOCAL result
 
 	value := ::GetBuffer()
-
+	
 	IF ::FRequired .AND. Empty( value )
-		wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
+		IF showAlert == .T.
+			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
+		ENDIF
 		RETURN .F.
 	ENDIF
 
@@ -483,33 +486,36 @@ METHOD FUNCTION IsValid() CLASS TField
 	ENDIF
 	 */		 
 		IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( value ) )
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( value ) + "'")
+			IF showAlert == .T.
+				wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( value ) + "'")
+			ENDIF
 			RETURN .F.
 		ENDIF
 	ENDIF
 
 	IF ::ValidValues != NIL
 	
-	validValues := ::GetValidValues()
-		
-	SWITCH ValType( validValues )
+		validValues := ::GetValidValues()
+			
+		SWITCH ValType( validValues )
 		CASE 'A'
-			IF AScan( validValues, {|e| e == value } ) = 0
-				RETURN .F.
-			ENDIF
+			result := AScan( validValues, {|e| e == value } ) > 0
 			EXIT
 		CASE 'H'
-			IF AScan( HB_HKeys( validValues ), {|e| e == value } ) = 0
-				RETURN .F.
-			ENDIF
+			result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
 			EXIT
-		#ifdef __XHARBOUR__
-		DEFAULT
-		#else
 		OTHERWISE
-		#endif
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Value not in 'ValidValues'> '" + AsString( value ) + "'")
+			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Illegal value in 'ValidValues'> " )
+			RETURN .F.
 		ENDSWITCH
+		
+		IF !result
+			IF showAlert == .T.
+				wxhAlert( ::FTable:ClassName + ":" + ::FName + " < value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+			ENDIF
+			RETURN .F.
+		ENDIF
+
 	ENDIF
 
 	IF ::OnValidate == NIL
@@ -580,9 +586,11 @@ METHOD PROCEDURE Reset CLASS TField
 		ELSE
 
 			IF ::IsDerivedFrom( "TObjectField" )
-				value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
-				IF value == NIL
-					value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
+				IF ::LinkedTable:GetPrimaryKeyField() != NIL
+					value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
+					IF value == NIL
+						value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
+					ENDIF
 				ENDIF
 			ELSE
 				value := ::GetEmptyValue()
@@ -629,7 +637,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 				IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
 					::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
 				ENDIF
-
+				
 			ENDIF
 
 		ELSE
@@ -815,7 +823,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	::SetBuffer( Value )
 
 	/* Validate before the physical writting */
-	IF !::IsValid()
+	IF !::IsValid( .T. )
 		::SetBuffer( buffer )  // revert the change
 		RETURN
 	ENDIF
@@ -1506,6 +1514,10 @@ METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
 
 	//pkField := ::LinkedTable:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
 	pkField := ::LinkedTable:GetPrimaryKeyField()
+	
+	IF pkField = NIL
+		RETURN ""
+	ENDIF
 
 RETURN pkField:AsIndexKeyVal( value )
 

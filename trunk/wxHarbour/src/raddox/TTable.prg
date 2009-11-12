@@ -127,6 +127,7 @@ PUBLIC:
 	DEFINE FIELDS
 	DEFINE INDEXES											VIRTUAL
 
+	METHOD BaseSeek( direction, Value, AIndex, SoftSeek )
 	METHOD AddMessageField( MessageName, AField )
 	METHOD Cancel
 	METHOD ChildSource( tableName )
@@ -168,7 +169,8 @@ PUBLIC:
 	METHOD RecUnLock
 	METHOD Refresh
 	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyString Value
-	METHOD Seek( Value, AIndex, SoftSeek )
+	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
+	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
 	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
 	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
 	/*
@@ -406,6 +408,43 @@ METHOD FUNCTION AddRec CLASS TTable
 RETURN Result
 
 /*
+	BaseSeek
+	Teo. Mexico 2007
+*/
+METHOD FUNCTION BaseSeek( direction, Value, index, lSoftSeek ) CLASS TTable
+	LOCAL AIndex
+
+	SWITCH ValType( index )
+	CASE 'U'
+		AIndex := ::FIndex
+		EXIT
+	CASE 'C'
+		IF Empty( index )
+			AIndex := ::PrimaryIndex
+		ELSE
+			AIndex := ::IndexByName( index )
+		ENDIF
+		EXIT
+	CASE 'O'
+		IF index:IsDerivedFrom( "TIndex" )
+			AIndex := index
+			EXIT
+		ENDIF
+	#ifdef __XHARBOUR__
+	DEFAULT
+	#else
+	OTHERWISE
+	#endif
+		RAISE ERROR "Unknown index reference..."
+	ENDSWITCH
+	
+	IF direction = 0
+		RETURN AIndex:BaseSeek( 0, Value, lSoftSeek )
+	ENDIF
+
+RETURN AIndex:BaseSeek( 1, Value, lSoftSeek )
+
+/*
 	Cancel
 	Teo. Mexico 2006
 */
@@ -420,7 +459,7 @@ METHOD PROCEDURE Cancel CLASS TTable
 	SWITCH ::State
 	CASE dsInsert
 		FOR EACH AField IN ::FFieldList
-			IF AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. !AField:IsValid
+			IF AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. !AField:IsValid()
 				AField:Reset()
 			ENDIF
 		NEXT
@@ -1727,39 +1766,6 @@ METHOD PROCEDURE Reset CLASS TTable
 	::FUnderReset := .F.
 
 RETURN
-
-/*
-	Seek
-	Teo. Mexico 2007
-*/
-METHOD FUNCTION Seek( Value, index, lSoftSeek ) CLASS TTable
-	LOCAL AIndex
-
-	SWITCH ValType( index )
-	CASE 'U'
-		AIndex := ::FIndex
-		EXIT
-	CASE 'C'
-		IF Empty( index )
-			AIndex := ::PrimaryIndex
-		ELSE
-			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'O'
-		IF index:IsDerivedFrom( "TIndex" )
-			AIndex := index
-			EXIT
-		ENDIF
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
-	OTHERWISE
-	#endif
-		RAISE ERROR "Unknown index reference..."
-	ENDSWITCH
-
-RETURN AIndex:Seek( Value, lSoftSeek )
 
 /*
 	SetIndexName

@@ -57,8 +57,11 @@ PRIVATE:
 	METHOD SetScopeTop( value )
 PROTECTED:
 PUBLIC:
+
 	METHOD New( Table ) CONSTRUCTOR
+
 	METHOD AddIndex
+	METHOD BaseSeek( direction, keyValue, lSoftSeek )
 	METHOD CustomKeyDel
 	METHOD CustomKeyUpdate
 	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
@@ -77,7 +80,8 @@ PUBLIC:
 	PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
 	PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
 	
-	METHOD Seek( keyValue )
+	METHOD Seek( keyValue, lSoftSeek ) INLINE ::BaseSeek( 0, keyValue, lSoftSeek )
+	METHOD SeekLast( keyValue, lSoftSeek ) INLINE ::BaseSeek( 1, keyValue, lSoftSeek )
 
 PUBLISHED:
 	PROPERTY AutoIncrement READ GetAutoIncrement
@@ -154,6 +158,28 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de/*, cu*/ )
 //	 ::Custom := iif( HB_ISNIL( cu ), .F. , cu )
 
 RETURN Self
+
+/*
+	BaseSeek
+	Teo. Mexico 2007
+*/
+METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
+
+	IF AScan( {dsEdit,dsInsert}, ::FTable:State ) > 0
+		::FTable:Post()
+	ENDIF
+
+	keyValue := ::KeyField:AsIndexKeyVal( keyValue )
+
+	IF direction = 0
+		::FTable:Alias:Seek( ::MasterKeyString + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+	ELSE
+		::FTable:Alias:SeekLast( ::MasterKeyString + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+	ENDIF
+
+	::FTable:GetCurrentRecord()
+
+RETURN ::FTable:Found()
 
 /*
 	CustomKeyDel
@@ -388,24 +414,6 @@ METHOD FUNCTION ScopeTopField( cField, value ) CLASS TIndex
 	LOCAL Result := ::ScopeFieldGet( aKeys, cField, value, ::FScopeTopFields )
 	::SetScopeTop( aKeys )
 RETURN Result
-
-/*
-	Seek
-	Teo. Mexico 2007
-*/
-METHOD FUNCTION Seek( keyValue, lSoftSeek ) CLASS TIndex
-
-	IF AScan( {dsEdit,dsInsert}, ::FTable:State ) > 0
-		::FTable:Post()
-	ENDIF
-
-	keyValue := ::KeyField:AsIndexKeyVal( keyValue )
-
-	::FTable:Alias:Seek( ::MasterKeyString + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
-
-	::FTable:GetCurrentRecord()
-
-RETURN ::FTable:Found()
 
 /*
 	SetCustom
