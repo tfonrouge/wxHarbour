@@ -22,13 +22,13 @@
 #include "wx/bitmap.h"
 
 class wx_StaticBitmap : public wxStaticBitmap
-  {
-  private:
-  protected:
-  public:
+	{
+	private:
+	protected:
+	public:
 
 	wx_StaticBitmap(wxWindow* parent, wxWindowID id, const wxBitmap& label, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = _T("staticBitmap") ) : wxStaticBitmap( parent, id, label, pos, size, style, name ) {}
 	
 	~wx_StaticBitmap();
 	
-  };
+	};

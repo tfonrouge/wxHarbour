@@ -138,19 +138,19 @@ static const char * find_xpm[] = {
  */
 wx_Bitmap* getDefaultBitmap( int i )
 {
-  wx_Bitmap* bitmap;
-  switch ( i ) {
+	wx_Bitmap* bitmap;
+	switch ( i ) {
 	case 0 :
-	  bitmap = new wx_Bitmap( missimg_xpm );
-	  break;
+		bitmap = new wx_Bitmap( missimg_xpm );
+		break;
 	case 1 :
-	  bitmap = new wx_Bitmap( find_xpm );
-	  break;
+		bitmap = new wx_Bitmap( find_xpm );
+		break;
 	default:
-	  bitmap = (wx_Bitmap *) &wxNullBitmap;
-	  break;
-  }
-  return bitmap;
+		bitmap = (wx_Bitmap *) &wxNullBitmap;
+		break;
+	}
+	return bitmap;
 }
 
 /*
@@ -159,7 +159,7 @@ wx_Bitmap* getDefaultBitmap( int i )
  */
 wx_Bitmap::~wx_Bitmap()
 {
-  wxh_ItemListDel_WX( this );
+	wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -168,43 +168,43 @@ wx_Bitmap::~wx_Bitmap()
  */
 HB_FUNC( WXBITMAP_NEW )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
-  
-  wx_Bitmap* bitmap;
-  
-  switch( hb_pcount() )
-  {
+	wxh_ObjParams objParams = wxh_ObjParams();
+	
+	wx_Bitmap* bitmap;
+	
+	switch( hb_pcount() )
+	{
 	case 0 :
-    {
-      bitmap = new wx_Bitmap();
-    }
-	  break;
+		{
+			bitmap = new wx_Bitmap();
+		}
+		break;
 	case 1 :
-    {
-	  if( ISNUM( 1 ) )
-	  {
+		{
+		if( ISNUM( 1 ) )
+		{
 		bitmap = getDefaultBitmap( hb_parni( 1 ) );
-	  }
-	  else
-	  {
+		}
+		else
+		{
 		const char* bits = hb_parc( 1 );
 		bitmap = new wx_Bitmap( &bits );
-	  }
-    }
-	  break;
+		}
+		}
+		break;
 	case 2:
-    {
-      const wxString& name = wxh_parc( 1 );
-      long type = hb_parnl( 2 );	  
-      bitmap = new wx_Bitmap( name, type );
-    }
-	  break;
+		{
+			const wxString& name = wxh_parc( 1 );
+			long type = hb_parnl( 2 );	  
+			bitmap = new wx_Bitmap( name, type );
+		}
+		break;
 	default :
-	  bitmap = new wx_Bitmap();
-	  break;
-  }
-  
-  objParams.Return( bitmap );
+		bitmap = new wx_Bitmap();
+		break;
+	}
+	
+	objParams.Return( bitmap );
 }
 
 /*
@@ -213,12 +213,12 @@ HB_FUNC( WXBITMAP_NEW )
  */
 HB_FUNC( WXBITMAP_ADDHANDLER )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	bitmap->AddHandler( (wxBitmapHandler *) wxh_par_WX( 1 ) );
-  }
+	}
 }
 
 /*
@@ -227,12 +227,12 @@ HB_FUNC( WXBITMAP_ADDHANDLER )
  */
 HB_FUNC( WXBITMAP_CLEANUPHANDLERS )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	bitmap->CleanUpHandlers();
-  }
+	}
 }
 
 /*
@@ -241,13 +241,13 @@ HB_FUNC( WXBITMAP_CLEANUPHANDLERS )
  */
 HB_FUNC( WXBITMAP_CONVERTTOIMAGE )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	wxImage image = bitmap->ConvertToImage();
 	wxh_itemReturn( &image );
-  }
+	}
 }
 
 /*
@@ -256,13 +256,13 @@ HB_FUNC( WXBITMAP_CONVERTTOIMAGE )
  */
 HB_FUNC( WXBITMAP_COPYFROMICON )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	const wxIcon& icon = *(wxIcon *) wxh_par_WX( 1 );
-    hb_retl( bitmap->CopyFromIcon( icon ) );
-  }
+		hb_retl( bitmap->CopyFromIcon( icon ) );
+	}
 }
 
 /*
@@ -271,12 +271,12 @@ HB_FUNC( WXBITMAP_COPYFROMICON )
  */
 HB_FUNC( WXBITMAP_GETDEPTH )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    hb_retni( bitmap->GetDepth() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		hb_retni( bitmap->GetDepth() );
+	}
 }
 
 /*
@@ -285,12 +285,12 @@ HB_FUNC( WXBITMAP_GETDEPTH )
  */
 HB_FUNC( WXBITMAP_GETHEIGHT )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    hb_retni( bitmap->GetHeight() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		hb_retni( bitmap->GetHeight() );
+	}
 }
 
 /*
@@ -299,12 +299,12 @@ HB_FUNC( WXBITMAP_GETHEIGHT )
  */
 HB_FUNC( WXBITMAP_GETMASK )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    wxh_itemReturn( bitmap->GetMask() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		wxh_itemReturn( bitmap->GetMask() );
+	}
 }
 
 /*
@@ -313,12 +313,12 @@ HB_FUNC( WXBITMAP_GETMASK )
  */
 HB_FUNC( WXBITMAP_GETPALETTE )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    wxh_itemReturn( bitmap->GetPalette() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		wxh_itemReturn( bitmap->GetPalette() );
+	}
 }
 
 /*
@@ -327,12 +327,12 @@ HB_FUNC( WXBITMAP_GETPALETTE )
  */
 HB_FUNC( WXBITMAP_GETWIDTH )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    hb_retni( bitmap->GetWidth() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		hb_retni( bitmap->GetWidth() );
+	}
 }
 
 /*
@@ -341,12 +341,12 @@ HB_FUNC( WXBITMAP_GETWIDTH )
  */
 HB_FUNC( WXBITMAP_INITSTANDARDHANDLERS )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    bitmap->InitStandardHandlers();
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		bitmap->InitStandardHandlers();
+	}
 }
 
 /*
@@ -355,12 +355,12 @@ HB_FUNC( WXBITMAP_INITSTANDARDHANDLERS )
  */
 HB_FUNC( WXBITMAP_INSERTHANDLER )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	bitmap->InsertHandler( (wxBitmapHandler *) wxh_par_WX( 1 ) );
-  }
+	}
 }
 
 /*
@@ -369,12 +369,12 @@ HB_FUNC( WXBITMAP_INSERTHANDLER )
  */
 HB_FUNC( WXBITMAP_ISOK )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    hb_retl( bitmap->IsOk() );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		hb_retl( bitmap->IsOk() );
+	}
 }
 
 /*
@@ -383,15 +383,15 @@ HB_FUNC( WXBITMAP_ISOK )
  */
 HB_FUNC( WXBITMAP_LOADFILE )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    if( HB_ISNIL( 2 ) )
-      hb_retl( bitmap->LoadFile( wxh_parc( 1 ) ) );
-    else
-      hb_retl( bitmap->LoadFile( wxh_parc( 1 ), wxBitmapType( hb_parni( 2 ) ) ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		if( HB_ISNIL( 2 ) )
+			hb_retl( bitmap->LoadFile( wxh_parc( 1 ) ) );
+		else
+			hb_retl( bitmap->LoadFile( wxh_parc( 1 ), wxBitmapType( hb_parni( 2 ) ) ) );
+	}
 }
 
 /*
@@ -400,12 +400,12 @@ HB_FUNC( WXBITMAP_LOADFILE )
  */
 HB_FUNC( WXBITMAP_REMOVEHANDLER )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    hb_retl( bitmap->RemoveHandler( wxh_parc( 1 ) ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		hb_retl( bitmap->RemoveHandler( wxh_parc( 1 ) ) );
+	}
 }
 
 /*
@@ -414,13 +414,13 @@ HB_FUNC( WXBITMAP_REMOVEHANDLER )
  */
 HB_FUNC( WXBITMAP_SAVEFILE )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	wxPalette *palette = ISNIL( 3 ) ? NULL : (wxPalette *) wxh_par_WX( 3 );
-    hb_retl( bitmap->SaveFile( wxh_parc( 1 ), (wxBitmapType) hb_parni( 2 ), palette ) );
-  }
+		hb_retl( bitmap->SaveFile( wxh_parc( 1 ), (wxBitmapType) hb_parni( 2 ), palette ) );
+	}
 }
 
 /*
@@ -429,12 +429,12 @@ HB_FUNC( WXBITMAP_SAVEFILE )
  */
 HB_FUNC( WXBITMAP_SETDEPTH )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    bitmap->SetDepth( hb_parni( 1 ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		bitmap->SetDepth( hb_parni( 1 ) );
+	}
 }
 
 /*
@@ -443,12 +443,12 @@ HB_FUNC( WXBITMAP_SETDEPTH )
  */
 HB_FUNC( WXBITMAP_SETHEIGHT )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    bitmap->SetHeight( hb_parni( 1 ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		bitmap->SetHeight( hb_parni( 1 ) );
+	}
 }
 
 /*
@@ -457,12 +457,12 @@ HB_FUNC( WXBITMAP_SETHEIGHT )
  */
 HB_FUNC( WXBITMAP_SETMASK )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    bitmap->SetMask( (wxMask *) wxh_par_WX( 1 ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		bitmap->SetMask( (wxMask *) wxh_par_WX( 1 ) );
+	}
 }
 
 /*
@@ -471,13 +471,13 @@ HB_FUNC( WXBITMAP_SETMASK )
  */
 HB_FUNC( WXBITMAP_SETPALETTE )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
 	const wxPalette& palette = * (wxPalette *) wxh_par_WX( 1 );
-    bitmap->SetPalette( palette );
-  }
+		bitmap->SetPalette( palette );
+	}
 }
 
 /*
@@ -486,10 +486,10 @@ HB_FUNC( WXBITMAP_SETPALETTE )
  */
 HB_FUNC( WXBITMAP_SETWIDTH )
 {
-  wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( bitmap )
-  {
-    bitmap->SetWidth( hb_parni( 1 ) );
-  }
+	wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( bitmap )
+	{
+		bitmap->SetWidth( hb_parni( 1 ) );
+	}
 }

@@ -3,8 +3,8 @@
  */
 
 /*
-  Arelds.ch
-  Teo. Mexico 2008
+	Arelds.ch
+	Teo. Mexico 2008
 */
 
 #ifndef _RADDOX_H_
@@ -23,88 +23,88 @@
 #define dssPosting  2
 
 #xtranslate ADD TABLE <tableName> [ <vt: VIRTUAL> ] [ INDEX <indexName> ] ;
-	    => ;
-	    ::cmdAddTable( <tableName>, [ <indexName> ], <.vt.> )
+			=> ;
+			::cmdAddTable( <tableName>, [ <indexName> ], <.vt.> )
 
 #xtranslate DEFINE CHILD ;
-	    => ;
-	    ::cmdDefineChild()
+			=> ;
+			::cmdDefineChild()
 
 #xtranslate END CHILD ;
-	    => ;
-	    ::cmdEndChild()
+			=> ;
+			::cmdEndChild()
 
 #xtranslate ADD TABLE <parentTableName> CHILD <childTableName> [ INDEX <indexName> ];
-	    => ;
-	    ::AddParentChild( <parentTableName>, <childTableName>, [ <indexName> ] )
+			=> ;
+			::AddParentChild( <parentTableName>, <childTableName>, [ <indexName> ] )
 
 /* To REQUIRE SIZE in TStringField */
 #xtranslate ADD STRING FIELD <xFieldMethod> [<clauses1,...>] SIZE <nsize> [<clauses2,...>] ;
-            => ;
-            ADD _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
+						=> ;
+						ADD _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
 #xtranslate T_StringField => TStringField
 
 /* To REQUIRE OBJVALUE in TObjectField */
 #xtranslate ADD OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
-            => ;
-            ADD _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
+						=> ;
+						ADD _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
 #xtranslate T_ObjectField => TObjectField
 
 
 #xtranslate ADD <type: _STRING, MEMO, NUMERIC, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
-            [ NAME <cName> ] ;
-            [ LABEL <label> ] ;
-            [ <ro: READONLY> ] ;
-            [ DEFAULT <xDefault> ] ;
-            [ READ <readblock,...> ] ;
-            [ WRITE <writeblock,...> ] ;
-            [ <rq: REQUIRED> ] ;
-            [ GROUP <cGroup> ] ;
-            [ DESCRIPTION <cDesc> ] ;
-            [ PICKLIST <pickList> ] ;
-            [ SIZE <nSize> ] ;
-            [ PICTURE <pict> ] ;
-            [ <pv: PRIVATE> ] ;
+						[ NAME <cName> ] ;
+						[ LABEL <label> ] ;
+						[ <ro: READONLY> ] ;
+						[ DEFAULT <xDefault> ] ;
+						[ READ <readblock,...> ] ;
+						[ WRITE <writeblock,...> ] ;
+						[ <rq: REQUIRED> ] ;
+						[ GROUP <cGroup> ] ;
+						[ DESCRIPTION <cDesc> ] ;
+						[ PICKLIST <pickList> ] ;
+						[ SIZE <nSize> ] ;
+						[ PICTURE <pict> ] ;
+						[ <pv: PRIVATE> ] ;
 			[ MASTERSOURCE <linkedTableMasterSource> ] ;
-            [ OBJVALUE <objValue> ] ;
-            [ ON GETTEXT <bOnGetText> ] ;
-            [ ON SETTEXT <bOnSetText> ] ;
-            [ ON SETVALUE <bOnSetValue> ] ;
-            [ ON INDEXKEYVAL <bIndexKeyVal> ] ;
-            [ ON VALIDATE <bOnValidate> ] ;
-            [ ON BEFORE CHANGE <bOnBeforeChange> ] ;
-            [ ON AFTER CHANGE <bOnAfterChange> ] ;
-            [ VALIDVALUES <validValues> ] ;
+						[ OBJVALUE <objValue> ] ;
+						[ ON GETTEXT <bOnGetText> ] ;
+						[ ON SETTEXT <bOnSetText> ] ;
+						[ ON SETVALUE <bOnSetValue> ] ;
+						[ ON INDEXKEYVAL <bIndexKeyVal> ] ;
+						[ ON VALIDATE <bOnValidate> ] ;
+						[ ON BEFORE CHANGE <bOnBeforeChange> ] ;
+						[ ON AFTER CHANGE <bOnAfterChange> ] ;
+						[ VALIDVALUES <validValues> ] ;
 			[ USING <usingField> ] ;
-           => ;
-            WITH OBJECT T<type>Field():New( Self ) ;;
-              [ :Name := <cName> ] ;;
-              [ :Label := <label> ] ;;
-              [ :ReadOnly := <.ro.> ] ;;
-              [ :FieldMethod := <xFieldMethod> ] ;;
-              [ :ReadBlock := {|| <readblock> } ] ;;
-              [ :WriteBlock := {|Value| <writeblock> } ] ;;
-              [ :DefaultValue := <xDefault> ] ;;
-              [ :Required := <.rq.> ] ;;
-              [ :Group := <cGroup> ] ;;
-              [ :Description := <cDesc> ] ;;
-              [ :PickList := <pickList> ] ;;
-              [ :Size := <nSize> ] ;;
-              [ :Picture := <pict> ] ;;
-              [ :Published := !<.pv.> ] ;;
-			  [ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
-              [ :ObjValue := <objValue> ] ;;
-              [ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
-              [ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
-              [ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;
-              [ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
-              [ :OnValidate := <bOnValidate> ] ;;
-              [ :OnBeforeChange := <bOnBeforeChange> ] ;;
-              [ :OnAfterChange := <bOnAfterChange> ] ;;
-              [ :ValidValues := <validValues> ] ;;
-			  [ :UsingField := <usingField> ] ;;
-              :ValidateFieldInfo() ;;
-            ENDWITH
+					 => ;
+						WITH OBJECT T<type>Field():New( Self ) ;;
+							[ :Name := <cName> ] ;;
+							[ :Label := <label> ] ;;
+							[ :ReadOnly := <.ro.> ] ;;
+							[ :FieldMethod := <xFieldMethod> ] ;;
+							[ :ReadBlock := {|| <readblock> } ] ;;
+							[ :WriteBlock := {|Value| <writeblock> } ] ;;
+							[ :DefaultValue := <xDefault> ] ;;
+							[ :Required := <.rq.> ] ;;
+							[ :Group := <cGroup> ] ;;
+							[ :Description := <cDesc> ] ;;
+							[ :PickList := <pickList> ] ;;
+							[ :Size := <nSize> ] ;;
+							[ :Picture := <pict> ] ;;
+							[ :Published := !<.pv.> ] ;;
+				[ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
+							[ :ObjValue := <objValue> ] ;;
+							[ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
+							[ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
+							[ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;
+							[ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
+							[ :OnValidate := <bOnValidate> ] ;;
+							[ :OnBeforeChange := <bOnBeforeChange> ] ;;
+							[ :OnAfterChange := <bOnAfterChange> ] ;;
+							[ :ValidValues := <validValues> ] ;;
+				[ :UsingField := <usingField> ] ;;
+							:ValidateFieldInfo() ;;
+						ENDWITH
 
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
@@ -114,35 +114,35 @@
 #xtranslate DEFINE INDEXES => METHOD __DefineIndexes()
 
 #xtranslate BEGIN FIELDS CLASS <className>;
-            => ;
-            METHOD PROCEDURE __DefineFields( curClass ) CLASS <className> ;;
-            FIELDS BASECLASS
+						=> ;
+						METHOD PROCEDURE __DefineFields( curClass ) CLASS <className> ;;
+						FIELDS BASECLASS
 
 #xtranslate END FIELDS CLASS ;
-            => ;
-            Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
-            RETURN
+						=> ;
+						Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
+						RETURN
 
 #xtranslate BEGIN INDEXES CLASS <className> ;
-            => ;
-            METHOD PROCEDURE __DefineIndexes( curClass ) CLASS <className>
+						=> ;
+						METHOD PROCEDURE __DefineIndexes( curClass ) CLASS <className>
 #xtranslate END INDEXES CLASS ;
-            => ;
+						=> ;
 			Super:__DefineIndexes( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
 			RETURN
 
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
-            METHOD PROCEDURE DefineMasterDetailFields CLASS <className>
+						METHOD PROCEDURE DefineMasterDetailFields CLASS <className>
 #xtranslate ADD MASTER <cMaster> DETAIL <cDetail> => ;
-            ::MasterDetailFieldList\[ <cMaster> \] := <cDetail>
+						::MasterDetailFieldList\[ <cMaster> \] := <cDetail>
 #xtranslate END MASTERDETAIL FIELDS => ;
-            RETURN
+						RETURN
 
 #xtranslate CALCFIELD <calcField> => METHOD CalcField_<calcField>
 #xtranslate CALCFIELD <calcField> CLASS <className> ;
-            => ;
-            METHOD FUNCTION CalcField_<calcField>() CLASS <className>
+						=> ;
+						METHOD FUNCTION CalcField_<calcField>() CLASS <className>
 
 /* TODO: Implement this, needs to use a index declared in ancestor class
 #xtranslate DEFINE PRIMARY INDEX <cName> ;
@@ -151,17 +151,17 @@
 */
 
 #xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX <cName> ;
-            [ MASTERKEYFIELD <cMasterKeyField> ] ;
-            [ KEYFIELD <cKeyField> ] ;
-            [ FOR <ForKey> ] ;
-            [ <cs: CASESENSITIVE> ] ;
-            [ <de: DESCENDING> ] ;
-            [ <cu: CUSTOM> ] ;
-            [ <un: UNIQUE> ] ;
-            [ <ai: AUTOINCREMENT> ] ;
-            => ;
-            WITH OBJECT TIndex():New( Self , <cName>, <"type">, curClass ) ;;
-                :AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<.cu.>] ) ;;
-            ENDWITH
+						[ MASTERKEYFIELD <cMasterKeyField> ] ;
+						[ KEYFIELD <cKeyField> ] ;
+						[ FOR <ForKey> ] ;
+						[ <cs: CASESENSITIVE> ] ;
+						[ <de: DESCENDING> ] ;
+						[ <cu: CUSTOM> ] ;
+						[ <un: UNIQUE> ] ;
+						[ <ai: AUTOINCREMENT> ] ;
+						=> ;
+						WITH OBJECT TIndex():New( Self , <cName>, <"type">, curClass ) ;;
+								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<.cu.>] ) ;;
+						ENDWITH
 
 #endif

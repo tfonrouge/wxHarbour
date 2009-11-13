@@ -3,20 +3,20 @@
  */
 
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
+	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
-  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
+	(C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-  wx_Icon: Implementation
-  Teo. Mexico 2009
+	wx_Icon: Implementation
+	Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -26,54 +26,54 @@
 #include "wxbase/wx_Icon.h"
 
 /*
-  ~wx_Icon
-  Teo. Mexico 2009
+	~wx_Icon
+	Teo. Mexico 2009
 */
 wx_Icon::~wx_Icon()
 {
-  wxh_ItemListDel_WX( this );
+	wxh_ItemListDel_WX( this );
 }
 
 /*
-  New
-  Teo. Mexico 2009
+	New
+	Teo. Mexico 2009
 */
 HB_FUNC( WXICON_NEW )
 {
-  wxh_ObjParams objParams = wxh_ObjParams();
+	wxh_ObjParams objParams = wxh_ObjParams();
 
-  wx_Icon* icon;
+	wx_Icon* icon;
 
-  /* TODO: Check & solve why this fails on mingw-windows */
-  switch( hb_pcount() )
-  {
-  case 0 :
-    {
-      icon = new wx_Icon();
-    }
-    break;
-  case 1 :
-    {
-      const char* bits = hb_parc( 1 );
-      icon = new wx_Icon( &bits );
-    }
-    break;
-  case 2:
-    {
-      const wxString& name = wxh_parc( 1 );
-      wxBitmapType type = wxBitmapType( hb_parni( 2 ) );
-      int desiredWidth = hb_parni( 3 );
-      int desiredHeight = hb_parni( 4 );
+	/* TODO: Check & solve why this fails on mingw-windows */
+	switch( hb_pcount() )
+	{
+	case 0 :
+		{
+			icon = new wx_Icon();
+		}
+		break;
+	case 1 :
+		{
+			const char* bits = hb_parc( 1 );
+			icon = new wx_Icon( &bits );
+		}
+		break;
+	case 2:
+		{
+			const wxString& name = wxh_parc( 1 );
+			wxBitmapType type = wxBitmapType( hb_parni( 2 ) );
+			int desiredWidth = hb_parni( 3 );
+			int desiredHeight = hb_parni( 4 );
 
-      icon = new wx_Icon( name, type, desiredWidth, desiredHeight );
-    }
-    break;
-  default :
-    icon = new wx_Icon();
-    break;
-  }
+			icon = new wx_Icon( name, type, desiredWidth, desiredHeight );
+		}
+		break;
+	default :
+		icon = new wx_Icon();
+		break;
+	}
 
-  objParams.Return( icon );
+	objParams.Return( icon );
 }
 
 /*
@@ -82,13 +82,13 @@ HB_FUNC( WXICON_NEW )
  */
 HB_FUNC( WXICON_COPYFROMBITMAP )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
 	const wxBitmap& bitmap = *(wxBitmap *) wxh_par_WX( 1 );
-    icon->CopyFromBitmap( bitmap );
-  }
+		icon->CopyFromBitmap( bitmap );
+	}
 }
 
 /*
@@ -97,12 +97,12 @@ HB_FUNC( WXICON_COPYFROMBITMAP )
  */
 HB_FUNC( WXICON_GETDEPTH )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    hb_retni( icon->GetDepth() );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		hb_retni( icon->GetDepth() );
+	}
 }
 
 /*
@@ -111,12 +111,12 @@ HB_FUNC( WXICON_GETDEPTH )
  */
 HB_FUNC( WXICON_GETHEIGHT )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    hb_retni( icon->GetHeight() );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		hb_retni( icon->GetHeight() );
+	}
 }
 
 /*
@@ -125,12 +125,12 @@ HB_FUNC( WXICON_GETHEIGHT )
  */
 HB_FUNC( WXICON_GETWIDTH )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    hb_retni( icon->GetWidth() );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		hb_retni( icon->GetWidth() );
+	}
 }
 
 /*
@@ -139,29 +139,29 @@ HB_FUNC( WXICON_GETWIDTH )
  */
 HB_FUNC( WXICON_ISOK )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    hb_retl( icon->IsOk() );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		hb_retl( icon->IsOk() );
+	}
 }
 
 /*
-  wxIcon:LoadFile
-  Teo. Mexico 2009
+	wxIcon:LoadFile
+	Teo. Mexico 2009
 */
 HB_FUNC( WXICON_LOADFILE )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-  if( icon )
-  {
-    if( HB_ISNIL( 2 ) )
-      hb_retl( icon->LoadFile( wxh_parc( 1 ) ) );
-    else
-      hb_retl( icon->LoadFile( wxh_parc( 1 ), wxBitmapType( hb_parni( 2 ) ) ) );
-  }
+	if( icon )
+	{
+		if( HB_ISNIL( 2 ) )
+			hb_retl( icon->LoadFile( wxh_parc( 1 ) ) );
+		else
+			hb_retl( icon->LoadFile( wxh_parc( 1 ), wxBitmapType( hb_parni( 2 ) ) ) );
+	}
 }
 
 /*
@@ -170,12 +170,12 @@ HB_FUNC( WXICON_LOADFILE )
  */
 HB_FUNC( WXICON_SETDEPTH )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    icon->SetDepth( hb_parni( 1 ) );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		icon->SetDepth( hb_parni( 1 ) );
+	}
 }
 
 /*
@@ -184,12 +184,12 @@ HB_FUNC( WXICON_SETDEPTH )
  */
 HB_FUNC( WXICON_SETHEIGHT )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    icon->SetHeight( hb_parni( 1 ) );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		icon->SetHeight( hb_parni( 1 ) );
+	}
 }
 
 /*
@@ -198,10 +198,10 @@ HB_FUNC( WXICON_SETHEIGHT )
  */
 HB_FUNC( WXICON_SETWIDTH )
 {
-  wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-  
-  if( icon )
-  {
-    icon->SetWidth( hb_parni( 1 ) );
-  }
+	wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( icon )
+	{
+		icon->SetWidth( hb_parni( 1 ) );
+	}
 }

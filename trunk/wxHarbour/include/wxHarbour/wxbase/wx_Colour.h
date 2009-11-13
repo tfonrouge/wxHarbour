@@ -22,14 +22,14 @@ Jamaj. Brasil 2009
 #include "wx/colour.h"
 
 class wx_Colour : public wxColour
-  {
-  private:
-  protected:
-  public:
+	{
+	private:
+	protected:
+	public:
 	
 	wx_Colour() : wxColour() {}
 	wx_Colour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE ) : wxColour( red, green, blue, alpha ) {}
 	wx_Colour( const wxString& name ) : wxColour( name ) {}	
 	~wx_Colour() ;
 
-  };
+	};

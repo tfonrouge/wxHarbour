@@ -3,8 +3,8 @@
  */
 
 /*
-  choice sample
-  Teo. Mexico 2009
+	choice sample
+	Teo. Mexico 2009
 */
 
 #include "wxharbour.ch"
@@ -12,65 +12,65 @@
 #define GRANGE  100
 
 FUNCTION Main
-  LOCAL MyApp
+	LOCAL MyApp
 
-  MyApp := MyApp():New()
+	MyApp := MyApp():New()
 
-  IMPLEMENT_APP( MyApp )
+	IMPLEMENT_APP( MyApp )
 
 RETURN NIL
 
 /*
-  MyApp
-  Teo. Mexico 2008
+	MyApp
+	Teo. Mexico 2008
 */
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD OnInit
+	METHOD OnInit
 PUBLISHED:
 ENDCLASS
 /*
-  EndClass MyApp
+	EndClass MyApp
 */
 
 /*
-  OnInit
-  Teo. Mexico 2008
+	OnInit
+	Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
-  LOCAL choiceVal1 := 3
-  LOCAL choiceVal2 := 1
-  LOCAL choiceVal3 := 2
-  LOCAL bAction
+	LOCAL oWnd
+	LOCAL choiceVal1 := 3
+	LOCAL choiceVal2 := 1
+	LOCAL choiceVal3 := 2
+	LOCAL bAction
 
-  bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
+	bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
 
-  CREATE FRAME oWnd ;
-         TITLE "Choice Sample"
+	CREATE FRAME oWnd ;
+				 TITLE "Choice Sample"
 
-  DEFINE MENUBAR STYLE 1
-    DEFINE MENU "&File"
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Quits this sample..."
-    ENDMENU
-    DEFINE MENU "Help"
-      ADD MENUITEM "About..."
-    ENDMENU
-  ENDMENU
+	DEFINE MENUBAR STYLE 1
+		DEFINE MENU "&File"
+			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+					HELPLINE "Quits this sample..."
+		ENDMENU
+		DEFINE MENU "Help"
+			ADD MENUITEM "About..."
+		ENDMENU
+	ENDMENU
 
-  BEGIN BOXSIZER VERTICAL
+	BEGIN BOXSIZER VERTICAL
 
-    @ CHOICE choiceVal1 ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
-    @ CHOICE choiceVal2 ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
-    @ CHOICE choiceVal3 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
+		@ CHOICE choiceVal1 ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
+		@ CHOICE choiceVal2 ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
+		@ CHOICE choiceVal3 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
 
-    @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+		@ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
 
-  END SIZER
+	END SIZER
 
-  SHOW WINDOW oWnd FIT CENTRE
+	SHOW WINDOW oWnd FIT CENTRE
 
 RETURN .T.

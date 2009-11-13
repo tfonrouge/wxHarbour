@@ -10,20 +10,20 @@
 
 
 FUNCTION Main
-  LOCAL wxWinSample
-  wxWinSample := wxWinSample():New()
-  IMPLEMENT_APP( wxWinSample )
+	LOCAL wxWinSample
+	wxWinSample := wxWinSample():New()
+	IMPLEMENT_APP( wxWinSample )
 RETURN NIL
 
 /*
-  wxWinSample
-  jamaj Brasil 2009
+	wxWinSample
+	jamaj Brasil 2009
 */
 CLASS wxWinSample FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD OnInit
+	METHOD OnInit
 PUBLISHED:
 ENDCLASS
 
@@ -34,9 +34,9 @@ METHOD FUNCTION OnInit() CLASS wxWinSample
 
 	
 
-  CREATE DIALOG oDlg ;
-         WIDTH 640 HEIGHT 400 ;
-         TITLE "Text Sample"
+	CREATE DIALOG oDlg ;
+				 WIDTH 640 HEIGHT 400 ;
+				 TITLE "Text Sample"
 
 	BEGIN BOXSIZER VERTICAL 
 		oWnd := TEditGet():New(oDlg, wxID_ANY, NIL, NIL, style, "wxWinSampleWindow")	
@@ -44,7 +44,7 @@ METHOD FUNCTION OnInit() CLASS wxWinSample
 		@ BUTTON ID wxID_OK ACTION oDlg:Close()
 	END SIZER
 	SHOW WINDOW oDlg MODAL CENTRE
-  oDlg:Destroy()
+	oDlg:Destroy()
 
 RETURN .F.
 
@@ -434,11 +434,11 @@ FUNCTION GetKeyName(keycode)
 			cKey +=("NUMPAD_DECIMAL") 
 			EXIT
 		OTHERWISE
-		   IF ( wxIsprint(keycode) )
+			 IF ( wxIsprint(keycode) )
 				 cKey :=  "'" + CHR(keycode) + "'"
-		   ELSEIF ( keycode > 0 .and. keycode < 27 )
+			 ELSEIF ( keycode > 0 .and. keycode < 27 )
 				 cKey :=  "'" + "Ctrl-" + CHR( ASC( "A" )+keycode-1 ) + "'"
-		   ELSE
+			 ELSE
 				 cKey :=  "unknown ("+ Alltrim(Str(keycode)) +")"
 			ENDIF
 	END

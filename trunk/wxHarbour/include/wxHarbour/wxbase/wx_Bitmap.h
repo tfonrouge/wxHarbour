@@ -22,14 +22,14 @@
 #include "wx/bitmap.h"
 
 class wx_Bitmap : public wxBitmap
-  {
-  private:
-  protected:
-  public:
+	{
+	private:
+	protected:
+	public:
 	
 	wx_Bitmap() : wxBitmap() {}
 	wx_Bitmap( const char* const* bits ) : wxBitmap( bits ) {}
 	wx_Bitmap( const wxString& name, long type ) : wxBitmap( name, type ) {}	
 	~wx_Bitmap();
 
-  };
+	};
