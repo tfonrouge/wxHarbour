@@ -52,7 +52,7 @@ CLASS WXHBaseClass
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD ObjectH()        /* Harbour object handle */
+	METHOD ObjectH()        /* Harbour object handle */
 PUBLISHED:
 ENDCLASS
 /*

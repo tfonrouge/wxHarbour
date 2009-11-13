@@ -20,12 +20,12 @@
  */
 
 class wx_ToolBar : public wxToolBar
-  {
-  private:
-  protected:
-  public:
+	{
+	private:
+	protected:
+	public:
 	wx_ToolBar() : wxToolBar() {}
 	wx_ToolBar(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxTB_HORIZONTAL | wxNO_BORDER, const wxString& name = wxPanelNameStr ) : wxToolBar( parent, id, pos, size, style, name ) {}
 	
 	~wx_ToolBar();
-  };
+	};

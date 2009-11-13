@@ -3,15 +3,15 @@
  */
 
 /*
-  wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
+	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2008 Teo Fonrouge
 
-  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-  (C) 2008 Teo Fonrouge <teo@windtelsoft.com>
+	(C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 #include "wx/wx.h"
@@ -19,59 +19,59 @@
 
 HB_FUNC( WXEVT_FIRST )
 {
-  hb_retnl( wxEVT_COMMAND_BUTTON_CLICKED + hb_parnl(1) - 1 );
+	hb_retnl( wxEVT_COMMAND_BUTTON_CLICKED + hb_parnl(1) - 1 );
 }
 
 /*
-  wxGetFullHostName
-  Teo. Mexico 2009
+	wxGetFullHostName
+	Teo. Mexico 2009
 */
 HB_FUNC( WXGETFULLHOSTNAME )
 {
-  wxh_retc( wxGetFullHostName() );
+	wxh_retc( wxGetFullHostName() );
 }
 
 /*
-  wxGetHostName
-  Teo. Mexico 2009
+	wxGetHostName
+	Teo. Mexico 2009
 */
 HB_FUNC( WXGETHOSTNAME )
 {
-  wxh_retc( wxGetHostName() );
+	wxh_retc( wxGetHostName() );
 }
 
 /*
-  wxGetUserId
-  Teo. Mexico 2008
+	wxGetUserId
+	Teo. Mexico 2008
 */
 HB_FUNC( WXGETUSERID )
 {
-  wxh_retc( wxGetUserId() );
+	wxh_retc( wxGetUserId() );
 }
 
 /*
-  wxGetUserName
-  Teo. Mexico 2008
+	wxGetUserName
+	Teo. Mexico 2008
 */
 HB_FUNC( WXGETUSERNAME )
 {
-  wxh_retc( wxGetUserName() );
+	wxh_retc( wxGetUserName() );
 }
 
 /*
-  wxGetOsDescription
-  Teo. Mexico 2007
+	wxGetOsDescription
+	Teo. Mexico 2007
 */
 HB_FUNC( WXGETOSDESCRIPTION )
 {
-  wxh_retc( wxGetOsDescription() );
+	wxh_retc( wxGetOsDescription() );
 }
 
 /*
-  wxNow
-  Teo. Mexico 2007
+	wxNow
+	Teo. Mexico 2007
 */
 HB_FUNC( WXNOW )
 {
-  wxh_retc( wxNow() );
+	wxh_retc( wxNow() );
 }

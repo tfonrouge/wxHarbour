@@ -14,20 +14,20 @@
 #define GET_CLR_ACCEL           3
 
 FUNCTION Main
-  LOCAL wxGetSample
-  wxGetSample := wxGetSample():New()
-  IMPLEMENT_APP( wxGetSample )
+	LOCAL wxGetSample
+	wxGetSample := wxGetSample():New()
+	IMPLEMENT_APP( wxGetSample )
 RETURN NIL
 
 /*
-  wxGetSample
-  jamaj Brasil 2009
+	wxGetSample
+	jamaj Brasil 2009
 */
 CLASS wxGetSample FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD OnInit
+	METHOD OnInit
 PUBLISHED:
 ENDCLASS
 
@@ -35,7 +35,7 @@ REQUEST HB_CODEPAGE_PTISO
 
 
 METHOD FUNCTION OnInit() CLASS wxGetSample
-  LOCAL oDlg, oTextCtrl, oTextCtrl1, oTextCtrl2
+	LOCAL oDlg, oTextCtrl, oTextCtrl1, oTextCtrl2
 
 	LOCAL edtNombre := "jamaj corporation", data := date(), edtLog := Space(100), salary := 12345678.34
 	
@@ -43,9 +43,9 @@ METHOD FUNCTION OnInit() CLASS wxGetSample
 	SET DATE TO BRITISH
 	SET CENTURY ON 
 
-  CREATE DIALOG oDlg ;
-         WIDTH 640 HEIGHT 400 ;
-         TITLE "Text Sample"
+	CREATE DIALOG oDlg ;
+				 WIDTH 640 HEIGHT 400 ;
+				 TITLE "Text Sample"
 
 	BEGIN BOXSIZER VERTICAL 
 		BEGIN BOXSIZER VERTICAL ALIGN EXPAND STRETCH
@@ -53,31 +53,31 @@ METHOD FUNCTION OnInit() CLASS wxGetSample
 				@ SAY "Your Name is:" 
 				oTextCtrl := TEditGet():New( oDlg, 123, "get1", edtNombre, {|_v_| IIF(pcount() > 0, edtNombre := _v_, edtNombre)  } ,"@!", "B/W,W/b" )
 				containerObj():SetLastChild( oTextCtrl )
-		  END SIZER
+			END SIZER
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your birthday is:" 
 				oTextCtrl1 := TEditGet():New( oDlg, 124, "get2", data, {|_v_| IIF(pcount() > 0, data := _v_, data)  } ,"99/99/9999", "R/BG,G/W" )
 				oTextCtrl1:SetToolTip( "birthday" )	
 				containerObj():SetLastChild( oTextCtrl1 )
-		  END SIZER
+			END SIZER
 			BEGIN BOXSIZER HORIZONTAL ALIGN EXPAND STRETCH
 				@ SAY "Your salary is:" 
 				oTextCtrl2 := TEditGet():New( oDlg, 125, "get2", salary, {|_v_| IIF(pcount() > 0, salary := _v_, salary)  } , "@E 999,999,999.99", "G/GR,W/R" )
 				oTextCtrl2:SetToolTip( "salary" )	
 				containerObj():SetLastChild( oTextCtrl2 )
-		  END SIZER
-		  @ SAY "Multi Line:" GET edtLog NAME "Multi" MULTILINE STYLE wxTE_PROCESS_ENTER //SIZERINFO STRETCH
+			END SIZER
+			@ SAY "Multi Line:" GET edtLog NAME "Multi" MULTILINE STYLE wxTE_PROCESS_ENTER //SIZERINFO STRETCH
 		END SIZER
 		@ BUTTON ID wxID_OK ACTION oDlg:Close()
 	END SIZER
 
 	SHOW WINDOW oDlg FIT MODAL CENTRE
-  oDlg:Destroy()
+	oDlg:Destroy()
 
 	? "Variable's data:"
-  ? "edtNombre:", edtNombre
-  ? "birthday:", data
-  ? "salary:", salary 
+	? "edtNombre:", edtNombre
+	? "birthday:", data
+	? "salary:", salary 
 
 RETURN .T.
 
@@ -588,11 +588,11 @@ FUNCTION GetKeyName(keycode)
 			cKey +=("NUMPAD_DECIMAL") 
 			EXIT
 		OTHERWISE
-		   IF ( wxIsprint(keycode) )
+			 IF ( wxIsprint(keycode) )
 				 cKey :=  "'" + CHR(keycode) + "'"
-		   ELSEIF ( keycode > 0 .and. keycode < 27 )
+			 ELSEIF ( keycode > 0 .and. keycode < 27 )
 				 cKey :=  "'" + "Ctrl-" + CHR( ASC( "A" )+keycode-1 ) + "'"
-		   ELSE
+			 ELSE
 				 cKey :=  "unknown ("+ Alltrim(Str(keycode)) +")"
 			ENDIF
 	END

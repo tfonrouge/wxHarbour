@@ -3,8 +3,8 @@
  */
 
 /*
-  treectrl sample
-  Teo. Mexico 2009
+	treectrl sample
+	Teo. Mexico 2009
 */
 
 #include "wxharbour.ch"
@@ -12,73 +12,73 @@
 #define GRANGE  100
 
 FUNCTION Main
-  LOCAL MyApp
+	LOCAL MyApp
 
-  MyApp := MyApp():New()
+	MyApp := MyApp():New()
 
-  IMPLEMENT_APP( MyApp )
+	IMPLEMENT_APP( MyApp )
 
 RETURN NIL
 
 /*
-  MyApp
-  Teo. Mexico 2008
+	MyApp
+	Teo. Mexico 2008
 */
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-  METHOD OnInit
+	METHOD OnInit
 PUBLISHED:
 ENDCLASS
 /*
-  EndClass MyApp
+	EndClass MyApp
 */
 
 /*
-  OnInit
-  Teo. Mexico 2008
+	OnInit
+	Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-  LOCAL oWnd
-  LOCAL treeCtrl
-  LOCAL treeItemId
-  LOCAL i
+	LOCAL oWnd
+	LOCAL treeCtrl
+	LOCAL treeItemId
+	LOCAL i
 
-  CREATE FRAME oWnd ;
-         TITLE "TreeCtrl Sample"
+	CREATE FRAME oWnd ;
+				 TITLE "TreeCtrl Sample"
 
-  DEFINE MENUBAR STYLE 1
-    DEFINE MENU "&File"
-      ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-          HELPLINE "Quits this sample..."
-    ENDMENU
-    DEFINE MENU "Help"
-      ADD MENUITEM "About..."
-    ENDMENU
-  ENDMENU
+	DEFINE MENUBAR STYLE 1
+		DEFINE MENU "&File"
+			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+					HELPLINE "Quits this sample..."
+		ENDMENU
+		DEFINE MENU "Help"
+			ADD MENUITEM "About..."
+		ENDMENU
+	ENDMENU
 
-  BEGIN BOXSIZER VERTICAL
+	BEGIN BOXSIZER VERTICAL
 
-    @ TREECTRL VAR treeCtrl SIZERINFO STRETCH ALIGN EXPAND
+		@ TREECTRL VAR treeCtrl SIZERINFO STRETCH ALIGN EXPAND
 
-    BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
-      @ BUTTON "Expand" ACTION treeCtrl:ExpandAll()
-      @ BUTTON "Collapse" ACTION treeCtrl:CollapseAll()
-    END SIZER
+		BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
+			@ BUTTON "Expand" ACTION treeCtrl:ExpandAll()
+			@ BUTTON "Collapse" ACTION treeCtrl:CollapseAll()
+		END SIZER
 
-    @ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+		@ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
 
-  END SIZER
+	END SIZER
 
-  treeItemId := treeCtrl:AddRoot("Root")
-  FOR i:=1 TO 10
-    treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
-  NEXT
-  treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
-  treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
-  treeCtrl:AppendItem( treeItemId, "Item4" )
+	treeItemId := treeCtrl:AddRoot("Root")
+	FOR i:=1 TO 10
+		treeCtrl:AppendItem( treeItemId, "Item " + LTrim(Str(i)) )
+	NEXT
+	treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item2" ), "SubItem1" )
+	treeCtrl:AppendItem( treeCtrl:AppendItem( treeCtrl:AppendItem( treeItemId, "Item3" ), "SubItem2" ), "SubSubItem1" )
+	treeCtrl:AppendItem( treeItemId, "Item4" )
 
-  SHOW WINDOW oWnd FIT CENTRE
+	SHOW WINDOW oWnd FIT CENTRE
 
 RETURN .T.

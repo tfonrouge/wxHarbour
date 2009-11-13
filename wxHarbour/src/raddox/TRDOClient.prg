@@ -3,12 +3,12 @@
  */
 
 /*
-  TRDOClient
-  Teo. Mexico 2008
+	TRDOClient
+	Teo. Mexico 2008
 */
 
 #ifdef __XHARBOUR__
-  #include "wx_hbcompat.ch"
+	#include "wx_hbcompat.ch"
 #endif
 
 #include "hbclass.ch"
@@ -19,54 +19,54 @@
 CLASS TRDOClient FROM wxSocketClient
 PRIVATE:
 
-  DATA FIPV4
+	DATA FIPV4
 
 PROTECTED:
 PUBLIC:
 
-  DATA DefaultTimeOut INIT 10
+	DATA DefaultTimeOut INIT 10
 
-  CONSTRUCTOR New( address, port )
+	CONSTRUCTOR New( address, port )
 
-  METHOD Connect
+	METHOD Connect
 
 PUBLISHED:
 ENDCLASS
 
 /*
-  New
-  Teo. Mexico 2008
+	New
+	Teo. Mexico 2008
 */
 METHOD New( address, port ) CLASS TRDOClient
 
-  ::FIPV4 := wxIPV4address():New()
-  ::FIPV4:HostName( address )
-  ::FIPV4:Service( port )
+	::FIPV4 := wxIPV4address():New()
+	::FIPV4:HostName( address )
+	::FIPV4:Service( port )
 
-  Super:New()
+	Super:New()
 
-  ::SetTimeOut( ::DefaultTimeOut )
+	::SetTimeOut( ::DefaultTimeOut )
 
 RETURN Self
 
 /*
-  Connect
-  Teo. Mexico 2008
+	Connect
+	Teo. Mexico 2008
 */
 METHOD FUNCTION Connect CLASS TRDOClient
-  LOCAL Result
-  LOCAL s := Space( 100 )
+	LOCAL Result
+	LOCAL s := Space( 100 )
 
-  Result := Super:Connect( ::FIPV4 )
+	Result := Super:Connect( ::FIPV4 )
 
-  IF !::IsOk
-    ::Error_Could_Not_Create_RDO_Client()
-  ENDIF
+	IF !::IsOk
+		::Error_Could_Not_Create_RDO_Client()
+	ENDIF
 
-  ::ReadMsg( @s, 100 )
+	::ReadMsg( @s, 100 )
 
 RETURN Result
 
 /*
-  EndClass TRDOClient
+	EndClass TRDOClient
 */
