@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2009-11-14 20:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+     ! Fixed install tag on win32 makefiles.
+     ; TODO: fix the error on the common.bkl on the bakefile lib
+
 2009-11-13 15:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/mkdirstempl.bkl
   *  demos/helloworld/helloworld.prg
