@@ -26,7 +26,7 @@
 
 #include "wx/image.h"
 
-static PHB_ITEM hb_App;
+static PHB_ITEM hb_App = NULL;
 
 /*
 	wxGetApp
@@ -151,7 +151,7 @@ HB_FUNC( WXAPP_GETTOPWINDOW )
 {
 	wxWindow *window = wxGetApp().GetTopWindow();
 	if( window )
-	wxh_itemReturn( window );
+		wxh_itemReturn( window );
 	else
 		hb_ret();
 }
@@ -173,4 +173,3 @@ HB_FUNC( WXAPP_YIELD )
 {
 	hb_retl( wxGetApp().Yield( hb_parl( 1 ) ) );
 }
-
