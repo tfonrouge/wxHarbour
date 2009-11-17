@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2009-11-17 10:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * added c/c++ define HB_DYNLIB when creating -dll's
+
+  *  src/wxbase/app/wx_App.cpp
+     * static PHB_ITEM hb_App intialized to NULL
+
 2009-11-14 20:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  makefile.bcc
   *  makefile.gcc

@@ -937,6 +937,7 @@ Where is wxWidgets installed
 
 	<define-rule name="harbour-dll" extends="dll">
 		<template template="__commands_harbour">
+			<define>HB_DYNLIB</define>
 		</template>
 		<template template="__harbour_libs">
 		</template>
@@ -946,6 +947,7 @@ Where is wxWidgets installed
 
 	<define-rule name="wxharbour-dll" extends="dll">
 		<template template="__commands_harbour">
+			<define>HB_DYNLIB</define>
 		</template>
 		<template template="__harbour_libs">
 		</template>
