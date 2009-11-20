@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2009-11-20 15:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     + added toolbar.ch include
+
+  *  samples/toolbar/toolbar.prg
+     * enhanced sample to show text under tool btns
+
+  *  src/common/wxhfuncs.prg
+    * added default style to BEGIN TOOLBAR command to:
+      wxTB_HORIZONTAL | wxNO_BORDER | wxTB_TEXT
+
+  *  src/wxbase/toolbar/wx_ToolBar.cpp
+     ! Fixed errors on parameters to construct function
+
+  +  include/wxHarbour/wxh/toolbar.ch
+     * toolbar defines
+
 2009-11-17 10:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      * added c/c++ define HB_DYNLIB when creating -dll's

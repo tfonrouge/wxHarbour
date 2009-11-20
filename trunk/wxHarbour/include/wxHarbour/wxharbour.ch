@@ -49,6 +49,7 @@
 #include "wxh/gauge.ch"
 #include "wxh/notebook.ch"
 #include "wxh/textctrl.ch"
+#include "wxh/toolbar.ch"
 #include "wxh/dateevt.ch"
 
 #define wxhLABEL_QUIT           "Quit"
