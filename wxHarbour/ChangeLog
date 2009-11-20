@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2009-11-20 15:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+     * updated makefiles per las include addition
+
 2009-11-20 15:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      + added toolbar.ch include
@@ -14,7 +22,7 @@
       wxTB_HORIZONTAL | wxNO_BORDER | wxTB_TEXT
 
   *  src/wxbase/toolbar/wx_ToolBar.cpp
-     ! Fixed errors on parameters to construct function
+     ! Fixed errors on parameters to construct function (thanks to Javier Parada)
 
   +  include/wxHarbour/wxh/toolbar.ch
      * toolbar defines

@@ -342,7 +342,8 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/notebook.ch \
 	include/wxHarbour/wxh/socket.ch \
 	include/wxHarbour/wxh/taskbar.ch \
-	include/wxHarbour/wxh/textctrl.ch
+	include/wxHarbour/wxh/textctrl.ch \
+	include/wxHarbour/wxh/toolbar.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
 	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_UNIX $(HBOSUNIXDEF) \
 	-I/usr/include/harbour -I/usr/local/include/harbour -I/usr/include \
