@@ -2108,6 +2108,10 @@ FUNCTION __wxh_ToolBarBegin( parent, id, toFrame, pos, size, style, name )
 	IF parent == NIL
 		parent := containerObj():LastParent()
 	ENDIF
+	
+	IF style = NIL
+		style := HB_BitOr( wxTB_HORIZONTAL, wxNO_BORDER, wxTB_TEXT )
+	ENDIF
 
 	IF toFrame == .T.
 		IF parent:IsDerivedFrom("wxFrame")

@@ -54,26 +54,26 @@ METHOD FUNCTION OnInit() CLASS MyApp
 				 WIDTH 640 HEIGHT 400 ;
 				 TITLE "ToolBar Sample"
 		 
-	BEGIN FRAME TOOLBAR
-	@ TOOL BUTTON ID 1 BITMAP bmp1
-	@ TOOL BUTTON ID 2 BITMAP bmp2
-	@ TOOL BUTTON ID 3 BITMAP "wxwin32x32.png"
-	@ SAY "Your Name is:"
-	@ GET name
-	@ TOOL SEPARATOR
-	@ CHOICE ch1 ITEMS {"One","Two","Three"}
+	BEGIN FRAME TOOLBAR STYLE 0x0100
+		@ TOOL BUTTON ID 1 BITMAP bmp1 LABEL "Btn 1"
+		@ TOOL BUTTON ID 2 BITMAP bmp2 LABEL "Btn 2"
+		@ TOOL BUTTON ID 3 BITMAP "wxwin32x32.png" LABEL "Btn 3"
+		@ SAY "Your Name is:"
+		@ GET name
+		@ TOOL SEPARATOR
+		@ CHOICE ch1 ITEMS {"One","Two","Three"}
 
-	@ TOOL SEPARATOR
-	@ TOOL CHECK ID 500 LABEL "Check Tool" BITMAP "find.xpm" SHORTHELP "This is a Check Tool" LONGHELP "LongHelp" ACTION {|| wxMessageBox("","Check Tool Executed...", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
-	@ TOOL SEPARATOR
-	@ TOOL RADIO ID 900 BITMAP "find.xpm" SHORTHELP "Tool Radio 1" ACTION {|| wxMessageBox("Tool Radio 1","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
-	@ TOOL RADIO ID 901 BITMAP "find.xpm" SHORTHELP "Tool Radio 2" ACTION {|| wxMessageBox("Tool Radio 2","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
-	@ TOOL RADIO ID 902 BITMAP "find.xpm" SHORTHELP "Tool Radio 3" ACTION {|| wxMessageBox("Tool Radio 3","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
-	@ TOOL SEPARATOR
-	@ TOOL BUTTON ID 1000 BITMAP "find.xpm"  SHORTHELP "Tool Button" ACTION {|| wxMessageBox("","Tool Button Executed...",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+		@ TOOL SEPARATOR
+		@ TOOL CHECK ID 500 LABEL "Check Tool" BITMAP "find.xpm" SHORTHELP "This is a Check Tool" LONGHELP "LongHelp" ACTION {|| wxMessageBox("","Check Tool Executed...", HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+		@ TOOL SEPARATOR
+		@ TOOL RADIO ID 900 BITMAP "find.xpm" SHORTHELP "Tool Radio 1" ACTION {|| wxMessageBox("Tool Radio 1","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+		@ TOOL RADIO ID 901 BITMAP "find.xpm" SHORTHELP "Tool Radio 2" ACTION {|| wxMessageBox("Tool Radio 2","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+		@ TOOL RADIO ID 902 BITMAP "find.xpm" SHORTHELP "Tool Radio 3" ACTION {|| wxMessageBox("Tool Radio 3","",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
+		@ TOOL SEPARATOR
+		@ TOOL BUTTON ID 1000 BITMAP "find.xpm"  SHORTHELP "Tool Button" ACTION {|| wxMessageBox("","Tool Button Executed...",HB_BitOr( wxOK, wxICON_INFORMATION ) ) }
 
-	@ TOOL SEPARATOR
-	@ COMBOBOX cb1 ITEMS {"MacOS","Linux","Windows"}
+		@ TOOL SEPARATOR
+		@ COMBOBOX cb1 ITEMS {"MacOS","Linux","Windows"}
 	END TOOLBAR
 	
 	DEFINE MENUBAR STYLE 1
