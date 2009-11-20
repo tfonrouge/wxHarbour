@@ -474,6 +474,7 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\wxh\socket.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\taskbar.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\textctrl.ch $(PREFIX)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\toolbar.ch $(PREFIX)\include\wxHarbour\wxh
 
 uninstall_wxHarbour_headers : .SYMBOLIC 
 	-if exist $(PREFIX)\include\wxHarbour\defs.ch -del $(PREFIX)\include\wxHarbour\defs.ch
@@ -505,6 +506,7 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\wxh\socket.ch -del $(PREFIX)\include\wxHarbour\wxh\socket.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\taskbar.ch -del $(PREFIX)\include\wxHarbour\wxh\taskbar.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
+	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
 
 demos : .SYMBOLIC $(__BUILDDIR__)\$(WXHLIBNAME).lib
 	cd demos
