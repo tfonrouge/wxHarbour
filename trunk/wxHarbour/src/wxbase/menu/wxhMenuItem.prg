@@ -36,6 +36,7 @@ PUBLIC:
 	METHOD Enable( enable )
 	METHOD GetItemLabel
 	METHOD GetItemLabelText
+	METHOD SetBitmap( bitmap )
 PUBLISHED:
 ENDCLASS
 

@@ -2,6 +2,38 @@
  * $Id$
  */
 
+2009-11-21 11:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh/button.ch
+     * added define's for label align
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+     * added "button.ch" include
+     % added BITMAP clause to ADD MENUITEM
+     * added SetLabel() to bitmap buttons
+     
+  *  samples/bitmapButton/bitmapButton.prg
+     * enhanced sample
+
+  *  samples/menu/menu.prg
+  +  samples/menu/bitmap2.bmp
+  +  samples/menu/fileopen.xpm
+  +  samples/menu/print.xpm
+     * enhanced menu to show bitmap on menu items
+
+  *  src/wxbase/menu/wx_MenuItem.cpp
+  *  src/wxbase/menu/wxhMenuItem.prg
+     + added method:
+       + SetBitmap()
+
+  +  samples/mdi
+  +  samples/mdi/GNUmakefile
+  +  samples/mdi/makefile.bcc
+  +  samples/mdi/makefile.gcc
+  +  samples/mdi/makefile.vc
+  +  samples/mdi/mdi.prg
+     * added MDI sample (MDI is currently behaving ok on wxMSW)
+
 2009-11-20 15:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

@@ -61,8 +61,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
 	bmp:LoadFile("fileopen.xpm", wxBITMAP_TYPE_XPM )
 
 	BEGIN BOXSIZER HORIZONTAL
-			@ BUTTON ID wxID_OPEN BITMAP bmp ACTION { | | fnOpen(oWnd)  }
-			@ BUTTON ID wxID_CLOSE BITMAP "void.xpm"
+			@ BUTTON "Open" ID wxID_OPEN BITMAP bmp STYLE wxBU_BOTTOM ACTION { | | fnOpen(oWnd)  }
+			@ BUTTON "Void" ID wxID_CLOSE BITMAP "void.xpm"
 			@ BUTTON ID wxID_NEW BITMAP "find.xpm"
 			@ BUTTON ID wxID_SAVE BITMAP "print.xpm"
 			@ BUTTON ID wxID_CANCEL BITMAP "bitmap2.bmp"

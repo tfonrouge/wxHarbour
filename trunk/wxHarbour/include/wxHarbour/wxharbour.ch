@@ -46,6 +46,7 @@
 #include "wx.ch"
 
 #include "wxh/auibook.ch"
+#include "wxh/button.ch"
 #include "wxh/gauge.ch"
 #include "wxh/notebook.ch"
 #include "wxh/textctrl.ch"
@@ -146,10 +147,11 @@
 							[ID <nID>] ;
 							[HELPLINE <cHelpString>] ;
 							[<kind: CHECK,RADIO>] ;
+							[BITMAP <bitmap> ] ;
 							[ACTION <bAction> ] ;
 							[ENABLED <enabled> ] ;
 					=> ;
-					[<menu> :=] __wxh_MenuItemAdd( [<nID>], <cLabel>, [<cHelpString>], [wxITEM_<kind>], [<{bAction}>], [<enabled>] )
+					[<menu> :=] __wxh_MenuItemAdd( [<nID>], <cLabel>, [<cHelpString>], [wxITEM_<kind>], [<bitmap>], [<{bAction}>], [<enabled>] )
 
 #xcommand ADD MENUSEPARATOR ;
 					=> ;

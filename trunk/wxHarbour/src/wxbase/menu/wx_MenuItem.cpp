@@ -59,8 +59,7 @@ HB_FUNC( WXMENUITEM_NEW )
 */
 HB_FUNC( WXMENUITEM_ENABLE )
 {
-	PHB_ITEM pSelf = hb_stackSelfItem();
-	wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( pSelf );
+	wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
 	if( menuItem )
 		menuItem->Enable( hb_parl( 1 ) );
@@ -92,4 +91,19 @@ HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
 	if( menuItem )
 		wxh_retc( menuItem->GetItemLabelText() );
 #endif
+}
+
+/*
+	SetBitmap
+ Teo. Mexico 2009
+ */
+HB_FUNC( WXMENUITEM_SETBITMAP )
+{
+	wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( menuItem )
+	{
+		const wxBitmap& bitmap = * (wxBitmap *) wxh_par_WX( 1 );
+		menuItem->SetBitmap( bitmap );
+	}
 }

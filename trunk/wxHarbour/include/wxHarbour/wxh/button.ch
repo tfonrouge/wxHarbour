@@ -21,6 +21,13 @@
 #ifndef _WXH_BUTTON_CH_BASE_
 #define _WXH_BUTTON_CH_BASE_
 
+// These flags affect label alignment
+#define wxBU_LEFT            0x0040
+#define wxBU_TOP             0x0080
+#define wxBU_RIGHT           0x0100
+#define wxBU_BOTTOM          0x0200
+#define wxBU_ALIGN_MASK      HB_BitOr( wxBU_LEFT, wxBU_TOP, wxBU_RIGHT, wxBU_BOTTOM )
+
 #define wxBU_AUTODRAW	  0x0004
 
 #endif
