@@ -986,6 +986,9 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
 			style := _hb_BitOr( style, wxBU_AUTODRAW )
 		ENDIF
 		button := wxBitmapButton():New( window, id, bitmap, pos, size, style, validator, name )
+		IF label != NIL
+			button:SetLabel( label )
+		ENDIF
 	ENDIF
 
 	IF bAction != NIL
@@ -1472,10 +1475,11 @@ RETURN
 	__wxh_MenuItemAdd
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bAction, enabled )
+FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bmp, bAction, enabled )
 	LOCAL menu
 	LOCAL menuItem
 	LOCAL nLast
+	LOCAL bitmap
 
 	IF id=NIL
 		id := menuData:g_menuID++
@@ -1490,6 +1494,13 @@ FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bAction, enabled )
 	menu := menuData:g_menuList[ nLast ]["menu"]
 
 	menuItem := wxMenuItem():New( menu, id, text, helpString, kind )
+	IF bmp != NIL
+		bitmap := __wxh_GetBitmapResource( bmp )
+		IF bitmap != NIL
+			menuItem:SetBitmap( bitmap )
+		ENDIF
+	ENDIF
+
 	menu:Append( menuItem )
 
 	IF bAction = NIL

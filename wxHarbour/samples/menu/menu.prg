@@ -57,11 +57,12 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
 	DEFINE MENUBAR
 		DEFINE MENU "&File"
-			ADD MENUITEM E"Open \tF1" ACTION {|| Open( oWnd ) }
+			ADD MENUITEM E"Open \tF1" BITMAP "fileopen.xpm" ACTION {|| Open( oWnd ) }
+			ADD MENUITEM E"Printer" BITMAP "print.xpm" ACTION {|| wxMessageBox( "Printing..." ) }
 			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() HELPLINE "Quits this sample..."
 		ENDMENU
 		DEFINE MENU "Process"
-			ADD MENUITEM "Item1"
+			ADD MENUITEM "Item1" BITMAP "bitmap2.bmp"
 			DEFINE MENU "Sub-Menu"
 				ADD MENUITEM "Sub-Item1"
 				DEFINE MENU "Sub-Process"
