@@ -62,7 +62,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() HELPLINE "Quits this sample..."
 		ENDMENU
 		DEFINE MENU "Process"
-			ADD MENUITEM "Item1" BITMAP "bitmap2.bmp"
+			ADD MENUITEM "Item1" BITMAP "bitmap2.bmp" ACTION {|| wxMessageBox( "Some action..." ) }
 			DEFINE MENU "Sub-Menu"
 				ADD MENUITEM "Sub-Item1"
 				DEFINE MENU "Sub-Process"

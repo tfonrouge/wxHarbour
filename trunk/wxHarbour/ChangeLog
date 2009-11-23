@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-11-23 11:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/menu/menu.prg
+     * updated sample
+
 2009-11-21 11:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh/button.ch
      * added define's for label align
