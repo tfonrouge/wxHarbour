@@ -2,6 +2,27 @@
  * $Id$
  */
 
+2009-11-24 12:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/helloworld/helloworld.prg
+     * enhanced demo
+
+  +  samples/menu/makefile.gcc
+  +  samples/menu/makefile.vc
+  +  samples/searchCtrl/GNUmakefile
+  +  samples/searchCtrl/makefile.bcc
+  +  samples/searchCtrl/makefile.gcc
+  +  samples/searchCtrl/makefile.vc
+  +  samples/sizers/makefile.vc
+  +  samples/text/makefile.gcc
+  +  samples/text/makefile.vc
+  +  samples/wxget/makefile.bcc
+  +  samples/wxget/makefile.gcc
+  +  samples/wxget/makefile.vc
+  +  samples/wxwindow/makefile.bcc
+  +  samples/wxwindow/makefile.gcc
+  +  samples/wxwindow/makefile.vc
+     * added forgotten makefiles (Thanks Javier)
+
 2009-11-24 10:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
