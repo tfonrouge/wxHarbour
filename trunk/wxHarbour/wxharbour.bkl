@@ -47,13 +47,15 @@
 
 	<subproject id="demos">
 		<dir>demos</dir>
-		<depends>wxHarbour</depends>
+		<depends>all</depends>
 		<installable>no</installable>
 	</subproject>
 
-	<action id="sudoinstall">
-		<depends>wxHarbour</depends>
-		<command>sudo make install</command>
-	</action>
+	<if cond="TOOLSET=='unix'">
+		<action id="sudoinstall">
+			<depends>all</depends>
+			<command>sudo make install</command>
+		</action>
+	</if>
 
 </makefile>

@@ -475,11 +475,8 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
 
-demos: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
+demos: all
 	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) all
-
-sudoinstall: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	sudo make install
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<

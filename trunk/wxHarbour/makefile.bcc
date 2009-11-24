@@ -551,14 +551,11 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
 
-demos: $(__BUILDDIR__)\$(WXHLIBNAME).lib
+demos: all
 	@echo cd demos >$(__BUILDDIR__)\demos.bat
 	@echo $(MAKE) -f makefile.bcc $(MAKEARGS) all >>$(__BUILDDIR__)\demos.bat
 	call $(__BUILDDIR__)\demos.bat
 	@del $(__BUILDDIR__)\demos.bat
-
-sudoinstall: $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	sudo make install
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.obj: .\src\common\wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**

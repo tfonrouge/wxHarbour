@@ -440,10 +440,10 @@ uninstall_wxHarbour_headers:
 	rm -f $(DESTDIR)$(prefix)/$$f; \
 	done
 
-demos: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
+demos: all
 	(cd demos && $(MAKE) all)
 
-sudoinstall: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
+sudoinstall: all
 	sudo make install
 
 $(__BUILDDIR__)/wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
