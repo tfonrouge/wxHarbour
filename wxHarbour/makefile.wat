@@ -508,13 +508,10 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
 
-demos : .SYMBOLIC $(__BUILDDIR__)\$(WXHLIBNAME).lib
+demos : .SYMBOLIC all
 	cd demos
 	wmake $(__MAKEOPTS__) -f makefile.wat $(MAKEARGS) all
 	cd $(WATCOM_CWD)
-
-sudoinstall :  $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	sudo make install
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.obj :  .AUTODEPEND .\src\common\wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<

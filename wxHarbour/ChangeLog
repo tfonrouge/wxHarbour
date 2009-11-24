@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2009-11-24 10:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+  *  wxharbour.bkl
+     * remove objetive "sudoinstall" on non unix toolset's
+
 2009-11-23 11:55 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/menu/menu.prg
      * updated sample
