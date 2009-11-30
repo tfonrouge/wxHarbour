@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2009-11-30 11:59 UTC+0100 Viktor Szakats (harbour.01 syenar.hu)
+  * wxharbour.hbp
+  * wxharbour.hbc
+    + Updated to use HB_WITH_WX envvar instead of HB_INC_WX and
+      HB_DIR_WX. HB_WITH_WX should have the same value as HB_INC_WX
+      had.
+    % Deleted one BCC flag not needed anymore.
+
 2009-11-24 12:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/helloworld/helloworld.prg
      * enhanced demo
@@ -45,7 +53,7 @@
      * added "button.ch" include
      % added BITMAP clause to ADD MENUITEM
      * added SetLabel() to bitmap buttons
-     
+
   *  samples/bitmapButton/bitmapButton.prg
      * enhanced sample
 
@@ -561,7 +569,7 @@
      * changed default of "HBLINKMODE" to static
        ; More tests are needed to make equal all platforms
      % simplified some sections
-     
+
   *  GNUmakefile
   *  demos/dbExplorer/GNUmakefile
   *  demos/dbExplorer/makefile.bcc
@@ -1204,7 +1212,7 @@
      * renamed translate _SW_OTHERWISE to _OTHERWISE
 
   *  src/common/wx_harbour.cpp
-     
+
   +  include/wxHarbour/xhbcompat.h
      * will contain defines needed to compiling with xHarbour libs
 
@@ -1231,7 +1239,7 @@
 
   *  src/raddox/TField.prg
      ! Fixed error getting value at AsIndexKeyVal()
-     
+
   *  src/raddox/TTable.prg
      % added ::autoOpen flag
      * changed OnAfterInsert() removed logical value required, now is a PROCEDURE
@@ -1349,7 +1357,7 @@
   *  src/raddox/TField.prg
      * inherit from wxhBaseClass
      ! Fixed error when trying to assign a value to a TField and the database is inactive
-     
+
   *  src/raddox/TTable.prg
      * inherit from wxhBaseClass
      + added capability to set a MasterSource from a TObjectField ( ::SetMasterSource() )
@@ -1438,7 +1446,7 @@
 
 2009-10-03 01:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * include/wxHarbour/raddox.ch
-    * on command ADD [...] FIELD, clause "ON CHANGE" is changed to "ON AFTER CHANGE" 
+    * on command ADD [...] FIELD, clause "ON CHANGE" is changed to "ON AFTER CHANGE"
       a more meaningfull description
 
   * src/raddox/TField.prg
@@ -1468,7 +1476,7 @@
     + on TObjectField, added clause MASTERSOURCE to give the MasterSource for
       the linked table
     ! Fixed error on complex relations from TObjectField's using another TObjectField
-      in the same Table as MasterSource and an Eof was found leading to an attemp to Reset 
+      in the same Table as MasterSource and an Eof was found leading to an attemp to Reset
       (reassign the MasterKeyField) and reinitialize the whole database again (infinite loop)
 
   * src/raddox/TTable.prg
@@ -1541,7 +1549,7 @@
   * tests/socketSrv/socketSrv.prg
     * fixed adding wxOK parameter to wxMessageBox (complaint given when
       compiling with SVN wxWidgets 2.9.1)
-      
+
   * src/common/sysdefs.cpp
     * modified to compile with wxWidgets 2.9.1 (SVN)
 
@@ -1562,14 +1570,14 @@
     ! Fixed ::GetColumn( nCol )
     % enhanced ::SetValue() to deal with the cell edition when using TFields linked
       to column objects
-     
+
   * src/raddox/TAlias.prg
     + added methods:
       + DbUnLock()
       + FLock()
 
   * src/raddox/TField.prg
-    * eliminated the Alert when trying to do a search on a not indexed field 
+    * eliminated the Alert when trying to do a search on a not indexed field
       (::SetAsVariant( value ) )
     ! Fixed validation for a existing ::Table:PrimaryIndex
     * removed in TObjectField:
@@ -1600,7 +1608,7 @@
       + IsReadOnly( row,col )
       + IsSelection()
       + SetColAttr( col, attr ) // attr is a valid colour string. (only)
-     
+
   * src/wxbase/baseclasses/wx_Window.cpp
   * src/wxbase/baseclasses/wxhWindow.prg
     + added methods:
@@ -1671,7 +1679,7 @@
   * src/wxbase/baseclasses/wxhWindow.prg
     + added method
       + DestroyChildren
-    
+
   * src/wxbase/books/wx_Notebook.cpp
   * src/wxbase/books/wxhNotebook.prg
     + added method
@@ -1797,7 +1805,7 @@
       + RefreshCurrent()
     * changed GetParent() method to return GetGrandParent() (parent of this
       control is a wxPanel)
-    
+
   * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
     * changed 2 space indentation to tab's
     ! Fixed error on FillGridBuffer to not dispatch a OnDataChange event
@@ -1970,12 +1978,12 @@
   * src/raddox/TTable.prg
     % improved logic to not fire OnDataChange() when in move methods
     ! Fixed PageUp/PageDown methods on wrong relocating ::RowPos
-    
+
   * src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
     % improved FillGridBuffer(), now accepting a paramter to indicate RecNo
       were to start
     % improved speed of scan for data
-    
+
   * src/raddox/TField.prg
     + added method:
       + IsReadOnly, returns value of ::FReadOnly | ::FCalculated
@@ -2009,7 +2017,7 @@
 
   * include/wxHarbour/wxbase/wx_Validator.h
     * enabling a default HB class of type wxValidator
-    
+
   * include/wxHarbour/wxh.h
   * src/common/wx_harbour.cpp
     + added wxh_ItemListSwap( oldObj, newObj ):
@@ -2092,7 +2100,7 @@
     * added explicit REQUEST for wxToolBarToolBase
     ! Fixed __wxh_EnableControl() function per wrong params provided
     ! Fixed __wxh_GetBitmapResource() on failed bitmap filename
-    
+
   * src/wxbase/menu/wx_Menu.cpp
     * using wxh_itemNewReturn() on ::Append methods
     ; TODO: check why first version of Append() is a void function
@@ -2107,7 +2115,7 @@
   * src/common/wxhfuncs.prg
     * added ENABLED clause to @ TOOL command
     * explicit define of code block on ENABLE clauses (@ TOOL, ADD MENUITEM)
-    
+
 2009-09-02 00:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   * GNUmakefile
   * makefile.bcc
@@ -2121,7 +2129,7 @@
   + src/wxbase/events/wx_UpdateUIEvent.cpp
   + src/wxbase/events/wxhUpdateUIEvent.prg
     + added wxUpdateUIEvent class, full methods.
-    
+
   * demos/dbExplorer/dbExplorer.prg
     ! Fixed error per changes on wxhBrowse class
 
@@ -2138,13 +2146,13 @@
     ! Fixed evaluating for a enabling a wxMenuItem on Mac OS, now using
       wxEVT_UPDATE_UI (wxUpdateUIEvent class)
     * code cleanup (ordering by function name)
-    
+
   * src/hrbcompat/errorsys/wxherrorsys.prg
     ! Fixed removed ::grid (obsolete)
-    
+
   * src/hrbcompat/tbrowse/wxhBrowse.prg
     * renaming DATA wxhBrowse:KeyEventBlock to ::keyDownEventBlock
-    
+
   * src/raddox/TTable.prg
     % simplified & slightly optimized GetDisplayFieldBlock()
 
@@ -2155,8 +2163,8 @@
   * src/wxbase/menu/wxhMenu.prg
     + added method:
       + FindItem()
-    * code cleanup    
-    
+    * code cleanup
+
   * tests/evtdefcheck/evtdefcheck.prg
   * tests/evtdefcheck/getdefs.cpp
     * test updated
@@ -2204,7 +2212,7 @@
   * src/common/wxhfuncs.prg
     * added clause CLASS to @ BROWSE command
     * made optional the var-value on the @ GET command
-    
+
   * src/raddox/TField.prg
     * added ::Type property
 
