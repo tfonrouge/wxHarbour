@@ -65,7 +65,8 @@
 						[ SIZE <nSize> ] ;
 						[ PICTURE <pict> ] ;
 						[ <pv: PRIVATE> ] ;
-			[ MASTERSOURCE <linkedTableMasterSource> ] ;
+						[ INCREMENT <incrementBlock> ] ;
+						[ MASTERSOURCE <linkedTableMasterSource> ] ;
 						[ OBJVALUE <objValue> ] ;
 						[ ON GETTEXT <bOnGetText> ] ;
 						[ ON SETTEXT <bOnSetText> ] ;
@@ -75,7 +76,7 @@
 						[ ON BEFORE CHANGE <bOnBeforeChange> ] ;
 						[ ON AFTER CHANGE <bOnAfterChange> ] ;
 						[ VALIDVALUES <validValues> ] ;
-			[ USING <usingField> ] ;
+						[ USING <usingField> ] ;
 					 => ;
 						WITH OBJECT T<type>Field():New( Self ) ;;
 							[ :Name := <cName> ] ;;
@@ -92,7 +93,8 @@
 							[ :Size := <nSize> ] ;;
 							[ :Picture := <pict> ] ;;
 							[ :Published := !<.pv.> ] ;;
-				[ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
+							[ :IncrementBlock := <incrementBlock> ] ;;
+							[ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
 							[ :ObjValue := <objValue> ] ;;
 							[ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
 							[ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
@@ -102,7 +104,7 @@
 							[ :OnBeforeChange := <bOnBeforeChange> ] ;;
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;
-				[ :UsingField := <usingField> ] ;;
+							[ :UsingField := <usingField> ] ;;
 							:ValidateFieldInfo() ;;
 						ENDWITH
 

@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2009-11-30 11:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+     % added INCREMENT clause to FIELD command; this allows to give a codeblock
+       in order to calculate an AUTOINCREMENTAL field
+     ! Fixed error on obtaining the MasterSource in a TObjectField, the mastersource
+       can be an subclass of the mastersource specified in the TDataBase struct
+
+  *  src/common/wx_harbour.cpp
+     ! Fixed error on translating the HB date parameter to wxDateTime, month in wxDateTime
+       is ZERO index based.
+
 2009-11-30 09:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      ! Fixed adding of $(WXHLIBNAME) on building wxharbour-dll makefiles

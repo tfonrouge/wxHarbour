@@ -138,7 +138,8 @@ PUBLIC:
 	PROPERTY WrittenValue READ FWrittenValue
 
 PUBLISHED:
-
+	
+	DATA IncrementBlock
 	DATA OnGetIndexKeyVal
 	/*
 	 * Event holders
@@ -325,7 +326,11 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
 	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyString, AIndex:Name )
 
-	value := Inc( value )
+	IF ::IncrementBlock = NIL
+		value := Inc( value )
+	ELSE
+		value := ::IncrementBlock:Eval( value )
+	ENDIF
 
 RETURN value
 
@@ -1599,10 +1604,8 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			ELSE
 				IF ::FLinkedTableMasterSource != NIL
 					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
-				ELSE
-					IF Upper( ::Table:GetMasterSourceClassName( ::FObjValue ) ) == ::FTable:ClassName
-						linkedTableMasterSource := ::FTable
-					ENDIF
+				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjValue ) )
+					linkedTableMasterSource := ::FTable
 				ENDIF
 				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
 			ENDIF
