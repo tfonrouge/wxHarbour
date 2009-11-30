@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-11-30 14:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * added parameter showAlert on ::Validate() message
+
 2009-11-30 11:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TField.prg
