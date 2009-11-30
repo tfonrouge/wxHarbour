@@ -185,7 +185,7 @@ PUBLIC:
 	METHOD SyncRecNo()
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
-	METHOD Validate()
+	METHOD Validate( showAlert )
 
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
@@ -1982,11 +1982,11 @@ RETURN
 	Validate
 	Teo. Mexico 2009
 */
-METHOD FUNCTION Validate() CLASS TTable
+METHOD FUNCTION Validate( showAlert ) CLASS TTable
 	LOCAL AField
 
 	FOR EACH AField IN ::FFieldList
-		IF !AField:IsValid()
+		IF !AField:IsValid( showAlert )
 			RETURN .F.
 		ENDIF
 	NEXT
