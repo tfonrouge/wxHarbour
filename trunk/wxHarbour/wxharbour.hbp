@@ -23,14 +23,14 @@
 -olib/${hb_arch}/${hb_comp}/wxharbour
 -nohbc
 
--i{mingw}${HB_DIR_WX}\lib\gcc_lib\msw
--i{msvc}${HB_DIR_WX}\lib\vc_lib\msw
--i{msvc64}${HB_DIR_WX}\lib\vc_amd64_lib\msw
--i{msvcia64}${HB_DIR_WX}\lib\vc_ia64_lib\msw
--i{win&watcom}${HB_DIR_WX}\include
--i{win&watcom}${HB_DIR_WX}\lib\wat_lib\msw
--i{bcc}${HB_DIR_WX}\lib\bcc_lib\msw
--i${HB_INC_WX}
+-i{mingw}${HB_WITH_WX}\..\lib\gcc_lib\msw
+-i{msvc}${HB_WITH_WX}\..\lib\vc_lib\msw
+-i{msvc64}${HB_WITH_WX}\..\lib\vc_amd64_lib\msw
+-i{msvcia64}${HB_WITH_WX}\..\lib\vc_ia64_lib\msw
+-i{win&watcom}${HB_WITH_WX}\..\include
+-i{win&watcom}${HB_WITH_WX}\..\lib\wat_lib\msw
+-i{bcc}${HB_WITH_WX}\..\lib\bcc_lib\msw
+-i${HB_WITH_WX}
 -iinclude/wxHarbour
 
 -cflag={win}-DWIN32
@@ -38,7 +38,6 @@
 -cflag={win&allmsvc}/EHsc
 -cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
--aflag={bcc}/P64
 
 src/common/*.cpp
 src/common/*.prg
