@@ -948,6 +948,7 @@ Where is wxWidgets installed
 	<define-rule name="wxharbour-dll" extends="dll">
 		<template template="__commands_harbour">
 			<define>HB_DYNLIB</define>
+			<sys-lib>$(WXHLIBNAME)</sys-lib>
 		</template>
 		<template template="__harbour_libs">
 		</template>

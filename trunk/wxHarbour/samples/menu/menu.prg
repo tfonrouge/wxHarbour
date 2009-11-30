@@ -64,7 +64,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		DEFINE MENU "Process"
 			ADD MENUITEM "Item1" BITMAP "bitmap2.bmp" ACTION {|| wxMessageBox( "Some action..." ) }
 			DEFINE MENU "Sub-Menu"
-				ADD MENUITEM "Sub-Item1"
+				ADD MENUITEM "Sub-Item1" ID wxID_OPEN ACTION {|| wxMessageBox( "Some action..." ) }
 				DEFINE MENU "Sub-Process"
 					ADD MENUITEM "Item1"
 					DEFINE MENU "Sub-Menu"
@@ -78,7 +78,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 				ADD MENUITEM "Sub-Item2"
 				ADD MENUITEM "Sub-Item3"
 				ADD MENUSEPARATOR
-				ADD MENUITEM "Sub-Item1"
+				ADD MENUITEM "Sub-Item4"
 			ENDMENU
 		ENDMENU
 		DEFINE MENU "Help"
