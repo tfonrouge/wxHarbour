@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-12-01 13:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! ::IsReadOnly now check for ::AutoIncrement flag
+
 2009-11-30 14:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * added parameter showAlert on ::Validate() message
