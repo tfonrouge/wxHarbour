@@ -323,7 +323,7 @@ METHOD FUNCTION InsideScope CLASS TIndex
 	scopeVal := ::GetScope()
 	
 	IF scopeVal == NIL
-		RETURN Empty( masterKeyString ) .OR. keyValue = masterKeyString
+		RETURN masterKeyString == "" .OR. keyValue = masterKeyString
 	ENDIF
 	
 RETURN keyValue >= ( masterKeyString + ::GetScopeTop() ) .AND. ;

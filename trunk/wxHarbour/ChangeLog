@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-12-02 02:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed flag for ::IsReadOnly when ::AutoIncrement and ::Table:State != dsBrowse
+
+  *  src/raddox/TIndex.prg
+     ! Fixed bug that prevented set scopes when evaluating the masterKeyString
+
+  *  src/raddox/TTable.prg
+     * checking for ::Eof/::Bof on ::SkipBrowse
+
 2009-12-01 13:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! ::IsReadOnly now check for ::AutoIncrement flag
