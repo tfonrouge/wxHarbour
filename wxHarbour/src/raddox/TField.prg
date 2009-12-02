@@ -113,7 +113,7 @@ PUBLIC:
 	METHOD GetEditText
 	METHOD GetData()
 	METHOD GetValidValues
-	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated .OR. ::AutoIncrement
+	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()

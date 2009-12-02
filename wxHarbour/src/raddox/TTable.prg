@@ -1901,7 +1901,7 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 	ENDIF
 
 	IF n > 0
-		WHILE num_skipped < n
+		WHILE !::Eof() .AND. num_skipped < n
 			recNo := ::RecNo
 			::DbSkip( 1 )
 			IF ::Eof()
@@ -1911,7 +1911,7 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 			num_skipped++
 		ENDDO
 	ELSE
-		WHILE num_skipped > n
+		WHILE !::Bof() .AND. num_skipped > n
 			recNo := ::RecNo
 			::DbSkip( -1 )
 			IF ::Bof()
