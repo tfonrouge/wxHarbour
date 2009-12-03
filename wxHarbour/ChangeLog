@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2009-12-02 20:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/helloworld/helloworld.prg
+  *  src/common/wx_harbour.cpp
+     * updated demo to experiment with wxh_NullObject()
+
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+     * added clause ON SEARCH to ADD FIELD command, triggers when searching on an indexed field
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed double assigning of data on FBlock on wxhHBValidator:TransferFromWindow
+
+  *  src/raddox/TIndex.prg
+     % Optimized DbSkip()
+
+  *  src/raddox/TTable.prg
+     ! Fixed storing the detail sources on a mastersource table
+       TODO: Remove references in mastersource when a detail is closed/destroyed
+
 2009-12-02 02:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed flag for ::IsReadOnly when ::AutoIncrement and ::Table:State != dsBrowse

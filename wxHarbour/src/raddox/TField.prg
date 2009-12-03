@@ -145,6 +145,7 @@ PUBLISHED:
 	 * Event holders
 	 */
 	DATA OnGetText			// Params: Sender: TField, Text: String
+	DATA OnSearch			// Search in indexed field
 	DATA OnSetText			// Params: Sender: TField, Text: String
 	DATA OnSetValue			// Parama:
 	DATA OnBeforeChange
@@ -626,6 +627,10 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 	IF ::FTable:State = dsBrowse
 	
 		IF ::IsKeyIndex
+		
+			IF ::OnSearch != NIL
+				::OnSearch:Eval( Self )
+			ENDIF
 
 			IF !Empty( rawValue )
 				::KeyIndex:Seek( rawValue )

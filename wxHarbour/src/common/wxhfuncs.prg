@@ -504,6 +504,7 @@ RETURN value
 */
 METHOD TransferFromWindow() CLASS wxhHBValidator
 	LOCAL control
+	LOCAL oldValue, oldValueLen
 	LOCAL value
 	LOCAL Result := .T.
 	
@@ -517,27 +518,34 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 			value := control:GetValue()
 		ENDIF
 
-		::FBlock:Eval( value )
-	
-		value := ::FBlock:Eval()
+		oldValue := ::FBlock:Eval()
+		oldValueLen := Len( oldValue )
 		
-		SWITCH ValType( value )
-		CASE 'C'
-			EXIT
-		CASE 'D'
-			value := FDateS( value )
-			EXIT
-		CASE 'N'
-			IF Empty( ::picture )
-				value := Str( value )
-			ELSE
-				value := Transform( value, ::picture )
-			ENDIF
-			EXIT
-		END
+		IF !oldValue == PadR( value, oldValueLen )
 
-		control:ChangeValue( wxh_OEMTowxString( RTrim( value ) ) )
+			::FBlock:Eval( value )
+		
+			value := ::FBlock:Eval()
+			
+			SWITCH ValType( value )
+			CASE 'C'
+				EXIT
+			CASE 'D'
+				value := FDateS( value )
+				EXIT
+			CASE 'N'
+				IF Empty( ::picture )
+					value := Str( value )
+				ELSE
+					value := Transform( value, ::picture )
+				ENDIF
+				EXIT
+			END
 
+			control:ChangeValue( wxh_OEMTowxString( RTrim( value ) ) )
+
+		ENDIF
+		
 	ELSEIF control:IsDerivedFrom( "wxCheckBox" )
 
 		::FBlock:Eval( control:GetValue() )

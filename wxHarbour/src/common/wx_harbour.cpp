@@ -518,16 +518,29 @@ void wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent
  */
 PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
 {
-	PHB_ITEM pNullObj = NULL;
-
 	if( HB_IS_OBJECT( pSelf ) )
 	{
-		pNullObj = hb_itemNew( NULL );
-		hb_itemRawCpy( pNullObj, pSelf );
+		hb_gcRefDec( pSelf->item.asArray.value );
 	}
 
-	return pNullObj;
+	return pSelf;
 }
+
+HB_FUNC( WXH_NULLOBJECT )
+{
+	hb_itemReturn( wxh_itemNullObject( hb_param( 1, HB_IT_OBJECT ) ) );
+}
+
+HB_FUNC( WXH_DESTROYNULLOBJECT )
+{
+	PHB_ITEM pSelf = hb_param( 1, HB_IT_OBJECT );
+	
+	if ( pSelf ) 
+	{
+		pSelf->type = HB_IT_NIL;
+	}
+}
+
 #endif
 
 /*
