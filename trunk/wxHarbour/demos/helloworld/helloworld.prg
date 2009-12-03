@@ -19,11 +19,43 @@ FUNCTION Main()
 
 RETURN NIL
 
+PROCEDURE CTest()
+	LOCAL o
+
+	o := MyClass1():New()
+
+	wxGetApp():MyObj := WXH_NullObject( o )
+
+	? "Copy:", wxGetApp():MyObj:ClassName()
+	wxGetApp():MyObj:Ping()
+
+	o := NIL
+
+	? "Class is finished ?"
+
+	? wxGetApp():MyObj:ClassName()
+
+RETURN
+
+CLASS MyClass1
+
+	DESTRUCTOR Destruct()
+
+	METHOD Ping INLINE qout("Hello...")
+
+ENDCLASS
+
+METHOD PROCEDURE Destruct() CLASS MyClass1
+	? "Destroying: " + ::ClassName()
+	//ASize( wxGetApp():MyObj, 1 )
+RETURN
+
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
 	DATA frame
+	DATA MyObj
 	METHOD OnInit()
 PUBLISHED:
 ENDCLASS
@@ -31,6 +63,10 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS MyApp
 	LOCAL g_cve := ""
 	LOCAL cComentario := ""
+
+	CTest()
+	
+	//? "devuelta:", wxGetApp():MyObj:ClassName()
 
 	CREATE FRAME ::frame ;
 		TITLE "Frame1"

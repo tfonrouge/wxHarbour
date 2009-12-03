@@ -73,6 +73,7 @@
 						[ ON SETVALUE <bOnSetValue> ] ;
 						[ ON INDEXKEYVAL <bIndexKeyVal> ] ;
 						[ ON VALIDATE <bOnValidate> ] ;
+						[ ON SEARCH <bOnSearch> ] ;
 						[ ON BEFORE CHANGE <bOnBeforeChange> ] ;
 						[ ON AFTER CHANGE <bOnAfterChange> ] ;
 						[ VALIDVALUES <validValues> ] ;
@@ -101,6 +102,7 @@
 							[ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;
 							[ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
 							[ :OnValidate := <bOnValidate> ] ;;
+							[ :OnSearch := <bOnSearch> ] ;;
 							[ :OnBeforeChange := <bOnBeforeChange> ] ;;
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;

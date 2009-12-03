@@ -68,7 +68,7 @@ PUBLIC:
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
 	METHOD DbSkip( numRecs )
 	METHOD ExistKey( keyValue )
-	METHOD InsideScope
+	METHOD InsideScope()
 	METHOD MasterKeyString()
 	METHOD RawSeek( Value )
 
@@ -259,10 +259,6 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
 	::FTable:Alias:DbSkip( numRecs, ::FName )
 
-	IF !::InsideScope()
-		::FTable:DbGoTo( 0 )
-	ENDIF
-
 	::FTable:GetCurrentRecord()
 
 RETURN
@@ -303,7 +299,7 @@ RETURN AField
 	InsideScope
 	Teo. Mexico 2008
 */
-METHOD FUNCTION InsideScope CLASS TIndex
+METHOD FUNCTION InsideScope() CLASS TIndex
 	LOCAL masterKeyString
 	LOCAL scopeVal
 	LOCAL keyValue

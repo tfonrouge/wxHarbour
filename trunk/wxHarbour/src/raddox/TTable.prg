@@ -117,7 +117,7 @@ PUBLIC:
 	/*!
 		array of possible TObjectField's that have this (SELF) object referenced
 	 */
-	DATA DetailSourceList INIT HB_HSetCaseMatch( {=>}, .F. )
+	DATA DetailSourceList INIT {=>}
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
 	DATA FUnderReset INIT .F.
 	DATA LinkedObjField
@@ -161,7 +161,7 @@ PUBLIC:
 	METHOD IndexByName( IndexName )
 	METHOD Insert()
 	METHOD InsertRecord( Value )
-	METHOD InsideScope
+	METHOD InsideScope()
 	METHOD Open
 	METHOD Post()
 	METHOD RawSeek( Value )
@@ -496,17 +496,19 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD FUNCTION ChildSource( tableName ) CLASS TTable
-	LOCAL table
+	LOCAL itm
+	
+	tableName := Upper( tableName )
 
 	/* tableName is in the DetailSourceList */
-	IF HB_HHasKey( ::DetailSourceList, tableName )
-		table := ::DetailSourceList[ tableName ]
-		table:Reset()
-	ELSE
-		table := __ClsInstFromName( Upper( tableName ) ):New( Self )
-	ENDIF
-
-RETURN table
+	FOR EACH itm IN ::DetailSourceList
+		IF itm:ClassName() == tableName
+			itm:Reset()
+			RETURN itm
+		ENDIF
+	NEXT
+	
+RETURN __ClsInstFromName( tableName ):New( Self )
 
 /*
 	CopyRecord
@@ -592,7 +594,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
 
 	IF ::FMasterSource != NIL
 		DetailSourceList := ::MasterSource:DetailSourceList
-		::MasterSource:DetailSourceList := HB_HSetAutoAdd( {=>}, .T. )
+		::MasterSource:DetailSourceList := {=>}
 	ENDIF
 
 	IF ::pSelf == NIL
@@ -1463,7 +1465,7 @@ RETURN
 	InsideScope
 	Teo. Mexico 2008
 */
-METHOD FUNCTION InsideScope CLASS TTable
+METHOD FUNCTION InsideScope() CLASS TTable
 
 	IF ::Eof() .OR. ::Bof()
 		RETURN .F.
@@ -1533,7 +1535,7 @@ RETURN .T.
 METHOD FUNCTION Post CLASS TTable
 	LOCAL AField
 	LOCAL errObj
-	LOCAL table
+	LOCAL itm
 	LOCAL result := .F.
 
 	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
@@ -1547,9 +1549,9 @@ METHOD FUNCTION Post CLASS TTable
 		IF ::OnBeforePost()
 
 			IF Len( ::DetailSourceList ) > 0
-				FOR EACH table IN ::DetailSourceList
-					IF AScan( { dsEdit, dsInsert }, table:State ) > 0
-						table:Post()
+				FOR EACH itm IN ::DetailSourceList
+					IF AScan( { dsEdit, dsInsert }, itm:State ) > 0
+						itm:Post()
 					ENDIF
 				NEXT
 			ENDIF
@@ -1839,23 +1841,14 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 	ENDIF
 
 	/*
-	 * removes any previous entry for Self in MasterSource:DetailSourceList
-	 */
-	IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName )
-		HB_HDel( ::MasterSource:DetailSourceList, ::ClassName )
-	ENDIF
-
-	/*
 	 * Check if another Self is already in the MasterSource DetailSourceList
 	 * and RAISE ERROR if another Self is trying to break the previous link
 	 */
-	IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ClassName) .AND. ;
-		::MasterSource:DetailSourceList[ ::ClassName ] != NIL .AND. ;
-		!::MasterSource:DetailSourceList[ ::ClassName ] == Self
+	IF HB_HHasKey( ::MasterSource:DetailSourceList, Self:ObjectH )
 		RAISE ERROR "Cannot re-assign DetailSourceList:<" + ::ClassName +">"
 	ENDIF
 
-	::MasterSource:DetailSourceList[ ::ClassName ] := Self
+	::MasterSource:DetailSourceList[ Self:ObjectH ] := Self
 
 	::SyncFromMasterSourceFields()
 
@@ -1929,13 +1922,11 @@ RETURN num_skipped
 	Teo. Mexico 2007
 */
 METHOD PROCEDURE SyncDetailSources CLASS TTable
-	LOCAL DetailSource
+	LOCAL itm
 
 	IF !Empty( ::DetailSourceList )
-		FOR EACH DetailSource IN ::DetailSourceList
-			IF DetailSource != NIL
-				DetailSource:SyncFromMasterSourceFields()
-			ENDIF
+		FOR EACH itm IN ::DetailSourceList
+			itm:SyncFromMasterSourceFields()
 		NEXT
 	ENDIF
 
@@ -1947,17 +1938,14 @@ RETURN
 */
 METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 
-	IF ::MasterSource != NIL .AND. ::Active .AND. ::MasterSource:Active
+	IF ::MasterSource != NIL .AND. ::FActive .AND. ::MasterSource:Active
 		/* TField:Reset does the job */
 		IF ::PrimaryMasterKeyField != NIL
 			::PrimaryMasterKeyField:Reset()
 		ENDIF
 
-		IF ::FActive .AND. !::InsideScope()
-			::DbGoTop()
-		ELSE
-			::GetCurrentRecord()
-		ENDIF
+		::GetCurrentRecord()
+
 	ENDIF
 	
 RETURN
