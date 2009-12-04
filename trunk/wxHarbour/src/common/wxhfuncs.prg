@@ -504,7 +504,8 @@ RETURN value
 */
 METHOD TransferFromWindow() CLASS wxhHBValidator
 	LOCAL control
-	LOCAL oldValue, oldValueLen
+	LOCAL oldValue
+	LOCAL newValue
 	LOCAL value
 	LOCAL Result := .T.
 	
@@ -517,11 +518,22 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 		ELSE
 			value := control:GetValue()
 		ENDIF
-
-		oldValue := ::FBlock:Eval()
-		oldValueLen := Len( oldValue )
 		
-		IF !oldValue == PadR( value, oldValueLen )
+		oldValue := ::FBlock:Eval()
+
+		SWITCH ValType( oldValue )
+		CASE 'C'
+			newValue := PadR( value, Len( oldValue ) )
+			EXIT
+		CASE 'N'
+			newValue := Val( value )
+			EXIT
+		CASE 'D'
+			newValue := AsDate( value )
+			EXIT
+		END
+
+		IF ! oldValue == newValue
 
 			::FBlock:Eval( value )
 		

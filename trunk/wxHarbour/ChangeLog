@@ -2,6 +2,30 @@
  * $Id$
  */
 
+2009-12-03 18:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed stupid error on comparing values on wxTextCtrl changed values
+
+  *  src/raddox/TAlias.prg
+     * added RawGet4Seek to process Get4Seek[Last] and added capability to accept
+       a TField as parameter to evaluate
+
+  *  src/raddox/TField.prg
+     % slightly optimized ::DataObj method
+
+  *  src/raddox/TIndex.prg
+     + added methods:
+       + Get4Seek
+       + Get4SeekLast
+
+  *  src/raddox/TTable.prg
+     + added methods:
+       + GetField
+       + GetIndex
+     * replaced code with above new methods
+     ! Fixed stupid bug on NOT initializing a detail table when not inside scope
+       now a DbGoTop is issued if such scenario is found
+
 2009-12-02 20:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/helloworld/helloworld.prg
   *  src/common/wx_harbour.cpp

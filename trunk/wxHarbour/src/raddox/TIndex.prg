@@ -68,8 +68,11 @@ PUBLIC:
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
 	METHOD DbSkip( numRecs )
 	METHOD ExistKey( keyValue )
+	METHOD Get4Seek( blk, keyVal, softSeek )
+	METHOD Get4SeekLast( blk, keyVal, softSeek )
 	METHOD InsideScope()
 	METHOD MasterKeyString()
+	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RawSeek( Value )
 
 	METHOD ScopeField( cField, value )
@@ -270,6 +273,20 @@ RETURN
 METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
 RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + iif( ::FCaseSensitive, ;
 	keyValue, Upper( keyValue ) ), ::FName, ::FTable:RecNo )
+	
+/*
+	Get4Seek
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION Get4Seek( blk, keyVal, softSeek ) CLASS TIndex
+RETURN ::RawGet4Seek( 1, blk, keyVal, softSeek )
+
+/*
+	Get4SeekLast
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION Get4SeekLast( blk, keyVal, softSeek ) CLASS TIndex
+RETURN ::RawGet4Seek( 0, blk, keyVal, softSeek )
 
 /*
 	GetField
@@ -336,6 +353,20 @@ METHOD FUNCTION MasterKeyString() CLASS TIndex
 	ENDIF
 
 RETURN::FMasterKeyField:AsIndexKeyVal
+
+/*
+	RawGet4Seek
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION RawGet4Seek( direction, blk, keyVal, softSeek ) CLASS TIndex
+
+	IF keyVal = NIL
+		keyVal := ::MasterKeyField:Value
+	ELSE
+		keyVal := ::MasterKeyField:Value + keyVal
+	ENDIF
+
+RETURN ::FTable:Alias:RawGet4Seek( direction, blk, keyVal, ::FName, softSeek )
 
 /*
 	RawSeek

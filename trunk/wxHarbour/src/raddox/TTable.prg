@@ -155,6 +155,8 @@ PUBLIC:
 	METHOD GetCurrentRecord()
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( directAlias )
+	METHOD GetField( fld )
+	METHOD GetIndex( index )
 	METHOD GetMasterSourceClassName()
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
 	METHOD HasChilds
@@ -413,31 +415,9 @@ RETURN Result
 */
 METHOD FUNCTION BaseSeek( direction, Value, index, lSoftSeek ) CLASS TTable
 	LOCAL AIndex
-
-	SWITCH ValType( index )
-	CASE 'U'
-		AIndex := ::FIndex
-		EXIT
-	CASE 'C'
-		IF Empty( index )
-			AIndex := ::PrimaryIndex
-		ELSE
-			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'O'
-		IF index:IsDerivedFrom( "TIndex" )
-			AIndex := index
-			EXIT
-		ENDIF
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
-	OTHERWISE
-	#endif
-		RAISE ERROR "Unknown index reference..."
-	ENDSWITCH
 	
+	AIndex := ::GetIndex( index )
+
 	IF direction = 0
 		RETURN AIndex:BaseSeek( 0, Value, lSoftSeek )
 	ENDIF
@@ -1222,6 +1202,55 @@ METHOD FUNCTION GetFieldTypes CLASS TTable
 RETURN ::FFieldTypes
 
 /*
+	GetField
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetField( fld ) CLASS TTable
+	LOCAL AField
+	
+	SWITCH ValType( fld )
+	CASE 'C'
+		AField := ::FieldByName( fld )
+		EXIT
+	CASE 'O'
+		AField := fld
+		EXIT
+	OTHERWISE
+		RAISE ERROR "Unknown field reference..."
+	END
+
+RETURN AField
+
+/*
+	GetIndex
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetIndex( index ) CLASS TTable
+	LOCAL AIndex
+
+	SWITCH ValType( index )
+	CASE 'U'
+		AIndex := ::FIndex
+		EXIT
+	CASE 'C'
+		IF Empty( index )
+			AIndex := ::PrimaryIndex
+		ELSE
+			AIndex := ::IndexByName( index )
+		ENDIF
+		EXIT
+	CASE 'O'
+		IF index:IsDerivedFrom( "TIndex" )
+			AIndex := index
+			EXIT
+		ENDIF
+	OTHERWISE
+		RAISE ERROR "Unknown index reference..."
+	ENDSWITCH
+
+RETURN AIndex
+
+/*
 	GetInstance
 	Teo. Mexico 2008
 */
@@ -1302,6 +1331,29 @@ METHOD FUNCTION GetMasterSource() CLASS TTable
 	END
 
 RETURN NIL
+
+/*
+	GetMasterSourceClassName
+	Teo. Mexico 2008
+*/
+METHOD FUNCTION GetMasterSourceClassName( className ) CLASS TTable
+	LOCAL Result := ""
+	
+	IF className = NIL
+		className := ::ClassName
+	ENDIF
+
+	IF HB_HHasKey( ::DataBase:ChildParentList, className )
+		Result := ::DataBase:ChildParentList[ className ]
+		WHILE HB_HHasKey( ::DataBase:TableList, Result ) .AND. ::DataBase:TableList[ Result, "Virtual" ]
+			IF !HB_HHasKey ( ::DataBase:ChildParentList, Result )
+				EXIT
+			ENDIF
+			Result := ::DataBase:ChildParentList[ Result ]
+		ENDDO
+	ENDIF
+
+RETURN Result
 
 /*
 	GetPublishedFieldList
@@ -1478,29 +1530,6 @@ METHOD FUNCTION InsideScope() CLASS TTable
 RETURN ::PrimaryIndex:InsideScope()
 
 /*
-	GetMasterSourceClassName
-	Teo. Mexico 2008
-*/
-METHOD FUNCTION GetMasterSourceClassName( className ) CLASS TTable
-	LOCAL Result := ""
-	
-	IF className = NIL
-		className := ::ClassName
-	ENDIF
-
-	IF HB_HHasKey( ::DataBase:ChildParentList, className )
-		Result := ::DataBase:ChildParentList[ className ]
-		WHILE HB_HHasKey( ::DataBase:TableList, Result ) .AND. ::DataBase:TableList[ Result, "Virtual" ]
-			IF !HB_HHasKey ( ::DataBase:ChildParentList, Result )
-				EXIT
-			ENDIF
-			Result := ::DataBase:ChildParentList[ Result ]
-		ENDDO
-	ENDIF
-
-RETURN Result
-
-/*
 	Open
 	Teo. Mexico 2008
 */
@@ -1644,51 +1673,16 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION RawGet4Seek( direction, xField, keyVal, index, softSeek ) CLASS TTable
-	IF ValType( xField ) = "O"
-		xField := xField:FieldReadBlock
-	ENDIF
-	IF ValType( index ) = "O"
-		keyVal := index:MasterKeyField:Value + keyVal
-	ELSE
-		keyVal := ::IndexByName( index ):MasterKeyField:Value + keyVal
-	ENDIF
-	IF direction = 1
-		RETURN ::Alias:Get4Seek( xField, keyVal, index, softSeek )
-	ENDIF
-RETURN ::Alias:Get4SeekLast( xField, keyVal, index, softSeek )
+	LOCAL AIndex := ::GetIndex( index )
+
+RETURN AIndex:RawGet4Seek( direction, ::GetField( xField ):FieldReadBlock, keyVal, softSeek )
 
 /*
 	RawSeek
 	Teo. Mexico 2008
 */
 METHOD FUNCTION RawSeek( Value, index ) CLASS TTable
-	LOCAL AIndex
-
-	SWITCH ValType( index )
-	CASE 'U'
-		AIndex := ::FIndex
-		EXIT
-	CASE 'C'
-		IF Empty( index )
-			AIndex := ::PrimaryIndex
-		ELSE
-			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'O'
-		IF index:IsDerivedFrom( "TIndex" )
-			AIndex := index
-			EXIT
-		ENDIF
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
-	OTHERWISE
-	#endif
-		RAISE ERROR "Unknown index reference..."
-	ENDSWITCH
-
-RETURN AIndex:RawSeek( Value )
+RETURN ::GetIndex( index ):RawSeek( Value )
 
 /*
 	RecLock
@@ -1944,7 +1938,11 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 			::PrimaryMasterKeyField:Reset()
 		ENDIF
 
-		::GetCurrentRecord()
+		IF ::InsideScope()
+			::GetCurrentRecord()
+		ELSE
+			::DbGoTop()
+		ENDIF
 
 	ENDIF
 	
