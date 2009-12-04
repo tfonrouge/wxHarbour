@@ -1537,18 +1537,19 @@ RETURN pkField:AsIndexKeyVal( value )
 	Teo. Mexico 2009
 */
 METHOD FUNCTION DataObj CLASS TObjectField
+	LOCAL linkedTable := ::LinkedTable
 
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 	
 	ELSE
 		/* Syncs with the current value */
 		//? ::LinkedTable:Value, "==", ::Value
-		IF !::FTable:MasterSource == ::LinkedTable .AND. !::LinkedTable:Value == ::Value
-			::LinkedTable:Value := ::Value
+		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:Value == ::Value
+			linkedTable:Value := ::Value
 		ENDIF
 	ENDIF
 
-RETURN ::FLinkedTable
+RETURN linkedTable
 
 /*
 	GetAsString

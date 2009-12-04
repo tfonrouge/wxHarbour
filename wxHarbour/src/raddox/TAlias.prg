@@ -44,8 +44,8 @@ PUBLIC:
 	METHOD FCount INLINE (::FnWorkArea)->(FCount())
 	METHOD FieldPos( FieldName ) INLINE (::FnWorkArea)->( FieldPos( FieldName ) )
 	METHOD FLock() INLINE (::FnWorkArea)->( FLock() )
-	METHOD Get4Seek( xField, cKey, indexName, softSeek )
-	METHOD Get4SeekLast( xField, cKey, indexName, softSeek )
+	METHOD Get4Seek( direction, xVal, keyVal, indexName, softSeek )
+	METHOD Get4SeekLast( direction, xVal, keyVal, indexName, softSeek )
 	METHOD GetFieldValue( fieldName )
 	METHOD IsLocked( RecNo )
 	METHOD KeyVal( indexName )
@@ -57,6 +57,7 @@ PUBLIC:
 	METHOD OrdSetFocus( Name, cBag )
 	METHOD Pop()
 	METHOD Push()
+	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RecCount INLINE (::FnWorkArea)->( RecCount() )
 	METHOD RecLock( RecNo )
 	METHOD RecUnLock( RecNo )
@@ -256,18 +257,38 @@ METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
 RETURN (::FnWorkArea)->( ExistKey( KeyValue, IndexName, RecNo ) )
 
 /*
+	RawGet4Seek
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION RawGet4Seek( direction, xVal, keyVal, indexName, softSeek ) CLASS TAlias
+
+	IF ValType( xVal ) = "O"
+		xVal := xVal:FieldReadBlock
+	END	
+
+	IF keyVal = NIL
+		keyVal := ""
+	ENDIF
+
+	IF direction = 1
+		RETURN (::FnWorkArea)->( Get4Seek( xVal, keyVal, indexName, softSeek ) )
+	ENDIF
+	
+RETURN (::FnWorkArea)->( Get4SeekLast( xVal, keyVal, indexName, softSeek ) )
+
+/*
 	Get4Seek
 	Teo. Mexico 2008
 */
-METHOD FUNCTION Get4Seek( xField, cKey, indexName, softSeek ) CLASS TAlias
-RETURN (::FnWorkArea)->( Get4Seek( xField, cKey, indexName, softSeek ) )
+METHOD FUNCTION Get4Seek( xVal, keyVal, indexName, softSeek ) CLASS TAlias
+RETURN ::RawGet4Seek( 1, xVal, keyVal, indexName, softSeek )
 
 /*
 	Get4SeekLast
 	Teo. Mexico 2007
 */
-METHOD FUNCTION Get4SeekLast( xField, cKey, indexName, softSeek ) CLASS TAlias
-RETURN (::FnWorkArea)->( Get4SeekLast( xField, cKey, indexName, softSeek ) )
+METHOD FUNCTION Get4SeekLast( xVal, keyVal, indexName, softSeek ) CLASS TAlias
+RETURN ::RawGet4Seek( 0, xVal, keyVal, indexName, softSeek )
 
 /*
 	GetFieldValue
