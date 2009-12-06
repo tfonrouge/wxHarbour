@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2009-12-05 18:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % slightly optimized ::InsideScope method
+
 2009-12-03 18:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed stupid error on comparing values on wxTextCtrl changed values
