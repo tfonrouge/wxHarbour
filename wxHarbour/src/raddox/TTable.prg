@@ -1065,7 +1065,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	ENDIF
 	
 	msgName := AField:Name
-	
+
 	IF ! AField:IsDerivedFrom("TObjectField")
 		RETURN ;
 			BEGIN_CB|o|
@@ -1518,16 +1518,17 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD FUNCTION InsideScope() CLASS TTable
+	LOCAL primaryIndex := ::PrimaryIndex
 
 	IF ::Eof() .OR. ::Bof()
 		RETURN .F.
 	ENDIF
 
-	IF ::PrimaryIndex == NIL
-		RETURN .T.
+	IF !primaryIndex == NIL .AND. !primaryIndex:InsideScope()
+		RETURN .F.
 	ENDIF
 
-RETURN ::PrimaryIndex:InsideScope()
+RETURN primaryIndex == ::Index .OR. ::Index:InsideScope()
 
 /*
 	Open
