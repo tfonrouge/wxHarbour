@@ -177,6 +177,8 @@ METHOD FUNCTION OnInit() CLASS MyApp
 	END SIZER
 
 	b:SelectCellBlock := {|oBrw| textCtrl:AppendText( RTrim( oBrw:DataSource:Field_Last:AsString ) + ", " + oBrw:DataSource:Field_First:AsString + E"\n" ) }
+	
+	b:AlwaysShowSelectedRow := .T.
 
 	@ STATUSBAR
 
