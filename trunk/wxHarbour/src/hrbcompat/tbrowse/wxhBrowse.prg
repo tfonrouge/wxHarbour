@@ -101,6 +101,7 @@ PUBLIC:
 	METHOD OnSelectCell( event )
 	METHOD OnSize( sizeEvent )
 	METHOD SetColumnAlignment( nCol, align )
+	METHOD ShowRow()
 
 	PROPERTY AlwaysShowSelectedRow READ FAlwaysShowSelectedRow WRITE SetAlwaysShowSelectedRow
 	PROPERTY BlockParam READ GetTable():GetBlockParam WRITE GetTable():SetBlockParam

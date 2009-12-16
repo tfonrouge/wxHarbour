@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2009-12-16 12:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/dbbrowser/dbbrowser.prg
+     * updated to have ::AlwaysShowSelectedRow
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     ! Fixed error when setting ::AlwaysShowSelectedRow ( thanks Javier )
+
+  *  src/raddox/TTable.prg
+     * added logic to remove table relations on Destroy method
+
 2009-12-05 18:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % slightly optimized ::InsideScope method

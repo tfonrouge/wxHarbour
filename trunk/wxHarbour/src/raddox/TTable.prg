@@ -135,7 +135,7 @@ PUBLIC:
 	METHOD Count
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
-	METHOD Destroy
+	METHOD Destroy()
 	METHOD DbEval( bBlock, bForCondition, bWhileCondition )
 	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
 	METHOD DbGoTo( RecNo )
@@ -759,8 +759,13 @@ RETURN .T.
 	Destroy
 	Teo. Mexico 2008
 */
-METHOD PROCEDURE Destroy CLASS TTable
-//	 LOCAL AField
+METHOD PROCEDURE Destroy() CLASS TTable
+
+	IF ::MasterSource != NIL
+		IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ObjectH )
+			HB_HDel( ::MasterSource:DetailSourceList, ::ObjectH )
+		ENDIF
+	ENDIF
 
 	IF ::pSelf != NIL
 		::pSelf:Destroy()
@@ -771,10 +776,6 @@ METHOD PROCEDURE Destroy CLASS TTable
 		//WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
 		RETURN
 	ENDIF
-
-//	 FOR EACH AField IN ::FFieldList
-//		 AField:Destroy()
-//	 NEXT
 
 	::FFieldList := NIL
 
