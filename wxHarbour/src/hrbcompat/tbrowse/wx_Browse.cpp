@@ -225,8 +225,7 @@ HB_FUNC( WXHBROWSE_SETCOLPOS )
 	if( gridBrowse )
 	{
 		int col = hb_parni( 1 ) - 1;
-		int row = gridBrowse->GetGridCursorRow();
-		gridBrowse->SetGridCursor( row, col );
+		gridBrowse->SetGridCursor( gridBrowse->GetGridCursorRow(), col );
 	}
 }
 
@@ -287,37 +286,38 @@ HB_FUNC( WXHBROWSE_SETROWPOS )
 HB_FUNC( WXHBROWSE_SHOWROW )
 {
 	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
 	if( gridBrowse )
 	{
-	int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
-	bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
+		int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
+		bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
 
-	if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
-	{
-		wxGridCellAttr *attrDefaultColour;
-		attrDefaultColour = new wxGridCellAttr;
-		attrDefaultColour->SetBackgroundColour( gridBrowse->GetDefaultCellBackgroundColour() );
-		gridBrowse->SetRowAttr( gridBrowse->m_selectedRow, attrDefaultColour );
-	}
-
-	if( row >= 0 && row < gridBrowse->GetNumberRows() )
-	{
-		wxColour colour;
-
-		if( select )
+		if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
 		{
-		colour.Set( _T("RGB(194,222,251)") );
-		}
-		else
-		{
-		colour = gridBrowse->GetDefaultCellBackgroundColour();
+			wxGridCellAttr *attrDefaultColour;
+			attrDefaultColour = new wxGridCellAttr;
+			attrDefaultColour->SetBackgroundColour( gridBrowse->GetDefaultCellBackgroundColour() );
+			gridBrowse->SetRowAttr( gridBrowse->m_selectedRow, attrDefaultColour );
 		}
 
-		wxGridCellAttr *attr;
-		attr = new wxGridCellAttr;
-		attr->SetBackgroundColour( colour );
-		gridBrowse->SetRowAttr( row, attr );
-		gridBrowse->m_selectedRow = row;
-	}
+		if( row >= 0 && row < gridBrowse->GetNumberRows() )
+		{
+			wxColour colour;
+
+			if( select )
+			{
+				colour.Set( _T("RGB(194,222,251)") );
+			}
+			else
+			{
+				colour = gridBrowse->GetDefaultCellBackgroundColour();
+			}
+
+			wxGridCellAttr *attr;
+			attr = new wxGridCellAttr;
+			attr->SetBackgroundColour( colour );
+			gridBrowse->SetRowAttr( row, attr );
+			gridBrowse->m_selectedRow = row;
+		}
 	}
 }

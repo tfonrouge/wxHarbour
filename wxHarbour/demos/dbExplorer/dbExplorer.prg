@@ -11,11 +11,23 @@
 	Teo. Mexico 2008
 */
 
+#include "error.ch"
 #include "wxharbour.ch"
 
 #include "wxh/filedlg.ch"
 
 #include "dbinfo.ch"
+
+#ifdef _DEBUG_
+#ifdef HB_OS_UNIX
+	REQUEST HB_GT_XWC_DEFAULT
+#endif
+#ifdef HB_OS_WINDOWS
+	REQUEST HB_GT_WVT_DEFAULT
+#endif
+#else
+	REQUEST HB_GT_NUL_DEFAULT
+#endif
 
 //REQUEST RDOSENDMESSAGE
 REQUEST DBFCDX
@@ -43,7 +55,8 @@ PRIVATE:
 
 	METHOD Configure
 	METHOD GetBrw
-	METHOD OpenDB
+	METHOD OpenDB()
+	METHOD UpdateStructDbf( noteBook )
 
 PROTECTED:
 	METHOD OnSelectCell( oBrw )
@@ -167,7 +180,7 @@ RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 0 ):FindWi
 	OpenDB
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE OpenDB CLASS MyApp
+METHOD PROCEDURE OpenDB() CLASS MyApp
 	LOCAL fileDlg
 	LOCAL noteBook
 	LOCAL oBrw
@@ -178,8 +191,10 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	LOCAL n,l
 	LOCAL ordNumber
 	LOCAL keyVal
+	LOCAL btnUpdate
 
-	fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, "*.dbf;*.DBF" )
+	fileDlg := wxFileDialog():New( ::oWnd, "Choose a Dbf...", NIL, NIL, ;
+	"dbf files (*.dbf;*.DBF)|*.dbf;*.DBF| all files (*.*)|*.*" )
 
 	IF ::curDirectory != NIL
 		fileDlg:SetDirectory( ::curDirectory )
@@ -261,11 +276,16 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 		ADD BOOKPAGE "Indexes" FROM
 			@ BROWSE VAR oBrwIndexList DATASOURCE hIndex
 		ADD BOOKPAGE "Structure" FROM
-			@ BROWSE VAR oBrwStruct DATASOURCE aStruDbf
+			BEGIN PANEL
+				BEGIN BOXSIZER HORIZONTAL
+					@ BROWSE VAR oBrwStruct NAME "structDBf" DATASOURCE aStruDbf SIZERINFO ALIGN EXPAND// STRETCH
+					@ BUTTON "Update" VAR btnUpdate NAME "btnUpdate" ACTION {|| ::UpdateStructDbf( noteBook ) }
+				END SIZER
+			END PANEL
 	END AUINOTEBOOK
 
 	oBrwIndexList:DeleteAllColumns()
-	ADD BCOLUMN ZERO TO oBrwIndexList "Tag" BLOCK {|key| key	}
+	ADD BCOLUMN ZERO TO oBrwIndexList "Tag" BLOCK {|key| key }
 	ADD BCOLUMN TO oBrwIndexList "Expression" BLOCK {|key| hIndex[ key, "Expression" ] }
 	ADD BCOLUMN TO oBrwIndexList "Condition" BLOCK {|key| hIndex[ key, "Condition" ] }
 	ADD BCOLUMN TO oBrwIndexList "IsDesc" BLOCK {|key| hIndex[ key, "IsDesc" ] }
@@ -274,10 +294,10 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	oBrwIndexList:AutoSizeColumns( .F. )
 
 	oBrwStruct:DeleteAllColumns()
-	ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|n| aStruDbf[ n, 1 ]	 }
-	ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|n| aStruDbf[ n, 2 ]	}
-	ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|n| aStruDbf[ n, 3 ]	} PICTURE "99999" AS NUMBER
-	ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|n| aStruDbf[ n, 4 ]	 } PICTURE "99" AS NUMBER
+	ADD BCOLUMN TO oBrwStruct "Fieldname" BLOCK {|n,val| iif( PCount() > 1, aStruDbf[ n, 1 ] := val, aStruDbf[ n, 1 ] ) } ONSETVALUE {|| btnUpdate:Enable() }
+	ADD BCOLUMN TO oBrwStruct "Type" BLOCK {|n,val| iif( PCount() > 1, aStruDbf[ n, 2 ] := val, aStruDbf[ n, 2 ] ) } ONSETVALUE {|| btnUpdate:Enable() }
+	ADD BCOLUMN TO oBrwStruct "Size" BLOCK {|n,val| iif( PCount() > 1, aStruDbf[ n, 3 ] := Val( val ), aStruDbf[ n, 3 ] ) } PICTURE "99999" AS NUMBER ONSETVALUE {|| btnUpdate:Enable() }
+	ADD BCOLUMN TO oBrwStruct "Dec" BLOCK {|n,val| iif( PCount() > 1, aStruDbf[ n, 4 ] := Val( val ), aStruDbf[ n, 4 ] ) } PICTURE "99" AS NUMBER ONSETVALUE {|| btnUpdate:Enable() }
 
 	oBrwStruct:AutoSizeColumns( .F. )
 
@@ -288,7 +308,9 @@ METHOD PROCEDURE OpenDB CLASS MyApp
 	
 	noteBook:FindWindowByName( "choice" ):SetSelection( ordNumber )
 
-	noteBook:FindWindowByName("table"):AutoSizeColumns( .F. )
+	noteBook:FindWindowByName( "table" ):AutoSizeColumns( .F. )
+	
+	noteBook:FindWindowByName( "btnUpdate" ):Enable( .F. )
 
 //	 DESTROY fileDlg
 
@@ -302,6 +324,74 @@ METHOD PROCEDURE OnSelectCell( oBrw ) CLASS MyApp
 	oBrw:GetParent():FindWindowByName( "key", oBrw:GetParent() ):SetLabel( ordKey() )
 	oBrw:GetParent():FindWindowByName( "for", oBrw:GetParent() ):SetLabel( ordFor() )
 	oBrw:GetParent():FindWindowByName( "keyval", oBrw:GetParent() ):SetValue( ordKeyVal() )
+RETURN
+
+/*
+	UpdateStructDbf
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE UpdateStructDbf( noteBook ) CLASS MyApp
+	LOCAL fileName
+	LOCAL tempName
+	LOCAL dataSource
+	LOCAL aStruct
+	LOCAL sPath,sName,sExt,sDrv
+	LOCAL sPath2,sName2,sExt2,sDrv2
+	
+	dataSource := noteBook:FindWindowByName( "table" ):DataSource
+	
+	aStruct := noteBook:FindWindowByName( "structDBf" ):DataSource
+	
+	fileName := dataSource:TableFileName
+	
+	HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
+	
+	dataSource:Destroy()
+	
+	CLOSE( Alias() )
+	
+	HB_FTempCreateEx( @tempName, sPath, "tmp", ".dbf" )
+	
+	DBCreate( tempName, aStruct )
+	
+	USE ( tempName ) NEW
+	
+	BEGIN SEQUENCE WITH ;
+		{|oErr| 
+			
+			IF oErr:GenCode = EG_DATATYPE
+				RETURN .F.
+			ENDIF
+
+			IF .T.
+				Break( oErr )
+			ENDIF
+
+			RETURN NIL
+		}
+
+		APPEND FROM ( fileName )
+		
+	RECOVER
+		
+	END SEQUENCE
+	
+	CLOSE ( Alias() )
+	
+	FRename( HB_FNameMerge( sPath, sName, sExt, sDrv ), HB_FNameMerge( sPath, "_" + sName, sExt, sDrv ) )
+
+	FRename( HB_FNameMerge( sPath, sName, ".fpt", sDrv ), HB_FNameMerge( sPath, "_" + sName, ".fpt", sDrv ) )
+	
+	HB_FNameSplit( tempName, @sPath2, @sName2, @sExt2, @sDrv2 )
+
+	FRename( HB_FNameMerge( sPath2, sName2, sExt2, sDrv2 ), HB_FNameMerge( sPath, sName, sExt, sDrv ) )
+
+	FRename( HB_FNameMerge( sPath2, sName2, ".fpt", sDrv2 ), HB_FNameMerge( sPath, sName, ".fpt", sDrv ) )
+	
+	noteBook:FindWindowByName( "table" ):DataSource := fileName
+	
+	noteBook:FindWindowByName( "btnUpdate" ):Enable( .F. )
+
 RETURN
 
 /*

@@ -909,7 +909,7 @@ RETURN browse
 	__wxh_BrowseAddColumn
 	Teo. Mexico 2009
 */
-PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp, colour )
+PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp, colour, onSetValue )
 	LOCAL column := wxhBColumn():New( title, block )
 
 	column:Picture := picture
@@ -937,6 +937,8 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
 			ENDIF
 		ENDCASE
 	ENDIF
+	
+	column:OnSetValue := onSetValue
 
 RETURN
 

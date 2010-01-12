@@ -104,7 +104,7 @@ PUBLIC:
 	METHOD ShowRow()
 
 	PROPERTY AlwaysShowSelectedRow READ FAlwaysShowSelectedRow WRITE SetAlwaysShowSelectedRow
-	PROPERTY BlockParam READ GetTable():GetBlockParam WRITE GetTable():SetBlockParam
+	PROPERTY RowParam READ GetTable():GetRowParam WRITE GetTable():SetRowParam
 	PROPERTY ColumnList READ GetTable():GetColumnList WRITE GetTable():SetColumnList
 	PROPERTY ColumnZero READ GetTable():GetColumnZero WRITE GetTable():SetColumnZero
 	PROPERTY DataSource READ FDataSource WRITE SetDataSource
@@ -460,7 +460,7 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
 	LOCAL height
 	LOCAL n
 	LOCAL column
-	
+
 	IF !::FillColumnsChecked .AND. ::AutoFill .AND. ::DataSource != NIL
 		IF ::ColCount = 0
 			::FillColumns()
@@ -616,19 +616,19 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 	LOCAL oldPos
 	LOCAL vt := ValType( dataSource )
 
+	::FDataSource := NIL
 	::FDataSourceType := NIL
+
 	::ColumnList := {}
 	::ColumnZero := NIL
-	::BlockParam := NIL
+	::RowParam := NIL
 	::FillColumnsChecked := .F.
-
-	::FDataSource := NIL
 
 	SWITCH vt
 	CASE 'A'				/* Array browse */
 		::FDataSource := dataSource
 		::FDataSourceType := "A"
-		::BlockParam := {|Self| ::RecNo }
+		::RowParam := {|Self| ::RecNo }
 
 		::GoTopBlock		:= {|| ::FRecNo := 1 }
 		::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
@@ -647,7 +647,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 		/* TODO: Implement this */
 		::FDataSource := dataSource
 		::FDataSourceType := "H"
-		::BlockParam := {|Self| HB_HKeyAt( ::DataSource, ::RecNo ) }
+		::RowParam := {|Self| HB_HKeyAt( ::DataSource, ::RecNo ) }
 
 		::GoTopBlock		:= {|| ::FRecNo := 1 }
 		::GoBottomBlock := {|| ::FRecNo := Len( dataSource ) }
@@ -660,7 +660,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 		IF dataSource:IsDerivedFrom("TTable")
 			::FDataSource := dataSource
 			::FDataSourceType := "O"
-			::BlockParam := dataSource:DisplayFields()
+			::RowParam := dataSource:DisplayFields()
 
 			::GoTopBlock		:= {|| dataSource:DbGoTop() }
 			::GoBottomBlock := {|| dataSource:DbGoBottom() }

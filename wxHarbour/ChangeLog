@@ -2,6 +2,38 @@
  * $Id$
  */
 
+2010-01-12 09:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     % added very basic support to change structure of databases
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+     + added clause ONSETVALUE to ADD BCOLUMN command, it executes codeblock if value is 
+       assigned in column
+     * code formatting
+ 
+  *  src/common/wx_harbour.cpp
+     ! fixed calling to non existent function (hb_gcRefDec)
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     + added DATA
+       + ::OnSetValue : evaluates when a value is assigned to the column code block (2nd param)
+     + added PROPERTY
+       + ::ReadOnly
+     + added METHOD
+       + ::SetValue : 1st param is rowParam meta parameter, 2nd is a value
+
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+     * code formatting
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * renamed PROPERTY BlockParam to RowParam (given to column code blocks)
+     ! Fixed error when ::DataSource is re-assigned
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * renamed PROPERTY BlockParam to RowParam (given to column code blocks)
+     ! Fixed error on ::GetGridRowData when a invalid index (row) is given
+
 2009-12-16 12:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbbrowser/dbbrowser.prg
      * updated to have ::AlwaysShowSelectedRow

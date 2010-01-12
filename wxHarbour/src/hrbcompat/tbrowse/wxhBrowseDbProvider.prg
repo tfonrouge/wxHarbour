@@ -32,15 +32,15 @@
 */
 CLASS wxhBrowseTableBase FROM wxGridTableBase
 PRIVATE:
-	DATA FBlockParam
-	DATA FBlockParamType
+	DATA FRowParam
+	DATA FRowParamType
 	DATA FColumnList INIT {}
 	DATA FColumnZero
 	DATA FCurRowIndex //INIT 0
 	DATA FGridBuffer
 	DATA FGridBufferSize		 INIT 0
 	DATA FIgnoreCellEvalError INIT .F.
-	METHOD GetBlockParam
+	METHOD GetRowParam
 	METHOD GetCellValueAtCol( nCol )
 	METHOD SetCurRowIndex( rowIndex )
 	METHOD SetGridBufferSize( size )
@@ -56,12 +56,12 @@ PUBLIC:
 	METHOD GetRowLabelValue( row )
 	METHOD GetValue( row, col )
 	METHOD Initialized INLINE ::FGridBuffer != NIL
-	METHOD SetBlockParam( blockParam )
+	METHOD SetRowParam( rowParam )
 	METHOD SetColumnList( columnList )
 	METHOD SetColumnZero( columnZero )
 	METHOD SetValue( row, col, value )
 
-	PROPERTY BlockParam READ GetBlockParam WRITE SetBlockParam
+	PROPERTY RowParam READ GetRowParam WRITE SetRowParam
 	PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
 	PROPERTY ColumnList READ FColumnList WRITE SetColumnList
 	PROPERTY GridBuffer READ FGridBuffer
@@ -189,16 +189,16 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 RETURN
 
 /*
-	GetBlockParam
+	GetRowParam
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetBlockParam CLASS wxhBrowseTableBase
+METHOD FUNCTION GetRowParam CLASS wxhBrowseTableBase
 
-	IF ::FBlockParamType = "B"
-		RETURN ::FBlockParam:Eval( ::GetView() )
+	IF ::FRowParamType = "B"
+		RETURN ::FRowParam:Eval( ::GetView() )
 	ENDIF
 
-RETURN ::FBlockParam
+RETURN ::FRowParam
 
 /*
 	GetCellValueAtCol
@@ -221,12 +221,12 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	
 	IF ::FIgnoreCellEvalError
 		TRY
-			Result := column:Block:Eval( ::BlockParam )
+			Result := column:Block:Eval( ::RowParam )
 		CATCH
 			Result := "<error on block>"
 		END
 	ELSE
-		Result := column:Block:Eval( ::BlockParam )
+		Result := column:Block:Eval( ::RowParam )
 	ENDIF
 	
 	IF column:ValType == NIL
@@ -310,20 +310,24 @@ RETURN ::FColumnList[ col ]:Heading
 METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
 	LOCAL itm
 
-	IF ::FGridBuffer[ row ] == NIL
-		::FGridBuffer[ row ] := {=>}
-	ENDIF
+	IF row <= Len( ::FGridBuffer )
 
-	/* Column Zero */
-	IF ::FColumnZero == NIL
-		::FGridBuffer[ row, 0 ] := LTrim( Str( ::GetView():RecNo ) )
-	ELSE
-		::FGridBuffer[ row, 0 ] := ::GetCellValueAtCol( 0 )
-	ENDIF
+		IF ::FGridBuffer[ row ] == NIL
+			::FGridBuffer[ row ] := {=>}
+		ENDIF
+		
+		/* Column Zero */
+		IF ::FColumnZero == NIL
+			::FGridBuffer[ row, 0 ] := LTrim( Str( ::GetView():RecNo ) )
+		ELSE
+			::FGridBuffer[ row, 0 ] := ::GetCellValueAtCol( 0 )
+		ENDIF
 
-	FOR EACH itm IN ::FColumnList
-		::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValueAtCol( itm:__enumIndex() )
-	NEXT
+		FOR EACH itm IN ::FColumnList
+			::FGridBuffer[ row, itm:__enumIndex() ] := ::GetCellValueAtCol( itm:__enumIndex() )
+		NEXT
+
+	ENDIF
 
 RETURN
 
@@ -358,12 +362,13 @@ RETURN Result
 	Teo. Mexico 2008
 */
 METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
-	LOCAL Result := ""
+	LOCAL Result
+
 	++row
 	++col
 
 	IF ::FGridBuffer == NIL .OR. row > Len( ::FGridBuffer )
-		RETURN Result
+		RETURN ""
 	ENDIF
 
 	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
@@ -375,13 +380,13 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
 RETURN Result
 
 /*
-	SetBlockParam
+	SetRowParam
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE SetBlockParam( blockParam ) CLASS wxhBrowseTableBase
+METHOD PROCEDURE SetRowParam( rowParam ) CLASS wxhBrowseTableBase
 
-	::FBlockParam := blockParam
-	::FBlockParamType := ValType( blockParam )
+	::FRowParam := rowParam
+	::FRowParamType := ValType( rowParam )
 
 RETURN
 
@@ -458,25 +463,20 @@ RETURN
 */
 METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 	LOCAL oCol
-	LOCAL state
 	
 	oCol := ::GetView():GetColumn( col + 1 )
 	
-	IF oCol:TField != NIL
-		IF oCol:TField:Table:Eof()
-			RETURN
-		ENDIF
-		state := oCol:TField:Table:State
-		IF state = dsBrowse
-			oCol:TField:Table:TTable:Edit()
-		ENDIF
-		oCol:TField:AsString := value
-		IF state = dsBrowse
-			oCol:TField:Table:TTable:Post()
-		ENDIF
+	IF oCol:CanSetValue
+	
+		//oCol:Block:Eval( ::RowParam, value )
+		oCol:SetValue( ::RowParam, value )
+	
 		::GetView():RefreshCurrent()
+
 	ELSE
+
 		? "Changing:","Row:", row, "Col:", col, "Value:",value
+
 	ENDIF
 
 RETURN

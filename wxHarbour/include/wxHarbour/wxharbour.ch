@@ -230,8 +230,8 @@
 						[ <cols> ],;
 						[ <vgap> ],;
 						[ <hgap> ],;
-			[ {<growableCols>} ],;
-			[ {<growableRows>} ],;
+						[ {<growableCols>} ],;
+						[ {<growableRows>} ],;
 						[ wx<stretch> ],;
 						[ wxALIGN_<align> ],;
 						[ <border> ],;
@@ -294,7 +294,7 @@
 						[ NAME <name> ] ;
 						[ ONKEY <onKey> ] ;
 						[ ONSELECTCELL <onSelectCell> ] ;
-			[ <readOnly: READONLY> ] ;
+						[ <readOnly: READONLY> ] ;
 					=> ;
 						[<wxBrw>:=]__wxh_Browse( ;
 							[<fromClass>],;
@@ -320,14 +320,14 @@
 /*
 	BCOLUMN
 */
-#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ] [ COLOUR <colour> ] ;
+#xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
 					=> ;
-					__wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>] )
+					__wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>], [<onSetValue>] )
 
-#xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<editable: EDITABLE>] [ COLOUR <colour> ] ;
+#xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<editable: EDITABLE>] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
 					=> ;
-			__wxh_BrowseAddColumnFromField( <wxBrw>, <field>, <.editable.>, [<colour>] )
-
+			__wxh_BrowseAddColumnFromField( <wxBrw>, <field>, <.editable.>, [<colour>], [<onSetValue>] )
+			
 /*
  * Button
  * Teo. Mexico 2009
@@ -555,7 +555,7 @@
 						[ NAME <name> ] ;
 						[ ROWS <rows> ] ;
 						[ COLS <cols> ] ;
-			[ <readOnly: READONLY> ] ;
+						[ <readOnly: READONLY> ] ;
 					=> ;
 						[<grid>:=]__wxh_Grid( ;
 							[<parent>],;
@@ -700,15 +700,15 @@
 						[ <mline: MULTILINE> ] ;
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
-			[ <noEdit: NOEDITABLE> ] ;
+						[ <noEdit: NOEDITABLE> ] ;
 						[ TOOLTIP <toolTip> ] ;
-			[ ENABLED <enabled> ] ;
+						[ ENABLED <enabled> ] ;
 						[ PICTURE <picture> ] ;
 						[ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
 						[ ACTION <bAction> ] ;
 					=> ;
 					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
-					[<var> :=] __wxh_TextCtrl(;
+						[<var> :=] __wxh_TextCtrl(;
 						[<parent>],;
 						[<id>],;
 						,;
@@ -716,9 +716,9 @@
 						[<.mline.>],;
 						[<style>],;
 						[<name>],;
-			[<.noEdit.>], ;
+						[<.noEdit.>], ;
 						[<{toolTip}>],;
-			[<enabled>] )
+						[<enabled>] )
 						
 #xcommand @ GET [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
 					=> ;
@@ -799,7 +799,7 @@
 						[ ACTION <bAction> ] ;
 					=> ;
 					@ PUSHVALIDATOR [<dataVar>] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}>] ;;
-					[ <spinCtrl> := ]__wxh_SpinCtrl( ;
+						[ <spinCtrl> := ]__wxh_SpinCtrl( ;
 						[<parent>],;
 						[<id>],;
 						,;
@@ -925,7 +925,7 @@
 						[ ACTION <bAction> ] ;
 					=> ;
 					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
-					[ <searchCtrl> := ]__wxh_SearchCtrl( ;
+						[ <searchCtrl> := ]__wxh_SearchCtrl( ;
 						[<parent>],;
 						[<id>],;
 						,;
@@ -956,7 +956,7 @@
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
 					=> ;
-					[ <toolBar> := ]__wxh_ToolBarBegin( ;
+						[ <toolBar> := ]__wxh_ToolBarBegin( ;
 						[<parent>],;
 						[<id>],;
 						[<.toFrame.>],;
