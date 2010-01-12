@@ -520,7 +520,7 @@ PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
 {
 	if( HB_IS_OBJECT( pSelf ) )
 	{
-		hb_gcRefDec( pSelf->item.asArray.value );
+		//hb_gcRefDec( pSelf->item.asArray.value );
 	}
 
 	return pSelf;

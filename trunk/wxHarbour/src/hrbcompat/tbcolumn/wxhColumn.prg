@@ -14,8 +14,7 @@
 	(C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#include "hbclass.ch"
-#include "property.ch"
+#include "wxharbour.ch"
 
 /*
 	wxhBColumn
@@ -31,15 +30,18 @@ PRIVATE:
 	DATA FHeading INIT ""
 	DATA FTField
 	DATA FPicture
+	DATA FReadOnly INIT .F.
 	DATA FValType
 	DATA FWidth
 
+	METHOD GetCanSetValue()
 	METHOD SetAlign( align ) INLINE ::FAlign := align
 	METHOD SetAligned( aligned ) INLINE ::FAligned := aligned
 	METHOD SetBlock( block ) INLINE ::FBlock := block
 	METHOD SetFooting( footing ) INLINE ::FFooting := footing
 	METHOD SetHeading( heading ) INLINE ::FHeading := heading
 	METHOD SetPicture( picture ) INLINE ::FPicture := picture
+	METHOD SetReadOnly( readOnly ) INLINE ::FReadOnly := readOnly
 	METHOD SetValType( valType ) INLINE ::FValType := valType
 	METHOD SetWidth( width ) INLINE ::FWidth := width
 
@@ -50,17 +52,25 @@ PUBLIC:
 	
 	DATA IsEditable INIT .F.
 	
+	DATA OnSetValue
+	
+	METHOD SetValue( value )
+	
+	PROPERTY CanSetValue READ GetCanSetValue
 	PROPERTY TField READ FTField
 
 PUBLISHED:
+
 	PROPERTY Align READ FAlign WRITE SetAlign
 	PROPERTY Aligned READ FAligned WRITE SetAligned
 	PROPERTY Block READ FBlock WRITE SetBlock
 	PROPERTY Footing READ FFooting WRITE SetFooting
 	PROPERTY Heading READ FHeading WRITE SetHeading
 	PROPERTY Picture READ FPicture WRITE SetPicture
+	PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
 	PROPERTY ValType READ FValType WRITE SetValType
 	PROPERTY Width READ FWidth WRITE SetWidth
+
 ENDCLASS
 
 /*
@@ -74,6 +84,7 @@ METHOD New( heading, block ) CLASS wxhBColumn
 		::FHeading := heading:Label
 		::FBlock := heading:Table:GetDisplayFieldBlock( heading )
 		::FTField := heading
+		::FReadOnly := .F.
 
 	ELSE
 	
@@ -86,6 +97,44 @@ METHOD New( heading, block ) CLASS wxhBColumn
 	ENDIF
 
 RETURN Self
+
+/*
+	GetCanSetValue
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetCanSetValue() CLASS wxhBColumn
+RETURN ! ::ReadOnly
+
+/*
+	SetValue
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBColumn
+	LOCAL state
+	
+	IF !::ReadOnly
+		IF ::TField != NIL
+			IF ::TField:Table:Eof()
+				RETURN .F.
+			ENDIF
+			state := ::TField:Table:State
+			IF state = dsBrowse
+				::TField:Table:TTable:Edit()
+			ENDIF
+			::TField:AsString := value
+			IF state = dsBrowse
+				::TField:Table:TTable:Post()
+			ENDIF
+		ELSE
+			::Block:Eval( rowParam, value )
+		ENDIF
+	ENDIF
+	
+	IF ::OnSetValue != NIL
+		::OnSetValue:Eval()
+	ENDIF
+
+RETURN .T.
 
 /*
 	wxhBColumnNew
