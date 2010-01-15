@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2010-01-15 15:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+  *  include/wxHarbour/raddox.ch
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TDatabase.prg
+  *  src/raddox/TField.prg
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+  *  src/wxbase/baseclasses/wxhObject.prg
+  *  src/wxbase/menu/wxhMenu.prg
+     ! Sources fixed to be complaint with Harbour strict METHOD declaration in classes
+
 2010-01-12 09:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      % added very basic support to change structure of databases

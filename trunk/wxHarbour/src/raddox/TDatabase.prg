@@ -35,13 +35,13 @@ PUBLIC:
 	DATA Driver    INIT "DBFCDX"
 	DATA OpenBlock
 	CONSTRUCTOR New( databaseName )
-	METHOD AddParentChild( parentTableName, childTableName , indexName )
+	METHOD AddParentChild( parentTableName, childTableName, indexName, virtual )
 
 	METHOD cmdAddTable( tableName, indexName, virtual )
 	METHOD cmdDefineChild()
 	METHOD cmdEndChild()
 
-	METHOD GetParentChildList( tableName )
+	METHOD GetParentChildList( tableName, Result )
 	METHOD TableIsChildOf( table, fromTable )
 
 	PROPERTY ChildParentList READ FChildParentList
@@ -106,7 +106,7 @@ RETURN
 	cmdDefineChild
 	Teo. Mexico 2008
 */
-METHOD PROCEDURE cmdDefineChild CLASS TDataBase
+METHOD PROCEDURE cmdDefineChild() CLASS TDataBase
 	AAdd( ::cmdLevel, { NIL } )
 RETURN
 
@@ -114,7 +114,7 @@ RETURN
 	cmdEndChild
 	Teo. Mexico 2008
 */
-METHOD PROCEDURE cmdEndChild CLASS TDataBase
+METHOD PROCEDURE cmdEndChild() CLASS TDataBase
 	ASize( ::cmdLevel, Len( ::cmdLevel ) - 1 )
 RETURN
 

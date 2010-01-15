@@ -82,15 +82,15 @@ PUBLIC:
 	DATA Picture
 	DATA warnBlock
 
-	CONSTRUCTOR New()
+	CONSTRUCTOR New( name, var, block, picture, warn, bAction )
 
 	METHOD AddPostInfo()
 	METHOD AsString()
-	METHOD EvalWarnBlock()
+	METHOD EvalWarnBlock( control, showWarning )
 	METHOD GetChoices( xList )							/* returns a array of values */
-	METHOD GetKeyValue()						/* returns key of ValidValues on TField (if any) */
-	METHOD GetSelection()						/* returns numeric index of ValidValues on TField (if any) */
-	METHOD IsModified()
+	METHOD GetKeyValue( n )						/* returns key of ValidValues on TField (if any) */
+	METHOD GetSelection							/* returns numeric index of ValidValues on TField (if any) */
+	METHOD IsModified( control )
 	METHOD PickList( event )
 	METHOD TextValue()							/* Text Value for control */
 	METHOD UpdateVar( event, force )
@@ -98,7 +98,7 @@ PUBLIC:
 	/* wxValidator methods */
 	METHOD TransferFromWindow()
 	METHOD TransferToWindow()
-	METHOD Validate()
+	METHOD Validate( parent )
 
 	PROPERTY Block READ FBlock
 	PROPERTY Field READ FField

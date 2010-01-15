@@ -97,9 +97,9 @@ PUBLIC:
 	METHOD GetParent() INLINE ::GetGrandParent() // parent of panel
 
 	METHOD GoFirstPos
-	METHOD OnKeyDown( event )
-	METHOD OnSelectCell( event )
-	METHOD OnSize( sizeEvent )
+	METHOD OnKeyDown( keyEvent )
+	METHOD OnSelectCell( gridEvent )
+	METHOD OnSize( size )
 	METHOD SetColumnAlignment( nCol, align )
 	METHOD ShowRow()
 
@@ -132,7 +132,7 @@ RETURN
 	ClearObjData
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE ClearObjData CLASS wxhBrowse
+METHOD PROCEDURE ClearObjData() CLASS wxhBrowse
 	//::GetTable():ClearObjData()
 	::GoTopBlock := NIL
 	::GoBottomBlock := NIL
