@@ -2,8 +2,14 @@
  * $Id$
  */
 
+2010-01-15 16:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+     * enabled HBTIP library by default
+
 2010-01-15 15:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
+     * added z lib for nix*
+
   *  include/wxHarbour/raddox.ch
   *  src/common/wxhfuncs.prg
   *  src/hrbcompat/tbcolumn/wxhColumn.prg

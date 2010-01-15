@@ -82,7 +82,7 @@ valid values are
 
 	<option name="HBLIB_TIP">
 		<values>yes,no</values>
-		<default-value>no</default-value>
+		<default-value>yes</default-value>
 		<description>
 ---------------------------------------------------------------
 [x]Harbour optional libraries
