@@ -115,7 +115,7 @@
 #xtranslate FIELDS BASECLASS => ::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName )
 
 #xtranslate DEFINE FIELDS => METHOD __DefineFields( curClass )
-#xtranslate DEFINE INDEXES => METHOD __DefineIndexes()
+#xtranslate DEFINE INDEXES => METHOD __DefineIndexes( curClass )
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;

@@ -41,7 +41,7 @@ ENDCLASS
 	OnDestruct
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE OnDestruct CLASS TBaseClass
+METHOD PROCEDURE OnDestruct() CLASS TBaseClass
 	::HB_Destruct()
 RETURN
 

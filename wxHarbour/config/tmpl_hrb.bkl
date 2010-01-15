@@ -894,6 +894,7 @@ Where is wxWidgets installed
 	<template id="__system_libs_base">
 		<if cond="TOOLSET=='unix'">
 			<sys-lib>m</sys-lib>
+			<sys-lib>z</sys-lib>
 			<sys-lib>dl</sys-lib>
 			<sys-lib>$(LIB_NCURSES)</sys-lib>
 			<sys-lib>$(LIB_SLANG)</sys-lib>

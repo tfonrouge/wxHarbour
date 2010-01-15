@@ -50,7 +50,7 @@ PRIVATE:
 	METHOD SetDescend( Descend ) INLINE ::FDescend := Descend
 	METHOD SetField( nIndex, XField )
 	METHOD SetForKey( ForKey ) INLINE ::FForKey := ForKey
-	METHOD SetKeyValueFromArray( aKeys )
+	METHOD SetKeyValueFromArray( aKeys, slot )
 	METHOD SetName( Name ) INLINE ::FName := Name
 	METHOD SetScope( value )
 	METHOD SetScopeBottom( value )
@@ -58,7 +58,7 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
-	METHOD New( Table ) CONSTRUCTOR
+	METHOD New( Table, name, indexType, curClass ) CONSTRUCTOR
 
 	METHOD AddIndex
 	METHOD BaseSeek( direction, keyValue, lSoftSeek )

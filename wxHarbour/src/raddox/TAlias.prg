@@ -27,7 +27,7 @@ PRIVATE:
 	METHOD SetRecNo( RecNo ) INLINE ::DbGoTo( RecNo )
 PROTECTED:
 PUBLIC:
-	CONSTRUCTOR New( Name )
+	CONSTRUCTOR New( table )
 	METHOD AddRec( index )
 	METHOD DbDelete()
 	METHOD DbGoBottom( indexName )
@@ -39,13 +39,13 @@ PUBLIC:
 	METHOD DbRecall()
 	METHOD DbUnLock() INLINE (::FnWorkArea)->( DbUnLock() )
 	METHOD Deleted()
-	METHOD Eval( codeBlock )
+	METHOD Eval( codeBlock, ... )
 	METHOD ExistKey( KeyValue, IndexName, RecNo )
 	METHOD FCount INLINE (::FnWorkArea)->(FCount())
 	METHOD FieldPos( FieldName ) INLINE (::FnWorkArea)->( FieldPos( FieldName ) )
 	METHOD FLock() INLINE (::FnWorkArea)->( FLock() )
-	METHOD Get4Seek( direction, xVal, keyVal, indexName, softSeek )
-	METHOD Get4SeekLast( direction, xVal, keyVal, indexName, softSeek )
+	METHOD Get4Seek( xVal, keyVal, indexName, softSeek )
+	METHOD Get4SeekLast( xVal, keyVal, indexName, softSeek )
 	METHOD GetFieldValue( fieldName )
 	METHOD IsLocked( RecNo )
 	METHOD KeyVal( indexName )
@@ -57,7 +57,7 @@ PUBLIC:
 	METHOD OrdSetFocus( Name, cBag )
 	METHOD Pop()
 	METHOD Push()
-	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
+	METHOD RawGet4Seek( direction, xVal, keyVal, indexName, softSeek )
 	METHOD RecCount INLINE (::FnWorkArea)->( RecCount() )
 	METHOD RecLock( RecNo )
 	METHOD RecUnLock( RecNo )
@@ -245,9 +245,9 @@ RETURN (::FnWorkArea)->( Deleted() )
 	Eval
 	Teo. Mexico 2007
 */
-METHOD FUNCTION Eval( codeBlock, p1, p2, p3 ) CLASS TAlias
+METHOD FUNCTION Eval( codeBlock, ... ) CLASS TAlias
 	::SyncFromRecNo()
-RETURN (::FnWorkArea)->(codeBlock:Eval( p1, p2, p3 ) )
+RETURN (::FnWorkArea)->(codeBlock:Eval( ... ) )
 
 /*
 	ExistKey

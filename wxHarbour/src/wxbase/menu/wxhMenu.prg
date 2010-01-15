@@ -36,7 +36,7 @@ PROTECTED:
 	METHOD Append3
 PUBLIC:
 	CONSTRUCTOR New()
-	METHOD Append( /* overloaded */ )
+	METHOD Append( p1, p2, p3, p4 )
 	METHOD AppendSeparator
 	METHOD FindItem( id, menu )
 	METHOD GetMenuItems()

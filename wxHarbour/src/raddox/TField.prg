@@ -96,7 +96,7 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
-	METHOD SetBuffer( buffer )
+	METHOD SetBuffer( value )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
 
@@ -117,7 +117,7 @@ PUBLIC:
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
-	METHOD SetAsVariant( Value )
+	METHOD SetAsVariant( rawValue )
 	METHOD SetData( Value )
 	METHOD SetEditText( Text )
 	METHOD ValidateFieldInfo VIRTUAL
@@ -553,7 +553,7 @@ RETURN NIL
 	Reset
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE Reset CLASS TField
+METHOD PROCEDURE Reset() CLASS TField
 	LOCAL AField
 	LOCAL value
 	
@@ -710,19 +710,19 @@ RETURN
 	SetBuffer
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE SetBuffer( Value ) CLASS TField
+METHOD PROCEDURE SetBuffer( value ) CLASS TField
 
 	/* FieldArray's doesn't have a absolute FBuffer */
 	IF ::FFieldMethodType = "A"
 		RETURN
 	ENDIF
 
-	IF !( hb_IsNIL( Value ) .OR. ValType( Value ) = ::FValType ) .AND. ;
-		 ( ::IsDerivedFrom("TStringField") .AND. AScan( {"C","M"}, ValType( Value ) ) = 0 )
-		RAISE TFIELD ::Name ERROR "Wrong Type Assign: [" + Value:ClassName + "] to <" + ::ClassName + ">"
+	IF !( hb_IsNIL( value ) .OR. ValType( value ) = ::FValType ) .AND. ;
+		 ( ::IsDerivedFrom("TStringField") .AND. AScan( {"C","M"}, ValType( value ) ) = 0 )
+		RAISE TFIELD ::Name ERROR "Wrong Type Assign: [" + value:ClassName + "] to <" + ::ClassName + ">"
 	ENDIF
 
-	::FBuffer := Value
+	::FBuffer := value
 
 	IF ::OnSetValue != NIL
 		::OnSetValue:Eval( Self, @::FBuffer )

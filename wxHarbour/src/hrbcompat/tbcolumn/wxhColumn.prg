@@ -54,7 +54,7 @@ PUBLIC:
 	
 	DATA OnSetValue
 	
-	METHOD SetValue( value )
+	METHOD SetValue( rowParam, value )
 	
 	PROPERTY CanSetValue READ GetCanSetValue
 	PROPERTY TField READ FTField

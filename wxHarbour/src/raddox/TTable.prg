@@ -65,7 +65,7 @@ PRIVATE:
 	DATA FTimer INIT 0
 	DATA FUndoList
 
-	METHOD DbGoBottomTop( type )
+	METHOD DbGoBottomTop( n )
 	METHOD GetAlias
 	METHOD GetBof INLINE ::Alias:Bof
 	METHOD GetDbStruct
@@ -75,7 +75,7 @@ PRIVATE:
 	METHOD GetIndexName INLINE ::FIndex:Name
 	METHOD GetInstance EXPORTED
 	METHOD GetMasterSource()
-	METHOD GetPrimaryIndex()
+	METHOD GetPrimaryIndex( curClass )
 	METHOD GetPrimaryMasterKeyField()
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
 	METHOD GetPublishedFieldList
@@ -101,7 +101,7 @@ PROTECTED:
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 
 	METHOD AddRec()
-	METHOD FillPrimaryIndexes( table )
+	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
 	METHOD InitDataBase INLINE TDataBase():New()
 	METHOD InitTable()
@@ -122,16 +122,16 @@ PUBLIC:
 	DATA FUnderReset INIT .F.
 	DATA LinkedObjField
 
-	CONSTRUCTOR New( MasterSource )
+	CONSTRUCTOR New( MasterSource, tableName )
 
 	DEFINE FIELDS
 	DEFINE INDEXES											VIRTUAL
 
-	METHOD BaseSeek( direction, Value, AIndex, SoftSeek )
+	METHOD BaseSeek( direction, Value, index, lSoftSeek )
 	METHOD AddMessageField( MessageName, AField )
 	METHOD Cancel
 	METHOD ChildSource( tableName )
-	METHOD CopyRecord( Value )
+	METHOD CopyRecord( origin )
 	METHOD Count
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
@@ -141,7 +141,7 @@ PUBLIC:
 	METHOD DbGoTo( RecNo )
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
 	METHOD DbSkip( numRecs )
-	METHOD Delete()
+	METHOD Delete( lDeleteChilds )
 	METHOD DeleteChilds
 	METHOD Edit()
 	METHOD FieldByName
@@ -154,19 +154,19 @@ PUBLIC:
 	METHOD GetAsVariant
 	METHOD GetCurrentRecord()
 	METHOD GetDisplayFieldBlock( xField )
-	METHOD GetDisplayFields( directAlias )
+	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
 	METHOD GetIndex( index )
-	METHOD GetMasterSourceClassName()
+	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
 	METHOD HasChilds
-	METHOD IndexByName( IndexName )
+	METHOD IndexByName( IndexName, curClass )
 	METHOD Insert()
-	METHOD InsertRecord( Value )
+	METHOD InsertRecord( origin )
 	METHOD InsideScope()
 	METHOD Open
 	METHOD Post()
-	METHOD RawSeek( Value )
+	METHOD RawSeek( Value, index )
 	METHOD RecLock
 	METHOD RecUnLock
 	METHOD Refresh
@@ -184,7 +184,7 @@ PUBLIC:
 	METHOD SkipBrowse( n )
 	METHOD SyncDetailSources
 	METHOD SyncFromMasterSourceFields()
-	METHOD SyncRecNo()
+	METHOD SyncRecNo( fromAlias )
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
 	METHOD Validate( showAlert )
@@ -347,7 +347,7 @@ RETURN
 	AddRec
 	Teo. Mexico 2006
 */
-METHOD FUNCTION AddRec CLASS TTable
+METHOD FUNCTION AddRec() CLASS TTable
 	LOCAL Result
 	LOCAL AField
 	LOCAL errObj
@@ -1480,7 +1480,7 @@ RETURN
 	Insert
 	Teo. Mexico 2006
 */
-METHOD FUNCTION Insert CLASS TTable
+METHOD FUNCTION Insert() CLASS TTable
 
 	IF !::State = dsBrowse
 		::Error_TableNotInBrowseState()
@@ -1563,7 +1563,7 @@ RETURN .T.
 	Post
 	Teo. Mexico 2006
 */
-METHOD FUNCTION Post CLASS TTable
+METHOD FUNCTION Post() CLASS TTable
 	LOCAL AField
 	LOCAL errObj
 	LOCAL itm
@@ -1746,7 +1746,7 @@ RETURN
 	Reset
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE Reset CLASS TTable
+METHOD PROCEDURE Reset() CLASS TTable
 	LOCAL AField
 
 	::FRecNo := 0
