@@ -44,6 +44,12 @@
 						ADD _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
 #xtranslate T_StringField => TStringField
 
+/* To REQUIRE LEN DEC in TNumericField */
+#xtranslate ADD NUMERIC FIELD <xFieldMethod> [<clauses1,...>] LEN <nLen> DEC <nDec> [<clauses2,...>] ;
+						=> ;
+						ADD _NUMERIC FIELD <xFieldMethod> [<clauses1>] LEN <nLen> DEC <nDec> [<clauses2>]
+#xtranslate T_NumericField => TNumericField
+
 /* To REQUIRE OBJVALUE in TObjectField */
 #xtranslate ADD OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
 						=> ;
@@ -51,7 +57,7 @@
 #xtranslate T_ObjectField => TObjectField
 
 
-#xtranslate ADD <type: _STRING, MEMO, NUMERIC, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
+#xtranslate ADD <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
 						[ NAME <cName> ] ;
 						[ LABEL <label> ] ;
 						[ <ro: READONLY> ] ;
@@ -63,6 +69,8 @@
 						[ DESCRIPTION <cDesc> ] ;
 						[ PICKLIST <pickList> ] ;
 						[ SIZE <nSize> ] ;
+						[ LEN <nLen> ] ;
+						[ DEC <nDec> ] ;
 						[ PICTURE <pict> ] ;
 						[ <pv: PRIVATE> ] ;
 						[ INCREMENT <incrementBlock> ] ;
@@ -92,6 +100,8 @@
 							[ :Description := <cDesc> ] ;;
 							[ :PickList := <pickList> ] ;;
 							[ :Size := <nSize> ] ;;
+							[ :DBS_LEN := <nLen> ] ;;
+							[ :DBS_DEC := <nDec> ] ;;
 							[ :Picture := <pict> ] ;;
 							[ :Published := !<.pv.> ] ;;
 							[ :IncrementBlock := <incrementBlock> ] ;;

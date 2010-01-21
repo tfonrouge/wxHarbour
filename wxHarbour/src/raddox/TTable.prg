@@ -93,6 +93,8 @@ PRIVATE:
 
 PROTECTED:
 
+	CLASSDATA FDbStructValidated INIT .F.
+
 	DATA FBaseClass
 	DATA FFieldList
 	DATA FIndexList        INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
@@ -101,6 +103,7 @@ PROTECTED:
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 
 	METHOD AddRec()
+	METHOD CheckDbStruct()
 	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
 	METHOD InitDataBase INLINE TDataBase():New()
@@ -121,6 +124,7 @@ PUBLIC:
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
 	DATA FUnderReset INIT .F.
 	DATA LinkedObjField
+	DATA validateDbStruct INIT .T.		// On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
 	CONSTRUCTOR New( MasterSource, tableName )
 
@@ -304,6 +308,11 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 	::OnCreate()
 
+	/* Check for a valid db structure (based on definitions on DEFINE FIELDS) */
+	IF ::validateDbStruct .AND. !::FDbStructValidated
+		::CheckDbStruct()
+	ENDIF
+
 	IF ::autoOpen
 		::Open()
 	ENDIF
@@ -470,6 +479,48 @@ METHOD PROCEDURE Cancel CLASS TTable
 	ENDIF
 
 RETURN
+
+/*
+	CheckDbStruct
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION CheckDbStruct() CLASS TTable
+	LOCAL AField,pkField
+	LOCAL n
+	LOCAL aDb := ::DbStruct()
+	LOCAL sResult := ""
+	
+	FOR EACH AField IN ::FieldList
+		IF AField:FieldMethodType = "C" .AND. !AField:Calculated
+
+			n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
+
+			IF AField:IsDerivedFrom("TObjectField")
+				pkField := AField:DataObj:GetPrimaryKeyField( AField:ObjValueClassName )
+			ELSE
+				pkField := AField
+			ENDIF
+
+			IF n = 0
+				sResult += "Field not found: " + pkField:DBS_NAME + E"\n"
+			ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
+				sResult += "Wrong field type: " + pkField:DBS_NAME + E"\n"
+			ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
+				sResult += "Wrong len/dec values on numeric field: " + pkField:DBS_NAME + E"\n"
+			ENDIF
+
+		ENDIF
+	NEXT
+	
+	IF ! Empty( sResult )
+	    ? "Error on Db structure..."
+		? "Class:", ::ClassName(), "Database:", ::Alias:Name
+		? sResult
+	ENDIF
+	
+	::FDbStructValidated := .T.
+
+RETURN .T.
 
 /*
 	ChildSource

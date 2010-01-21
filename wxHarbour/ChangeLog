@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-01-20 20:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     % added clauses LEN/DEC to TNumericField definitions (ADD NUMERIC FIELD...)
+     + added command:
+       + ADD FLOAT FIELD: Is field type "B" on db
+
+  *  src/raddox/TField.prg
+     + added properties (using constants of DbStruct function):
+       + DBS_DEC
+       + DBS_LEN
+       + DBS_NAME
+       + DBS_TYPE
+       * these props are the same that the dbf ones
+     + added property to TObjectField:
+       + ObjValueClassName: contains the class name for the OBJVALUE clause
+
+  *  src/raddox/TTable.prg
+     % added code to validate the actual dbf structure according to the DEFINE FIELDS section
+
 2010-01-15 16:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      * enabled HBTIP library by default

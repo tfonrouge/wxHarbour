@@ -60,6 +60,8 @@ PRIVATE:
 	METHOD GetReadOnly INLINE ::FReadOnly
 	METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
 	METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
+	METHOD SetDBS_DEC( dec ) INLINE ::FDBS_DEC := dec
+	METHOD SetDBS_LEN( len ) INLINE ::FDBS_LEN := len
 	METHOD SetDescription( Description ) INLINE ::FDescription := Description
 	METHOD SetFieldMethod( FieldMethod )
 	METHOD SetGroup( Group ) INLINE ::FGroup := Group
@@ -77,21 +79,24 @@ PRIVATE:
 PROTECTED:
 
 	DATA FBuffer
-	DATA FTableBaseClass
 	DATA FCalculated INIT .F.
 	DATA FDefaultValue
+	DATA FDBS_DEC
+	DATA FDBS_LEN
+	DATA FDBS_NAME
 	DATA FFieldArray										// Array of TField's objects
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
-
 	DATA FName INIT ""
 	DATA FTable
+	DATA FTableBaseClass
 	DATA FType INIT "TField"
 	DATA FValType INIT "U"
 	DATA FWrittenValue
 	
 	METHOD GetChanged()
 	METHOD GetAsVariant
+	METHOD GetDBS_TYPE INLINE NIL
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetUndoValue()
@@ -157,6 +162,10 @@ PUBLISHED:
 	PROPERTY AutoIncrement READ GetAutoIncrement
 	PROPERTY AutoIncrementKeyIndex READ FAutoIncrementKeyIndex WRITE SetAutoIncrementKeyIndex
 	PROPERTY Changed READ GetChanged()
+	PROPERTY DBS_DEC READ FDBS_DEC WRITE SetDBS_DEC
+	PROPERTY DBS_LEN READ FDBS_LEN WRITE SetDBS_LEN
+	PROPERTY DBS_NAME READ FDBS_NAME
+	PROPERTY DBS_TYPE READ GetDBS_TYPE
 	PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
 	PROPERTY Description READ FDescription WRITE SetDescription
 	PROPERTY FieldArray READ FFieldArray WRITE SetFieldMethod
@@ -960,6 +969,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 			ENDIF
 		NEXT
 
+		::FDBS_NAME := FieldMethod
+
 		IF ::FTable:Alias != NIL .AND. ::FTable:Alias:FieldPos( FieldMethod ) > 0
 			::FFieldReadBlock	 := FieldBlock( FieldMethod )
 			::FFieldWriteBlock := FieldBlock( FieldMethod )
@@ -1102,6 +1113,7 @@ PROTECTED:
 	DATA FSize
 	DATA FType INIT "String"
 	DATA FValType INIT "C"
+	METHOD GetDBS_TYPE INLINE "C"
 	METHOD GetEmptyValue INLINE iif( ::FSize == NIL, "", Space( ::FSize ) )
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue )
@@ -1214,6 +1226,7 @@ RETURN
 CLASS TMemoField FROM TStringField
 PRIVATE:
 PROTECTED:
+	METHOD GetDBS_TYPE INLINE "M"
 	DATA FType INIT "Memo"
 PUBLIC:
 PUBLISHED:
@@ -1232,6 +1245,7 @@ PRIVATE:
 PROTECTED:
 	DATA FType INIT "Numeric"
 	DATA FValType INIT "N"
+	METHOD GetDBS_TYPE()
 	METHOD GetEmptyValue BLOCK {|| 0 }
 	METHOD SetAsVariant( variant )
 PUBLIC:
@@ -1280,6 +1294,16 @@ METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
 RETURN Result
 
 /*
+	GetDBS_TYPE
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetDBS_TYPE() CLASS TNumericField
+	IF ::FDBS_LEN = NIL .AND. ::FDBS_DEC = NIL
+		RETURN "B"
+	ENDIF
+RETURN "N"
+
+/*
 	SetAsVariant
 	Teo. Mexico 2009
 */
@@ -1308,6 +1332,7 @@ CLASS TIntegerField FROM TNumericField
 PRIVATE:
 PROTECTED:
 	DATA FType INIT "Integer"
+	METHOD GetDBS_TYPE INLINE "I"
 	METHOD SetAsVariant( variant )
 PUBLIC:
 
@@ -1338,6 +1363,23 @@ RETURN
 */
 
 /*
+	TFloatField
+	Teo. Mexico 2010
+*/
+CLASS TFloatField FROM TNumericField
+PRIVATE:
+PROTECTED:
+	DATA FType INIT "Float"
+	METHOD GetDBS_TYPE INLINE "B"
+PUBLIC:
+PUBLISHED:
+ENDCLASS
+
+/*
+	ENDCLASS TFloatField
+*/
+
+/*
 	TLogicalField
 	Teo. Mexico 2006
 */
@@ -1346,6 +1388,7 @@ PRIVATE:
 PROTECTED:
 	DATA FType INIT "Logical"
 	DATA FValType INIT "L"
+	METHOD GetDBS_TYPE INLINE "L"
 	METHOD GetEmptyValue BLOCK {|| .F. }
 PUBLIC:
 
@@ -1384,6 +1427,7 @@ PRIVATE:
 PROTECTED:
 	DATA FType INIT "Date"
 	DATA FValType INIT "D"
+	METHOD GetDBS_TYPE INLINE "D"
 	METHOD GetEmptyValue BLOCK {|| CtoD("") }
 	METHOD SetAsVariant( variant )
 PUBLIC:
@@ -1438,6 +1482,7 @@ PRIVATE:
 PROTECTED:
 	DATA FType INIT "DayTime"
 	DATA FValType INIT "C"
+	METHOD GetDBS_TYPE INLINE "@"
 	METHOD GetEmptyValue BLOCK {|| DateTimeStampStr() }
 PUBLIC:
 	METHOD AsIndexKeyVal( value )
@@ -1472,6 +1517,7 @@ CLASS TModTimeField FROM TDayTimeField
 PRIVATE:
 PROTECTED:
 	DATA FType INIT "ModTime"
+	METHOD GetDBS_TYPE INLINE "="
 PUBLIC:
 PUBLISHED:
 ENDCLASS
@@ -1488,6 +1534,7 @@ CLASS TObjectField FROM TField
 PRIVATE:
 	DATA FIsTheMasterSource
 	DATA FObjValue
+	DATA FObjValueClassName
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
 	METHOD GetIsTheMasterSource
@@ -1507,6 +1554,7 @@ PUBLIC:
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
 	PROPERTY ObjValue READ FObjValue WRITE SetObjValue
+	PROPERTY ObjValueClassName READ FObjValueClassName
 	PROPERTY Size READ GetSize
 PUBLISHED:
 ENDCLASS
@@ -1602,6 +1650,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		 */
 		SWITCH ValType( ::FObjValue )
 		CASE 'C'
+			::FObjValueClassName := ::FObjValue
 			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue )
 				IF ! ::IsMasterFieldComponent
 					RAISE TFIELD ::Name ERROR "MasterSource table has to be assigned to a master field component."
@@ -1618,9 +1667,11 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			EXIT
 		CASE 'B'
 			::FLinkedTable := ::FObjValue:Eval( ::FTable )
+			::FObjValueClassName := ::FLinkedTable:ClassName
 			EXIT
 		CASE 'O'
 			::FLinkedTable := ::FObjValue
+			::FObjValueClassName := ::FLinkedTable:ClassName
 			EXIT
 		ENDSWITCH
 
