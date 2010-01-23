@@ -42,7 +42,7 @@ HBMT = no
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
 # Link in the Harbour TIP library [yes,no]
-HBLIB_TIP = no
+HBLIB_TIP = yes
 
 # Link in the Harbour HBNETIO library [yes,no]
 HBLIB_HBNETIO = yes
@@ -407,8 +407,8 @@ uninstall_wxHarbour:
 
 install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
-	if not exist $(PREFIX)\include\wxHarbour\wxh mkdir $(PREFIX)\include\wxHarbour\wxh
-	if not exist $(PREFIX)\include\wxHarbour mkdir $(PREFIX)\include\wxHarbour
+	if not exist $(PREFIX)\include/wxHarbour/wxh mkdir $(PREFIX)\include/wxHarbour/wxh
+	if not exist $(PREFIX)\include/wxHarbour mkdir $(PREFIX)\include/wxHarbour
 	copy include\wxHarbour\defs.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\dialog.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\event.ch $(PREFIX)\include\wxHarbour

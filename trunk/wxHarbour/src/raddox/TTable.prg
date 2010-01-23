@@ -12,6 +12,7 @@
 #endif
 
 #include "wxharbour.ch"
+#include "error.ch"
 #include "xerror.ch"
 
 #define rxMasterSourceTypeNone     0
@@ -93,8 +94,6 @@ PRIVATE:
 
 PROTECTED:
 
-	CLASSDATA FDbStructValidated INIT .F.
-
 	DATA FBaseClass
 	DATA FFieldList
 	DATA FIndexList        INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
@@ -106,6 +105,7 @@ PROTECTED:
 	METHOD CheckDbStruct()
 	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
+	METHOD FixDbStruct( aNewStruct, message )
 	METHOD InitDataBase INLINE TDataBase():New()
 	METHOD InitTable()
 	METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
@@ -123,6 +123,7 @@ PUBLIC:
 	DATA DetailSourceList INIT {=>}
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
 	DATA FUnderReset INIT .F.
+	DATA fullFileName
 	DATA LinkedObjField
 	DATA validateDbStruct INIT .T.		// On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
@@ -151,7 +152,6 @@ PUBLIC:
 	METHOD FieldByName
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
-	METHOD FullFileName
 	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
 	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
@@ -309,7 +309,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
 	::OnCreate()
 
 	/* Check for a valid db structure (based on definitions on DEFINE FIELDS) */
-	IF ::validateDbStruct .AND. !::FDbStructValidated
+	IF ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
 		::CheckDbStruct()
 	ENDIF
 
@@ -487,7 +487,7 @@ RETURN
 METHOD FUNCTION CheckDbStruct() CLASS TTable
 	LOCAL AField,pkField
 	LOCAL n
-	LOCAL aDb := ::DbStruct()
+	LOCAL aDb := AClone( ::DbStruct() )
 	LOCAL sResult := ""
 	
 	FOR EACH AField IN ::FieldList
@@ -496,29 +496,47 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 			n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
 
 			IF AField:IsDerivedFrom("TObjectField")
-				pkField := AField:DataObj:GetPrimaryKeyField( AField:ObjValueClassName )
+				IF AField:IsMasterFieldComponent
+					pkField := AField:DataObj:GetPrimaryKeyField( ::MasterSourceBaseClass )
+				ELSE
+					pkField := AField:DataObj:GetPrimaryKeyField( AField:DataObj:MasterSourceBaseClass )
+				ENDIF
 			ELSE
 				pkField := AField
 			ENDIF
 
 			IF n = 0
-				sResult += "Field not found: " + pkField:DBS_NAME + E"\n"
+				AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
+				sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
 			ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
-				sResult += "Wrong field type: " + pkField:DBS_NAME + E"\n"
+				AltD()
+				sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + pkField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
+				aDb[ n, 2 ] := pkField:DBS_TYPE
+				aDb[ n, 3 ] := pkField:DBS_LEN
+				aDb[ n, 4 ] := pkField:DBS_DEC
+			ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:DBS_LEN
+				sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
+				aDb[ n, 3 ] := pkField:DBS_LEN
 			ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
-				sResult += "Wrong len/dec values on numeric field: " + pkField:DBS_NAME + E"\n"
+				sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] + "," + NTrim( aDb[ n, 4 ] ) ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
+				aDb[ n, 3 ] := pkField:DBS_LEN
+				aDb[ n, 4 ] := pkField:DBS_DEC
 			ENDIF
 
 		ENDIF
 	NEXT
 	
 	IF ! Empty( sResult )
-	    ? "Error on Db structure..."
-		? "Class:", ::ClassName(), "Database:", ::Alias:Name
+		sResult := "Error on Db structure." + ;
+					E"\nClass: " + ::ClassName() + ", Database: " + ::Alias:Name + ;
+					E"\n\n-----\n" + ;
+					sResult + ;
+					E"-----\n\n"
 		? sResult
+		RETURN ::FixDbStruct( aDb, sResult )
 	ENDIF
-	
-	::FDbStructValidated := .T.
+
+	::FInstances[ ::TableClass, "DbStructValidated" ] := .T.
 
 RETURN .T.
 
@@ -984,22 +1002,78 @@ METHOD FUNCTION FindTable( table ) CLASS TTable
 RETURN NIL
 
 /*
-	FullFileName
-	Teo. Mexico 2008
+	FixDbStruct
+	Teo. Mexico 2010
 */
-METHOD FUNCTION FullFileName CLASS TTable
-	LOCAL Result
-
-	IF !Empty( ::DataBase:Directory )
-		Result := LTrim( RTrim( ::DataBase:Directory ) )
-		IF !Right( Result, 1 ) == HB_OSPathSeparator()
-			Result += HB_OSPathSeparator()
-		ENDIF
-	ELSE
-		Result := ""
+METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
+	LOCAL fileName
+	LOCAL tempName
+	LOCAL sPath,sName,sExt,sDrv
+	LOCAL sPath2,sName2,sExt2,sDrv2
+	LOCAL result
+	
+	IF message = NIL
+		message := ""
 	ENDIF
+	
+	IF wxhAlertYesNo( message + "Proceed to update Db Structure ?" ) = 1
+	
+		AltD()
 
-RETURN Result + ::TableFileName
+		fileName := ::fullFileName
+		
+		HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
+
+		::Alias:DbCloseAll()
+		
+		HB_FTempCreateEx( @tempName, sPath, "tmp", ".dbf" )
+		
+		DBCreate( tempName, aNewStruct )
+		
+		USE ( tempName ) NEW
+		
+		BEGIN SEQUENCE WITH ;
+			{|oErr| 
+				
+				IF oErr:GenCode = EG_DATATYPE
+					RETURN .F.
+				ENDIF
+
+				IF .T.
+					Break( oErr )
+				ENDIF
+
+				RETURN NIL
+			}
+
+			APPEND FROM ( fileName )
+			
+			CLOSE ( Alias() )
+			
+			FRename( HB_FNameMerge( sPath, sName, sExt, sDrv ), HB_FNameMerge( sPath, "_" + sName, sExt, sDrv ) )
+
+			FRename( HB_FNameMerge( sPath, sName, ".fpt", sDrv ), HB_FNameMerge( sPath, "_" + sName, ".fpt", sDrv ) )
+			
+			HB_FNameSplit( tempName, @sPath2, @sName2, @sExt2, @sDrv2 )
+
+			FRename( HB_FNameMerge( sPath2, sName2, sExt2, sDrv2 ), HB_FNameMerge( sPath, sName, sExt, sDrv ) )
+
+			FRename( HB_FNameMerge( sPath2, sName2, ".fpt", sDrv2 ), HB_FNameMerge( sPath, sName, ".fpt", sDrv ) )
+			
+			result := ::Alias:DbOpen()
+			
+		RECOVER
+		
+			result := .F.
+			
+		END SEQUENCE
+		
+	ELSE
+		::CancelAtFixDbStruct()
+		result := .F.
+	ENDIF
+	
+RETURN result
 
 /*
 	GetAlias
@@ -1223,32 +1297,34 @@ RETURN ::FDisplayFields
 */
 METHOD FUNCTION GetFieldTypes CLASS TTable
 
+	/* obtained from Harbour's src/rdd/workarea.c hb_waCreateFields */
+
 	IF ::FFieldTypes == NIL
 		::FFieldTypes := {=>}
 		::FFieldTypes['C'] := "TStringField"		/* HB_FT_STRING */
 		::FFieldTypes['L'] := "TLogicalField"		/* HB_FT_LOGICAL */
 		::FFieldTypes['D'] := "TDateField"			/* HB_FT_DATE */
-		::FFieldTypes['I'] := "TNumericField"		/* HB_FT_INTEGER */
+		::FFieldTypes['I'] := "TIntegerField"		/* HB_FT_INTEGER */
 		::FFieldTypes['Y'] := "TNumericField"		/* HB_FT_CURRENCY */
-		::FFieldTypes['2'] := "TNumericField"		/* HB_FT_INTEGER */
-		::FFieldTypes['4'] := "TNumericField"		/* HB_FT_INTEGER */
+		::FFieldTypes['2'] := "TIntegerField"		/* HB_FT_INTEGER */
+		::FFieldTypes['4'] := "TIntegerField"		/* HB_FT_INTEGER */
 		::FFieldTypes['N'] := "TNumericField"		/* HB_FT_LONG */
 		::FFieldTypes['F'] := "TNumericField"		/* HB_FT_FLOAT */
-		::FFieldTypes['8'] := "TNumericField"		/* HB_FT_DOUBLE */
-		::FFieldTypes['B'] := "TNumericField"		/* HB_FT_DOUBLE */
+		::FFieldTypes['8'] := "TFloatField"			/* HB_FT_DOUBLE */
+		::FFieldTypes['B'] := "TFloatField"			/* HB_FT_DOUBLE */
 
 		::FFieldTypes['T'] := "TTimeField"			/* HB_FT_DAYTIME(8) HB_FT_TIME(4) */
 		::FFieldTypes['@'] := "TDayTimeField"		/* HB_FT_DAYTIME */
 		::FFieldTypes['='] := "TModTimeField"		/* HB_FT_MODTIME */
 		::FFieldTypes['^'] := "TRowVerField"		/* HB_FT_ROWVER */
 		::FFieldTypes['+'] := "TAutoIncField"		/* HB_FT_AUTOINC */
-		::FFieldTypes['Q'] := "TVarLengthField" /* HB_FT_VARLENGTH */
-		::FFieldTypes['V'] := "TVarLengthField" /* HB_FT_VARLENGTH */
+		::FFieldTypes['Q'] := "TVarLengthField"		/* HB_FT_VARLENGTH */
+		::FFieldTypes['V'] := "TVarLengthField"		/* HB_FT_VARLENGTH */
 		::FFieldTypes['M'] := "TMemoField"			/* HB_FT_MEMO */
 		::FFieldTypes['P'] := "TImageField"			/* HB_FT_IMAGE */
 		::FFieldTypes['W'] := "TBlobField"			/* HB_FT_BLOB */
-		::FFieldTypes['G'] := "TOleField"				/* HB_FT_OLE */
-		::FFieldTypes['0'] := "TVarLengthField" /* HB_FT_VARLENGTH (NULLABLE) */
+		::FFieldTypes['G'] := "TOleField"			/* HB_FT_OLE */
+		::FFieldTypes['0'] := "TVarLengthField"		/* HB_FT_VARLENGTH (NULLABLE) */
 	ENDIF
 
 RETURN ::FFieldTypes
