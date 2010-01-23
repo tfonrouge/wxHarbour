@@ -42,7 +42,7 @@ HBMT = no
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
 # Link in the Harbour TIP library [yes,no]
-HBLIB_TIP = no
+HBLIB_TIP = yes
 
 # Link in the Harbour HBNETIO library [yes,no]
 HBLIB_HBNETIO = yes

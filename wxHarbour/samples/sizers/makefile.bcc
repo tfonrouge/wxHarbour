@@ -66,7 +66,7 @@ HBMT = no
 # ---------------------------------------------------------------
 # Link in the Harbour TIP library [yes,no]
 !ifndef HBLIB_TIP
-HBLIB_TIP = no
+HBLIB_TIP = yes
 !endif
 
 # Link in the Harbour HBNETIO library [yes,no]

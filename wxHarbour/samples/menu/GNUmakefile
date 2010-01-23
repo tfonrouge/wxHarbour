@@ -37,7 +37,7 @@ HBMT ?= no
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
 # Link in the Harbour TIP library [yes,no]
-HBLIB_TIP ?= no
+HBLIB_TIP ?= yes
 
 # Link in the Harbour HBNETIO library [yes,no]
 HBLIB_HBNETIO ?= yes
@@ -62,6 +62,9 @@ HBLIB_GTCRS ?= no
 
 # Link in the Harbour GTSLN library [yes,no]
 HBLIB_GTSLN ?= no
+
+# Link in the z library [yes,no]
+LIB_Z ?= no
 
 # Link in the Harbour GTCGI library [yes,no]
 HBLIB_GTCGI ?= no
@@ -97,7 +100,7 @@ HB_LIB_ARCH ?= $(shell if uname -m | grep 64 >/dev/null ; then echo "64" ; else 
 NIXOS ?= $(shell uname)
 
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc_$(NIXOS)
+__BUILDDIR__ ?= obj/gcc_$(NIXOS)_$(shell uname -m)
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -258,6 +261,9 @@ endif
 ifeq ($(HBLIBSTYPE),shared)
 __SLIB_HARBOUR_p = -lharbour
 endif
+ifeq ($(LIB_Z),yes)
+__LIBZ_p = -lz
+endif
 ifeq ($(HBLIB_GTCRS),yes)
 __LIB_NCURSES_p = -lncurses
 endif
@@ -299,7 +305,7 @@ clean:
 	rm -f ./menu
 
 ./menu: $(MENU_OBJECTS)
-	$(CXX) -o $@ $(MENU_OBJECTS)   -L/usr/lib$(HB_LIB_ARCH)/harbour -L/usr/local/lib$(HB_LIB_ARCH)/harbour -L/usr/X11R6/lib $(__WX_DEBUG_INFO) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) `wx-config --libs` -lm -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
+	$(CXX) -o $@ $(MENU_OBJECTS)   -L/usr/lib$(HB_LIB_ARCH)/harbour -L/usr/local/lib$(HB_LIB_ARCH)/harbour -L/usr/X11R6/lib $(__WX_DEBUG_INFO) -L../../$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTTRM_p) $(__LIB_GTXWC_p) $(__LIB_GTCRS_p) $(__LIB_GTSLN_p) $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) `wx-config --libs` -lm $(__LIBZ_p) -ldl $(__LIB_NCURSES_p) $(__LIB_SLANG_p) $(__LIB_GPM_p) $(__LIB_X11_p)
 
 run: all
 	../../bin/run_App.sh menu

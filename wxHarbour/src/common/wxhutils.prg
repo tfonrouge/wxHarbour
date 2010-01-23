@@ -53,6 +53,8 @@ FUNCTION __ClsInstName( className )
 RETURN Result
 #endif
 
+#include "wxharbour.ch"
+
 /*
 	asCodeBlock : Convierte la cadena a un code block
 	Teo. Mexico 2002
@@ -562,12 +564,37 @@ RETURN cString
 	Teo. Mexico 2009
 */
 FUNCTION wxhAlert( cMessage, aOptions )
-	LOCAL Result := 0
+	LOCAL result
 
 	IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
-		Alert( cMessage, aOptions )
+		result := Alert( cMessage, aOptions )
 	ELSE
-		wxMessageBox( cMessage, "Message", aOptions )
+		result := wxMessageBox( cMessage, "Message", aOptions )
 	ENDIF
 
-RETURN Result
+RETURN result
+
+/*
+	wxhAlertYesNo
+	Teo. Mexico 2009
+*/
+FUNCTION wxhAlertYesNo( cMessage )
+	LOCAL result
+
+	IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
+		result := Alert( cMessage, {"Yes","No"} )
+	ELSE
+		result := wxMessageBox( cMessage, "Message!", HB_BitOr( wxYES_NO, wxICON_QUESTION ) )
+		SWITCH result
+		CASE wxYES
+			result := 1
+			EXIT
+		CASE wxNO
+			result := 2
+			EXIT
+		OTHERWISE
+			result := 0
+		ENDSWITCH
+	ENDIF
+
+RETURN result

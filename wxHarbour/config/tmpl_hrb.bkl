@@ -179,6 +179,17 @@ Link in the Harbour TIP library
 				slang
 			</if>
 		</set>
+		
+		<option name="LIB_Z">
+			<values>yes,no</values>
+			<default-value>no</default-value>
+			<description>Link in the z library</description>
+		</option>
+		<set var="LIBZ">
+			<if cond="LIB_Z=='yes'">
+				z
+			</if>
+		</set>
 
 	</if>
 
@@ -553,7 +564,7 @@ Where to search for the Harbour compiler
 	
 	<set var="___BUILDDIR__">
 		<if cond="TOOLSET=='unix'">
-			obj/$(COMPILER)_$(NIXOS)
+			obj/$(COMPILER)_$(NIXOS)_$(DOLLAR)(shell uname -m)
 		</if>
 		<if cond="TOOLSET=='win32'">
 			obj\$(COMPILER)_$(TOOLSET)
@@ -894,7 +905,7 @@ Where is wxWidgets installed
 	<template id="__system_libs_base">
 		<if cond="TOOLSET=='unix'">
 			<sys-lib>m</sys-lib>
-			<sys-lib>z</sys-lib>
+			<sys-lib>$(LIBZ)</sys-lib>
 			<sys-lib>dl</sys-lib>
 			<sys-lib>$(LIB_NCURSES)</sys-lib>
 			<sys-lib>$(LIB_SLANG)</sys-lib>

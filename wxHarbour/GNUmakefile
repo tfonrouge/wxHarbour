@@ -49,7 +49,7 @@ HBMT ?= no
 # [x]Harbour optional libraries
 # ---------------------------------------------------------------
 # Link in the Harbour TIP library [yes,no]
-HBLIB_TIP ?= no
+HBLIB_TIP ?= yes
 
 # Link in the Harbour HBNETIO library [yes,no]
 HBLIB_HBNETIO ?= yes
@@ -74,6 +74,9 @@ HBLIB_GTCRS ?= no
 
 # Link in the Harbour GTSLN library [yes,no]
 HBLIB_GTSLN ?= no
+
+# Link in the z library [yes,no]
+LIB_Z ?= no
 
 # Link in the Harbour GTCGI library [yes,no]
 HBLIB_GTCGI ?= no
@@ -106,7 +109,7 @@ HBEXITSL ?= 2
 NIXOS ?= $(shell uname)
 
 # Where the object and lib files are built 
-__BUILDDIR__ ?= obj/gcc_$(NIXOS)
+__BUILDDIR__ ?= obj/gcc_$(NIXOS)_$(shell uname -m)
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
