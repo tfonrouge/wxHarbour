@@ -272,7 +272,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 		FOR EACH AField IN ::FFieldArray
 			value := AField:GetAsVariant()
 			IF !HB_IsString( value )
-				RAISE TFIELD AField:Name ERROR "Error building Variant in compound field (not a string field)."
+				Result += AField:AsString
 			ELSE
 				Result += value
 			ENDIF

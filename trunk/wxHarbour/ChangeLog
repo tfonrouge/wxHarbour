@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-01-24 13:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed AsVariant prop on compound field (array of fields)
+
+  *  src/raddox/TTable.prg
+     ! CheckDbStruct: fixed error on calculating value of field's on non
+       master fields components
+
 2010-01-22 20:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      + added option LIB_Z to include libz.so on *nix platforms
