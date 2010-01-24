@@ -494,9 +494,9 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 		IF AField:FieldMethodType = "C" .AND. !AField:Calculated
 
 			n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
-
+			
 			IF AField:IsDerivedFrom("TObjectField")
-				IF AField:IsMasterFieldComponent
+				IF AField:IsMasterFieldComponent .AND. !Empty( ::MasterSourceBaseClass ) .AND. AField:DataObj:IsDerivedFrom( ::MasterSourceBaseClass )
 					pkField := AField:DataObj:GetPrimaryKeyField( ::MasterSourceBaseClass )
 				ELSE
 					pkField := AField:DataObj:GetPrimaryKeyField( AField:DataObj:MasterSourceBaseClass )
@@ -504,7 +504,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 			ELSE
 				pkField := AField
 			ENDIF
-
+			
 			IF n = 0
 				AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
 				sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
