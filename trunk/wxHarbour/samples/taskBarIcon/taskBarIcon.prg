@@ -70,7 +70,7 @@ METHOD PROCEDURE OnCloseMainWnd( event ) CLASS MyApp
 	mainWnd := event:GetEventObject()
 
 	IF !::taskBarIcon:IsIconInstalled()
-		Result := wxMessageBox( "Hide the application ?", "Confirm", _hb_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
+		Result := wxMessageBox( "Hide the application ?", "Confirm", HB_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
 		IF Result = wxYES
 			::SetTrayIcon()
 			mainWnd:Hide()
@@ -81,7 +81,7 @@ METHOD PROCEDURE OnCloseMainWnd( event ) CLASS MyApp
 		RETURN
 	ENDIF
 
-	Result := wxMessageBox( "Quit the application ?", "Confirm", _hb_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
+	Result := wxMessageBox( "Quit the application ?", "Confirm", HB_BitOr( wxICON_QUESTION, wxYES_NO ), mainWnd )
 
 	IF Result = wxYES
 		::taskBarIcon:RemoveIcon()

@@ -24,45 +24,6 @@
 
 #include "wxbase/wx_SocketBase.h"
 
-#ifdef __XHARBOUR__
-/* Internal API, not standard Clipper */
-/* Resize string buffer of given string item */
-/*
-	hb_itemReSizeString : has been borrowed from the Harbour project
-												to be used in xHarbour builds of wxHarbour
-												Thanks to the Harbour project team
-*/
-PHB_ITEM hb_itemReSizeString( PHB_ITEM pItem, ULONG ulSize )
-{
-	 HB_TRACE_STEALTH(HB_TR_DEBUG, ("hb_itemReSizeString(%p,%lu)", pItem, ulSize));
-
-	 if( pItem->item.asString.allocated == 0 )
-	 {
-			char *szText = ( char* ) hb_xgrab( ulSize + 1 );
-			hb_xmemcpy( szText, pItem->item.asString.value,
-									pItem->item.asString.length );
-			szText[ ulSize ] = '\0';
-			pItem->item.asString.value     = szText;
-			pItem->item.asString.length    = ulSize;
-			pItem->item.asString.allocated = ulSize + 1;
-	 }
-	 else
-	 {
-			ULONG ulAlloc = ulSize + 1 +
-								( pItem->item.asString.allocated <= ulSize ? ulSize : 0 );
-			pItem->item.asString.value = ( char* )
-										 hb_xRefResize( pItem->item.asString.value,
-																		pItem->item.asString.length,
-																		ulAlloc );
-			pItem->item.asString.length = ulSize;
-			pItem->item.asString.value[ ulSize ] = '\0';
-	 }
-	 pItem->type &= ~HB_IT_DEFAULT;
-
-	 return pItem;
-}
-#endif
-
 /*
 	Constructor
 	Teo. Mexico 2009

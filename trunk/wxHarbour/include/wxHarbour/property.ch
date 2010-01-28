@@ -10,12 +10,10 @@
 #ifndef _PROPERTY_H_
 #define _PROPERTY_H_
 
-#ifndef __XHARBOUR__
 #xcommand PRIVATE: => HIDDEN:
 #xcommand PUBLIC: => EXPORTED:
-//#xcommand PUBLISHED: => nScope := _hb_BitOr( HB_OO_CLSTP_EXPORTED, HB_OO_CLSTP_PERSIST ) ; HB_SYMBOL_UNUSED( nScope )
+//#xcommand PUBLISHED: => nScope := HB_BitOr( HB_OO_CLSTP_EXPORTED, HB_OO_CLSTP_PERSIST ) ; HB_SYMBOL_UNUSED( nScope )
 #xcommand PUBLISHED: => PUBLIC:
-#endif
 
 // With INDEX
 // With READ
@@ -72,12 +70,7 @@
 					METHOD _<name> INLINE Super:_<name>
 
 
-#ifdef __XHARBOUR__
-#xcommand METHOD PROCEDURE <Proc> CLASS <className> => ;
-					PROCEDURE <Proc> CLASS <className>
-#else
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
-#endif
 
 // Simple VAR varname TO object
 //#xcommand VAR <DataName> TO <oObject> => VAR <DataName> IS <DataName> TO <oObject>

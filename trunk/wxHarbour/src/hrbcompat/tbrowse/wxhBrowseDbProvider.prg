@@ -14,10 +14,6 @@
 	(C) 2008 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#ifdef __XHARBOUR__
-#include "wx_hbcompat.ch"
-#endif
-
 #include "hbclass.ch"
 #include "property.ch"
 #include "xerror.ch"
@@ -220,11 +216,11 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	width		 := column:Width
 	
 	IF ::FIgnoreCellEvalError
-		TRY
+		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 			Result := column:Block:Eval( ::RowParam )
-		CATCH
+		RECOVER
 			Result := "<error on block>"
-		END
+		END SEQUENCE
 	ELSE
 		Result := column:Block:Eval( ::RowParam )
 	ENDIF
@@ -250,7 +246,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 //				 ::GetView():SetColFormatBool( nCol - 1 )
 				::GetView():SetColumnAlignment( nCol, column:Align )
 				EXIT
-			_OTHERWISE
+			OTHERWISE
 				column:Align := wxALIGN_CENTRE
 			END
 		ENDIF
@@ -278,11 +274,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	CASE 'O'
 		Result := Result:__FObj:Value()
 		EXIT
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
 	OTHERWISE
-	#endif
 		Result := "<unknown type '" + ValType( Result ) + "'>"
 	END
 

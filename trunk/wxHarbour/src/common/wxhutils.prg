@@ -16,31 +16,6 @@
 
 STATIC BaseArray:="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-#ifdef __XHARBOUR__
-#include "wx_hbcompat.ch"
-
-/*
-	_hb_BitOr : accepts 'n' int params as Harbour HB_BitOr does
-	Teo. Mexico 2009
-*/
-FUNCTION _hb_BitOr( ... )
-	LOCAL Result := 0
-	LOCAL n
-
-	IF PCount() > 0
-		Result := PValue( 1 )
-		IF PCount() > 1
-			FOR n:=2 TO PCount()
-				Result := HB_BitOr( Result, PValue( n ) )
-			NEXT
-		ENDIF
-	ENDIF
-
-RETURN Result
-
-#endif
-
-#ifndef __XHARBOUR__
 /*
 	__ClsInstName
 	Teo. Mexico 2007
@@ -51,7 +26,6 @@ FUNCTION __ClsInstName( className )
 	Result := &(className+"()")
 
 RETURN Result
-#endif
 
 #include "wxharbour.ch"
 
@@ -248,11 +222,7 @@ FUNCTION Dec(p,base,fill,n)
 		IF !empty(p)
 			asize(p,len(p)-n)
 		ENDIF
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
 	OTHERWISE
-	#endif
 		//mess_open("ERROR","* Dec() *",-1,C_ERROR)
 	ENDSWITCH
 
@@ -381,11 +351,7 @@ FUNCTION Inc( p, base, fill, n )
 	CASE 'A'
 		asize(p,len(p)+n)
 		EXIT
-	#ifdef __XHARBOUR__
-	DEFAULT
-	#else
 	OTHERWISE
-	#endif
 		//mess_open("ERROR","* Inc() *",-1,C_ERROR)
 	ENDSWITCH
 

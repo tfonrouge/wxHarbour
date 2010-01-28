@@ -238,7 +238,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
-	$(__BUILDDIR__)\wxHarbour_xhb2hb.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj \
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj \
@@ -407,8 +406,8 @@ uninstall_wxHarbour:
 
 install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)
-	if not exist $(PREFIX)\include/wxHarbour/wxh mkdir $(PREFIX)\include/wxHarbour/wxh
-	if not exist $(PREFIX)\include/wxHarbour mkdir $(PREFIX)\include/wxHarbour
+	if not exist $(PREFIX)\include\wxHarbour\wxh mkdir $(PREFIX)\include\wxHarbour\wxh
+	if not exist $(PREFIX)\include\wxHarbour mkdir $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\defs.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\dialog.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\event.ch $(PREFIX)\include\wxHarbour
@@ -416,14 +415,12 @@ install_wxHarbour_headers:
 	copy include\wxHarbour\raddox.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\toplevel.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wx.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wx_hbcompat.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxharbour.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\xerror.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\defs.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\rdodefs.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxh.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxhevtdefs.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\xhbcompat.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxh\auibook.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bitmap.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bookctrl.ch $(PREFIX)\include\wxHarbour\wxh
@@ -448,14 +445,12 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxHarbour\raddox.ch -del $(PREFIX)\include\wxHarbour\raddox.ch
 	-if exist $(PREFIX)\include\wxHarbour\toplevel.ch -del $(PREFIX)\include\wxHarbour\toplevel.ch
 	-if exist $(PREFIX)\include\wxHarbour\wx.ch -del $(PREFIX)\include\wxHarbour\wx.ch
-	-if exist $(PREFIX)\include\wxHarbour\wx_hbcompat.ch -del $(PREFIX)\include\wxHarbour\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxharbour.ch -del $(PREFIX)\include\wxHarbour\wxharbour.ch
 	-if exist $(PREFIX)\include\wxHarbour\xerror.ch -del $(PREFIX)\include\wxHarbour\xerror.ch
 	-if exist $(PREFIX)\include\wxHarbour\defs.h -del $(PREFIX)\include\wxHarbour\defs.h
 	-if exist $(PREFIX)\include\wxHarbour\rdodefs.h -del $(PREFIX)\include\wxHarbour\rdodefs.h
 	-if exist $(PREFIX)\include\wxHarbour\wxh.h -del $(PREFIX)\include\wxHarbour\wxh.h
 	-if exist $(PREFIX)\include\wxHarbour\wxhevtdefs.h -del $(PREFIX)\include\wxHarbour\wxhevtdefs.h
-	-if exist $(PREFIX)\include\wxHarbour\xhbcompat.h -del $(PREFIX)\include\wxHarbour\xhbcompat.h
 	-if exist $(PREFIX)\include\wxHarbour\wxh\auibook.ch -del $(PREFIX)\include\wxHarbour\wxh\auibook.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bitmap.ch -del $(PREFIX)\include\wxHarbour\wxh\bitmap.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch
@@ -861,9 +856,6 @@ $(__BUILDDIR__)\wxHarbour_sysdefs.obj: .\src\common\sysdefs.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp
-
-$(__BUILDDIR__)\wxHarbour_xhb2hb.obj: .\src\common\xhb2hb.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\common\xhb2hb.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\misc\wx_functions.cpp

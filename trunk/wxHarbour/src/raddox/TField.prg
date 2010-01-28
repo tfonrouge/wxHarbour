@@ -5,10 +5,6 @@
  *
  */
 
-#ifdef __XHARBOUR__
-	#include "wx_hbcompat.ch"
-#endif
-
 #include "wxharbour.ch"
 #include "xerror.ch"
 
@@ -314,11 +310,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 			Result := ::GetBuffer()
 		ENDIF
 		EXIT
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 		RAISE TFIELD ::Name ERROR "GetAsVariant(): Field Method Type not supported: " + ::FFieldMethodType
 	END
 
@@ -705,11 +697,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 
 		RETURN
 
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 
 	END
 
@@ -765,11 +753,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
 		EXIT
 
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 
 		RETURN
 
@@ -1166,11 +1150,7 @@ METHOD FUNCTION GetAsString CLASS TStringField
 			Result += AField:AsString()
 		NEXT
 		EXIT
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 		Result := ::GetAsVariant()
 	END
 

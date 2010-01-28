@@ -31,12 +31,6 @@
 
 #include "wxharbour.ch"
 
-#ifdef __XHARBOUR__
-
-#include "wx_hbcompat.ch"
-
-#endif
-
 REQUEST QQOUT
 REQUEST WXTOOLBARTOOLBASE
 REQUEST WXSTATICBOX
@@ -172,7 +166,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 	/* @ GET */
 	ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 		control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
-			BEGIN_CB|event|
+			{|event|
 				SWITCH event:GetKeyCode()
 				CASE WXK_TAB
 					::UpdateVar( event )
@@ -180,7 +174,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 				END
 				event:Skip()
 				RETURN NIL
-			END_CB )
+			} )
 		IF nextCtrlOnEnter .AND. !control:IsMultiLine()
 			parent:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_TEXT_ENTER, {|event| wxh_AddNavigationKeyEvent( event:GetEventObject():GetParent() ) } )
 		ENDIF
@@ -194,7 +188,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 			ENDIF
 			IF contextListKey != NIL
 				control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
-					BEGIN_CB|event|
+					{|event|
 						IF event:GetKeyCode() = contextListKey
 							::PickList( event )
 							event:Skip( .F. )
@@ -202,7 +196,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 						ENDIF
 						event:Skip()
 						RETURN NIL
-					END_CB )
+					} )
 			ENDIF
 		ENDIF
 		control:SetSelection()
@@ -408,7 +402,7 @@ METHOD GetSelection CLASS wxhHBValidator
 		CASE 'H'		/* Hash */
 			n := HB_HPos( ::FValidValues, key )
 			EXIT
-		_OTHERWISE
+		OTHERWISE
 			EXIT
 		END
 
@@ -890,7 +884,7 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 	ENDIF
 
 //
-	boxSizer:Add( browse, 1, _hb_BitOr( wxGROW, wxALL ), 5 )
+	boxSizer:Add( browse, 1, HB_BitOr( wxGROW, wxALL ), 5 )
 
 	boxSizer:Add( wxStaticLine():New( panel, wxID_ANY, NIL, NIL, wxLI_VERTICAL ), 0, wxGROW, 5 )
 
@@ -898,7 +892,7 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 
 	scrollBar:SetScrollBar( 0, 1, 100, 1 )
 
-	boxSizer:Add( scrollBar, 0, _hb_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
+	boxSizer:Add( scrollBar, 0, HB_BitOr( wxGROW, wxLEFT, wxRIGHT ), 5 )
 //
 
 	containerObj():SetLastChild( panel )
@@ -1005,7 +999,7 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
 		IF style == NIL
 			style := wxBU_AUTODRAW
 		ELSE
-			style := _hb_BitOr( style, wxBU_AUTODRAW )
+			style := HB_BitOr( style, wxBU_AUTODRAW )
 		ENDIF
 		button := wxBitmapButton():New( window, id, bitmap, pos, size, style, validator, name )
 		IF label != NIL
@@ -1284,7 +1278,7 @@ FUNCTION __wxh_Gauge( window, id, range, pos, size, style, validator, name, type
 		IF style == NIL
 			style := type
 		ELSE
-			style := _hb_BitOr( style, type )
+			style := HB_BitOr( style, type )
 		ENDIF
 	ENDIF
 
@@ -1334,7 +1328,7 @@ FUNCTION __wxh_GetBitmapResource( bmp )
 	CASE 'N'
 		bitmap := wxBitmap():New( bmp )
 		EXIT
-	_OTHERWISE
+	OTHERWISE
 		bitmap := wxBitmap():New( 0 )	 // missing image
 	END
 
@@ -1582,7 +1576,7 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorD
 		IF style = NIL
 			style := 0
 		ENDIF
-		style := _hb_BitOr( style, specRC )
+		style := HB_BitOr( style, specRC )
 	ENDIF
 
 	radioBox := wxRadioBox():New( parent, id, label, point, size, validator:GetChoices( choices ), majorDimension, style, validator, name )
@@ -1626,7 +1620,7 @@ FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name,
 	IF Empty( style )
 		style := orient
 	ELSE
-		style := _hb_BitOr( orient, style )
+		style := HB_BitOr( orient, style )
 	ENDIF
 
 	sb := wxScrollBar():New( window, id, pos, size, style, validator, name )
@@ -1660,7 +1654,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, onSearch, onCance
 		IF style == NIL
 			style := wxTE_PROCESS_ENTER
 		ELSE
-			style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
+			style := HB_BitOr( style, wxTE_PROCESS_ENTER )
 		ENDIF
 	ENDIF
 	*/
@@ -1822,12 +1816,12 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 	IF align == NIL
 		IF parentSizer != NIL
 			IF parentSizer:IsDerivedFrom("wxGridSizer")
-				align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
+				align := HB_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
 			ELSE
 				IF parentSizer:GetOrientation() = wxVERTICAL
-					align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
+					align := HB_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
 				ELSE
-					align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
+					align := HB_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
 				ENDIF
 			ENDIF
 		ELSE
@@ -1837,7 +1831,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
 	/* TODO: Make a more configurable way to do this */
 	IF parentSizer != NIL .AND. parentSizer:IsDerivedFrom("wxGridSizer")
-		align := _hb_BitOr( align, wxALIGN_CENTER_VERTICAL )
+		align := HB_BitOr( align, wxALIGN_CENTER_VERTICAL )
 	ENDIF
 
 	IF sideBorders == NIL
@@ -1866,7 +1860,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
 	containerObj():SizerAddOnLastChild()
 
-	parentSizer:Add( child, strech, _hb_BitOr( align, sideBorders, flag ), border )
+	parentSizer:Add( child, strech, HB_BitOr( align, sideBorders, flag ), border )
 
 RETURN
 
@@ -1901,9 +1895,9 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
 	IF align == NIL
 		IF lastSizer:IsDerivedFrom("wxBoxSizer")
 			IF !lastSizer:GetOrientation() = wxHORIZONTAL
-				align := _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
+				align := HB_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALL )
 			ELSE
-				align := _hb_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
+				align := HB_BitOr( wxALIGN_CENTER_VERTICAL, wxALL )
 			ENDIF
 		ENDIF
 	ENDIF
@@ -2038,7 +2032,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 		IF Empty( style )
 			style := wxTE_MULTILINE
 		ELSE
-			style := _hb_BitOr( wxTE_MULTILINE, style )
+			style := HB_BitOr( wxTE_MULTILINE, style )
 		ENDIF
 	ENDIF
 
@@ -2050,7 +2044,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 		IF style == NIL
 			style := wxTE_PROCESS_ENTER
 		ELSE
-			style := _hb_BitOr( style, wxTE_PROCESS_ENTER )
+			style := HB_BitOr( style, wxTE_PROCESS_ENTER )
 		ENDIF
 	ENDIF
 	*/

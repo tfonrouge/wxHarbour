@@ -168,7 +168,7 @@
 // Orientation
 #define wxHORIZONTAL    0x0004
 #define wxVERTICAL      0x0008
-#define wxBOTH          _hb_BitOr( wxVERTICAL, wxHORIZONTAL )
+#define wxBOTH          HB_BitOr( wxVERTICAL, wxHORIZONTAL )
 
 // wxDirection
 #define wxLEFT    0x0010
@@ -184,7 +184,7 @@
 #define wxWEST    wxLEFT
 #define wxEAST    wxRIGHT
 
-#define wxALL     _hb_BitOr( wxUP, wxDOWN, wxRIGHT, wxLEFT )
+#define wxALL     HB_BitOr( wxUP, wxDOWN, wxRIGHT, wxLEFT )
 
 // wxAlignment
 #define wxALIGN_NOT                 0x0000
@@ -197,7 +197,7 @@
 #define wxALIGN_CENTER_VERTICAL     0x0800
 #define wxALIGN_CENTRE_VERTICAL     wxALIGN_CENTER_VERTICAL
 
-#define wxALIGN_CENTER              _hb_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
+#define wxALIGN_CENTER              HB_BitOr( wxALIGN_CENTER_HORIZONTAL, wxALIGN_CENTER_VERTICAL )
 #define wxALIGN_CENTRE              wxALIGN_CENTER
 
 #define wxALIGN_MASK                0x0f00
@@ -465,7 +465,7 @@
 #define wxYES                   0x00000002
 #define wxOK                    0x00000004
 #define wxNO                    0x00000008
-#define wxYES_NO                _hb_BitOr(wxYES,wxNO)
+#define wxYES_NO                HB_BitOr(wxYES,wxNO)
 #define wxCANCEL                0x00000010
 
 #define wxYES_DEFAULT           0x00000000  /*  has no effect (default) */
@@ -636,7 +636,7 @@
 #define wxMOD_NONE      0x0000
 #define wxMOD_ALT       0x0001
 #define wxMOD_CONTROL   0x0002
-#define wxMOD_ALTGR     _hb_BitOr( wxMOD_ALT, wxMOD_CONTROL )
+#define wxMOD_ALTGR     HB_BitOr( wxMOD_ALT, wxMOD_CONTROL )
 #define wxMOD_SHIFT     0x0004
 #define wxMOD_META      0x0008
 #define wxMOD_WIN       wxMOD_META

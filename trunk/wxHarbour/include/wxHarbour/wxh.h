@@ -22,28 +22,16 @@
 /*
 	Harbour related include files
 */
-#ifdef __XHARBOUR__
-#include "hbvmopt.h"
-#else
 #include "hbvmint.h"
-#endif
 
 #include "hbapi.h"
 #include "hbapiitm.h"
-#ifndef __XHARBOUR__
-	#include "hbapicls.h"
-#endif
+#include "hbapicls.h"
 #include "hbvm.h"
 #include "hbstack.h"
 #include "hbapierr.h"
 
-#ifndef __XHARBOUR__
 #include "hbchksum.h"
-#endif
-
-#ifdef __XHARBOUR__
-#include "classes.h"
-#endif
 
 #include "wx/grid.h"
 #include "wxhevtdefs.h"

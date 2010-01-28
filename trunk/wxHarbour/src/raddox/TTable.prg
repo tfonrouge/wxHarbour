@@ -7,10 +7,6 @@
 	Teo. Mexico 2007
 */
 
-#ifdef __XHARBOUR__
-	#include "wx_hbcompat.ch"
-#endif
-
 #include "wxharbour.ch"
 #include "error.ch"
 #include "xerror.ch"
@@ -88,9 +84,7 @@ PRIVATE:
 	METHOD SetState( state )
 	METHOD SetSyncingToContainerField( value ) INLINE ::FSyncingToContainerField := value
 	METHOD Process_TableName( tableName )
-#ifndef __XHARBOUR__
 	METHOD SendToServer
-#endif
 
 PROTECTED:
 
@@ -461,11 +455,7 @@ METHOD PROCEDURE Cancel CLASS TTable
 			ENDIF
 		NEXT
 		EXIT
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 
 	END
 
@@ -595,11 +585,7 @@ METHOD FUNCTION CopyRecord( origin ) CLASS TTable
 			ENDIF
 		NEXT
 		EXIT
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 		RAISE ERROR "Unknown Record from Origin"
 		RETURN .F.
 	END
@@ -1194,7 +1180,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 
 	IF ! AField:IsDerivedFrom("TObjectField")
 		RETURN ;
-			BEGIN_CB|o|
+			{|o|
 				LOCAL Result
 				LOCAL AField
 				
@@ -1217,12 +1203,12 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				
 				RETURN Result
 
-			END_CB
+			}
 
 	ENDIF
 
 	RETURN ;
-		BEGIN_CB|o|
+		{|o|
 			LOCAL AField
 			LOCAL Result
 
@@ -1241,7 +1227,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				
 			RETURN Result
 
-		END_CB
+		}
 
 METHOD FUNCTION GetDisplayFields( syncFromAlias ) CLASS TTable
 	LOCAL DisplayFieldsClass
@@ -1738,11 +1724,10 @@ METHOD FUNCTION Post() CLASS TTable
 
 		SHOW ERROR errObj
 
-#ifndef __XHARBOUR__
 	ALWAYS
 
 		::FSubState := dssNone
-#endif
+
 	END SEQUENCE
 
 	IF result
@@ -1944,7 +1929,7 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 	CASE 'U'
 		::FMasterSourceType := rxMasterSourceTypeNone
 		RETURN
-	_OTHERWISE
+	OTHERWISE
 		RAISE ERROR "Invalid type in assigning MasterSource..."
 	END
 

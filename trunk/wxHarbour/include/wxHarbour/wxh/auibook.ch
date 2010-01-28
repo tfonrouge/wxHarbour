@@ -36,7 +36,7 @@
 #define wxAUI_NB_CLOSE_ON_ALL_TABS      0x1000  //= 1 << 12,
 #define wxAUI_NB_MIDDLE_CLICK_CLOSE     0x2000  //= 1 << 13,
 
-#define wxAUI_NB_DEFAULT_STYLE         _hb_BitOr( wxAUI_NB_TOP ,;
+#define wxAUI_NB_DEFAULT_STYLE         HB_BitOr( wxAUI_NB_TOP ,;
 																									wxAUI_NB_TAB_SPLIT ,;
 																									wxAUI_NB_TAB_MOVE ,;
 																									wxAUI_NB_SCROLL_BUTTONS ,;

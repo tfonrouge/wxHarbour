@@ -7,10 +7,6 @@
 	Teo. Mexico 2007
 */
 
-#ifdef __XHARBOUR__
-	#include "wx_hbcompat.ch"
-#endif
-
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"
@@ -489,11 +485,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 	CASE 'U'
 		AField := NIL
 		EXIT
-#ifdef __XHARBOUR__
-	DEFAULT
-#else
 	OTHERWISE
-#endif
 		wxhAlert("! : Not a Valid Field Identifier...")
 		RETURN
 	END

@@ -58,7 +58,7 @@
 
     // show the text and the icons alongside, not vertically stacked (Win32/GTK)
 #define    wxTB_HORZ_LAYOUT 0x0800
-#define    wxTB_HORZ_TEXT   _HB_BitOr( wxTB_HORZ_LAYOUT | wxTB_TEXT )
+#define    wxTB_HORZ_TEXT   HB_BitOr( wxTB_HORZ_LAYOUT | wxTB_TEXT )
 
     // don't show the toolbar short help tooltips
 #define    wxTB_NO_TOOLTIPS 0x1000
