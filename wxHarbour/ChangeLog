@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-01-28 13:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     % Added support for ValType "T" fields (TDayTimeField's)
+
 2010-01-28 11:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
