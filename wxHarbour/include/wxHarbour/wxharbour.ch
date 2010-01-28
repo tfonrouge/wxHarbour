@@ -24,22 +24,6 @@
 
 #xcommand IMPLEMENT_APP( <app> ) => <app>:Implement()
 
-#ifdef __XHARBOUR__
-
-#xtranslate BEGIN_CB => \<
-#xtranslate END_CB   => >
-#xtranslate BEGIN SEQUENCE WITH <w> => BEGIN SEQUENCE
-#xtranslate _OTHERWISE => DEFAULT
-
-#else
-
-#xtranslate BEGIN_CB => \{
-#xtranslate END_CB   => }
-#xtranslate _OTHERWISE => OTHERWISE
-#xtranslate _hb_BitOr(  => HB_BitOr(
-
-#endif
-
 #include "hbclass.ch"
 #include "property.ch"
 #include "raddox.ch"
@@ -83,7 +67,7 @@
 	MessageBox
 */
 #define wxhMessageBoxYesNo( title, mess, parent ) ;
-				wxMessageBox( mess, title, _hb_BitOr(wxYES_NO,wxICON_QUESTION), parent )
+				wxMessageBox( mess, title, HB_BitOr(wxYES_NO,wxICON_QUESTION), parent )
 
 /*
 	NTrim
@@ -187,7 +171,7 @@
 						[ wx<stretch> ],;
 						[ wxALIGN_<align> ],;
 						[ <border> ],;
-						[ _hb_BitOr(0,<sideborders>) ],;
+						[ HB_BitOr(0,<sideborders>) ],;
 						NIL,;
 						[ <.useLast.> ],;
 						.T. ) /* No processing, sizer info to stack */
@@ -214,7 +198,7 @@
 						[ wx<stretch> ],;
 						[ wxALIGN_<align> ],;
 						[ <border> ],;
-						[ _hb_BitOr(0,<sideborders>) ] ;
+						[ HB_BitOr(0,<sideborders>) ] ;
 					)
 
 #xcommand BEGIN FLEXGRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
@@ -235,7 +219,7 @@
 						[ wx<stretch> ],;
 						[ wxALIGN_<align> ],;
 						[ <border> ],;
-						[ _hb_BitOr(0,<sideborders>) ] ;
+						[ HB_BitOr(0,<sideborders>) ] ;
 					)
 
 #xcommand BEGIN GRIDSIZER [ROWS <rows>] [COLS <cols>] [VGAP <vgap>] [HGAP <hgap>] ;
@@ -252,7 +236,7 @@
 						[ wx<stretch> ],;
 						[ wxALIGN_<align> ],;
 						[ <border> ],;
-						[ _hb_BitOr(0,<sideborders>) ] ;
+						[ HB_BitOr(0,<sideborders>) ] ;
 					)
 
 #xcommand END SIZER ;

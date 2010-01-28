@@ -27,10 +27,6 @@
 #include "hbapicdp.h"
 #include "hbdate.h"
 
-#ifdef __XHARBOUR__
-	ULONG hb_crc32( ULONG crc, const BYTE *buf, size_t size );
-#endif
-
 /* PHB_BASEARRAY keys, wxh_Item* values */
 WX_DECLARE_HASH_MAP( PHB_BASEARRAY, wxh_Item*, wxPointerHash, wxPointerEqual, MAP_PHB_BASEARRAY );
 
@@ -56,14 +52,6 @@ HB_FUNC( WXHBASECLASS_OBJECTH )
 	if( pSelf )
 		hb_retptr( pSelf->item.asArray.value );
 }
-
-#ifdef __XHARBOUR__
-
-void hb_procname( UINT uiProcOffset, char* szName, bool fMethodName )
-{
-	hb_procinfo( uiProcOffset + 1, szName, NULL, NULL );
-}
-#endif
 
 /*
 	destructor
@@ -277,13 +265,10 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 			if( strncmp( "__WXH_", szName, 6 ) == 0 )
 				hb_procname( ++uiProcOffset, szName, TRUE );
 
-#ifdef __XHARBOUR__
-			hb_procinfo( uiProcOffset + 1, NULL, &usProcLine, NULL );
-#else
 			long lOffset = hb_stackBaseProcOffset( uiProcOffset );
 			if( lOffset > 0 )
 				usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
-#endif
+
 			UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTECHAR *) szName, strlen( szName ) );
 
 //			 qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
@@ -511,7 +496,6 @@ void wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent
 	}
 }
 
-#ifndef __XHARBOUR__
 /*
  wxh_itemNullObject
  Teo. Mexico 2009
@@ -540,8 +524,6 @@ HB_FUNC( WXH_DESTROYNULLOBJECT )
 		pSelf->type = HB_IT_NIL;
 	}
 }
-
-#endif
 
 /*
  wxh_itemReturn
@@ -663,12 +645,6 @@ wxSize wxh_par_wxSize( int param )
 */
 wxString wxh_CTowxString( const char * szStr, bool convOEM )
 {
-#ifdef __XHARBOUR__
-
-	return wxString().FromAscii( szStr );
-	
-#else
-
 #ifdef _UNICODE
 	const wxMBConv& mbConv = wxConvUTF8;
 
@@ -696,9 +672,6 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
 #endif
 
 	return wxString( szStr, mbConv );
-	
-#endif
-
 }
 
 /*

@@ -216,10 +216,9 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
 						ulResult = ulNode;
 						uIndex += sizeof( ulNode );
 						const char *pIndex = bufHeader.pBuffer + uIndex;
-#ifdef __XHARBOUR__
-#else
+
 						pItm = hb_itemDeserialize( &pIndex, &ulResult );
-#endif
+
 						uIndex += ulNode;
 						if( pItm )
 						{
@@ -231,11 +230,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
 
 				hb_vmDo( 2 + iPCount ); /* the Message call */
 
-#ifdef __XHARBOUR__
-				char *pReturn;
-#else
 				char *pReturn = hb_itemSerialize( hb_stackReturnItem(), FALSE, &bufSize );
-#endif
 
 				/* send to Client the header size */
 				socketBase->Write( &bufSize, sizeof( bufSize ) );
@@ -261,8 +256,5 @@ HB_FUNC( __RDOSENDMESSAGE )
 	PHB_ITEM pObject = hb_param( 1, HB_IT_ANY );
 	PHB_ITEM pMessage = hb_param( 2, HB_IT_SYMBOL | HB_IT_STRING );
 
-#ifdef __XHARBOUR__
-#else
 	hb_dbg_objSendMessage( 0, pObject, pMessage, 2 );
-#endif
 }

@@ -14,10 +14,6 @@
 	(C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-#ifdef __XHARBOUR__
-#include "wx_hbcompat.ch"
-#endif
-
 #include "wxharbour.ch"
 #include "xerror.ch"
 
@@ -413,7 +409,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 			::PageDown()
 		ENDIF
 		EXIT
-	_OTHERWISE
+	OTHERWISE
 		keyEvent:Skip()
 	END
 

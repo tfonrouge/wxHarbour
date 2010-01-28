@@ -84,7 +84,7 @@ METHOD PROCEDURE ConnectToServer CLASS MyApp
 		::socket := wxSocketClient():New()
 
 		::socket:SetEventHandler( ::oWnd, wxID_ANY )
-		::socket:SetNotify( _hb_BitOr( wxSOCKET_CONNECTION_FLAG,;
+		::socket:SetNotify( HB_BitOr( wxSOCKET_CONNECTION_FLAG,;
 																	 wxSOCKET_INPUT_FLAG,;
 																	 wxSOCKET_LOST_FLAG ) )
 		::socket:Notify( .T. )

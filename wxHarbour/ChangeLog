@@ -2,6 +2,66 @@
  * $Id$
  */
 
+2010-01-28 11:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  include/wxHarbour/defs.ch
+  *  include/wxHarbour/dialog.ch
+  *  include/wxHarbour/property.ch
+  *  include/wxHarbour/toplevel.ch
+  *  include/wxHarbour/wxh.h
+  *  include/wxHarbour/wxh/auibook.ch
+  *  include/wxHarbour/wxh/bookctrl.ch
+  *  include/wxHarbour/wxh/toolbar.ch
+  *  include/wxHarbour/wxharbour.ch
+  *  include/wxHarbour/xerror.ch
+  *  samples/sizers/main.prg
+  *  samples/taskBarIcon/taskBarIcon.prg
+  *  src/common/wx_harbour.cpp
+  *  src/common/wxhfuncs.prg
+  *  src/common/wxhutils.prg
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  *  src/raddox/TDatabase.prg
+  *  src/raddox/TField.prg
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TRDOClient.prg
+  *  src/raddox/TRDOServer.prg
+  *  src/raddox/TRDOServer_c.cpp
+  *  src/raddox/TTable.prg
+  *  src/raddox/TTable_c.cpp
+  *  src/wxbase/app/wxhTaskBarIcon.prg
+  *  src/wxbase/events/wxhActivateEvent.prg
+  *  src/wxbase/events/wxhCloseEvent.prg
+  *  src/wxbase/events/wxhCommandEvent.prg
+  *  src/wxbase/events/wxhEvent.prg
+  *  src/wxbase/events/wxhEvtHandler.prg
+  *  src/wxbase/events/wxhFocusEvent.prg
+  *  src/wxbase/events/wxhInitDialogEvent.prg
+  *  src/wxbase/events/wxhKeyEvent.prg
+  *  src/wxbase/events/wxhMenuEvent.prg
+  *  src/wxbase/events/wxhNotebookEvent.prg
+  *  src/wxbase/events/wxhNotifyEvent.prg
+  *  src/wxbase/events/wxhSizeEvent.prg
+  *  src/wxbase/events/wxhSocketEvent.prg
+  *  src/wxbase/events/wxhTaskBarIconEvent.prg
+  *  src/wxbase/events/wxhTimer.prg
+  *  src/wxbase/events/wxhTimerEvent.prg
+  *  src/wxbase/events/wxhUpdateUIEvent.prg
+  *  src/wxbase/image/wxhBitmap.prg
+  *  src/wxbase/image/wxhColour.prg
+  *  src/wxbase/image/wxhGDIObject.prg
+  *  src/wxbase/image/wxhIcon.prg
+  *  src/wxbase/networking/wx_SocketBase.cpp
+  *  tests/socketCli/socketCli.prg
+  -  include/wxHarbour/wx_hbcompat.ch
+  -  include/wxHarbour/xhbcompat.h
+  -  src/common/xhb2hb.cpp
+     * removed support for xHarbour as Harbour fully superseeds now xHarbour features
+
 2010-01-24 13:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed AsVariant prop on compound field (array of fields)

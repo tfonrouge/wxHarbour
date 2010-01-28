@@ -51,13 +51,13 @@
 		#ifdef __SMARTPHONE__
 				#define wxDEFAULT_FRAME_STYLE (wxMAXIMIZE)
 		#elifdef __WINCE_STANDARDSDK__
-				#define wxDEFAULT_FRAME_STYLE _hb_BitOr(wxMAXIMIZE,wxCLOSE_BOX)
+				#define wxDEFAULT_FRAME_STYLE HB_BitOr(wxMAXIMIZE,wxCLOSE_BOX)
 		#else
 				#define wxDEFAULT_FRAME_STYLE (wxNO_BORDER)
 		#endif
 #else // !__WXWINCE__
 		#define wxDEFAULT_FRAME_STYLE ;
-						_hb_BitOr( wxSYSTEM_MENU, ;
+						HB_BitOr( wxSYSTEM_MENU, ;
 											 wxRESIZE_BORDER, ;
 											 wxMINIMIZE_BOX, ;
 											 wxMAXIMIZE_BOX, ;

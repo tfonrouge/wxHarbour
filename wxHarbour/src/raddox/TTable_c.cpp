@@ -20,8 +20,6 @@
 
 #include "rdodefs.h"
 
-#ifndef __XHARBOUR__
-
 /*
 	TTable:SendToServer
 	Teo. Mexico 2008
@@ -88,4 +86,3 @@ HB_FUNC( TTABLE_SENDTOSERVER )
 	hb_itemReturnRelease( hb_itemDeserialize( &p, &bufSize ) );
 
 }
-#endif
