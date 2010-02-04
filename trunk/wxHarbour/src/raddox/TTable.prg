@@ -490,11 +490,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 			n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
 			
 			IF AField:IsDerivedFrom("TObjectField")
-				IF AField:IsMasterFieldComponent .AND. !Empty( ::MasterSourceBaseClass ) .AND. AField:DataObj:IsDerivedFrom( ::MasterSourceBaseClass )
-					pkField := AField:DataObj:GetPrimaryKeyField( ::MasterSourceBaseClass )
-				ELSE
-					pkField := AField:DataObj:GetPrimaryKeyField( AField:DataObj:MasterSourceBaseClass )
-				ENDIF
+				pkField := AField:GetReferenceField()
 				IF pkField = NIL
 					RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Database '" + ::ClassName + "'"
 				ENDIF
