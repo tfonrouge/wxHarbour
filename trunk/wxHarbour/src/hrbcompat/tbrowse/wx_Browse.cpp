@@ -181,7 +181,7 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 		top = cellRect.GetTop();
 		bottom = cellRect.GetBottom();
 
-		gridBrowse->m_maxRows = HB_MAX( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 1 );
+		gridBrowse->m_maxRows = HB_MAX( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 2 );
 	}
 
 	hb_retni( gridBrowse->m_maxRows );

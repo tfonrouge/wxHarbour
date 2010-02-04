@@ -64,7 +64,7 @@ PRIVATE:
 	METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
 	METHOD SetKeyIndex( Index ) INLINE ::FKeyIndex := Index
 	METHOD SetLabel( label ) INLINE ::FLabel := label
-	METHOD SetName( Name )
+	METHOD SetName( name )
 	METHOD SetPickList( pickList )
 	METHOD SetPrimaryKeyComponent( PrimaryKeyComponent )
 	METHOD SetPublished( Published ) INLINE ::FPublished := Published
@@ -275,12 +275,15 @@ METHOD FUNCTION GetAsVariant CLASS TField
 		NEXT
 		EXIT
 	CASE "B"
-	IF ::FUsingField == NIL
-		Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
-	ELSE
-		Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
-	ENDIF
-		EXIT
+		IF ::FUsingField == NIL
+			Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
+			IF HB_IsObject( Result )
+				Result := Result:Value
+			ENDIF
+		ELSE
+			Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
+		ENDIF
+			EXIT
 	CASE "C"
 		IF ::FCalculated
 			IF ::FFieldReadBlock == NIL
@@ -893,28 +896,25 @@ RETURN
 	Teo. Mexico 2006
 */
 METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
-	LOCAL fieldName
+	LOCAL itm,fieldName
 	LOCAL AField
 	LOCAL n
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
 	CASE "A"
 		::FReadOnly := .T.
-		IF ::IsDerivedFrom("TObjectField")
-			RAISE TFIELD ::Name ERROR "Array of Fields Not Allowed in <TObjectField>..."
-		ENDIF
 		IF ::IsDerivedFrom("TStringField")
 			::TStringField:FSize := 0
 		ENDIF
 		::FFieldArray := {}
-		::FName := ""
-		FOR EACH fieldName IN FieldMethod
-			AField := ::FTable:FieldByName( fieldName )
+		fieldName := ""
+		FOR EACH itm IN FieldMethod
+			AField := ::FTable:FieldByName( itm )
 			IF AField != NIL
 				AAdd( ::FFieldArray, AField )
-				::FName += fieldName + ";"
+				fieldName += itm + ";"
 			ELSE
-				RAISE TFIELD fieldName ERROR "Field is not defined yet..."
+				RAISE TFIELD itm ERROR "Field is not defined yet..."
 			ENDIF
 			IF ::IsDerivedFrom("TStringField")
 				IF Len( AField ) == NIL
@@ -923,7 +923,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 				::TStringField:FSize += Len( AField )
 			ENDIF
 		NEXT
-		::FName := Left( ::FName, Len( ::FName ) - 1 )
+		::Name := Left( fieldName, Len( fieldName ) - 1 )
 		::FFieldCodeBlock	 := NIL
 		::FFieldReadBlock	 := NIL
 		::FFieldWriteBlock := NIL
@@ -964,7 +964,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 			 * except for TObjectField's here
 			 */
 			IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
-				RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
+				//RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
 			ENDIF
 			::FModStamp				 := ::Table:DbStruct[n][2] $ "=^+"
 			::FCalculated := .F.
@@ -981,12 +981,13 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		ENDIF
 
 		// Check if FieldExpression is re-declared in parent class
-		IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldExpression) .AND. Upper( AField:FieldExpression ) == Upper( fieldName ) }) > 0
+		IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldExpression) .AND. Upper( AField:FieldExpression ) == Upper( fieldName ) /*.AND. ::IsDerivedFrom( AField:ClassName )*/ }) > 0
 			n := AScan( ::FTable:FieldList, {|AField| AField == Self } )
 			IF n > 0
 				ADel( ::FTable:FieldList, n )
 				ASize( ::FTable:FieldList, Len( ::FTable:FieldList ) - 1 )
 			ENDIF
+			wxhAlert( "Field '" + FieldMethod + "' on table '" + ::FTable:ClassName + "' ignored, because fieldExpression is previously declared in subclass.") //with same TField type." )
 			RETURN /* ok, we don't need this now repeated parent field */
 		ENDIF
 
@@ -1022,15 +1023,15 @@ RETURN
 	SetName
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE SetName( Name ) CLASS TField
+METHOD PROCEDURE SetName( name ) CLASS TField
 
-	IF Empty( Name ) .OR. !Empty( ::FName )
+	IF Empty( name ) .OR. !Empty( ::FName )
 		RETURN
 	ENDIF
 
-	::FName := Name
+	::FName := name
 
-	::Table:AddMessageField( Name, Self )
+	::Table:AddMessageField( name, Self )
 
 RETURN
 
@@ -1478,7 +1479,7 @@ PROTECTED:
 	DATA FDBS_TYPE INIT "@"
 	DATA FType INIT "DayTime"
 	DATA FValType INIT "C"
-	METHOD GetEmptyValue BLOCK {|| DateTimeStampStr() }
+	METHOD GetEmptyValue BLOCK {|| HB_DateTime() }
 PUBLIC:
 	METHOD AsIndexKeyVal( value )
 PUBLISHED:
@@ -1581,6 +1582,7 @@ RETURN pkField:AsIndexKeyVal( value )
 */
 METHOD FUNCTION DataObj CLASS TObjectField
 	LOCAL linkedTable := ::LinkedTable
+	LOCAL linkedObjField
 
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 	
@@ -1588,7 +1590,10 @@ METHOD FUNCTION DataObj CLASS TObjectField
 		/* Syncs with the current value */
 		//? ::LinkedTable:Value, "==", ::Value
 		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:Value == ::Value
+			linkedObjField := linkedTable:LinkedObjField
+			linkedTable:LinkedObjField := NIL
 			linkedTable:Value := ::Value
+			linkedTable:LinkedObjField := linkedObjField
 		ENDIF
 	ENDIF
 

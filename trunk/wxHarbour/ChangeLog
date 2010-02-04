@@ -2,6 +2,47 @@
  * $Id$
  */
 
+2010-02-03 23:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+     * changed value used to calculate available rows in a wxGrid
+       ; TODO: Use a alternative method more acurate to acomplish this
+
+  *  src/raddox/TField.prg
+     ! Fixed getting ::Value on fieldMethodType "B" when returning an Object (TField/TTable)
+     ! Fixed giving name to fieldmethod using an array of fields
+     * commented out a error on comparing ::Table:FieldType's
+     * pop an alert when ignoring a field definition because is declared un a subclass
+     ! Fixed default value on TDayTimeField ( HB_DateTime() )
+     * added protection on TObjectField:DataObj to avoid trying to write the value when
+       performing a Seek
+
+  *  src/raddox/TIndex.prg
+     % added capability to check for Top/Bottom scopes on ::DbGoBottomTop
+     ! Fixed error on ::RawGet4Seek when there is no MasterKeyField
+
+  *  src/raddox/TTable.prg
+     * removed EXPORTED clause to ::GetInstance method
+     * removed ::pSelf used on ::DbEval
+     % Optimized usage of ::DbEval, now a new ::FieldList is created and the current status
+       of the Table is pushed in a stack, this allows fully usage of TField's on ::DbEval
+       method
+     + added method's
+       + TableStatePush: push the whole state of the table on a stack
+       + TableStatePop: pop the state to the table from the stack
+     * raise error on ::CheckDbStruct if no valid reference field is found
+     + added method:
+       + OnClassInitializing : allows do something when creating a TField class
+     % Optimized ::Post by only writing changed fields
+
+  *  src/raddox/xdoutils.c
+     - removed unneeded function:
+       - DateTimeStampStr : using the Harbour equivalent
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     + added method:
+       + FitInside
+
 2010-01-28 13:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
      % Added support for ValType "T" fields (TDayTimeField's)
