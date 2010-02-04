@@ -241,9 +241,17 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
 	LOCAL masterKeyString := ::MasterKeyString
 
 	IF n = 0
-		::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName )
+		IF ::GetScopeTop() == ::GetScopeBottom()
+			::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName )
+		ELSE
+			::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName, .T. )
+		ENDIF
 	ELSE
-		::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName )
+		IF ::GetScopeTop() == ::GetScopeBottom()
+			::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName )
+		ELSE
+			::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName, .T. )
+		ENDIF
 	ENDIF
 
 	::FTable:GetCurrentRecord()
@@ -357,9 +365,9 @@ RETURN::FMasterKeyField:AsIndexKeyVal
 METHOD FUNCTION RawGet4Seek( direction, blk, keyVal, softSeek ) CLASS TIndex
 
 	IF keyVal = NIL
-		keyVal := ::MasterKeyField:Value
+		keyVal := ::MasterKeyString
 	ELSE
-		keyVal := ::MasterKeyField:Value + keyVal
+		keyVal := ::MasterKeyString + keyVal
 	ENDIF
 
 RETURN ::FTable:Alias:RawGet4Seek( direction, blk, keyVal, ::FName, softSeek )

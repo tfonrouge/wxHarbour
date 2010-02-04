@@ -41,6 +41,7 @@ PUBLIC:
 	METHOD FindWindowById( id, parent )
 	METHOD FindWindowByLabel( label, parent )
 	METHOD FindWindowByName( name, parent )
+	METHOD FitInside()
 	METHOD Freeze
 	METHOD GetClientSize()
 	METHOD GetChildren()

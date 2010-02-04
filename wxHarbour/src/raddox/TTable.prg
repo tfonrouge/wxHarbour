@@ -32,8 +32,6 @@ RETURN __ClsInstName( Upper( ClassName ) )
 CLASS TTable FROM WXHBaseClass
 PRIVATE:
 
-	DATA pSelf
-
 	CLASSDATA FFieldTypes
 	CLASSDATA FInstances INIT HB_HSetCaseMatch( {=>}, .F. )
 
@@ -70,7 +68,7 @@ PRIVATE:
 	METHOD GetFieldTypes
 	METHOD GetFound INLINE ::Alias:Found
 	METHOD GetIndexName INLINE ::FIndex:Name
-	METHOD GetInstance EXPORTED
+	METHOD GetInstance
 	METHOD GetMasterSource()
 	METHOD GetPrimaryIndex( curClass )
 	METHOD GetPrimaryMasterKeyField()
@@ -94,6 +92,8 @@ PROTECTED:
 	DATA FPrimaryIndexList INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
 	DATA MasterSourceBaseClass EXPORTED
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
+	DATA tableState INIT {}
+	DATA tableStateLen INIT 0
 
 	METHOD AddRec()
 	METHOD CheckDbStruct()
@@ -135,7 +135,7 @@ PUBLIC:
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
 	METHOD Destroy()
-	METHOD DbEval( bBlock, bForCondition, bWhileCondition )
+	METHOD DbEval( bBlock, bForCondition, bWhileCondition, index )
 	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
 	METHOD DbGoTo( RecNo )
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
@@ -143,7 +143,7 @@ PUBLIC:
 	METHOD Delete( lDeleteChilds )
 	METHOD DeleteChilds
 	METHOD Edit()
-	METHOD FieldByName
+	METHOD FieldByName( name )
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
 	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
@@ -185,8 +185,12 @@ PUBLIC:
 	METHOD SyncRecNo( fromAlias )
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
 
+	METHOD TableStatePush()
+	METHOD TableStatePop()
+
 	METHOD Validate( showAlert )
 
+	METHOD OnClassInitializing() VIRTUAL
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
 	METHOD OnAfterDelete() VIRTUAL
@@ -491,6 +495,9 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 				ELSE
 					pkField := AField:DataObj:GetPrimaryKeyField( AField:DataObj:MasterSourceBaseClass )
 				ENDIF
+				IF pkField = NIL
+					RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Database '" + ::ClassName + "'"
+				ENDIF
 			ELSE
 				pkField := AField
 			ENDIF
@@ -499,7 +506,6 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 				AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
 				sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
 			ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
-				AltD()
 				sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + pkField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
 				aDb[ n, 2 ] := pkField:DBS_TYPE
 				aDb[ n, 3 ] := pkField:DBS_LEN
@@ -624,34 +630,28 @@ RETURN nCount
 	DbEval
 	Teo. Mexico 2008
 */
-METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition ) CLASS TTable
-	LOCAL DetailSourceList
+METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index ) CLASS TTable
 
-	IF ::FMasterSource != NIL
-		DetailSourceList := ::MasterSource:DetailSourceList
-		::MasterSource:DetailSourceList := {=>}
+	::TableStatePush()
+
+	IF index != NIL
+		::IndexName := ::GetIndex(index):Name
 	ENDIF
+	
+	::DbGoTop()
 
-	IF ::pSelf == NIL
-		::pSelf := __ClsInst( ::ClassH ):New( ::FMasterSource )
-	ENDIF
+	WHILE !::Eof() .AND. ( bWhileCondition == NIL .OR. bWhileCondition:Eval( Self ) )
 
-	::pSelf:DbGoTop()
-
-	WHILE !::pSelf:Eof() .AND. ( bWhileCondition == NIL .OR. bWhileCondition:Eval( ::pSelf ) )
-
-		IF bForCondition == NIL .OR. bForCondition:Eval( ::pSelf )
-			bBlock:Eval( ::pSelf )
+		IF bForCondition == NIL .OR. bForCondition:Eval( Self )
+			bBlock:Eval( Self )
 		ENDIF
 
-		::pSelf:DbSkip()
+		::DbSkip()
 
 	ENDDO
-
-	IF DetailSourceList != NIL
-		::MasterSource:DetailSourceList := DetailSourceList
-	ENDIF
-
+	
+	::TableStatePop()
+	
 RETURN
 
 /*
@@ -822,11 +822,6 @@ METHOD PROCEDURE Destroy() CLASS TTable
 		ENDIF
 	ENDIF
 
-	IF ::pSelf != NIL
-		::pSelf:Destroy()
-		::pSelf := NIL
-	ENDIF
-
 	IF !HB_IsArray( ::FFieldList )
 		//WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
 		RETURN
@@ -861,17 +856,17 @@ RETURN .T.
 	FieldByName
 	Teo. Mexico 2006
 */
-METHOD FUNCTION FieldByName( Name ) CLASS TTable
+METHOD FUNCTION FieldByName( name ) CLASS TTable
 	LOCAL AField
 
-	IF Empty( Name )
+	IF Empty( name )
 		RETURN NIL
 	ENDIF
 
-	Name := Upper( Name )
+	name := Upper( name )
 
 	FOR EACH AField IN ::FFieldList
-		IF Name == Upper( AField:Name )
+		IF name == Upper( AField:Name )
 			RETURN AField
 		ENDIF
 	NEXT
@@ -1004,8 +999,6 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 	
 	IF wxhAlertYesNo( message + "Proceed to update Db Structure ?" ) = 1
 	
-		AltD()
-
 		fileName := ::fullFileName
 		
 		HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
@@ -1556,6 +1549,8 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	ENDIF
 
 	IF ::FInstances[ ::TableClass, "Initializing" ]
+	
+		::OnClassInitializing()
 
 		::FInstances[ ::TableClass, "ChildReferenceList" ] := {}
 
@@ -1701,12 +1696,12 @@ METHOD FUNCTION Post() CLASS TTable
 			ENDIF
 
 			FOR EACH AField IN ::FieldList
-
+			
 				IF !AField:IsValid()
 					RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
 				ENDIF
 
-				IF AField:FieldMethodType = "C"
+				IF AField:FieldMethodType = "C" .AND. AField:Changed
 					AField:SetData()
 				ENDIF
 
@@ -2062,7 +2057,7 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 	
 RETURN
 
- /*
+/*
 	SyncRecNo
 	Teo. Mexico 2007
 */
@@ -2076,6 +2071,55 @@ METHOD PROCEDURE SyncRecNo( fromAlias ) CLASS TTable
 		RETURN
 	ENDIF
 	::GetCurrentRecord()
+RETURN
+
+/*
+	TableStatePop
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE TableStatePop() CLASS TTable
+	
+	::FFieldList       := ::tableState[ ::tableStateLen ]["FieldList"]
+	::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceList"]
+	::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
+	::FState           := ::tableState[ ::tableStateLen ]["State"]
+	::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
+
+	--::tableStateLen
+	
+	::Alias:Pop()
+	
+RETURN
+
+/*
+	TableStatePush
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE TableStatePush() CLASS TTable
+	
+	IF Len( ::tableState ) < ++::tableStateLen
+		AAdd( ::tableState, {=>} )
+	ENDIF
+
+	::tableState[ ::tableStateLen ]["FieldList"]        := ::FFieldList
+	::tableState[ ::tableStateLen ]["DetailSourceList"] := ::DetailSourceList
+	::tableState[ ::tableStateLen ]["RecNo"]            := ::FRecNo
+	::tableState[ ::tableStateLen ]["State"]            := ::FState
+	::tableState[ ::tableStateLen ]["IndexName"]        := ::IndexName
+	
+	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "FieldListNew" )
+		::FFieldList := {}
+		::__DefineFields()
+		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
+	ELSE
+		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
+	ENDIF
+
+	::DetailSourceList := {=>}
+	::FState := dsBrowse
+	
+	::Alias:Push()
+	
 RETURN
 
 /*

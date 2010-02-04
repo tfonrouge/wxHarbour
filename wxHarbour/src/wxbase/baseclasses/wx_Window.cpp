@@ -222,8 +222,20 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 		const wxString& name = wxh_parc( 1 );
 		wxWindow* parent = (wxWindow *) objParams.param( 2 );
 		wxWindow* result =	wnd->FindWindowByName( name, parent );
-	wxh_itemReturn( result );
+		wxh_itemReturn( result );
 	}
+}
+
+/*
+ FitInside
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXWINDOW_FITINSIDE )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+		wnd->FitInside();
 }
 
 /*
