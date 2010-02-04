@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-02-04 13:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     + added method:
+       + GetReferenceField(): returns the non-TObjectField which is the keyfield on
+         a TObjectField
+
+  *  src/raddox/TTable.prg
+     * replaced code with TObjectField:GetReferenceField()
+
 2010-02-03 23:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wx_Browse.cpp
      * changed value used to calculate available rows in a wxGrid

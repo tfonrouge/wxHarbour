@@ -1547,6 +1547,7 @@ PUBLIC:
 	METHOD DataObj
 	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
+	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
 	PROPERTY IsTheMasterSource READ GetIsTheMasterSource
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
@@ -1566,8 +1567,7 @@ METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
 		value := ::GetBuffer()
 	ENDIF
 
-	//pkField := ::LinkedTable:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
-	pkField := ::LinkedTable:GetPrimaryKeyField()
+	pkField := ::GetReferenceField()
 	
 	IF pkField = NIL
 		RETURN ""
@@ -1698,6 +1698,21 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 	ENDIF
 
 RETURN ::FLinkedTable
+
+/*
+	GetReferenceField
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetReferenceField() CLASS TObjectField
+	LOCAL pkField
+
+	IF ::IsMasterFieldComponent .AND. !Empty( ::FTable:MasterSourceBaseClass ) .AND. ::DataObj:IsDerivedFrom( ::FTable:MasterSourceBaseClass )
+		pkField := ::DataObj:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
+	ELSE
+		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:MasterSourceBaseClass )
+	ENDIF
+
+RETURN pkField
 
 /*
 	ENDCLASS TObjectField
