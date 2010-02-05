@@ -52,6 +52,7 @@ CLASS MyApp FROM wxApp
 PRIVATE:
 
 	DATA curDirectory
+	DATA recNo INIT 0
 
 	METHOD Configure
 	METHOD GetBrw
@@ -59,6 +60,7 @@ PRIVATE:
 	METHOD UpdateStructDbf( noteBook )
 
 PROTECTED:
+	METHOD GoToRecord()
 	METHOD OnSelectCell( oBrw )
 PUBLIC:
 
@@ -73,6 +75,43 @@ ENDCLASS
 /*
 	EndClass MyApp
 */
+
+METHOD PROCEDURE GoToRecord() CLASS MyApp
+	LOCAL oBrw
+	LOCAL oDlg
+	
+	oBrw := ::GetBrw()
+	
+	IF oBrw = NIL .OR. oBrw:DataSource:Eof()
+		RETURN
+	ENDIF
+	
+	CREATE DIALOG oDlg ;
+		PARENT ::oWnd ;
+		TITLE "Go to record"
+		
+	BEGIN BOXSIZER VERTICAL
+		@ SAY "# record:" GET ::recNo
+		BEGIN BOXSIZER HORIZONTAL ALIGN RIGHT
+			@ BUTTON ID wxID_CANCEL
+			@ BUTTON ID wxID_OK DEFAULT
+		END SIZER
+	END SIZER
+	
+	SHOW WINDOW oDlg MODAL FIT CENTRE
+	
+	IF oDlg:GetReturnCode() != wxID_OK
+		DESTROY oDlg
+		RETURN
+	ENDIF
+	
+	DESTROY oDlg
+	
+	oBrw:DataSource:DbGoTo( Val( ::recNo ) )
+	
+	oBrw:RefreshAll()
+
+RETURN
 
 /*
 	OnInit
@@ -95,6 +134,9 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		ENDMENU
 		DEFINE MENU E"&Preferences"
 			ADD MENUITEM "Configure dbExplorer" ACTION ::Configure()
+		ENDMENU
+		DEFINE MENU E"Move"
+			ADD MENUITEM E"Go to record \tCtrl+l" ACTION ::GoToRecord()
 		ENDMENU
 		DEFINE MENU "Help"
 			ADD MENUITEM "Fit Grid" ACTION ::GetBrw():AutoSizeColumns( .F. ) ENABLED ::GetBrw() != NIL
