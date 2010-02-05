@@ -127,7 +127,7 @@ PUBLIC:
 	DEFINE INDEXES											VIRTUAL
 
 	METHOD BaseSeek( direction, Value, index, lSoftSeek )
-	METHOD AddMessageField( MessageName, AField )
+	METHOD AddMessageField( messageName, AField )
 	METHOD Cancel
 	METHOD ChildSource( tableName )
 	METHOD CopyRecord( origin )
@@ -143,7 +143,7 @@ PUBLIC:
 	METHOD Delete( lDeleteChilds )
 	METHOD DeleteChilds
 	METHOD Edit()
-	METHOD FieldByName( name )
+	METHOD FieldByName( name, index )
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
 	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
@@ -321,18 +321,19 @@ RETURN Self
 	AddMessageField
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE AddMessageField( MessageName, AField ) CLASS TTable
+METHOD PROCEDURE AddMessageField( messageName, AField ) CLASS TTable
 	LOCAL n
+	LOCAL index
 
 //	 IF !::Instances[ ::ClassName ]["Initializing"]
 //		 RETURN
 //	 ENDIF
 
 	/* Check if Name is already created in class */
-	IF __ObjHasMsg( Self, ::FieldNamePrefix + MessageName )
+	IF __ObjHasMsg( Self, ::FieldNamePrefix + messageName )
 
 		/* Don't, not needed this here for correct class inheritance
-		RAISE ERROR ::ClassName+": FieldName Already Defined: " + MessageName
+		RAISE ERROR ::ClassName+": FieldName Already Defined: " + messageName
 		*/
 		RETURN
 	ENDIF
@@ -343,10 +344,14 @@ METHOD PROCEDURE AddMessageField( MessageName, AField ) CLASS TTable
 		RETURN
 	ENDIF
 
-	//MessageName := ::FieldNamePrefix + MessageName
-	//EXTEND OBJECT Self WITH MESSAGE MessageName INLINE ::FFieldList[n]
+	//messageName := ::FieldNamePrefix + messageName
+	//EXTEND OBJECT Self WITH MESSAGE messageName INLINE ::FFieldList[n]
+	
+	::FieldByName( messageName, @index )
 
-	EXTEND OBJECT Self WITH MESSAGE ::FieldNamePrefix + MessageName INLINE ::FieldByName( MessageName )
+	IF index > 0
+		EXTEND OBJECT Self WITH MESSAGE ::FieldNamePrefix + messageName INLINE ::FieldList[ index ]
+	ENDIF
 
 RETURN
 
@@ -510,7 +515,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 				sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
 				aDb[ n, 3 ] := pkField:DBS_LEN
 			ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
-				sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] + "," + NTrim( aDb[ n, 4 ] ) ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
+				sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] ) + "," + NTrim( aDb[ n, 4 ] ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
 				aDb[ n, 3 ] := pkField:DBS_LEN
 				aDb[ n, 4 ] := pkField:DBS_DEC
 			ENDIF
@@ -725,9 +730,10 @@ METHOD PROCEDURE __DefineFields( curClass ) CLASS TTable
 
 	FOR EACH fld IN dbStruct
 
-		AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ]	 ):New( Self )
+		AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
 
 		AField:FieldMethod := fld[ 1 ]
+		AField:AddMessageField()
 
 	NEXT
 
@@ -852,8 +858,10 @@ RETURN .T.
 	FieldByName
 	Teo. Mexico 2006
 */
-METHOD FUNCTION FieldByName( name ) CLASS TTable
+METHOD FUNCTION FieldByName( name, index ) CLASS TTable
 	LOCAL AField
+
+	index := 0
 
 	IF Empty( name )
 		RETURN NIL
@@ -863,6 +871,7 @@ METHOD FUNCTION FieldByName( name ) CLASS TTable
 
 	FOR EACH AField IN ::FFieldList
 		IF name == Upper( AField:Name )
+			index := AField:__enumIndex
 			RETURN AField
 		ENDIF
 	NEXT

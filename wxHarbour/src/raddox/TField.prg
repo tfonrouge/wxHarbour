@@ -107,6 +107,7 @@ PUBLIC:
 
 	CONSTRUCTOR New( Table )
 
+	METHOD AddMessageField()
 	METHOD AsIndexKeyVal INLINE ::Need_To_Declare_AsIndexKeyVal()
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
@@ -217,6 +218,14 @@ METHOD New( Table ) CLASS TField
 	::FActive := .T.
 
 RETURN Self
+
+/*
+	AddMessageField
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE AddMessageField() CLASS TField
+	::FTable:AddMessageField( ::Name, Self )
+RETURN
 
 /*
 	Delete
@@ -968,7 +977,11 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 			IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
 				//RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
 			ENDIF
-			::FModStamp				 := ::Table:DbStruct[n][2] $ "=^+"
+			::FModStamp	:= ::Table:DbStruct[n][2] $ "=^+"
+			
+			::FDBS_LEN := ::Table:DbStruct[n][3]
+			::FDBS_DEC := ::Table:DbStruct[n][4]
+
 			::FCalculated := .F.
 		ELSE
 			::FFieldReadBlock	 := NIL
@@ -1033,12 +1046,10 @@ METHOD PROCEDURE SetName( name ) CLASS TField
 
 	::FName := name
 
-	::Table:AddMessageField( name, Self )
-
 RETURN
 
 /*
-	SetPickList
+	SetPickList<
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetPickList( pickList ) CLASS TField
