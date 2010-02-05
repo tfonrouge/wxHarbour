@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-02-05 11:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     % added Go To Record capability
+
+  *  src/raddox/TField.prg
+     ! Setting FWrittenValue to NIL when field is read from the source
+     * Default values to TDateField/TDayTimeField
+
 2010-02-04 13:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      + added method:

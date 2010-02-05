@@ -390,6 +390,8 @@ METHOD PROCEDURE GetData() CLASS TField
 		NEXT
 		EXIT
 	END
+	
+	::FWrittenValue := NIL
 
 RETURN
 
@@ -1422,6 +1424,7 @@ PROTECTED:
 	DATA FDBS_TYPE INIT "D"
 	DATA FType INIT "Date"
 	DATA FValType INIT "D"
+	METHOD GetDefaultValue BLOCK {|| Date() }
 	METHOD GetEmptyValue BLOCK {|| CtoD("") }
 	METHOD SetAsVariant( variant )
 PUBLIC:
@@ -1479,7 +1482,8 @@ PROTECTED:
 	DATA FDBS_TYPE INIT "@"
 	DATA FType INIT "DayTime"
 	DATA FValType INIT "C"
-	METHOD GetEmptyValue BLOCK {|| HB_DateTime() }
+	METHOD GetDefaultValue BLOCK {|| HB_DateTime( Date() ) }
+	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
 PUBLIC:
 	METHOD AsIndexKeyVal( value )
 PUBLISHED:
