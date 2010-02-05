@@ -12,9 +12,14 @@
 #include "wxh/filedlg.ch"
 
 #ifdef _DEBUG_
-#ifdef HB_OS_LINUX
+#ifdef HB_OS_UNIX
 	REQUEST HB_GT_XWC_DEFAULT
 #endif
+#ifdef HB_OS_WINDOWS
+	REQUEST HB_GT_WVT_DEFAULT
+#endif
+#else
+	REQUEST HB_GT_NUL_DEFAULT
 #endif
 
 //REQUEST RDOSENDMESSAGE

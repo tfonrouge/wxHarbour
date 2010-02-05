@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-02-05 16:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     + added explicit procedure to add message to table at the end of field definition
+       + AddMessageField()
+
+  *  samples/dbbrowser/dbbrowser.prg
+     * added debug code helper
+
+  *  src/raddox/TField.prg
+     + added method:
+       + AddMessageField() : add the Field Name as a message to the table owner
+     ! Assigning the ::FDBS_LEN/::FDBS_DEC values from dbstructure
+     
+  *  src/raddox/TTable.prg
+     % Optimized the speed of Field_* names by using a index to the FieldList array
+     ! Fixed error message when diferences are found in the LEN/DEC of fields
+     ! Explicit calling to AField:AddMessageField on default fields on __DefineFields
+     % Adding second parameter to return (by reference) the position of the field searched
+
 2010-02-05 11:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      % added Go To Record capability

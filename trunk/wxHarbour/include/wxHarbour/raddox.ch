@@ -117,6 +117,7 @@
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;
 							[ :UsingField := <usingField> ] ;;
+							:AddMessageField() ;;
 							:ValidateFieldInfo() ;;
 						ENDWITH
 
