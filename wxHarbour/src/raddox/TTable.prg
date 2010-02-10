@@ -97,6 +97,7 @@ PROTECTED:
 
 	METHOD AddRec()
 	METHOD CheckDbStruct()
+	METHOD DefineFieldsFromDb()
 	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
 	METHOD FixDbStruct( aNewStruct, message )
@@ -123,8 +124,8 @@ PUBLIC:
 
 	CONSTRUCTOR New( MasterSource, tableName )
 
-	DEFINE FIELDS
-	DEFINE INDEXES											VIRTUAL
+	DEFINE FIELDS	VIRTUAL
+	DEFINE INDEXES	VIRTUAL
 
 	METHOD BaseSeek( direction, Value, index, lSoftSeek )
 	METHOD AddMessageField( messageName, AField )
@@ -255,7 +256,7 @@ ENDCLASS
 METHOD New( masterSource, tableName ) CLASS TTable
 	LOCAL rdoClient
 	LOCAL Result,itm
-
+	
 	::Process_TableName( tableName )
 
 	IF ::FRDOClient != NIL
@@ -322,34 +323,23 @@ RETURN Self
 	Teo. Mexico 2006
 */
 METHOD PROCEDURE AddMessageField( messageName, AField ) CLASS TTable
-	LOCAL n
 	LOCAL index
+	LOCAL fld
 
-//	 IF !::Instances[ ::ClassName ]["Initializing"]
-//		 RETURN
-//	 ENDIF
+	fld := ::FieldByName( messageName, @index )
+	
+	IF index = 0
+		AAdd( ::FFieldList, AField )
+		index := Len( ::FFieldList )
+	ELSE
+		IF AField:TableBaseClass == fld:TableBaseClass
+			RAISE ERROR "Attempt to Re-Declare Field '" + messageName + "' on Class <" + ::ClassName + ">"
+		ENDIF
+		::FFieldList[ index ] := AField
+	ENDIF
 
 	/* Check if Name is already created in class */
-	IF __ObjHasMsg( Self, ::FieldNamePrefix + messageName )
-
-		/* Don't, not needed this here for correct class inheritance
-		RAISE ERROR ::ClassName+": FieldName Already Defined: " + messageName
-		*/
-		RETURN
-	ENDIF
-
-	n := AScan( ::FieldList, {|BField| AField == BField } )
-
-	IF n = 0
-		RETURN
-	ENDIF
-
-	//messageName := ::FieldNamePrefix + messageName
-	//EXTEND OBJECT Self WITH MESSAGE messageName INLINE ::FFieldList[n]
-	
-	::FieldByName( messageName, @index )
-
-	IF index > 0
+	IF !__ObjHasMsg( Self, ::FieldNamePrefix + messageName )
 		EXTEND OBJECT Self WITH MESSAGE ::FieldNamePrefix + messageName INLINE ::FieldList[ index ]
 	ENDIF
 
@@ -543,7 +533,7 @@ RETURN .T.
 */
 METHOD FUNCTION ChildSource( tableName ) CLASS TTable
 	LOCAL itm
-	
+
 	tableName := Upper( tableName )
 
 	/* tableName is in the DetailSourceList */
@@ -714,30 +704,28 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
 RETURN
 
 /*
-	FIELDS
-	Teo. Mexico 2008
+	FIELDS END
+	Teo. Mexico 2010
 */
-METHOD PROCEDURE __DefineFields( curClass ) CLASS TTable
-	LOCAL dbStruct := ::GetDbStruct()
+METHOD PROCEDURE DefineFieldsFromDb() CLASS TTable
+	LOCAL dbStruct
 	LOCAL fld
 	LOCAL AField
 
-	IF !Empty( ::FieldList )
-		RETURN
+	IF Empty( ::FFieldList ) .AND. !Empty( dbStruct := ::GetDbStruct() )
+
+		FOR EACH fld IN dbStruct
+
+			AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
+
+			AField:FieldMethod := fld[ 1 ]
+			AField:AddMessageField()
+
+		NEXT
+
 	ENDIF
 
-	FIELDS BASECLASS
-
-	FOR EACH fld IN dbStruct
-
-		AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
-
-		AField:FieldMethod := fld[ 1 ]
-		AField:AddMessageField()
-
-	NEXT
-
-RETURN /* no Super:__DefineFields to call here */
+RETURN
 
 /*
 	Delete
@@ -1374,7 +1362,11 @@ METHOD FUNCTION GetInstance CLASS TTable
 //		 RETURN instance
 //	 ENDIF
 
-RETURN ::FInstances[ ::TableClass ]
+	IF HB_HHasKey( ::FInstances, ::TableClass )
+		RETURN ::FInstances[ ::TableClass ]
+	ENDIF
+
+RETURN NIL
 
 /*
 	GetPrimaryIndex
@@ -1577,6 +1569,9 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	IF Empty( ::FFieldList )
 		::FFieldList := {}
 		::__DefineFields()
+		IF Empty( ::FFieldList )
+			::DefineFieldsFromDb()
+		ENDIF
 	ENDIF
 
 	IF Empty( ::FIndexList )

@@ -123,19 +123,17 @@
 
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
-#xtranslate FIELDS BASECLASS => ::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName )
-
 #xtranslate DEFINE FIELDS => METHOD __DefineFields( curClass )
 #xtranslate DEFINE INDEXES => METHOD __DefineIndexes( curClass )
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;
 						METHOD PROCEDURE __DefineFields( curClass ) CLASS <className> ;;
-						FIELDS BASECLASS
+						::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName ) ;;
+						Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) 
 
 #xtranslate END FIELDS CLASS ;
 						=> ;
-						Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
 						RETURN
 
 #xtranslate BEGIN INDEXES CLASS <className> ;

@@ -198,8 +198,6 @@ METHOD New( Table ) CLASS TField
 	::FTable := Table
 	::FTableBaseClass := Table:BaseClass
 
-	AAdd( ::FTable:FieldList, Self )
-
 	/* Set default field name */
 	/*
 
@@ -959,8 +957,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		FOR EACH AField IN ::FTable:FieldList
 			IF !Empty( AField:FieldExpression ) .AND. ;
 				 Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-				 AField:FTableBaseClass == ::FTableBaseClass
-				RAISE TFIELD ::Name ERROR "Atempt to Re-Declare FieldExpression <" + ::ClassName + ":" + FieldMethod + ">"
+				 AField:TableBaseClass == ::FTableBaseClass
+				RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
 			ENDIF
 		NEXT
 
