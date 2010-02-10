@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2010-02-10 12:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TTable.prg
+     * changed way for evaluation of Define Fields, now parent classes are
+       evaluated first, this solves referencing to parent fields on descenedant classes
+     + added method:
+       + DefineFieldsFromDb() : add the fields from the db only if FieldList is empty
+     * add protection on Table:GetInstance
+
+  *  src/raddox/TField.prg
+     * moved the adding of the TField on Table:FieldList to then end of Field declaration
+       on Table:AddMessageField
+     ! Fixed error on showing an error message
+
+  *  src/raddox/TIndex.prg
+     * moved error message when using Array of fields only when used in AutoIncrement fields
+
 2010-02-05 16:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      + added explicit procedure to add message to table at the end of field definition

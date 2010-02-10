@@ -520,12 +520,12 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 		::FMasterKeyField := AField
 		EXIT
 	CASE 1	 /* AutoIncrementKeyField */
+		IF AField:FieldMethodType = 'A'
+			RAISE ERROR "Array of Fields Not Allowed as AutoIncrement Index Key..."
+		ENDIF
 		AField:AutoIncrementKeyIndex := Self
 		::FAutoIncrementKeyField := AField
 	CASE 2	 /* UniqueKeyField */
-		IF AField:FieldMethodType = 'A'
-			RAISE ERROR "Array of Fields Not Allowed as Unique/AutoIncrement Index Key..."
-		ENDIF
 		AField:UniqueKeyIndex := Self
 		::FUniqueKeyField := AField
 	CASE 3	 /* KeyField */
