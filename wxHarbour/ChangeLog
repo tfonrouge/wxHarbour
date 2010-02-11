@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-02-10 18:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     + added function WXH_DUMMY()
+
+  *  src/raddox/TField.prg
+     * removed member Table:MasterSourceBaseClass and using Table:GetMasterSourceClassName()
+     
+  *  src/raddox/TTable.prg
+     + added member 
+       + ::autoMasterSource : TRUE if requiered MasterSource has to be created if not provided
+
 2010-02-10 12:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TTable.prg

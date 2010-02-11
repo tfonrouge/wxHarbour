@@ -39,6 +39,13 @@ STATIC containerObj
 STATIC menuData
 
 /*
+	wxh_Dummy
+	Teo. Mexico 2010
+*/
+PROCEDURE wxh_Dummy()
+RETURN
+
+/*
 	WXHBaseClass
 	Teo. Mexico 2009
 */

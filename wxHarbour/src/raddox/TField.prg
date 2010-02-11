@@ -1719,10 +1719,10 @@ RETURN ::FLinkedTable
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
 	LOCAL pkField
 
-	IF ::IsMasterFieldComponent .AND. !Empty( ::FTable:MasterSourceBaseClass ) .AND. ::DataObj:IsDerivedFrom( ::FTable:MasterSourceBaseClass )
-		pkField := ::DataObj:GetPrimaryKeyField( ::FTable:MasterSourceBaseClass )
+	IF ::IsMasterFieldComponent .AND. !Empty( ::FTable:GetMasterSourceClassName() ) .AND. ::DataObj:IsDerivedFrom( ::FTable:GetMasterSourceClassName() )
+		pkField := ::DataObj:GetPrimaryKeyField( ::FTable:GetMasterSourceClassName() )
 	ELSE
-		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:MasterSourceBaseClass )
+		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:GetMasterSourceClassName() )
 	ENDIF
 
 RETURN pkField
