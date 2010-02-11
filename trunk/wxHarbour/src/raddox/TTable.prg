@@ -90,7 +90,6 @@ PROTECTED:
 	DATA FFieldList
 	DATA FIndexList        INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
 	DATA FPrimaryIndexList INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
-	DATA MasterSourceBaseClass EXPORTED
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 	DATA tableState INIT {}
 	DATA tableStateLen INIT 0
@@ -110,6 +109,7 @@ PUBLIC:
 	CLASSDATA DataBase
 
 	DATA allowDataChange INIT .T.
+	DATA autoMasterSource INIT .F.
 	DATA autoOpen INIT .T.
 	DATA dataIsOEM	INIT .T.
 	/*!
@@ -256,6 +256,7 @@ ENDCLASS
 METHOD New( masterSource, tableName ) CLASS TTable
 	LOCAL rdoClient
 	LOCAL Result,itm
+	LOCAL ms
 	
 	::Process_TableName( tableName )
 
@@ -285,6 +286,12 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 	IF ::DataBase == NIL
 		::DataBase := ::InitDataBase()
+	ENDIF
+	
+	IF masterSource = NIL .AND. !Empty( ms := ::GetMasterSourceClassName() ) .AND. ::autoMasterSource
+		masterSource := __ClsInstName( ms )
+		masterSource:autoMasterSource := .T.
+		masterSource:New()
 	ENDIF
 
 	/*!
@@ -1928,16 +1935,14 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 		RAISE ERROR "Invalid type in assigning MasterSource..."
 	END
 
-	::MasterSourceBaseClass := ::GetMasterSourceClassName()
-
 	/*!
 	 * Check for a valid GetMasterSourceClassName (if any)
 	 */
-	IF !Empty( ::MasterSourceBaseClass )
+	IF !Empty( ::GetMasterSourceClassName() )
 		//IF !::MasterSource:IsDerivedFrom( ::GetMasterSourceClassName ) .AND. !::DataBase:TableIsChildOf( ::GetMasterSourceClassName, ::MasterSource:ClassName )
 		//IF ! Upper( ::GetMasterSourceClassName ) == ::MasterSource:ClassName
-		IF ! ::MasterSource:IsDerivedFrom( ::MasterSourceBaseClass )
-			RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + ::MasterSource:ClassName + ";Expected class type: <" + ::MasterSourceBaseClass + ">"
+		IF ! ::MasterSource:IsDerivedFrom( ::GetMasterSourceClassName() )
+			RAISE ERROR "Table <" + ::TableClass + "> Invalid MasterSource Class Name: " + ::MasterSource:ClassName + ";Expected class type: <" + ::GetMasterSourceClassName() + ">"
 		ENDIF
 	ELSE
 		RAISE ERROR "Table '" + ::ClassName() + "' has not declared the MasterSource '" + ::MasterSource:ClassName() + "' in the DataBase structure..."
