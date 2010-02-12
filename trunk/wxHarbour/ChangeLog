@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-02-12 08:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * removed not needed code to reset the PrimaryMasterKeyField, this is done automatically
+       by the MasterSource when needed ( syncs his DetailSourceList )
+     ! In ::Reset, not reseting field if IsMasterFieldComponent
+
 2010-02-11 22:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
      * minor code cleanup

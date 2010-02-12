@@ -1096,15 +1096,8 @@ RETURN pkField:Value
 METHOD FUNCTION GetCurrentRecord() CLASS TTable
 	LOCAL AField
 	LOCAL Result
-	
+
 	IF ::FState = dsBrowse
-	
-		/*
-		 * Record needs to have a valid MasterKeyField
-		 */
-		IF ::PrimaryMasterKeyField != NIL
-			::PrimaryMasterKeyField:Reset()
-		ENDIF
 
 		IF ( Result := ::InsideScope() )
 
@@ -1125,7 +1118,7 @@ METHOD FUNCTION GetCurrentRecord() CLASS TTable
 		ENDIF
 
 		::SyncDetailSources()
-		
+
 		IF Result .AND. ::allowDataChange
 			::OnDataChange()
 		ENDIF
@@ -1872,7 +1865,7 @@ METHOD PROCEDURE Reset() CLASS TTable
 
 	FOR EACH AField IN ::FFieldList
 
-		IF AField:FieldMethodType = "C" .AND. !AField:Calculated
+		IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
 			AField:Reset()
 		ENDIF
 
