@@ -2,6 +2,26 @@
  * $Id$
  */
 
+2010-02-11 22:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TAlias.prg
+     * minor code cleanup
+     % simplified ::SyncFromRecNo()
+
+  *  src/raddox/TField.prg
+     * removed unneeded property IsTheMasterSource, because IsMasterFieldComponent
+       superseeds it
+     % simplified ::AsIndexKeyVal for all TField descendants
+     % enhancement to accept a array of fields as primary Key Value on
+       ::GetBuffer/::SetBuffer
+     % enhancement to first probe for an array of fields on ::Reset()
+     ! Fixed SetIsMasterFieldComponent when assigning a array of fields
+     ! Fixed ::AsIndexKeyVal for TObjectField's
+
+  *  src/raddox/TTable.prg
+     * renamed methods TableStatePush/Pop to StatePush/Pop
+     ! Forcing to read the value for the PrimaryMasterKeyField (via Reset) on
+       ::GetCurrentRecord()
+
 2010-02-10 18:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      + added function WXH_DUMMY()

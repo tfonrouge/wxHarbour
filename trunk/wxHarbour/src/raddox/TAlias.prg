@@ -14,12 +14,12 @@
 
 CLASS TAlias FROM WXHBaseClass
 PRIVATE:
-	DATA FBof				 INIT .T.
-	DATA FEof				 INIT .T.
-	DATA FFound			 INIT .F.
-	DATA FRecNo			 INIT 0
-	DATA FStack			 INIT {}
-	DATA FStackLen	 INIT 0
+	DATA FBof      INIT .T.
+	DATA FEof      INIT .T.
+	DATA FFound    INIT .F.
+	DATA FRecNo    INIT 0
+	DATA FStack    INIT {}
+	DATA FStackLen INIT 0
 	DATA FTable
 	DATA FTableName
 	METHOD GetRecNo INLINE ::SyncFromRecNo(),::FRecNo
@@ -474,10 +474,7 @@ RETURN
 */
 METHOD PROCEDURE SyncFromRecNo CLASS TAlias
 	IF (::workArea)->(RecNo()) != ::FRecNo
-		(::workArea)->(DbGoTo( ::FRecNo ) )
-		::FBof	 := (::workArea)->( Bof() )
-		::FEof	 := (::workArea)->( Eof() )
-		::FFound := (::workArea)->( Found() )
+		::DbGoTo( ::FRecNo )
 	ENDIF
 RETURN
 

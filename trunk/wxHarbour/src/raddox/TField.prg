@@ -36,8 +36,7 @@ PRIVATE:
 	DATA FFieldExpression									// Literal Field expression on the Database
 	DATA FPickList											// codeblock to help to pick a value
 	DATA FGroup														// A Text label for grouping
-	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField only 'C' TFields
-	DATA FIsTheMasterSource INIT .F.			// Field is TObjectField type and is the MasterSource Table
+	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
 	DATA FKeyIndex
 	DATA FLabel
 	DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
@@ -108,10 +107,10 @@ PUBLIC:
 	CONSTRUCTOR New( Table )
 
 	METHOD AddMessageField()
-	METHOD AsIndexKeyVal INLINE ::Need_To_Declare_AsIndexKeyVal()
+	METHOD AsIndexKeyVal( value )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
-	METHOD GetBuffer
+	METHOD GetBuffer()
 	METHOD GetEditText
 	METHOD GetData()
 	METHOD GetValidValues
@@ -133,7 +132,6 @@ PUBLIC:
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
-	PROPERTY IsTheMasterSource READ FIsTheMasterSource
 	PROPERTY Text READ GetEditText WRITE SetEditText
 	PROPERTY UndoValue READ GetUndoValue
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
@@ -224,6 +222,34 @@ RETURN Self
 METHOD PROCEDURE AddMessageField() CLASS TField
 	::FTable:AddMessageField( ::Name, Self )
 RETURN
+
+/*
+	AsIndexKeyVal
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION AsIndexKeyVal( value ) CLASS TField
+	LOCAL AField
+
+	IF value == NIL
+		IF ::FFieldMethodType = "A"
+			value := ""
+			FOR EACH AField IN ::FFieldArray
+				value += AField:AsIndexKeyVal
+			NEXT
+		ELSE
+			value := ::GetAsVariant()
+		ENDIF
+	ENDIF
+	
+	IF ::OnGetIndexKeyVal != NIL
+		value := ::OnGetIndexKeyVal:Eval( value )
+	ENDIF
+	
+	IF !HB_IsString( value )
+		value := AsString( value )
+	ENDIF
+
+RETURN value
 
 /*
 	Delete
@@ -350,11 +376,18 @@ RETURN value
 	GetBuffer
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetBuffer CLASS TField
+METHOD FUNCTION GetBuffer() CLASS TField
+	LOCAL itm
 
 	/* FieldArray's doesn't have a absolute FBuffer */
 	IF ::FFieldMethodType = "A"
-		RETURN NIL
+		IF ::FBuffer = NIL
+			::FBuffer := Array( Len( ::FFieldArray ) )
+		ENDIF
+		FOR EACH itm IN ::FFieldArray
+			::FBuffer[ itm:__enumIndex ] := itm:GetBuffer()
+		NEXT
+		RETURN ::FBuffer
 	ENDIF
 
 	IF ::FBuffer == NIL
@@ -570,16 +603,7 @@ METHOD PROCEDURE Reset() CLASS TField
 	LOCAL AField
 	LOCAL value
 	
-	IF ::FFieldMethodType = 'A'
-
-		FOR EACH AField IN ::FFieldArray
-			AField:Reset()
-		NEXT
-
-		RETURN
-
-	ENDIF
-
+	
 	/*
 	 * If there is a field in the mastersource with the same name
 	 * and is a masterfield (attached to the keyfield in the mastersource)
@@ -596,7 +620,16 @@ METHOD PROCEDURE Reset() CLASS TField
 			//wxhAlert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
 		ENDIF
 #endif
+	ELSEIF ::FFieldMethodType = 'A'
+
+		FOR EACH AField IN ::FFieldArray
+			AField:Reset()
+		NEXT
+
+		RETURN
+
 	ELSE
+
 
 		IF ::FDefaultValue != NIL
 
@@ -720,9 +753,16 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetBuffer( value ) CLASS TField
-
+	LOCAL itm
 	/* FieldArray's doesn't have a absolute FBuffer */
 	IF ::FFieldMethodType = "A"
+		SWITCH ValType( value )
+		CASE 'A'
+			FOR EACH itm IN value
+				::FFieldArray[ itm:__enumIndex ]:SetBuffer( itm )
+			NEXT
+			EXIT
+		ENDSWITCH
 		RETURN
 	ENDIF
 
@@ -1025,7 +1065,6 @@ METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TFiel
 		FOR EACH AField IN ::FFieldArray
 			AField:IsMasterFieldComponent	 := IsMasterFieldComponent
 		NEXT
-		EXIT
 	CASE 'C'
 		::FIsMasterFieldComponent	 := IsMasterFieldComponent
 	END
@@ -1116,37 +1155,10 @@ PROTECTED:
 	METHOD SetDefaultValue( DefaultValue )
 	METHOD SetSize( size )
 PUBLIC:
-	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString
 PUBLISHED:
 	PROPERTY Size READ FSize WRITE SetSize
 ENDCLASS
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TStringField
-	LOCAL AField
-
-	IF value == NIL
-		IF ::FFieldMethodType = "A"
-			value := ""
-			FOR EACH AField IN ::FFieldArray
-				value += AField:AsIndexKeyVal
-			NEXT
-		ELSE
-			value := ::GetAsVariant()
-		ENDIF
-	ELSEIF !HB_IsString( value )
-		value := AsString( value )
-	ENDIF
-
-	IF ::OnGetIndexKeyVal != NIL
-		RETURN ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-
-RETURN value
 
 /*
 	GetAsString
@@ -1257,28 +1269,12 @@ PROTECTED:
 	METHOD SetAsVariant( variant )
 PUBLIC:
 
-	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString
 
 	PROPERTY AsNumeric READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
 ENDCLASS
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TNumericField
-	IF value == NIL
-		value := ::GetAsVariant()
-	ELSEIF !HB_IsNumeric( value )
-		value := AsNumeric( value )
-	ENDIF
-	IF ::OnGetIndexKeyVal != NIL
-		RETURN ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-RETURN AsString( value )
 
 /*
 	GetAsString
@@ -1395,26 +1391,10 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| .F. }
 PUBLIC:
 
-	METHOD AsIndexKeyVal( value )
 	PROPERTY AsBoolean READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
 ENDCLASS
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TLogicalField
-	IF value == NIL
-		value := ::GetAsVariant()
-	ELSEIF !HB_IsLogical( value )
-		value := AsLogical( value )
-	ENDIF
-	IF ::OnGetIndexKeyVal != NIL
-		RETURN ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-RETURN iif( value, "T", "F" )
 
 /*
 	ENDCLASS TLogicalField
@@ -1437,26 +1417,10 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| CtoD("") }
 	METHOD SetAsVariant( variant )
 PUBLIC:
-	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString INLINE FDateS( ::GetAsVariant() )
 	PROPERTY Size READ FSize
 PUBLISHED:
 ENDCLASS
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDateField
-	IF value == NIL
-		value := ::GetAsVariant()
-	ELSEIF !HB_IsDate( value )
-		value := AsDate( value )
-	ENDIF
-	IF ::OnGetIndexKeyVal != NIL
-		RETURN ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-RETURN DToS( value )
 
 /*
 	SetAsVariant
@@ -1494,24 +1458,8 @@ PROTECTED:
 	METHOD GetDefaultValue BLOCK {|| HB_DateTime( Date() ) }
 	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
 PUBLIC:
-	METHOD AsIndexKeyVal( value )
 PUBLISHED:
 ENDCLASS
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TDayTimeField
-	IF value == NIL
-		value := ::GetAsVariant()
-	ELSEIF !HB_IsDate( value )
-		value := AsString( value )
-	ENDIF
-	IF ::OnGetIndexKeyVal != NIL
-		RETURN ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-RETURN AsString( value )
 
 /*
 	EndClass TDayTimeField
@@ -1543,11 +1491,9 @@ ENDCLASS
 */
 CLASS TObjectField FROM TField
 PRIVATE:
-	DATA FIsTheMasterSource
 	DATA FObjValue
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
-	METHOD GetIsTheMasterSource
 	METHOD GetSize INLINE Len( ::LinkedTable:GetPrimaryKeyField() )
 	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
 	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
@@ -1561,7 +1507,6 @@ PUBLIC:
 	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
-	PROPERTY IsTheMasterSource READ GetIsTheMasterSource
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
 	PROPERTY ObjValue READ FObjValue WRITE SetObjValue
@@ -1575,15 +1520,13 @@ ENDCLASS
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
 	LOCAL pkField
-
-	IF value == NIL
-		value := ::GetBuffer()
-	ENDIF
+	
+	value := Super:AsIndexKeyVal( value )
 
 	pkField := ::GetReferenceField()
 	
 	IF pkField = NIL
-		RETURN ""
+		RETURN value
 	ENDIF
 
 RETURN pkField:AsIndexKeyVal( value )
@@ -1622,28 +1565,6 @@ METHOD FUNCTION GetAsString CLASS TObjectField
 	Result := ::GetBuffer()
 
 RETURN Result
-
-/*
-	GetIsTheMasterSource
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetIsTheMasterSource CLASS TObjectField
-	LOCAL masterSource
-
-	IF ::FIsTheMasterSource != NIL
-		RETURN ::FIsTheMasterSource
-	ENDIF
-
-	::FIsTheMasterSource := .F.
-
-	masterSource := ::FTable:MasterSource
-
-	WHILE masterSource != NIL .AND. ! ::FIsTheMasterSource
-		::FIsTheMasterSource := ::LinkedTable == masterSource
-		masterSource := masterSource:MasterSource
-	ENDDO
-
-RETURN ::FIsTheMasterSource
 
 /*
 	GetLinkedTable

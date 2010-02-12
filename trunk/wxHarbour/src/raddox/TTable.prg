@@ -181,13 +181,12 @@ PUBLIC:
 	 */
 	METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
 	METHOD SkipBrowse( n )
+	METHOD StatePop()
+	METHOD StatePush()
 	METHOD SyncDetailSources
 	METHOD SyncFromMasterSourceFields()
 	METHOD SyncRecNo( fromAlias )
 	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
-
-	METHOD TableStatePush()
-	METHOD TableStatePop()
 
 	METHOD Validate( showAlert )
 
@@ -630,7 +629,7 @@ RETURN nCount
 */
 METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index ) CLASS TTable
 
-	::TableStatePush()
+	::StatePush()
 
 	IF index != NIL
 		::IndexName := ::GetIndex(index):Name
@@ -648,7 +647,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index ) CLASS T
 
 	ENDDO
 	
-	::TableStatePop()
+	::StatePop()
 	
 RETURN
 
@@ -1099,17 +1098,21 @@ METHOD FUNCTION GetCurrentRecord() CLASS TTable
 	LOCAL Result
 	
 	IF ::FState = dsBrowse
-
+	
 		/*
 		 * Record needs to have a valid MasterKeyField
 		 */
+		IF ::PrimaryMasterKeyField != NIL
+			::PrimaryMasterKeyField:Reset()
+		ENDIF
+
 		IF ( Result := ::InsideScope() )
 
 			::FRecNo := ::Alias:RecNo
 
 			FOR EACH AField IN ::FFieldList
 
-				IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsTheMasterSource
+				IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
 					AField:GetData()
 				ENDIF
 
@@ -1656,10 +1659,12 @@ METHOD FUNCTION Open() CLASS TTable
 	IF ::MasterSource == NIL .AND. !Empty( masterSource )
 
 		RAISE ERROR "Table '" + ::ClassName() + "' needs a MasterSource of type '" + masterSource  + "'..."
-	
+
 	ENDIF
 
 	::FActive := .T.
+
+	::SetState( dsBrowse )
 
 	/*
 	 * Try to sync with MasterSource (if any)
@@ -1667,8 +1672,6 @@ METHOD FUNCTION Open() CLASS TTable
 	::SyncFromMasterSourceFields()
 	
 	::FHasDeletedOrder := ::Alias:OrdNumber( "Deleted" ) > 0
-
-	::SetState( dsBrowse )
 
 	::OnAfterOpen()
 
@@ -2026,6 +2029,55 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 RETURN num_skipped
 
 /*
+	StatePop
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE StatePop() CLASS TTable
+	
+	::FFieldList       := ::tableState[ ::tableStateLen ]["FieldList"]
+	::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceList"]
+	::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
+	::FState           := ::tableState[ ::tableStateLen ]["State"]
+	::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
+
+	--::tableStateLen
+	
+	::Alias:Pop()
+	
+RETURN
+
+/*
+	StatePush
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE StatePush() CLASS TTable
+	
+	IF Len( ::tableState ) < ++::tableStateLen
+		AAdd( ::tableState, {=>} )
+	ENDIF
+
+	::tableState[ ::tableStateLen ]["FieldList"]        := ::FFieldList
+	::tableState[ ::tableStateLen ]["DetailSourceList"] := ::DetailSourceList
+	::tableState[ ::tableStateLen ]["RecNo"]            := ::FRecNo
+	::tableState[ ::tableStateLen ]["State"]            := ::FState
+	::tableState[ ::tableStateLen ]["IndexName"]        := ::IndexName
+	
+	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "FieldListNew" )
+		::FFieldList := {}
+		::__DefineFields()
+		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
+	ELSE
+		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
+	ENDIF
+
+	::DetailSourceList := {=>}
+	::FState := dsBrowse
+	
+	::Alias:Push()
+	
+RETURN
+
+/*
 	SyncDetailSources
 	Teo. Mexico 2007
 */
@@ -2076,55 +2128,6 @@ METHOD PROCEDURE SyncRecNo( fromAlias ) CLASS TTable
 		RETURN
 	ENDIF
 	::GetCurrentRecord()
-RETURN
-
-/*
-	TableStatePop
-	Teo. Mexico 2010
-*/
-METHOD PROCEDURE TableStatePop() CLASS TTable
-	
-	::FFieldList       := ::tableState[ ::tableStateLen ]["FieldList"]
-	::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceList"]
-	::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
-	::FState           := ::tableState[ ::tableStateLen ]["State"]
-	::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
-
-	--::tableStateLen
-	
-	::Alias:Pop()
-	
-RETURN
-
-/*
-	TableStatePush
-	Teo. Mexico 2010
-*/
-METHOD PROCEDURE TableStatePush() CLASS TTable
-	
-	IF Len( ::tableState ) < ++::tableStateLen
-		AAdd( ::tableState, {=>} )
-	ENDIF
-
-	::tableState[ ::tableStateLen ]["FieldList"]        := ::FFieldList
-	::tableState[ ::tableStateLen ]["DetailSourceList"] := ::DetailSourceList
-	::tableState[ ::tableStateLen ]["RecNo"]            := ::FRecNo
-	::tableState[ ::tableStateLen ]["State"]            := ::FState
-	::tableState[ ::tableStateLen ]["IndexName"]        := ::IndexName
-	
-	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "FieldListNew" )
-		::FFieldList := {}
-		::__DefineFields()
-		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
-	ELSE
-		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
-	ENDIF
-
-	::DetailSourceList := {=>}
-	::FState := dsBrowse
-	
-	::Alias:Push()
-	
 RETURN
 
 /*
