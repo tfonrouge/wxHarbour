@@ -128,7 +128,8 @@ PUBLIC:
 	DEFINE INDEXES	VIRTUAL
 
 	METHOD BaseSeek( direction, Value, index, lSoftSeek )
-	METHOD AddMessageField( messageName, AField )
+	METHOD AddFieldAlias( nameAlias, fld )
+	METHOD AddFieldMessage( messageName, AField )
 	METHOD Cancel
 	METHOD ChildSource( tableName )
 	METHOD CopyRecord( origin )
@@ -325,10 +326,40 @@ METHOD New( masterSource, tableName ) CLASS TTable
 RETURN Self
 
 /*
-	AddMessageField
+	AddFieldAlias
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE AddFieldAlias( nameAlias, fld ) CLASS TTable
+	LOCAL AField
+
+	SWITCH ValType( fld )
+	CASE 'C'
+		AField := ::FieldByName( fld )
+		EXIT
+	CASE 'O'
+		IF fld:IsDerivedFrom("TField")
+			AField := fld
+			EXIT
+		ENDIF
+	ENDSWITCH
+
+	IF AField != NIL
+		IF AField:nameAlias != NIL
+			RAISE ERROR "Alias Field Name '" + nameAlias + "' attempt to re-declare alias name on Field"
+		ENDIF
+		::AddFieldMessage( nameAlias, AField )
+		AField:nameAlias := nameAlias
+	ELSE
+		RAISE ERROR "Alias Field Name '" + nameAlias + "' not valid Field from"
+	ENDIF
+
+RETURN
+
+/*
+	AddFieldMessage
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE AddMessageField( messageName, AField ) CLASS TTable
+METHOD PROCEDURE AddFieldMessage( messageName, AField ) CLASS TTable
 	LOCAL index
 	LOCAL fld
 
@@ -725,7 +756,7 @@ METHOD PROCEDURE DefineFieldsFromDb() CLASS TTable
 			AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
 
 			AField:FieldMethod := fld[ 1 ]
-			AField:AddMessageField()
+			AField:AddFieldMessage()
 
 		NEXT
 
@@ -864,7 +895,7 @@ METHOD FUNCTION FieldByName( name, index ) CLASS TTable
 	name := Upper( name )
 
 	FOR EACH AField IN ::FFieldList
-		IF name == Upper( AField:Name )
+		IF name == Upper( AField:Name ) .OR. ( AField:nameAlias != NIL .AND. name == Upper( AField:nameAlias ) )
 			index := AField:__enumIndex
 			RETURN AField
 		ENDIF
