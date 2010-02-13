@@ -117,9 +117,13 @@
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;
 							[ :UsingField := <usingField> ] ;;
-							:AddMessageField() ;;
+							:AddFieldMessage() ;;
 							:ValidateFieldInfo() ;;
 						ENDWITH
+						
+#xtranslate ADD ALIAS FIELD <aliasFldName> FROM <fld> ;
+			=> ;
+			::AddFieldAlias( <aliasFldName>, <fld> )
 
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 

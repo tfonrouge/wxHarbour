@@ -102,11 +102,12 @@ PROTECTED:
 
 PUBLIC:
 
+	DATA nameAlias
 	DATA Picture
 
 	CONSTRUCTOR New( Table )
 
-	METHOD AddMessageField()
+	METHOD AddFieldMessage()
 	METHOD AsIndexKeyVal( value )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
@@ -216,11 +217,11 @@ METHOD New( Table ) CLASS TField
 RETURN Self
 
 /*
-	AddMessageField
+	AddFieldMessage
 	Teo. Mexico 2010
 */
-METHOD PROCEDURE AddMessageField() CLASS TField
-	::FTable:AddMessageField( ::Name, Self )
+METHOD PROCEDURE AddFieldMessage() CLASS TField
+	::FTable:AddFieldMessage( ::Name, Self )
 RETURN
 
 /*

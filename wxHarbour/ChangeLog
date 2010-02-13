@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-02-13 15:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+  *  src/raddox/TTable.prg
+     * renamed method Table:AddMessageField() to Table:AddFieldMessage()
+     + added COMMAND:
+       + ADD ALIAS FIELD <nameAlias> FROM <fld>: allows to create a alias name for a field
+         in the Table structures
+     * extended check on Table:FieldByName() to search name on the :nameAlias data of the
+       TField
+
 2010-02-12 08:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * removed not needed code to reset the PrimaryMasterKeyField, this is done automatically
