@@ -1266,7 +1266,11 @@ METHOD FUNCTION GetDisplayFields( syncFromAlias ) CLASS TTable
 
 			FOR EACH AField IN ::FFieldList
 
-				msgName := AField:Name
+				IF AField:nameAlias = NIL
+					msgName := AField:Name
+				ELSE
+					msgName := AField:nameAlias
+				ENDIF
 
 				/* TODO: Check for a duplicate message name */
 				IF !Empty( msgName ) //.AND. ! __ObjHasMsg( ef, msgName )
