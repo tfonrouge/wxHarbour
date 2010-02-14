@@ -600,64 +600,76 @@ RETURN NIL
 	Reset
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE Reset() CLASS TField
+METHOD FUNCTION Reset() CLASS TField
 	LOCAL AField
 	LOCAL value
+	LOCAL result
 	
+	/* if is a masterfield component, then *must* resolve it in the MasterSource(s) */
+	IF ( result := ::IsMasterFieldComponent )
 	
-	/*
-	 * If there is a field in the mastersource with the same name
-	 * and is a masterfield (attached to the keyfield in the mastersource)
-	 * then syncs the value in buffer
-	 * if there is a DefaultValue this is ignored (may be a warning is needed)
-	 */
-	AField := ::FTable:FindMasterSourceField( ::Name )
-	IF AField != NIL .AND. ::IsMasterFieldComponent
-
-		value := AField:GetBuffer()
-
-#ifdef _DEBUG_
-		IF ::FDefaultValue != NIL
-			//wxhAlert( ::FTable:ClassName + ":" + ::FName + ";<DefaultValue Ignored on Reset>" )
+		result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
+		
+		IF result
+			
+			value := AField:GetBuffer()
+			/*
+			 * if there is a DefaultValue this is ignored (may be a warning is needed)
+			 */
 		ENDIF
-#endif
-	ELSEIF ::FFieldMethodType = 'A'
 
-		FOR EACH AField IN ::FFieldArray
-			AField:Reset()
-		NEXT
+	ENDIF
+	
+	/* reset was not succesfull yet */
+	IF !result
+		/* resolve each field on a array of fields */
+		IF ::FFieldMethodType = 'A'
+		
+			result := .T.
 
-		RETURN
+			FOR EACH AField IN ::FFieldArray
+				IF result
+					result := AField:Reset()
+				ENDIF
+			NEXT
 
-	ELSE
-
-
-		IF ::FDefaultValue != NIL
-
-			value := ::GetDefaultValue()
+			RETURN result
 
 		ELSE
-
-			IF ::IsDerivedFrom( "TObjectField" )
-				IF ::LinkedTable:GetPrimaryKeyField() != NIL
-					value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
-					IF value == NIL
-						value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
-					ENDIF
-				ENDIF
-			ELSE
-				value := ::GetEmptyValue()
+		
+			IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
+				RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' has to be resolved in MasterSource Table ."
 			ENDIF
 
-		ENDIF
+			IF ::FDefaultValue != NIL
 
+				value := ::GetDefaultValue()
+
+			ELSE
+
+				IF ::IsDerivedFrom( "TObjectField" )
+					IF ::LinkedTable:GetPrimaryKeyField() != NIL
+						value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
+						IF value == NIL
+							value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
+						ENDIF
+					ENDIF
+				ELSE
+					value := ::GetEmptyValue()
+				ENDIF
+
+			ENDIF
+			
+			result := .T.
+
+		ENDIF
 	ENDIF
 
 	::SetBuffer( value )
 
 	::FWrittenValue := NIL
 
-RETURN
+RETURN result
 
 /*
 	SetAsVariant
