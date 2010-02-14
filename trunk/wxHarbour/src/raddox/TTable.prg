@@ -2094,7 +2094,13 @@ METHOD PROCEDURE StatePush() CLASS TTable
 		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
 	ENDIF
 
-	::DetailSourceList := {=>}
+	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "DetailSourceListNew" )
+		::DetailSourceList := {=>}
+		::tableState[ ::tableStateLen ]["DetailSourceListNew"] := ::DetailSourceList
+	ELSE
+		::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceListNew"]
+	ENDIF
+
 	::FState := dsBrowse
 	
 	::Alias:Push()
@@ -2125,7 +2131,9 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 	IF ::MasterSource != NIL .AND. ::FActive .AND. ::MasterSource:Active
 		/* TField:Reset does the job */
 		IF ::PrimaryMasterKeyField != NIL
-			::PrimaryMasterKeyField:Reset()
+			IF ! ::PrimaryMasterKeyField:Reset()
+				// raise error
+			ENDIF
 		ENDIF
 
 		IF ::InsideScope()
