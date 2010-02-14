@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-02-14 10:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed ::GetDisplayFields to include field aliases
+
 2010-02-13 20:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % enhanced the method for Reset(ing) the fields, and return result for the operation
