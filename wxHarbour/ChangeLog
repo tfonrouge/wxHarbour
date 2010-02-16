@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-02-16 15:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added variant of CALCFIELD ... command without params
+
+  *  src/raddox/TField.prg
+     * method ::GetAsVariant() made PUBLIC and now accept parameters that are passed to
+       evaluation time for the codeblock of calculated fields ( ::Calculated )
+
+  *  src/raddox/TTable.prg
+     * passed params to evaluation time on fields created with ::GetDisplayFieldBlock
+
 2010-02-16 13:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      % parameters allowed in CALCFIELD ... command

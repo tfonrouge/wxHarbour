@@ -91,7 +91,6 @@ PROTECTED:
 	DATA FWrittenValue
 	
 	METHOD GetChanged()
-	METHOD GetAsVariant
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetUndoValue()
@@ -111,6 +110,7 @@ PUBLIC:
 	METHOD AsIndexKeyVal( value )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
+	METHOD GetAsVariant
 	METHOD GetBuffer()
 	METHOD GetEditText
 	METHOD GetData()
@@ -286,13 +286,13 @@ RETURN
 	GetAsVariant
 	Teo. Mexico 2006
 */
-METHOD FUNCTION GetAsVariant CLASS TField
+METHOD FUNCTION GetAsVariant( ... ) CLASS TField
 	LOCAL AField
 	LOCAL Result
 	LOCAL value
 
 	//::SyncToContainerField()
-
+	
 	SWITCH ::FFieldMethodType
 	CASE "A"
 		/*
@@ -322,7 +322,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 		IF ::FCalculated
 			IF ::FFieldReadBlock == NIL
 				IF __ObjHasMsg( Self:FTable, "CalcField_" + ::FName )
-					::FFieldReadBlock := &("{|o|" + "o:CalcField_" + ::FName + " }")
+					::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
 				ELSE
 					IF __ObjHasMsg( Self:FTable:MasterSource, "CalcField_" + ::FName )
 						::FFieldReadBlock := &("{|o|" + "o:MasterSource:CalcField_" + ::FName + " }")
@@ -342,7 +342,7 @@ METHOD FUNCTION GetAsVariant CLASS TField
 				ENDIF
 			ENDIF
 			//Result := ::FFieldReadBlock:Eval( ::FTable )
-			Result := ::FTable:Alias:Eval( ::FFieldReadBlock, ::FTable )
+			Result := ::FTable:Alias:Eval( ::FFieldReadBlock, ::FTable, ... )
 		ELSE
 			Result := ::GetBuffer()
 		ENDIF
