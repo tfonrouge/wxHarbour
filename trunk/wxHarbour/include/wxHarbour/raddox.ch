@@ -148,7 +148,6 @@
 			Super:__DefineIndexes( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
 			RETURN
 
-
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
 						METHOD PROCEDURE DefineMasterDetailFields CLASS <className>
 #xtranslate ADD MASTER <cMaster> DETAIL <cDetail> => ;
@@ -156,10 +155,10 @@
 #xtranslate END MASTERDETAIL FIELDS => ;
 						RETURN
 
-#xtranslate CALCFIELD <calcField> => METHOD CalcField_<calcField>
-#xtranslate CALCFIELD <calcField> CLASS <className> ;
-						=> ;
-						METHOD FUNCTION CalcField_<calcField>() CLASS <className>
+#xtranslate CALCFIELD <clcField> => METHOD CalcField_<clcField>
+#xtranslate CALCFIELD <clcField>( [<params,...>] ) CLASS <className> ;
+	=> ;
+	METHOD FUNCTION CalcField_<clcField>( [<params>] ) CLASS <className>
 
 /* TODO: Implement this, needs to use a index declared in ancestor class
 #xtranslate DEFINE PRIMARY INDEX <cName> ;
