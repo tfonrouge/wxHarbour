@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-02-16 13:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     % parameters allowed in CALCFIELD ... command
+
+  *  src/raddox/TField.prg
+     % improved error message when a TObjectField is a master field component and the table
+       hasn't a valid MasterSource
+
 2010-02-14 10:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed ::GetDisplayFields to include field aliases

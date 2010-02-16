@@ -638,7 +638,11 @@ METHOD FUNCTION Reset() CLASS TField
 		ELSE
 		
 			IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
-				RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' has to be resolved in MasterSource Table ."
+				IF ::FTable:MasterSource = NIL
+					RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' needs a MasterSource Table."
+				ELSE
+					RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' cannot be resolved in MasterSource Table (" + ::FTable:MasterSource:ClassName() + ") ."
+				ENDIF
 			ENDIF
 
 			IF ::FDefaultValue != NIL
@@ -1076,11 +1080,15 @@ METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TFiel
 	SWITCH ::FFieldMethodType
 	CASE 'A'
 		FOR EACH AField IN ::FFieldArray
-			AField:IsMasterFieldComponent	 := IsMasterFieldComponent
+			AField:IsMasterFieldComponent := IsMasterFieldComponent
 		NEXT
 	CASE 'C'
-		::FIsMasterFieldComponent	 := IsMasterFieldComponent
+		::FIsMasterFieldComponent := IsMasterFieldComponent
 	END
+	
+	IF ::IsDerivedFrom("TObjectField") .AND. Empty( ::FTable:GetMasterSourceClassName() )
+		RAISE TFIELD ::Name ERROR "ObjectField's needs a valid MasterSource table."
+	ENDIF
 
 RETURN
 
