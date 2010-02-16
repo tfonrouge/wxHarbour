@@ -1200,10 +1200,10 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 
 	IF ! AField:IsDerivedFrom("TObjectField")
 		RETURN ;
-			{|o|
+			{|o,...|
 				LOCAL Result
 				LOCAL AField
-				
+
 				IF HB_HHasKey( o:__FFields, msgName )
 					AField := o:__FFields[ msgName ]
 				ELSE
@@ -1218,7 +1218,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
 					Result := AField:EmptyValue
 				ELSE
-					Result := AField:Value
+					Result := AField:GetAsVariant( ... )
 				ENDIF
 				
 				RETURN Result
