@@ -95,6 +95,7 @@ PUBLIC:
 	METHOD GoFirstPos
 	METHOD OnKeyDown( keyEvent )
 	METHOD OnSelectCell( gridEvent )
+	METHOD OnSetDataSource() VIRTUAL
 	METHOD OnSize( size )
 	METHOD SetColumnAlignment( nCol, align )
 	METHOD ShowRow()
@@ -439,7 +440,7 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 	::FRowPos := row + 1
 
 	IF ::SelectCellBlock != NIL .AND. ::RowCount > 0
-		::SelectCellBlock:Eval( Self, gridEvent )
+		::SelectCellBlock:Eval( gridEvent )
 	ENDIF
 
 	gridEvent:Skip()
@@ -637,7 +638,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
 		::SetDataSource( table )
 
-		EXIT
+		RETURN
 
 	CASE 'H'				/* Hash browse */
 		/* TODO: Implement this */
@@ -671,6 +672,8 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 		EXIT
 
 	END
+	
+	::OnSetDataSource()
 
 RETURN
 

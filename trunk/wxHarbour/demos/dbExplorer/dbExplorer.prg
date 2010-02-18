@@ -61,7 +61,7 @@ PRIVATE:
 
 PROTECTED:
 	METHOD GoToRecord()
-	METHOD OnSelectCell( oBrw )
+	METHOD OnSelectCell( gridEvent )
 PUBLIC:
 
 	DATA auiNotebook
@@ -298,7 +298,7 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 				BEGIN BOXSIZER VERTICAL
 					@ BROWSE VAR oBrw NAME "table" DATASOURCE table ;
 						ONKEY {|b,keyEvent| k_Process( b, keyEvent ) } ;
-						ONSELECTCELL {|| ::OnSelectCell( oBrw ) } ;
+						ONSELECTCELL {|gridEvent| ::OnSelectCell( gridEvent ) } ;
 						SIZERINFO ALIGN EXPAND STRETCH
 					@ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
 					BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
@@ -362,7 +362,9 @@ RETURN
 	OnSelectCell
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE OnSelectCell( oBrw ) CLASS MyApp
+METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS MyApp
+	LOCAL oBrw
+	oBrw := gridEvent:GetEventObject()
 	oBrw:GetParent():FindWindowByName( "key", oBrw:GetParent() ):SetLabel( ordKey() )
 	oBrw:GetParent():FindWindowByName( "for", oBrw:GetParent() ):SetLabel( ordFor() )
 	oBrw:GetParent():FindWindowByName( "keyval", oBrw:GetParent() ):SetValue( ordKeyVal() )
