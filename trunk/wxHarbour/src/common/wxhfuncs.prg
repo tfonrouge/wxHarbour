@@ -1434,13 +1434,18 @@ RETURN menuData:g_menuBar
 	__wxh_MenuBegin
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_MenuBegin( title, evtHandler )
+FUNCTION __wxh_MenuBegin( title, evtHandler, firstId )
 	LOCAL hData := {=>}
 	LOCAL menu
 
 	IF menuData == NIL
 		menuData := TGlobal():New()
 		AAdd( menuData:g_menuList, NIL ) /* a NULL MenuBar (1st item in array) */
+	ENDIF
+	
+	IF firstId != NIL
+		hData["lastMenuID"] := menuData:g_menuID
+		menuData:g_menuID := firstId
 	ENDIF
 
 	IF evtHandler != NIL
@@ -1496,7 +1501,12 @@ PROCEDURE __wxh_MenuEnd
 	ENDIF
 
 	ASize( menuData:g_menuList, menuListSize - 1)
-
+	
+	/* pop last menu ID when FIRST_ID is specified in __wxh_MenuBegin */
+	IF HB_HHasKey( hData, "lastMenuID" )
+		menuData:g_menuID := hData["lastMenuID"]
+	ENDIF
+	
 RETURN
 
 /*
