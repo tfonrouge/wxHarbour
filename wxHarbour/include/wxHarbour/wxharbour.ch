@@ -121,10 +121,14 @@
 #xcommand DEFINE MENUBAR [ VAR <oMB>] [STYLE <nStyle>] [PARENT <parent>] ;
 					=> ;
 					[<oMB> := ] __wxh_MenuBarBegin( [<parent>], [<nStyle>] )
-
-#xcommand DEFINE MENU [<cLabel>] [VAR <menu>] [PARENT <parent>] ;
+					
+#xcommand DEFINE MENU [<cLabel>] [VAR <menu>] [PARENT <parent>] [FIRST_ID <firstId>] ;
 					=> ;
-					[<menu> :=] __wxh_MenuBegin( [<cLabel>], [<parent>] )
+					[<menu> :=] __wxh_MenuBegin( [<cLabel>], [<parent>], [<firstId>] )
+
+#xcommand DEFINE POPUPMENU [<clauses,...>] PARENT <parent> FIRST_ID <firstId> ;
+	=> ;
+	DEFINE MENU [<clauses>] PARENT <parent> FIRST_ID <firstId>
 
 #xcommand ADD MENUITEM <cLabel> ;
 							[VAR <menu>] ;

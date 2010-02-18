@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-02-18 11:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * added clause FIRST_ID to DEFINE MENU ... command
+     * added command DEFINE POPUPMENU ... PARENT <p> FIRST_ID <fi>
+       PARENT are requiered to send the events and FIRST_ID is requiered to avoid
+       collision with other wxMenuItem id's
+
+  *  src/common/wxhfuncs.prg
+     * added firstId parameter to indicate where to start the id's for the menu section
+       the original id number value is restored when END MENU is reached
+
 2010-02-17 18:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
   *  samples/arrbrowser/arrbrowser.prg
