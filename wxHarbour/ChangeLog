@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-02-17 18:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+  *  samples/arrbrowser/arrbrowser.prg
+  *  samples/dbbrowser/dbbrowser.prg
+     ! ::OnSelectCell receives only a gridEvent parameter
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed not to set browse: data's: keyDownEventBlock/SelectCellBlock if empty value
+       is given
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     + added method:
+       + ::OnSetDataSource : fires up when a datasource is assigned to the table
+     ! ::SelectCellBlock only sends a gridEvent parameter
+     * returning on ::SetDataSource if a "C" value is given
+
+  *  src/raddox/TField.prg
+     ! returning on ::SetData right after evaluation of items in a array of fields
+
 2010-02-16 15:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * added variant of CALCFIELD ... command without params

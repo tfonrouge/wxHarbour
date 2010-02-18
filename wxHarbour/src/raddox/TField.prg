@@ -817,6 +817,8 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		FOR EACH AField IN ::FFieldArray
 			AField:SetData()
 		NEXT
+		
+		RETURN
 
 	CASE 'C'
 

@@ -883,8 +883,13 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 		browse:DataSource := dataSource
 	ENDIF
 
-	browse:keyDownEventBlock := keyDownEventBlock
-	browse:SelectCellBlock := onSelectCell
+	IF keyDownEventBlock != NIL
+		browse:keyDownEventBlock := keyDownEventBlock
+	ENDIF
+	
+	IF onSelectCell != NIL
+		browse:SelectCellBlock := onSelectCell
+	ENDIF
 
 	IF minSize != NIL
 		browse:SetMinSize( minSize )
