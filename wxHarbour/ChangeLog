@@ -2,6 +2,64 @@
  * $Id$
  */
 
+2010-02-24 13:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * minor cleanup
+
+  *  include/wxHarbour/raddox.ch
+     % simplified method to set the current class on the index definition section
+     % added TEMPORARY clause to DEFINE ... INDEX ... command
+       ; this index is automatically removed on Table obj destructor
+     % added USEINDEX to set the index used as base to the index defined (only temporary
+       for now)
+     * added custom command for ordCondSet/OrdCreate funcs
+
+  *  samples/arrbrowser/arrbrowser.prg
+  *  samples/dbbrowser/dbbrowser.prg
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * changed wxhBrowse data :SelectCellBlock to :OnSelectCellBlock
+     
+  *  src/raddox/Dba.prg
+     * added capability to accept a code block as nRec param value
+
+  *  src/raddox/TAlias.prg
+     * removed :FTable data to no store here any references for TTable objs
+     + added DATA's:
+       + driver
+       + lReadOnly
+       + lShared
+     + added METHOD's
+       + __DbZap
+       + DbInfo
+       + DbOrderInfo
+       + OrdCondSet
+       + OrdCreate
+
+  *  src/raddox/TField.prg
+     ! Fixed :AsIndexKeyVal for "D" valtype's
+     ! Fixed calculation of :Size when FieldMethod is an array of fields
+     ! Fixed size for TDayTimeField
+
+  *  src/raddox/TIndex.prg
+     * removed unused structures for :Scope[Top/Bottom]Fields
+     % added capability to create new indexes from DEFINE...INDEX... commands using the
+       TField's on the Table obj
+     * renamed :MasterKeyString to :MasterKeyIndexVal
+
+  *  src/raddox/TTable.prg
+     % using now Eof/Bof stored in the TTable, this allows to not to change recno on the 
+       ::Alias obj
+     + added Data:
+       + OnDataChangeBlock
+     + added method:
+       + CreateIndex: creates new indexes from DEFINE...INDEX commands
+     * added Scope parameter to :DbEval
+     * check if aditional indexes stored in :aliasIdx :aliasTmp need to be synched in
+       :GetCurrentRecord
+     * added DESTRUCTOR to delete the files used in :aliasIdx/:aliasTmp indexes
+
 2010-02-18 11:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * added clause FIRST_ID to DEFINE MENU ... command

@@ -181,7 +181,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		END SIZER
 	END SIZER
 
-	b:SelectCellBlock := ;
+	b:OnSelectCellBlock := ;
 		{|gridEvent| 
 			LOCAL oBrw
 			oBrw := gridEvent:GetEventObject()

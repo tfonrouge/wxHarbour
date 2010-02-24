@@ -85,7 +85,7 @@ PUBLIC:
 	DATA BottomFirst INIT .F.
 	DATA FillColumnsChecked INIT .F.
 	DATA keyDownEventBlock
-	DATA SelectCellBlock
+	DATA OnSelectCellBlock
 
 	METHOD DeleteAllColumns
 	METHOD FillColumns
@@ -439,8 +439,8 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 	::FColPos := gridEvent:GetCol() + 1
 	::FRowPos := row + 1
 
-	IF ::SelectCellBlock != NIL .AND. ::RowCount > 0
-		::SelectCellBlock:Eval( gridEvent )
+	IF ::OnSelectCellBlock != NIL .AND. ::RowCount > 0
+		::OnSelectCellBlock:Eval( gridEvent )
 	ENDIF
 
 	gridEvent:Skip()
@@ -540,7 +540,7 @@ RETURN Self
 */
 METHOD FUNCTION RefreshAll() CLASS wxhBrowse
 	LOCAL dbProvider := ::GetTable()
-	
+
 	IF dbProvider != NIL// .AND. dbProvider:IsDerivedFrom("wxhBrowseTableBase")
 		dbProvider:FillGridBuffer( 0 )
 		::ForceRefresh()
@@ -657,7 +657,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 		IF dataSource:IsDerivedFrom("TTable")
 			::FDataSource := dataSource
 			::FDataSourceType := "O"
-			::RowParam := dataSource:DisplayFields()
+			::RowParam := dataSource:GetDisplayFields()
 
 			::GoTopBlock		:= {|| dataSource:DbGoTop() }
 			::GoBottomBlock := {|| dataSource:DbGoBottom() }

@@ -113,12 +113,14 @@ FUNCTION DbSkipX(n,ord)
 	ENDIF
 	OrdSetFocus(bord)
 RETURN ret
+
 /*
 	ExistKey() : Checa si existe key en indice dado
 	Teo. Mexico 1996
 */
 FUNCTION ExistKey(cKey,xOrder,nRec,bFor,bEval)
 	LOCAL nr:=RecNo()
+	LOCAL recNo
 	IF !(Seek(cKey,xOrder))
 		DbGoTo(nr)
 		RETURN .F.
@@ -131,7 +133,12 @@ FUNCTION ExistKey(cKey,xOrder,nRec,bFor,bEval)
 			DbGoTo(nr)
 			RETURN .T.
 		ENDIF
-		IF !RecNo()==nRec
+		IF HB_IsBlock( nRec )
+			recNo := nRec:Eval()
+		ELSE
+			recNo := nRec
+		ENDIF
+		IF !RecNo()==recNo
 			IF !bEval==NIL
 				bEval:eval()
 			ENDIF

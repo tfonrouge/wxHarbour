@@ -122,7 +122,7 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 		topRecord := n = 0
 
 		IF !topRecord
-		browse:SkipBlock:Eval( -n )
+			browse:SkipBlock:Eval( -n )
 		ENDIF
 
 		/* Fill in the First row */

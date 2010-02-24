@@ -150,12 +150,6 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		END AUINOTEBOOK
 	END SIZER
 
-//	 b:Fit()
-
-	//b:SelectCellBlock := {|| textCtrl:AppendText( b:DataSource:Field_First:AsString + E"\n" ) }
-
-	//b:FillColumns()
-
 	@ STATUSBAR
 
 	SHOW WINDOW ::oWnd CENTRE

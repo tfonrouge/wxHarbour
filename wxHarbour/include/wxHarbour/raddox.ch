@@ -128,7 +128,10 @@
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
 #xtranslate DEFINE FIELDS => METHOD __DefineFields( curClass )
-#xtranslate DEFINE INDEXES => METHOD __DefineIndexes( curClass )
+#xtranslate DEFINE INDEXES ;
+	=> ;
+	DATA curClassIndex HIDDEN ;;
+	METHOD __DefineIndexes()
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;
@@ -142,10 +145,12 @@
 
 #xtranslate BEGIN INDEXES CLASS <className> ;
 						=> ;
-						METHOD PROCEDURE __DefineIndexes( curClass ) CLASS <className>
+			METHOD PROCEDURE __DefineIndexes() CLASS <className> ;;
+			::curClassIndex := <(className)>
+
 #xtranslate END INDEXES CLASS ;
 						=> ;
-			Super:__DefineIndexes( iif( curClass == NIL, Self:Super, curClass:Super ) ) ;;
+			Super:__DefineIndexes() ;;
 			RETURN
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
@@ -178,9 +183,44 @@
 						[ <cu: CUSTOM> ] ;
 						[ <un: UNIQUE> ] ;
 						[ <ai: AUTOINCREMENT> ] ;
+						[ <tm: TEMPORARY> ] ;
+						[ USEINDEX <useIndex> ] ;
 						=> ;
-						WITH OBJECT TIndex():New( Self , <cName>, <"type">, curClass ) ;;
-								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<.cu.>] ) ;;
+						WITH OBJECT TIndex():New( Self , <cName>, <"type">, ::curClassIndex ) ;;
+								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
 						ENDWITH
+
+#xtranslate CREATE [<custom: CUSTOM>] INDEX ON <expKey> TAG <ordName> ;
+	[BAG <bagName>] ;
+	[FOR <forKey>] ;
+	[WHILE <whileBlk>] ;
+	[<unique: UNIQUE>] ;
+	[EVAL <evalBlk>] ;
+	[EACH <intVal>] ;
+	[<descend: DESCENDING>] ;
+	[<additive: ADDITIVE>] ;
+	[<current: USECURRENT>] ;
+	[<temporary: TEMPORARY>] ;
+	=> ;
+	OrdCondSet( ;
+		<(forKey)>, ;
+		iif(<.forKey.>, <{forKey}>, NIL ), ;
+		NIL, ;
+		<{whileBlk}>, ;
+		<{evalBlk}>, ;
+		<intVal>, ;
+		NIL, ;
+		NIL, ;
+		NIL, ;
+		NIL, ;
+		<.descend.>, ;
+		NIL, ;
+		<.additive.>, ;
+		<.current.>, ;
+		<.custom.>, ;
+		NIL, ;
+		NIL, ;
+		<.temporary.> ) ;;
+	OrdCreate( [<bagName>], <ordName>, <expKey>, <expKey>, <.unique.> )
 
 #endif
