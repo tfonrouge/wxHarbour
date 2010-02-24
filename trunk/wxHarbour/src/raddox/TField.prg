@@ -245,10 +245,16 @@ METHOD FUNCTION AsIndexKeyVal( value ) CLASS TField
 	IF ::OnGetIndexKeyVal != NIL
 		value := ::OnGetIndexKeyVal:Eval( value )
 	ENDIF
-	
-	IF !HB_IsString( value )
+
+	SWITCH ValType( value )
+	CASE 'C'
+	CASE 'M'
+		RETURN value
+	CASE 'D'
+		RETURN DToS( value )
+	OTHERWISE
 		value := AsString( value )
-	ENDIF
+	ENDSWITCH
 
 RETURN value
 
@@ -363,7 +369,7 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
 	AIndex := ::FAutoIncrementKeyIndex
 
-	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyString, AIndex:Name )
+	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyIndexVal, AIndex:Name )
 
 	IF ::IncrementBlock = NIL
 		value := Inc( value )
@@ -972,7 +978,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 	CASE "A"
 		::FReadOnly := .T.
 		IF ::IsDerivedFrom("TStringField")
-			::TStringField:FSize := 0
+			::FSize := 0
 		ENDIF
 		::FFieldArray := {}
 		fieldName := ""
@@ -985,10 +991,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 				RAISE TFIELD itm ERROR "Field is not defined yet..."
 			ENDIF
 			IF ::IsDerivedFrom("TStringField")
-				IF Len( AField ) == NIL
-					RAISE TFIELD AField:Name ERROR "Size is NIL..."
-				ENDIF
-				::TStringField:FSize += Len( AField )
+				::FSize += AField:Size
 			ENDIF
 		NEXT
 		::Name := Left( fieldName, Len( fieldName ) - 1 )
@@ -1429,11 +1432,11 @@ ENDCLASS
 */
 CLASS TDateField FROM TField
 PRIVATE:
-	DATA FSize INIT 8					// Size on index is 8 = len of DToS()
 PROTECTED:
 	DATA FDBS_LEN INIT 4
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "D"
+	DATA FSize INIT 8					// Size on index is 8 = len of DToS()
 	DATA FType INIT "Date"
 	DATA FValType INIT "D"
 	METHOD GetDefaultValue BLOCK {|| Date() }
@@ -1473,6 +1476,7 @@ RETURN
 CLASS TDayTimeField FROM TField
 PRIVATE:
 PROTECTED:
+	DATA FSize INIT 23
 	DATA FDBS_LEN INIT 8
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "@"
@@ -1481,6 +1485,7 @@ PROTECTED:
 	METHOD GetDefaultValue BLOCK {|| HB_DateTime( Date() ) }
 	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
 PUBLIC:
+	PROPERTY Size READ FSize
 PUBLISHED:
 ENDCLASS
 

@@ -8,6 +8,8 @@
 */
 
 #include "hbclass.ch"
+#include "dbinfo.ch"
+
 #include "property.ch"
 #include "raddox.ch"
 #include "xerror.ch"
@@ -27,32 +29,37 @@ PRIVATE:
 	DATA FName INIT ""
 	DATA FMasterKeyField
 	DATA FScopeBottom
-	DATA FScopeBottomFields INIT {=>}
 	DATA FScopeTop
-	DATA FScopeTopFields INIT {=>}
 	DATA FTable
 	DATA FUniqueKeyField
 	METHOD DbGoBottomTop( n )
+	METHOD GetArrayKeyFields INLINE ::KeyField:FieldMethod
 	METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyField != NIL
 	METHOD GetField
-	METHOD GetArrayKeyFields INLINE ::KeyField:FieldMethod
+	METHOD GetIdxAlias()
+	METHOD GetKeyIndexVal()
+	METHOD GetMasterKeyIndexVal()
 	METHOD GetScope INLINE iif( ::FScopeBottom == NIL .AND. ::FScopeTop == NIL, NIL, { ::FScopeTop, ::FScopeBottom } )
 	METHOD GetScopeBottom INLINE iif( !Empty( ::FScopeBottom ), ::FScopeBottom, "" )
 	METHOD GetScopeTop INLINE iif( !Empty( ::FScopeTop ), ::FScopeTop, "" )
 	METHOD GetUnique INLINE ::FUniqueKeyField != NIL
-	METHOD ScopeFieldGet( aKeys, cField, value, hScope )
 	METHOD SetCaseSensitive( CaseSensitive ) INLINE ::FCaseSensitive := CaseSensitive
 	METHOD SetCustom( Custom )
 	METHOD SetDescend( Descend ) INLINE ::FDescend := Descend
 	METHOD SetField( nIndex, XField )
 	METHOD SetForKey( ForKey ) INLINE ::FForKey := ForKey
-	METHOD SetKeyValueFromArray( aKeys, slot )
+	METHOD SetIdxAlias( alias )
 	METHOD SetName( Name ) INLINE ::FName := Name
 	METHOD SetScope( value )
 	METHOD SetScopeBottom( value )
 	METHOD SetScopeTop( value )
 PROTECTED:
+	METHOD GetAlias()
 PUBLIC:
+
+	DATA FIdxAlias INIT .F.
+	DATA useIndex
+	DATA temporary INIT .F.
 
 	METHOD New( Table, name, indexType, curClass ) CONSTRUCTOR
 
@@ -67,14 +74,14 @@ PUBLIC:
 	METHOD Get4Seek( blk, keyVal, softSeek )
 	METHOD Get4SeekLast( blk, keyVal, softSeek )
 	METHOD InsideScope()
-	METHOD MasterKeyString()
+	
+	METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
+	METHOD OrdCreate( ... ) INLINE ::FTable:OrdCreate( ... )
+	
 	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RawSeek( Value )
 
-	METHOD ScopeField( cField, value )
-	METHOD ScopeBottomField( cField, value )
-	METHOD ScopeTopField( cField, value )
-
+	PROPERTY IdxAlias READ GetIdxAlias WRITE SetIdxAlias
 	PROPERTY Scope READ GetScope WRITE SetScope
 	PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
 	PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
@@ -90,9 +97,11 @@ PUBLISHED:
 	PROPERTY Descend READ FDescend WRITE SetDescend
 	PROPERTY ForKey READ FForKey WRITE SetForKey
 	PROPERTY KeyField INDEX 3 READ GetField WRITE SetField
+	PROPERTY KeyIndexVal READ GetKeyIndexVal
 	PROPERTY UniqueKeyField INDEX 2 READ GetField WRITE SetField
 	PROPERTY Name READ FName WRITE SetName
 	PROPERTY MasterKeyField INDEX 0 READ GetField WRITE SetField
+	PROPERTY MasterKeyIndexVal READ GetMasterKeyIndexVal
 	PROPERTY Table READ FTable
 	PROPERTY Unique READ GetUnique
 ENDCLASS
@@ -102,22 +111,23 @@ ENDCLASS
 	Teo. Mexico 2006
 */
 METHOD New( Table, name, indexType, curClass ) CLASS TIndex
-	LOCAL curClassname
 
 	::FTable := Table
 
 	::Name := name
 
-	curClassname := iif( curClass = NIL, ::FTable:ClassName(), curClass:ClassName() )
+	IF curClass = NIL
+		curClass := ::FTable:ClassName()
+	ENDIF
 	
-	IF !HB_HHasKey( ::FTable:IndexList, curClassname )
-		::FTable:IndexList[ curClassname ] := HB_HSetCaseMatch( {=>}, .F. )
+	IF !HB_HHasKey( ::FTable:IndexList, curClass )
+		::FTable:IndexList[ curClass ] := HB_HSetCaseMatch( {=>}, .F. )
 	ENDIF
 
-	::FTable:IndexList[ curClassname, name ] := Self
+	::FTable:IndexList[ curClass, name ] := Self
 
 	IF "PRIMARY" = indexType
-		::FTable:PrimaryIndexList[ curClassname ] := name
+		::FTable:PrimaryIndexList[ curClass ] := name
 	ENDIF
 
 RETURN Self
@@ -126,7 +136,7 @@ RETURN Self
 	AddIndex
 	Teo. Mexico 2008
 */
-METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de/*, cu*/ )
+METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, temporary /*, cu*/ )
 
 	::MasterKeyField := cMasterKeyField
 
@@ -154,7 +164,17 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de/*, cu*/ )
 	::ForKey := ForKey
 	::CaseSensitive := iif( HB_ISNIL( cs ), .F. , cs )
 	::Descend := iif( HB_ISNIL( de ), .F. , de )
+	::useIndex := useIndex
+	::temporary := temporary == .T.
 //	 ::Custom := iif( HB_ISNIL( cu ), .F. , cu )
+
+	/* check for a valid index  order */
+	IF ::FTable:Alias:OrdNumber( ::Name ) = 0
+		//RAISE ERROR "Order Name not valid '" + ::Name + "'"
+		IF ! ::FTable:CreateIndex( Self )
+			RAISE ERROR "Failure to create Index '" + ::Name + "'"
+		ENDIF
+	ENDIF
 
 RETURN Self
 
@@ -163,6 +183,9 @@ RETURN Self
 	Teo. Mexico 2007
 */
 METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
+	LOCAL alias
+
+	alias := ::GetAlias()
 
 	IF AScan( {dsEdit,dsInsert}, ::FTable:State ) > 0
 		::FTable:Post()
@@ -171,12 +194,12 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 	keyValue := ::KeyField:AsIndexKeyVal( keyValue )
 
 	IF direction = 0
-		::FTable:Alias:Seek( ::MasterKeyString + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+		alias:Seek( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
 	ELSE
-		::FTable:Alias:SeekLast( ::MasterKeyString + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+		alias:SeekLast( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
 	ENDIF
 
-	::FTable:GetCurrentRecord()
+	::FTable:GetCurrentRecord( ::IdxAlias )
 
 RETURN ::FTable:Found()
 
@@ -238,23 +261,26 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
-	LOCAL masterKeyString := ::MasterKeyString
-
+	LOCAL masterKeyIndexVal := ::MasterKeyIndexVal
+	LOCAL alias
+	
+	alias := ::GetAlias()
+	
 	IF n = 0
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName )
+			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FName )
 		ELSE
-			::FTable:Alias:Seek( masterKeyString + ::GetScopeTop(), ::FName, .T. )
+			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FName, .T. )
 		ENDIF
 	ELSE
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName )
+			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FName )
 		ELSE
-			::FTable:Alias:SeekLast( masterKeyString + ::GetScopeBottom() , ::FName, .T. )
+			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FName, .T. )
 		ENDIF
 	ENDIF
-
-	::FTable:GetCurrentRecord()
+	
+	::FTable:GetCurrentRecord( ::IdxAlias )
 
 RETURN ::FTable:Found()
 
@@ -264,9 +290,9 @@ RETURN ::FTable:Found()
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
-	::FTable:Alias:DbSkip( numRecs, ::FName )
+	::GetAlias():DbSkip( numRecs, ::FName )
 
-	::FTable:GetCurrentRecord()
+	::FTable:GetCurrentRecord( ::IdxAlias )
 
 RETURN
 
@@ -275,8 +301,14 @@ RETURN
 	Teo. Mexico 2007
 */
 METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
-RETURN ::FTable:Alias:ExistKey( ::MasterKeyString + iif( ::FCaseSensitive, ;
-	keyValue, Upper( keyValue ) ), ::FName, ::FTable:RecNo )
+RETURN ::GetAlias():ExistKey( ::MasterKeyIndexVal + iif( ::FCaseSensitive, ;
+	keyValue, Upper( keyValue ) ), ::FName, ;
+		{||
+			IF ::IdxAlias = NIL
+				RETURN ::FTable:RecNo 
+			ENDIF
+			RETURN ( ::IdxAlias:workArea )->RecNo
+		} )
 	
 /*
 	Get4Seek
@@ -291,6 +323,16 @@ RETURN ::RawGet4Seek( 1, blk, keyVal, softSeek )
 */
 METHOD FUNCTION Get4SeekLast( blk, keyVal, softSeek ) CLASS TIndex
 RETURN ::RawGet4Seek( 0, blk, keyVal, softSeek )
+
+/*
+	GetAlias
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetAlias() CLASS TIndex
+	IF ::IdxAlias = NIL
+		RETURN ::FTable:Alias
+	ENDIF
+RETURN ::IdxAlias
 
 /*
 	GetField
@@ -317,46 +359,68 @@ METHOD FUNCTION GetField( nIndex ) CLASS TIndex
 RETURN AField
 
 /*
+	GetIdxAlias
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetIdxAlias() CLASS TIndex
+	IF ::temporary
+		RETURN ::FTable:aliasTmp
+	ENDIF
+RETURN ::FTable:aliasIdx
+
+/*
+	GetKeyIndexVal
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetKeyIndexVal() CLASS TIndex
+
+	IF ::FKeyField == NIL
+		RETURN "" //::FTable:PrimaryMasterKeyString
+	ENDIF
+
+RETURN iif( ::FCaseSensitive, ::FKeyField:AsIndexKeyVal, Upper( ::FKeyField:AsIndexKeyVal ) )
+
+/*
+	GetMasterKeyIndexVal
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetMasterKeyIndexVal() CLASS TIndex
+
+	IF ::FMasterKeyField == NIL
+		RETURN "" //::FTable:PrimaryMasterKeyString
+	ENDIF
+
+RETURN ::FMasterKeyField:AsIndexKeyVal
+
+/*
 	InsideScope
 	Teo. Mexico 2008
 */
 METHOD FUNCTION InsideScope() CLASS TIndex
-	LOCAL masterKeyString
+	LOCAL masterKeyIndexVal
 	LOCAL scopeVal
 	LOCAL keyValue
 	
 	IF ::FTable:Alias:Eof() .OR. ::FTable:Alias:Bof()
 		RETURN .F.
 	ENDIF
-
-	keyValue := ::FTable:Alias:KeyVal( ::FName )
+	
+	keyValue := ::GetAlias():KeyVal( ::FName )
 	
 	IF keyValue == NIL
 		RETURN .F.
 	ENDIF
 
-	masterKeyString := ::MasterKeyString
+	masterKeyIndexVal := ::MasterKeyIndexVal
 	
 	scopeVal := ::GetScope()
 	
 	IF scopeVal == NIL
-		RETURN masterKeyString == "" .OR. keyValue = masterKeyString
+		RETURN masterKeyIndexVal == "" .OR. keyValue = masterKeyIndexVal
 	ENDIF
 	
-RETURN keyValue >= ( masterKeyString + ::GetScopeTop() ) .AND. ;
-			 keyValue <= ( masterKeyString + ::GetScopeBottom() )
-
-/*
-	MasterKeyString
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION MasterKeyString() CLASS TIndex
-
-	IF ::FMasterKeyField == NIL
-		RETURN "" //::FTable:PrimaryMasterKeyString
-	ENDIF
-
-RETURN::FMasterKeyField:AsIndexKeyVal
+RETURN keyValue >= ( masterKeyIndexVal + ::GetScopeTop() ) .AND. ;
+			 keyValue <= ( masterKeyIndexVal + ::GetScopeBottom() )
 
 /*
 	RawGet4Seek
@@ -365,12 +429,12 @@ RETURN::FMasterKeyField:AsIndexKeyVal
 METHOD FUNCTION RawGet4Seek( direction, blk, keyVal, softSeek ) CLASS TIndex
 
 	IF keyVal = NIL
-		keyVal := ::MasterKeyString
+		keyVal := ::MasterKeyIndexVal
 	ELSE
-		keyVal := ::MasterKeyString + keyVal
+		keyVal := ::MasterKeyIndexVal + keyVal
 	ENDIF
 
-RETURN ::FTable:Alias:RawGet4Seek( direction, blk, keyVal, ::FName, softSeek )
+RETURN ::GetAlias():RawGet4Seek( direction, blk, keyVal, ::FName, softSeek )
 
 /*
 	RawSeek
@@ -382,69 +446,11 @@ METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 		::FTable:Post()
 	ENDIF
 
-	::FTable:Alias:Seek( Value, ::FName )
+	::GetAlias():Seek( Value, ::FName )
 
-	::FTable:GetCurrentRecord()
+	::FTable:GetCurrentRecord( ::IdxAlias )
 
 RETURN ::FTable:Found()
-
-/*
-	ScopeBottomField
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION ScopeBottomField( cField, value ) CLASS TIndex
-	LOCAL aKeys := {}
-	LOCAL Result := ::ScopeFieldGet( aKeys, cField, value, ::FScopeBottomFields )
-	::SetScopeBottom( aKeys )
-RETURN Result
-
-/*
-	ScopeField
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION ScopeField( cField, value ) CLASS TIndex
-RETURN { ::ScopeTopField( cField, value ), ::ScopeBottomField( cField, value ) }
-
-/*
-	ScopeFieldGet
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION ScopeFieldGet( aKeys, cField, value, hScope ) CLASS TIndex
-	LOCAL Result
-	LOCAL AField := ::FTable:FieldByName( cField )
-	LOCAL aFields
-	LOCAL fld
-	
-	aFields := ::GetArrayKeyFields()
-	
-	IF ValType( aFields ) = "A" .AND.	 ValType( AField ) = "O"
-		FOR EACH fld IN aFields
-			IF !HB_HHasKey( hScope, AField:Name )
-				hScope[ AField:Name ] := NIL
-			ENDIF
-			IF !HB_HHasKey( hScope, fld:Name )
-				EXIT
-			ENDIF
-			IF fld == AField
-				Result := hScope[ AField:Name ]
-				AAdd( aKeys, value )
-			ELSE
-				AAdd( aKeys, hScope[ fld:Name ] )
-			ENDIF
-		NEXT
-	ENDIF
-
-RETURN Result
-
-/*
-	ScopeTopField
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION ScopeTopField( cField, value ) CLASS TIndex
-	LOCAL aKeys := {}
-	LOCAL Result := ::ScopeFieldGet( aKeys, cField, value, ::FScopeTopFields )
-	::SetScopeTop( aKeys )
-RETURN Result
 
 /*
 	SetCustom
@@ -540,39 +546,16 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 RETURN
 
 /*
-	SetKeyValueFromArray
-	Teo. Mexico 2009
+	SetIdxAlias
+	Teo. Mexico 2010
 */
-METHOD FUNCTION SetKeyValueFromArray( aKeys, slot ) CLASS TIndex
-	LOCAL keyValue := ""
-	LOCAL aFields
-	LOCAL AField
-	LOCAL value
-	LOCAL key
-	
-	aFields := ::GetArrayKeyFields()
-	
-	IF Valtype( aFields ) = "A"
-		FOR EACH AField IN aFields
-			key := NIL
-			IF AField:__enumIndex() <= Len( aKeys )
-				key := aKeys[ AField:__enumIndex() ]
-				IF key == NIL
-					EXIT
-				ENDIF
-				value := AField:FieldCodeBlock:Eval( key )
-				keyValue += value
-			ENDIF
-			IF slot $ "T="
-				::FScopeTopFields[ AField:Name ] := key
-			ENDIF
-			IF slot $ "B="
-				::FScopeBottomFields[ AField:Name ] := key
-			ENDIF
-		NEXT
+METHOD PROCEDURE SetIdxAlias( alias ) CLASS TIndex
+	IF ::temporary
+		::FTable:aliasTmp := alias
+	ELSE
+		::FTable:aliasIdx := alias
 	ENDIF
-
-RETURN keyValue
+RETURN
 
 /*
 	SetScope
@@ -582,11 +565,12 @@ METHOD FUNCTION SetScope( value ) CLASS TIndex
 	LOCAL oldValue := { ::FScopeTop, ::FScopeBottom }
 	
 	IF ValType( value ) = "A" // scope by field
-		value := ::SetKeyValueFromArray( value, "=" )
+		::FScopeTop := value[ 1 ]
+		::FScopeBottom := value[ 2 ]
+	ELSE
+		::FScopeTop := value
+		::FScopeBottom := value
 	ENDIF
-
-	::FScopeTop := value
-	::FScopeBottom := value
 
 RETURN oldValue
 
@@ -597,10 +581,6 @@ RETURN oldValue
 METHOD FUNCTION SetScopeBottom( value ) CLASS TIndex
 	LOCAL oldValue := ::FScopeBottom
 	
-	IF ValType( value ) = "A" // scope by field
-		value := ::SetKeyValueFromArray( value, "B" )
-	ENDIF
-
 	::FScopeBottom := value
 
 RETURN oldValue
@@ -612,10 +592,6 @@ RETURN oldValue
 METHOD FUNCTION SetScopeTop( value ) CLASS TIndex
 	LOCAL oldValue := ::FScopeTop
 	
-	IF ValType( value ) = "A" // scope by field
-		value := ::SetKeyValueFromArray( value, "T" )
-	ENDIF
-
 	::FScopeTop := value
 
 RETURN oldValue

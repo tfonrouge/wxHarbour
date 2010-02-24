@@ -99,7 +99,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		END SIZER
 	END SIZER
 
-	b:SelectCellBlock := {|gridEvent| textCtrl:AppendText( "GetCol" + NTrim( gridEvent:GetCol() ) + ", RecNo: " + NTrim( b:RecNo ) + ", Row: " + NTrim( b:RowPos ) + ", Col: " + NTrim( b:ColPos ) + ", Value: " + NTrim( b:DataSource[ b:RecNo, b:ColPos ] ) + E"\n" ) }
+	b:OnSelectCellBlock := {|gridEvent| textCtrl:AppendText( "GetCol" + NTrim( gridEvent:GetCol() ) + ", RecNo: " + NTrim( b:RecNo ) + ", Row: " + NTrim( b:RowPos ) + ", Col: " + NTrim( b:ColPos ) + ", Value: " + NTrim( b:DataSource[ b:RecNo, b:ColPos ] ) + E"\n" ) }
 
 	@ STATUSBAR
 	SHOW WINDOW oWnd CENTRE

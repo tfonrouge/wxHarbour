@@ -888,7 +888,7 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 	ENDIF
 	
 	IF onSelectCell != NIL
-		browse:SelectCellBlock := onSelectCell
+		browse:OnSelectCellBlock := onSelectCell
 	ENDIF
 
 	IF minSize != NIL

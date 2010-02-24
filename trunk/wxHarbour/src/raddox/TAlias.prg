@@ -20,7 +20,6 @@ PRIVATE:
 	DATA FRecNo    INIT 0
 	DATA FStack    INIT {}
 	DATA FStackLen INIT 0
-	DATA FTable
 	DATA FTableName
 	METHOD GetRecNo INLINE ::SyncFromRecNo(),::FRecNo
 	METHOD SetRecNo( RecNo ) INLINE ::DbGoTo( RecNo )
@@ -29,17 +28,26 @@ PROTECTED:
 	METHOD GetAliasName() INLINE ::FInstances[ ::FTableName, "aliasName" ]
 	METHOD SetWorkArea( workArea )
 PUBLIC:
-	CONSTRUCTOR New( table )
+
+	DATA driver
+	DATA lReadOnly INIT .F.
+	DATA lShared INIT .T.
+
+	CONSTRUCTOR New( table, aliasName )
+
+	METHOD __DbZap()
 	METHOD AddRec( index )
 	METHOD DbCloseAll()
 	METHOD DbDelete()
 	METHOD DbGoBottom( indexName )
 	METHOD DbGoTo( RecNo )
 	METHOD DbGoTop( indexName )
+	METHOD DbInfo( ... )
+	METHOD DbOpen( table, aliasName )
+	METHOD DbOrderInfo( ... )
+	METHOD DbRecall()
 	METHOD DbSkip( nRecords, indexName )
 	METHOD DbStruct INLINE (::workArea)->(DbStruct())
-	METHOD DbOpen()
-	METHOD DbRecall()
 	METHOD DbUnLock() INLINE (::workArea)->( DbUnLock() )
 	METHOD Deleted()
 	METHOD Eval( codeBlock, ... )
@@ -53,6 +61,8 @@ PUBLIC:
 	METHOD IsLocked( RecNo )
 	METHOD KeyVal( indexName )
 	METHOD LastRec INLINE (::workArea)->( LastRec() )
+	METHOD OrdCondSet( ... )
+	METHOD OrdCreate( ... )
 	METHOD OrdCustom( Name, cBag, KeyVal )
 	METHOD OrdKeyAdd( Name, cBag, KeyVal )
 	METHOD OrdKeyDel( Name, cBag, KeyVal )
@@ -83,40 +93,55 @@ PUBLISHED:
 	PROPERTY Found READ FFound
 	PROPERTY Name READ GetAliasName
 	PROPERTY RecNo READ GetRecNo WRITE SetRecNo
-	PROPERTY Table READ FTable
 ENDCLASS
 
 /*
 	New
 	Teo. Mexico 2007
 */
-METHOD New( table ) CLASS TAlias
-
+METHOD New( table, aliasName ) CLASS TAlias
+	LOCAL tableName
+	
 	IF Empty( table )
 		RAISE ERROR "TAlias: Empty Table parameter."
 	ENDIF
+	
+	IF HB_IsObject( table )
+	
+		tableName := table:TableFileName
 
-	/* Check if this is a remote request */
-	IF table:RDOClient != NIL
-		RETURN table:Alias
+		/* Check if this is a remote request */
+		IF table:RDOClient != NIL
+			RETURN table:Alias
+		ENDIF
+
+		::FRecNo := 0
+
+		IF Empty( tableName )
+			RAISE ERROR "TAlias: Empty Table Name..."
+		ENDIF
+		
+	ELSE
+	
+		tableName := table
+
 	ENDIF
 
-	::FTable := table
-
-	::FRecNo := 0
-
-	IF Empty( table:TableFileName )
-		RAISE ERROR "TAlias: Empty Table Name..."
-	ENDIF
-
-	IF !::DbOpen()
+	IF !::DbOpen( table, aliasName )
 		//RAISE ERROR "TAlias: Cannot Open Table '" + table:TableFileName + "'"
-		BREAK( "TAlias: Cannot Open Table '" + table:TableFileName + "'" )
+		BREAK( "TAlias: Cannot Open Table '" + tableName + "'" )
 	ENDIF
 
 	::SyncFromRecNo()
 
 RETURN Self
+
+/*
+	__DbZap
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION __DbZap() CLASS TAlias
+RETURN (::workArea)->( __DbZap() )
 
 /*
 	AddRec
@@ -187,45 +212,75 @@ METHOD FUNCTION DbGoTop( indexName ) CLASS TAlias
 RETURN Result
 
 /*
+	DbInfo
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION DbInfo( ... ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::workArea)->( DbInfo( ... ) )
+
+/*
 	DbOpen
 	Teo. Mexico 2008
 */
-METHOD DbOpen() CLASS TAlias
+METHOD DbOpen( table, aliasName ) CLASS TAlias
 	LOCAL path
+	LOCAL tableName
+	LOCAL tableFullFileName
 
-	/* Check for a previously open workarea */
-	IF HB_HHasKey( ::FInstances, ::FTable:TableFileName )
-		::FTableName := ::FTable:TableFileName
-		RETURN .T.
-	ENDIF
+	IF HB_IsObject( table )
 
-	IF ::FTable:DataBase:OpenBlock != NIL
-		IF !::FTable:DataBase:OpenBlock:Eval( ::FTable )
-			::FTableName := ""
-			::workArea := 0
-			RETURN .F.
+		/* Check for a previously open workarea */
+		IF HB_HHasKey( ::FInstances, table:TableFileName )
+			::FTableName := table:TableFileName
+			RETURN .T.
 		ENDIF
-		::FTableName := ::FTable:TableFileName
-		::workArea := Select()
-		RETURN .T.
-	ENDIF
 
-	IF !Empty( path := LTrim( RTrim( ::FTable:DataBase:Directory ) ) )
-		IF !Right( path, 1 ) == HB_OSPathSeparator()
-			path += HB_OSPathSeparator()
+		IF table:DataBase:OpenBlock != NIL
+			IF !table:DataBase:OpenBlock:Eval( table, aliasName )
+				::FTableName := ""
+				::workArea := 0
+				RETURN .F.
+			ENDIF
+			::FTableName := table:TableFileName
+			::workArea := Select()
+			RETURN .T.
 		ENDIF
+
+		IF !Empty( path := LTrim( RTrim( table:DataBase:Directory ) ) )
+			IF !Right( path, 1 ) == HB_OSPathSeparator()
+				path += HB_OSPathSeparator()
+			ENDIF
+		ELSE
+			path := ""
+		ENDIF
+
+		table:fullFileName := path + table:TableFileName
+		
+		tableFullFileName := table:fullFileName
+		tableName := table:TableFileName
+		
 	ELSE
-		path := ""
+	
+		tableFullFileName := table
+		tableName := table
+
 	ENDIF
 
-	::FTable:fullFileName := path + ::FTable:TableFileName
+	DbUseArea( .T., ::driver, tableFullFileName, aliasName, ::lShared, ::lReadOnly )
 
-	USE ( ::FTable:fullFileName ) NEW SHARED
-
-	::FTableName := ::FTable:TableFileName
+	::FTableName := tableName
 	::workArea := Select()
 
 RETURN !NetErr()
+
+/*
+	DbOrderInfo
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION DbOrderInfo( ... ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::workArea)->( DbOrderInfo( ... ) )
 
 /*
 	DbRecall
@@ -279,26 +334,6 @@ METHOD FUNCTION ExistKey( KeyValue, IndexName, RecNo ) CLASS TAlias
 RETURN (::workArea)->( ExistKey( KeyValue, IndexName, RecNo ) )
 
 /*
-	RawGet4Seek
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION RawGet4Seek( direction, xVal, keyVal, indexName, softSeek ) CLASS TAlias
-
-	IF ValType( xVal ) = "O"
-		xVal := xVal:FieldReadBlock
-	END	
-
-	IF keyVal = NIL
-		keyVal := ""
-	ENDIF
-
-	IF direction = 1
-		RETURN (::workArea)->( Get4Seek( xVal, keyVal, indexName, softSeek ) )
-	ENDIF
-	
-RETURN (::workArea)->( Get4SeekLast( xVal, keyVal, indexName, softSeek ) )
-
-/*
 	Get4Seek
 	Teo. Mexico 2008
 */
@@ -334,6 +369,22 @@ RETURN (::workArea)->( IsLocked( iif( RecNo == NIL, ::FRecNo, RecNo ) ) )
 METHOD FUNCTION KeyVal( indexName ) CLASS TAlias
 	::SyncFromRecNo()
 RETURN (::workArea)->( KeyVal( indexName ) )
+
+/*
+	OrdCondSet
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION OrdCondSet( ... ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::workArea)->( OrdCondSet( ... ) )
+
+/*
+	OrdCreate
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION OrdCreate( ... ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::workArea)->( OrdCreate( ... ) )
 
 /*
 	OrdCustom
@@ -404,6 +455,26 @@ METHOD PROCEDURE Push() CLASS TAlias
 RETURN
 
 /*
+	RawGet4Seek
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION RawGet4Seek( direction, xVal, keyVal, indexName, softSeek ) CLASS TAlias
+
+	IF ValType( xVal ) = "O"
+		xVal := xVal:FieldReadBlock
+	END	
+
+	IF keyVal = NIL
+		keyVal := ""
+	ENDIF
+
+	IF direction = 1
+		RETURN (::workArea)->( Get4Seek( xVal, keyVal, indexName, softSeek ) )
+	ENDIF
+	
+RETURN (::workArea)->( Get4SeekLast( xVal, keyVal, indexName, softSeek ) )
+
+/*
 	RecLock
 	Teo. Mexico 2007
 */
@@ -465,7 +536,7 @@ METHOD PROCEDURE SyncFromAlias CLASS TAlias
 	::FBof	 := (::workArea)->( Bof() )
 	::FEof	 := (::workArea)->( Eof() )
 	::FFound := (::workArea)->( Found() )
-	::FRecNo := iif( ::FEof .OR. ::FBof, 0 , (::workArea)->( RecNo() ) ) /* sure Eof even if dbf grows */
+	::FRecNo := (::workArea)->( RecNo() )
 RETURN
 
 /*

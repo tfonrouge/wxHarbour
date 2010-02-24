@@ -11,6 +11,8 @@
 #include "error.ch"
 #include "xerror.ch"
 
+#include "dbinfo.ch"
+
 #define rxMasterSourceTypeNone     0
 #define rxMasterSourceTypeTTable   1
 #define rxMasterSourceTypeTField   2
@@ -51,7 +53,6 @@ PRIVATE:
 	DATA FRecNoBeforeInsert
 
 	DATA FReadOnly              INIT .F.
-	DATA FRecNo					INIT 0
 	DATA FRemote				INIT .F.
 	DATA FState INIT dsInactive
 	DATA FSubState INIT dssNone
@@ -62,12 +63,10 @@ PRIVATE:
 
 	METHOD DbGoBottomTop( n )
 	METHOD GetAlias
-	METHOD GetBof INLINE ::Alias:Bof
 	METHOD GetDbStruct
-	METHOD GetEof INLINE ::Alias:Eof
 	METHOD GetFieldTypes
 	METHOD GetFound INLINE ::Alias:Found
-	METHOD GetIndexName INLINE ::FIndex:Name
+	METHOD GetIndexName INLINE iif( ::FIndex = NIL, NIL, ::FIndex:Name )
 	METHOD GetInstance
 	METHOD GetMasterSource()
 	METHOD GetPrimaryIndex( curClass )
@@ -87,9 +86,13 @@ PRIVATE:
 PROTECTED:
 
 	DATA FBaseClass
+	DATA FBof				INIT .T.
+	DATA FEof				INIT .T.
 	DATA FFieldList
-	DATA FIndexList        INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
-	DATA FPrimaryIndexList INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
+	DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
+	DATA FFound				INIT .F.
+	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
+	DATA FRecNo				INIT 0
 	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
 	DATA tableState INIT {}
 	DATA tableStateLen INIT 0
@@ -108,6 +111,8 @@ PUBLIC:
 
 	CLASSDATA DataBase
 
+	DATA aliasIdx
+	DATA aliasTmp
 	DATA allowDataChange INIT .T.
 	DATA autoMasterSource INIT .F.
 	DATA autoOpen INIT .T.
@@ -120,12 +125,16 @@ PUBLIC:
 	DATA FUnderReset INIT .F.
 	DATA fullFileName
 	DATA LinkedObjField
+	
+	DATA OnDataChangeBlock
+	
 	DATA validateDbStruct INIT .T.		// On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
 	CONSTRUCTOR New( MasterSource, tableName )
+	DESTRUCTOR OnDestruct()
 
-	DEFINE FIELDS	VIRTUAL
-	DEFINE INDEXES	VIRTUAL
+	METHOD __DefineFields() VIRTUAL // DEFINE FIELDS
+	METHOD __DefineIndexes() VIRTUAL // DEFINE INDEXES
 
 	METHOD BaseSeek( direction, Value, index, lSoftSeek )
 	METHOD AddFieldAlias( nameAlias, fld )
@@ -133,11 +142,12 @@ PUBLIC:
 	METHOD Cancel
 	METHOD ChildSource( tableName )
 	METHOD CopyRecord( origin )
-	METHOD Count
+	METHOD Count( bForCondition, bWhileCondition, index, scope )
+	METHOD CreateIndex( index )
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
 	METHOD Destroy()
-	METHOD DbEval( bBlock, bForCondition, bWhileCondition, index )
+	METHOD DbEval( bBlock, bForCondition, bWhileCondition, index, scope )
 	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
 	METHOD DbGoTo( RecNo )
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
@@ -152,7 +162,7 @@ PUBLIC:
 	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
 	METHOD GetAsVariant
-	METHOD GetCurrentRecord()
+	METHOD GetCurrentRecord( idxAlias )
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
@@ -165,12 +175,14 @@ PUBLIC:
 	METHOD InsertRecord( origin )
 	METHOD InsideScope()
 	METHOD Open
+	METHOD OrdCondSet( ... )
+	METHOD OrdCreate( ... )
 	METHOD Post()
 	METHOD RawSeek( Value, index )
 	METHOD RecLock
 	METHOD RecUnLock
 	METHOD Refresh
-	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyString Value
+	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyIndexVal Value
 	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
 	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
 	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
@@ -200,7 +212,7 @@ PUBLIC:
 	METHOD OnAfterPost VIRTUAL
 	METHOD OnBeforeInsert() INLINE .T.
 	METHOD OnBeforePost() INLINE .T.
-	METHOD OnDataChange() VIRTUAL
+	METHOD OnDataChange()
 	METHOD OnPickList( param ) VIRTUAL
 	METHOD OnStateChange( state ) VIRTUAL
 
@@ -208,13 +220,13 @@ PUBLIC:
 	PROPERTY Alias READ GetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
 	PROPERTY BaseClass READ FBaseClass
-	PROPERTY Bof READ GetBof
+	PROPERTY Bof READ FBof
 	PROPERTY DbStruct READ GetDbStruct
 	PROPERTY Deleted READ Alias:Deleted()
 	PROPERTY DisplayFields READ GetDisplayFields
-	PROPERTY Eof READ GetEof
+	PROPERTY Eof READ FEof
 	PROPERTY FieldList READ FFieldList
-	PROPERTY Found READ GetFound
+	PROPERTY Found READ FFound
 	PROPERTY FieldTypes READ GetFieldTypes
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
@@ -630,42 +642,126 @@ RETURN .T.
 	Count : number of records
 	Teo. Mexico 2008
 */
-METHOD FUNCTION Count( whileBlock ) CLASS TTable
+METHOD FUNCTION Count( bForCondition, bWhileCondition, index, scope ) CLASS TTable
 	LOCAL nCount := 0
-	LOCAL RecNo
-	LOCAL key
-	LOCAL indexName
-
-	RecNo := ::FAlias:RecNo
-
-	key := ::PrimaryMasterKeyString
-	indexName := ::PrimaryIndex:Name
-
-	::FAlias:Seek( key, indexName )
-
-	WHILE !::FAlias:Eof() .AND. ::FAlias:KeyVal( indexName ) = key
-		IF whileBlock == NIL .OR. whileBlock:Eval( ::FAlias )
-			nCount++
-		ENDIF
-		::DbSkip()
-	ENDDO
-
-	::FAlias:RecNo := RecNo
+	
+	::DbEval( {|| ++nCount }, bForCondition, bWhileCondition, index, scope )
 
 RETURN nCount
+
+/*
+	CreateIndex
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION CreateIndex( index ) CLASS TTable
+	LOCAL fileName
+	LOCAL pathName
+	LOCAL aliasName
+	LOCAL dbsIdx
+	LOCAL size
+	LOCAL fldName
+	LOCAL lNew := .F.
+
+	fldName := index:Name
+
+	IF index:temporary
+
+		HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" )
+
+		aliasName := "TMP_" + ::ClassName()
+
+	ELSE
+
+		HB_FNameSplit( ::Alias:DbOrderInfo( DBOI_FULLPATH ), @pathName )
+
+		pathName += Lower( ::ClassName )
+
+		fileName := pathName + ".dbf"
+
+		aliasName := "IDX_" + ::ClassName()
+
+		IF File( fileName )
+	
+			index:IdxAlias := TAlias()
+			index:IdxAlias:lShared := .F.
+			index:IdxAlias:New( fileName, aliasName )
+			
+		ENDIF
+
+	ENDIF
+
+	IF index:IdxAlias = NIL
+
+		size := 0
+
+		IF index:MasterKeyField != NIL
+			size += index:MasterKeyField:Size
+		ENDIF
+
+		IF index:KeyField != NIL
+			size += index:KeyField:Size
+		ENDIF
+
+		dbsIdx := ;
+		{ ;
+			{ "RECNO", "I", 4, 0 },;
+			{ fldName, "C", size, 0 } ;
+		}
+
+		DbCreate( fileName, dbsIdx )
+
+		index:IdxAlias := TAlias()
+		index:IdxAlias:lShared := .F.
+		index:IdxAlias:New( fileName, aliasName )
+
+		CREATE INDEX ON "RecNo" TAG "IDX_RECNO" BAG pathName ADDITIVE
+
+		CREATE INDEX ON fldName TAG index:Name BAG pathName ADDITIVE
+		
+		lNew := .T.
+
+	ENDIF
+
+	IF index:temporary
+
+		index:IdxAlias:__DbZap()
+		
+	ENDIF
+
+	IF index:temporary .OR. lNew
+		::DbEval( ;
+			{|Self|
+				index:IdxAlias:AddRec()
+				index:IdxAlias:SetFieldValue( "RECNO", ::RecNo() )
+				index:IdxAlias:SetFieldValue( fldName, index:MasterKeyIndexVal + index:KeyIndexVal )
+				RETURN NIL
+			}, NIL, NIL, index:useIndex )
+	ENDIF
+
+	index:FIdxAlias := .T.
+
+RETURN .T.
 
 /*
 	DbEval
 	Teo. Mexico 2008
 */
-METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index ) CLASS TTable
+METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index, scope ) CLASS TTable
+	LOCAL oldIndex
+	LOCAL oldScope
 
 	::StatePush()
 
 	IF index != NIL
+		oldIndex := ::IndexName
 		::IndexName := ::GetIndex(index):Name
 	ENDIF
 	
+	IF scope != NIL
+		oldScope := ::Index:Scope
+		::Index:Scope := scope
+	ENDIF
+
 	::DbGoTop()
 
 	WHILE !::Eof() .AND. ( bWhileCondition == NIL .OR. bWhileCondition:Eval( Self ) )
@@ -677,6 +773,14 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index ) CLASS T
 		::DbSkip()
 
 	ENDDO
+	
+	IF oldScope != NIL
+		::Index:Scope := oldScope
+	ENDIF
+	
+	IF oldIndex != NIL
+		::IndexName := oldIndex
+	ENDIF
 	
 	::StatePop()
 	
@@ -1124,15 +1228,39 @@ RETURN pkField:Value
 	GetCurrentRecord
 	Teo. Mexico 2007
 */
-METHOD FUNCTION GetCurrentRecord() CLASS TTable
+METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 	LOCAL AField
 	LOCAL Result
+
+	IF idxAlias = NIL
+		IF ::aliasIdx != NIL
+			::aliasIdx:Seek( ::Alias:RecNo, "IDX_RECNO" )
+		ENDIF
+		IF ::aliasTmp != NIL
+			::aliasTmp:Seek( ::Alias:RecNo, "IDX_RECNO" )
+		ENDIF
+		::FBof   := ::Alias:Bof()
+		::FEof   := ::Alias:Eof()
+		::FFound := ::Alias:Found()
+	ELSE
+		::Alias:DbGoTo( (idxAlias:workArea)->RecNo )
+		::FBof   := idxAlias:Bof()
+		::FEof   := idxAlias:Eof()
+		::FFound := idxAlias:Found()
+		IF ::aliasIdx != NIL .AND. ::aliasTmp != NIL
+			IF idxAlias == ::aliasIdx
+				::aliasTmp:Seek( ::Alias:RecNo, "IDX_RECNO" )
+			ELSE
+				::aliasIdx:Seek( ::Alias:RecNo, "IDX_RECNO" )
+			ENDIF
+		ENDIF
+	ENDIF
+
+	::FRecNo := ::Alias:RecNo
 
 	IF ::FState = dsBrowse
 
 		IF ( Result := ::InsideScope() )
-
-			::FRecNo := ::Alias:RecNo
 
 			FOR EACH AField IN ::FFieldList
 
@@ -1143,8 +1271,9 @@ METHOD FUNCTION GetCurrentRecord() CLASS TTable
 			NEXT
 
 		ELSE
-			::FRecNo := 0
-			::Alias:DbGoTo( 0 )
+			::FEof := .T.
+			::FBof := .T.
+			::FFound := .F.
 			::Reset()
 		ENDIF
 
@@ -1678,6 +1807,33 @@ METHOD FUNCTION InsideScope() CLASS TTable
 RETURN primaryIndex == ::Index .OR. ::Index:InsideScope()
 
 /*
+	OnDataChange
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE OnDataChange() CLASS TTable
+	IF ::OnDataChangeBlock != NIL
+		::OnDataChangeBlock:Eval( Self )
+	ENDIF
+RETURN
+
+/*
+	OnDestruct
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE OnDestruct() CLASS TTable
+	LOCAL dbfName, indexName
+
+	IF ::aliasTmp != NIL
+		dbfName := ::aliasTmp:DbInfo( DBI_FULLPATH )
+		indexName := ::aliasTmp:DbOrderInfo( DBOI_FULLPATH )
+		::aliasTmp:DbCloseAll()
+		FErase( dbfName )
+		FErase( indexName )
+	ENDIF
+
+RETURN
+
+/*
 	Open
 	Teo. Mexico 2008
 */
@@ -1704,6 +1860,58 @@ METHOD FUNCTION Open() CLASS TTable
 	::OnAfterOpen()
 
 RETURN .T.
+
+/*
+	OrdCondSet
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION OrdCondSet( ... ) CLASS TTable
+RETURN ::Alias:OrdCondSet( ... )
+
+/*
+	OrdCreate
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE OrdCreate( ... ) CLASS TTable
+	LOCAL scopeTop, scopeBottom
+	LOCAL masterKeyIndexVal
+	LOCAL syncFromAlias := ::DisplayFields:__FSyncFromAlias
+	LOCAL oDlg
+
+	DbSelectArea( ::Alias:Name )
+	
+	IF !Empty( ::IndexName )
+		masterKeyIndexVal := ::Index:MasterKeyIndexVal
+		OrdSetFocus( ::IndexName )
+		scopeTop := ordScope( 0, RTrim( masterKeyIndexVal + ::Index:ScopeTop() ) )
+		scopeBottom := ordScope( 1, masterKeyIndexVal + ::Index:ScopeBottom() )
+	ENDIF
+
+	//DbGoTop()
+	
+	::DisplayFields:__FSyncFromAlias := .T.
+	
+	CREATE DIALOG oDlg ;
+		TITLE "Un momento..." ;
+		PARENT ::Frame
+		
+	SHOW WINDOW oDlg CENTRE
+
+	::Alias:OrdCreate( ... )
+
+	IF !Empty( ::IndexName )
+		ordSetFocus( ::IndexName )
+		ordScope( 0, scopeTop )
+		ordScope( 1, scopeBottom )
+	ENDIF
+
+	DESTROY oDlg
+	
+	::DisplayFields:__FSyncFromAlias := syncFromAlias
+	
+	ordCustom( NIL, NIL, .T. )
+
+RETURN
 
 /*
 	Post
@@ -1894,8 +2102,6 @@ RETURN
 METHOD PROCEDURE Reset() CLASS TTable
 	LOCAL AField
 
-	::FRecNo := 0
-	
 	::FUnderReset := .T.
 
 	FOR EACH AField IN ::FFieldList
@@ -2037,7 +2243,7 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 			recNo := ::RecNo
 			::DbSkip( 1 )
 			IF ::Eof()
-				::RecNo := recNo
+				::DbGoTo( recNo )
 				EXIT
 			ENDIF
 			num_skipped++
@@ -2047,7 +2253,7 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 			recNo := ::RecNo
 			::DbSkip( -1 )
 			IF ::Bof()
-				::RecNo := recNo
+				::DbGoTo( recNo )
 				EXIT
 			ENDIF
 			num_skipped--
