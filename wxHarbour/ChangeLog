@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2010-02-24 18:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * renamed wxhBrowse:keyDownEventBlock to wxhBrowse:OnKeyDownBlock
+
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * moved :SetColPos/:SetRowPos to wxhBrowse.prg
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * code cleanup
+     * removed code that was assigning browse:RowPos on :FillGridBuffer, this was calling
+       the OnSelectCell event
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+     * minor code cleanup
+
 2010-02-24 13:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
