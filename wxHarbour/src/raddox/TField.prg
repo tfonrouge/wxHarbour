@@ -80,7 +80,7 @@ PROTECTED:
 	DATA FDBS_LEN
 	DATA FDBS_NAME
 	DATA FDBS_TYPE
-	DATA FFieldArray										// Array of TField's objects
+	DATA FFieldArrayIndex								// Array of TField's indexes in FieldList
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
 	DATA FName INIT ""
@@ -93,6 +93,7 @@ PROTECTED:
 	METHOD GetChanged()
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
+	METHOD GetFieldArray()
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
@@ -164,7 +165,7 @@ PUBLISHED:
 	PROPERTY DBS_TYPE READ FDBS_TYPE
 	PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
 	PROPERTY Description READ FDescription WRITE SetDescription
-	PROPERTY FieldArray READ FFieldArray WRITE SetFieldMethod
+	PROPERTY FieldArray READ GetFieldArray WRITE SetFieldMethod
 	PROPERTY FieldCodeBlock READ FFieldCodeBlock WRITE SetFieldMethod
 	PROPERTY FieldExpression READ FFieldExpression WRITE SetFieldMethod
 	PROPERTY FieldMethod READ GetFieldMethod WRITE SetFieldMethod
@@ -230,11 +231,13 @@ RETURN
 */
 METHOD FUNCTION AsIndexKeyVal( value ) CLASS TField
 	LOCAL AField
+	LOCAL i
 
 	IF value == NIL
 		IF ::FFieldMethodType = "A"
 			value := ""
-			FOR EACH AField IN ::FFieldArray
+			FOR EACH i IN ::FFieldArrayIndex
+				AField := ::FTable:FieldList[ i ]
 				value += AField:AsIndexKeyVal
 			NEXT
 		ELSE
@@ -294,6 +297,7 @@ RETURN
 */
 METHOD FUNCTION GetAsVariant( ... ) CLASS TField
 	LOCAL AField
+	LOCAL i
 	LOCAL Result
 	LOCAL value
 
@@ -305,7 +309,8 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
 		 * This will ONLY work when all the items are of TStringField type
 		 */
 		Result := ""
-		FOR EACH AField IN ::FFieldArray
+		FOR EACH i IN ::FFieldArrayIndex
+			AField := ::FTable:FieldList[ i ]
 			value := AField:GetAsVariant()
 			IF !HB_IsString( value )
 				Result += AField:AsString
@@ -384,15 +389,15 @@ RETURN value
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetBuffer() CLASS TField
-	LOCAL itm
+	LOCAL i
 
 	/* FieldArray's doesn't have a absolute FBuffer */
 	IF ::FFieldMethodType = "A"
 		IF ::FBuffer = NIL
-			::FBuffer := Array( Len( ::FFieldArray ) )
+			::FBuffer := Array( Len( ::FFieldArrayIndex ) )
 		ENDIF
-		FOR EACH itm IN ::FFieldArray
-			::FBuffer[ itm:__enumIndex ] := itm:GetBuffer()
+		FOR EACH i IN ::FFieldArrayIndex
+			::FBuffer[ i:__enumIndex ] := ::FTable:FieldList[ i ]:GetBuffer()
 		NEXT
 		RETURN ::FBuffer
 	ENDIF
@@ -418,7 +423,7 @@ RETURN .F.
 	Teo. Mexico 2006
 */
 METHOD PROCEDURE GetData() CLASS TField
-	LOCAL AField
+	LOCAL i
 
 	SWITCH ::FFieldMethodType
 	CASE 'B'
@@ -432,8 +437,8 @@ METHOD PROCEDURE GetData() CLASS TField
 		ENDIF
 		EXIT
 	CASE 'A'
-		FOR EACH AField IN ::FFieldArray
-			AField:GetData()
+		FOR EACH i IN ::FFieldArrayIndex
+			::FTable:FieldList[ i ]:GetData()
 		NEXT
 		EXIT
 	END
@@ -447,11 +452,11 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetDefaultValue CLASS TField
-	LOCAL AField
+	LOCAL i
 
 	IF ::FFieldMethodType = 'A'
-		FOR EACH AField IN ::FFieldArray
-			AField:GetDefaultValue()
+		FOR EACH i IN ::FFieldArrayIndex
+			::FTable:FieldList[ i ]:GetDefaultValue()
 		NEXT
 		//RETURN NIL
 	ENDIF
@@ -479,13 +484,27 @@ METHOD FUNCTION GetEditText CLASS TField
 RETURN Result
 
 /*
+	GetFieldArray
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetFieldArray() CLASS TField
+	LOCAL a := {}
+	LOCAL i
+	
+	FOR EACH i IN ::FFieldArrayIndex
+		AAdd( a, ::FTable:FieldList[ i ] )
+	NEXT
+
+RETURN a
+
+/*
 	GetFieldMethod
 	Teo. Mexico 2006
 */
 METHOD FUNCTION GetFieldMethod CLASS TField
 	SWITCH ::FFieldMethodType
 	CASE 'A'
-		RETURN ::FFieldArray
+		RETURN ::FFieldArrayIndex
 	CASE 'B'
 		RETURN ::FFieldCodeBlock
 	CASE 'C'
@@ -608,6 +627,7 @@ RETURN NIL
 */
 METHOD FUNCTION Reset() CLASS TField
 	LOCAL AField
+	LOCAL i
 	LOCAL value
 	LOCAL result
 	
@@ -633,9 +653,9 @@ METHOD FUNCTION Reset() CLASS TField
 		
 			result := .T.
 
-			FOR EACH AField IN ::FFieldArray
+			FOR EACH i IN ::FFieldArrayIndex
 				IF result
-					result := AField:Reset()
+					result := ::FTable:FieldList[ i ]:Reset()
 				ENDIF
 			NEXT
 
@@ -777,12 +797,13 @@ RETURN
 */
 METHOD PROCEDURE SetBuffer( value ) CLASS TField
 	LOCAL itm
+
 	/* FieldArray's doesn't have a absolute FBuffer */
 	IF ::FFieldMethodType = "A"
 		SWITCH ValType( value )
 		CASE 'A'
 			FOR EACH itm IN value
-				::FFieldArray[ itm:__enumIndex ]:SetBuffer( itm )
+				::FTable:FieldList[ ::FFieldArrayIndex[ itm:__enumIndex ] ]:SetBuffer( itm )
 			NEXT
 			EXIT
 		ENDSWITCH
@@ -807,7 +828,7 @@ RETURN
 	Teo. Mexico 2006
 */
 METHOD PROCEDURE SetData( Value ) CLASS TField
-	LOCAL AField
+	LOCAL i
 	LOCAL nTries
 	LOCAL errObj
 	LOCAL buffer
@@ -820,8 +841,8 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 			RAISE TFIELD ::Name ERROR "SetData: Not allowed custom value with a compund TField..."
 		ENDIF
 
-		FOR EACH AField IN ::FFieldArray
-			AField:SetData()
+		FOR EACH i IN ::FFieldArrayIndex
+			::FTable:FieldList[ i ]:SetData()
 		NEXT
 		
 		RETURN
@@ -972,6 +993,7 @@ RETURN
 METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 	LOCAL itm,fieldName
 	LOCAL AField
+	LOCAL i
 	LOCAL n
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
@@ -980,12 +1002,12 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		IF ::IsDerivedFrom("TStringField")
 			::FSize := 0
 		ENDIF
-		::FFieldArray := {}
+		::FFieldArrayIndex := {}
 		fieldName := ""
 		FOR EACH itm IN FieldMethod
-			AField := ::FTable:FieldByName( itm )
+			AField := ::FTable:FieldByName( itm, @i )
 			IF AField != NIL
-				AAdd( ::FFieldArray, AField )
+				AAdd( ::FFieldArrayIndex, i )
 				fieldName += itm + ";"
 			ELSE
 				RAISE TFIELD itm ERROR "Field is not defined yet..."
@@ -1002,7 +1024,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		EXIT
 	CASE "B"
 		::FReadOnly := .T.
-		::FFieldArray := NIL
+		::FFieldArrayIndex := NIL
 		::FFieldCodeBlock	 := FieldMethod
 		::FFieldReadBlock	 := NIL
 		::FFieldWriteBlock := NIL
@@ -1010,7 +1032,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		EXIT
 	CASE "C"
 
-		::FFieldArray := NIL
+		::FFieldArrayIndex := NIL
 		::FFieldCodeBlock := NIL
 
 		FieldMethod := LTrim( RTrim( FieldMethod ) )
@@ -1080,12 +1102,12 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TField
-	LOCAL AField
+	LOCAL i
 
 	SWITCH ::FFieldMethodType
 	CASE 'A'
-		FOR EACH AField IN ::FFieldArray
-			AField:IsMasterFieldComponent := IsMasterFieldComponent
+		FOR EACH i IN ::FFieldArrayIndex
+			::FTable:FieldList[ i ]:IsMasterFieldComponent := IsMasterFieldComponent
 		NEXT
 	CASE 'C'
 		::FIsMasterFieldComponent := IsMasterFieldComponent
@@ -1133,12 +1155,12 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
-	LOCAL AField
+	LOCAL i
 
 	SWITCH ::FFieldMethodType
 	CASE 'A'
-		FOR EACH AField IN ::FFieldArray
-			AField:PrimaryKeyComponent := PrimaryKeyComponent
+		FOR EACH i IN ::FFieldArrayIndex
+			::FTable:FieldList[ i ]:PrimaryKeyComponent := PrimaryKeyComponent
 		NEXT
 		EXIT
 	CASE 'C'
@@ -1192,12 +1214,12 @@ ENDCLASS
 */
 METHOD FUNCTION GetAsString CLASS TStringField
 	LOCAL Result := ""
-	LOCAL AField
+	LOCAL i
 
 	SWITCH ::FFieldMethodType
 	CASE 'A'
-		FOR EACH AField IN ::FFieldArray
-			Result += AField:AsString()
+		FOR EACH i IN ::FFieldArrayIndex
+			Result += ::FTable:FieldList[ i ]:AsString()
 		NEXT
 		EXIT
 	OTHERWISE

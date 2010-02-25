@@ -66,6 +66,7 @@ PUBLIC:
 	METHOD OrdCustom( Name, cBag, KeyVal )
 	METHOD OrdKeyAdd( Name, cBag, KeyVal )
 	METHOD OrdKeyDel( Name, cBag, KeyVal )
+	METHOD OrdKeyNo( ... )
 	METHOD OrdNumber( ordName, ordBagName )
 	METHOD OrdSetFocus( Name, cBag )
 	METHOD Pop()
@@ -409,6 +410,14 @@ RETURN (::workArea)->( OrdKeyAdd( Name, cBag, KeyVal ) )
 METHOD FUNCTION OrdKeyDel( Name, cBag, KeyVal ) CLASS TAlias
 	::SyncFromRecNo()
 RETURN (::workArea)->( OrdKeyDel( Name, cBag, KeyVal ) )
+
+/*
+	OrdKeyNo
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION OrdKeyNo( ... ) CLASS TAlias
+	::SyncFromRecNo()
+RETURN (::workArea)->( OrdKeyNo( ... ) )
 
 /*
 	OrdNumber
