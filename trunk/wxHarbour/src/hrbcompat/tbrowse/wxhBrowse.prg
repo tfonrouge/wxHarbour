@@ -84,7 +84,7 @@ PUBLIC:
 	DATA AutoFill INIT .T.	/* autofill columns with DataSource data */
 	DATA BottomFirst INIT .F.
 	DATA FillColumnsChecked INIT .F.
-	DATA keyDownEventBlock
+	DATA OnKeyDownBlock
 	DATA OnSelectCellBlock
 
 	METHOD DeleteAllColumns
@@ -338,15 +338,15 @@ RETURN
 METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
 	LOCAL result
 	LOCAL nKey := keyEvent:GetKeyCode()
-	
-	IF ::keyDownEventBlock != NIL
-		result := ::keyDownEventBlock:Eval( Self, keyEvent )
+
+	IF ::OnKeyDownBlock != NIL
+		result := ::OnKeyDownBlock:Eval( Self, keyEvent )
 		IF ValType( result ) = "L"
 			IF result
 				RETURN /* event key processed */
 			ENDIF
 		ELSE
-			RAISE ERROR "keyDownEventBlock must return a logical value."
+			RAISE ERROR "OnKeyDownBlock must return a logical value."
 		ENDIF
 	ENDIF
 
@@ -592,6 +592,14 @@ METHOD FUNCTION SetAllowDataChange( allowDataChange ) CLASS wxhBrowse
 RETURN oldValue
 
 /*
+	SetColPos
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetColPos( colPos ) CLASS wxhBrowse
+	::SetGridCursor( ::GetGridCursorRow(), colPos - 1 )
+RETURN
+
+/*
 	SetColumnAlignment
 	Teo. Mexico 2009
 */
@@ -675,6 +683,17 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 	
 	::OnSetDataSource()
 
+RETURN
+
+/*
+	SetRowPos
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetRowPos( rowPos ) CLASS wxhBrowse
+	IF rowPos > ::RowCount
+		rowPos := ::RowCount
+	ENDIF
+	::SetGridCursor( rowPos - 1, ::GetGridCursorCol() )
 RETURN
 
 /*

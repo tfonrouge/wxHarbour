@@ -169,7 +169,7 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
 	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
 	if( wnd )
-	wxh_itemReturn( wnd->FindFocus() );
+		wxh_itemReturn( wnd->FindFocus() );
 }
 
 /*

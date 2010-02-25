@@ -847,7 +847,7 @@ RETURN sizer
 	__wxh_Browse
 	Teo. Mexico 2009
  */
-FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, keyDownEventBlock, onSelectCell, readOnly )
+FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minSize, style, name, OnKeyDownBlock, onSelectCell, readOnly )
 	LOCAL browse
 	LOCAL panel
 	LOCAL boxSizer
@@ -883,8 +883,8 @@ FUNCTION __wxh_Browse( fromClass, dataSource, window, id, label, pos, size, minS
 		browse:DataSource := dataSource
 	ENDIF
 
-	IF keyDownEventBlock != NIL
-		browse:keyDownEventBlock := keyDownEventBlock
+	IF OnKeyDownBlock != NIL
+		browse:OnKeyDownBlock := OnKeyDownBlock
 	ENDIF
 	
 	IF onSelectCell != NIL

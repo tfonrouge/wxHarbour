@@ -132,49 +132,53 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 		i := 2
 
 		WHILE i <= browse:MaxRows()
-		n := browse:SkipBlock:Eval( direction )
-		totalSkipped += n
-		IF n != direction
-			IF direction = 1
-			/* check if we are filling from right after GoTop */
-			IF topRecord
+			n := browse:SkipBlock:Eval( direction )
+			totalSkipped += n
+			IF n != direction
+				IF direction = 1
+				/* check if we are filling from right after GoTop */
+				IF topRecord
+					::SetGridBufferSize( i - 1 )
+					EXIT
+				ENDIF
+				/* go to first record */
+				IF totalSkipped != 0
+					browse:SkipBlock:Eval( - totalSkipped )
+				ENDIF
+				direction := -1
+				LOOP
+				ELSE /* we are at a premature bof */
 				::SetGridBufferSize( i - 1 )
 				EXIT
+				ENDIF
 			ENDIF
-			/* go to first record */
-			IF totalSkipped != 0
-				browse:SkipBlock:Eval( - totalSkipped )
+			IF direction = 1
+				n := i
+			ELSE
+				n := 1
+				AIns( ::FGridBuffer, 1 )
 			ENDIF
-			direction := -1
-			LOOP
-			ELSE /* we are at a premature bof */
-			::SetGridBufferSize( i - 1 )
-			EXIT
-			ENDIF
-		ENDIF
-		IF direction = 1
-			n := i
-		ELSE
-			n := 1
-			AIns( ::FGridBuffer, 1 )
-		ENDIF
 
-		::GetGridRowData( n )
+			::GetGridRowData( n )
 
-		i++
+			i++
 
 		ENDDO
 		
 		/* normal fill (top-down) require repos at rowIndex 1 */
 		IF direction = 1 .AND. totalSkipped != 0
-		browse:SkipBlock:Eval( - totalSkipped )
+			browse:SkipBlock:Eval( - totalSkipped )
 		ENDIF
 		
+		/*
 		IF curRowPos > browse:RowCount
-		browse:RowPos := browse:RowCount
+			browse:RowPos := browse:RowCount
 		ELSE
-		browse:RowPos := curRowPos
+			IF browse:RowPos != curRowPos
+				browse:RowPos := curRowPos
+			ENDIF
 		ENDIF
+		*/
 		
 	ENDIF
 	

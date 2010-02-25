@@ -216,20 +216,6 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
 }
 
 /*
-	wxhBrowse:SetColPos
-	Teo. Mexico 2009
-*/
-HB_FUNC( WXHBROWSE_SETCOLPOS )
-{
-	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	if( gridBrowse )
-	{
-		int col = hb_parni( 1 ) - 1;
-		gridBrowse->SetGridCursor( gridBrowse->GetGridCursorRow(), col );
-	}
-}
-
-/*
 	wxhBrowse:SetColWidth
 	Teo. Mexico 2009
 */
@@ -260,22 +246,6 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
 		else
 			gridBrowse->DeleteRows( rowCount - 1, gridBrowse->m_rowCount - rowCount );
 		gridBrowse->m_rowCount = rowCount;
-	}
-}
-
-/*
-	wxhBrowse:SetRowPos
-	Teo. Mexico 2009
-*/
-HB_FUNC( WXHBROWSE_SETROWPOS )
-{
-	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	if( gridBrowse )
-	{
-		int row = hb_parni( 1 );
-		int col = gridBrowse->GetGridCursorCol();
-		gridBrowse->MakeCellVisible( row - 1, col );
-		gridBrowse->SetGridCursor( row - 1, col );
 	}
 }
 
