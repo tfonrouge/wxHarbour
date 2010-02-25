@@ -434,9 +434,9 @@ METHOD IsModified( control ) CLASS wxhHBValidator
 
 	IF !modified
 		IF ::dataIsOEM
-			modified := ! RTrim( wxh_wxStringToOEM( control:GetValue() ) ) == RTrim( ::AsString() )
+			modified := ! wxh_wxStringToOEM( control:GetValue() ) == ::AsString()
 		ELSE
-			modified := ! RTrim( control:GetValue() ) == RTrim( ::AsString() )
+			modified := ! control:GetValue() == ::AsString()
 		ENDIF
 	ENDIF
 
@@ -489,7 +489,7 @@ RETURN
 METHOD FUNCTION TextValue() CLASS wxhHBValidator
 	LOCAL value
 
-	value := RTrim( ::AsString() )
+	value := ::AsString()
 
 	IF ::Field != NIL
 		IF ::Field:Table:dataIsOEM
@@ -509,7 +509,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 	LOCAL newValue
 	LOCAL value
 	LOCAL Result := .T.
-	
+
 	control := ::GetWindow()
 
 	IF control:IsDerivedFrom( "wxTextCtrl" )
@@ -524,7 +524,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
 		SWITCH ValType( oldValue )
 		CASE 'C'
-			newValue := PadR( value, Len( oldValue ) )
+			newValue := value
 			EXIT
 		CASE 'N'
 			newValue := Val( value )
@@ -555,7 +555,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 				EXIT
 			END
 
-			control:ChangeValue( wxh_OEMTowxString( RTrim( value ) ) )
+			control:ChangeValue( wxh_OEMTowxString( value ) )
 
 		ENDIF
 		

@@ -177,6 +177,7 @@ PUBLIC:
 	METHOD Open
 	METHOD OrdCondSet( ... )
 	METHOD OrdCreate( ... )
+	METHOD OrdKeyNo() INLINE ::Index:OrdKeyNo()
 	METHOD Post()
 	METHOD RawSeek( Value, index )
 	METHOD RecLock
@@ -374,7 +375,7 @@ RETURN
 METHOD PROCEDURE AddFieldMessage( messageName, AField ) CLASS TTable
 	LOCAL index
 	LOCAL fld
-
+	
 	fld := ::FieldByName( messageName, @index )
 	
 	IF index = 0
@@ -664,13 +665,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 
 	fldName := index:Name
 
-	IF index:temporary
-
-		FClose( HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" ) )
-
-		aliasName := "TMP_" + ::ClassName()
-
-	ELSE
+	IF !index:temporary
 
 		HB_FNameSplit( ::Alias:DbOrderInfo( DBOI_FULLPATH ), @pathName )
 
@@ -691,6 +686,14 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 	ENDIF
 
 	IF index:IdxAlias = NIL
+
+		IF index:temporary
+
+			FClose( HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" ) )
+
+			aliasName := "TMP_" + ::ClassName()
+
+		ENDIF
 
 		size := 0
 

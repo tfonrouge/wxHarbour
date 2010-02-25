@@ -77,6 +77,7 @@ PUBLIC:
 	
 	METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
 	METHOD OrdCreate( ... ) INLINE ::FTable:OrdCreate( ... )
+	METHOD OrdKeyNo() INLINE ::GetAlias():OrdKeyNo()
 	
 	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RawSeek( Value )

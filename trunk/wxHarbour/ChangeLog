@@ -2,6 +2,69 @@
  * $Id$
  */
 
+2010-02-25 15:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * removed the RTrim functions applied to comparing/assigning values on controls
+       (mostly wxTextCtrl)
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * reverted modification that was setting the wxhBrowse:RowPos value at the end of the
+       :FillGridBuffer procedure, this is needed to assure leave the browse in a valid record
+
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TIndex.prg
+     + added method:
+       + OrdKeyNo()
+
+  *  src/raddox/TField.prg
+     * changed the logic on Fields that have an array of fields in its data retrieve (fieldMethod)
+       to store only the index of the such fields in the :FFieldArrayIndex data
+
+  *  src/raddox/TTable.prg
+     ! Fixed creation of void temp files each time that a index is regenerated
+
+2010-02-25 15:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * removed the RTrim functions applied to comparing/assigning values on controls
+       (mostly wxTextCtrl)
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * reverted modification that was setting the wxhBrowse:RowPos value at the end of the
+       :FillGridBuffer procedure, this is needed to assure leave the browse in a valid record
+
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TIndex.prg
+     + added method:
+       + OrdKeyNo()
+
+  *  src/raddox/TField.prg
+     * changed the logic on Fields that have an array of fields in its data retrieve (fieldMethod)
+       to store only the index of the such fields in the :FFieldArrayIndex data
+
+  *  src/raddox/TTable.prg
+     ! Fixed creation of void temp files each time that a index is regenerated
+
+2010-02-25 15:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * removed the RTrim functions applied to comparing/assigning values on controls
+       (mostly wxTextCtrl)
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * reverted modification that was setting the wxhBrowse:RowPos value at the end of the
+       :FillGridBuffer procedure, this is needed to assure leave the browse in a valid record
+
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TIndex.prg
+     + added method:
+       + OrdKeyNo()
+
+  *  src/raddox/TField.prg
+     * changed the logic on Fields that have an array of fields in its data retrieve (fieldMethod)
+       to store only the index of the such fields in the :FFieldArrayIndex data
+
+  *  src/raddox/TTable.prg
+     ! Fixed creation of void temp files each time that a index is regenerated
+
 2010-02-24 22:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed closing the temporary file created for using as tmp db

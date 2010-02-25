@@ -170,15 +170,11 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 			browse:SkipBlock:Eval( - totalSkipped )
 		ENDIF
 		
-		/*
 		IF curRowPos > browse:RowCount
 			browse:RowPos := browse:RowCount
 		ELSE
-			IF browse:RowPos != curRowPos
-				browse:RowPos := curRowPos
-			ENDIF
+			browse:RowPos := curRowPos
 		ENDIF
-		*/
 		
 	ENDIF
 	
