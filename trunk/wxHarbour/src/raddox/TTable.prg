@@ -666,7 +666,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 
 	IF index:temporary
 
-		HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" )
+		FClose( HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" ) )
 
 		aliasName := "TMP_" + ::ClassName()
 
