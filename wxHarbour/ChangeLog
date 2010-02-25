@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-02-24 22:53 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed closing the temporary file created for using as tmp db
+
 2010-02-24 18:33 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * renamed wxhBrowse:keyDownEventBlock to wxhBrowse:OnKeyDownBlock
