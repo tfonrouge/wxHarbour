@@ -23,7 +23,7 @@
 */
 CLASS wxhBrowse FROM wxGrid
 PRIVATE:
-	DATA FAlwaysShowSelectedRow INIT .F.
+	DATA FAlwaysShowSelectedRow INIT .T.
 	DATA FColPos					INIT 0
 	DATA FDataSource
 	DATA FDataSourceType
@@ -424,6 +424,7 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 	LOCAL row
 
 	IF !gridEvent:Selecting()
+		AltD()
 		gridEvent:Skip()
 		RETURN
 	ENDIF

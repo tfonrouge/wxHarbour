@@ -30,7 +30,7 @@ HB_FUNC_EXTERN( WXKEYEVENT);
 BEGIN_EVENT_TABLE( wxhBrowse, wxScrolledWindow )
 	EVT_KEY_DOWN( wxhBrowse::OnKeyDown )
 	EVT_SIZE( wxhBrowse::OnSize )
-	EVT_GRID_SELECT_CELL( wxhBrowse::OnSelectCell )
+	EVT_GRID_CMD_SELECT_CELL( wxID_ANY, wxhBrowse::OnSelectCell )
 END_EVENT_TABLE()
 
 /*
@@ -251,7 +251,7 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
 
 /*
 	ShowRow
-	Teo. Mexico 2009
+	Teo. Mexico 2010
  */
 HB_FUNC( WXHBROWSE_SHOWROW )
 {
@@ -289,5 +289,6 @@ HB_FUNC( WXHBROWSE_SHOWROW )
 			gridBrowse->SetRowAttr( row, attr );
 			gridBrowse->m_selectedRow = row;
 		}
+		gridBrowse->Refresh();
 	}
 }

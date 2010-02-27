@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-02-26 22:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * using an EVT_GRID_CMD_SELECT_CELL instead of an EVT_GRID_SELECT_CELL, because
+       the later seems to not fire up when ::SetGridCursor() method are called
+     ! Fixed showing the current selected row on Windows/Linux, and now the default in
+       the wxhBrowse object is show always the current browse row
+
 2010-02-25 15:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * removed the RTrim functions applied to comparing/assigning values on controls
