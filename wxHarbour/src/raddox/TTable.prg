@@ -69,7 +69,6 @@ PRIVATE:
 	METHOD GetIndexName INLINE iif( ::FIndex = NIL, NIL, ::FIndex:Name )
 	METHOD GetInstance
 	METHOD GetMasterSource()
-	METHOD GetPrimaryIndex( curClass )
 	METHOD GetPrimaryMasterKeyField()
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
 	METHOD GetPublishedFieldList
@@ -168,6 +167,7 @@ PUBLIC:
 	METHOD GetField( fld )
 	METHOD GetIndex( index )
 	METHOD GetMasterSourceClassName( className )
+	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
 	METHOD HasChilds
 	METHOD IndexByName( IndexName, curClass )
@@ -1542,17 +1542,20 @@ RETURN NIL
 	GetPrimaryIndex
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetPrimaryIndex( curClass ) CLASS TTable
+METHOD FUNCTION GetPrimaryIndex( curClass, masterSourceBaseClass ) CLASS TTable
 	LOCAL className
 
 	curClass := iif( curClass = NIL, Self, curClass )
 	className := curClass:ClassName()
 
 	IF ! className == "TTABLE"
-		IF HB_HHasKey( ::FPrimaryIndexList, className )
+		IF className == masterSourceBaseClass
+			masterSourceBaseClass := NIL
+		ENDIF
+		IF HB_HHasKey( ::FPrimaryIndexList, className ) .AND. Empty( masterSourceBaseClass )
 			RETURN ::FIndexList[ className, ::FPrimaryIndexList[ className ] ]
 		ENDIF
-		RETURN ::GetPrimaryIndex( curClass:Super )
+		RETURN ::GetPrimaryIndex( curClass:Super, masterSourceBaseClass )
 	ENDIF
 
 RETURN NIL
@@ -1562,19 +1565,19 @@ RETURN NIL
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetPrimaryKeyField( masterSourceBaseClass ) CLASS TTable
-	LOCAL pkField
-	LOCAL AIndex
+	LOCAL index
 
-	IF !Empty( masterSourceBaseClass )
-		pkField := ::IndexList[ masterSourceBaseClass, ::PrimaryIndexList[ masterSourceBaseClass ] ]:KeyField
-	ELSE
-		AIndex := ::PrimaryIndex
-		IF AIndex != NIL
-			pkField := AIndex:UniqueKeyField
-		ENDIF
+	IF masterSourceBaseClass != NIL
+		masterSourceBaseClass := Upper( masterSourceBaseClass )
 	ENDIF
 
-RETURN pkField
+	index := ::GetPrimaryIndex( NIL, masterSourceBaseClass )
+	
+	IF index != NIL
+		RETURN index:KeyField
+	ENDIF
+
+RETURN NIL
 
 /*
 	GetPrimaryMasterKeyField

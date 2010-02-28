@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-02-28 01:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * removed hacked :GetParent() that was returning the :GetGrandParent()
+
+  *  src/raddox/TField.prg
+     * not raise error when field used in an TObjectField is not an master field component
+     % minor optimization on :GetReferenceField
+
+  *  src/raddox/TTable.prg
+     * :GetPrimaryIndex made PUBLIC
+     * unified :GetPrimaryIndex/:GetPrimaryKeyField
+
 2010-02-26 22:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wx_Browse.cpp
   *  src/hrbcompat/tbrowse/wxhBrowse.prg

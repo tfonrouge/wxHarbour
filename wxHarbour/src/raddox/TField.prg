@@ -1636,7 +1636,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		CASE 'C'
 			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue )
 				IF ! ::IsMasterFieldComponent
-					RAISE TFIELD ::Name ERROR "MasterSource table has to be assigned to a master field component."
+					//RAISE TFIELD ::Name ERROR "MasterSource table has to be assigned to a master field component."
 				ENDIF
 				::FLinkedTable := ::FTable:MasterSource
 			ELSE
@@ -1689,9 +1689,10 @@ RETURN ::FLinkedTable
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
 	LOCAL pkField
+	LOCAL masterSourceClassName := ::FTable:GetMasterSourceClassName()
 
-	IF ::IsMasterFieldComponent .AND. !Empty( ::FTable:GetMasterSourceClassName() ) .AND. ::DataObj:IsDerivedFrom( ::FTable:GetMasterSourceClassName() )
-		pkField := ::DataObj:GetPrimaryKeyField( ::FTable:GetMasterSourceClassName() )
+	IF ::IsMasterFieldComponent .AND. !Empty( masterSourceClassName ) .AND. ::DataObj:IsDerivedFrom( masterSourceClassName )
+		pkField := ::DataObj:GetPrimaryKeyField( masterSourceClassName )
 	ELSE
 		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:GetMasterSourceClassName() )
 	ENDIF
