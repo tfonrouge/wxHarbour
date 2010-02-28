@@ -89,8 +89,6 @@ PUBLIC:
 
 	METHOD DeleteAllColumns
 	METHOD FillColumns
-	
-	METHOD GetParent() INLINE ::GetGrandParent() // parent of panel
 
 	METHOD GoFirstPos
 	METHOD OnKeyDown( keyEvent )
