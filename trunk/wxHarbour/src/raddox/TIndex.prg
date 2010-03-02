@@ -55,11 +55,15 @@ PRIVATE:
 	METHOD SetScopeTop( value )
 PROTECTED:
 	METHOD GetAlias()
+	METHOD GetCurrentRecord()
 PUBLIC:
 
+	DATA associatedTable
 	DATA FIdxAlias INIT .F.
-	DATA useIndex
+	DATA getRecNo
+	DATA setRecNo
 	DATA temporary INIT .F.
+	DATA useIndex
 
 	METHOD New( Table, name, indexType, curClass ) CONSTRUCTOR
 
@@ -200,7 +204,7 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 		alias:SeekLast( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
 	ENDIF
 
-	::FTable:GetCurrentRecord( ::IdxAlias )
+	::GetCurrentRecord()
 
 RETURN ::FTable:Found()
 
@@ -281,7 +285,7 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
 		ENDIF
 	ENDIF
 	
-	::FTable:GetCurrentRecord( ::IdxAlias )
+	::GetCurrentRecord()
 
 RETURN ::FTable:Found()
 
@@ -293,7 +297,7 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
 	::GetAlias():DbSkip( numRecs, ::FName )
 
-	::FTable:GetCurrentRecord( ::IdxAlias )
+	::GetCurrentRecord()
 
 RETURN
 
@@ -334,6 +338,19 @@ METHOD FUNCTION GetAlias() CLASS TIndex
 		RETURN ::FTable:Alias
 	ENDIF
 RETURN ::IdxAlias
+
+/*
+	GetCurrentRecord
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE GetCurrentRecord() CLASS TIndex
+	::FTable:GetCurrentRecord( ::GetIdxAlias() )
+	IF ::associatedTable != NIL
+		::associatedTable:ExternalIndexList[ ::ObjectH ] := NIL
+		::getRecNo:Eval( ::associatedTable, ::FTable )
+		::associatedTable:ExternalIndexList[ ::ObjectH ] := Self
+	ENDIF
+RETURN
 
 /*
 	GetField
@@ -449,7 +466,7 @@ METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 
 	::GetAlias():Seek( Value, ::FName )
 
-	::FTable:GetCurrentRecord( ::IdxAlias )
+	::GetCurrentRecord()
 
 RETURN ::FTable:Found()
 

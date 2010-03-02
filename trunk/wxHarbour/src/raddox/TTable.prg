@@ -120,6 +120,7 @@ PUBLIC:
 		array of possible TObjectField's that have this (SELF) object referenced
 	 */
 	DATA DetailSourceList INIT {=>}
+	DATA ExternalIndexList INIT {=>}
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
 	DATA FUnderReset INIT .F.
 	DATA fullFileName
@@ -138,6 +139,7 @@ PUBLIC:
 	METHOD BaseSeek( direction, Value, index, lSoftSeek )
 	METHOD AddFieldAlias( nameAlias, fld )
 	METHOD AddFieldMessage( messageName, AField )
+	METHOD AssociateTableIndex( table, name, getRecNo, setRecNo )
 	METHOD Cancel
 	METHOD ChildSource( tableName )
 	METHOD CopyRecord( origin )
@@ -462,6 +464,29 @@ METHOD FUNCTION AddRec() CLASS TTable
 RETURN Result
 
 /*
+	AssociateTableIndex
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE AssociateTableIndex( table, name, getRecNo, setRecNo ) CLASS TTable
+	LOCAL index
+
+	IF !HB_HHasKey( ::IndexList, ::ClassName() )
+		::IndexList[ ::ClassName() ] := HB_HSetCaseMatch( {=>}, .F. )
+	ENDIF
+	
+	index := table:IndexByName( name )
+	index:associatedTable := Self
+	
+	index:getRecNo := getRecNo
+	index:setRecNo := setRecNo
+
+	::IndexList[ ::ClassName(), name ] := index
+	
+	::ExternalIndexList[ index:ObjectH ] := index
+
+RETURN
+
+/*
 	BaseSeek
 	Teo. Mexico 2007
 */
@@ -662,7 +687,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 	LOCAL size
 	LOCAL fldName
 	LOCAL lNew := .F.
-
+	
 	fldName := index:Name
 
 	IF !index:temporary
@@ -757,7 +782,10 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index, scope ) 
 
 	IF index != NIL
 		oldIndex := ::IndexName
-		::IndexName := ::GetIndex(index):Name
+		index := ::GetIndex( index )
+		IF index != NIL
+			::IndexName := index:Name
+		ENDIF
 	ENDIF
 	
 	IF scope != NIL
@@ -1229,11 +1257,19 @@ RETURN pkField:Value
 
 /*
 	GetCurrentRecord
-	Teo. Mexico 2007
+	Teo. Mexico 2010
 */
 METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 	LOCAL AField
 	LOCAL Result
+	LOCAL index
+	
+	IF ::FIndex != NIL .AND. HB_HHasKey( ::ExternalIndexList, ::FIndex:ObjectH )
+		index := ::FIndex ; ::FIndex := NIL
+		::GetCurrentRecord( idxAlias )
+		index:setRecNo:Eval( Self, index:Table)
+		::FIndex := index
+	ENDIF
 
 	IF idxAlias = NIL
 		IF ::aliasIdx != NIL

@@ -189,6 +189,10 @@
 						WITH OBJECT TIndex():New( Self , <cName>, <"type">, ::curClassIndex ) ;;
 								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
 						ENDWITH
+						
+#xtranslate DEFINE EXTERNAL INDEX <name> WITH <table> GET_RECNO <getRecNo> SET_RECNO <setRecNo> ;
+	=> ;
+	::AssociateTableIndex( <table>, <name>, <getRecNo>, <setRecNo> )
 
 #xtranslate CREATE [<custom: CUSTOM>] INDEX ON <expKey> TAG <ordName> ;
 	[BAG <bagName>] ;

@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2010-03-01 18:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+     + added command:
+       + DEFINE EXTERNAL INDEX <name> WITH <table> GET_RECNO <gr> SET_RECNO <sr>
+         ; allows to use the index structure of another table that has an index from
+	   it's possible to get/set the RecNo of the current table
+	   TODO: Implement sample, manual
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * removed unneeded AltD() debug function
+
 2010-02-28 01:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
      * removed hacked :GetParent() that was returning the :GetGrandParent()

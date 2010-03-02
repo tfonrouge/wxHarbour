@@ -422,7 +422,6 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
 	LOCAL row
 
 	IF !gridEvent:Selecting()
-		AltD()
 		gridEvent:Skip()
 		RETURN
 	ENDIF
