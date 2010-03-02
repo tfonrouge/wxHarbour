@@ -374,7 +374,7 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
 	AIndex := ::FAutoIncrementKeyIndex
 
-	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyIndexVal, AIndex:Name )
+	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyIndexVal, AIndex:TagName )
 
 	IF ::IncrementBlock = NIL
 		value := Inc( value )

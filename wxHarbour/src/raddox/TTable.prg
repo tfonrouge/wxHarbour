@@ -1263,14 +1263,8 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 	LOCAL AField
 	LOCAL Result
 	LOCAL index
+	LOCAL read
 	
-	IF ::FIndex != NIL .AND. HB_HHasKey( ::ExternalIndexList, ::FIndex:ObjectH )
-		index := ::FIndex ; ::FIndex := NIL
-		::GetCurrentRecord( idxAlias )
-		index:setRecNo:Eval( Self, index:Table)
-		::FIndex := index
-	ENDIF
-
 	IF idxAlias = NIL
 		IF ::aliasIdx != NIL
 			::aliasIdx:Seek( ::Alias:RecNo, "IDX_RECNO" )
@@ -1295,19 +1289,31 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 		ENDIF
 	ENDIF
 
+	IF ::FIndex != NIL .AND. HB_HHasKey( ::ExternalIndexList, ::FIndex:ObjectH )
+		index := ::FIndex ; ::FIndex := NIL
+		::GetCurrentRecord( idxAlias )
+		index:setRecNo:Eval( Self, index:Table)
+		::FIndex := index
+		read := .T.
+	ENDIF
+
 	::FRecNo := ::Alias:RecNo
 
 	IF ::FState = dsBrowse
 
 		IF ( Result := ::InsideScope() )
 
-			FOR EACH AField IN ::FFieldList
+			IF !read == .T.
 
-				IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
-					AField:GetData()
-				ENDIF
+				FOR EACH AField IN ::FFieldList
 
-			NEXT
+					IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
+						AField:GetData()
+					ENDIF
+
+				NEXT
+
+			ENDIF
 
 		ELSE
 			::FEof := .T.

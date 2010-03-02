@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-03-02 15:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+  *  src/raddox/TIndex.prg
+     + added (optional) clause TAG to DEFINE ... INDEX
+     + added (optional) clause NAME <name> to DEFINE ... INDEX command
+     ; now index "tag" names inside objs can have any length
+
+  *  src/raddox/TTable.prg
+     * moved code that calculates RecNo in an external index ahead of idx (tmp) files
+       this to be sure to use the possible setting on an aliasIdx/aliasTmp index based
+
 2010-03-01 18:29 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TIndex.prg
