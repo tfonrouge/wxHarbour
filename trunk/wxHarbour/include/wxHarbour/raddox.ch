@@ -174,7 +174,7 @@
 			TIndex():New( Self, <cName>, "PRIMARY" )
 */
 
-#xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX <cName> ;
+#xtranslate DEFINE <type: PRIMARY,SECONDARY> INDEX [TAG] <tagName> [NAME <name>] ;
 						[ MASTERKEYFIELD <cMasterKeyField> ] ;
 						[ KEYFIELD <cKeyField> ] ;
 						[ FOR <ForKey> ] ;
@@ -186,7 +186,7 @@
 						[ <tm: TEMPORARY> ] ;
 						[ USEINDEX <useIndex> ] ;
 						=> ;
-						WITH OBJECT TIndex():New( Self , <cName>, <"type">, ::curClassIndex ) ;;
+						WITH OBJECT TIndex():New( Self , <tagName>, [<name>], <"type">, ::curClassIndex ) ;;
 								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
 						ENDWITH
 						

@@ -26,11 +26,12 @@ PRIVATE:
 	DATA FDescend INIT .F.
 	DATA FForKey
 	DATA FKeyField
-	DATA FName INIT ""
+	DATA FName
 	DATA FMasterKeyField
 	DATA FScopeBottom
 	DATA FScopeTop
 	DATA FTable
+	DATA FTagName
 	DATA FUniqueKeyField
 	METHOD DbGoBottomTop( n )
 	METHOD GetArrayKeyFields INLINE ::KeyField:FieldMethod
@@ -49,7 +50,6 @@ PRIVATE:
 	METHOD SetField( nIndex, XField )
 	METHOD SetForKey( ForKey ) INLINE ::FForKey := ForKey
 	METHOD SetIdxAlias( alias )
-	METHOD SetName( Name ) INLINE ::FName := Name
 	METHOD SetScope( value )
 	METHOD SetScopeBottom( value )
 	METHOD SetScopeTop( value )
@@ -65,7 +65,7 @@ PUBLIC:
 	DATA temporary INIT .F.
 	DATA useIndex
 
-	METHOD New( Table, name, indexType, curClass ) CONSTRUCTOR
+	METHOD New( Table, tagName, name, indexType, curClass ) CONSTRUCTOR
 
 	METHOD AddIndex
 	METHOD BaseSeek( direction, keyValue, lSoftSeek )
@@ -104,10 +104,11 @@ PUBLISHED:
 	PROPERTY KeyField INDEX 3 READ GetField WRITE SetField
 	PROPERTY KeyIndexVal READ GetKeyIndexVal
 	PROPERTY UniqueKeyField INDEX 2 READ GetField WRITE SetField
-	PROPERTY Name READ FName WRITE SetName
+	PROPERTY Name READ FName
 	PROPERTY MasterKeyField INDEX 0 READ GetField WRITE SetField
 	PROPERTY MasterKeyIndexVal READ GetMasterKeyIndexVal
 	PROPERTY Table READ FTable
+	PROPERTY TagName READ FTagName
 	PROPERTY Unique READ GetUnique
 ENDCLASS
 
@@ -115,11 +116,17 @@ ENDCLASS
 	New
 	Teo. Mexico 2006
 */
-METHOD New( Table, name, indexType, curClass ) CLASS TIndex
+METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
 
 	::FTable := Table
+	
+	::FTagName := tagName
+	
+	IF Empty( name )
+		name := tagName
+	ENDIF
 
-	::Name := name
+	::FName := name
 
 	IF curClass = NIL
 		curClass := ::FTable:ClassName()
@@ -174,7 +181,7 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, t
 //	 ::Custom := iif( HB_ISNIL( cu ), .F. , cu )
 
 	/* check for a valid index  order */
-	IF ::FTable:Alias:OrdNumber( ::Name ) = 0
+	IF ::FTable:Alias:OrdNumber( ::TagName ) = 0
 		//RAISE ERROR "Order Name not valid '" + ::Name + "'"
 		IF ! ::FTable:CreateIndex( Self )
 			RAISE ERROR "Failure to create Index '" + ::Name + "'"
@@ -199,9 +206,9 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 	keyValue := ::KeyField:AsIndexKeyVal( keyValue )
 
 	IF direction = 0
-		alias:Seek( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+		alias:Seek( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
 	ELSE
-		alias:SeekLast( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FName, lSoftSeek )
+		alias:SeekLast( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
 	ENDIF
 
 	::GetCurrentRecord()
@@ -219,9 +226,9 @@ METHOD PROCEDURE CustomKeyDel CLASS TIndex
 		RETURN
 	ENDIF
 
-	KeyVal := ::FTable:Alias:KeyVal( ::FName )
+	KeyVal := ::FTable:Alias:KeyVal( ::FTagName )
 
-	WHILE ::FTable:Alias:ordKeyDel( ::FName, , KeyVal )
+	WHILE ::FTable:Alias:ordKeyDel( ::FTagName, , KeyVal )
 	ENDDO
 
 RETURN
@@ -234,7 +241,7 @@ METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
 	LOCAL KeyVal
 	LOCAL Value
 
-	KeyVal := ::FTable:Alias:KeyVal( ::FName )
+	KeyVal := ::FTable:Alias:KeyVal( ::FTagName )
 
 	::CustomKeyDel()
 
@@ -257,7 +264,7 @@ METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
 		RETURN
 	ENDIF
 
-	::FTable:Alias:ordKeyAdd( ::FName, , ::FTable:PrimaryMasterKeyString + Value )
+	::FTable:Alias:ordKeyAdd( ::FTagName, , ::FTable:PrimaryMasterKeyString + Value )
 
 RETURN
 
@@ -273,15 +280,15 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
 	
 	IF n = 0
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FName )
+			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FTagName )
 		ELSE
-			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FName, .T. )
+			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FTagName, .T. )
 		ENDIF
 	ELSE
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FName )
+			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FTagName )
 		ELSE
-			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FName, .T. )
+			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FTagName, .T. )
 		ENDIF
 	ENDIF
 	
@@ -295,7 +302,7 @@ RETURN ::FTable:Found()
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
-	::GetAlias():DbSkip( numRecs, ::FName )
+	::GetAlias():DbSkip( numRecs, ::FTagName )
 
 	::GetCurrentRecord()
 
@@ -307,7 +314,7 @@ RETURN
 */
 METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
 RETURN ::GetAlias():ExistKey( ::MasterKeyIndexVal + iif( ::FCaseSensitive, ;
-	keyValue, Upper( keyValue ) ), ::FName, ;
+	keyValue, Upper( keyValue ) ), ::FTagName, ;
 		{||
 			IF ::IdxAlias = NIL
 				RETURN ::FTable:RecNo 
@@ -423,7 +430,7 @@ METHOD FUNCTION InsideScope() CLASS TIndex
 		RETURN .F.
 	ENDIF
 	
-	keyValue := ::GetAlias():KeyVal( ::FName )
+	keyValue := ::GetAlias():KeyVal( ::FTagName )
 	
 	IF keyValue == NIL
 		RETURN .F.
@@ -452,7 +459,7 @@ METHOD FUNCTION RawGet4Seek( direction, blk, keyVal, softSeek ) CLASS TIndex
 		keyVal := ::MasterKeyIndexVal + keyVal
 	ENDIF
 
-RETURN ::GetAlias():RawGet4Seek( direction, blk, keyVal, ::FName, softSeek )
+RETURN ::GetAlias():RawGet4Seek( direction, blk, keyVal, ::FTagName, softSeek )
 
 /*
 	RawSeek
@@ -464,7 +471,7 @@ METHOD FUNCTION RawSeek( Value ) CLASS TIndex
 		::FTable:Post()
 	ENDIF
 
-	::GetAlias():Seek( Value, ::FName )
+	::GetAlias():Seek( Value, ::FTagName )
 
 	::GetCurrentRecord()
 
@@ -478,7 +485,7 @@ METHOD PROCEDURE SetCustom( Custom ) CLASS TIndex
 
 	::FCustom := Custom
 
-	::FTable:Alias:ordCustom( ::FName, , Custom )
+	::FTable:Alias:ordCustom( ::FTagName, , Custom )
 
 RETURN
 
