@@ -157,6 +157,7 @@ PUBLIC:
 	METHOD DeleteChilds
 	METHOD Edit()
 	METHOD FieldByName( name, index )
+	METHOD FindIndex( index )
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
 	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
@@ -167,7 +168,6 @@ PUBLIC:
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
-	METHOD GetIndex( index )
 	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
@@ -493,7 +493,7 @@ RETURN
 METHOD FUNCTION BaseSeek( direction, Value, index, lSoftSeek ) CLASS TTable
 	LOCAL AIndex
 	
-	AIndex := ::GetIndex( index )
+	AIndex := ::FindIndex( index )
 
 	IF direction = 0
 		RETURN AIndex:BaseSeek( 0, Value, lSoftSeek )
@@ -782,7 +782,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index, scope ) 
 
 	IF index != NIL
 		oldIndex := ::IndexName
-		index := ::GetIndex( index )
+		index := ::FindIndex( index )
 		IF index != NIL
 			::IndexName := index:Name
 		ENDIF
@@ -1091,6 +1091,35 @@ METHOD FUNCTION FindDetailSourceField( masterField ) CLASS TTable
 	ENDIF
 
 RETURN Result
+
+/*
+	FindIndex
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION FindIndex( index ) CLASS TTable
+	LOCAL AIndex
+
+	SWITCH ValType( index )
+	CASE 'U'
+		AIndex := ::FIndex
+		EXIT
+	CASE 'C'
+		IF Empty( index )
+			AIndex := ::PrimaryIndex
+		ELSE
+			AIndex := ::IndexByName( index )
+		ENDIF
+		EXIT
+	CASE 'O'
+		IF index:IsDerivedFrom( "TIndex" )
+			AIndex := index
+			EXIT
+		ENDIF
+	OTHERWISE
+		RAISE ERROR "Unknown index reference..."
+	ENDSWITCH
+
+RETURN AIndex
 
 /*
 	FindMasterSourceField
@@ -1532,35 +1561,6 @@ METHOD FUNCTION GetField( fld ) CLASS TTable
 	END
 
 RETURN AField
-
-/*
-	GetIndex
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetIndex( index ) CLASS TTable
-	LOCAL AIndex
-
-	SWITCH ValType( index )
-	CASE 'U'
-		AIndex := ::FIndex
-		EXIT
-	CASE 'C'
-		IF Empty( index )
-			AIndex := ::PrimaryIndex
-		ELSE
-			AIndex := ::IndexByName( index )
-		ENDIF
-		EXIT
-	CASE 'O'
-		IF index:IsDerivedFrom( "TIndex" )
-			AIndex := index
-			EXIT
-		ENDIF
-	OTHERWISE
-		RAISE ERROR "Unknown index reference..."
-	ENDSWITCH
-
-RETURN AIndex
 
 /*
 	GetInstance
@@ -2076,7 +2076,7 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION RawGet4Seek( direction, xField, keyVal, index, softSeek ) CLASS TTable
-	LOCAL AIndex := ::GetIndex( index )
+	LOCAL AIndex := ::FindIndex( index )
 
 RETURN AIndex:RawGet4Seek( direction, ::GetField( xField ):FieldReadBlock, keyVal, softSeek )
 
@@ -2085,7 +2085,7 @@ RETURN AIndex:RawGet4Seek( direction, ::GetField( xField ):FieldReadBlock, keyVa
 	Teo. Mexico 2008
 */
 METHOD FUNCTION RawSeek( Value, index ) CLASS TTable
-RETURN ::GetIndex( index ):RawSeek( Value )
+RETURN ::FindIndex( index ):RawSeek( Value )
 
 /*
 	RecLock
