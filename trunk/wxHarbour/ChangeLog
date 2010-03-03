@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-02 19:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed error on SkipFilter if 1st parameter is NIL (by default it has to be 1)
+
 2010-03-02 19:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TIndex.prg
   *  src/raddox/TTable.prg

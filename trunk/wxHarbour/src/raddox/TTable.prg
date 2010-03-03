@@ -2347,6 +2347,10 @@ METHOD FUNCTION SkipFilter( n, index ) CLASS TTable
 	LOCAL tagName
 	LOCAL o
 	LOCAL alias
+	
+	IF n = NIL
+		n := 1
+	ENDIF
 
 	IF n > 0
 		i := 1
