@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-03-02 19:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+     + added method
+       + DbSetFilter( block ) ; block gets TTable as parameter
+
 2010-03-02 16:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * renamed method ::GetIndex to ::FindIndex
