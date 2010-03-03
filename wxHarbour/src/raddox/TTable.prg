@@ -88,6 +88,7 @@ PROTECTED:
 	DATA FBof				INIT .T.
 	DATA FEof				INIT .T.
 	DATA FFieldList
+	DATA FFilter
 	DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
 	DATA FFound				INIT .F.
 	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
@@ -149,14 +150,16 @@ PUBLIC:
 	METHOD DefineRelations							VIRTUAL
 	METHOD Destroy()
 	METHOD DbEval( bBlock, bForCondition, bWhileCondition, index, scope )
-	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
+	METHOD DbGoBottom INLINE ::DbGoBottomTop( -1 )
 	METHOD DbGoTo( RecNo )
-	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
+	METHOD DbGoTop INLINE ::DbGoBottomTop( 1 )
+	METHOD DbSetFilter( filter ) INLINE ::FFilter := filter
 	METHOD DbSkip( numRecs )
 	METHOD Delete( lDeleteChilds )
 	METHOD DeleteChilds
 	METHOD Edit()
 	METHOD FieldByName( name, index )
+	METHOD FilterEval( index )
 	METHOD FindIndex( index )
 	METHOD FindMasterSourceField( detailField )
 	METHOD FindTable( table )
@@ -197,6 +200,7 @@ PUBLIC:
 	 */
 	METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
 	METHOD SkipBrowse( n )
+	METHOD SkipFilter( n, index )
 	METHOD StatePop()
 	METHOD StatePush()
 	METHOD SyncDetailSources
@@ -231,6 +235,7 @@ PUBLIC:
 	PROPERTY FieldList READ FFieldList
 	PROPERTY Found READ FFound
 	PROPERTY FieldTypes READ GetFieldTypes
+	PROPERTY Filter READ FFilter
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
 	PROPERTY KeyVal READ GetAlias():KeyVal()
@@ -828,18 +833,21 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TTable
 	ENDIF
 	
 	IF ::FIndex != NIL
-		IF n = 0
+		IF n = 1
 			RETURN ::FIndex:DbGoTop()
 		ELSE
 			RETURN ::FIndex:DbGoBottom()
 		ENDIF
 	ELSE
-		IF n = 0
+		IF n = 1
 			::Alias:DbGoTop()
 		ELSE
 			::Alias:DbGoBottom()
 		ENDIF
 		::GetCurrentRecord()
+		IF ::FFilter != NIL .AND. !::FFilter:Eval( Self )
+			::SkipFilter( n )
+		ENDIF
 	ENDIF
 
 RETURN .F.
@@ -848,7 +856,7 @@ RETURN .F.
 	DbGoTo
 	Teo. Mexico 2007
 */
-METHOD DbGoTo( RecNo ) CLASS TTable
+METHOD FUNCTION DbGoTo( RecNo ) CLASS TTable
 	LOCAL Result
 
 	Result := ::Alias:DbGoTo( RecNo )
@@ -866,11 +874,16 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
 	IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
 		::Post()
 	ENDIF
+
 	IF ::FIndex != NIL
 		::FIndex:DbSkip( numRecs )
 	ELSE
-		::Alias:DbSkip( numRecs )
-		::GetCurrentRecord()
+		IF ::FFilter = NIL
+			::Alias:DbSkip( numRecs )
+			::GetCurrentRecord()
+		ELSE
+			::SkipFilter( numRecs )
+		ENDIF
 	ENDIF
 
 RETURN
@@ -1078,6 +1091,21 @@ METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
 RETURN
 
 /*
+	FilterEval
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION FilterEval( index ) CLASS TTable
+	LOCAL table
+	
+	IF index != NIL .AND. index:associatedTable != NIL
+		table := index:associatedTable
+	ELSE
+		table := Self
+	ENDIF
+
+RETURN ( index = NIL .OR. index:Filter = NIL .OR. index:Filter:Eval( table ) ) .AND. ( table:Filter = NIL .OR. table:Filter:Eval( table ) )
+
+/*
 	FindDetailSourceField
 	Teo. Mexico 2007
 */
@@ -1262,7 +1290,7 @@ RETURN ::FAlias
 	GetAsString
 	Teo. Mexico 2009
 */
-METHOD GetAsString() CLASS TTable
+METHOD FUNCTION GetAsString() CLASS TTable
 	LOCAL pkField := ::GetPrimaryKeyField()
 
 	IF pkField == NIL
@@ -1275,7 +1303,7 @@ RETURN pkField:AsString
 	GetAsVariant
 	Teo. Mexico 2009
 */
-METHOD GetAsVariant() CLASS TTable
+METHOD FUNCTION GetAsVariant() CLASS TTable
 	LOCAL pkField := ::GetPrimaryKeyField()
 
 	IF pkField == NIL
@@ -2309,6 +2337,51 @@ METHOD FUNCTION SkipBrowse( n ) CLASS TTable
 	ENDIF
 
 RETURN num_skipped
+
+/*
+	SkipFilter
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION SkipFilter( n, index ) CLASS TTable
+	LOCAL i
+	LOCAL tagName
+	LOCAL o
+	LOCAL alias
+
+	IF n > 0
+		i := 1
+	ELSEIF n < 0
+		i := -1
+	ELSE
+		i := 0
+	ENDIF
+
+	n := Abs( n )
+	
+	IF index = NIL
+		tagName := NIL
+		o := Self
+		alias := ::Alias
+	ELSE
+		tagName := index:TagName
+		o := index
+		alias := index:GetAlias()
+	ENDIF
+
+	WHILE .T.
+		alias:DbSkip( i, tagName )
+		IF ! o:GetCurrentRecord()
+			RETURN .F.
+		ENDIF
+		IF ::FilterEval( index )
+			--n
+		ENDIF
+		IF n <= 0
+			EXIT
+		ENDIF
+	ENDDO
+
+RETURN .T.
 
 /*
 	StatePop

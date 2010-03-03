@@ -24,6 +24,7 @@ PRIVATE:
 	DATA FCaseSensitive INIT .F.
 	DATA FCustom INIT .F.
 	DATA FDescend INIT .F.
+	DATA FFilter
 	DATA FForKey
 	DATA FKeyField
 	DATA FName
@@ -54,8 +55,6 @@ PRIVATE:
 	METHOD SetScopeBottom( value )
 	METHOD SetScopeTop( value )
 PROTECTED:
-	METHOD GetAlias()
-	METHOD GetCurrentRecord()
 PUBLIC:
 
 	DATA associatedTable
@@ -71,12 +70,15 @@ PUBLIC:
 	METHOD BaseSeek( direction, keyValue, lSoftSeek )
 	METHOD CustomKeyDel
 	METHOD CustomKeyUpdate
-	METHOD DbGoBottom INLINE ::DbGoBottomTop( 1 )
-	METHOD DbGoTop INLINE ::DbGoBottomTop( 0 )
+	METHOD DbGoBottom INLINE ::DbGoBottomTop( -1 )
+	METHOD DbGoTop INLINE ::DbGoBottomTop( 1 )
+	METHOD DbSetFilter( filter ) INLINE ::FFilter := filter
 	METHOD DbSkip( numRecs )
 	METHOD ExistKey( keyValue )
 	METHOD Get4Seek( blk, keyVal, softSeek )
 	METHOD Get4SeekLast( blk, keyVal, softSeek )
+	METHOD GetAlias()
+	METHOD GetCurrentRecord()
 	METHOD InsideScope()
 	
 	METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
@@ -86,6 +88,7 @@ PUBLIC:
 	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RawSeek( Value )
 
+	PROPERTY Filter READ FFilter
 	PROPERTY IdxAlias READ GetIdxAlias WRITE SetIdxAlias
 	PROPERTY Scope READ GetScope WRITE SetScope
 	PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
@@ -212,7 +215,7 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 	ENDIF
 
 	::GetCurrentRecord()
-
+	
 RETURN ::FTable:Found()
 
 /*
@@ -275,10 +278,10 @@ RETURN
 METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
 	LOCAL masterKeyIndexVal := ::MasterKeyIndexVal
 	LOCAL alias
-	
+
 	alias := ::GetAlias()
-	
-	IF n = 0
+
+	IF n = 1
 		IF ::GetScopeTop() == ::GetScopeBottom()
 			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FTagName )
 		ELSE
@@ -291,8 +294,12 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
 			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FTagName, .T. )
 		ENDIF
 	ENDIF
-	
+
 	::GetCurrentRecord()
+
+	IF !::FTable:FilterEval( Self )
+		::FTable:SkipFilter( n, Self )
+	ENDIF
 
 RETURN ::FTable:Found()
 
@@ -301,11 +308,21 @@ RETURN ::FTable:Found()
 	Teo. Mexico 2007
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
+	LOCAL table
+	
+	IF ::associatedTable = NIL
+		table := ::FTable
+	ELSE
+		table := ::associatedTable
+	ENDIF
 
-	::GetAlias():DbSkip( numRecs, ::FTagName )
-
-	::GetCurrentRecord()
-
+	IF ::FFilter = NIL .AND. table:Filter = NIL
+		::GetAlias():DbSkip( numRecs, ::FTagName )
+		::GetCurrentRecord()
+	ELSE
+		::FTable:SkipFilter( numRecs, Self )
+	ENDIF
+	
 RETURN
 
 /*
@@ -321,7 +338,7 @@ RETURN ::GetAlias():ExistKey( ::MasterKeyIndexVal + iif( ::FCaseSensitive, ;
 			ENDIF
 			RETURN ( ::IdxAlias:workArea )->RecNo
 		} )
-	
+		
 /*
 	Get4Seek
 	Teo. Mexico 2009
@@ -350,14 +367,18 @@ RETURN ::IdxAlias
 	GetCurrentRecord
 	Teo. Mexico 2010
 */
-METHOD PROCEDURE GetCurrentRecord() CLASS TIndex
-	::FTable:GetCurrentRecord( ::GetIdxAlias() )
+METHOD FUNCTION GetCurrentRecord() CLASS TIndex
+	LOCAL result
+
+	result := ::FTable:GetCurrentRecord( ::GetIdxAlias() )
+
 	IF ::associatedTable != NIL
 		::associatedTable:ExternalIndexList[ ::ObjectH ] := NIL
-		::getRecNo:Eval( ::associatedTable, ::FTable )
+		result := ::getRecNo:Eval( ::associatedTable, ::FTable )
 		::associatedTable:ExternalIndexList[ ::ObjectH ] := Self
 	ENDIF
-RETURN
+
+RETURN result
 
 /*
 	GetField
