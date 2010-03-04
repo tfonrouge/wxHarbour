@@ -639,7 +639,9 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		/* @ GET */
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 
-			control:ChangeValue( ::TextValue() )
+			control:ChangeValue( RTrim( ::TextValue() ) )
+			//control:SetInsertionPoint( 0 )
+			//control:ShowPosition( 0 )
 			control:SetSelection()
 
 		/* @ RADIOBOX */
@@ -2072,6 +2074,10 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
 	*/
 
 	pickBtn := validator:Field != NIL .AND. !validator:Field:PickList == NIL
+	
+	IF size != NIL .AND. HB_IsChar( size[ 1 ] )
+		size[ 1 ] := Val( size[ 1 ] ) * parent:GetPointSize()
+	ENDIF
 
 	IF pickBtn
 #ifdef HB_OS_WIN_32

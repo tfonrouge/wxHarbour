@@ -1991,7 +1991,7 @@ RETURN
 
 /*
 	Post
-	Teo. Mexico 2006
+	Teo. Mexico 2010
 */
 METHOD FUNCTION Post() CLASS TTable
 	LOCAL AField
@@ -2023,9 +2023,11 @@ METHOD FUNCTION Post() CLASS TTable
 					RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
 				ENDIF
 
+				/*
 				IF AField:FieldMethodType = "C" .AND. AField:Changed
 					AField:SetData()
 				ENDIF
+				*/
 
 			NEXT
 

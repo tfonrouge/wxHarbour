@@ -43,7 +43,7 @@
 /*
  * differences between Harbour/xHarbour
  */
-#include "xhbcompat.h"
+typedef char BYTECHAR;
 
 #ifndef wxVERSION
 #define wxVERSION ( wxMAJOR_VERSION * 10000 + wxMINOR_VERSION * 100 + wxRELEASE_NUMBER )
