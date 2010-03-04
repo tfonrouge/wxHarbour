@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-03-04 17:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+     + added command for TTable objs:
+       + EVENT ONBEFORECHANGE FIELD <name> to handle ths type of events on TField's
+     - in TField objs, removed clause ON BEFORE CHANGE on ADD ... FIELD command
+
 2010-03-04 02:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * Using new method to get the parent window for the wxhBrowse control

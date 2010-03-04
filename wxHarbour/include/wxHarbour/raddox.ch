@@ -22,6 +22,11 @@
 #define dssAdding   1
 #define dssPosting  2
 
+/* Field events on TTable */
+#xtranslate EVENT ONBEFORECHANGE FIELD <!name!> ;
+	=> ;
+	METHOD OnBeforeChange_Field_<name>( field_<name>, value )
+
 #xtranslate ADD TABLE <tableName> [ <vt: VIRTUAL> ] [ INDEX <indexName> ] ;
 			=> ;
 			::cmdAddTable( <tableName>, [ <indexName> ], <.vt.> )
@@ -82,7 +87,6 @@
 						[ ON INDEXKEYVAL <bIndexKeyVal> ] ;
 						[ ON VALIDATE <bOnValidate> ] ;
 						[ ON SEARCH <bOnSearch> ] ;
-						[ ON BEFORE CHANGE <bOnBeforeChange> ] ;
 						[ ON AFTER CHANGE <bOnAfterChange> ] ;
 						[ VALIDVALUES <validValues> ] ;
 						[ USING <usingField> ] ;
@@ -113,13 +117,13 @@
 							[ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
 							[ :OnValidate := <bOnValidate> ] ;;
 							[ :OnSearch := <bOnSearch> ] ;;
-							[ :OnBeforeChange := <bOnBeforeChange> ] ;;
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;
 							[ :UsingField := <usingField> ] ;;
 							:AddFieldMessage() ;;
 							:ValidateFieldInfo() ;;
 						ENDWITH
+						
 						
 #xtranslate ADD ALIAS FIELD <aliasFldName> FROM <fld> ;
 			=> ;
