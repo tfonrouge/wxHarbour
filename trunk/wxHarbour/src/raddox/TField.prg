@@ -80,6 +80,7 @@ PROTECTED:
 	DATA FDBS_LEN
 	DATA FDBS_NAME
 	DATA FDBS_TYPE
+	DATA FEvtOnBeforeChange
 	DATA FFieldArrayIndex								// Array of TField's indexes in FieldList
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
@@ -150,7 +151,6 @@ PUBLISHED:
 	DATA OnSearch			// Search in indexed field
 	DATA OnSetText			// Params: Sender: TField, Text: String
 	DATA OnSetValue			// Parama:
-	DATA OnBeforeChange
 	DATA OnAfterChange				// Params: Sender: TField
 	DATA OnValidate			// Params: Sender: TField
 	
@@ -913,12 +913,14 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		ENDIF
 	ENDIF
 
-	IF ::OnBeforeChange != NIL
-		IF ! ::OnBeforeChange:Eval( Self, value )
-			RETURN
-		ENDIF
+	IF ::FEvtOnBeforeChange = NIL
+		::FEvtOnBeforeChange := __ObjHasMsgAssigned( ::FTable, "OnBeforeChange_Field_" + ::Name )
 	ENDIF
-	
+
+	IF ::FEvtOnBeforeChange .AND. !__ObjSendMsg( ::FTable, "OnBeforeChange_Field_" + ::Name, Self, Value )
+		RETURN
+	ENDIF
+
 	buffer := ::GetBuffer()
 
 	::SetBuffer( Value )
