@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-03-04 02:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * Using new method to get the parent window for the wxhBrowse control
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     % added method:
+       + ::GetBrowseParent : simply is the parent of the wxPanel that contains the whxBrowse
+         control
+
 2010-03-04 02:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * added command DEFINE EVENT ONAFTEROPEN / BEGIN EVENT ONAFTEROPEN to clearly show

@@ -359,9 +359,9 @@ RETURN
 METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS MyApp
 	LOCAL oBrw
 	oBrw := gridEvent:GetEventObject()
-	oBrw:GetParent():FindWindowByName( "key", oBrw:GetParent() ):SetLabel( ordKey() )
-	oBrw:GetParent():FindWindowByName( "for", oBrw:GetParent() ):SetLabel( ordFor() )
-	oBrw:GetParent():FindWindowByName( "keyval", oBrw:GetParent() ):SetValue( ordKeyVal() )
+	oBrw:GetBrowseParent():FindWindowByName( "key", oBrw:GetBrowseParent() ):SetLabel( ordKey() )
+	oBrw:GetBrowseParent():FindWindowByName( "for", oBrw:GetBrowseParent() ):SetLabel( ordFor() )
+	oBrw:GetBrowseParent():FindWindowByName( "keyval", oBrw:GetBrowseParent() ):SetValue( ordKeyVal() )
 RETURN
 
 /*
