@@ -2,6 +2,26 @@
  * $Id$
  */
 
+2010-03-04 02:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added command DEFINE EVENT ONAFTEROPEN / BEGIN EVENT ONAFTEROPEN to clearly show
+       the startup of a TTable in the source code
+
+  *  include/wxHarbour/wxh.h
+     ! Fixed unused include file
+
+  *  src/common/wxhfuncs.prg
+     * RTrim to value in ::TransferToWindow for wxTextCtrl's
+     * added capability to specify point size by sending a string with the numeric size desired
+
+  *  src/raddox/TField.prg
+     % mastersource field's now can modify his database field (of course this may lead to
+       invalidate the record respect his MasterSource table)
+     % added capability to return TTable's on calculated field's (CALCFIELD)
+
+  *  src/raddox/TTable.prg
+     % optimized the ::Post procedure
+
 2010-03-02 19:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed error on SkipFilter if 1st parameter is NIL (by default it has to be 1)

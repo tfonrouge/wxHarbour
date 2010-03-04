@@ -132,6 +132,7 @@
 	=> ;
 	DATA curClassIndex HIDDEN ;;
 	METHOD __DefineIndexes()
+#xtranslate DEFINE EVENT ONAFTEROPEN => METHOD OnAfterOpen()
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;
@@ -152,6 +153,13 @@
 						=> ;
 			Super:__DefineIndexes() ;;
 			RETURN
+			
+#xtranslate BEGIN EVENT ONAFTEROPEN CLASS <className> ;
+	=> ;
+	METHOD PROCEDURE OnAfterOpen() CLASS <className>
+#xtranslate END EVENT ONAFTEROPEN ;
+	=> ;
+	RETURN
 
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
 						METHOD PROCEDURE DefineMasterDetailFields CLASS <className>

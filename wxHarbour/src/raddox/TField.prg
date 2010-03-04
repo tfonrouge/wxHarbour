@@ -111,7 +111,7 @@ PUBLIC:
 	METHOD AsIndexKeyVal( value )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
-	METHOD GetAsVariant
+	METHOD GetAsVariant( ... )
 	METHOD GetBuffer()
 	METHOD GetEditText
 	METHOD GetData()
@@ -771,7 +771,7 @@ METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
 			RETURN
 		ENDIF
 
-		IF ::FTable:State = dsReading .OR. ::AutoIncrement .OR. ::IsMasterFieldComponent
+		IF ::FTable:State = dsReading .OR. ::AutoIncrement
 			::SetBuffer( Value )
 			RETURN
 		ENDIF
@@ -942,16 +942,11 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		::FTable:Alias:Eval( ::FFieldWriteBlock, Value )
 		
 		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
-
+		
 		/* fill undolist */
 		IF ::FTable:State = dsEdit .AND. ! HB_HHasKey( ::FTable:UndoList, ::FName )
 			::FTable:UndoList[ ::FName ] := buffer
 		ENDIF
-
-		/* Check if has to update Custom Index */
-		//IF ::CustomIndexed
-			//::CustomIndexUpdate()
-		//ENDIF
 
 		/*
 		 * Check if has to propagate change to child sources
@@ -963,12 +958,17 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		IF ::OnAfterChange != NIL
 			::OnAfterChange:Eval( Self, buffer )
 		ENDIF
-
+		
 	RECOVER USING errObj
 
 		SHOW ERROR errObj
 
 	END
+
+	/* masterkey field's aren't changed here */
+	IF ::IsMasterFieldComponent
+		::Reset()  /* retrieve the masterfield value */
+	ENDIF
 
 RETURN
 
@@ -998,7 +998,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
 	CASE "A"
-		::FReadOnly := .T.
+		//::FReadOnly := .T.
 		IF ::IsDerivedFrom("TStringField")
 			::FSize := 0
 		ENDIF
@@ -1544,10 +1544,12 @@ PRIVATE:
 	DATA FObjValue
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
-	METHOD GetSize INLINE Len( ::LinkedTable:GetPrimaryKeyField() )
+	METHOD GetSize INLINE ::GetReferenceField():Size
 	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
 	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
+	DATA FCalcMethod
+	DATA FHasCalculatedMethod INIT .F.
 	DATA FType INIT "ObjectField"
 	DATA FValType INIT "O"
 	METHOD GetLinkedTable
@@ -1556,6 +1558,7 @@ PUBLIC:
 	METHOD DataObj
 	METHOD AsIndexKeyVal( value )
 	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
+	METHOD GetAsVariant( ... )
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
@@ -1587,8 +1590,18 @@ RETURN pkField:AsIndexKeyVal( value )
 	Teo. Mexico 2009
 */
 METHOD FUNCTION DataObj CLASS TObjectField
-	LOCAL linkedTable := ::LinkedTable
+	LOCAL linkedTable
 	LOCAL linkedObjField
+
+	IF ::FHasCalculatedMethod
+		RETURN ::FFieldReadBlock:Eval( ::FTable )
+	ENDIF
+
+	linkedTable := ::LinkedTable
+	
+	IF ::FHasCalculatedMethod
+		RETURN linkedTable
+	ENDIF
 
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 	
@@ -1615,6 +1628,13 @@ METHOD FUNCTION GetAsString CLASS TObjectField
 	Result := ::GetBuffer()
 
 RETURN Result
+
+/*
+	GetAsVariant
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
+RETURN Super:GetAsVariant( ... )
 
 /*
 	GetLinkedTable
@@ -1644,6 +1664,12 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
 				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjValue ) )
 					linkedTableMasterSource := ::FTable
+				ENDIF
+				IF __ObjHasMsgAssigned( ::FTable, "CalcField_" + ::Name )
+					::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
+					::FHasCalculatedMethod := .T.
+					RETURN ::FFieldReadBlock:Eval( ::FTable )
+				ELSE
 				ENDIF
 				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
 			ENDIF
@@ -1676,7 +1702,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			 * belongs to a some TObjectField in some MasterSource table
 			 * so this TObjectField cannot modify the physical database here
 			 */
-			::ReadOnly := .T.
+			//::ReadOnly := .T.
 		ENDIF
 
 	ENDIF
