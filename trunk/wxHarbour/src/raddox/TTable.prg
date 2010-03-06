@@ -193,6 +193,7 @@ PUBLIC:
 	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
 	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
 	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
+	METHOD SetKey( key )
 	/*
 	 * TODO: Enhance this to:
 	 *			 <order> can be "fieldname" or "fieldname1;fieldname2"
@@ -1880,7 +1881,7 @@ METHOD FUNCTION InsideScope() CLASS TTable
 		RETURN .F.
 	ENDIF
 
-RETURN primaryIndex == ::Index .OR. ::Index:InsideScope()
+RETURN ::FIndex = NIL .OR. primaryIndex == ::FIndex .OR. ::FIndex:InsideScope()
 
 /*
 	OnDataChange
@@ -2215,6 +2216,16 @@ METHOD PROCEDURE SetIndexName( indexName ) CLASS TTable
 	ENDIF
 
 RETURN
+
+/*
+	SetKey
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION SetKey( key ) CLASS TTable
+	IF ! key == ::Value
+		::Value := key
+	ENDIF
+RETURN Self
 
 /*
 	SetMasterSource
