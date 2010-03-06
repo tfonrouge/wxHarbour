@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-03-06 11:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     + added PROPERTY:
+       + Key : does that SetAsVariant does now, this to avoid abiguity in coding
+
+
 2010-03-04 17:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TField.prg
