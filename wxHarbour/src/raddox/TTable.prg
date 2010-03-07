@@ -171,6 +171,7 @@ PUBLIC:
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
+	METHOD GetKeyVal() INLINE ::FIndex:GetKeyVal()
 	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
@@ -188,12 +189,12 @@ PUBLIC:
 	METHOD RecLock
 	METHOD RecUnLock
 	METHOD Refresh
-	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyIndexVal Value
+	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyVal Value
 	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
 	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
 	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
 	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
-	METHOD SetKey( key )
+	METHOD SetKeyVal( keyVal )
 	/*
 	 * TODO: Enhance this to:
 	 *			 <order> can be "fieldname" or "fieldname1;fieldname2"
@@ -239,7 +240,7 @@ PUBLIC:
 	PROPERTY Filter READ FFilter
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
-	PROPERTY KeyVal READ GetAlias():KeyVal()
+	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY PrimaryIndexList READ FPrimaryIndexList
 	PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
 	PROPERTY RDOClient READ FRDOClient
@@ -767,7 +768,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 			{|Self|
 				index:IdxAlias:AddRec()
 				index:IdxAlias:SetFieldValue( "RECNO", ::RecNo() )
-				index:IdxAlias:SetFieldValue( fldName, index:MasterKeyIndexVal + index:KeyIndexVal )
+				index:IdxAlias:SetFieldValue( fldName, index:MasterKeyVal + index:KeyVal )
 				RETURN NIL
 			}, NIL, NIL, index:useIndex )
 	ENDIF
@@ -1951,17 +1952,17 @@ RETURN ::Alias:OrdCondSet( ... )
 */
 METHOD PROCEDURE OrdCreate( ... ) CLASS TTable
 	LOCAL scopeTop, scopeBottom
-	LOCAL masterKeyIndexVal
+	LOCAL masterKeyVal
 	LOCAL syncFromAlias := ::DisplayFields:__FSyncFromAlias
 	LOCAL oDlg
 
 	DbSelectArea( ::Alias:Name )
 	
 	IF !Empty( ::IndexName )
-		masterKeyIndexVal := ::Index:MasterKeyIndexVal
+		masterKeyVal := ::Index:MasterKeyVal
 		OrdSetFocus( ::IndexName )
-		scopeTop := ordScope( 0, RTrim( masterKeyIndexVal + ::Index:ScopeTop() ) )
-		scopeBottom := ordScope( 1, masterKeyIndexVal + ::Index:ScopeBottom() )
+		scopeTop := ordScope( 0, RTrim( masterKeyVal + ::Index:ScopeTop() ) )
+		scopeBottom := ordScope( 1, masterKeyVal + ::Index:ScopeBottom() )
 	ENDIF
 
 	//DbGoTop()
@@ -2218,13 +2219,11 @@ METHOD PROCEDURE SetIndexName( indexName ) CLASS TTable
 RETURN
 
 /*
-	SetKey
+	SetKeyVal
 	Teo. Mexico 2010
 */
-METHOD FUNCTION SetKey( key ) CLASS TTable
-	IF ! key == ::Value
-		::Value := key
-	ENDIF
+METHOD FUNCTION SetKeyVal( keyVal ) CLASS TTable
+	::FIndex:SetKeyVal( keyVal )
 RETURN Self
 
 /*

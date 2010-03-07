@@ -95,6 +95,7 @@ PROTECTED:
 	METHOD GetDefaultValue
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
+	METHOD GetFieldReadBlock()
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
@@ -109,21 +110,22 @@ PUBLIC:
 	CONSTRUCTOR New( Table )
 
 	METHOD AddFieldMessage()
-	METHOD AsIndexKeyVal( value )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
 	METHOD GetAsVariant( ... )
 	METHOD GetBuffer()
 	METHOD GetEditText
 	METHOD GetData()
+	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
 	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
-	METHOD SetAsVariant( rawValue )
+	METHOD SetAsVariant( value )
 	METHOD SetData( Value )
 	METHOD SetEditText( Text )
+	METHOD SetKeyVal( keyVal )
 	METHOD ValidateFieldInfo VIRTUAL
 
 	PROPERTY AsString READ GetAsString WRITE SetAsString
@@ -131,6 +133,7 @@ PUBLIC:
 	PROPERTY Calculated READ FCalculated
 	PROPERTY DisplayText READ GetEditText
 	PROPERTY EmptyValue READ GetEmptyValue
+	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY PickList READ FPickList WRITE SetPickList
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
@@ -170,7 +173,7 @@ PUBLISHED:
 	PROPERTY FieldExpression READ FFieldExpression WRITE SetFieldMethod
 	PROPERTY FieldMethod READ GetFieldMethod WRITE SetFieldMethod
 	PROPERTY FieldMethodType READ FFieldMethodType
-	PROPERTY FieldReadBlock READ FFieldReadBlock
+	PROPERTY FieldReadBlock READ GetFieldReadBlock
 	PROPERTY Group READ FGroup WRITE SetGroup
 	PROPERTY KeyIndex READ FKeyIndex WRITE SetKeyIndex
 	PROPERTY Label READ GetLabel WRITE SetLabel
@@ -224,42 +227,6 @@ RETURN Self
 METHOD PROCEDURE AddFieldMessage() CLASS TField
 	::FTable:AddFieldMessage( ::Name, Self )
 RETURN
-
-/*
-	AsIndexKeyVal
-	Teo. Mexico 2010
-*/
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TField
-	LOCAL AField
-	LOCAL i
-
-	IF value == NIL
-		IF ::FFieldMethodType = "A"
-			value := ""
-			FOR EACH i IN ::FFieldArrayIndex
-				AField := ::FTable:FieldList[ i ]
-				value += AField:AsIndexKeyVal
-			NEXT
-		ELSE
-			value := ::GetAsVariant()
-		ENDIF
-	ENDIF
-	
-	IF ::OnGetIndexKeyVal != NIL
-		value := ::OnGetIndexKeyVal:Eval( value )
-	ENDIF
-
-	SWITCH ValType( value )
-	CASE 'C'
-	CASE 'M'
-		RETURN value
-	CASE 'D'
-		RETURN DToS( value )
-	OTHERWISE
-		value := AsString( value )
-	ENDSWITCH
-
-RETURN value
 
 /*
 	Delete
@@ -331,29 +298,7 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
 			EXIT
 	CASE "C"
 		IF ::FCalculated
-			IF ::FFieldReadBlock == NIL
-				IF __ObjHasMsg( Self:FTable, "CalcField_" + ::FName )
-					::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
-				ELSE
-					IF __ObjHasMsg( Self:FTable:MasterSource, "CalcField_" + ::FName )
-						::FFieldReadBlock := &("{|o|" + "o:MasterSource:CalcField_" + ::FName + " }")
-					ELSE
-						IF __ObjHasMsg( Self:FTable:MasterSource, "Field_" + ::FName )
-							::FFieldReadBlock := &("{|o|" + "o:MasterSource:Field_" + ::FName + ":GetAsVariant() }")
-						ELSE
-							IF Empty( ::FFieldExpression )
-								RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
-							ELSEIF ::IsDerivedFrom("TObjectField")
-								::FFieldReadBlock := {|| ::LinkedTable:Value }
-							ELSE
-								::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
-							ENDIF
-						ENDIF
-					ENDIF
-				ENDIF
-			ENDIF
-			//Result := ::FFieldReadBlock:Eval( ::FTable )
-			Result := ::FTable:Alias:Eval( ::FFieldReadBlock, ::FTable, ... )
+			Result := ::FTable:Alias:Eval( ::FieldReadBlock, ::FTable, ... )
 		ELSE
 			Result := ::GetBuffer()
 		ENDIF
@@ -374,7 +319,7 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
 	AIndex := ::FAutoIncrementKeyIndex
 
-	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyIndexVal, AIndex:TagName )
+	value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyVal, AIndex:TagName )
 
 	IF ::IncrementBlock = NIL
 		value := Inc( value )
@@ -433,7 +378,7 @@ METHOD PROCEDURE GetData() CLASS TField
 		IF ::FCalculated
 			::SetBuffer( ::GetAsVariant() )
 		ELSE
-			::SetBuffer( ::Table:Alias:Eval( ::FFieldReadBlock ) )
+			::SetBuffer( ::Table:Alias:Eval( ::FieldReadBlock ) )
 		ENDIF
 		EXIT
 	CASE 'A'
@@ -513,6 +458,70 @@ METHOD FUNCTION GetFieldMethod CLASS TField
 RETURN NIL
 
 /*
+	GetFieldReadBlock
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetFieldReadBlock() CLASS TField
+	IF ::FFieldReadBlock == NIL
+		IF __ObjHasMsgAssigned( ::FTable, "CalcField_" + ::FName )
+			::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
+		ELSE
+			IF __ObjHasMsgAssigned( ::FTable:MasterSource, "CalcField_" + ::FName )
+				::FFieldReadBlock := &("{|o|" + "o:MasterSource:CalcField_" + ::FName + " }")
+			ELSE
+				IF __ObjHasMsgAssigned( ::FTable:MasterSource, "Field_" + ::FName )
+					::FFieldReadBlock := &("{|o|" + "o:MasterSource:Field_" + ::FName + ":GetAsVariant() }")
+				ELSE
+					IF Empty( ::FFieldExpression )
+						RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+					ELSEIF ::IsDerivedFrom("TObjectField")
+						::FFieldReadBlock := {|| ::LinkedTable }
+					ELSE
+						::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+RETURN ::FFieldReadBlock
+
+/*
+	GetKeyVal
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
+	LOCAL AField
+	LOCAL i
+
+	IF keyVal == NIL
+		IF ::FFieldMethodType = "A"
+			keyVal := ""
+			FOR EACH i IN ::FFieldArrayIndex
+				AField := ::FTable:FieldList[ i ]
+				keyVal += AField:GetKeyVal()
+			NEXT
+		ELSE
+			keyVal := ::GetAsVariant()
+		ENDIF
+	ENDIF
+	
+	IF ::OnGetIndexKeyVal != NIL
+		keyVal := ::OnGetIndexKeyVal:Eval( keyVal )
+	ENDIF
+
+	SWITCH ValType( keyVal )
+	CASE 'C'
+	CASE 'M'
+		RETURN keyVal
+	CASE 'D'
+		RETURN DToS( keyVal )
+	OTHERWISE
+		keyVal := AsString( keyVal )
+	ENDSWITCH
+
+RETURN keyVal
+
+/*
 	GetUndoValue
 	Teo. Mexico 2009
 */
@@ -563,7 +572,7 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 		RETURN .F.
 	ENDIF
 	 */		 
-		IF ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal( value ) )
+		IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
 			IF showAlert == .T.
 				wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( value ) + "'")
 			ENDIF
@@ -703,91 +712,61 @@ RETURN result
 
 /*
 	SetAsVariant
-	Teo. Mexico 2006
+	Teo. Mexico 2010
 */
-METHOD PROCEDURE SetAsVariant( rawValue ) CLASS TField
-	LOCAL Value
+METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 
 	IF ::FTable:ReadOnly .OR. ::Table:State = dsInactive
 		RETURN
 	ENDIF
 	
-	/* if Browsing then do a SeekKey() with the rawValue */
-	IF ::FTable:State = dsBrowse
-	
-		IF ::IsKeyIndex
+	SWITCH ::FTable:State
+	CASE dsBrowse
+
+		::SetKeyVal( value )
 		
-			IF ::OnSearch != NIL
-				::OnSearch:Eval( Self )
-			ENDIF
-
-			IF !Empty( rawValue )
-				::KeyIndex:Seek( rawValue )
-			ELSE
-				::FTable:DbGoTo( 0 )
-			ENDIF
-
-			IF ::FTable:LinkedObjField != NIL
-
-				IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
-					::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
-				ENDIF
-
-				IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
-					::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
-				ENDIF
-				
-			ENDIF
-
-		ELSE
-	
-			//RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
-			//wxhAlert( "Field '" + ::FName + "' has no Index in the Table..." )
-			//Beep()
-
-		ENDIF
-
-		RETURN
-
-	ENDIF
-
-	IF AScan( { dsEdit, dsInsert, dsReading }, ::FTable:State ) = 0
-		RAISE TFIELD ::Name ERROR "Table not in Edit or Insert or Reading mode"
-		RETURN
-	ENDIF
-
-	Value := rawValue
-
-	SWITCH ::FFieldMethodType
-	CASE "A"
-
-		RAISE TFIELD ::Name ERROR "Trying to assign a value to a compound TField."
-
 		EXIT
 
-	CASE "C"
+	CASE dsEdit
+	CASE dsInsert
+	CASE dsReading
 
-		IF ::ReadOnly
+		SWITCH ::FFieldMethodType
+		CASE "A"
+
+			RAISE TFIELD ::Name ERROR "Trying to assign a value to a compound TField."
+
+			EXIT
+
+		CASE "C"
+
+			IF ::ReadOnly
+				RETURN
+			ENDIF
+
+			IF ::FTable:State = dsReading .OR. ::AutoIncrement
+				::SetBuffer( value )
+				RETURN
+			ENDIF
+
+			/* Check if we are really changing values here */
+			IF value == ::GetBuffer()
+				RETURN
+			ENDIF
+
+			::SetData( value )
+
 			RETURN
-		ENDIF
 
-		IF ::FTable:State = dsReading .OR. ::AutoIncrement
-			::SetBuffer( Value )
-			RETURN
-		ENDIF
-
-		/* Check if we are really changing values here */
-		IF value == ::GetBuffer()
-			RETURN
-		ENDIF
-
-		::SetData( Value )
-
-		RETURN
+		ENDSWITCH
+		
+		EXIT
 
 	OTHERWISE
 
-	END
+		RAISE TFIELD ::Name ERROR "Table not in Edit or Insert or Reading mode"
+
+	ENDSWITCH
 
 RETURN
 
@@ -883,7 +862,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		nTries := 1000
 		WHILE .T.
 			Value := ::GetAutoIncrementValue()
-			IF !::FAutoIncrementKeyIndex:ExistKey( ::AsIndexKeyVal( Value ) )
+			IF !::FAutoIncrementKeyIndex:ExistKey( ::GetKeyVal( Value ) )
 				EXIT
 			ENDIF
 			IF	(--nTries = 0)
@@ -936,7 +915,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		/*
 		 * Check for a key violation
 		 */
-		IF ::IsPrimaryKeyField .AND. ::FUniqueKeyIndex:ExistKey( ::AsIndexKeyVal() )
+		IF ::IsPrimaryKeyField .AND. ::FUniqueKeyIndex:ExistKey( ::GetKeyVal() )
 			RAISE TFIELD ::Name ERROR "Key violation."
 		ENDIF
 	
@@ -1051,7 +1030,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		::FDBS_NAME := FieldMethod
 
 		IF ::FTable:Alias != NIL .AND. ::FTable:Alias:FieldPos( FieldMethod ) > 0
-			::FFieldReadBlock	 := FieldBlock( FieldMethod )
+			::FFieldReadBlock := FieldBlock( FieldMethod )
 			::FFieldWriteBlock := FieldBlock( FieldMethod )
 			n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
 			/*!
@@ -1122,6 +1101,45 @@ METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TFiel
 RETURN
 
 /*
+	SetKeyVal
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
+
+	IF ::IsKeyIndex
+	
+		IF ::OnSearch != NIL
+			::OnSearch:Eval( Self )
+		ENDIF
+
+		IF !Empty( keyVal )
+			::KeyIndex:Seek( keyVal )
+		ELSE
+			::FTable:DbGoTo( 0 )
+		ENDIF
+
+		IF ::FTable:LinkedObjField != NIL
+
+			IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
+				::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
+			ENDIF
+
+			IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
+				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
+			ENDIF
+			
+		ENDIF
+
+	ELSE
+
+		RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
+		//wxhAlert( "Field '" + ::FName + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
+
+	ENDIF
+
+RETURN Self
+
+/*
 	SetName
 	Teo. Mexico 2006
 */
@@ -1136,7 +1154,7 @@ METHOD PROCEDURE SetName( name ) CLASS TField
 RETURN
 
 /*
-	SetPickList<
+	SetPickList
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetPickList( pickList ) CLASS TField
@@ -1551,14 +1569,13 @@ PRIVATE:
 	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
 PROTECTED:
 	DATA FCalcMethod
-	DATA FHasCalculatedMethod INIT .F.
 	DATA FType INIT "ObjectField"
 	DATA FValType INIT "O"
 	METHOD GetLinkedTable
 	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
 PUBLIC:
 	METHOD DataObj
-	METHOD AsIndexKeyVal( value )
+	METHOD GetKeyVal( keyVal )
 	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
 	METHOD GetAsVariant( ... )
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
@@ -1570,21 +1587,21 @@ PUBLISHED:
 ENDCLASS
 
 /*
-	AsIndexKeyVal
+	GetKeyVal
 	Teo. Mexico 2009
 */
-METHOD FUNCTION AsIndexKeyVal( value ) CLASS TObjectField
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
 	LOCAL pkField
 	
-	value := Super:AsIndexKeyVal( value )
+	keyVal := Super:GetKeyVal( keyVal )
 
 	pkField := ::GetReferenceField()
 	
 	IF pkField = NIL
-		RETURN value
+		RETURN keyVal
 	ENDIF
 
-RETURN pkField:AsIndexKeyVal( value )
+RETURN pkField:GetKeyVal( keyVal )
 
 /*
 	DataObj
@@ -1594,26 +1611,23 @@ RETURN pkField:AsIndexKeyVal( value )
 METHOD FUNCTION DataObj CLASS TObjectField
 	LOCAL linkedTable
 	LOCAL linkedObjField
+	LOCAL keyVal
 
-	IF ::FHasCalculatedMethod
-		RETURN ::FFieldReadBlock:Eval( ::FTable )
+	IF ::FCalculated
+		RETURN ::FieldReadBlock:Eval( ::FTable )
 	ENDIF
 
 	linkedTable := ::LinkedTable
-	
-	IF ::FHasCalculatedMethod
-		RETURN linkedTable
-	ENDIF
 
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
-	
+
 	ELSE
+		keyVal := ::GetAsVariant()
 		/* Syncs with the current value */
-		//? ::LinkedTable:Value, "==", ::Value
-		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:Value == ::Value
+		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:KeyVal == keyVal
 			linkedObjField := linkedTable:LinkedObjField
 			linkedTable:LinkedObjField := NIL
-			linkedTable:Value := ::Value
+			linkedTable:SetKeyVal( keyVal )
 			linkedTable:LinkedObjField := linkedObjField
 		ENDIF
 	ENDIF
@@ -1666,12 +1680,6 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
 				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjValue ) )
 					linkedTableMasterSource := ::FTable
-				ENDIF
-				IF __ObjHasMsgAssigned( ::FTable, "CalcField_" + ::Name )
-					::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
-					::FHasCalculatedMethod := .T.
-					RETURN ::FFieldReadBlock:Eval( ::FTable )
-				ELSE
 				ENDIF
 				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
 			ENDIF

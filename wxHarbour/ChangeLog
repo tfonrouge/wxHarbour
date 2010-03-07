@@ -2,11 +2,28 @@
  * $Id$
  */
 
+2010-03-06 20:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * added missing entry in previous commit
+
+  *  src/raddox/TField.prg
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+     + added ::GetFieldReadBlock to solve the ::FFieldReadBlock value
+     * renamed AsIndexKeyVal to GetKeyVal
+     + added method:
+       + SetKeyVal: perform a search based on the index associated to the field
+     + added PROPERTY
+       ::KeyVal: GetKeyVal/SetKeyVal
+     * renamed all *KeyIndexVal method names to KeyVal
+     * simplified ::SetAsVariant
+     % solving calculated values for TObjectField's on ::DataObj
+
 2010-03-06 11:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      + added PROPERTY:
        + Key : does that SetAsVariant does now, this to avoid abiguity in coding
-
+     ! added protection against non current index in the table
 
 2010-03-04 17:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
