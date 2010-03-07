@@ -39,8 +39,7 @@ PRIVATE:
 	METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyField != NIL
 	METHOD GetField
 	METHOD GetIdxAlias()
-	METHOD GetKeyIndexVal()
-	METHOD GetMasterKeyIndexVal()
+	METHOD GetMasterKeyVal()
 	METHOD GetScope INLINE iif( ::FScopeBottom == NIL .AND. ::FScopeTop == NIL, NIL, { ::FScopeTop, ::FScopeBottom } )
 	METHOD GetScopeBottom INLINE iif( !Empty( ::FScopeBottom ), ::FScopeBottom, "" )
 	METHOD GetScopeTop INLINE iif( !Empty( ::FScopeTop ), ::FScopeTop, "" )
@@ -74,6 +73,7 @@ PUBLIC:
 	METHOD DbGoTop INLINE ::DbGoBottomTop( 1 )
 	METHOD DbSetFilter( filter ) INLINE ::FFilter := filter
 	METHOD DbSkip( numRecs )
+	METHOD GetKeyVal()
 	METHOD ExistKey( keyValue )
 	METHOD Get4Seek( blk, keyVal, softSeek )
 	METHOD Get4SeekLast( blk, keyVal, softSeek )
@@ -87,9 +87,12 @@ PUBLIC:
 	
 	METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
 	METHOD RawSeek( Value )
+	
+	METHOD SetKeyVal( keyVal )
 
 	PROPERTY Filter READ FFilter
 	PROPERTY IdxAlias READ GetIdxAlias WRITE SetIdxAlias
+	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY Scope READ GetScope WRITE SetScope
 	PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
 	PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
@@ -105,11 +108,10 @@ PUBLISHED:
 	PROPERTY Descend READ FDescend WRITE SetDescend
 	PROPERTY ForKey READ FForKey WRITE SetForKey
 	PROPERTY KeyField INDEX 3 READ GetField WRITE SetField
-	PROPERTY KeyIndexVal READ GetKeyIndexVal
 	PROPERTY UniqueKeyField INDEX 2 READ GetField WRITE SetField
 	PROPERTY Name READ FName
 	PROPERTY MasterKeyField INDEX 0 READ GetField WRITE SetField
-	PROPERTY MasterKeyIndexVal READ GetMasterKeyIndexVal
+	PROPERTY MasterKeyVal READ GetMasterKeyVal
 	PROPERTY Table READ FTable
 	PROPERTY TagName READ FTagName
 	PROPERTY Unique READ GetUnique
@@ -206,12 +208,12 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 		::FTable:Post()
 	ENDIF
 
-	keyValue := ::KeyField:AsIndexKeyVal( keyValue )
+	keyValue := ::KeyField:GetKeyVal( keyValue )
 
 	IF direction = 0
-		alias:Seek( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
+		alias:Seek( ::MasterKeyVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
 	ELSE
-		alias:SeekLast( ::MasterKeyIndexVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
+		alias:SeekLast( ::MasterKeyVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
 	ENDIF
 
 	::GetCurrentRecord()
@@ -276,22 +278,22 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD FUNCTION DbGoBottomTop( n ) CLASS TIndex
-	LOCAL masterKeyIndexVal := ::MasterKeyIndexVal
+	LOCAL masterKeyVal := ::MasterKeyVal
 	LOCAL alias
 
 	alias := ::GetAlias()
 
 	IF n = 1
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FTagName )
+			alias:Seek( masterKeyVal + ::GetScopeTop(), ::FTagName )
 		ELSE
-			alias:Seek( masterKeyIndexVal + ::GetScopeTop(), ::FTagName, .T. )
+			alias:Seek( masterKeyVal + ::GetScopeTop(), ::FTagName, .T. )
 		ENDIF
 	ELSE
 		IF ::GetScopeTop() == ::GetScopeBottom()
-			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FTagName )
+			alias:SeekLast( masterKeyVal + ::GetScopeBottom() , ::FTagName )
 		ELSE
-			alias:SeekLast( masterKeyIndexVal + ::GetScopeBottom() , ::FTagName, .T. )
+			alias:SeekLast( masterKeyVal + ::GetScopeBottom() , ::FTagName, .T. )
 		ENDIF
 	ENDIF
 
@@ -330,7 +332,7 @@ RETURN
 	Teo. Mexico 2007
 */
 METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
-RETURN ::GetAlias():ExistKey( ::MasterKeyIndexVal + iif( ::FCaseSensitive, ;
+RETURN ::GetAlias():ExistKey( ::MasterKeyVal + iif( ::FCaseSensitive, ;
 	keyValue, Upper( keyValue ) ), ::FTagName, ;
 		{||
 			IF ::IdxAlias = NIL
@@ -415,35 +417,35 @@ METHOD FUNCTION GetIdxAlias() CLASS TIndex
 RETURN ::FTable:aliasIdx
 
 /*
-	GetKeyIndexVal
+	GetKeyVal
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetKeyIndexVal() CLASS TIndex
+METHOD FUNCTION GetKeyVal() CLASS TIndex
 
 	IF ::FKeyField == NIL
-		RETURN "" //::FTable:PrimaryMasterKeyString
+		RETURN ""
 	ENDIF
 
-RETURN iif( ::FCaseSensitive, ::FKeyField:AsIndexKeyVal, Upper( ::FKeyField:AsIndexKeyVal ) )
+RETURN iif( ::FCaseSensitive, ::FKeyField:GetKeyVal, Upper( ::FKeyField:GetKeyVal ) )
 
 /*
-	GetMasterKeyIndexVal
+	GetMasterKeyVal
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetMasterKeyIndexVal() CLASS TIndex
+METHOD FUNCTION GetMasterKeyVal() CLASS TIndex
 
 	IF ::FMasterKeyField == NIL
 		RETURN "" //::FTable:PrimaryMasterKeyString
 	ENDIF
 
-RETURN ::FMasterKeyField:AsIndexKeyVal
+RETURN ::FMasterKeyField:GetKeyVal
 
 /*
 	InsideScope
 	Teo. Mexico 2008
 */
 METHOD FUNCTION InsideScope() CLASS TIndex
-	LOCAL masterKeyIndexVal
+	LOCAL masterKeyVal
 	LOCAL scopeVal
 	LOCAL keyValue
 	
@@ -457,16 +459,16 @@ METHOD FUNCTION InsideScope() CLASS TIndex
 		RETURN .F.
 	ENDIF
 
-	masterKeyIndexVal := ::MasterKeyIndexVal
+	masterKeyVal := ::MasterKeyVal
 	
 	scopeVal := ::GetScope()
 	
 	IF scopeVal == NIL
-		RETURN masterKeyIndexVal == "" .OR. keyValue = masterKeyIndexVal
+		RETURN masterKeyVal == "" .OR. keyValue = masterKeyVal
 	ENDIF
 	
-RETURN keyValue >= ( masterKeyIndexVal + ::GetScopeTop() ) .AND. ;
-			 keyValue <= ( masterKeyIndexVal + ::GetScopeBottom() )
+RETURN keyValue >= ( masterKeyVal + ::GetScopeTop() ) .AND. ;
+			 keyValue <= ( masterKeyVal + ::GetScopeBottom() )
 
 /*
 	RawGet4Seek
@@ -475,9 +477,9 @@ RETURN keyValue >= ( masterKeyIndexVal + ::GetScopeTop() ) .AND. ;
 METHOD FUNCTION RawGet4Seek( direction, blk, keyVal, softSeek ) CLASS TIndex
 
 	IF keyVal = NIL
-		keyVal := ::MasterKeyIndexVal
+		keyVal := ::MasterKeyVal
 	ELSE
-		keyVal := ::MasterKeyIndexVal + keyVal
+		keyVal := ::MasterKeyVal + keyVal
 	ENDIF
 
 RETURN ::GetAlias():RawGet4Seek( direction, blk, keyVal, ::FTagName, softSeek )
@@ -602,6 +604,16 @@ METHOD PROCEDURE SetIdxAlias( alias ) CLASS TIndex
 		::FTable:aliasIdx := alias
 	ENDIF
 RETURN
+
+/*
+	SetKeyVal
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION SetKeyVal( keyVal ) CLASS TIndex
+
+	::FKeyField:SetKeyVal( keyVal )
+
+RETURN Self
 
 /*
 	SetScope
