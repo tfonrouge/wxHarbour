@@ -2422,7 +2422,8 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE StatePush() CLASS TTable
-	
+	LOCAL obj
+
 	IF Len( ::tableState ) < ++::tableStateLen
 		AAdd( ::tableState, {=>} )
 	ENDIF
@@ -2435,7 +2436,9 @@ METHOD PROCEDURE StatePush() CLASS TTable
 	
 	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "FieldListNew" )
 		::FFieldList := {}
-		::__DefineFields()
+		FOR EACH obj IN ::tableState[ ::tableStateLen ]["FieldList"]
+			AAdd( ::FFieldList, __ObjClone( obj ) )
+		NEXT
 		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
 	ELSE
 		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]

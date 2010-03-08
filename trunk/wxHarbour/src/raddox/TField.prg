@@ -472,12 +472,12 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
 				IF __ObjHasMsgAssigned( ::FTable:MasterSource, "Field_" + ::FName )
 					::FFieldReadBlock := &("{|o|" + "o:MasterSource:Field_" + ::FName + ":GetAsVariant() }")
 				ELSE
-					IF Empty( ::FFieldExpression )
-						RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
-					ELSEIF ::IsDerivedFrom("TObjectField")
-						::FFieldReadBlock := {|| ::LinkedTable }
-					ELSE
-						::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
+					IF !::IsDerivedFrom("TObjectField")
+						IF Empty( ::FFieldExpression )
+							RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+						ELSE
+							::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
+						ENDIF
 					ENDIF
 				ENDIF
 			ENDIF
@@ -980,9 +980,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
 	CASE "A"
 		//::FReadOnly := .T.
-		IF ::IsDerivedFrom("TStringField")
-			::FSize := 0
-		ENDIF
 		::FFieldArrayIndex := {}
 		fieldName := ""
 		FOR EACH itm IN FieldMethod
@@ -992,9 +989,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 				fieldName += itm + ";"
 			ELSE
 				RAISE TFIELD itm ERROR "Field is not defined yet..."
-			ENDIF
-			IF ::IsDerivedFrom("TStringField")
-				::FSize += AField:Size
 			ENDIF
 		NEXT
 		::Name := Left( fieldName, Len( fieldName ) - 1 )
@@ -1113,7 +1107,9 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 		ENDIF
 
 		IF !Empty( keyVal )
-			::KeyIndex:Seek( keyVal )
+			IF !::KeyIndex:KeyVal == keyVal
+				::KeyIndex:Seek( keyVal )
+			ENDIF
 		ELSE
 			::FTable:DbGoTo( 0 )
 		ENDIF
@@ -1218,14 +1214,15 @@ PROTECTED:
 	DATA FSize
 	DATA FType INIT "String"
 	DATA FValType INIT "C"
-	METHOD GetEmptyValue INLINE iif( ::FSize == NIL, "", Space( ::FSize ) )
+	METHOD GetEmptyValue INLINE Space( ::Size )
+	METHOD GetSize()
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue )
 	METHOD SetSize( size )
 PUBLIC:
 	METHOD GetAsString
 PUBLISHED:
-	PROPERTY Size READ FSize WRITE SetSize
+	PROPERTY Size READ GetSize WRITE SetSize
 ENDCLASS
 
 /*
@@ -1249,6 +1246,24 @@ METHOD FUNCTION GetAsString CLASS TStringField
 RETURN Result
 
 /*
+	GetSize
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetSize() CLASS TStringField
+	LOCAL i
+
+	IF ::FSize = NIL
+		::FSize := 0
+		IF ::FFieldMethodType = "A"
+			FOR EACH i IN ::FFieldArrayIndex
+				::FSize += ::FTable:FieldList[ i ]:Size
+			NEXT
+		ENDIF
+	ENDIF
+
+RETURN ::FSize
+
+/*
 	SetBuffer
 	Teo. Mexico 2009
 */
@@ -1256,14 +1271,7 @@ METHOD PROCEDURE SetBuffer( buffer ) CLASS TStringField
 	IF ::IsDerivedFrom("TMemoField")
 		Super:SetBuffer( buffer )
 	ELSE
-		IF !HB_IsNIL( buffer ) .AND. HB_IsNIL( ::FSize ) .AND. !buffer == ""
-			::FSize := Len( buffer )
-		ENDIF
-		IF HB_IsString( buffer ) .AND. Len( buffer ) != ::FSize
-			Super:SetBuffer( PadR( buffer, ::FSize ) )
-		ELSE
-			Super:SetBuffer( buffer )
-		ENDIF
+		Super:SetBuffer( PadR( buffer, ::Size ) )
 	ENDIF
 RETURN
 
@@ -1279,13 +1287,6 @@ METHOD PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
 	ENDIF
 
 	::FDefaultValue := DefaultValue
-
-	IF ValType( DefaultValue ) = "B" .AND. ::FTable:State = dsInactive
-		RETURN
-	ENDIF
-
-	::SetBuffer( ::GetDefaultValue() )
-	::FSize := Len( ::GetBuffer() )
 
 RETURN
 
@@ -1573,6 +1574,7 @@ PROTECTED:
 	DATA FValType INIT "O"
 	METHOD GetLinkedTable
 	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
+	METHOD GetFieldReadBlock()
 PUBLIC:
 	METHOD DataObj
 	METHOD GetKeyVal( keyVal )
@@ -1653,6 +1655,18 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
 RETURN Super:GetAsVariant( ... )
 
 /*
+	GetFieldReadBlock
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetFieldReadBlock() CLASS TObjectField
+
+	IF ::FFieldReadBlock = NIL .AND. Super:GetFieldReadBlock() = NIL
+		::FFieldReadBlock := {|| ::LinkedTable }
+	ENDIF
+
+RETURN ::FFieldReadBlock
+
+/*
 	GetLinkedTable
 	Teo. Mexico 2009
 */
@@ -1670,10 +1684,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 		 */
 		SWITCH ValType( ::FObjValue )
 		CASE 'C'
-			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue )
-				IF ! ::IsMasterFieldComponent
-					//RAISE TFIELD ::Name ERROR "MasterSource table has to be assigned to a master field component."
-				ENDIF
+			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue ) .AND. ::IsMasterFieldComponent
 				::FLinkedTable := ::FTable:MasterSource
 			ELSE
 				IF ::FLinkedTableMasterSource != NIL
