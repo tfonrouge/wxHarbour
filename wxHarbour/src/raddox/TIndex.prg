@@ -521,12 +521,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 
 	SWITCH ValType( XField )
 	CASE 'C'
-		IF Empty( XField ) /* A null field (always returns "") */
-			AField := TStringField():New( ::FTable )
-			AField:FieldMethod := {|| "" }
-		ELSE
-			AField := ::FTable:FieldByName( XField )
-		ENDIF
+		AField := ::FTable:FieldByName( XField )
 		IF AField == NIL
 			RAISE ERROR "Declared Index Field '" + XField + "' doesn't exist..."
 			RETURN

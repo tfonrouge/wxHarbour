@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-03-08 16:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * simplified method to solve calculated field's on TObjectFields
+     * moved calculation of size of a field with FieldMethod = "A" to property
+       GetSize on TStringField
+     % optimized to check if keyVal is valid on ::SetKeyVal to avoid re-positioning
+     * adding checking if TObjectField is a master field component on GetLinkedTable,
+       this is to link only TField's in the MASTERKEY clause on index declaration
+
+  *  src/raddox/TIndex.prg
+     * removed unneeded code
+
+  *  src/raddox/TTable.prg
+     * using obj cloning method to create new list of fields (FieldList) to allow to
+       copy the flags/relations with indexes objs
+
+  *  wxharbour.spec
+     * changed version to 0.5.0-0
+
 2010-03-06 20:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * added missing entry in previous commit
