@@ -1287,6 +1287,8 @@ METHOD PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
 	ENDIF
 
 	::FDefaultValue := DefaultValue
+	
+	::FBuffer := NIL /* to force ::Reset on next read */
 
 RETURN
 
