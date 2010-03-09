@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-03-09 01:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % on wxhBrowse, added capability to use the method "DefineToolBar" to insert
+       controls right above of grid
+
+  *  src/raddox/TField.prg
+     ! Set the ::FBuffer to NIL when a new default value is given, this is in order
+       to force a ::Reset on the next read
+
 2010-03-08 16:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * simplified method to solve calculated field's on TObjectFields
