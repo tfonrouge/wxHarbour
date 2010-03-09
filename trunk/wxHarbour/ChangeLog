@@ -2,6 +2,24 @@
  * $Id$
  */
 
+2010-03-09 17:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * moved ::Picture assignement to wxhBColumn
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     + added method:
+       + GetValue( rowParam ) : to get the value for the grid, evaluates both ways:
+         TField and codeblock assigned
+     % simplified method to assign a TField obj to the wxhBColumn object
+     % improved ::SetValue method to deal with linked field/tables
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * using ::GetValue instead of evaluating the codeblock on wxhBColumns to retrieve
+       the column value
+
+  *  src/raddox/TField.prg
+     * removed unneeded condition on ::SetDefaultValue
+
 2010-03-09 01:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % on wxhBrowse, added capability to use the method "DefineToolBar" to insert
