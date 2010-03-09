@@ -1281,11 +1281,6 @@ RETURN
 */
 METHOD PROCEDURE SetDefaultValue( DefaultValue ) CLASS TStringField
 
-	IF DefaultValue == NIL
-		::FDefaultValue := NIL
-		RETURN
-	ENDIF
-
 	::FDefaultValue := DefaultValue
 	
 	::FBuffer := NIL /* to force ::Reset on next read */

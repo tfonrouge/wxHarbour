@@ -217,12 +217,12 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	
 	IF ::FIgnoreCellEvalError
 		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-			Result := column:Block:Eval( ::RowParam )
+			Result := column:GetValue( ::RowParam )
 		RECOVER
 			Result := "<error on block>"
 		END SEQUENCE
 	ELSE
-		Result := column:Block:Eval( ::RowParam )
+		Result := column:GetValue( ::RowParam )
 	ENDIF
 	
 	IF column:ValType == NIL
@@ -458,7 +458,7 @@ RETURN
 */
 METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 	LOCAL oCol
-	
+
 	oCol := ::GetView():GetColumn( col + 1 )
 	
 	IF oCol:CanSetValue

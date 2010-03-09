@@ -985,7 +985,6 @@ PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xfield, editable, colour )
 	
 	IF AField != NIL
 		column := wxhBColumn():New( AField )
-		column:Picture := AField:Picture
 		column:IsEditable := editable
 		wxhBrw:AddColumn( column )
 		IF AField:IsDerivedFrom( "TLogicalField" )

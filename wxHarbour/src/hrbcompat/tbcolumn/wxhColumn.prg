@@ -42,6 +42,7 @@ PRIVATE:
 	METHOD SetHeading( heading ) INLINE ::FHeading := heading
 	METHOD SetPicture( picture ) INLINE ::FPicture := picture
 	METHOD SetReadOnly( readOnly ) INLINE ::FReadOnly := readOnly
+	METHOD SetTField( tField )
 	METHOD SetValType( valType ) INLINE ::FValType := valType
 	METHOD SetWidth( width ) INLINE ::FWidth := width
 
@@ -54,10 +55,11 @@ PUBLIC:
 	
 	DATA OnSetValue
 	
+	METHOD GetValue( rowParam )
 	METHOD SetValue( rowParam, value )
 	
 	PROPERTY CanSetValue READ GetCanSetValue
-	PROPERTY TField READ FTField
+	PROPERTY TField READ FTField WRITE SetTField
 
 PUBLISHED:
 
@@ -79,21 +81,11 @@ ENDCLASS
 */
 METHOD New( heading, block ) CLASS wxhBColumn
 
-	IF ValType( heading ) = "O"
-
-		::FHeading := heading:Label
-		::FBlock := heading:Table:GetDisplayFieldBlock( heading )
-		::FTField := heading
-		::FReadOnly := .F.
-
+	IF HB_IsObject( heading )
+		::TField := heading
 	ELSE
-	
-		IF heading != NIL
-			::FHeading := heading
-		ENDIF
-
+		::FHeading := heading
 		::FBlock := block
-
 	ENDIF
 
 RETURN Self
@@ -106,24 +98,53 @@ METHOD FUNCTION GetCanSetValue() CLASS wxhBColumn
 RETURN ! ::ReadOnly
 
 /*
+	GetValue
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetValue( rowParam ) CLASS wxhBColumn
+	IF ::FTField != NIL
+		RETURN ::FTField:GetAsVariant()
+	ENDIF
+RETURN ::FBlock:Eval( rowParam )
+
+/*
+	SetTField
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetTField( tField ) CLASS wxhBColumn
+	IF HB_IsObject( tField ) .AND. tField:IsDerivedFrom( "TField" )
+		::FHeading := tField:Label
+		::FPicture := tField:Picture
+		::FTField := tField
+		::FReadOnly := .F.
+	ENDIF
+RETURN
+
+/*
 	SetValue
 	Teo. Mexico 2009
 */
 METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBColumn
 	LOCAL state
-	
+	LOCAL table
+
 	IF !::ReadOnly
 		IF ::TField != NIL
-			IF ::TField:Table:Eof()
+			IF ::TField:Table:LinkedObjField != NIL
+				table := ::TField:Table:LinkedObjField:Table
+			ELSE
+				table := ::TField:Table
+			ENDIF
+			IF table:Eof()
 				RETURN .F.
 			ENDIF
-			state := ::TField:Table:State
+			state := table:State
 			IF state = dsBrowse
-				::TField:Table:TTable:Edit()
+				table:Edit()
 			ENDIF
 			::TField:AsString := value
 			IF state = dsBrowse
-				::TField:Table:TTable:Post()
+				table:Post()
 			ENDIF
 		ELSE
 			::Block:Eval( rowParam, value )
