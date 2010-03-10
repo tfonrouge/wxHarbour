@@ -1434,7 +1434,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	IF ! AField:IsDerivedFrom("TObjectField")
 		RETURN ;
 			{|o,...|
-				LOCAL Result
+				LOCAL odf
 				LOCAL AField
 
 				IF HB_HHasKey( o:__FFields, msgName )
@@ -1448,13 +1448,20 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 					o:__FObj:SyncRecNo( .T. )
 				ENDIF
 				
+				odf := o
+
+				WHILE odf:__FObj:LinkedObjField != NIL
+					odf := odf:__FObj:LinkedObjField:Table:GetDisplayFields()
+				ENDDO
+
+				odf:__FLastLabel := AField:Label
+				
+
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
-					Result := AField:EmptyValue
-				ELSE
-					Result := AField:GetAsVariant( ... )
+					RETURN AField:EmptyValue
 				ENDIF
 				
-				RETURN Result
+				RETURN AField:GetAsVariant( ... )
 
 			}
 
@@ -1475,7 +1482,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				o:__FObj:SyncRecNo( .T. )
 			ENDIF
 
-			RETURN AField:DataObj:DisplayFields()
+			RETURN AField:DataObj:GetDisplayFields( NIL )
 
 		}
 
@@ -1492,6 +1499,7 @@ METHOD FUNCTION GetDisplayFields( syncFromAlias ) CLASS TTable
 
 			DisplayFieldsClass:AddData( "__FObj" )
 			DisplayFieldsClass:AddData( "__FFields" )
+			DisplayFieldsClass:AddData( "__FLastLabel" )
 			DisplayFieldsClass:AddData( "__FSyncFromAlias" )
 
 			FOR EACH AField IN ::FFieldList

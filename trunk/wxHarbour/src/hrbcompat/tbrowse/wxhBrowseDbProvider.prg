@@ -217,42 +217,14 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	
 	IF ::FIgnoreCellEvalError
 		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-			Result := column:GetValue( ::RowParam )
+			Result := column:GetValue( ::RowParam, nCol )
 		RECOVER
 			Result := "<error on block>"
 		END SEQUENCE
 	ELSE
-		Result := column:GetValue( ::RowParam )
+		Result := column:GetValue( ::RowParam, nCol )
 	ENDIF
 	
-	IF column:ValType == NIL
-		column:ValType := ValType( Result )
-	ENDIF
-
-	IF !column:Aligned
-		column:Aligned := .T.
-		IF column:Align == NIL
-			SWITCH column:ValType
-			CASE 'N'
-				column:Align := wxALIGN_RIGHT
-				::GetView():SetColFormatNumber( nCol - 1 )
-				EXIT
-			CASE 'C'
-			CASE 'M'
-				column:Align := wxALIGN_LEFT
-				EXIT
-			CASE 'L'
-				column:Align := wxALIGN_CENTRE
-//				 ::GetView():SetColFormatBool( nCol - 1 )
-				::GetView():SetColumnAlignment( nCol, column:Align )
-				EXIT
-			OTHERWISE
-				column:Align := wxALIGN_CENTRE
-			END
-		ENDIF
-		::GetView():SetColumnAlignment( nCol, column:Align )
-	ENDIF
-
 	IF picture != NIL
 		Result := Transform( Result, picture )
 	ENDIF

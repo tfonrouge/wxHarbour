@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-03-10 14:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * added 1st parameter as wxhBrowse obj type to wxhBrowseColumn class
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     * renamed class from wxhBColumn to wxhBrowseColumn, now the obj contains reference
+       to his wxhBrowse obj, moved some code from ::GetCellValueAtCol to here
+  *  src/raddox/TTable.prg
+     % enhanced to take the column label value from a TField
+     - removed unneeded wxhBColumnNew() function
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * adding the colpos 'manually' here.
+       TODO: Enhance the way of relation between wxhBrowseColumn <-> wxhBrowse, may be is
+       needed to forget all about of compatibility and create more logic & simple relations
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * moved some code to wxhColumn.prg
+
 2010-03-10 01:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % simplified the logic to add a TField based column

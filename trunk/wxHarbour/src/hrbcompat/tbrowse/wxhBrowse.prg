@@ -119,6 +119,7 @@ ENDCLASS
 METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowse
 	AAdd( ::GetTable():ColumnList, column )
 	::GetTable():AppendCols( 1 )
+	column:colPos := Len( ::GetTable():ColumnList )
 	IF column:Width != NIL
 		::SetColWidth( Len( ::GetTable():ColumnList ), column:Width )
 	ENDIF
