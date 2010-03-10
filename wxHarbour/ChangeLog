@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-09 22:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed stupid typo on locating the PRIMARYKEY of the linkedTable
+
 2010-03-09 18:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      % improvement to EVENT ONAFTERCHANGE command

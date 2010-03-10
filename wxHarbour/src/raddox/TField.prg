@@ -1623,10 +1623,10 @@ METHOD FUNCTION DataObj CLASS TObjectField
 	ELSE
 		keyVal := ::GetAsVariant()
 		/* Syncs with the current value */
-		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:KeyVal == keyVal
+		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:PrimaryIndex:KeyVal == keyVal
 			linkedObjField := linkedTable:LinkedObjField
 			linkedTable:LinkedObjField := NIL
-			linkedTable:SetKeyVal( keyVal )
+			linkedTable:PrimaryIndex:SetKeyVal( keyVal )
 			linkedTable:LinkedObjField := linkedObjField
 		ENDIF
 	ENDIF
