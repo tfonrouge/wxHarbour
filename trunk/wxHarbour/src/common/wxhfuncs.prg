@@ -966,35 +966,23 @@ RETURN
 	__wxh_BrowseAddColumnFromField
 	Teo. Mexico 2009
 */
-PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xfield, editable, colour )
-	LOCAL AField
+PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
 	LOCAL column
 
-	SWITCH ValType( xfield )
-	CASE 'O'
-		IF xfield:IsDerivedFrom( "TField" )
-			AField := xfield
-		ENDIF
+	SWITCH ValType( xField )
+	CASE 'B'
 		EXIT
 	CASE 'C'
-		IF ValType( wxhBrw:DataSource ) = "O" .AND. wxhBrw:DataSource:IsDerivedFrom( "TTable" )
-			AField := wxhBrw:DataSource:FieldByName( xfield )
-		ENDIF
 		EXIT
-	END
+	OTHERWISE
+		wxhAlert( "Invalid column browse ..." )
+		RETURN
+	ENDSWITCH
 	
-	IF AField != NIL
-		column := wxhBColumn():New( AField )
-		column:IsEditable := editable
-		wxhBrw:AddColumn( column )
-		IF AField:IsDerivedFrom( "TLogicalField" )
-			wxhBrw:SetColFormatBool( wxhBrw:ColCount() - 1 )
-		ELSEIF AField:IsDerivedFrom( "TIntegerField" )
-			wxhBrw:SetColFormatNumber( wxhBrw:ColCount() - 1 )
-		ELSEIF AField:IsDerivedFrom( "TNumericField" )
-			wxhBrw:SetColFormatFloat( wxhBrw:ColCount() - 1, 10, 2 )
-		ENDIF
-	ENDIF
+	column := wxhBColumn():New( )
+	column:BlockField := xField
+	column:IsEditable := editable
+	wxhBrw:AddColumn( column )
 
 	IF colour != NIL
 		wxhBrw:SetColAttr( wxhBrw:ColCount() - 1, colour )

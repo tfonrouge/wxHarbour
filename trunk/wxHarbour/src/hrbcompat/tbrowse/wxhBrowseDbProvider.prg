@@ -212,8 +212,8 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 		column := ::FColumnList[ nCol ]
 	ENDIF
 
-	picture	 := column:Picture
-	width		 := column:Width
+	picture := column:Picture
+	width := column:Width
 	
 	IF ::FIgnoreCellEvalError
 		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
