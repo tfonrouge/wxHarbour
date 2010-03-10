@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2010-03-10 01:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % simplified the logic to add a TField based column
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     * modifications made to GetValue to corrrectly show the value of linked fields
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * minor code cleanup
+
+  *  src/raddox/TTable.prg
+     % minor optimization on DisplayFieldBlock for TObjectField's
+
 2010-03-09 22:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed stupid typo on locating the PRIMARYKEY of the linkedTable

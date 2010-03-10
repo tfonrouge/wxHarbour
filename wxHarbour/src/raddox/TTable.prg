@@ -1463,7 +1463,6 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	RETURN ;
 		{|o|
 			LOCAL AField
-			LOCAL Result
 
 			IF HB_HHasKey( o:__FFields, msgName )
 				AField := o:__FFields[ msgName ]
@@ -1476,9 +1475,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				o:__FObj:SyncRecNo( .T. )
 			ENDIF
 
-			Result := AField:DataObj:DisplayFields()
-				
-			RETURN Result
+			RETURN AField:DataObj:DisplayFields()
 
 		}
 

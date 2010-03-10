@@ -26,6 +26,7 @@ PRIVATE:
 	DATA FAlign
 	DATA FAligned INIT .F.
 	DATA FBlock
+	DATA FBlockField
 	DATA FFooting
 	DATA FHeading INIT ""
 	DATA FTField
@@ -38,6 +39,7 @@ PRIVATE:
 	METHOD SetAlign( align ) INLINE ::FAlign := align
 	METHOD SetAligned( aligned ) INLINE ::FAligned := aligned
 	METHOD SetBlock( block ) INLINE ::FBlock := block
+	METHOD SetBlockField( xField )
 	METHOD SetFooting( footing ) INLINE ::FFooting := footing
 	METHOD SetHeading( heading ) INLINE ::FHeading := heading
 	METHOD SetPicture( picture ) INLINE ::FPicture := picture
@@ -58,8 +60,9 @@ PUBLIC:
 	METHOD GetValue( rowParam )
 	METHOD SetValue( rowParam, value )
 	
+	PROPERTY BlockField WRITE SetBlockField
 	PROPERTY CanSetValue READ GetCanSetValue
-	PROPERTY TField READ FTField WRITE SetTField
+	PROPERTY TField READ FTField
 
 PUBLISHED:
 
@@ -102,10 +105,38 @@ RETURN ! ::ReadOnly
 	Teo. Mexico 2010
 */
 METHOD FUNCTION GetValue( rowParam ) CLASS wxhBColumn
-	IF ::FTField != NIL
-		RETURN ::FTField:GetAsVariant()
+	IF ::FBlockField != NIL
+		IF ::FTField = NIL
+			SWITCH ValType( ::FBlockField )
+			CASE 'B'
+				::SetTField( ::FBlockField:Eval( rowParam:__FObj ) )
+				EXIT
+			CASE 'C'
+				::SetTField( rowParam:__FObj:FieldByName( ::FBlockField ) )
+				EXIT
+			OTHERWISE
+			ENDSWITCH
+			IF ::FTField = NIL
+				::FBlock := {|| "<err>" }
+				::FBlockField := NIL
+			ENDIF
+		ENDIF
+		IF ::FBlockField != NIL
+			IF !rowParam:__FObj:Eof()
+				RETURN ::FBlockField:Eval( rowParam:__FObj ):GetAsVariant()
+			ENDIF
+			RETURN ::FBlockField:Eval( rowParam:__FObj ):EmptyValue()
+		ENDIF
 	ENDIF
 RETURN ::FBlock:Eval( rowParam )
+
+/*
+	SetBlockField
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetBlockField( xField ) CLASS wxhBColumn
+	::FBlockField := xField
+RETURN
 
 /*
 	SetTField
