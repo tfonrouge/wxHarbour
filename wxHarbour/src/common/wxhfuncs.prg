@@ -930,7 +930,7 @@ RETURN browse
 	Teo. Mexico 2009
 */
 PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp, colour, onSetValue )
-	LOCAL column := wxhBColumn():New( title, block )
+	LOCAL column := wxhBrowseColumn():New( wxhBrw, title, block )
 
 	column:Picture := picture
 	column:Width	 := width
@@ -979,7 +979,7 @@ PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
 		RETURN
 	ENDSWITCH
 	
-	column := wxhBColumn():New( )
+	column := wxhBrowseColumn():New( wxhBrw )
 	column:BlockField := xField
 	column:IsEditable := editable
 	wxhBrw:AddColumn( column )

@@ -17,16 +17,17 @@
 #include "wxharbour.ch"
 
 /*
-	wxhBColumn
+	wxhBrowseColumn
 	Teo. Mexico 2008
 */
-CLASS wxhBColumn
+CLASS wxhBrowseColumn
 PRIVATE:
 
 	DATA FAlign
 	DATA FAligned INIT .F.
 	DATA FBlock
 	DATA FBlockField
+	DATA FBrowse
 	DATA FFooting
 	DATA FHeading INIT ""
 	DATA FTField
@@ -34,14 +35,14 @@ PRIVATE:
 	DATA FReadOnly INIT .F.
 	DATA FValType
 	DATA FWidth
-
+	
 	METHOD GetCanSetValue()
 	METHOD SetAlign( align ) INLINE ::FAlign := align
 	METHOD SetAligned( aligned ) INLINE ::FAligned := aligned
 	METHOD SetBlock( block ) INLINE ::FBlock := block
 	METHOD SetBlockField( xField )
 	METHOD SetFooting( footing ) INLINE ::FFooting := footing
-	METHOD SetHeading( heading ) INLINE ::FHeading := heading
+	METHOD SetHeading( heading )
 	METHOD SetPicture( picture ) INLINE ::FPicture := picture
 	METHOD SetReadOnly( readOnly ) INLINE ::FReadOnly := readOnly
 	METHOD SetTField( tField )
@@ -51,16 +52,19 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
-	CONSTRUCTOR New( heading, block )
+	CONSTRUCTOR New( browse, heading, block )
 	
+	DATA colPos INIT 0
+
 	DATA IsEditable INIT .F.
 	
 	DATA OnSetValue
 	
-	METHOD GetValue( rowParam )
+	METHOD GetValue( rowParam, nCol )
 	METHOD SetValue( rowParam, value )
 	
 	PROPERTY BlockField WRITE SetBlockField
+	PROPERTY Browse READ FBrowse
 	PROPERTY CanSetValue READ GetCanSetValue
 	PROPERTY TField READ FTField
 
@@ -82,7 +86,9 @@ ENDCLASS
 	New
 	Teo. Mexico 2008
 */
-METHOD New( heading, block ) CLASS wxhBColumn
+METHOD New( browse, heading, block ) CLASS wxhBrowseColumn
+
+	::FBrowse := browse
 
 	IF HB_IsObject( heading )
 		::TField := heading
@@ -97,54 +103,109 @@ RETURN Self
 	GetCanSetValue
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetCanSetValue() CLASS wxhBColumn
+METHOD FUNCTION GetCanSetValue() CLASS wxhBrowseColumn
 RETURN ! ::ReadOnly
 
 /*
 	GetValue
 	Teo. Mexico 2010
 */
-METHOD FUNCTION GetValue( rowParam ) CLASS wxhBColumn
+METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
+	LOCAL result
+
 	IF ::FBlockField != NIL
 		IF ::FTField = NIL
 			SWITCH ValType( ::FBlockField )
 			CASE 'B'
 				::SetTField( ::FBlockField:Eval( rowParam:__FObj ) )
+				IF ::FTField = NIL
+					::FBlock := {|| "<err>" }
+					::FBlockField := NIL
+				ENDIF
 				EXIT
 			CASE 'C'
 				::SetTField( rowParam:__FObj:FieldByName( ::FBlockField ) )
-				EXIT
-			OTHERWISE
-			ENDSWITCH
-			IF ::FTField = NIL
-				::FBlock := {|| "<err>" }
 				::FBlockField := NIL
-			ENDIF
+				IF ::FTField = NIL
+					::FBlock := {|| "<err>" }
+				ELSE
+					::FBlock := ::FTField:Table:GetDisplayFieldBlock( ::FTField )
+				ENDIF
+				EXIT
+			ENDSWITCH
 		ENDIF
 		IF ::FBlockField != NIL
 			IF !rowParam:__FObj:Eof()
-				RETURN ::FBlockField:Eval( rowParam:__FObj ):GetAsVariant()
+				result := ::FBlockField:Eval( rowParam:__FObj ):GetAsVariant()
+			ELSE			
+				result := ::FBlockField:Eval( rowParam:__FObj ):EmptyValue()
 			ENDIF
-			RETURN ::FBlockField:Eval( rowParam:__FObj ):EmptyValue()
+		ENDIF
+	ELSE
+		result := ::FBlock:Eval( rowParam )
+		IF HB_IsObject( rowParam )
+			IF Empty( ::FHeading )
+				::Heading := rowParam:__FLastLabel
+			ENDIF
 		ENDIF
 	ENDIF
-RETURN ::FBlock:Eval( rowParam )
+
+	IF ::ValType == NIL
+		::ValType := ValType( Result )
+	ENDIF
+
+	IF !::FAligned
+		::FAligned := .T.
+		IF ::FAlign == NIL
+			SWITCH ::ValType
+			CASE 'N'
+				::FAlign := wxALIGN_RIGHT
+				::FBrowse:SetColFormatNumber( nCol - 1 )
+				EXIT
+			CASE 'C'
+			CASE 'M'
+				::FAlign := wxALIGN_LEFT
+				EXIT
+			CASE 'L'
+				::FAlign := wxALIGN_CENTRE
+//				 ::GetView():SetColFormatBool( nCol - 1 )
+				::FBrowse:SetColumnAlignment( nCol, ::FAlign )
+				EXIT
+			OTHERWISE
+				::FAlign := wxALIGN_CENTRE
+			END
+		ENDIF
+		::FBrowse:SetColumnAlignment( nCol, ::FAlign )
+	ENDIF
+
+RETURN result
 
 /*
 	SetBlockField
 	Teo. Mexico 2010
 */
-METHOD PROCEDURE SetBlockField( xField ) CLASS wxhBColumn
+METHOD PROCEDURE SetBlockField( xField ) CLASS wxhBrowseColumn
 	::FBlockField := xField
+RETURN
+
+/*
+	SetHeading
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetHeading( heading ) CLASS wxhBrowseColumn
+	IF ! ::FHeading == heading
+		::FHeading := heading
+		::browse:SetColLabelValue( ::colPos, heading )
+	ENDIF
 RETURN
 
 /*
 	SetTField
 	Teo. Mexico 2010
 */
-METHOD PROCEDURE SetTField( tField ) CLASS wxhBColumn
+METHOD PROCEDURE SetTField( tField ) CLASS wxhBrowseColumn
 	IF HB_IsObject( tField ) .AND. tField:IsDerivedFrom( "TField" )
-		::FHeading := tField:Label
+		::Heading := tField:Label
 		::FPicture := tField:Picture
 		::FTField := tField
 		::FReadOnly := .F.
@@ -155,7 +216,7 @@ RETURN
 	SetValue
 	Teo. Mexico 2009
 */
-METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBColumn
+METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
 	LOCAL state
 	LOCAL table
 
@@ -187,14 +248,3 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBColumn
 	ENDIF
 
 RETURN .T.
-
-/*
-	wxhBColumnNew
-	Teo. Mexico 2008
-*/
-FUNCTION wxhBColumnNew( heading, block )
-RETURN wxhBColumn():New( heading, block )
-
-/*
-	EndClass wxhBColumn
-*/
