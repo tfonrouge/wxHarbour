@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-09 18:57 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     % improvement to EVENT ONAFTERCHANGE command
+
 2010-03-09 17:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * moved ::Picture assignement to wxhBColumn

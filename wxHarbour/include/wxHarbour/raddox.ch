@@ -22,7 +22,11 @@
 #define dssAdding   1
 #define dssPosting  2
 
-/* Field events on TTable */
+/* Events for TTable */
+#xtranslate EVENT ONAFTEROPEN => METHOD OnAfterOpen()
+#xtranslate EVENT ONAFTEROPEN CLASS <className> => METHOD PROCEDURE OnAfterOpen() CLASS <className>
+
+/* Events for TField's */
 #xtranslate EVENT ONBEFORECHANGE FIELD <!name!> ;
 	=> ;
 	METHOD OnBeforeChange_Field_<name>( field_<name>, value )
@@ -136,7 +140,6 @@
 	=> ;
 	DATA curClassIndex HIDDEN ;;
 	METHOD __DefineIndexes()
-#xtranslate DEFINE EVENT ONAFTEROPEN => METHOD OnAfterOpen()
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;
@@ -158,13 +161,6 @@
 			Super:__DefineIndexes() ;;
 			RETURN
 			
-#xtranslate BEGIN EVENT ONAFTEROPEN CLASS <className> ;
-	=> ;
-	METHOD PROCEDURE OnAfterOpen() CLASS <className>
-#xtranslate END EVENT ONAFTEROPEN ;
-	=> ;
-	RETURN
-
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;
 						METHOD PROCEDURE DefineMasterDetailFields CLASS <className>
 #xtranslate ADD MASTER <cMaster> DETAIL <cDetail> => ;
