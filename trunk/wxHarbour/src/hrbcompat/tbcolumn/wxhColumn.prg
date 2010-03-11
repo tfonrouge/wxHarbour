@@ -169,13 +169,13 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
 			CASE 'L'
 				::FAlign := wxALIGN_CENTRE
 //				 ::GetView():SetColFormatBool( nCol - 1 )
-				::FBrowse:SetColumnAlignment( nCol, ::FAlign )
+				::FBrowse:SetColumnAlignment( nCol - 1, ::FAlign )
 				EXIT
 			OTHERWISE
 				::FAlign := wxALIGN_CENTRE
 			END
 		ENDIF
-		::FBrowse:SetColumnAlignment( nCol, ::FAlign )
+		::FBrowse:SetColumnAlignment( nCol - 1, ::FAlign )
 	ENDIF
 
 RETURN result
