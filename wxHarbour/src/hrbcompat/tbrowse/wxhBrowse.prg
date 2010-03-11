@@ -216,7 +216,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
 		FOR EACH fld IN ::FDataSource:FieldList
-			__wxh_BrowseAddColumnFromField( Self, fld, ::IsEditable() )
+			__wxh_BrowseAddColumnFromField( Self, fld:Name, ::IsEditable() )
 		NEXT
 
 	CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
