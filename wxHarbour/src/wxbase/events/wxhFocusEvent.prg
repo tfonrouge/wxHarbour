@@ -26,7 +26,8 @@ CLASS wxFocusEvent FROM wxEvent
 PRIVATE:
 PROTECTED:
 PUBLIC:
-	METHOD GetWindow
+	METHOD GetEventObject() /* TODO: Hack until we have a FULL replica of events in wxHarbour */
+	METHOD GetWindow()
 PUBLISHED:
 ENDCLASS
 

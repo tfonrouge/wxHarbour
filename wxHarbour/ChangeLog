@@ -2,6 +2,27 @@
  * $Id$
  */
 
+2010-03-12 23:34 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  -  src/hrbcompat/tbrowse/wx_Browse.h
+  +  include/wxHarbour/wxbase/wx_Browse.h
+     * moved header file to wxbase dir
+
+  *  src/wxbase/events/wx_Event.cpp
+     * minor code cleanup
+
+  *  src/wxbase/events/wx_EvtHandler.cpp
+     * forcing passing event for wxFocusEventHandler, because id returned is 0
+       if id passed is wxID_ANY
+
+  *  src/wxbase/events/wx_FocusEvent.cpp
+  *  src/wxbase/events/wxhFocusEvent.prg
+     * modified the ::GetEventObject when sender is a wxGrid, this is needed because
+       currently wxHarbour doesn't retrieve the events received for the wxGridWindow
+       controls inside of wxGrid.
+       TODO: create new Harbour PHB_ITEM's linked to the C++ objects returned for
+       method's like ::GetEventObject for wxGridWindow objs
+
 2010-03-11 09:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      ! Fixed number of column to set alignment
