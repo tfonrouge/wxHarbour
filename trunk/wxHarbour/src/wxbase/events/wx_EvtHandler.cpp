@@ -241,6 +241,7 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 			break;
 		case WXH_FOCUSEVENT:
 			objFunc = wxFocusEventHandler( hbEvtHandler<T>::OnFocusEvent );
+			pConnParams->force = true;
 			break;
 		case WXH_GRIDEVENT:
 			objFunc = wxGridEventHandler( hbEvtHandler<T>::OnGridEvent );
@@ -250,7 +251,7 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 			break;
 		case WXH_KEYEVENT:
 			objFunc = wxKeyEventHandler( hbEvtHandler<T>::OnKeyEvent );
-		pConnParams->force = true;
+			pConnParams->force = true;
 			break;
 		case WXH_MENUEVENT:
 			objFunc = wxMenuEventHandler( hbEvtHandler<T>::OnMenuEvent );

@@ -21,8 +21,7 @@
 #include "wxbase/wx_GridTableBase.h"
 #include "wxbase/wx_Grid.h"
 #include "wxbase/wx_StaticLine.h"
-
-#include "wx_Browse.h"
+#include "wxbase/wx_Browse.h"
 
 HB_FUNC_EXTERN( WXGRIDEVENT);
 HB_FUNC_EXTERN( WXKEYEVENT);

@@ -22,6 +22,32 @@
 #include "wx/wx.h"
 
 #include "wxh.h"
+#include "wxbase/wx_Grid.h"
+#include "wxbase/wx_Browse.h"
+
+/*
+ wxEvent::GetEventObject
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
+{
+	wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( event )
+	{
+		wxObject* wxObj = event->GetEventObject();
+		wxWindow* wxWin = ( (wxWindow *) wxObj )->GetParent();
+
+		if( wxWin && wxWin->IsKindOf( CLASSINFO( wxGrid ) ) ) 
+		{
+			wxh_itemReturn( wxWin );
+		}
+		else
+		{
+			wxh_itemReturn( wxObj );
+		}
+	}
+}
 
 HB_FUNC( WXFOCUSEVENT_GETWINDOW )
 {

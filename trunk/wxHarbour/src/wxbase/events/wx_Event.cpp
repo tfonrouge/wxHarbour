@@ -33,7 +33,7 @@ HB_FUNC( WXEVENT_GETEVENTOBJECT )
 
 	if( event )
 	{
-	wxh_itemReturn( event->GetEventObject() );
+		wxh_itemReturn( event->GetEventObject() );
 	}
 }
 
