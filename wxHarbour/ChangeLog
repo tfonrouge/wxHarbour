@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-15 00:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * added alert message when trying to set an index that has not the same
+       master key field that primary index maser key field
+
 2010-03-12 23:34 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wx_Browse.cpp
   -  src/hrbcompat/tbrowse/wx_Browse.h
