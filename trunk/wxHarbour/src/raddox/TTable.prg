@@ -73,7 +73,7 @@ PRIVATE:
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
 	METHOD GetPublishedFieldList
 	METHOD GetTableName INLINE ::TableNameValue
-	METHOD SetIndex( AIndex ) INLINE ::FIndex := AIndex
+	METHOD SetIndex( index )
 	METHOD SetIndexName( IndexName )
 	METHOD SetMasterSource( masterSource )
 	METHOD SetReadOnly( readOnly )
@@ -2202,6 +2202,19 @@ METHOD PROCEDURE Reset() CLASS TTable
 RETURN
 
 /*
+	SetIndex
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetIndex( index ) CLASS TTable
+	IF !::FIndex == index
+		IF ::PrimaryIndex != NIL .AND. !::PrimaryMasterKeyField == index:MasterKeyField
+			wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
+		ENDIF
+		::FIndex := index
+	ENDIF
+RETURN
+
+/*
 	SetIndexName
 	Teo. Mexico 2007
 */
@@ -2213,7 +2226,7 @@ METHOD PROCEDURE SetIndexName( indexName ) CLASS TTable
 		index := ::IndexByName( indexName )
 	
 		IF index != NIL
-			::FIndex := index
+			::Index := index
 			RETURN
 		ENDIF
 
