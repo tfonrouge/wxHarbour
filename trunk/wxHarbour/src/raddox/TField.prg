@@ -467,17 +467,13 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
 			::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
 		ELSE
 			IF __ObjHasMsgAssigned( ::FTable:MasterSource, "CalcField_" + ::FName )
-				::FFieldReadBlock := &("{|o|" + "o:MasterSource:CalcField_" + ::FName + " }")
+				::FFieldReadBlock := &("{|o,...|" + "o:MasterSource:CalcField_" + ::FName + "( ... ) }")
 			ELSE
-				IF __ObjHasMsgAssigned( ::FTable:MasterSource, "Field_" + ::FName )
-					::FFieldReadBlock := &("{|o|" + "o:MasterSource:Field_" + ::FName + ":GetAsVariant() }")
-				ELSE
-					IF !::IsDerivedFrom("TObjectField")
-						IF Empty( ::FFieldExpression )
-							RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
-						ELSE
-							::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
-						ENDIF
+				IF !::IsDerivedFrom("TObjectField")
+					IF Empty( ::FFieldExpression )
+						RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+					ELSE
+						::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
 					ENDIF
 				ENDIF
 			ENDIF
