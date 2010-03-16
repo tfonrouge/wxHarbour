@@ -96,6 +96,7 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
 	METHOD GetFieldReadBlock()
+	METHOD GetLinkedTable() INLINE NIL
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
@@ -118,7 +119,7 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
-	METHOD IsReadOnly() INLINE ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
+	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
@@ -134,6 +135,7 @@ PUBLIC:
 	PROPERTY DisplayText READ GetEditText
 	PROPERTY EmptyValue READ GetEmptyValue
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
+	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY PickList READ FPickList WRITE SetPickList
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
@@ -711,9 +713,15 @@ RETURN result
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE SetAsVariant( value ) CLASS TField
+	LOCAL oldState
 
-	IF ::FTable:ReadOnly .OR. ::Table:State = dsInactive
+	IF ::IsReadOnly .OR. ::FTable:State = dsInactive
 		RETURN
+	ENDIF
+	
+	IF ::FTable:State = dsBrowse .AND. !::IsKeyIndex .AND. ::FTable:autoEdit
+		oldState := ::FTable:State
+		::FTable:Edit()
 	ENDIF
 	
 	SWITCH ::FTable:State
@@ -725,7 +733,6 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 
 	CASE dsEdit
 	CASE dsInsert
-	CASE dsReading
 
 		SWITCH ::FFieldMethodType
 		CASE "A"
@@ -736,23 +743,10 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 
 		CASE "C"
 
-			IF ::ReadOnly
-				RETURN
-			ENDIF
-
-			IF ::FTable:State = dsReading .OR. ::AutoIncrement
-				::SetBuffer( value )
-				RETURN
-			ENDIF
-
 			/* Check if we are really changing values here */
-			IF value == ::GetBuffer()
-				RETURN
+			IF !value == ::GetBuffer()
+				::SetData( value )
 			ENDIF
-
-			::SetData( value )
-
-			RETURN
 
 		ENDSWITCH
 		
@@ -763,6 +757,10 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 		RAISE TFIELD ::Name ERROR "Table not in Edit or Insert or Reading mode"
 
 	ENDSWITCH
+	
+	IF oldState != NIL
+		::FTable:Post()
+	ENDIF
 
 RETURN
 
@@ -1112,9 +1110,9 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 		IF ::FTable:LinkedObjField != NIL
 
-			IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
+			//IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
 				::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
-			ENDIF
+			//ENDIF
 
 			IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
 				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
@@ -1124,8 +1122,8 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 	ELSE
 
-		RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
-		//wxhAlert( "Field '" + ::FName + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
+		//RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
+		wxhAlert( "Field '" + ::FName + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
 
 	ENDIF
 

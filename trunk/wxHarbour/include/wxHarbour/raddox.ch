@@ -16,7 +16,6 @@
 #define dsBrowse    1
 #define dsInsert    2
 #define dsEdit      4
-#define dsReading   8
 
 #define dssNone     0
 #define dssAdding   1

@@ -113,7 +113,8 @@ PUBLIC:
 
 	DATA aliasIdx
 	DATA aliasTmp
-	DATA allowDataChange INIT .T.
+	DATA allowOnDataChange INIT .T.
+	DATA autoEdit INIT .F.
 	DATA autoMasterSource INIT .F.
 	DATA autoOpen INIT .T.
 	DATA dataIsOEM	INIT .T.
@@ -1383,7 +1384,7 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 
 		::SyncDetailSources()
 
-		IF Result .AND. ::allowDataChange
+		IF Result .AND. ::allowOnDataChange
 			::OnDataChange()
 		ENDIF
 
@@ -2129,6 +2130,8 @@ RETURN ::FindIndex( index ):RawSeek( Value )
 	Teo. Mexico 2006
 */
 METHOD FUNCTION RecLock CLASS TTable
+	LOCAL allowOnDataChange
+	LOCAL result
 
 	IF ::FState != dsBrowse
 		::Error_Table_Not_In_Browse_Mode()
@@ -2147,15 +2150,21 @@ METHOD FUNCTION RecLock CLASS TTable
 	IF !::InsideScope .OR. !::Alias:RecLock()
 		RETURN .F.
 	ENDIF
+	
+	allowOnDataChange := ::allowOnDataChange
+	::allowOnDataChange := .F.
+	
+	result := ::GetCurrentRecord()
 
-	IF ::GetCurrentRecord()
+	IF result
 		::SetState( dsEdit )
 	ELSE
 		::Alias:RecUnLock()
-		RETURN .F.
 	ENDIF
+	
+	::allowOnDataChange := allowOnDataChange
 
-RETURN .T.
+RETURN result
 
 /*
 	RecUnLock

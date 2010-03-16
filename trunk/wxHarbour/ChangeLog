@@ -2,6 +2,31 @@
  * $Id$
  */
 
+2010-03-16 15:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * removed unused define dsReading
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     ! Fixed using the TField:LinkedTable property
+     % simplified change of edit state of the table by using the Table:autoEdit flag
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * renamed var allowDataChange to allowOnDataChange
+     * renamed :SetAllowDataChange to :SetAllowOnDataChange
+     
+  *  src/raddox/TField.prg
+     + added property LinkedTable to TField base object (returns NIL)
+     % added Table:ReadOnly to IsReadOnly evaluation method
+     % simplified :SetAsVariant
+     * using Table:autoEdit flag
+
+  *  src/raddox/TTable.prg
+     * renamed flag :allowDataChange to :allowOnDataChange
+     + added flag
+       + autoEdit: if TRUE, allows to edit fields in dsBrowse state
+     * do not call OnDataChange on :RecLock
+
 2010-03-16 09:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % simplified the method that solves the CalcField's, removed the usage of a normal
