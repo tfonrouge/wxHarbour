@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-16 09:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % simplified the method that solves the CalcField's, removed the usage of a normal
+       field (:Field_*) to solve a declared calculated field
+
 2010-03-15 00:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * added alert message when trying to set an index that has not the same
