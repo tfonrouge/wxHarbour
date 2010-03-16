@@ -33,7 +33,7 @@ PRIVATE:
 	DATA FRowPos					INIT 0
 	METHOD GetColCount INLINE Len( ::GetTable():ColumnList )
 	METHOD GetRecNo
-	METHOD SetAllowDataChange( allowDataChange )
+	METHOD SetAllowOnDataChange( allowOnDataChange )
 	METHOD SetDataSource( dataSource )
 	METHOD SetAlwaysShowSelectedRow( alwaysShowSelectedRow )
 PROTECTED:
@@ -89,7 +89,7 @@ PUBLIC:
 
 	METHOD DeleteAllColumns
 	METHOD FillColumns
-	
+
 	METHOD GetBrowseParent INLINE ::GetGrandParent():GetParent()
 
 	METHOD GoFirstPos
@@ -170,9 +170,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION Down CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 	
 	IF ::RowPos < ::RowCount
 		::RowPos += 1
@@ -185,7 +185,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
 		ENDIF
 	ENDIF
 	
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 
@@ -257,9 +257,9 @@ RETURN ::FRecNo
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 	
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 
 	::GoBottomBlock:Eval()
 	::GetTable():FillGridBuffer( 0 )
@@ -267,7 +267,7 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
 
 	::ForceRefresh()
 
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 	
 RETURN Self
 
@@ -288,9 +288,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GoTop CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 
 	::GoTopBlock:Eval()
 	::GetTable():FillGridBuffer( 0 )
@@ -298,7 +298,7 @@ METHOD FUNCTION GoTop CLASS wxhBrowse
 
 	::ForceRefresh()
 
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 
@@ -500,9 +500,9 @@ RETURN Result
 	Teo. Mexico 2009
 */
 METHOD FUNCTION PageDown CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 	
 	IF ::RowPos = ::RowCount
 		::GetTable():FillGridBuffer( ::RowCount )
@@ -511,7 +511,7 @@ METHOD FUNCTION PageDown CLASS wxhBrowse
 		::RowPos := ::RowCount
 	ENDIF
 
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 
@@ -520,9 +520,9 @@ RETURN Self
 	Teo. Mexico 2009
 */
 METHOD FUNCTION PageUp CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 	
 	IF ::RowPos = 1
 		::GetTable():FillGridBuffer( - ::RowCount )
@@ -531,7 +531,7 @@ METHOD FUNCTION PageUp CLASS wxhBrowse
 		::RowPos := 1
 	ENDIF
 
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 
@@ -576,16 +576,16 @@ METHOD PROCEDURE SetAlwaysShowSelectedRow( alwaysShowSelectedRow ) CLASS wxhBrow
 RETURN
 
 /*
-	SetAllowDataChange
+	SetAllowOnDataChange
 	Teo. Mexico 2009
 */
-METHOD FUNCTION SetAllowDataChange( allowDataChange ) CLASS wxhBrowse
+METHOD FUNCTION SetAllowOnDataChange( allowOnDataChange ) CLASS wxhBrowse
 	LOCAL oldValue
 	
 	IF ::DataSourceType = "O"
-		oldValue := ::DataSource:allowDataChange
-		::DataSource:allowDataChange := allowDataChange
-		IF allowDataChange
+		oldValue := ::DataSource:allowOnDataChange
+		::DataSource:allowOnDataChange := allowOnDataChange
+		IF allowOnDataChange
 			::DataSource:OnDataChange()
 		ENDIF
 	ENDIF
@@ -702,9 +702,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION Up CLASS wxhBrowse
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 
-	allowDataChange := ::SetAllowDataChange( .F. )
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 
 	IF ::RowPos > 1
 		::RowPos -= 1
@@ -717,7 +717,7 @@ METHOD FUNCTION Up CLASS wxhBrowse
 		ENDIF
 	ENDIF
 	
-	::SetAllowDataChange( allowDataChange )
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 

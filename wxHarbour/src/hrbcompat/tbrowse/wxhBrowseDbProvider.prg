@@ -77,7 +77,7 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 	LOCAL topRecord
 	LOCAL curRowPos
 	LOCAL browse := ::GetView()
-	LOCAL allowDataChange
+	LOCAL allowOnDataChange
 	
 	IF browse:SkipBlock == NIL
 		RETURN
@@ -90,8 +90,8 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 	start -= curRowPos
 	
 	IF browse:DataSourceType = "O"
-		allowDataChange := browse:DataSource:allowDataChange
-		browse:DataSource:allowDataChange := .F.
+		allowOnDataChange := browse:DataSource:allowOnDataChange
+		browse:DataSource:allowOnDataChange := .F.
 	ENDIF
 
 	browse:SkipBlock:Eval( 0 )
@@ -178,8 +178,8 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 		
 	ENDIF
 	
-	IF allowDataChange != NIL
-		browse:DataSource:allowDataChange := allowDataChange
+	IF allowOnDataChange != NIL
+		browse:DataSource:allowOnDataChange := allowOnDataChange
 	ENDIF
 
 RETURN
