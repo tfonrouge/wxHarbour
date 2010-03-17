@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-03-16 22:54 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * changing the values accepted on :SetDataSource, now if param (dataSource)
+       is 'N' or 'C' then it retrieves the workArea and does a plain seek/skip
+       dbf by using the functions DbGoTop()/DbGoBottom()/__dbSkipper(n)
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     % small speed optimization on getting the row/col value
+     * minor code cleanup
+
+  +  samples/dbf_ctrls1
+  +  samples/dbf_ctrls1/GNUmakefile
+  +  samples/dbf_ctrls1/dbf_ctrls1.prg
+  +  samples/dbf_ctrls1/makefile.bcc
+  +  samples/dbf_ctrls1/makefile.gcc
+  +  samples/dbf_ctrls1/makefile.vc
+  +  samples/dbf_ctrls1/test.dbf
+     + sample added to show plain dbf browse/get capabilities
+
 2010-03-16 21:41 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 
 2010-03-16 21:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)

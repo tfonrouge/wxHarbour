@@ -185,18 +185,6 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 RETURN
 
 /*
-	GetRowParam
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetRowParam CLASS wxhBrowseTableBase
-
-	IF ::FRowParamType = "B"
-		RETURN ::FRowParam:Eval( ::GetView() )
-	ENDIF
-
-RETURN ::FRowParam
-
-/*
 	GetCellValueAtCol
 	Teo. Mexico 2008
 */
@@ -217,12 +205,12 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 	
 	IF ::FIgnoreCellEvalError
 		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-			Result := column:GetValue( ::RowParam, nCol )
+			Result := column:GetValue( ::GetRowParam(), nCol )
 		RECOVER
 			Result := "<error on block>"
 		END SEQUENCE
 	ELSE
-		Result := column:GetValue( ::RowParam, nCol )
+		Result := column:GetValue( ::GetRowParam(), nCol )
 	ENDIF
 	
 	IF picture != NIL
@@ -323,6 +311,18 @@ METHOD FUNCTION GetRowLabelValue( row ) CLASS wxhBrowseTableBase
 	END SEQUENCE
 
 RETURN Result
+
+/*
+	GetRowParam
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetRowParam CLASS wxhBrowseTableBase
+
+	IF ::FRowParamType = "B"
+		RETURN ::FRowParam:Eval( ::GetView() )
+	ENDIF
+
+RETURN ::FRowParam
 
 /*
 	GetValue
@@ -436,7 +436,7 @@ METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 	IF oCol:CanSetValue
 	
 		//oCol:Block:Eval( ::RowParam, value )
-		oCol:SetValue( ::RowParam, value )
+		oCol:SetValue( ::GetRowParam(), value )
 	
 		::GetView():RefreshCurrent()
 
