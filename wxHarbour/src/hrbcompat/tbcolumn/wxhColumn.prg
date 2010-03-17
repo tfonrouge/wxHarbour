@@ -217,20 +217,14 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
-	LOCAL table
 
 	IF !::ReadOnly
 		IF ::TField != NIL
-			IF ::TField:LinkedTable != NIL
-				table := ::TField:LinkedTable
-			ELSE
-				table := ::TField:Table
-			ENDIF
-			IF table:Eof()
+			IF ::browse:DataSource:Eof()
 				RETURN .F.
 			ENDIF
-			IF table:State = dsBrowse .AND. !table:autoEdit
-				wxhAlert( "Can edit field '" + ::TField:Name + "' on database '" + ::TField:Table:ClassName() + "'" )
+			IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
+				wxhAlert( "Can edit field '" + ::TField:Name + "' on database '" + ::browse:DataSource:ClassName() + "'" )
 				RETURN .F.
 			ENDIF
 			::TField:AsString := value

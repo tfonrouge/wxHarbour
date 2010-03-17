@@ -639,10 +639,10 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		/* @ GET */
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 
-			control:ChangeValue( RTrim( ::TextValue() ) )
+			control:ChangeValue( ::TextValue() )
 			//control:SetInsertionPoint( 0 )
 			//control:ShowPosition( 0 )
-			control:SetSelection()
+			//control:SetSelection()
 
 		/* @ RADIOBOX */
 		ELSEIF control:IsDerivedFrom( "wxRadioBox" )
