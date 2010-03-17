@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-03-16 21:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * removed RTrim when on wxHBValidator:TransferToWindow data is transfered
+       to a wxTextCtrl control, so the buffers are equal on checking when the
+       wxTextCtrl looses focus
+     * removed selecting the whole text on the wxTextCtrl on TransferToWindow
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     % simplified the checking if the column can be edited by checking the
+       ::browse:DataSource values
+
 2010-03-16 15:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * removed unused define dsReading
