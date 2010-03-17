@@ -2,11 +2,14 @@
  * $Id$
  */
 
+2010-03-16 21:41 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+
 2010-03-16 21:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * removed RTrim when on wxHBValidator:TransferToWindow data is transfered
        to a wxTextCtrl control, so the buffers are equal on checking when the
-       wxTextCtrl looses focus
+       wxTextCtrl looses focus.
+       Thanks to Jerry Finuliar for pointing this.
      * removed selecting the whole text on the wxTextCtrl on TransferToWindow
 
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
