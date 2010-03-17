@@ -618,9 +618,9 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
-	LOCAL table
 	LOCAL oldPos
 	LOCAL vt := ValType( dataSource )
+	LOCAL workArea
 
 	::FDataSource := NIL
 	::FDataSourceType := NIL
@@ -642,12 +642,27 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
 		EXIT
 
+	CASE 'N'
 	CASE 'C'				/* path/filename for a database browse */
-		table := TTable():New( , dataSource )
 
-		::SetDataSource( table )
-
-		RETURN
+		IF vt = 'N'
+			workArea := dataSource
+		ELSE
+			workArea := Select( dataSource )
+		ENDIF
+		
+		IF !Empty( workArea )
+			::FDataSource := workArea
+			::FDataSourceType := "D"
+			::RowParam := workArea
+			::GoTopBlock := {|| (workArea)->( DbGoTop() ) }
+			::GoBottomBlock := {|| (workArea)->( DbGoBottom() ) }
+			::SkipBlock := {|n| (workArea)->( __dbSkipper( n ) ) }
+		ELSE
+			wxhAlert( "Empty workarea on wxhBrowse" )
+		ENDIF
+		
+		EXIT
 
 	CASE 'H'				/* Hash browse */
 		/* TODO: Implement this */
