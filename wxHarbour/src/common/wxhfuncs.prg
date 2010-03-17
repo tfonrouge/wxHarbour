@@ -506,9 +506,9 @@ RETURN value
 METHOD TransferFromWindow() CLASS wxhHBValidator
 	LOCAL control
 	LOCAL oldValue
-	LOCAL newValue
 	LOCAL value
 	LOCAL Result := .T.
+	LOCAL changed
 
 	control := ::GetWindow()
 
@@ -524,17 +524,19 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
 		SWITCH ValType( oldValue )
 		CASE 'C'
-			newValue := value
+			changed := ! PadR( value, Len( oldValue ) ) == oldValue
 			EXIT
 		CASE 'N'
-			newValue := Val( value )
+			changed := Val( value ) != oldValue
 			EXIT
 		CASE 'D'
-			newValue := AsDate( value )
+			changed := AsDate( value ) != oldValue
 			EXIT
-		END
+		OTHERWISE
+			changed := .F.
+		ENDSWITCH
 
-		IF ! oldValue == newValue
+		IF changed
 
 			::FBlock:Eval( value )
 		
@@ -639,9 +641,9 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		/* @ GET */
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 
-			control:ChangeValue( ::TextValue() )
-			//control:SetInsertionPoint( 0 )
-			//control:ShowPosition( 0 )
+			control:ChangeValue( RTrim( ::TextValue() ) )
+			control:SetInsertionPoint( 0 )
+			control:ShowPosition( 0 )
 			//control:SetSelection()
 
 		/* @ RADIOBOX */

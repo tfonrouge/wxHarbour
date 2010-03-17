@@ -31,6 +31,8 @@ FUNCTION Main( ... )
 	LOCAL csPort,csServerName,csType
 	LOCAL p
 	LOCAL lRunServer := .F.
+	
+	SetMode( 40, 120 )
 
 	FOR i:=1 TO PCount()
 		p := HB_PValue( i )
@@ -160,7 +162,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 	ENDIF
 
 	BEGIN BOXSIZER VERTICAL
-		@ BROWSE VAR b DATASOURCE dbName ;
+		@ BROWSE VAR b DATASOURCE TTable():New( NIL, dbName ) ;
 			ONKEY {|b,keyEvent| k_Process( b, keyEvent:GetKeyCode() ) } ;
 			SIZERINFO ALIGN EXPAND STRETCH
 		BEGIN BOXSIZER VERTICAL "" ALIGN EXPAND
