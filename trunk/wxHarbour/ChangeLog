@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-03-18 13:41 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+     ! Fixed error that was given a random number on ::GetMaxRows due to an wxDialog
+       that doesn't call his OnSize (which calculates the max number of rows)
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * explicit get the string value for an object returned inside ::GetValue method
+
 2010-03-18 11:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % added checking for a MasterSource (if any) not at EOF on ::InsideScope
