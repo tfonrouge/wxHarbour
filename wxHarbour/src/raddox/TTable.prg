@@ -1880,7 +1880,7 @@ RETURN
 METHOD FUNCTION InsideScope() CLASS TTable
 	LOCAL primaryIndex := ::PrimaryIndex
 
-	IF ::Eof() .OR. ::Bof()
+	IF ::Eof() .OR. ::Bof() .OR. ( ::MasterSource != NIL .AND. ::MasterSource:Eof() )
 		RETURN .F.
 	ENDIF
 
