@@ -172,7 +172,7 @@ PUBLIC:
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
-	METHOD GetKeyVal() INLINE ::FIndex:GetKeyVal()
+	METHOD GetKeyVal() INLINE ::PrimaryIndex:GetKeyVal()
 	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
@@ -1324,7 +1324,7 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 	LOCAL Result
 	LOCAL index
 	LOCAL read
-	
+
 	IF idxAlias = NIL
 		IF ::aliasIdx != NIL
 			::aliasIdx:Seek( ::Alias:RecNo, "IDX_RECNO" )
@@ -2250,7 +2250,7 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TTable
-	::FIndex:SetKeyVal( keyVal )
+	::PrimaryIndex:SetKeyVal( keyVal )
 RETURN Self
 
 /*

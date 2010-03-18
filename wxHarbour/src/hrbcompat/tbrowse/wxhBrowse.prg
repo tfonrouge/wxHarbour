@@ -212,11 +212,11 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 
 	DO CASE
 	CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
-	
+
 		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
 		FOR EACH fld IN ::FDataSource:FieldList
-			__wxh_BrowseAddColumnFromField( Self, fld:Name, ::IsEditable() )
+			__wxh_BrowseAddColumnFromField( Self, fld, ::IsEditable() )
 		NEXT
 
 	CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0

@@ -34,13 +34,12 @@ REQUEST DBFCDX
 REQUEST DBFFPT
 
 FUNCTION Main( ... )
-	LOCAL MyApp
+
+	SetMode( 40, 100 )
 
 	rddSetDefault("DBFCDX")
 
-	MyApp := MyApp():New()
-
-	IMPLEMENT_APP( MyApp )
+	IMPLEMENT_APP( MyApp():New() )
 
 RETURN NIL
 
