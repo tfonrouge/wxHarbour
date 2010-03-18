@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-03-18 01:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     + add missing function from previous commits:
+       + __wxh_CreateDialogButtons : add standard buttons to wxDialogs by using commands
+     * renamed var name typo "strech" to "stretch"
+
 2010-03-18 01:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed error when comparing values changed for "N" and "D" data types

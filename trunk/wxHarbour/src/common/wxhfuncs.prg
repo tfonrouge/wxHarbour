@@ -823,7 +823,7 @@ RETURN
  * __wxh_BoxSizerBegin
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders )
+FUNCTION __wxh_BoxSizerBegin( label, orient, stretch, align, border, sideBorders )
 	LOCAL sizer
 	LOCAL parent
 	LOCAL lastSizer
@@ -844,7 +844,7 @@ FUNCTION __wxh_BoxSizerBegin( label, orient, strech, align, border, sideBorders 
 		ENDIF
 		__wxh_SetSizer( parent, sizer )
 	ELSE
-		__wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+		__wxh_SizerInfoAdd( sizer, lastSizer, stretch, align, border, sideBorders )
 	ENDIF
 
 	containerObj():AddToSizerList( sizer )
@@ -1109,6 +1109,38 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
 RETURN comboBox
 
 /*
+	__wxh_CreateDialogButtons
+	Teo. Mexico 2010
+*/
+FUNCTION __wxh_CreateDialogButtons( message, flags, dlg, stretch, align, border, sideborders )
+	LOCAL sizer
+	LOCAL lastSizer
+
+	IF dlg = NIL
+		dlg := containerObj():LastParent()
+	ENDIF
+	
+	IF dlg:IsDerivedFrom( "wxDialog" )
+
+		sizer := __ObjSendMsg( dlg, message, flags )
+
+		lastSizer := containerObj():LastSizer
+
+		IF lastSizer == NIL
+			__wxh_SetSizer( dlg, sizer )
+		ELSE
+			__wxh_SizerInfoAdd( sizer, lastSizer, stretch, align, border, sideBorders )
+		ENDIF
+
+		containerObj():AddToSizerList( sizer )
+
+	ELSE
+		wxhAlert( "wxDialog not at sight to add dialog-buttons." )
+	ENDIF
+
+RETURN sizer
+
+/*
 	__wxh_CustomParentBegin
 	Teo. Mexico 2009
 */
@@ -1202,7 +1234,7 @@ RETURN
  * __wxh_FlexGridSizerBegin
  * Teo. Mexico 2009
  */
-PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growableRows, strech, align, border, sideBorders )
+PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growableRows, stretch, align, border, sideBorders )
 	LOCAL sizer
 	LOCAL parent
 	LOCAL lastSizer
@@ -1228,7 +1260,7 @@ PROCEDURE __wxh_FlexGridSizerBegin( rows, cols, vgap, hgap, growableCols, growab
 	IF lastSizer == NIL
 		__wxh_SetSizer( parent, sizer )
 	ELSE
-		__wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+		__wxh_SizerInfoAdd( sizer, lastSizer, stretch, align, border, sideBorders )
 	ENDIF
 
 	containerObj():AddToSizerList( sizer )
@@ -1381,7 +1413,7 @@ RETURN grid
  * __wxh_GridSizerBegin
  * Teo. Mexico 2009
  */
-PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, sideBorders )
+PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, stretch, align, border, sideBorders )
 	LOCAL sizer
 	LOCAL parent
 	LOCAL lastSizer
@@ -1394,7 +1426,7 @@ PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, strech, align, border, s
 	IF lastSizer == NIL
 		__wxh_SetSizer( parent, sizer )
 	ELSE
-		__wxh_SizerInfoAdd( sizer, lastSizer, strech, align, border, sideBorders )
+		__wxh_SizerInfoAdd( sizer, lastSizer, stretch, align, border, sideBorders )
 	ENDIF
 
 	containerObj():AddToSizerList( sizer )
@@ -1783,7 +1815,7 @@ RETURN
  * __wxh_SizerInfoAdd
  * Teo. Mexico 2009
  */
-PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
+PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, stretch, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
 	LOCAL sizerInfo
 
 	IF Empty( containerObj():ParentList )
@@ -1812,7 +1844,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
 		containerObj():GetLastChild()[ "processed" ] := .T. /* mark processed */
 
-		strech			:= sizerInfo[ "strech" ]
+		stretch			:= sizerInfo[ "stretch" ]
 		align				:= sizerInfo[ "align" ]
 		border			:= sizerInfo[ "border" ]
 		sideBorders := sizerInfo[ "sideBorders" ]
@@ -1838,8 +1870,8 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 		RETURN
 	ENDIF
 
-	IF strech == NIL
-		strech := 0
+	IF stretch == NIL
+		stretch := 0
 	ENDIF
 
 	IF align == NIL
@@ -1879,7 +1911,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 	IF addSizerInfoToLastItem == .T.
 
 		IF ! useLast == .T.
-			sizerInfo := { "strech"=>strech, "align"=>align, "border"=>border, "sideBorders"=>sideBorders, "flag"=>flag }
+			sizerInfo := { "stretch"=>stretch, "align"=>align, "border"=>border, "sideBorders"=>sideBorders, "flag"=>flag }
 			containerObj():AddSizerInfoToLastItem( sizerInfo )
 		ENDIF
 
@@ -1889,7 +1921,7 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, strech, align, border, sideBor
 
 	containerObj():SizerAddOnLastChild()
 
-	parentSizer:Add( child, strech, HB_BitOr( align, sideBorders, flag ), border )
+	parentSizer:Add( child, stretch, HB_BitOr( align, sideBorders, flag ), border )
 
 RETURN
 
@@ -1897,7 +1929,7 @@ RETURN
  * __wxh_Spacer
  * Teo. Mexico 2009
  */
-PROCEDURE __wxh_Spacer( width, height, strech, align, border )
+PROCEDURE __wxh_Spacer( width, height, stretch, align, border )
 	LOCAL lastSizer
 
 	containerObj():SizerAddOnLastChild()
@@ -1917,8 +1949,8 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
 		height := 5
 	ENDIF
 
-	IF strech == NIL
-		strech := 1
+	IF stretch == NIL
+		stretch := 1
 	ENDIF
 
 	IF align == NIL
@@ -1935,7 +1967,7 @@ PROCEDURE __wxh_Spacer( width, height, strech, align, border )
 		border := 5
 	ENDIF
 
-	lastSizer:Add( width, height, strech, align, border )
+	lastSizer:Add( width, height, stretch, align, border )
 
 RETURN
 
@@ -2578,7 +2610,7 @@ METHOD PROCEDURE SizerAddOnLastChild CLASS TContainerObj
 		IF sizerInfo == NIL
 			__wxh_SizerInfoAdd( child )
 		ELSE
-			__wxh_SizerInfoAdd( child, NIL, sizerInfo[ "strech" ], sizerInfo[ "align" ], sizerInfo[ "border" ], sizerInfo[ "sideBorders" ], sizerInfo[ "flag" ] )
+			__wxh_SizerInfoAdd( child, NIL, sizerInfo[ "stretch" ], sizerInfo[ "align" ], sizerInfo[ "border" ], sizerInfo[ "sideBorders" ], sizerInfo[ "flag" ] )
 		ENDIF
 
 	ENDIF
