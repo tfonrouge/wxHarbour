@@ -529,10 +529,12 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 			changed := ! PadR( value, Len( oldValue ) ) == oldValue
 			EXIT
 		CASE 'N'
-			changed := Val( value ) != oldValue
+			value := Val( value )
+			changed := value != oldValue
 			EXIT
 		CASE 'D'
-			changed := AsDate( value ) != oldValue
+			value := AsDate( value )
+			changed := value != oldValue
 			EXIT
 		OTHERWISE
 			changed := .F.
