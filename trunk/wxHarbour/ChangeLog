@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2010-03-18 16:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     * setting "" as default value for ::Heading if it was not solved at ::GetValue stage
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     ! Fixed random BAD_ACCESS on converting to UTF8 on wxString and heading was NIL
+
+  *  src/raddox/TTable.prg
+     * poblated for LinkedObjField's all ::__FLastLabel on DisplayFieldBlock
+
 2010-03-18 13:41 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wx_Browse.cpp
      ! Fixed error that was given a random number on ::GetMaxRows due to an wxDialog

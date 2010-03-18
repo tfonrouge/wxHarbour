@@ -123,8 +123,12 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
 	ENDIF
 	
 	IF HB_IsObject( rowParam )
-		IF Empty( ::FHeading )
-			::Heading := rowParam:__FLastLabel
+		IF ::FHeading = NIL
+			IF rowParam:__FLastLabel = NIL
+				::Heading := ""
+			ELSE
+				::Heading := rowParam:__FLastLabel
+			ENDIF
 		ENDIF
 	ENDIF
 
