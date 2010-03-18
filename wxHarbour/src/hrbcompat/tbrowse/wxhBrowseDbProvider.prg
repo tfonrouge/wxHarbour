@@ -254,11 +254,15 @@ RETURN Result
 	Teo. Mexico 2008
 */
 METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseTableBase
-	col++
-	IF col < 1
-		RETURN ""
+	LOCAL value := ""
+
+	IF ++col < 1
+		RETURN value
 	ENDIF
-RETURN ::FColumnList[ col ]:Heading
+	
+	value := ::FColumnList[ col ]:Heading
+
+RETURN iif( value = NIL, "", value )
 
 /*
 	GetGridRowData

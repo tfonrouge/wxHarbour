@@ -1267,7 +1267,7 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 			result := ::Alias:DbOpen()
 			
 		RECOVER
-		
+
 			result := .F.
 			
 		END SEQUENCE
@@ -1453,10 +1453,8 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 
 				WHILE odf:__FObj:LinkedObjField != NIL
 					odf := odf:__FObj:LinkedObjField:Table:GetDisplayFields()
+					odf:__FLastLabel := AField:Label
 				ENDDO
-
-				odf:__FLastLabel := AField:Label
-				
 
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
 					RETURN AField:EmptyValue
