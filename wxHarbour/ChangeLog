@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-18 01:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed error when comparing values changed for "N" and "D" data types
+       (thanks to Jerry Finuliar for pointing this)
+
 2010-03-17 23:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TField.prg
