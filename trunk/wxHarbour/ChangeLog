@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2010-03-17 23:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+     + added REUSEFIELD clause on ADD FIELD ... command this allows to re-use
+       an database field more than one time without launching error
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/wxbase/manwindows/wx_Dialog.cpp
+  *  src/wxbase/manwindows/wxhDialog.prg
+     + added command's to create standard buttons on wxDialog's:
+       + @ CREATE BUTTONSIZER
+       + @ CREATE SEPARATEDBUTTONSIZER
+       + @ CREATE STDDIALOGBUTTONSIZER
+
+  *  src/common/wxhfuncs.prg
+     * on wxhHBValidator using a codeblock provided by the user as the set/get codeblock
+
 2010-03-17 10:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbbrowser/dbbrowser.prg
      ! Fixing the creation of a table by using his filename

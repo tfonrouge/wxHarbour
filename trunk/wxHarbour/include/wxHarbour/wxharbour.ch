@@ -247,6 +247,21 @@
 					=> ;
 					__wxh_SizerEnd()
 
+#xcommand @ CREATE <bst: BUTTONSIZER, SEPARATEDBUTTONSIZER, STDDIALOGBUTTONSIZER> ;
+					FLAGS <flags> ;
+					[ VAR <var> ] ;
+					[ ON DIALOG <dlg> ];
+					[ <stretch: STRETCH> ] ;
+					[ ALIGN <align: TOP, LEFT, BOTTOM, RIGHT, CENTRE, CENTRE_HORIZONTAL, CENTRE_VERTICAL, CENTER, CENTER_HORIZONTAL, CENTER_VERTICAL, EXPAND> ] ;
+					[ BORDER <border> ] ;
+					[ SIDEBORDERS <sideborders,...> ] ;
+					=> ;
+	[<var> :=] __wxh_CreateDialogButtons( "Create" + <"bst">, <flags>, [<dlg>],;
+						[ wx<stretch> ],;
+						[ wxALIGN_<align> ],;
+						[ <border> ],;
+						[ HB_BitOr(0,<sideborders>) ] ;
+					)
 
 #xcommand @ SPACER ;
 					[ WIDTH <width> ] ;
@@ -416,7 +431,7 @@
  */
 #xcommand @ RADIOBOX <dataVar> [ LABEL <label> ] ;
 						[ ITEMS <choices> ] ;
-			[ <specRC: ROWS, COLS> <nmaxRC> ] ;
+						[ <specRC: ROWS, COLS> <nmaxRC> ] ;
 						[ VAR <radioBox> ] ;
 						[ PARENT <parent> ] ;
 						[ ID <id> ] ;

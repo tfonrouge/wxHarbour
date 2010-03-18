@@ -44,6 +44,7 @@ PRIVATE:
 	DATA FPublished INIT .T.							// Logical: Appears in user field selection
 	DATA FReadOnly	INIT .F.
 	DATA FRequired INIT .F.
+	DATA FReUseField INIT .F.
 	DATA FUniqueKeyIndex
 	DATA FUsingField						// Field used on Calculated Field
 	METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
@@ -102,6 +103,7 @@ PROTECTED:
 	METHOD SetBuffer( value )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
+	METHOD SetReUseField( reUseField ) INLINE ::FReUseField := reUseField
 
 PUBLIC:
 
@@ -137,6 +139,7 @@ PUBLIC:
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY PickList READ FPickList WRITE SetPickList
+	PROPERTY ReUseField READ FReUseField WRITE SetReUseField
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
@@ -1010,7 +1013,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 		FOR EACH AField IN ::FTable:FieldList
 			IF !Empty( AField:FieldExpression ) .AND. ;
 				 Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-				 AField:TableBaseClass == ::FTableBaseClass
+				 AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
 				RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
 			ENDIF
 		NEXT
