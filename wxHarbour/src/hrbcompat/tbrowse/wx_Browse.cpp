@@ -147,6 +147,11 @@ HB_FUNC( WXHBROWSE_NEW )
 	const wxString& name = ISNIL( 6 ) ? wxString( _T("wxhBrowse") ) : wxh_parc( 6 );
 
 	wxhBrowse* gridBrowse = new wxhBrowse( browse, id, pos, size, style, name );
+	
+	gridBrowse->m_maxRows = 0;
+	gridBrowse->m_gridWindowHeight = 0;
+	gridBrowse->m_rowCount = 0;
+	gridBrowse->m_selectedRow = 0;
 
 	objParams.Return( gridBrowse );
 	

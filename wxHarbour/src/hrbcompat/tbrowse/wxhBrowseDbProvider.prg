@@ -235,8 +235,10 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 		Result := HB_TSToStr( Result )
 		EXIT
 	CASE 'O'
-		Result := Result:__FObj:Value()
-		EXIT
+		IF Result:IsDerivedFrom( "TField" )
+			Result := Result:AsString()
+			EXIT
+		ENDIF
 	OTHERWISE
 		Result := "<unknown type '" + ValType( Result ) + "'>"
 	END
