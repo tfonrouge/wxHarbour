@@ -980,13 +980,16 @@ PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
 		EXIT
 	CASE 'C'
 		EXIT
+	CASE 'O'
+		EXIT
 	OTHERWISE
 		wxhAlert( "Invalid column browse ..." )
 		RETURN
 	ENDSWITCH
-	
+
 	column := wxhBrowseColumn():New( wxhBrw )
-	column:BlockField := xField
+
+	column:Field := xField
 	column:IsEditable := editable
 	wxhBrw:AddColumn( column )
 

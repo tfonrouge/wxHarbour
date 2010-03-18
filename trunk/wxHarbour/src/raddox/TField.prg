@@ -1036,6 +1036,14 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 			::FDBS_LEN := ::Table:DbStruct[n][3]
 			::FDBS_DEC := ::Table:DbStruct[n][4]
 
+			IF ::IsDerivedFrom("TStringField")
+				IF ::IsDerivedFrom("TMemoField")
+					::FSize := 0
+				ELSE
+					::FSize := ::FDBS_LEN
+				ENDIF
+			ENDIF
+			
 			::FCalculated := .F.
 		ELSE
 			::FFieldReadBlock	 := NIL
@@ -1250,8 +1258,8 @@ METHOD FUNCTION GetSize() CLASS TStringField
 	LOCAL i
 
 	IF ::FSize = NIL
-		::FSize := 0
 		IF ::FFieldMethodType = "A"
+			::FSize := 0
 			FOR EACH i IN ::FFieldArrayIndex
 				::FSize += ::FTable:FieldList[ i ]:Size
 			NEXT

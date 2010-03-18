@@ -2,6 +2,29 @@
  * $Id$
  */
 
+2010-03-18 11:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * code cleanup
+     * added defines to allow debugging window
+
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     * reworked the column assign procedure, now it's more clean and simple
+       wxhBrowseColumn:Field holds an TField object
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * code cleanup
+     * using a TField as parameter to column creation
+
+  *  src/raddox/TField.prg
+     ! Fixed assigning value to :Size from :FDBS_LEN value (default field "C" lenght)
+     * move intial value to relevant scope
+
+  *  src/raddox/TTable.prg
+     ! Fixed using the PrimaryIndex on KeyVal/GetKeyVal/SetKeyVal method's
+       if user wants to get another KeyVal then it must call it from the ::Index obj
+       KeyVal on the TTable means the PRIMARY KEY value
+
 2010-03-18 01:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      + add missing function from previous commits:
