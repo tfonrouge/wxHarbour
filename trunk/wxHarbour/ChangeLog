@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-18 11:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % added checking for a MasterSource (if any) not at EOF on ::InsideScope
+
 2010-03-18 11:05 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * code cleanup
@@ -56,7 +60,6 @@
 2010-03-17 10:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbbrowser/dbbrowser.prg
      ! Fixing the creation of a table by using his filename
-       TODO: Fix the auto fill columns method
 
   *  src/common/wxhfuncs.prg
      * on wxhHBValidator:TransferFromWindow changed the method to check if the
@@ -174,8 +177,6 @@
 
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
      * adding the colpos 'manually' here.
-       TODO: Enhance the way of relation between wxhBrowseColumn <-> wxhBrowse, may be is
-       needed to forget all about of compatibility and create more logic & simple relations
 
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
      * moved some code to wxhColumn.prg
