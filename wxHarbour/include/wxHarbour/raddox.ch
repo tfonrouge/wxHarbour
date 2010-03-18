@@ -93,11 +93,13 @@
 						[ ON AFTER CHANGE <bOnAfterChange> ] ;
 						[ VALIDVALUES <validValues> ] ;
 						[ USING <usingField> ] ;
+						[ <ruf: REUSEFIELD> ] ;
 					 => ;
 						WITH OBJECT T<type>Field():New( Self ) ;;
 							[ :Name := <cName> ] ;;
 							[ :Label := <label> ] ;;
 							[ :ReadOnly := <.ro.> ] ;;
+							[ :ReUseField := <.ruf.> ] ;;
 							[ :FieldMethod := <xFieldMethod> ] ;;
 							[ :ReadBlock := {|| <readblock> } ] ;;
 							[ :WriteBlock := {|Value| <writeblock> } ] ;;

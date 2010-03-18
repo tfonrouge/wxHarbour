@@ -121,6 +121,8 @@ METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhHBValidator
 		::FField := var
 		::FFieldBlock := block
 		block := {|__localVal| iif( PCount() > 0, ::FFieldBlock:Eval():Value := __localVal, ::FFieldBlock:Eval():Value ) }
+	ELSEIF HB_IsBlock( var )
+		block := var
 	ELSEIF Empty( name )
 		block := {|__localVal| iif( PCount() > 0, ::data := __localVal, ::data ) }
 	ENDIF

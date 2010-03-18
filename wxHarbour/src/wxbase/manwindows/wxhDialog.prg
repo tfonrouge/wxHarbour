@@ -28,6 +28,7 @@ PUBLIC:
 	CONSTRUCTOR New( parent, id, title, pos, size, style, name )
 	METHOD Centre( direction )
 	METHOD CreateButtonSizer( flags )
+	METHOD CreateSeparatedButtonSizer( flags )
 	METHOD CreateStdDialogButtonSizer( flags )
 	METHOD EndModal( retCode )
 	METHOD GetAffirmativeId()

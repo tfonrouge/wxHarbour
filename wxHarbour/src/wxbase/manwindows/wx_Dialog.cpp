@@ -88,20 +88,37 @@ HB_FUNC( WXDIALOG_CREATEBUTTONSIZER )
 	wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
 	if( dialog )
-		dialog->CreateButtonSizer( hb_parnl( 1 ) );
+	{
+		wxh_itemNewReturn( "wxSizer", dialog->CreateButtonSizer( hb_parnl( 1 ) ) );
+	}
 }
 
 /*
-	wxDialog::CreateStdDialogButtonSizer( long flags )
-	RETURN NIL (wxStdDialogButtonSizer*)
-	Teo. Mexico 2006
-*/
+ wxDialog::CreateSeparatedButtonSizer( long flags )
+ Teo. Mexico 2006
+ */
+HB_FUNC( WXDIALOG_CREATESEPARATEDBUTTONSIZER )
+{
+	wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
+	if( dialog )
+	{
+		wxh_itemNewReturn( "wxSizer", dialog->CreateSeparatedButtonSizer( hb_parnl( 1 ) ) );
+	}
+}
+
+/*
+ wxDialog::CreateStdDialogButtonSizer( long flags )
+ Teo. Mexico 2006
+ */
 HB_FUNC( WXDIALOG_CREATESTDDIALOGBUTTONSIZER )
 {
 	wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
 	if( dialog )
-		dialog->CreateStdDialogButtonSizer( hb_parnl( 1 ) );
+	{
+		wxh_itemNewReturn( "wxBoxSizer", dialog->CreateStdDialogButtonSizer( hb_parnl( 1 ) ) );
+	}
 }
 
 /*
