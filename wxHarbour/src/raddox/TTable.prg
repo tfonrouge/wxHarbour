@@ -559,55 +559,67 @@ RETURN
 METHOD FUNCTION CheckDbStruct() CLASS TTable
 	LOCAL AField,pkField
 	LOCAL n
-	LOCAL aDb := AClone( ::DbStruct() )
+	LOCAL aDb
 	LOCAL sResult := ""
 	
-	FOR EACH AField IN ::FieldList
-		IF AField:FieldMethodType = "C" .AND. !AField:Calculated
+	IF !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidating" )
+	
+		aDb := AClone( ::DbStruct() )
+	
+		::FInstances[ ::TableClass, "DbStructValidating" ] := NIL
 
-			n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
-			
-			IF AField:IsDerivedFrom("TObjectField")
-				pkField := AField:GetReferenceField()
-				IF pkField = NIL
-					RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Database '" + ::ClassName + "'"
+		FOR EACH AField IN ::FieldList
+			IF AField:FieldMethodType = "C" .AND. !AField:Calculated
+
+				n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
+				
+				IF AField:IsDerivedFrom("TObjectField")
+					pkField := AField:GetReferenceField()
+					IF pkField = NIL
+						RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Database '" + ::ClassName + "'"
+					ENDIF
+				ELSE
+					pkField := AField
 				ENDIF
-			ELSE
-				pkField := AField
+				
+				IF n = 0
+					AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
+					sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
+				ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
+					sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + pkField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
+					aDb[ n, 2 ] := pkField:DBS_TYPE
+					aDb[ n, 3 ] := pkField:DBS_LEN
+					aDb[ n, 4 ] := pkField:DBS_DEC
+				ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:DBS_LEN
+					sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
+					aDb[ n, 3 ] := pkField:DBS_LEN
+				ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
+					sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] ) + "," + NTrim( aDb[ n, 4 ] ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
+					aDb[ n, 3 ] := pkField:DBS_LEN
+					aDb[ n, 4 ] := pkField:DBS_DEC
+				ENDIF
+
 			ENDIF
-			
-			IF n = 0
-				AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
-				sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
-			ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
-				sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + pkField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
-				aDb[ n, 2 ] := pkField:DBS_TYPE
-				aDb[ n, 3 ] := pkField:DBS_LEN
-				aDb[ n, 4 ] := pkField:DBS_DEC
-			ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:DBS_LEN
-				sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
-				aDb[ n, 3 ] := pkField:DBS_LEN
-			ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
-				sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] ) + "," + NTrim( aDb[ n, 4 ] ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
-				aDb[ n, 3 ] := pkField:DBS_LEN
-				aDb[ n, 4 ] := pkField:DBS_DEC
-			ENDIF
+		NEXT
+		
+		::FInstances[ ::TableClass, "DbStructValidated" ] := .T.
+
+		IF ! Empty( sResult )
+			sResult := "Error on Db structure." + ;
+						E"\nClass: " + ::ClassName() + ", Database: " + ::Alias:Name + ;
+						E"\n\n-----\n" + ;
+						sResult + ;
+						E"-----\n\n"
+			? sResult
+
+			::FInstances[ ::TableClass, "DbStructValidated" ] := ::FixDbStruct( aDb, sResult )
 
 		ENDIF
-	NEXT
-	
-	IF ! Empty( sResult )
-		sResult := "Error on Db structure." + ;
-					E"\nClass: " + ::ClassName() + ", Database: " + ::Alias:Name + ;
-					E"\n\n-----\n" + ;
-					sResult + ;
-					E"-----\n\n"
-		? sResult
-		RETURN ::FixDbStruct( aDb, sResult )
+		
+		HB_HDel( ::FInstances[ ::TableClass ], "DbStructValidating" )
+
 	ENDIF
-
-	::FInstances[ ::TableClass, "DbStructValidated" ] := .T.
-
+	
 RETURN .T.
 
 /*
@@ -1424,7 +1436,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 		AField := ::FieldList[ xField ]
 		EXIT
 	END
-	
+
 	IF AField == NIL
 		RAISE ERROR "Wrong value"
 		RETURN NIL
