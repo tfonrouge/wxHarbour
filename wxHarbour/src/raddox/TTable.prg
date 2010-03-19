@@ -720,7 +720,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 
 		aliasName := "IDX_" + ::ClassName()
 
-		IF File( fileName )
+		IF File( fileName ) .AND. index:IdxAlias = NIL
 	
 			index:IdxAlias := TAlias()
 			index:IdxAlias:lShared := .F.
