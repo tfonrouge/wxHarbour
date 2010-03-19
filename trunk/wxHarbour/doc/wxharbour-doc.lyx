@@ -1,0 +1,405 @@
+#LyX 1.6.5 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass scrbook
+\begin_preamble
+% DO NOT ALTER THIS PREAMBLE!!!
+%
+% This preamble is designed to ensure that the User's Guide prints
+% out as advertised. If you mess with this preamble,
+% parts of the User's Guide may not print out as expected.  If you
+% have problems LaTeXing this file, please contact 
+% the documentation team
+% email: lyx-docs@lists.lyx.org
+
+\usepackage{ifpdf} % part of the hyperref bundle
+\ifpdf % if pdflatex is used
+
+ % set fonts for nicer pdf view
+ \IfFileExists{lmodern.sty}{\usepackage{lmodern}}{}
+
+\fi % end if pdflatex is used
+
+% for correct jump positions whe clicking on a link to a float
+\usepackage[figure]{hypcap}
+
+% the pages of the TOC is numbered roman
+% and a pdf-bookmark for the TOC is added
+\let\myTOC\tableofcontents
+\renewcommand\tableofcontents{%
+  \frontmatter
+  \pdfbookmark[1]{\contentsname}{}
+  \myTOC
+  \mainmatter }
+
+% redefine the \LyX macro for PDF bookmarks
+\def\LyX{\texorpdfstring{%
+  L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+  {LyX}}
+
+% define a short command for \textvisiblespace
+\newcommand{\spce}{\textvisiblespace}
+
+% macro for italic page numbers in the index
+\newcommand{\IndexDef}[1]{\textit{#1}}
+
+% redefine the greyed out note
+%\renewenvironment{lyxgreyedout}
+ %{\textcolor{blue}\bgroup}{\egroup}
+
+% workaround for a makeindex bug,
+% see sec. "Index Entry Order"
+% only uncomment this when you are using makindex
+%\let\OrgIndex\index 
+%\renewcommand*{\index}[1]{\OrgIndex{#1}}
+\end_preamble
+\options intoc,bibtotoc,idxtotoc,BCOR7mm,tablecaptionabove
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "wxHarbour doc"
+\pdf_author "Teo Fonrouge"
+\pdf_subject "wxHarbour library documentation"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "linkcolor=black, citecolor=black, urlcolor=blue, filecolor=blue,pdfpagelayout=OneColumn, pdfnewwindow=true,pdfstartview=XYZ, plainpages=false, pdfpagelabels,pdftex"
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 0
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+wxHarbour doc
+\end_layout
+
+\begin_layout Author
+by Teo Fonrouge (teo/at/windtelsoft/com)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Version 0.5.0
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+GUI Reference
+\end_layout
+
+\begin_layout Chapter
+Commands
+\end_layout
+
+\begin_layout Section
+@ BROWSE ...
+\end_layout
+
+\begin_layout Subsection*
+Description.
+\end_layout
+
+\begin_layout Standard
+Creates a new wxhBrowse object
+\end_layout
+
+\begin_layout Subsection*
+Syntax
+\end_layout
+
+\begin_layout Standard
+@ BROWSE [VAR <
+\emph on
+oVar
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[DATASOURCE <
+\emph on
+ds
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[CLASS <
+\emph on
+cClassName
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[LABEL <
+\emph on
+cLabel
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[PARENT <
+\emph on
+oParentWindow
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[ID <
+\emph on
+nId
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[WIDTH <
+\emph on
+nWidth
+\emph default
+>] [HEIGHT <
+\emph on
+nHeight
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[MINSIZE <
+\emph on
+nMinWidth
+\emph default
+>, <
+\emph on
+nMinHeight
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[STYLE <
+\emph on
+nStyle
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[NAME <
+\emph on
+cName
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[ONKEY <
+\emph on
+bOnKey
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[ONSELECTCELL <
+\emph on
+bOnSelectCell
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[READONLY]
+\end_layout
+
+\begin_layout Subsection*
+Arguments
+\end_layout
+
+\begin_layout Subsection*
+Description
+\end_layout
+
+\begin_layout Subsection*
+Examples
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+@ PUSHVALIDATOR ...
+\end_layout
+
+\begin_layout Subsection*
+Description.
+\end_layout
+
+\begin_layout Standard
+Creates a new wxhValidator object and assign it to the last control added.
+ Normally the user doesn't need to call this command directly since it is
+ called automatically on almost all control creation commands.
+\end_layout
+
+\begin_layout Subsection*
+Syntax
+\end_layout
+
+\begin_layout Standard
+@ PUSHVALIDATOR [<
+\emph on
+dataVar
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[PICTURE <
+\emph on
+cPicture
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[WARNING <
+\emph on
+bWarning
+\emph default
+>]
+\end_layout
+
+\begin_layout Standard
+[ACTION <
+\emph on
+bAction
+\emph default
+>]
+\end_layout
+
+\begin_layout Subsection*
+Arguments
+\end_layout
+
+\begin_layout Standard
+<
+\emph on
+dataVar
+\emph default
+> specifies the variable to assign to the control
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+<
+\emph on
+cPicture
+\emph default
+> contains the picture value to be used when displaying the control value
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+<
+\emph on
+bWarning
+\emph default
+> contains an expression to be evaluated in order to validate the control
+ value
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+<
+\emph on
+bAction
+\emph default
+> contains an expression to be executed when the control value is changed
+\end_layout
+
+\begin_layout Subsection*
+Description
+\end_layout
+
+\begin_layout Subsection*
+Examples
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+RADOX Reference
+\end_layout
+
+\end_body
+\end_document

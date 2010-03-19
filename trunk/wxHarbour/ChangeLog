@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-03-19 08:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * minor code cleanup
+
+  +  doc/wxharbour-doc.lyx
+  +  doc/wxharbour-doc.pdf
+     * added documentation based on Lyx
+
 2010-03-19 00:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * set the :autoEdit flag to TRUE on new opened databases

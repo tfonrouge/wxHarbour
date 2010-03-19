@@ -286,9 +286,9 @@
 	BROWSE
 */
 #xcommand @ BROWSE [ VAR <wxBrw> ] ;
+						[ DATASOURCE <dataSource> ] ;
 						[ CLASS <fromClass> ] ;
 						[ LABEL <label> ] ;
-						[ DATASOURCE <dataSource> ] ;
 						[ PARENT <parent> ] ;
 						[ ID <id> ] ;
 						[ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
