@@ -1694,7 +1694,11 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjValue ) )
 					linkedTableMasterSource := ::FTable
 				ENDIF
-				::FLinkedTable := __ClsInstFromName( ::FObjValue ):New( linkedTableMasterSource )
+				::FLinkedTable := __ClsInstFromName( ::FObjValue )
+				IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
+					RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
+				ENDIF
+				::FLinkedTable:New( linkedTableMasterSource )
 			ENDIF
 			EXIT
 		CASE 'B'

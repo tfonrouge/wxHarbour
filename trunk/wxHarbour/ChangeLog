@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-03-19 15:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * added protection against create a TObjectField whos linked Table is derived
+       from the same table object field's class (can leads to an infinite recursive table
+       creation)
+
+  *  src/raddox/TTable.prg
+     ! Fixed error when creating the 2nd IdxAlias index field
+
 2010-03-19 13:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * add protection on ::CheckDbStruct for double checking the same database class
