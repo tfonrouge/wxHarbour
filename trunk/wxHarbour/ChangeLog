@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-19 13:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * add protection on ::CheckDbStruct for double checking the same database class
+       this may happen on complex databases that have cross references on TObjectField's
+
 2010-03-19 08:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * minor code cleanup
