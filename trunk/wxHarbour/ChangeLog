@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-19 00:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * set the :autoEdit flag to TRUE on new opened databases
+
 2010-03-18 16:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      * setting "" as default value for ::Heading if it was not solved at ::GetValue stage
