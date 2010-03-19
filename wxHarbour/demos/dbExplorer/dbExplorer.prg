@@ -245,6 +245,7 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 		table := TTable():New( NIL, fileDlg:GetPath() )
+		table:autoEdit := .T.
 
 		aStruDbf := table:DbStruct
 
