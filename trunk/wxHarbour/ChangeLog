@@ -2,6 +2,30 @@
  * $Id$
  */
 
+2010-03-21 21:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added clause CALCULATED to ADD ... FIELD ... command, to create calculated field's
+     ! Fixed assigning the scope to fields in each sub-class to member in TField's obj
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+     % added ENABLED clause to following control commands:
+       + @ RADIOBOX
+       + @ CHOICE
+       + @ COMBOBOX
+
+  *  src/raddox/TField.prg
+     ! Fixed assigning the value of the ::FTableBaseClass
+     % Enhancing on ::GetDefaultValue to use the value (if any) of ::ValidValues
+     * removed unneeded code on ::SetFieldMethod
+     ! Fixed returning the value on TObjectField:GetAsVariant when a TTable is returned
+       from a calculated TObjectField
+
+  *  src/raddox/TTable.prg
+     * removed unused PROPERTY
+     * added protection against trying to overwrite an TField used on an index
+       (TField:IsKeyIndex)
+
 2010-03-19 15:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * added protection against create a TObjectField whos linked Table is derived

@@ -47,25 +47,24 @@
 			::AddParentChild( <parentTableName>, <childTableName>, [ <indexName> ] )
 
 /* To REQUIRE SIZE in TStringField */
-#xtranslate ADD STRING FIELD <xFieldMethod> [<clauses1,...>] SIZE <nsize> [<clauses2,...>] ;
+#xtranslate ADD [<clauses0,...>] STRING FIELD <xFieldMethod> [<clauses1,...>] SIZE <nsize> [<clauses2,...>] ;
 						=> ;
-						ADD _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
+						ADD [<clauses0>] _STRING FIELD <xFieldMethod> [<clauses1>] SIZE <nsize> [<clauses2>]
 #xtranslate T_StringField => TStringField
 
 /* To REQUIRE LEN DEC in TNumericField */
-#xtranslate ADD NUMERIC FIELD <xFieldMethod> [<clauses1,...>] LEN <nLen> DEC <nDec> [<clauses2,...>] ;
+#xtranslate ADD [<clauses0,...>] NUMERIC FIELD <xFieldMethod> [<clauses1,...>] LEN <nLen> DEC <nDec> [<clauses2,...>] ;
 						=> ;
-						ADD _NUMERIC FIELD <xFieldMethod> [<clauses1>] LEN <nLen> DEC <nDec> [<clauses2>]
+						ADD [<clauses0>] _NUMERIC FIELD <xFieldMethod> [<clauses1>] LEN <nLen> DEC <nDec> [<clauses2>]
 #xtranslate T_NumericField => TNumericField
 
 /* To REQUIRE OBJVALUE in TObjectField */
-#xtranslate ADD OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
+#xtranslate ADD [<clauses0,...>] OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
 						=> ;
-						ADD _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
+						ADD [<clauses0>] _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
 #xtranslate T_ObjectField => TObjectField
 
-
-#xtranslate ADD <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
+#xtranslate ADD [<calc: CALCULATED>] <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
 						[ NAME <cName> ] ;
 						[ LABEL <label> ] ;
 						[ <ro: READONLY> ] ;
@@ -95,12 +94,12 @@
 						[ USING <usingField> ] ;
 						[ <ruf: REUSEFIELD> ] ;
 					 => ;
-						WITH OBJECT T<type>Field():New( Self ) ;;
+						WITH OBJECT T<type>Field():New( Self, ::curClassField ) ;;
 							[ :Name := <cName> ] ;;
 							[ :Label := <label> ] ;;
 							[ :ReadOnly := <.ro.> ] ;;
 							[ :ReUseField := <.ruf.> ] ;;
-							[ :FieldMethod := <xFieldMethod> ] ;;
+							[ :SetFieldMethod( <xFieldMethod>, <.calc.> ) ] ;;
 							[ :ReadBlock := {|| <readblock> } ] ;;
 							[ :WriteBlock := {|Value| <writeblock> } ] ;;
 							[ :DefaultValue := <xDefault> ] ;;
@@ -136,7 +135,10 @@
 
 #xtranslate DEFINE MASTERDETAIL FIELDS => METHOD DefineMasterDetailFields
 
-#xtranslate DEFINE FIELDS => METHOD __DefineFields( curClass )
+#xtranslate DEFINE FIELDS ;
+	=> ;
+	DATA curClassField HIDDEN ;;
+	METHOD __DefineFields()
 #xtranslate DEFINE INDEXES ;
 	=> ;
 	DATA curClassIndex HIDDEN ;;
@@ -144,9 +146,9 @@
 
 #xtranslate BEGIN FIELDS CLASS <className>;
 						=> ;
-						METHOD PROCEDURE __DefineFields( curClass ) CLASS <className> ;;
-						::FBaseClass := iif( curClass == NIL, Self:ClassName, curClass:ClassName ) ;;
-						Super:__DefineFields( iif( curClass == NIL, Self:Super, curClass:Super ) ) 
+						METHOD PROCEDURE __DefineFields() CLASS <className> ;;
+						::curClassField := <(className)> ;;
+						Super:__DefineFields() 
 
 #xtranslate END FIELDS CLASS ;
 						=> ;

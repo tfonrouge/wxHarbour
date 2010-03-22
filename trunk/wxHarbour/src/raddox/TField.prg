@@ -59,7 +59,6 @@ PRIVATE:
 	METHOD SetDBS_DEC( dec ) INLINE ::FDBS_DEC := dec
 	METHOD SetDBS_LEN( len ) INLINE ::FDBS_LEN := len
 	METHOD SetDescription( Description ) INLINE ::FDescription := Description
-	METHOD SetFieldMethod( FieldMethod )
 	METHOD SetGroup( Group ) INLINE ::FGroup := Group
 	METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
 	METHOD SetKeyIndex( Index ) INLINE ::FKeyIndex := Index
@@ -110,7 +109,7 @@ PUBLIC:
 	DATA nameAlias
 	DATA Picture
 
-	CONSTRUCTOR New( Table )
+	CONSTRUCTOR New( Table, curBaseClass )
 
 	METHOD AddFieldMessage()
 	METHOD Delete
@@ -128,6 +127,7 @@ PUBLIC:
 	METHOD SetAsVariant( value )
 	METHOD SetData( Value )
 	METHOD SetEditText( Text )
+	METHOD SetFieldMethod( FieldMethod, calculated )
 	METHOD SetKeyVal( keyVal )
 	METHOD ValidateFieldInfo VIRTUAL
 
@@ -201,10 +201,10 @@ ENDCLASS
 	New
 	Teo. Mexico 2006
 */
-METHOD New( Table ) CLASS TField
+METHOD New( Table, curBaseClass ) CLASS TField
 
 	::FTable := Table
-	::FTableBaseClass := Table:BaseClass
+	::FTableBaseClass := curBaseClass
 
 	/* Set default field name */
 	/*
@@ -403,6 +403,8 @@ RETURN
 */
 METHOD FUNCTION GetDefaultValue CLASS TField
 	LOCAL i
+	LOCAL defaultValue
+	LOCAL validValues
 
 	IF ::FFieldMethodType = 'A'
 		FOR EACH i IN ::FFieldArrayIndex
@@ -412,10 +414,29 @@ METHOD FUNCTION GetDefaultValue CLASS TField
 	ENDIF
 
 	IF ValType( ::FDefaultValue ) = "B"
-		RETURN ::FDefaultValue:Eval( Self:FTable )
+		defaultValue := ::FDefaultValue:Eval( Self:FTable )
+	ELSE
+		defaultValue := ::FDefaultValue
+	ENDIF
+	
+	validValues := ::GetValidValues()
+	
+	IF ! Empty( validValues )
+		SWITCH ValType( validValues )
+		CASE 'A'
+			IF AScan( validValues, {|e| e == defaultValue } ) = 0
+				defaultValue := validValues[ 1 ]
+			ENDIF
+			EXIT
+		CASE 'H'
+			IF defaultValue = NIL .OR. !HB_HHasKey( validValues, defaultValue )
+				defaultValue := HB_HKeys( validValues )[ 1 ]
+			ENDIF
+			EXIT
+		ENDSWITCH
 	ENDIF
 
-RETURN ::FDefaultValue
+RETURN defaultValue
 
 /*
 	GetEditText
@@ -543,11 +564,9 @@ METHOD FUNCTION GetValidValues() CLASS TField
 			::FDataOfValidValues := ::ValidValues:Eval( Self )
 		ENDIF
 		RETURN ::FDataOfValidValues
-	ELSE
-		RETURN ::ValidValues
 	ENDIF
 
-RETURN NIL
+RETURN ::ValidValues
 
 /*
 	IsValid
@@ -681,7 +700,7 @@ METHOD FUNCTION Reset() CLASS TField
 				ENDIF
 			ENDIF
 
-			IF ::FDefaultValue != NIL
+			IF ::FDefaultValue != NIL .OR. ::GetValidValues() != NIL
 
 				value := ::GetDefaultValue()
 
@@ -968,7 +987,7 @@ RETURN
 	SetFieldMethod
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
+METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 	LOCAL itm,fieldName
 	LOCAL AField
 	LOCAL i
@@ -1009,18 +1028,19 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
 		FieldMethod := LTrim( RTrim( FieldMethod ) )
 
-		/* Check if the same FieldExpression is declared redeclared in the same table baseclass */
-		FOR EACH AField IN ::FTable:FieldList
-			IF !Empty( AField:FieldExpression ) .AND. ;
-				 Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-				 AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
-				RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
-			ENDIF
-		NEXT
+		IF !calculated == .T. .AND. ::FTable:Alias != NIL .AND. ::FTable:Alias:FieldPos( FieldMethod ) > 0
 
-		::FDBS_NAME := FieldMethod
+			/* Check if the same FieldExpression is declared redeclared in the same table baseclass */
+			FOR EACH AField IN ::FTable:FieldList
+				IF !Empty( AField:FieldExpression ) .AND. ;
+					 Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
+					 AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
+					RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
+				ENDIF
+			NEXT
 
-		IF ::FTable:Alias != NIL .AND. ::FTable:Alias:FieldPos( FieldMethod ) > 0
+			::FDBS_NAME := FieldMethod
+
 			::FFieldReadBlock := FieldBlock( FieldMethod )
 			::FFieldWriteBlock := FieldBlock( FieldMethod )
 			n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
@@ -1046,7 +1066,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 			
 			::FCalculated := .F.
 		ELSE
-			::FFieldReadBlock	 := NIL
+			::FFieldReadBlock := NIL
 			::FFieldWriteBlock := NIL
 			::FCalculated := .T.
 		ENDIF
@@ -1055,17 +1075,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod ) CLASS TField
 
 		IF Empty( fieldName )
 			RAISE TFIELD "<Empty>" ERROR "Empty field name and field method."
-		ENDIF
-
-		// Check if FieldExpression is re-declared in parent class
-		IF AScan( ::FTable:FieldList, {|AField| !Empty(AField:FieldExpression) .AND. Upper( AField:FieldExpression ) == Upper( fieldName ) /*.AND. ::IsDerivedFrom( AField:ClassName )*/ }) > 0
-			n := AScan( ::FTable:FieldList, {|AField| AField == Self } )
-			IF n > 0
-				ADel( ::FTable:FieldList, n )
-				ASize( ::FTable:FieldList, Len( ::FTable:FieldList ) - 1 )
-			ENDIF
-			wxhAlert( "Field '" + FieldMethod + "' on table '" + ::FTable:ClassName + "' ignored, because fieldExpression is previously declared in subclass.") //with same TField type." )
-			RETURN /* ok, we don't need this now repeated parent field */
 		ENDIF
 
 		::FFieldExpression := FieldMethod
@@ -1121,9 +1130,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 		IF ::FTable:LinkedObjField != NIL
 
-			//IF AScan( { dsEdit, dsInsert }, ::FTable:LinkedObjField:Table:State ) > 0
-				::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
-			//ENDIF
+			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
 
 			IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
 				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
@@ -1481,10 +1488,10 @@ PROTECTED:
 	DATA FDBS_LEN INIT 4
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "D"
+	DATA FDefaultValue INIT {|| Date() }
 	DATA FSize INIT 8					// Size on index is 8 = len of DToS()
 	DATA FType INIT "Date"
 	DATA FValType INIT "D"
-	METHOD GetDefaultValue BLOCK {|| Date() }
 	METHOD GetEmptyValue BLOCK {|| CtoD("") }
 	METHOD SetAsVariant( variant )
 PUBLIC:
@@ -1525,9 +1532,9 @@ PROTECTED:
 	DATA FDBS_LEN INIT 8
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "@"
+	DATA FDefaultValue INIT {|| HB_DateTime( Date() ) }
 	DATA FType INIT "DayTime"
 	DATA FValType INIT "C"
-	METHOD GetDefaultValue BLOCK {|| HB_DateTime( Date() ) }
 	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
 PUBLIC:
 	PROPERTY Size READ FSize
@@ -1654,7 +1661,20 @@ RETURN Result
 	Teo. Mexico 2010
 */
 METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
-RETURN Super:GetAsVariant( ... )
+	LOCAL variant
+	
+	variant := Super:GetAsVariant( ... )
+	
+	IF HB_IsObject( variant )
+
+		IF variant:IsDerivedFrom("TObjectField")
+			RETURN variant:DataObj:GetKeyVal()
+		ELSEIF variant:IsDerivedFrom("TTable")
+			RETURN variant:GetKeyVal()
+		ENDIF
+	ENDIF
+
+RETURN variant
 
 /*
 	GetFieldReadBlock

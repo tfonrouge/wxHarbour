@@ -1067,7 +1067,7 @@ RETURN checkBox
 	__wxh_Choice
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name )
+FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name, enabled )
 	LOCAL choice
 	LOCAL validator
 
@@ -1081,6 +1081,8 @@ FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name )
 
 	validator:AddPostInfo()
 
+	__wxh_EnableControl( containerObj():LastParent(), choice, choice:GetId(), enabled )
+	
 	containerObj():SetLastChild( choice )
 
 RETURN choice
@@ -1089,7 +1091,7 @@ RETURN choice
 	__wxh_ComboBox
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
+FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name, enabled )
 	LOCAL comboBox
 	LOCAL validator
 
@@ -1107,6 +1109,8 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name )
 
 	validator:AddPostInfo()
 
+	__wxh_EnableControl( containerObj():LastParent(), comboBox, comboBox:GetId(), enabled )
+	
 	containerObj():SetLastChild( comboBox )
 
 RETURN comboBox
@@ -1626,7 +1630,7 @@ RETURN
 	__wxh_RadioBox
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorDimension, style, name )
+FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorDimension, style, name, enabled )
 	LOCAL radioBox
 	LOCAL validator
 
@@ -1647,6 +1651,8 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorD
 
 	validator:AddPostInfo()
 
+	__wxh_EnableControl( containerObj():LastParent(), radioBox, radioBox:GetId(), enabled )
+	
 	containerObj():SetLastChild( radioBox )
 
 RETURN radioBox
