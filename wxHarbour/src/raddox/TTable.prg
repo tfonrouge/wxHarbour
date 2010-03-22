@@ -84,7 +84,6 @@ PRIVATE:
 
 PROTECTED:
 
-	DATA FBaseClass
 	DATA FBof				INIT .T.
 	DATA FEof				INIT .T.
 	DATA FFieldList
@@ -229,7 +228,6 @@ PUBLIC:
 	PROPERTY Active READ FActive
 	PROPERTY Alias READ GetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
-	PROPERTY BaseClass READ FBaseClass
 	PROPERTY Bof READ FBof
 	PROPERTY DbStruct READ GetDbStruct
 	PROPERTY Deleted READ Alias:Deleted()
@@ -392,6 +390,9 @@ METHOD PROCEDURE AddFieldMessage( messageName, AField ) CLASS TTable
 		AAdd( ::FFieldList, AField )
 		index := Len( ::FFieldList )
 	ELSE
+		IF fld:IsKeyIndex
+			RAISE ERROR "Attempt to overwrite key index Field '" + messageName + "' on Class <" + ::ClassName + ">"
+		ENDIF
 		IF AField:TableBaseClass == fld:TableBaseClass
 			RAISE ERROR "Attempt to Re-Declare Field '" + messageName + "' on Class <" + ::ClassName + ">"
 		ENDIF

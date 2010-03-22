@@ -439,6 +439,7 @@
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
 						[ ACTION <bAction> ] ;
+						[ ENABLED <enabled> ] ;
 					=> ;
 					@ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
 					[ <radioBox> := ]__wxh_RadioBox( ;
@@ -448,9 +449,10 @@
 						,;
 						[{<nWidth>,<nHeight>}],;
 						[<choices>],;
-						[wxRA_SPECIFY_<specRC>],[<nmaxRC>];
+						[wxRA_SPECIFY_<specRC>],[<nmaxRC>],;
 						[<style>],;
-						[<name>] )
+						[<name>],;
+						[<enabled>] )
 
 #xcommand @ RADIOBOX [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
 					=> ;
@@ -470,6 +472,7 @@
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
 						[ ACTION <bAction> ] ;
+						[ ENABLED <enabled> ] ;
 					=> ;
 				@ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
 					[ <choice> := ]__wxh_Choice( ;
@@ -479,7 +482,8 @@
 						[{<nWidth>,<nHeight>}],;
 						[<choices>],;
 						[<style>],;
-						[<name>] )
+						[<name>],;
+						[<enabled>] )
 
 #xcommand @ CHOICE [<btnclauses,...>] SIZERINFO [<sizerClauses,...>] ;
 					=> ;
@@ -500,6 +504,7 @@
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
 						[ ACTION <bAction> ] ;
+						[ ENABLED <enabled> ] ;
 					=> ;
 				@ PUSHVALIDATOR <dataVar> [ ACTION <{bAction}> ] ;;
 					[ <comboBox> := ]__wxh_ComboBox( ;
@@ -510,7 +515,8 @@
 						[{<nWidth>,<nHeight>}],;
 						[<choices>],;
 						[<style>],;
-						[<name>] )
+						[<name>],;
+						[<enabled>] )
 
 #xcommand @ COMBOBOX [<cbclauses,...>] SIZERINFO [<sizerClauses,...>] ;
 					=> ;
