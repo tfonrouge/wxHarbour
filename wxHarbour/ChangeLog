@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-03-23 03:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * small code cleanup
+
+  *  src/common/wxhfuncs.prg
+     % added auto-layout and auto-transferDataToWindow when controls are created
+       at runtime (they not have a parent control on the containerObj structure)
+
 2010-03-21 21:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * added clause CALCULATED to ADD ... FIELD ... command, to create calculated field's

@@ -2428,6 +2428,14 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
+	LOCAL runtime
+
+	IF Empty( ::ParentList )
+		runtime := !parent:IsDerivedFrom("wxTopLevelWindow")
+	ELSE
+		runtime := ::LastItem["runtime"]
+	ENDIF
+
 	IF parent:IsDerivedFrom( "wxFrame" ) .OR. ;
 		 parent:IsDerivedFrom( "wxDialog" ) .OR. ;
 		 ::ParentList == NIL
@@ -2440,7 +2448,7 @@ METHOD PROCEDURE AddToParentList( parent ) CLASS TContainerObj
 	
 	parent:SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY )
 
-	AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL, "wxhHBValidator"=>NIL } } )
+	AAdd( ::ParentList, { "parent"=>parent, "sizers"=>{}, "pageInfo"=>NIL, "lastChild"=>{ "child"=>NIL, "processed"=>.F., "sizerInfo"=>NIL, "wxhHBValidator"=>NIL }, "runtime"=>runtime } )
 RETURN
 
 /*
@@ -2535,6 +2543,7 @@ RETURN ATail( ATail( ::ParentList )[ "sizers" ] )
 	Teo. Mexico 2009
 */
 METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
+	LOCAL lastParent
 
 	/* do some checking */
 	IF className != NIL
@@ -2543,10 +2552,21 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
 			::QUIT()
 		ENDIF
 	ENDIF
+	
+	IF ::LastItem["runtime"] .AND. Len( ::ParentList ) <= 2
+		lastParent := ::LastItem["parent"]
+	ENDIF
 
 	ASize( ::ParentList, Len( ::ParentList ) - 1 )
 
 	::SizerAddOnLastChild()
+	
+	IF lastParent != NIL
+		lastParent:Layout()
+		IF Empty( ::ParentList )
+			lastParent:TransferDataToWindow() /* this will be enough for all child ctrls */
+		ENDIF
+	ENDIF
 
 RETURN
 

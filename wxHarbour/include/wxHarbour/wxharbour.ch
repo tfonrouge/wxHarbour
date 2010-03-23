@@ -182,7 +182,7 @@
 			
 #xcommand BEGIN CUSTOM PARENT <parent> ;
 					=> ;
-					__wxh_CustomParentBegin( <parent > )
+					__wxh_CustomParentBegin( <parent> )
 
 #xcommand END CUSTOM PARENT ;
 					=> ;
