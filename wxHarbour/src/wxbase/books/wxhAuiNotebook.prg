@@ -38,6 +38,7 @@ PUBLIC:
 	METHOD DeletePage( nPage )
 	METHOD GetPage( nPage )
 	METHOD GetPageCount
+	METHOD GetPageText( nPage )
 	METHOD GetSelection
 	METHOD RemovePage( nPage )
 	METHOD SetPageText( nPage, text )
