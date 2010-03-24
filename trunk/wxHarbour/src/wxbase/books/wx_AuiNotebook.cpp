@@ -91,7 +91,7 @@ HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 
 	if( auiNotebook )
 	{
-		hb_retl( auiNotebook->DeletePage( hb_parnl( 1 ) ) );
+		hb_retl( auiNotebook->DeletePage( hb_parnl( 1 ) - 1 ) );
 	}
 }
 
@@ -107,7 +107,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 
 	if( auiNotebook )
 	{
-	wxh_itemReturn( auiNotebook->GetPage( hb_parnl( 1 ) ) );
+		wxh_itemReturn( auiNotebook->GetPage( hb_parnl( 1 ) - 1 ) );
 	}
 }
 
@@ -127,6 +127,18 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 	}
 }
 
+HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
+{
+	wxh_ObjParams objParams = wxh_ObjParams();
+	
+	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+	
+	if( auiNotebook )
+	{
+		wxh_retc( auiNotebook->GetPageText( hb_parnl( 1 ) - 1 ) );
+	}
+}
+
 /*
 	wxAuiNotebook:GetSelection
 	Teo. Mexico 2009
@@ -139,7 +151,7 @@ HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
 
 	if( auiNotebook )
 	{
-		hb_retnl( auiNotebook->GetSelection() );
+		hb_retni( auiNotebook->GetSelection() + 1 );
 	}
 }
 
@@ -155,7 +167,7 @@ HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 
 	if( auiNotebook )
 	{
-		hb_retl( auiNotebook->RemovePage( hb_parnl( 1 ) ) );
+		hb_retl( auiNotebook->RemovePage( hb_parnl( 1 ) - 1 ) );
 	}
 }
 
@@ -171,9 +183,10 @@ HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 
 	if( auiNotebook )
 	{
-		hb_retl( auiNotebook->SetPageText( hb_parnl( 1 ), wxh_parc( 2 ) ) );
+		hb_retl( auiNotebook->SetPageText( hb_parnl( 1 ) - 1, wxh_parc( 2 ) ) );
 	}
 }
+
 /*
 	wxAuiNotebook:SetSelection
 	Teo. Mexico 2009
@@ -186,6 +199,6 @@ HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
 
 	if( auiNotebook )
 	{
-		hb_retnl( auiNotebook->SetSelection( hb_parnl( 1 ) ) );
+		hb_retni( auiNotebook->SetSelection( hb_parnl( 1 ) - 1 ) + 1 );
 	}
 }

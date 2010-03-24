@@ -468,6 +468,6 @@ HB_FUNC( WXNOTEBOOK_SETSELECTION )
 	
 	if( noteBook )
 	{
-		hb_retl( noteBook->SetSelection( hb_parnl( 1 ) - 1 ) );
+		hb_retni( noteBook->SetSelection( hb_parnl( 1 ) - 1 ) + 1 );
 	}
 }

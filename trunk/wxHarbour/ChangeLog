@@ -2,6 +2,29 @@
  * $Id$
  */
 
+2010-03-24 04:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  doc/wxharbour-doc.lyx
+  *  doc/wxharbour-doc.pdf
+     * updated
+
+  *  src/wxbase/books/wx_AuiNotebook.cpp
+  *  src/wxbase/books/wxhAuiNotebook.prg
+     ! Fixed some wrong index parameter on calls that need the page number ( in Harbour
+       indexes of arrays are one based instead of zero based for C++):
+       * DeletePage
+       * GetPage
+       * GetSelection
+       * RemovePage
+       * SetPageText
+       * SetSelection
+     + added method:
+       + GetPageText:
+         (Thanks to Jerry Finuliar)
+
+  *  src/wxbase/books/wx_Notebook.cpp
+     ! Fixed wrong type on returned value for :SetSelection
+     ! Fixed index base on returned value for :SetSelection
+
 2010-03-23 21:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed checking of values from TMemoField's, this data hasn't a fixed size
