@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-23 21:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed checking of values from TMemoField's, this data hasn't a fixed size
+       to compare
+
 2010-03-23 03:12 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * small code cleanup
