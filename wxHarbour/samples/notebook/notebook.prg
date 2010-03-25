@@ -109,8 +109,12 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE OnSubNotebookPageChanged( noteBookEvt ) CLASS MyApp
+
 	IF ::statusBar != NIL
 		::statusBar:SetStatusText( "SubNotebook Selected Page: " + NTrim( noteBookEvt:GetSelection() ) )
 	ENDIF
+
+	/* TODO: Why is needed this call on Mac/Windows */
 	noteBookEvt:Skip()
+
 RETURN
