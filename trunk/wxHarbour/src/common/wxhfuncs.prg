@@ -802,7 +802,7 @@ FUNCTION __wxh_BookBegin( bookClass, parent, id, pos, size, style, name, opChang
 	book := bookClass:New( parent, id, pos, size, style, name )
 	
 	IF opChanged != NIL
-		book:ConnectNotebookEvt( book:GetID(), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, opChanging )
+		book:ConnectNotebookEvt( book:GetID(), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, opChanged )
 	ENDIF
 	
 	IF opChanging != NIL
