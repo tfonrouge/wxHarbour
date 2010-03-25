@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-03-25 09:36 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/notebook/notebook.prg
+     % enhanced sample
+
+  *  tests/evtdefcheck/evtdefcheck.prg
+  *  tests/evtdefcheck/getdefs.cpp
+     * included more events to check
+
 2010-03-25 05:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed stupid typo on connecting an wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED
