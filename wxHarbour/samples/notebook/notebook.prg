@@ -27,6 +27,10 @@ RETURN NIL
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
+	DATA statusBar
+	DATA wnd
+	METHOD OnNotebookPageChanging( noteBookEvt )
+	METHOD OnSubNotebookPageChanged( noteBookEvt )
 PUBLIC:
 	METHOD OnInit
 PUBLISHED:
@@ -40,14 +44,14 @@ ENDCLASS
 	Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-	LOCAL oWnd
+	LOCAL text := ""
 
-	CREATE FRAME oWnd ;
+	CREATE FRAME ::wnd ;
 				 TITLE "Notebook Sample"
 
 	DEFINE MENUBAR STYLE 1
 		DEFINE MENU "&File"
-			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION ::wnd:Close() ;
 					HELPLINE "Quits this sample..."
 		ENDMENU
 		DEFINE MENU "Help"
@@ -57,25 +61,56 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
 	BEGIN BOXSIZER VERTICAL
 
-		BEGIN NOTEBOOK SIZERINFO ALIGN EXPAND STRETCH
+		BEGIN NOTEBOOK ON PAGE CHANGING {|noteBookEvt| ::OnNotebookPageChanging( noteBookEvt ) } SIZERINFO ALIGN EXPAND STRETCH
 
 			ADD BOOKPAGE "Button" FROM
-				@ BUTTON "Button1"
+				BEGIN PANEL
+					@ SAY "Enter your name:" GET text
+				END PANEL
 
 			ADD BOOKPAGE "Grid" FROM
 				@ GRID ROWS 10 COLS 5
 
 			ADD BOOKPAGE "Sub-Notebook" FROM
-				BEGIN NOTEBOOK
-					@ SAY "Page 1"
-					@ SAY "Page 2"
+				BEGIN NOTEBOOK ON PAGE CHANGED {|noteBookEvt| ::OnSubNotebookPageChanged( noteBookEvt ) }
+					ADD BOOKPAGE "Page1" FROM
+						@ BUTTON
+					ADD BOOKPAGE "Page2" FROM
+						@ BUTTON
 				END NOTEBOOK
 		END NOTEBOOK
 
-		@ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+		@ BUTTON ID wxID_EXIT ACTION ::wnd:Close() SIZERINFO ALIGN RIGHT
 
 	END SIZER
+	
+	@ STATUSBAR VAR ::statusBar
 
-	SHOW WINDOW oWnd FIT CENTRE
+	SHOW WINDOW ::wnd FIT CENTRE
 
 RETURN .T.
+
+/*
+	OnNotebookPageChanging
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE OnNotebookPageChanging( noteBookEvt ) CLASS MyApp
+
+	IF noteBookEvt:GetOldSelection() = 1 .AND. noteBookEvt:GetSelection() = 2
+		IF wxMessageBox( "Allow change from tab1 to tab2 ?", "Confirm", wxYES_NO, ::wnd ) != wxYES
+			noteBookEvt:Veto()
+		ENDIF
+	ENDIF
+
+RETURN
+
+/*
+	OnSubNotebookPageChanged
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE OnSubNotebookPageChanged( noteBookEvt ) CLASS MyApp
+	IF ::statusBar != NIL
+		::statusBar:SetStatusText( "SubNotebook Selected Page: " + NTrim( noteBookEvt:GetSelection() ) )
+	ENDIF
+	noteBookEvt:Skip()
+RETURN
