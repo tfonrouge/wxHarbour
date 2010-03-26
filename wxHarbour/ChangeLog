@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-03-26 08:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/baseclasses/wx_Window.cpp
+     * added protection against invalid parameter on ::SetValidator
+
+  *  src/wxbase/sizers/wx_Sizer.cpp
+     * added protection against invalid parameter on ::Add
+
 2010-03-25 09:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/notebook/notebook.prg
      * added TODO

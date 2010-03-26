@@ -702,8 +702,11 @@ HB_FUNC( WXWINDOW_SETVALIDATOR )
 	if( wnd )
 	{
 		wxValidator* val = (wxValidator *) wxh_par_WX( 1 );
-		const wxValidator& validator = *val;
-		wnd->SetValidator( validator );
+		if( val )
+		{
+			const wxValidator& validator = *val;
+			wnd->SetValidator( validator );
+		}
 	}
 }
 
