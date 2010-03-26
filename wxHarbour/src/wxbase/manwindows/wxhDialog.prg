@@ -39,7 +39,6 @@ PUBLIC:
 	METHOD Show( show )
 	METHOD ShowModal
 PUBLISHED:
-	PROPERTY ColCount READ GetColCount
 ENDCLASS
 
 /*

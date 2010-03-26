@@ -42,7 +42,7 @@ STATIC menuData
 	wxh_Dummy
 	Teo. Mexico 2010
 */
-PROCEDURE wxh_Dummy()
+PROCEDURE WXH_SYMBOL_UNUSED()
 RETURN
 
 /*
