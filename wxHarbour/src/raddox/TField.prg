@@ -424,13 +424,19 @@ METHOD FUNCTION GetDefaultValue CLASS TField
 	IF ! Empty( validValues )
 		SWITCH ValType( validValues )
 		CASE 'A'
-			IF AScan( validValues, {|e| e == defaultValue } ) = 0
+			IF defaultValue = NIL
 				defaultValue := validValues[ 1 ]
+			ELSEIF AScan( validValues, {|e| e == defaultValue } ) = 0
+				RAISE ERROR "On field <" + ::Table:ClassName() + ":" + ::Name + ">, default value '" + defaultValue + "' is not in valid values array list"
 			ENDIF
 			EXIT
 		CASE 'H'
-			IF defaultValue = NIL .OR. !HB_HHasKey( validValues, defaultValue )
+			IF defaultValue = NIL
 				defaultValue := HB_HKeys( validValues )[ 1 ]
+			ELSE
+				IF !HB_HHasKey( validValues, defaultValue )
+					RAISE ERROR "On field <" + ::Table:ClassName() + ":" + ::Name + ">, default value '" + defaultValue + "' is not in valid values hash list"
+				ENDIF
 			ENDIF
 			EXIT
 		ENDSWITCH
@@ -660,51 +666,47 @@ METHOD FUNCTION Reset() CLASS TField
 	LOCAL value
 	LOCAL result
 	
-	/* if is a masterfield component, then *must* resolve it in the MasterSource(s) */
-	IF ( result := ::IsMasterFieldComponent )
-	
-		result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
+	IF ::FDefaultValue = NIL
+
+		/* if is a masterfield component, then *must* resolve it in the MasterSource(s) */
+		IF ( result := ::IsMasterFieldComponent )
 		
-		IF result
+			result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
 			
-			value := AField:GetBuffer()
-			/*
-			 * if there is a DefaultValue this is ignored (may be a warning is needed)
-			 */
-		ENDIF
-
-	ENDIF
-	
-	/* reset was not succesfull yet */
-	IF !result
-		/* resolve each field on a array of fields */
-		IF ::FFieldMethodType = 'A'
-		
-			result := .T.
-
-			FOR EACH i IN ::FFieldArrayIndex
-				IF result
-					result := ::FTable:FieldList[ i ]:Reset()
-				ENDIF
-			NEXT
-
-			RETURN result
-
-		ELSE
-		
-			IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
-				IF ::FTable:MasterSource = NIL
-					RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' needs a MasterSource Table."
-				ELSE
-					RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' cannot be resolved in MasterSource Table (" + ::FTable:MasterSource:ClassName() + ") ."
-				ENDIF
+			IF result
+				
+				value := AField:GetBuffer()
+				/*
+				 * if there is a DefaultValue this is ignored (may be a warning is needed)
+				 */
 			ENDIF
 
-			IF ::FDefaultValue != NIL .OR. ::GetValidValues() != NIL
+		ENDIF
+		
+		/* reset was not succesfull yet */
+		IF !result
+			/* resolve each field on a array of fields */
+			IF ::FFieldMethodType = 'A'
+			
+				result := .T.
 
-				value := ::GetDefaultValue()
+				FOR EACH i IN ::FFieldArrayIndex
+					IF result
+						result := ::FTable:FieldList[ i ]:Reset()
+					ENDIF
+				NEXT
+
+				RETURN result
 
 			ELSE
+			
+				IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
+					IF ::FTable:MasterSource = NIL
+						RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' needs a MasterSource Table."
+					ELSE
+						RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' cannot be resolved in MasterSource Table (" + ::FTable:MasterSource:ClassName() + ") ."
+					ENDIF
+				ENDIF
 
 				IF ::IsDerivedFrom( "TObjectField" )
 					IF ::LinkedTable:GetPrimaryKeyField() != NIL
@@ -717,13 +719,19 @@ METHOD FUNCTION Reset() CLASS TField
 					value := ::GetEmptyValue()
 				ENDIF
 
+				result := .T.
+
 			ENDIF
-			
-			result := .T.
-
 		ENDIF
-	ENDIF
 
+	ELSE
+	
+		value := ::GetDefaultValue()
+		
+		result := .T.
+
+	ENDIF
+	
 	::SetBuffer( value )
 
 	::FWrittenValue := NIL

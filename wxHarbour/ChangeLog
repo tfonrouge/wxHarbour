@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-28 23:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % raise error if default value is given and is not in a valid values list
+     * in ::Reset, check first for ::FDefaultValue
+
 2010-03-26 10:27 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * renamed dummy function wxh_dummy to WXH_SYMBOL_UNUSED
