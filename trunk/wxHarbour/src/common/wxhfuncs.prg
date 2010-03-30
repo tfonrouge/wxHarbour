@@ -709,6 +709,7 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 	LOCAL evtType
 	LOCAL control
 	LOCAL oldValue
+	LOCAL newValue
 	
 	IF ::dontUpdateVar .OR. ::FBlock == NIL
 		RETURN
@@ -762,9 +763,11 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 	ENDIF
 
 	::TransferToWindow()
+	
+	newValue := ::FBlock:Eval()
 
 	/* changed ? */
-	IF !oldValue == ::FBlock:Eval() .OR. force == .T.
+	IF force == .T. .OR. ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue
 		IF ::bAction != NIL
 			::bAction:Eval( event )
 		ENDIF
