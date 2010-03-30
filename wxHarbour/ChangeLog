@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-03-30 11:10 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh.h
+     * minor code formatting
+
+  *  samples/choice/choice.prg
+     * removed unneeded define and added item to hash value
+
 2010-03-30 06:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/choice/choice.prg
      % enhanced sample to show usage of hash types
