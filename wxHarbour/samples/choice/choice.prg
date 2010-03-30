@@ -12,11 +12,8 @@
 #define GRANGE  100
 
 FUNCTION Main
-	LOCAL MyApp
 
-	MyApp := MyApp():New()
-
-	IMPLEMENT_APP( MyApp )
+	IMPLEMENT_APP( MyApp():New() )
 
 RETURN NIL
 
@@ -40,26 +37,16 @@ ENDCLASS
 	Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-	LOCAL oWnd
+	LOCAL oDlg
 	LOCAL choiceVal1 := 3
 	LOCAL choiceVal2 := 1
 	LOCAL choiceVal3 := 2
 	LOCAL bAction
 
-	bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oWnd ) }
+	bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oDlg ) }
 
-	CREATE FRAME oWnd ;
+	CREATE DIALOG oDlg ;
 				 TITLE "Choice Sample"
-
-	DEFINE MENUBAR STYLE 1
-		DEFINE MENU "&File"
-			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-					HELPLINE "Quits this sample..."
-		ENDMENU
-		DEFINE MENU "Help"
-			ADD MENUITEM "About..."
-		ENDMENU
-	ENDMENU
 
 	BEGIN BOXSIZER VERTICAL
 
@@ -67,10 +54,14 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		@ CHOICE choiceVal2 ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
 		@ CHOICE choiceVal3 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN LEFT
 
-		@ BUTTON ID wxID_EXIT ACTION oWnd:Close() SIZERINFO ALIGN RIGHT
+		@ BUTTON ID wxID_EXIT ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 
 	END SIZER
 
-	SHOW WINDOW oWnd FIT CENTRE
+	SHOW WINDOW oDlg FIT CENTRE MODAL
+	
+	? "choiceVal1:", choiceVal1
+	? "choiceVal2:", choiceVal2
+	? "choiceVal3:", choiceVal3
 
-RETURN .T.
+RETURN .F.
