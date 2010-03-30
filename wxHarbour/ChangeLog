@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-03-30 06:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/choice/choice.prg
+     % showing capability to use either of numeric value or string value to
+       use on CHOICE ctrls
+
 2010-03-30 06:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/choice/choice.prg
      % enhanced sample to show final values of CHOICE ctrls
