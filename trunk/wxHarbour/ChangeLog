@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-03-30 06:30 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/choice/choice.prg
+     % enhanced sample to show final values of CHOICE ctrls
+
 2010-03-30 06:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * on @ PUSHVALIDATOR now is requiered to give a explicit code block for the
