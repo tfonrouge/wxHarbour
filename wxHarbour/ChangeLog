@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-03-30 06:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/choice/choice.prg
+     % enhanced sample to show usage of hash types
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed checking for a differ valtype on old/new values
+
 2010-03-30 06:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/choice/choice.prg
      % showing capability to use either of numeric value or string value to
