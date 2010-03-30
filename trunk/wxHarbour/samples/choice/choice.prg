@@ -9,8 +9,6 @@
 
 #include "wxharbour.ch"
 
-#define GRANGE  100
-
 FUNCTION Main
 
 	IMPLEMENT_APP( MyApp():New() )
@@ -54,7 +52,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 		@ CHOICE choiceVal1 ITEMS {"one","two","three"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN EXPAND
 		@ CHOICE choiceVal2 ITEMS {"Windows","GNU Linux","Mac OS"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN EXPAND
 		@ CHOICE choiceVal3 ITEMS {"FTP","HTTP","RSYNC"} ACTION {|event| bAction:Eval( event ) } SIZERINFO ALIGN EXPAND
-		@ CHOICE choiceVal4 ITEMS {1=>"Number ONE",date()=>"Today","VA"=>"Virginia","TX"=>"Texas","CA"=>"California"} SIZERINFO ALIGN EXPAND
+		@ CHOICE choiceVal4 ITEMS {1=>"Number ONE",date()=>"Today",date()-1=>"Yesterday","VA"=>"Virginia","TX"=>"Texas","CA"=>"California"} SIZERINFO ALIGN EXPAND
 
 		@ BUTTON ID wxID_EXIT ACTION oDlg:Close() SIZERINFO ALIGN RIGHT
 

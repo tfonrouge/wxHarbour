@@ -221,7 +221,7 @@ hbEvtHandler<T>::~hbEvtHandler()
 template <class tW>
 class hbWindow : public hbEvtHandler<tW>
 	{
-	bool Validate();
+		bool Validate();
 	};
 
 /*
@@ -236,8 +236,8 @@ bool hbWindow<tW>::Validate()
 
 	if( pObj )
 	{
-	hb_objSendMsg( pObj, "Validate", 0 );
-	result = hb_stackReturnItem()->item.asLogical.value;
+		hb_objSendMsg( pObj, "Validate", 0 );
+		result = hb_stackReturnItem()->item.asLogical.value;
 	}
 	return result;
 }
