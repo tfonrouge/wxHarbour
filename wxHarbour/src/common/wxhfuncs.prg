@@ -77,19 +77,20 @@ PROTECTED:
 	METHOD GetMaxLength()
 PUBLIC:
 
-	DATA bAction
+	DATA actionBlock
 	DATA data
 	DATA dataIsOEM INIT .T.
 	DATA lastKey
 	DATA onSearch
 	DATA Picture
-	DATA warnBlock
+	DATA warningBlock
+	DATA warningMessage
 
-	CONSTRUCTOR New( name, var, block, picture, warn, bAction )
+	CONSTRUCTOR New( name, var, block, picture, warning, actionBlock )
 
 	METHOD AddPostInfo()
 	METHOD AsString()
-	METHOD EvalWarnBlock( control, showWarning )
+	METHOD EvalWarnBlock( parent, showWarning )
 	METHOD GetChoices( xList )							/* returns a array of values */
 	METHOD GetKeyValue( n )						/* returns key of ValidValues on TField (if any) */
 	METHOD GetSelection							/* returns numeric index of ValidValues on TField (if any) */
@@ -115,7 +116,7 @@ ENDCLASS
 	New
 	Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhHBValidator
+METHOD New( name, var, block, picture, warning, actionBlock ) CLASS wxhHBValidator
 
 	::FName	 := name
 
@@ -135,12 +136,13 @@ METHOD New( name, var, block, picture, warn, bAction ) CLASS wxhHBValidator
 		::Picture := picture
 	ENDIF
 
-	IF warn != NIL
-		::warnBlock := warn
+	IF !Empty( warning )
+		::warningBlock := warning[ 1 ]
+		::warningMessage := warning[ 2 ]
 	ENDIF
 
-	IF bAction != NIL
-		::bAction := bAction
+	IF actionBlock != NIL
+		::actionBlock := actionBlock
 	ENDIF
 
 RETURN Super:New()
@@ -281,16 +283,21 @@ RETURN value
 	EvalWarnBlock
 	Teo. Mexico 2009
 */
-METHOD FUNCTION EvalWarnBlock( control, showWarning ) CLASS wxhHBValidator
+METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
 	LOCAL msg
-	IF ::warnBlock != NIL .AND. ::warnBlock[ 1 ]:Eval( ::FBlock:Eval() )
-		IF showWarning == NIL .OR. showWarning
-			msg := iif( Empty( ::warnBlock[ 2 ] ), "Field has invalid data...", ::warnBlock[ 2 ] )
-			wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), control:GetParent() )
+	IF ::warningBlock != NIL
+		IF ::warningBlock:Eval( ::FBlock:Eval() )
+			IF showWarning == NIL .OR. showWarning
+				msg := iif( Empty( ::warningMessage ), "Field has invalid data...", ::warningMessage )
+				IF parent = NIL
+					parent := ::GetWindow():GetParent()
+				ENDIF
+				wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
+			ENDIF
+			RETURN .F.
 		ENDIF
-		RETURN .T.
 	ENDIF
-RETURN .F.
+RETURN .T.
 
 /*
 	GetChoices
@@ -768,12 +775,12 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 
 	/* changed ? */
 	IF force == .T. .OR. ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue
-		IF ::bAction != NIL
-			::bAction:Eval( event )
+		IF ::actionBlock != NIL
+			::actionBlock:Eval( event )
 		ENDIF
 	ENDIF
 
-	::EvalWarnBlock( control )
+	::EvalWarnBlock()
 
 RETURN
 
@@ -782,13 +789,7 @@ RETURN
 	Teo. Mexico 2009
 */
 METHOD Validate( parent ) CLASS wxhHBValidator
-
-	IF ::warnBlock != NIL
-		WXH_UNUSED( parent )
-		RETURN ::warnBlock[ 1 ]:Eval( ::GetWindow() )
-	ENDIF
-
-RETURN .T.
+RETURN ! ::EvalWarnBlock( parent, .T. )
 
 /*
 	End Class wxGET
@@ -1033,7 +1034,7 @@ RETURN
 	__wxh_Button
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name, default, bAction )
+FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name, default, actionBlock )
 	LOCAL button
 	LOCAL bitmap
 
@@ -1059,8 +1060,8 @@ FUNCTION __wxh_Button( window, id, label, bmp, pos, size, style, validator, name
 		ENDIF
 	ENDIF
 
-	IF bAction != NIL
-		button:ConnectCommandEvt( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+	IF actionBlock != NIL
+		button:ConnectCommandEvt( button:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, actionBlock )
 	ENDIF
 
 	IF default == .T.
@@ -1474,7 +1475,7 @@ RETURN
 	__wxh_ListCtrl
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_ListCtrl( window, id, value, pos, size, style, validator, name, bAction )
+FUNCTION __wxh_ListCtrl( window, id, value, pos, size, style, validator, name, actionBlock )
 	LOCAL listCtrl
 
 	IF window == NIL
@@ -1483,8 +1484,8 @@ FUNCTION __wxh_ListCtrl( window, id, value, pos, size, style, validator, name, b
 
 	listCtrl := wxListCtrl():New( window, id, value, pos, size, style, validator, name )
 
-	IF bAction != NIL
-		listCtrl:ConnectCommandEvt( listCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, bAction )
+	IF actionBlock != NIL
+		listCtrl:ConnectCommandEvt( listCtrl:GetID(), wxEVT_COMMAND_TEXT_UPDATED, actionBlock )
 	ENDIF
 
 	containerObj():SetLastChild( listCtrl )
@@ -1589,7 +1590,7 @@ RETURN
 	__wxh_MenuItemAdd
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bmp, bAction, enabled )
+FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bmp, actionBlock, enabled )
 	LOCAL menu
 	LOCAL menuItem
 	LOCAL nLast
@@ -1617,10 +1618,10 @@ FUNCTION __wxh_MenuItemAdd( id, text, helpString, kind, bmp, bAction, enabled )
 
 	menu:Append( menuItem )
 
-	IF bAction = NIL
+	IF actionBlock = NIL
 		menuItem:Enable( .F. )
 	ELSE
-		menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, bAction )
+		menuData:g_window:ConnectCommandEvt( id, wxEVT_COMMAND_MENU_SELECTED, actionBlock )
 	ENDIF
 	
 	__wxh_EnableControl( containerObj():LastParent(), menuItem, id, enabled )
@@ -1710,7 +1711,7 @@ RETURN Result
 	__wxh_ScrollBar
 	Teo. Mexico 2009
 */
-FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, bAction )
+FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name, actionBlock )
 	LOCAL sb
 
 	IF window == NIL
@@ -1726,8 +1727,8 @@ FUNCTION __wxh_ScrollBar( window, id, pos, size, orient, style, validator, name,
 	sb := wxScrollBar():New( window, id, pos, size, style, validator, name )
 	sb:SetScrollbar( 0, 1, 100, 1)
 
-	IF bAction != NIL
-		sb:ConnectCommandEvt( sb:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, bAction )
+	IF actionBlock != NIL
+		sb:ConnectCommandEvt( sb:GetID(), wxEVT_COMMAND_BUTTON_CLICKED, actionBlock )
 	ENDIF
 
 	containerObj():SetLastChild( sb )
@@ -2186,7 +2187,7 @@ RETURN textCtrl
 	__wxh_ToolAdd
 	Teo. Mexico 2009
 */
-PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, bAction, enabled )
+PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, clientData, actionBlock, enabled )
 	LOCAL toolBar
 	LOCAL tbtb		// toolBarToolBase
 	LOCAL bitmap1, bitmap2
@@ -2213,8 +2214,8 @@ PROCEDURE __wxh_ToolAdd( type, toolId, label, bmp1, bmp2, shortHelp, longHelp, c
 			ENDIF
 
 			IF tbtb != NIL
-				IF bAction != NIL
-					toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, bAction )
+				IF actionBlock != NIL
+					toolBar:ConnectCommandEvt( toolId, wxEVT_COMMAND_MENU_SELECTED, actionBlock )
 				ENDIF
 				__wxh_EnableControl( toolBar, tbtb, toolId, enabled )
 			ENDIF
