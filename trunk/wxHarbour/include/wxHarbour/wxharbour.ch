@@ -538,7 +538,7 @@
 						[ TOOLTIP <toolTip> ] ;
 						[ ACTION <bAction> ] ;
 					=> ;
-					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
+					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<warnWhen>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
 					[<var> :=] __wxh_DatePickerCtrl(;
 						[<parent>],;
 						[<id>],;
@@ -716,7 +716,7 @@
 						[ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
 						[ ACTION <bAction> ] ;
 					=> ;
-					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
+					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<warnWhen>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
 						[<var> :=] __wxh_TextCtrl(;
 						[<parent>],;
 						[<id>],;
@@ -807,7 +807,7 @@
 						[ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
 						[ ACTION <bAction> ] ;
 					=> ;
-					@ PUSHVALIDATOR [<dataVar>] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}>] ;;
+					@ PUSHVALIDATOR [<dataVar>] [ WARNING {<warnWhen>,<warnMsg>}] [ ACTION <{bAction}>] ;;
 						[ <spinCtrl> := ]__wxh_SpinCtrl( ;
 						[<parent>],;
 						[<id>],;
@@ -933,7 +933,7 @@
 						[ WARNING [<warnMsg>] WHEN <warnWhen> ] ;
 						[ ACTION <bAction> ] ;
 					=> ;
-					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<{warnWhen}>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
+					@ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING {<warnWhen>,<warnMsg>}] [ ACTION <{bAction}> ] ;;
 						[ <searchCtrl> := ]__wxh_SearchCtrl( ;
 						[<parent>],;
 						[<id>],;

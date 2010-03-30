@@ -2,6 +2,20 @@
  * $Id$
  */
 
+2010-03-30 06:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * on @ PUSHVALIDATOR now is requiered to give a explicit code block for the
+       warning block to evaluate ( as almost all else controls )
+
+  *  src/common/wxhfuncs.prg
+     % using picture clause on wxTextCtrl's when showing value, when editing the
+       buffer is replaced with the raw value
+     ! Fixed double evaluation for warning block when TAB key is used to change
+       focus to next control
+     * using the current value in ::Block to give as parameter on the warning
+       block
+     * ::TextValue now requieres the 'pictured' parameter to return the value
+
 2010-03-28 23:17 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % raise error if default value is given and is not in a valid values list
