@@ -40,7 +40,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 	LOCAL oDlg
 	LOCAL choiceVal1 := 3
 	LOCAL choiceVal2 := 1
-	LOCAL choiceVal3 := 2
+	LOCAL choiceVal3 := "FTP"
 	LOCAL bAction
 
 	bAction := {|event| wxMessageBox( "Value Selected: " + event:GetEventObject():GetStringSelection(), "Status", HB_BitOr( wxOK, wxICON_INFORMATION ), oDlg ) }
