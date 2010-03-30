@@ -34,9 +34,9 @@ PUBLIC:
 	CONSTRUCTOR New()
 	METHOD GetWindow()
 	METHOD SetWindow( window )
-	METHOD TransferFromWindow() // VIRTUAL
-	METHOD TransferToWindow() // VIRTUAL
-	METHOD Validate() // VIRTUAL
+	METHOD TransferFromWindow() INLINE .T.
+	METHOD TransferToWindow() INLINE .T.
+	METHOD Validate() INLINE .T.
 PUBLISHED:
 ENDCLASS
 

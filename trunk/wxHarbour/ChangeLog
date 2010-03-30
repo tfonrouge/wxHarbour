@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2010-03-30 13:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * added members on wxhHBValidator:
+       + actionBlock : contains block to evaluate when data is changed in ctrl
+       + warningBlock : contains block to evaluate for a non valid data in ctrl
+       + warningMessage : contains string to show on warning
+     % simplified calling wxhHBValidator:Validate to use ::EvalWarnBlock
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     * calling the c++ Validate msg
+
+  *  src/wxbase/validators/wx_Validator.cpp
+  *  src/wxbase/validators/wxhValidator.prg
+     ! Fixed very stupid bug that was calling the ctrl and not the Validator Validate msg
+     * removed c++ HB msg's
+
 2010-03-30 11:10 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
      * minor code formatting

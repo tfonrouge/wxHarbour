@@ -750,3 +750,17 @@ HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
 		hb_retl( wnd->TransferDataToWindow() );
 	}
 }
+
+/*
+	Validate
+	Teo. Mexico 2010
+*/
+HB_FUNC( WXWINDOW_VALIDATE )
+{
+	wxWindow* wnd = (wxWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+	
+	if( wnd )
+	{
+		hb_retl( wnd->Validate() );
+	}
+}

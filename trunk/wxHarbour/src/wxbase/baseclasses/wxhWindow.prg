@@ -77,7 +77,7 @@ PUBLIC:
 	METHOD Show( Value /* defaults to TRUE */ )
 	METHOD Thaw()
 	METHOD TransferDataToWindow()
-	METHOD Validate INLINE .T. //VIRTUAL
+	METHOD Validate()
 PUBLISHED:
 ENDCLASS
 
