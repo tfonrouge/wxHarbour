@@ -73,12 +73,14 @@ PROTECTED:
 	DATA FName
 	DATA FValidValues
 	DATA dontUpdateVar INIT .F.
+	DATA updatedByTab INIT .F.
 	METHOD GetMaxLength()
 PUBLIC:
 
 	DATA bAction
 	DATA data
 	DATA dataIsOEM INIT .T.
+	DATA lastKey
 	DATA onSearch
 	DATA Picture
 	DATA warnBlock
@@ -93,7 +95,7 @@ PUBLIC:
 	METHOD GetSelection							/* returns numeric index of ValidValues on TField (if any) */
 	METHOD IsModified( control )
 	METHOD PickList( event )
-	METHOD TextValue()							/* Text Value for control */
+	METHOD TextValue( pictured )							/* Text Value for control */
 	METHOD UpdateVar( event, force )
 
 	/* wxValidator methods */
@@ -174,13 +176,24 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 
 	/* @ GET */
 	ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
+
+		control:ConnectFocusEvt( control:GetId(), wxEVT_SET_FOCUS, ;
+			{|event|
+				event:GetEventObject():ChangeValue( RTrim( ::TextValue( .F. ) ) )
+				RETURN NIL
+			} )
+			
 		control:ConnectKeyEvt( wxID_ANY, wxEVT_KEY_DOWN, ;
 			{|event|
-				SWITCH event:GetKeyCode()
+				::lastKey := event:GetKeyCode()
+				SWITCH ::lastKey
 				CASE WXK_TAB
 					::UpdateVar( event )
+					::updatedByTab := .T.
 					EXIT
-				END
+				OTHERWISE
+					::updatedByTab := .F.
+				ENDSWITCH
 				event:Skip()
 				RETURN NIL
 			} )
@@ -234,7 +247,15 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
 	 * Common to all controls
 	 */
 	/* update var on kill focus, All controls ? */
-	control:ConnectFocusEvt( control:GetId(), wxEVT_KILL_FOCUS, {|event| ::UpdateVar( event ) } )
+	control:ConnectFocusEvt( control:GetId(), wxEVT_KILL_FOCUS, ;
+		{|event|
+			IF ::updatedByTab
+				::updatedByTab := .F.
+			ELSE
+				::UpdateVar( event )
+			ENDIF
+			RETURN NIL
+		} )
 
 	/* set default name if empty */
 	IF Empty( control:GetName() )
@@ -262,7 +283,7 @@ RETURN value
 */
 METHOD FUNCTION EvalWarnBlock( control, showWarning ) CLASS wxhHBValidator
 	LOCAL msg
-	IF ::warnBlock != NIL .AND. ::warnBlock[ 1 ]:Eval( control )
+	IF ::warnBlock != NIL .AND. ::warnBlock[ 1 ]:Eval( ::FBlock:Eval() )
 		IF showWarning == NIL .OR. showWarning
 			msg := iif( Empty( ::warnBlock[ 2 ] ), "Field has invalid data...", ::warnBlock[ 2 ] )
 			wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), control:GetParent() )
@@ -488,18 +509,20 @@ RETURN
 	TextValue
 	Teo. Mexico 2009
 */
-METHOD FUNCTION TextValue() CLASS wxhHBValidator
+METHOD FUNCTION TextValue( pictured ) CLASS wxhHBValidator
 	LOCAL value
 
-	value := ::AsString()
+	value := ::Block:Eval()
 
-	IF ::Field != NIL
-		IF ::Field:Table:dataIsOEM
-			value := wxh_OEMTowxString( value )
-		ENDIF
+	IF ValType( value ) = "C" .AND. ::Field != NIL .AND. ::Field:Table:dataIsOEM
+		value := wxh_OEMTowxString( value )
 	ENDIF
 
-RETURN value
+	IF pictured == .T. .AND. ::Picture != NIL
+		RETURN Transform( value, ::Picture )
+	ENDIF
+
+RETURN AsString( value )
 
 /*
 	TransferFromWindow
@@ -649,7 +672,7 @@ METHOD TransferToWindow() CLASS wxhHBValidator
 		/* @ GET */
 		ELSEIF control:IsDerivedFrom( "wxTextCtrl" )
 
-			control:ChangeValue( RTrim( ::TextValue() ) )
+			control:ChangeValue( RTrim( ::TextValue( .T. ) ) )
 			control:SetInsertionPoint( 0 )
 			control:ShowPosition( 0 )
 			//control:SetSelection()
