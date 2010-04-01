@@ -92,7 +92,7 @@ PROTECTED:
 	DATA FWrittenValue
 	
 	METHOD GetChanged()
-	METHOD GetDefaultValue
+	METHOD GetDefaultValue( defaultValue )
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
 	METHOD GetFieldReadBlock()
@@ -401,9 +401,8 @@ RETURN
 	GetDefaultValue
 	Teo. Mexico 2009
 */
-METHOD FUNCTION GetDefaultValue CLASS TField
+METHOD FUNCTION GetDefaultValue( defaultValue ) CLASS TField
 	LOCAL i
-	LOCAL defaultValue
 	LOCAL validValues
 
 	IF ::FFieldMethodType = 'A'
@@ -413,10 +412,12 @@ METHOD FUNCTION GetDefaultValue CLASS TField
 		//RETURN NIL
 	ENDIF
 
-	IF ValType( ::FDefaultValue ) = "B"
-		defaultValue := ::FDefaultValue:Eval( Self:FTable )
-	ELSE
-		defaultValue := ::FDefaultValue
+	IF defaultValue = NIL
+		IF ValType( ::FDefaultValue ) = "B"
+			defaultValue := ::FDefaultValue:Eval( Self:FTable )
+		ELSE
+			defaultValue := ::FDefaultValue
+		ENDIF
 	ENDIF
 	
 	validValues := ::GetValidValues()
@@ -716,7 +717,10 @@ METHOD FUNCTION Reset() CLASS TField
 						ENDIF
 					ENDIF
 				ELSE
-					value := ::GetEmptyValue()
+					value := ::GetDefaultValue()
+					IF value = NIL
+						value := ::GetEmptyValue()
+					ENDIF
 				ENDIF
 
 				result := .T.

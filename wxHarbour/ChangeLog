@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-03-31 23:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * added parameter to ::GetDefaultValue( defaultValue ) to allow
+       checking for a custom value
+     ! Fixed assigning an valid value when ::DefaultValue is NIL
+       and there is ::ValidValues
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     ! Reverted calling of c++/Validate on HB class, this is not necesary
+       and is source of segfault due to infinite loop
+
 2010-03-30 13:47 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * added members on wxhHBValidator:
