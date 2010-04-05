@@ -2,6 +2,30 @@
  * $Id$
  */
 
+2010-04-04 23:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+     % adding capability to accept the WARNING related codeblock as an codeblock var
+       or as a PP converted one ( <{warnBlock}>  ) in all current ctrls that have
+       this clause
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     % fire on the DataSource the OnDataChange event on:
+       * RefreshAll
+       * RefreshCurrent
+       * SetRowPos
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * show the classname when ::GetCellValueAtCol obtains an object and it's
+       not a TField
+
+  *  src/raddox/TField.prg
+     ! Fixed getting the reference field on TObjectField's that aren't
+       part of the master source key expression
+
+  *  src/raddox/TTable.prg
+     * allways fire the OnDataChange event at the end of GetCurrentRecord
+
 2010-04-01 15:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * FSize is zero in TMemoField's

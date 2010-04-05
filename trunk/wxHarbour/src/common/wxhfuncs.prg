@@ -86,7 +86,7 @@ PUBLIC:
 	DATA warningBlock
 	DATA warningMessage
 
-	CONSTRUCTOR New( name, var, block, picture, warning, actionBlock )
+	CONSTRUCTOR New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock )
 
 	METHOD AddPostInfo()
 	METHOD AsString()
@@ -116,7 +116,7 @@ ENDCLASS
 	New
 	Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warning, actionBlock ) CLASS wxhHBValidator
+METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) CLASS wxhHBValidator
 
 	::FName	 := name
 
@@ -137,8 +137,12 @@ METHOD New( name, var, block, picture, warning, actionBlock ) CLASS wxhHBValidat
 	ENDIF
 
 	IF !Empty( warning )
-		::warningBlock := warning[ 1 ]
-		::warningMessage := warning[ 2 ]
+		IF HB_IsBlock( warning )
+			::warningBlock := warning
+		ELSE
+			::warningBlock := warnBlk
+		ENDIF
+		::warningMessage := warnMsg
 	ENDIF
 
 	IF actionBlock != NIL

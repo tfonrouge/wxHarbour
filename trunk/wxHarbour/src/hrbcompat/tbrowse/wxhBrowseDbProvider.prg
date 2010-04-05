@@ -238,6 +238,9 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 		IF Result:IsDerivedFrom( "TField" )
 			Result := Result:AsString()
 			EXIT
+		ELSE
+			Result := "<" +  Result:ClassName() + ">"
+			EXIT
 		ENDIF
 	OTHERWISE
 		Result := "<unknown type '" + ValType( Result ) + "'>"

@@ -541,11 +541,16 @@ RETURN Self
 */
 METHOD FUNCTION RefreshAll() CLASS wxhBrowse
 	LOCAL dbProvider := ::GetTable()
+	LOCAL allowOnDataChange
+
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
 
 	IF dbProvider != NIL// .AND. dbProvider:IsDerivedFrom("wxhBrowseTableBase")
 		dbProvider:FillGridBuffer( 0 )
 		::ForceRefresh()
 	ENDIF
+
+	::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
 
@@ -554,8 +559,15 @@ RETURN Self
 	Teo. Mexico 2009
 */
 METHOD FUNCTION RefreshCurrent() CLASS wxhBrowse
+	LOCAL allowOnDataChange
+
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
+
 	::GetTable():GetGridRowData( ::RowPos )
 	::ForceRefresh()
+
+	::SetAllowOnDataChange( allowOnDataChange )
+
 RETURN Self
 
 /*
@@ -706,10 +718,17 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE SetRowPos( rowPos ) CLASS wxhBrowse
+	LOCAL allowOnDataChange
+
+	allowOnDataChange := ::SetAllowOnDataChange( .F. )
+
 	IF rowPos > ::RowCount
 		rowPos := ::RowCount
 	ENDIF
 	::SetGridCursor( rowPos - 1, ::GetGridCursorCol() )
+	
+	::SetAllowOnDataChange( allowOnDataChange )
+
 RETURN
 
 /*

@@ -1780,7 +1780,8 @@ METHOD FUNCTION GetReferenceField() CLASS TObjectField
 	IF ::IsMasterFieldComponent .AND. !Empty( masterSourceClassName ) .AND. ::DataObj:IsDerivedFrom( masterSourceClassName )
 		pkField := ::DataObj:GetPrimaryKeyField( masterSourceClassName )
 	ELSE
-		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:GetMasterSourceClassName() )
+//		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:GetMasterSourceClassName() )
+		pkField := ::DataObj:GetPrimaryKeyField()
 	ENDIF
 
 RETURN pkField
