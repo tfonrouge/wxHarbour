@@ -2037,16 +2037,10 @@ METHOD FUNCTION Post() CLASS TTable
 			ENDIF
 
 			FOR EACH AField IN ::FieldList
-			
+
 				IF !AField:IsValid()
 					RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
 				ENDIF
-
-				/*
-				IF AField:FieldMethodType = "C" .AND. AField:Changed
-					AField:SetData()
-				ENDIF
-				*/
 
 			NEXT
 
