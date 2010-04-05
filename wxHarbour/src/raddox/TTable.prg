@@ -1397,13 +1397,13 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 
 		::SyncDetailSources()
 
-		IF Result .AND. ::allowOnDataChange
-			::OnDataChange()
-		ENDIF
-
 	ELSE
 		//RAISE ERROR "Table not in dsBrowse mode..."
 		Result := .F.
+	ENDIF
+
+	IF ::allowOnDataChange
+		::OnDataChange()
 	ENDIF
 
 RETURN Result
@@ -1507,7 +1507,7 @@ METHOD FUNCTION GetDisplayFields( syncFromAlias ) CLASS TTable
 
 		IF ::FInstances[ ::TableClass, "DisplayFieldsClass" ] == NIL
 
-			DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields" )
+			DisplayFieldsClass := HBClass():New( ::ClassName + "DisplayFields", { @HBObject() } )
 
 			DisplayFieldsClass:AddData( "__FObj" )
 			DisplayFieldsClass:AddData( "__FFields" )
