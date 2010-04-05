@@ -2228,7 +2228,7 @@ RETURN
 METHOD PROCEDURE SetIndex( index ) CLASS TTable
 	IF !::FIndex == index
 		IF ::PrimaryIndex != NIL .AND. !::PrimaryMasterKeyField == index:MasterKeyField
-			wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
+			//wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
 		ENDIF
 		::FIndex := index
 	ENDIF

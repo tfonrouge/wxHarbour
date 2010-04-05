@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-04-05 11:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * do not show the error when trying to use a index that has not a compatible
+       master key expression
+       TODO: need to create a alert log for this
+
 2010-04-04 23:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  README.xharbour_users
      * updated documentation, more to come
