@@ -319,7 +319,6 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj \
-	$(__BUILDDIR__)\wxHarbour_xdoutils.obj \
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
@@ -927,9 +926,6 @@ $(__BUILDDIR__)\wxHarbour_wxhValidator.obj: .\src\wxbase\validators\wxhValidator
 $(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj: .\src\wxbase\xmlclasses\wxhXmlDocument.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
-
-$(__BUILDDIR__)\wxHarbour_xdoutils.obj: .\src\raddox\xdoutils.c
-	$(CC) -q -c -P- -o$@ $(WXHARBOUR_CFLAGS) .\src\raddox\xdoutils.c
 
 $(__BUILDDIR__)\wxHarbour_sysdefs.obj: .\src\common\sysdefs.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\sysdefs.cpp
