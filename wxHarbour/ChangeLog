@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-04-08 14:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/dbf_ctrls1/dbf_ctrls1.prg
+     % enhanced sample (thanks to Bruno Luciani to pointing it)
+
 2010-04-08 12:44 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed comparing values by length

@@ -20,6 +20,8 @@
 
 #include "wxharbour.ch"
 
+#include "dbinfo.ch"
+
 FUNCTION Main
 
 	IMPLEMENT_APP( MyApp():New() )
@@ -33,61 +35,105 @@ RETURN NIL
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
-	DATA frame
+	DATA looked
+	DATA brw
+	DATA btnRLock
+	DATA dlg
+	METHOD ToogleBtn()
+	METHOD UnLock( recNo )
 PUBLIC:
 	METHOD OnInit()
 PUBLISHED:
 ENDCLASS
-/*
-	EndClass MyApp
-*/
 
 /*
 	OnInit
 	Teo. Mexico 2010
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-	LOCAL b
 
 	USE test NEW SHARED
 
-	CREATE FRAME ::frame ;
+	CREATE DIALOG ::dlg ;
 		TITLE "Browse/GET sample"
 
 	BEGIN BOXSIZER VERTICAL
 	
-		@ BROWSE VAR b DATASOURCE "test" ;
-			ONSELECTCELL {|| ::frame:TransferDataToWindow() } ;
+		@ BUTTON "Fit" ACTION ::brw:AutoSizeColumns( .F. )
+	
+		@ BROWSE VAR ::brw DATASOURCE "test" ;
+			ONSELECTCELL {|| ::UnLock( RecNo() ), ::dlg:TransferDataToWindow() } ;
+			MINSIZE 600,400 ;
 			SIZERINFO ALIGN EXPAND STRETCH
 			
-			ADD BCOLUMN TO b "First"  BLOCK {|| TEST->first }
-			ADD BCOLUMN TO b "Last"   BLOCK {|| TEST->last }
-			ADD BCOLUMN TO b "Street" BLOCK {|| TEST->street }
+			ADD BCOLUMN TO ::brw "First"  BLOCK {|| TEST->first }
+			ADD BCOLUMN TO ::brw "Last"   BLOCK {|| TEST->last }
+			ADD BCOLUMN TO ::brw "Street" BLOCK {|| TEST->street }
 	
 		BEGIN FLEXGRIDSIZER COLS 6 GROWABLECOLS 2,4,6 ALIGN EXPAND
 			@ SAY "First:" SIZERINFO ALIGN RIGHT
-				@ GET TEST->first NOEDITABLE ;
+				@ GET TEST->first ENABLED {|| DbRecordInfo( DBRI_LOCKED ) } ;
 					SIZERINFO ALIGN EXPAND
 			@ SAY "Last:" SIZERINFO ALIGN RIGHT
-				@ GET TEST->last ;
+				@ GET TEST->last ENABLED {|| DbRecordInfo( DBRI_LOCKED ) } ;
 					SIZERINFO ALIGN EXPAND
 			@ SAY "Street:" SIZERINFO ALIGN RIGHT
-				@ GET TEST->street ;
+				@ GET TEST->street ENABLED {|| DbRecordInfo( DBRI_LOCKED ) } ;
 					SIZERINFO ALIGN EXPAND
 		END SIZER
 		
+		@ BUTTON "RLock" VAR ::btnRLock ACTION ::ToogleBtn()
+
+		@ STATICLINE HORIZONTAL SIZERINFO ALIGN EXPAND
+		
 		BEGIN BOXSIZER HORIZONTAL ALIGN CENTER
-			@ BUTTON "Next" ACTION TEST->( b:Down() )
+			@ SPACER
+			@ BUTTON "Up" ACTION TEST->( ::UnLock(), ::brw:Up() )
+			@ BUTTON "Down" ACTION TEST->( ::UnLock(), ::brw:Down() )
 		END SIZER
 
-		@ BUTTON ID wxID_EXIT ACTION ::frame:Close() SIZERINFO ALIGN RIGHT
+		@ BUTTON ID wxID_EXIT ACTION ::dlg:Close() SIZERINFO ALIGN RIGHT
 
 	END SIZER
 	
-	b:AutoSizeColumns( .F. )
+	::brw:AutoSizeColumns( .F. )
 
-	b:ConnectGridEvt( b:GetId(), wxEVT_GRID_LABEL_LEFT_DCLICK, {|gridEvent| gridEvent:GetEventObject():AutoSizeColumns( .F. )  } )
+	::brw:ConnectGridEvt( ::brw:GetId(), wxEVT_GRID_LABEL_LEFT_DCLICK, {|gridEvent| gridEvent:GetEventObject():AutoSizeColumns( .F. )  } )
 
-	SHOW WINDOW ::frame FIT CENTRE
+	SHOW WINDOW ::dlg FIT CENTRE MODAL
 
-RETURN .T. // If main window is a wxDialog, we need to return false on OnInit
+RETURN .F. // If main window is a wxDialog, we need to return false on OnInit
+
+/*
+	ToogleBtn
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE ToogleBtn() CLASS MyApp
+	IF ::looked = NIL
+		IF RLock()
+			::looked := RecNo()
+			::btnRLock:SetLabel( "UnLock" )
+		ENDIF
+	ELSE
+		::UnLock()
+	ENDIF
+RETURN
+
+/*
+	UnLock
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE UnLock( recNo ) CLASS MyApp
+	IF ::looked != NIL
+		IF recNo = NIL .OR. recNo != ::looked
+			DbUnLock()
+			::btnRLock:SetLabel( "RLock" )
+			::looked := NIL
+			::brw:RefreshAll()
+		ENDIF
+	ENDIF
+RETURN
+
+/*
+	EndClass MyApp
+*/
