@@ -289,8 +289,11 @@ RETURN value
 */
 METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
 	LOCAL msg
+	LOCAL warn := .F.
+
 	IF ::warningBlock != NIL
-		IF ::warningBlock:Eval( ::FBlock:Eval() )
+		warn := ::warningBlock:Eval( ::FBlock:Eval() )
+		IF warn
 			IF showWarning == NIL .OR. showWarning
 				msg := iif( Empty( ::warningMessage ), "Field has invalid data...", ::warningMessage )
 				IF parent = NIL
@@ -298,10 +301,10 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
 				ENDIF
 				wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
 			ENDIF
-			RETURN .F.
 		ENDIF
 	ENDIF
-RETURN .T.
+
+RETURN warn
 
 /*
 	GetChoices
