@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-04-08 15:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/dbf_ctrls1/dbf_ctrls1.prg
+     * removed unneeded spacer control
+
+  *  wxharbour.spec
+     * changed revision number to 1
+
 2010-04-08 14:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbf_ctrls1/dbf_ctrls1.prg
      % enhanced sample (thanks to Bruno Luciani to pointing it)
