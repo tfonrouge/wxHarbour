@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-04-08 18:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  -  src/raddox/xdoutils.c
+     * removed unneeded source file
+
+  *  wxharbour.hbp
+     * updated hbmk2 library generation script
+
 2010-04-08 15:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbf_ctrls1/dbf_ctrls1.prg
      * removed unneeded spacer control

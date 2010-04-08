@@ -49,7 +49,6 @@ src/hrbcompat/tbrowse/*.prg
 src/hrbcompat/tbrowse/*.cpp
 src/raddox/*.prg
 src/raddox/*.cpp
-src/raddox/*.c
 src/wxbase/advctrls/*.prg
 src/wxbase/advctrls/*.cpp
 src/wxbase/app/*.prg
@@ -73,6 +72,8 @@ src/wxbase/menu/*.cpp
 src/wxbase/miscfuncs/*.cpp
 src/wxbase/networking/*.prg
 src/wxbase/networking/*.cpp
+src/wxbase/pickers/*.prg
+src/wxbase/pickers/*.cpp
 src/wxbase/range/*.prg
 src/wxbase/range/*.cpp
 src/wxbase/sizers/*.prg
