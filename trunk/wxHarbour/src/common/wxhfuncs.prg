@@ -563,7 +563,9 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
 		SWITCH ValType( oldValue )
 		CASE 'C'
-			IF ::FField = NIL .OR. ::FField:IsDerivedFrom("TMemoField")
+			IF ::FField = NIL
+				changed := ! PadR( value , Len( oldValue ) ) == oldValue
+			ELSEIF ::FField:IsDerivedFrom("TMemoField")
 				changed := !value == oldValue
 			ELSE
 				changed := ! PadR( value, Len( oldValue ) ) == oldValue

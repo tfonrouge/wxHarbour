@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-04-08 12:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed compare for changed values on non TField values
+
 2010-04-08 12:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   -  samples/GNUmakefile
   -  samples/makefile.gcc
