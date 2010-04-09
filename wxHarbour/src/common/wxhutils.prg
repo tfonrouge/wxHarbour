@@ -535,7 +535,10 @@ FUNCTION wxhAlert( cMessage, aOptions )
 	IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
 		result := Alert( cMessage, aOptions )
 	ELSE
-		result := wxMessageBox( cMessage, "Message", aOptions )
+		IF aOptions = NIL
+			aOptions := 0
+		ENDIF
+		result := wxMessageBox( cMessage, "Message", HB_BitOr( aOptions, wxICON_EXCLAMATION ) )
 	ENDIF
 
 RETURN result

@@ -35,7 +35,7 @@ RETURN NIL
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
-	DATA looked
+	DATA locked
 	DATA brw
 	DATA btnRLock
 	DATA dlg
@@ -108,9 +108,9 @@ RETURN .F. // If main window is a wxDialog, we need to return false on OnInit
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE ToogleBtn() CLASS MyApp
-	IF ::looked = NIL
+	IF ::locked = NIL
 		IF RLock()
-			::looked := RecNo()
+			::locked := RecNo()
 			::btnRLock:SetLabel( "UnLock" )
 		ENDIF
 	ELSE
@@ -123,11 +123,11 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE UnLock( recNo ) CLASS MyApp
-	IF ::looked != NIL
-		IF recNo = NIL .OR. recNo != ::looked
+	IF ::locked != NIL
+		IF recNo = NIL .OR. recNo != ::locked
 			DbUnLock()
 			::btnRLock:SetLabel( "RLock" )
-			::looked := NIL
+			::locked := NIL
 			::brw:RefreshAll()
 		ENDIF
 	ENDIF
