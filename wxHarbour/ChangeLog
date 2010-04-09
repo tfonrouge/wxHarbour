@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-04-09 09:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     ! Fixed go to record procedure and GetPage()
+
 2010-04-08 18:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

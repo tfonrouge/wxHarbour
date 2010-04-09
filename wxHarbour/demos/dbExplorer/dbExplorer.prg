@@ -106,7 +106,7 @@ METHOD PROCEDURE GoToRecord() CLASS MyApp
 	
 	DESTROY oDlg
 	
-	oBrw:DataSource:DbGoTo( Val( ::recNo ) )
+	oBrw:DataSource:DbGoTo( ::recNo )
 	
 	oBrw:RefreshAll()
 
@@ -209,7 +209,7 @@ METHOD FUNCTION GetBrw CLASS MyApp
 		RETURN NIL
 	ENDIF
 
-RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 0 ):FindWindowByName("table")
+RETURN ::auiNotebook:GetPage( ::auiNotebook:GetSelection() ):GetPage( 1 ):FindWindowByName("table")
 
 /*
 	OpenDB
