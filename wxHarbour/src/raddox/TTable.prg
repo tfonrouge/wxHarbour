@@ -224,6 +224,7 @@ PUBLIC:
 	METHOD OnDataChange()
 	METHOD OnPickList( param ) VIRTUAL
 	METHOD OnStateChange( state ) VIRTUAL
+	METHOD OnSyncFromMasterSource() VIRTUAL
 
 	PROPERTY Active READ FActive
 	PROPERTY Alias READ GetAlias
@@ -327,16 +328,12 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 	ENDIF
 
-	IF Empty( ::TableName )
-		::Error_Empty_TableName()
-	ENDIF
-	
 	::InitTable()
 
 	::OnCreate()
 
 	/* Check for a valid db structure (based on definitions on DEFINE FIELDS) */
-	IF ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
+	IF !Empty( ::TableName ) .AND. ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
 		::CheckDbStruct()
 	ENDIF
 
@@ -1797,7 +1794,7 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	/*!
 	* Make sure that database is open here
 	*/
-	IF ::FAlias == NIL
+	IF ::FAlias == NIL .AND. !Empty( ::TableName )
 		::FAlias := TAlias():New( Self )
 	ENDIF
 
@@ -1949,8 +1946,10 @@ METHOD FUNCTION Open() CLASS TTable
 	 * Try to sync with MasterSource (if any)
 	 */
 	::SyncFromMasterSourceFields()
-	
-	::FHasDeletedOrder := ::Alias:OrdNumber( "Deleted" ) > 0
+
+	IF ::Alias != NIL
+		::FHasDeletedOrder := ::Alias:OrdNumber( "Deleted" ) > 0
+	ENDIF
 
 	::OnAfterOpen()
 
@@ -2079,10 +2078,6 @@ METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
 		tableName := ::TableNameValue
 	ELSE
 		::TableNameValue := tableName
-	ENDIF
-
-	IF Empty( tableName )
-		::Error_Empty_TableName()
 	ENDIF
 
 	/*
@@ -2511,17 +2506,38 @@ RETURN
 METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 
 	IF ::MasterSource != NIL .AND. ::FActive .AND. ::MasterSource:Active
-		/* TField:Reset does the job */
-		IF ::PrimaryMasterKeyField != NIL
-			IF ! ::PrimaryMasterKeyField:Reset()
-				// raise error
-			ENDIF
-		ENDIF
 
-		IF ::InsideScope()
-			::GetCurrentRecord()
+		::OnSyncFromMasterSource()
+		
+		IF !::MasterSource:Eof() .AND. ::Alias != NIL
+
+			/* TField:Reset does the job */
+			IF ::PrimaryMasterKeyField != NIL
+				IF ! ::PrimaryMasterKeyField:Reset()
+					// raise error
+				ENDIF
+			ENDIF
+
+			IF ::InsideScope()
+				::GetCurrentRecord()
+			ELSE
+				::DbGoTop()
+			ENDIF
+
 		ELSE
-			::DbGoTop()
+
+			::FEof := .T.
+			::FBof := .T.
+			::FFound := .F.
+
+			::Reset()
+
+			::SyncDetailSources()
+
+			IF ::allowOnDataChange
+				::OnDataChange()
+			ENDIF
+
 		ENDIF
 
 	ENDIF

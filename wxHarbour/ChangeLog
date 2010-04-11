@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-04-10 19:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % added event handler ::OnSyncFromMasterSource, is fired on
+       ::SyncFromMasterSourceFields, allows to execute code before
+       syncing the Table with his MasterSource
+
+  *  wxharbour.hbc
+     * removed wxmsw28_media library on Windows link phase
+
 2010-04-09 15:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbf_ctrls1/dbf_ctrls1.prg
      * renamed wrong named var
