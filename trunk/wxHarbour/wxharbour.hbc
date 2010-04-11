@@ -18,7 +18,7 @@ ldflags={unix&gcc}"`wx-config --libs`"
 {bcc}libpaths=${HB_WITH_WX}\..\lib\bcc_lib
 
 {win&(allmsvc|mingw|bcc)}libs=wxbase28 wxbase28_net wxbase28_xml
-{win&(allmsvc|mingw|bcc)}libs=wxmsw28_adv wxmsw28_aui wxmsw28_core wxmsw28_html wxmsw28_media wxmsw28_richtext wxmsw28_xrc
+{win&(allmsvc|mingw|bcc)}libs=wxmsw28_adv wxmsw28_aui wxmsw28_core wxmsw28_html wxmsw28_richtext wxmsw28_xrc
 {win&allmsvc}libs=wxmsw28_qa
 {win&watcom}libs=wxmsw28
 {win}libs=wxjpeg wxpng wxtiff wxexpat wxregex wxzlib
