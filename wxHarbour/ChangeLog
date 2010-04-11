@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-04-10 22:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxharbour.hbc
+  *  wxharbour.hbp
+     ! Fixed scripts to generate library/samples with hbmk2
+       NOTE: HB_WITH_WX environment var is requiered to be
+         assigned to the root of the wxWidgets install
+	 ( at least on Windows platforms), i.e.:
+	 set HB_WITH_WX=C:\wxWidgets-2.8.10
+
 2010-04-10 19:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % added event handler ::OnSyncFromMasterSource, is fired on

@@ -23,14 +23,14 @@
 -olib/${hb_arch}/${hb_comp}/wxharbour
 -nohbc
 
--i{mingw}${HB_WITH_WX}\..\lib\gcc_lib\msw
--i{msvc}${HB_WITH_WX}\..\lib\vc_lib\msw
--i{msvc64}${HB_WITH_WX}\..\lib\vc_amd64_lib\msw
--i{msvcia64}${HB_WITH_WX}\..\lib\vc_ia64_lib\msw
--i{win&watcom}${HB_WITH_WX}\..\include
--i{win&watcom}${HB_WITH_WX}\..\lib\wat_lib\msw
--i{bcc}${HB_WITH_WX}\..\lib\bcc_lib\msw
--i${HB_WITH_WX}
+-i{mingw}${HB_WITH_WX}\lib\gcc_lib\msw
+-i{msvc}${HB_WITH_WX}\lib\vc_lib\msw
+-i{msvc64}${HB_WITH_WX}\lib\vc_amd64_lib\msw
+-i{msvcia64}${HB_WITH_WX}\lib\vc_ia64_lib\msw
+-i{win&watcom}${HB_WITH_WX}\include
+-i{win&watcom}${HB_WITH_WX}\lib\wat_lib\msw
+-i{bcc}${HB_WITH_WX}\lib\bcc_lib\msw
+-i${HB_WITH_WX}/include
 -iinclude/wxHarbour
 
 -cflag={win}-DWIN32
