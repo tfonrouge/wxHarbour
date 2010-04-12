@@ -50,6 +50,15 @@ valid values are
 		<values-description>HBLIBSTYPE=shared : link with shared Harbour libraries,HBLIBSTYPE=static : link with static Harbour libraries</values-description>
 	</option>
 
+	<option name="HBLIBVER">
+		<default-value>
+			21
+		</default-value>
+		<description>
+			Harbour lib version
+		</description>
+	</option>
+
 	<if cond="FORMAT!='gnu'">
 		<set var="HB_INSTALL_PREFIX">
 			$(envvar("HB_INSTALL_PREFIX"))
@@ -266,10 +275,10 @@ Link in the Harbour TIP library
 			harbour
 		</if>
 		<if cond="HBLIBSTYPE=='shared' and TOOLSET=='win32' and COMPILER!='bcc'">
-			harbour-20
+			harbour-$(HBLIBVER)
 		</if>
 		<if cond="HBLIBSTYPE=='shared' and TOOLSET=='win32' and COMPILER=='bcc'">
-			harbour-20-bcc
+			harbour-$(HBLIBVER)-bcc
 		</if>
 	</set>
 		
@@ -923,6 +932,8 @@ Where is wxWidgets installed
 			<sys-lib>comdlg32</sys-lib>
 			<sys-lib>shell32</sys-lib>
 			<sys-lib>uuid</sys-lib>
+			<sys-lib>rpcrt4</sys-lib>
+			<sys-lib>wsock32</sys-lib>
 			<sys-lib>ole32</sys-lib>
 			<sys-lib>oleaut32</sys-lib>
 			<sys-lib>mpr</sys-lib>
