@@ -2,6 +2,125 @@
  * $Id$
  */
 
+2010-04-12 10:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  config/tmpl_hrb.bkl
+  *  demos/dbExplorer/makefile.bcc
+  *  demos/dbExplorer/makefile.gcc
+  *  demos/dbExplorer/makefile.vc
+  *  demos/helloworld/makefile.bcc
+  *  demos/helloworld/makefile.gcc
+  *  demos/helloworld/makefile.vc
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  makefile.wat
+  *  samples/arrbrowser/makefile.bcc
+  *  samples/arrbrowser/makefile.gcc
+  *  samples/arrbrowser/makefile.vc
+  *  samples/auinotebook/makefile.bcc
+  *  samples/auinotebook/makefile.gcc
+  *  samples/auinotebook/makefile.vc
+  *  samples/bitmapButton/makefile.bcc
+  *  samples/bitmapButton/makefile.gcc
+  *  samples/bitmapButton/makefile.vc
+  *  samples/button/makefile.bcc
+  *  samples/button/makefile.gcc
+  *  samples/button/makefile.vc
+  *  samples/checkbox/makefile.bcc
+  *  samples/checkbox/makefile.gcc
+  *  samples/checkbox/makefile.vc
+  *  samples/choice/makefile.bcc
+  *  samples/choice/makefile.gcc
+  *  samples/choice/makefile.vc
+  *  samples/combobox/makefile.bcc
+  *  samples/combobox/makefile.gcc
+  *  samples/combobox/makefile.vc
+  *  samples/dbbrowser/makefile.bcc
+  *  samples/dbbrowser/makefile.gcc
+  *  samples/dbbrowser/makefile.vc
+  *  samples/dbf_ctrls1/makefile.bcc
+  *  samples/dbf_ctrls1/makefile.gcc
+  *  samples/dbf_ctrls1/makefile.vc
+  *  samples/gauge/makefile.bcc
+  *  samples/gauge/makefile.gcc
+  *  samples/gauge/makefile.vc
+  *  samples/grid/makefile.bcc
+  *  samples/grid/makefile.gcc
+  *  samples/grid/makefile.vc
+  *  samples/listbook/makefile.bcc
+  *  samples/listbook/makefile.gcc
+  *  samples/listbook/makefile.vc
+  *  samples/mdi/makefile.bcc
+  *  samples/mdi/makefile.gcc
+  *  samples/mdi/makefile.vc
+  *  samples/menu/makefile.bcc
+  *  samples/menu/makefile.gcc
+  *  samples/menu/makefile.vc
+  *  samples/networking/makefile.bcc
+  *  samples/networking/makefile.gcc
+  *  samples/networking/makefile.vc
+  *  samples/notebook/makefile.bcc
+  *  samples/notebook/makefile.gcc
+  *  samples/notebook/makefile.vc
+  *  samples/panel/makefile.bcc
+  *  samples/panel/makefile.gcc
+  *  samples/panel/makefile.vc
+  *  samples/radiobox/makefile.bcc
+  *  samples/radiobox/makefile.gcc
+  *  samples/radiobox/makefile.vc
+  *  samples/sayget/makefile.bcc
+  *  samples/sayget/makefile.gcc
+  *  samples/sayget/makefile.vc
+  *  samples/searchCtrl/makefile.bcc
+  *  samples/searchCtrl/makefile.gcc
+  *  samples/searchCtrl/makefile.vc
+  *  samples/sizers/makefile.bcc
+  *  samples/sizers/makefile.gcc
+  *  samples/sizers/makefile.vc
+  *  samples/spinctrl/makefile.bcc
+  *  samples/spinctrl/makefile.gcc
+  *  samples/spinctrl/makefile.vc
+  *  samples/staticBitmap/makefile.bcc
+  *  samples/staticBitmap/makefile.gcc
+  *  samples/staticBitmap/makefile.vc
+  *  samples/taskBarIcon/makefile.bcc
+  *  samples/taskBarIcon/makefile.gcc
+  *  samples/taskBarIcon/makefile.vc
+  *  samples/text/makefile.bcc
+  *  samples/text/makefile.gcc
+  *  samples/text/makefile.vc
+  *  samples/timer/makefile.bcc
+  *  samples/timer/makefile.gcc
+  *  samples/timer/makefile.vc
+  *  samples/toolbar/makefile.bcc
+  *  samples/toolbar/makefile.gcc
+  *  samples/toolbar/makefile.vc
+  *  samples/treectrl/makefile.bcc
+  *  samples/treectrl/makefile.gcc
+  *  samples/treectrl/makefile.vc
+  *  samples/wxget/makefile.bcc
+  *  samples/wxget/makefile.gcc
+  *  samples/wxget/makefile.vc
+  *  samples/wxwindow/makefile.bcc
+  *  samples/wxwindow/makefile.gcc
+  *  samples/wxwindow/makefile.vc
+  *  tests/evtdefcheck/makefile.bcc
+  *  tests/evtdefcheck/makefile.gcc
+  *  tests/evtdefcheck/makefile.vc
+  *  tests/socketCli/makefile.bcc
+  *  tests/socketCli/makefile.gcc
+  *  tests/socketCli/makefile.vc
+  *  tests/socketSrv/makefile.bcc
+  *  tests/socketSrv/makefile.gcc
+  *  tests/socketSrv/makefile.vc
+     * added HBLIBVER option to set the current Harbour lib version
+     * added libs on Win platforms:
+       + rpcrt4
+       + wsock32
+
+  *  src/raddox/TTable.prg
+     + added WRITE to Alias PROPERTY
+
 2010-04-10 22:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxharbour.hbc
   *  wxharbour.hbp

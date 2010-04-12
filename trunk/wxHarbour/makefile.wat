@@ -197,8 +197,8 @@ __WX_LIBID_FILENAMES = u
 
 MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" CC="$(CC)" CXX="$(CXX)" &
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" HBLIBSTYPE="$(HBLIBSTYPE)" &
-	HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCC="$(HBCC)" HBMT="$(HBMT)" &
-	HBLIB_TIP="$(HBLIB_TIP)" HBLIB_HBNETIO="$(HBLIB_HBNETIO)" &
+	HBLIBVER="$(HBLIBVER)" HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCC="$(HBCC)" &
+	HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_HBNETIO="$(HBLIB_HBNETIO)" &
 	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" &
 	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" &
 	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" &
@@ -314,10 +314,8 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj &
-	$(__BUILDDIR__)\wxHarbour_xdoutils.obj &
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj &
-	$(__BUILDDIR__)\wxHarbour_xhb2hb.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj &
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj &
@@ -443,8 +441,8 @@ uninstall_wxHarbour : .SYMBOLIC
 
 install_wxHarbour_headers : .SYMBOLIC 
 	if not exist $(PREFIX) mkdir $(PREFIX)
-	if not exist $(PREFIX)\include/wxHarbour/wxh mkdir $(PREFIX)\include/wxHarbour/wxh
-	if not exist $(PREFIX)\include/wxHarbour mkdir $(PREFIX)\include/wxHarbour
+	if not exist $(PREFIX)\include\wxHarbour\wxh mkdir $(PREFIX)\include\wxHarbour\wxh
+	if not exist $(PREFIX)\include\wxHarbour mkdir $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\defs.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\dialog.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\event.ch $(PREFIX)\include\wxHarbour
@@ -452,14 +450,12 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\raddox.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\toplevel.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wx.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wx_hbcompat.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxharbour.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\xerror.ch $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\defs.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\rdodefs.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxh.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxhevtdefs.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\xhbcompat.h $(PREFIX)\include\wxHarbour
 	copy include\wxHarbour\wxh\auibook.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bitmap.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\bookctrl.ch $(PREFIX)\include\wxHarbour\wxh
@@ -484,14 +480,12 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\raddox.ch -del $(PREFIX)\include\wxHarbour\raddox.ch
 	-if exist $(PREFIX)\include\wxHarbour\toplevel.ch -del $(PREFIX)\include\wxHarbour\toplevel.ch
 	-if exist $(PREFIX)\include\wxHarbour\wx.ch -del $(PREFIX)\include\wxHarbour\wx.ch
-	-if exist $(PREFIX)\include\wxHarbour\wx_hbcompat.ch -del $(PREFIX)\include\wxHarbour\wx_hbcompat.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxharbour.ch -del $(PREFIX)\include\wxHarbour\wxharbour.ch
 	-if exist $(PREFIX)\include\wxHarbour\xerror.ch -del $(PREFIX)\include\wxHarbour\xerror.ch
 	-if exist $(PREFIX)\include\wxHarbour\defs.h -del $(PREFIX)\include\wxHarbour\defs.h
 	-if exist $(PREFIX)\include\wxHarbour\rdodefs.h -del $(PREFIX)\include\wxHarbour\rdodefs.h
 	-if exist $(PREFIX)\include\wxHarbour\wxh.h -del $(PREFIX)\include\wxHarbour\wxh.h
 	-if exist $(PREFIX)\include\wxHarbour\wxhevtdefs.h -del $(PREFIX)\include\wxHarbour\wxhevtdefs.h
-	-if exist $(PREFIX)\include\wxHarbour\xhbcompat.h -del $(PREFIX)\include\wxHarbour\xhbcompat.h
 	-if exist $(PREFIX)\include\wxHarbour\wxh\auibook.ch -del $(PREFIX)\include\wxHarbour\wxh\auibook.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bitmap.ch -del $(PREFIX)\include\wxHarbour\wxh\bitmap.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch
@@ -889,16 +883,10 @@ $(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj :  .AUTODEPEND .\src\wxbase\xmlclas
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
-$(__BUILDDIR__)\wxHarbour_xdoutils.obj :  .AUTODEPEND .\src\raddox\xdoutils.c
-	$(CC) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CFLAGS) $<
-
 $(__BUILDDIR__)\wxHarbour_sysdefs.obj :  .AUTODEPEND .\src\common\sysdefs.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_harbour.obj :  .AUTODEPEND .\src\common\wx_harbour.cpp
-	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
-
-$(__BUILDDIR__)\wxHarbour_xhb2hb.obj :  .AUTODEPEND .\src\common\xhb2hb.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_functions.obj :  .AUTODEPEND .\src\hrbcompat\misc\wx_functions.cpp

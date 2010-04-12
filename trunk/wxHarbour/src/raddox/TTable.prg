@@ -192,6 +192,7 @@ PUBLIC:
 	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyVal Value
 	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
 	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
+	METHOD SetAlias( alias ) INLINE ::FAlias := alias
 	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
 	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
 	METHOD SetKeyVal( keyVal )
@@ -227,7 +228,7 @@ PUBLIC:
 	METHOD OnSyncFromMasterSource() VIRTUAL
 
 	PROPERTY Active READ FActive
-	PROPERTY Alias READ GetAlias
+	PROPERTY Alias READ GetAlias WRITE SetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
 	PROPERTY Bof READ FBof
 	PROPERTY DbStruct READ GetDbStruct
