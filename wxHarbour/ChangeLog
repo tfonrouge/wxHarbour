@@ -2,6 +2,20 @@
  * $Id$
  */
 
+2010-04-14 11:52 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * do not raise error if mastersource is not NIL on Reset
+
+  *  wxharbour.spec
+     * updated revision number to 2
+
+  +  BUILD.windows
+     + added a little more usefull instructions to build wxWidgets
+       on Win platforms
+
+  -  README.installing_wxWidgets
+     * removed incomplete & misleading instructions
+
 2010-04-12 10:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   *  demos/dbExplorer/makefile.bcc
