@@ -66,7 +66,7 @@ HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
 	if( dateCtrl )
 	{
 		wxDateTime dt = dateCtrl->GetValue();
-		hb_retd( dt.GetYear(), dt.GetMonth(), dt.GetDay() );
+		hb_retd( dt.GetYear(), dt.GetMonth() + 1, dt.GetDay() );
 	}
 }
 
