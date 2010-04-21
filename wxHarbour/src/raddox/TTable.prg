@@ -216,6 +216,7 @@ PUBLIC:
 	METHOD OnClassInitializing() VIRTUAL
 	METHOD OnCreate() VIRTUAL
 	METHOD OnAfterCancel() VIRTUAL
+	METHOD OnAfterChange() VIRTUAL
 	METHOD OnAfterDelete() VIRTUAL
 	METHOD OnAfterInsert() VIRTUAL
 	METHOD OnAfterOpen() VIRTUAL
@@ -2016,7 +2017,8 @@ METHOD FUNCTION Post() CLASS TTable
 	LOCAL AField
 	LOCAL errObj
 	LOCAL itm
-	LOCAL result := .F.
+	LOCAL postOk := .F.
+	LOCAL changed := .F.
 
 	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
 		::Error_Table_Not_In_Edit_or_Insert_mode()
@@ -2037,6 +2039,10 @@ METHOD FUNCTION Post() CLASS TTable
 			ENDIF
 
 			FOR EACH AField IN ::FieldList
+			
+				IF !changed .AND. AField:Changed
+					changed := .T.
+				ENDIF
 
 				IF !AField:IsValid()
 					RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
@@ -2046,7 +2052,7 @@ METHOD FUNCTION Post() CLASS TTable
 
 			::RecUnLock()
 
-			result := .T.
+			postOk := .T.
 
 		ENDIF
 
@@ -2062,11 +2068,14 @@ METHOD FUNCTION Post() CLASS TTable
 
 	END SEQUENCE
 
-	IF result
+	IF postOk
 		::OnAfterPost()
+		IF changed .AND. __ObjHasMsgAssigned( Self, "OnAfterChange" )
+			__ObjSendMsg( Self, "OnAfterChange" )
+		ENDIF
 	ENDIF
 
-RETURN result
+RETURN postOk
 
 /*
 	Process_TableName
