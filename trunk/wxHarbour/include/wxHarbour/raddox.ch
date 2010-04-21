@@ -25,6 +25,9 @@
 #xtranslate EVENT ONAFTEROPEN => METHOD OnAfterOpen()
 #xtranslate EVENT ONAFTEROPEN CLASS <className> => METHOD PROCEDURE OnAfterOpen() CLASS <className>
 
+#xtranslate EVENT ONAFTERINSERT => METHOD OnAfterInsert()
+#xtranslate EVENT ONAFTERINSERT CLASS <className> => METHOD PROCEDURE OnAfterInsert() CLASS <className>
+
 /* Events for TField's */
 #xtranslate EVENT ONBEFORECHANGE FIELD <!name!> ;
 	=> ;

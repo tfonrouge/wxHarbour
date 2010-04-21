@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-04-21 16:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+  *  src/raddox/TTable.prg
+     * added EVENT for OnAfterChange to fire when an changed register is
+       posted, it checks for any changed field's
+
 2010-04-18 23:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/wxbase/pickers/wx_DatePickerCtrl.cpp
      ! Fixed bug in calculating the month value returned by wxDateTime:GetMonth()

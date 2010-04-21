@@ -75,6 +75,7 @@ PROTECTED:
 
 	DATA FBuffer
 	DATA FCalculated INIT .F.
+	DATA FChanged INIT .F.
 	DATA FDefaultValue
 	DATA FDBS_DEC
 	DATA FDBS_LEN
@@ -91,7 +92,6 @@ PROTECTED:
 	DATA FValType INIT "U"
 	DATA FWrittenValue
 	
-	METHOD GetChanged()
 	METHOD GetDefaultValue( defaultValue )
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
@@ -166,7 +166,7 @@ PUBLISHED:
 
 	PROPERTY AutoIncrement READ GetAutoIncrement
 	PROPERTY AutoIncrementKeyIndex READ FAutoIncrementKeyIndex WRITE SetAutoIncrementKeyIndex
-	PROPERTY Changed READ GetChanged()
+	PROPERTY Changed READ FChanged
 	PROPERTY DBS_DEC READ FDBS_DEC WRITE SetDBS_DEC
 	PROPERTY DBS_LEN READ FDBS_LEN WRITE SetDBS_LEN
 	PROPERTY DBS_NAME READ FDBS_NAME
@@ -359,16 +359,6 @@ METHOD FUNCTION GetBuffer() CLASS TField
 RETURN ::FBuffer
 
 /*
-	GetChanged
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetChanged() CLASS TField
-	IF ! ::FWrittenValue == NIL
-		RETURN .T.
-	ENDIF
-RETURN .F.
-
-/*
 	GetData
 	Teo. Mexico 2006
 */
@@ -384,6 +374,7 @@ METHOD PROCEDURE GetData() CLASS TField
 			::SetBuffer( ::GetAsVariant() )
 		ELSE
 			::SetBuffer( ::Table:Alias:Eval( ::FieldReadBlock ) )
+			::FChanged := .F.
 		ENDIF
 		EXIT
 	CASE 'A'
@@ -738,6 +729,7 @@ METHOD FUNCTION Reset() CLASS TField
 	
 	::SetBuffer( value )
 
+	::FChanged := .F.
 	::FWrittenValue := NIL
 
 RETURN result
@@ -953,10 +945,13 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
 		
 		/* fill undolist */
-		IF ::FTable:State = dsEdit .AND. ! HB_HHasKey( ::FTable:UndoList, ::FName )
-			::FTable:UndoList[ ::FName ] := buffer
+		IF ::FTable:State = dsEdit
+			IF ! HB_HHasKey( ::FTable:UndoList, ::FName )
+				::FTable:UndoList[ ::FName ] := buffer
+			ENDIF
+			::FChanged := ! Value == ::FTable:UndoList[ ::FName ]
 		ENDIF
-
+		
 		/*
 		 * Check if has to propagate change to child sources
 		 */
