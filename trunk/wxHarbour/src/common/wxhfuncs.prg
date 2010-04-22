@@ -46,6 +46,14 @@ PROCEDURE WXH_SYMBOL_UNUSED()
 RETURN
 
 /*
+	wxhAltD
+	Teo. Mexico 2010
+*/
+FUNCTION wxhAltD( ... )
+	HB_GCAll()
+RETURN AltD( ... )
+
+/*
 	WXHBaseClass
 	Teo. Mexico 2009
 */
