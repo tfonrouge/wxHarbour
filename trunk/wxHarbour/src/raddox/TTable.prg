@@ -2478,6 +2478,9 @@ METHOD PROCEDURE StatePush() CLASS TTable
 		NEXT
 		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
 	ELSE
+		FOR EACH obj IN ::tableState[ ::tableStateLen ]["FieldListNew"]
+			obj:CopyFrom( ::FFieldList[ obj:__enumIndex() ] )
+		NEXT
 		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
 	ENDIF
 

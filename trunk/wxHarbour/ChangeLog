@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-04-26 00:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  -  src/hrbcompat/misc/wx_functions.cpp
+  +  src/common/wx_functions.cpp
+     * moving wx_functions.cpp to src/common dir
+
+  *  src/raddox/TField.prg
+     + adding method:
+       + CopyFrom( AField ) : to copy relevant data from source TField
+     + adding property:
+       + RawDefaultValue : to get the value of the protedted ::FDefalutValue
+
+  *  src/raddox/TTable.prg
+     ! Fixed setting the value for the current FFieldList to the one in the
+       stack to be used
+
 2010-04-22 14:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      * added wxhAltD() function to fix bug that AltD() doesn't call garbage

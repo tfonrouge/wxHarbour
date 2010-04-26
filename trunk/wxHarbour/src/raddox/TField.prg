@@ -112,6 +112,7 @@ PUBLIC:
 	CONSTRUCTOR New( Table, curBaseClass )
 
 	METHOD AddFieldMessage()
+	METHOD CopyFrom( AField )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
 	METHOD GetAsVariant( ... )
@@ -143,6 +144,7 @@ PUBLIC:
 	PROPERTY IsKeyIndex READ GetIsKeyIndex
 	PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
 	PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
+	PROPERTY RawDefaultValue READ FDefaultValue
 	PROPERTY Text READ GetEditText WRITE SetEditText
 	PROPERTY UndoValue READ GetUndoValue
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
@@ -231,6 +233,17 @@ RETURN Self
 */
 METHOD PROCEDURE AddFieldMessage() CLASS TField
 	::FTable:AddFieldMessage( ::Name, Self )
+RETURN
+
+/*
+	CopyFrom
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE CopyFrom( AField ) CLASS TField
+	::FBuffer := AField:GetBuffer()
+	::FChanged := AField:Changed
+	::FDefaultValue := AField:RawDefaultValue
+	::FWrittenValue := AField:WrittenValue
 RETURN
 
 /*
