@@ -23,6 +23,15 @@ HB_FUNC( WXEVT_FIRST )
 }
 
 /*
+	wxGetFreeMemory
+	Teo. Mexico 2010
+*/
+HB_FUNC( WXGETFREEMEMORY )
+{
+	hb_retnint( ( wxGetFreeMemory() ).ToLong() );
+}
+
+/*
 	wxGetFullHostName
 	Teo. Mexico 2009
 */
@@ -32,18 +41,72 @@ HB_FUNC( WXGETFULLHOSTNAME )
 }
 
 /*
-	wxGetHostName
-	Teo. Mexico 2009
-*/
+ wxGetHomeDir
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXGETHOMEDIR )
+{
+	wxh_retc( wxGetHomeDir() );
+}
+
+/*
+ wxGetHostName
+ Teo. Mexico 2009
+ */
 HB_FUNC( WXGETHOSTNAME )
 {
 	wxh_retc( wxGetHostName() );
 }
 
 /*
-	wxGetUserId
-	Teo. Mexico 2008
-*/
+ wxGetOsDescription
+ Teo. Mexico 2007
+ */
+HB_FUNC( WXGETOSDESCRIPTION )
+{
+	wxh_retc( wxGetOsDescription() );
+}
+
+/*
+ wxGetOsVersion
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXGETOSVERSION )
+{
+	hb_retni( wxGetOsVersion() );
+}
+
+/*
+ wxIsPlatformLittleEndian
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXISPLATFORMLITTLEENDIAN )
+{
+	hb_retl( wxIsPlatformLittleEndian() );
+}
+
+/*
+ wxIsPlatform64Bit
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXISPLATFORM64BIT )
+{
+	hb_retl( wxIsPlatform64Bit() );
+}
+
+/*
+ wxGetUserHome
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXGETUSERHOME )
+{
+	wxh_retc( wxGetUserHome( wxh_parc( 1 ) ) );
+}
+
+/*
+ wxGetUserId
+ Teo. Mexico 2008
+ */
 HB_FUNC( WXGETUSERID )
 {
 	wxh_retc( wxGetUserId() );
@@ -56,15 +119,6 @@ HB_FUNC( WXGETUSERID )
 HB_FUNC( WXGETUSERNAME )
 {
 	wxh_retc( wxGetUserName() );
-}
-
-/*
-	wxGetOsDescription
-	Teo. Mexico 2007
-*/
-HB_FUNC( WXGETOSDESCRIPTION )
-{
-	wxh_retc( wxGetOsDescription() );
 }
 
 /*

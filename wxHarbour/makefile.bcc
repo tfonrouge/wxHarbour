@@ -325,8 +325,8 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj \
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj \
-	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj \
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj \
 	$(__BUILDDIR__)\wxHarbour_TTable_c.obj \
@@ -935,11 +935,11 @@ $(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj: .\src\wxbase\xmlclasses\wxhXmlDocu
 $(__BUILDDIR__)\wxHarbour_sysdefs.obj: .\src\common\sysdefs.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\sysdefs.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\common\wx_functions.cpp
+	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_functions.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_harbour.obj: .\src\common\wx_harbour.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\common\wx_harbour.cpp
-
-$(__BUILDDIR__)\wxHarbour_wx_functions.obj: .\src\hrbcompat\misc\wx_functions.cpp
-	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\misc\wx_functions.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_Browse.obj: .\src\hrbcompat\tbrowse\wx_Browse.cpp
 	$(CXX) -q -c -P -o$@ $(WXHARBOUR_CXXFLAGS) .\src\hrbcompat\tbrowse\wx_Browse.cpp
