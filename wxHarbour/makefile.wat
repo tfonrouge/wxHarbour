@@ -309,14 +309,15 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhGauge.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhFont.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhPlatformInfo.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhValidator.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj &
 	$(__BUILDDIR__)\wxHarbour_sysdefs.obj &
-	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_functions.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_harbour.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Browse.obj &
 	$(__BUILDDIR__)\wxHarbour_TRDOServer_c.obj &
 	$(__BUILDDIR__)\wxHarbour_TTable_c.obj &
@@ -393,6 +394,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Gauge.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Font.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBarToolBase.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj &
@@ -863,6 +865,10 @@ $(__BUILDDIR__)\wxHarbour_wxhFont.obj :  .AUTODEPEND .\src\wxbase\system\wxhFont
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhPlatformInfo.obj :  .AUTODEPEND .\src\wxbase\system\wxhPlatformInfo.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhToolBar.obj :  .AUTODEPEND .\src\wxbase\toolbar\wxhToolBar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -886,10 +892,10 @@ $(__BUILDDIR__)\wxHarbour_wxhXmlDocument.obj :  .AUTODEPEND .\src\wxbase\xmlclas
 $(__BUILDDIR__)\wxHarbour_sysdefs.obj :  .AUTODEPEND .\src\common\sysdefs.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
-$(__BUILDDIR__)\wxHarbour_wx_harbour.obj :  .AUTODEPEND .\src\common\wx_harbour.cpp
+$(__BUILDDIR__)\wxHarbour_wx_functions.obj :  .AUTODEPEND .\src\common\wx_functions.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
-$(__BUILDDIR__)\wxHarbour_wx_functions.obj :  .AUTODEPEND .\src\hrbcompat\misc\wx_functions.cpp
+$(__BUILDDIR__)\wxHarbour_wx_harbour.obj :  .AUTODEPEND .\src\common\wx_harbour.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Browse.obj :  .AUTODEPEND .\src\hrbcompat\tbrowse\wx_Browse.cpp
@@ -1118,6 +1124,9 @@ $(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj :  .AUTODEPEND .\src\wxbase\static\w
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Font.obj :  .AUTODEPEND .\src\wxbase\system\wx_Font.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.obj :  .AUTODEPEND .\src\wxbase\system\wx_PlatformInfo.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj :  .AUTODEPEND .\src\wxbase\toolbar\wx_ToolBar.cpp
