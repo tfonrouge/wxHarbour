@@ -2,6 +2,53 @@
  * $Id$
  */
 
+2010-05-04 16:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/hbmk.hbm
+  *  demos/helloworld/hbmk.hbm
+  *  samples/arrbrowser/hbmk.hbm
+  *  samples/auinotebook/hbmk.hbm
+  *  samples/bitmapButton/hbmk.hbm
+  *  samples/button/hbmk.hbm
+  *  samples/checkbox/hbmk.hbm
+  *  samples/choice/hbmk.hbm
+  *  samples/combobox/hbmk.hbm
+  *  samples/dbbrowser/hbmk.hbm
+  *  samples/dbf_ctrls1/hbmk.hbm
+  *  samples/gauge/hbmk.hbm
+  *  samples/grid/hbmk.hbm
+  *  samples/listbook/hbmk.hbm
+  *  samples/mdi/hbmk.hbm
+  *  samples/menu/hbmk.hbm
+  *  samples/networking/hbmk.hbm
+  *  samples/notebook/hbmk.hbm
+  *  samples/panel/hbmk.hbm
+  *  samples/radiobox/hbmk.hbm
+  *  samples/sayget/hbmk.hbm
+  *  samples/searchCtrl/hbmk.hbm
+  *  samples/sizers/hbmk.hbm
+  *  samples/spinctrl/hbmk.hbm
+  *  samples/staticBitmap/hbmk.hbm
+  *  samples/taskBarIcon/hbmk.hbm
+  *  samples/text/hbmk.hbm
+  *  samples/timer/hbmk.hbm
+  *  samples/toolbar/hbmk.hbm
+  *  samples/treectrl/hbmk.hbm
+  *  samples/wxget/hbmk.hbm
+  *  samples/wxwindow/hbmk.hbm
+  *  tests/evtdefcheck/hbmk.hbm
+  *  tests/socketCli/hbmk.hbm
+  *  tests/socketSrv/hbmk.hbm
+     * minor change in comment
+
+  +  samples/platInfo
+  +  samples/platInfo/GNUmakefile
+  +  samples/platInfo/hbmk.hbm
+  +  samples/platInfo/makefile.bcc
+  +  samples/platInfo/makefile.gcc
+  +  samples/platInfo/makefile.vc
+  +  samples/platInfo/platInfo.prg
+     + sample of wxPlatformInfo
+
 2010-05-04 14:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
  M      src/common/sysdefs.cpp
  M      src/common/wx_functions.cpp
