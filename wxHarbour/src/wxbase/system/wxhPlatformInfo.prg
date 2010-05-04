@@ -1,5 +1,5 @@
 /*
- * $Id: wxhPlatformInfo.prg 459 2009-11-13 21:13:47Z tfonrouge $
+ * $Id$
  */
 
 /*

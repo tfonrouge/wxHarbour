@@ -1,5 +1,5 @@
 /*
- * $Id: wx_PlatformInfo.cpp 459 2010-11-13 21:13:47Z tfonrouge $
+ * $Id$
  */
 
 /*
