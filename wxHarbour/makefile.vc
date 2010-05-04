@@ -230,6 +230,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhGauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhStaticLine.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhFont.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhPlatformInfo.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhToolBar.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarBase.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhToolBarToolBase.obj \
@@ -314,6 +315,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Gauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Font.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBarToolBase.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.obj \
@@ -827,6 +829,10 @@ $(__BUILDDIR__)\wxHarbour_wxhFont.obj: .\src\wxbase\system\wxhFont.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhPlatformInfo.obj: .\src\wxbase\system\wxhPlatformInfo.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhToolBar.obj: .\src\wxbase\toolbar\wxhToolBar.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
@@ -1083,6 +1089,9 @@ $(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj: .\src\wxbase\static\wx_StaticLine.c
 
 $(__BUILDDIR__)\wxHarbour_wx_Font.obj: .\src\wxbase\system\wx_Font.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_Font.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.obj: .\src\wxbase\system\wx_PlatformInfo.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_PlatformInfo.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj: .\src\wxbase\toolbar\wx_ToolBar.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\toolbar\wx_ToolBar.cpp

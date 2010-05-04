@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2010-05-04 14:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  +  include/wxHarbour/wxbase/wx_PlatformInfo.h
+  +  src/wxbase/system/wx_PlatformInfo.cpp
+  +  src/wxbase/system/wxhPlatformInfo.prg
+     + added wxPlatformInfo class
+
 2010-04-26 00:34 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
