@@ -173,8 +173,15 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
 	LOCAL brwErrObj,brwCallStack
 	LOCAL aStack := {}
 	LOCAL s
-	
+
 	IF wxGetApp() == NIL
+		IF oErr != NIL
+			IF Empty( cMessage )
+				cMessage := oErr:Description
+			ELSE
+				cMessage += ";" + oErr:Description
+			ENDIF
+		ENDIF
 		RETURN Alert( cMessage, aOptions )
 	ENDIF
 

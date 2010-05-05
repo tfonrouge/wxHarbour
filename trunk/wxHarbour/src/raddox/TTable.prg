@@ -2451,7 +2451,7 @@ METHOD PROCEDURE StatePop() CLASS TTable
 	--::tableStateLen
 	
 	::Alias:Pop()
-	
+
 RETURN
 
 /*
