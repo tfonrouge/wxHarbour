@@ -2445,6 +2445,9 @@ METHOD PROCEDURE StatePop() CLASS TTable
 	::FFieldList       := ::tableState[ ::tableStateLen ]["FieldList"]
 	::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceList"]
 	::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
+	::FBof             := ::tableState[ ::tableStateLen ]["Bof"]
+	::FEof             := ::tableState[ ::tableStateLen ]["Eof"]
+	::FFound           := ::tableState[ ::tableStateLen ]["Found"]
 	::FState           := ::tableState[ ::tableStateLen ]["State"]
 	::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
 
@@ -2468,6 +2471,9 @@ METHOD PROCEDURE StatePush() CLASS TTable
 	::tableState[ ::tableStateLen ]["FieldList"]        := ::FFieldList
 	::tableState[ ::tableStateLen ]["DetailSourceList"] := ::DetailSourceList
 	::tableState[ ::tableStateLen ]["RecNo"]            := ::FRecNo
+	::tableState[ ::tableStateLen ]["Bof"]              := ::FBof
+	::tableState[ ::tableStateLen ]["Eof"]              := ::FEof
+	::tableState[ ::tableStateLen ]["Found"]            := ::FFound
 	::tableState[ ::tableStateLen ]["State"]            := ::FState
 	::tableState[ ::tableStateLen ]["IndexName"]        := ::IndexName
 	
