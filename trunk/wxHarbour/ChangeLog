@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-05-12 11:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+MM      BUILD.windows
+        * changed to use CRLF eol, changed svn:eol-style
+
 2010-05-05 19:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed pushing/pulling status of Bof,Eof,Found on ::StatePush/::StatePop
