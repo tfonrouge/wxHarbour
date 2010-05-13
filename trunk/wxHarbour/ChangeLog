@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2010-05-13 15:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+     * using Table:HasFilter
+
+  *  src/raddox/TTable.prg
+     + add property:
+       + HasFilter : validate if ::filterPrimaryIndexScope and ::FFilter != NIL
+     * validating by checking ::filterPrimaryIndexScope on FilterEval
+
+
 2010-05-12 11:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
 MM      BUILD.windows
         * changed to use CRLF eol, changed svn:eol-style

@@ -102,6 +102,7 @@ PROTECTED:
 	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
 	METHOD FixDbStruct( aNewStruct, message )
+	METHOD GetHasFilter()
 	METHOD InitDataBase INLINE TDataBase():New()
 	METHOD InitTable()
 	METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
@@ -123,6 +124,7 @@ PUBLIC:
 	DATA DetailSourceList INIT {=>}
 	DATA ExternalIndexList INIT {=>}
 	DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
+	DATA filterPrimaryIndexScope INIT .T.	// include filter if PrimaryIndex is in valid scope
 	DATA FUnderReset INIT .F.
 	DATA fullFileName
 	DATA LinkedObjField
@@ -240,6 +242,7 @@ PUBLIC:
 	PROPERTY Found READ FFound
 	PROPERTY FieldTypes READ GetFieldTypes
 	PROPERTY Filter READ FFilter
+	PROPERTY HasFilter READ GetHasFilter
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
@@ -860,7 +863,7 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TTable
 			::Alias:DbGoBottom()
 		ENDIF
 		::GetCurrentRecord()
-		IF ::FFilter != NIL .AND. !::FFilter:Eval( Self )
+		IF ::HasFilter .AND. !::FilterEval()
 			::SkipFilter( n )
 		ENDIF
 	ENDIF
@@ -893,7 +896,7 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
 	IF ::FIndex != NIL
 		::FIndex:DbSkip( numRecs )
 	ELSE
-		IF ::FFilter = NIL
+		IF !::HasFilter
 			::Alias:DbSkip( numRecs )
 			::GetCurrentRecord()
 		ELSE
@@ -1111,14 +1114,22 @@ RETURN
 */
 METHOD FUNCTION FilterEval( index ) CLASS TTable
 	LOCAL table
-	
+
 	IF index != NIL .AND. index:associatedTable != NIL
 		table := index:associatedTable
 	ELSE
 		table := Self
 	ENDIF
+	
+	IF index != NIL .AND. index:Filter != NIL .AND. !index:Filter:Eval( table )
+		RETURN .F.
+	ENDIF
 
-RETURN ( index = NIL .OR. index:Filter = NIL .OR. index:Filter:Eval( table ) ) .AND. ( table:Filter = NIL .OR. table:Filter:Eval( table ) )
+	IF ::filterPrimaryIndexScope .AND. ::PrimaryIndex != NIL .AND. !::PrimaryIndex:InsideScope()
+		RETURN .F.
+	ENDIF
+
+RETURN table:Filter = NIL .OR. table:Filter:Eval( table )
 
 /*
 	FindDetailSourceField
@@ -1609,6 +1620,13 @@ METHOD FUNCTION GetField( fld ) CLASS TTable
 RETURN AField
 
 /*
+	GetHasFilter
+	Teo. Mexico 2010
+*/
+METHOD GetHasFilter() CLASS TTable
+RETURN ::filterPrimaryIndexScope .OR. ::FFilter != NIL
+
+/*
 	GetInstance
 	Teo. Mexico 2008
 */
@@ -1888,17 +1906,12 @@ RETURN
 	Teo. Mexico 2008
 */
 METHOD FUNCTION InsideScope() CLASS TTable
-	LOCAL primaryIndex := ::PrimaryIndex
 
 	IF ::Eof() .OR. ::Bof() .OR. ( ::MasterSource != NIL .AND. ::MasterSource:Eof() )
 		RETURN .F.
 	ENDIF
 
-	IF !primaryIndex == NIL .AND. !primaryIndex:InsideScope()
-		RETURN .F.
-	ENDIF
-
-RETURN ::FIndex = NIL .OR. primaryIndex == ::FIndex .OR. ::FIndex:InsideScope()
+RETURN ::FIndex = NIL .OR. ::FIndex:InsideScope()
 
 /*
 	OnDataChange

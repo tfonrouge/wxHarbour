@@ -318,7 +318,7 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 		table := ::associatedTable
 	ENDIF
 
-	IF ::FFilter = NIL .AND. table:Filter = NIL
+	IF ::FFilter = NIL .AND. !table:HasFilter
 		::GetAlias():DbSkip( numRecs, ::FTagName )
 		::GetCurrentRecord()
 	ELSE
