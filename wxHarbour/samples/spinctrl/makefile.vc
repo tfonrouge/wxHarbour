@@ -106,7 +106,7 @@ __BUILDDIR__ = obj\vc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-WX_PATH = C:\wxWidgets-2.8.10
+WX_PATH = C:\wxWidgets-2.8.11
 
 # Encoding [ansi,unicode]
 WX_ENCODING = unicode

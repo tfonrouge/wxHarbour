@@ -182,7 +182,7 @@ __BUILDDIR__ = obj\bcc_win32
 # 
 # Where is wxWidgets installed 
 !ifndef WX_PATH
-WX_PATH = C:\wxWidgets-2.8.10
+WX_PATH = C:\wxWidgets-2.8.11
 !endif
 
 # Encoding [ansi,unicode]
