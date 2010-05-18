@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-05-18 12:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     ! Fixed very stupid typo for ON INITDIALOG clause on CREATE DIALOG command
+
+  *  tests/evtdefcheck/evtdefcheck.prg
+  *  tests/evtdefcheck/getdefs.cpp
+     * added wxEVT_INIT_DIALOG
+
+  +  include/wxHarbour/wxh/platinfo.ch
+     * added defs for wxOperatingSystemId values
+
+
 2010-05-13 19:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
   *  demos/dbExplorer/makefile.bcc
