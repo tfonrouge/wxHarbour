@@ -101,7 +101,7 @@
 					[ ON CLOSE <onClose> ] ;
 					[ ON INITDIALOG <initDlg> ] ;
 					=> ;
-					<oDlg> := __wxh_Dialog( [<fromClass>], [<parent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>] [<initDlg>] )
+					<oDlg> := __wxh_Dialog( [<fromClass>], [<parent>], [<nID>], <cTitle>, {<nTop>,<nLeft>}, {<nWidth>,<nHeight>}, [<nStyle>], [<cName>], [<{onClose}>], [<initDlg>] )
 
 #xcommand FIT WINDOW <oWnd> ;
 					=> ;
