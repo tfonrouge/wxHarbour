@@ -202,6 +202,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhTimer.o \
 	$(__BUILDDIR__)/wxHarbour_wxhTimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wxhUpdateUIEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wxhHtmlEasyPrinting.o \
 	$(__BUILDDIR__)/wxHarbour_wxhBitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wxhColour.o \
 	$(__BUILDDIR__)/wxHarbour_wxhGDIObject.o \
@@ -284,6 +285,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_Timer.o \
 	$(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o \
 	$(__BUILDDIR__)/wxHarbour_wx_UpdateUIEvent.o \
+	$(__BUILDDIR__)/wxHarbour_wx_HtmlEasyPrinting.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Bitmap.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Colour.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Icon.o \
@@ -341,6 +343,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/grid.ch \
 	include/wxHarbour/wxh/gsocket.ch \
 	include/wxHarbour/wxh/notebook.ch \
+	include/wxHarbour/wxh/platinfo.ch \
 	include/wxHarbour/wxh/socket.ch \
 	include/wxHarbour/wxh/taskbar.ch \
 	include/wxHarbour/wxh/textctrl.ch \
@@ -707,6 +710,10 @@ $(__BUILDDIR__)/wxHarbour_wxhUpdateUIEvent.o: ./src/wxbase/events/wxhUpdateUIEve
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
+$(__BUILDDIR__)/wxHarbour_wxhHtmlEasyPrinting.o: ./src/wxbase/html/wxhHtmlEasyPrinting.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
 $(__BUILDDIR__)/wxHarbour_wxhBitmap.o: ./src/wxbase/image/wxhBitmap.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
@@ -981,6 +988,9 @@ $(__BUILDDIR__)/wxHarbour_wx_TimerEvent.o: ./src/wxbase/events/wx_TimerEvent.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_UpdateUIEvent.o: ./src/wxbase/events/wx_UpdateUIEvent.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_HtmlEasyPrinting.o: ./src/wxbase/html/wx_HtmlEasyPrinting.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Bitmap.o: ./src/wxbase/image/wx_Bitmap.cpp

@@ -27,6 +27,7 @@
 			src/wxbase/controls
 			src/wxbase/comdialogs
 			src/wxbase/events
+			src/wxbase/html
 			src/wxbase/image
 			src/wxbase/manwindows
 			src/wxbase/menu

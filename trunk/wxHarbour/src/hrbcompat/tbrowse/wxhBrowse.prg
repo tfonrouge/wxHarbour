@@ -101,9 +101,9 @@ PUBLIC:
 	METHOD ShowRow()
 
 	PROPERTY AlwaysShowSelectedRow READ FAlwaysShowSelectedRow WRITE SetAlwaysShowSelectedRow
-	PROPERTY RowParam READ GetTable():GetRowParam WRITE GetTable():SetRowParam
-	PROPERTY ColumnList READ GetTable():GetColumnList WRITE GetTable():SetColumnList
-	PROPERTY ColumnZero READ GetTable():GetColumnZero WRITE GetTable():SetColumnZero
+	PROPERTY RowParam READ GetTable():RowParam WRITE GetTable():SetRowParam
+	PROPERTY ColumnList READ GetTable():ColumnList WRITE GetTable():SetColumnList
+	PROPERTY ColumnZero READ GetTable():ColumnZero WRITE GetTable():SetColumnZero
 	PROPERTY DataSource READ FDataSource WRITE SetDataSource
 	PROPERTY DataSourceType READ FDataSourceType
 	PROPERTY Panel READ FPanel

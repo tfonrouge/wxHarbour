@@ -139,6 +139,7 @@ HB_FUNC_EXTERN( WXUPDATEUIEVENT );
 void          wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent = NULL );
 void		  wxh_itemReturn( wxObject* wxObj );
 wxObject*     wxh_par_WX( int param );
+void          wxh_par_arrayInt( int param, int* arrayInt, const size_t len );
 wxArrayString wxh_par_wxArrayString( int param );
 wxColour      wxh_par_wxColour( int param );
 wxDateTime    wxh_par_wxDateTime( int param );

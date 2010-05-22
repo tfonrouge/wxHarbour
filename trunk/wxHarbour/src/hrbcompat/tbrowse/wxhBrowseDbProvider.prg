@@ -37,7 +37,6 @@ PRIVATE:
 	DATA FGridBufferSize		 INIT 0
 	DATA FIgnoreCellEvalError INIT .F.
 	METHOD GetRowParam
-	METHOD GetCellValueAtCol( nCol )
 	METHOD SetCurRowIndex( rowIndex )
 	METHOD SetGridBufferSize( size )
 PROTECTED:
@@ -46,6 +45,7 @@ PUBLIC:
 	METHOD ClearObjData INLINE ::FColumnList := NIL
 
 	METHOD FillGridBuffer( start )
+	METHOD GetCellValueAtCol( nCol )
 	METHOD GetColLabelValue( col )
 	METHOD GetColumn( nCol ) INLINE ::FColumnList[ nCol ]
 	METHOD GetGridRowData( row )
@@ -60,6 +60,7 @@ PUBLIC:
 	PROPERTY RowParam READ GetRowParam WRITE SetRowParam
 	PROPERTY CurRowIndex READ FCurRowIndex WRITE SetCurRowIndex
 	PROPERTY ColumnList READ FColumnList WRITE SetColumnList
+	PROPERTY ColumnZero READ FColumnZero WRITE SetColumnZero
 	PROPERTY GridBuffer READ FGridBuffer
 
 PUBLISHED:
