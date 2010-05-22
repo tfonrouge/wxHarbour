@@ -92,6 +92,7 @@ PROTECTED:
 	DATA FValType INIT "U"
 	DATA FWrittenValue
 	
+	METHOD GetCloneData( cloneData )
 	METHOD GetDefaultValue( defaultValue )
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
@@ -100,6 +101,7 @@ PROTECTED:
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
+	METHOD SetCloneData( cloneData )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
 	METHOD SetReUseField( reUseField ) INLINE ::FReUseField := reUseField
@@ -112,7 +114,6 @@ PUBLIC:
 	CONSTRUCTOR New( Table, curBaseClass )
 
 	METHOD AddFieldMessage()
-	METHOD CopyFrom( AField )
 	METHOD Delete
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
 	METHOD GetAsVariant( ... )
@@ -135,6 +136,7 @@ PUBLIC:
 	PROPERTY AsString READ GetAsString WRITE SetAsString
 	PROPERTY AsVariant READ GetAsVariant WRITE SetAsVariant
 	PROPERTY Calculated READ FCalculated
+	PROPERTY CloneData READ GetCloneData WRITE SetCloneData
 	PROPERTY DisplayText READ GetEditText
 	PROPERTY EmptyValue READ GetEmptyValue
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
@@ -233,17 +235,6 @@ RETURN Self
 */
 METHOD PROCEDURE AddFieldMessage() CLASS TField
 	::FTable:AddFieldMessage( ::Name, Self )
-RETURN
-
-/*
-	CopyFrom
-	Teo. Mexico 2010
-*/
-METHOD PROCEDURE CopyFrom( AField ) CLASS TField
-	::FBuffer := AField:GetBuffer()
-	::FChanged := AField:Changed
-	::FDefaultValue := AField:RawDefaultValue
-	::FWrittenValue := AField:WrittenValue
 RETURN
 
 /*
@@ -370,6 +361,23 @@ METHOD FUNCTION GetBuffer() CLASS TField
 	ENDIF
 
 RETURN ::FBuffer
+
+/*
+	GetCloneData
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetCloneData( cloneData ) CLASS TField
+
+	IF cloneData = NIL
+		cloneData := {=>}
+	ENDIF
+	
+	cloneData["Buffer"] := ::FBuffer
+	cloneData["Changed"] := ::FChanged
+	cloneData["DefaultValue"] := ::FDefaultValue
+	cloneData["WrittenValue"] := ::FWrittenValue
+
+RETURN cloneData
 
 /*
 	GetData
@@ -832,6 +840,19 @@ METHOD PROCEDURE SetBuffer( value ) CLASS TField
 	IF ::OnSetValue != NIL
 		::OnSetValue:Eval( Self, @::FBuffer )
 	ENDIF
+
+RETURN
+
+/*
+	SetCloneData
+	Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetCloneData( cloneData ) CLASS TField
+
+	::FBuffer := cloneData["Buffer"]
+	::FChanged := cloneData["Changed"]
+	::FDefaultValue := cloneData["DefaultValue"]
+	::FWrittenValue := cloneData["WrittenValue"]
 
 RETURN
 

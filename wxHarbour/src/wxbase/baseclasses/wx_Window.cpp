@@ -186,7 +186,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 		long id = hb_parnl(1);
 		wxWindow* parent = (wxWindow *) objParams.param( 2 );
 		wxWindow* result = wnd->FindWindowById( id, parent );
-	wxh_itemReturn( result );
+		wxh_itemReturn( result );
 	}
 }
 
@@ -204,7 +204,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 		const wxString& label = wxh_parc( 1 );
 		wxWindow* parent = (wxWindow *) objParams.param( 2 );
 		wxWindow* result =	wnd->FindWindowByLabel( label, parent );
-	wxh_itemReturn( result );
+		wxh_itemReturn( result );
 	}
 }
 
@@ -383,7 +383,7 @@ HB_FUNC( WXWINDOW_GETPARENT )
 		wxWindow* parent =	wnd->GetParent();
 		if( parent )
 		{
-		wxh_itemReturn( parent );
+			wxh_itemReturn( parent );
 		}
 	}
 }

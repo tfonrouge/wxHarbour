@@ -1021,6 +1021,8 @@ METHOD PROCEDURE Destroy() CLASS TTable
 	ENDIF
 
 	::FFieldList := NIL
+	::FDisplayFields := NIL
+	::tableState := NIL
 
 	::FActive := .F.
 
@@ -1452,7 +1454,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 		RAISE ERROR "Wrong value"
 		RETURN NIL
 	ENDIF
-	
+
 	msgName := AField:Name
 
 	IF ! AField:IsDerivedFrom("TObjectField")
@@ -1467,11 +1469,11 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 					AField := o:__FObj:FieldByName( msgName )
 					o:__FFields[ msgName ] := AField
 				ENDIF
-				
+
 				IF o:__FSyncFromAlias
 					o:__FObj:SyncRecNo( .T. )
 				ENDIF
-				
+
 				odf := o
 
 				WHILE odf:__FObj:LinkedObjField != NIL
@@ -1482,7 +1484,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 				IF o:__FObj:Eof() .OR. o:__FObj:Bof()
 					RETURN AField:EmptyValue
 				ENDIF
-				
+
 				RETURN AField:GetAsVariant( ... )
 
 			}
@@ -2454,15 +2456,25 @@ RETURN .T.
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE StatePop() CLASS TTable
+	LOCAL cloneData
+	LOCAL tbl
+
+	FOR EACH cloneData IN ::tableState[ ::tableStateLen ]["CloneData"]
+		::FFieldList[ cloneData:__enumIndex ]:CloneData := cloneData
+	NEXT
 	
-	::FFieldList       := ::tableState[ ::tableStateLen ]["FieldList"]
-	::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceList"]
 	::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
 	::FBof             := ::tableState[ ::tableStateLen ]["Bof"]
 	::FEof             := ::tableState[ ::tableStateLen ]["Eof"]
 	::FFound           := ::tableState[ ::tableStateLen ]["Found"]
 	::FState           := ::tableState[ ::tableStateLen ]["State"]
 	::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
+	
+	FOR EACH tbl IN ::DetailSourceList
+		IF HB_HHasKey( ::tableState[ ::tableStateLen ]["DetailSourceList"], tbl:ObjectH )
+			tbl:StatePop()
+		ENDIF
+	NEXT
 
 	--::tableStateLen
 	
@@ -2475,45 +2487,37 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD PROCEDURE StatePush() CLASS TTable
-	LOCAL obj
+	LOCAL fld
+	LOCAL aCloneData := {}
+	LOCAL hDSL := {=>}
+	LOCAL tbl
 
 	IF Len( ::tableState ) < ++::tableStateLen
 		AAdd( ::tableState, {=>} )
 	ENDIF
 
-	::tableState[ ::tableStateLen ]["FieldList"]        := ::FFieldList
-	::tableState[ ::tableStateLen ]["DetailSourceList"] := ::DetailSourceList
+	FOR EACH fld IN ::FFieldList
+		AAdd( aCloneData, fld:CloneData )
+	NEXT
+
+	::tableState[ ::tableStateLen ]["CloneData"]        := aCloneData
 	::tableState[ ::tableStateLen ]["RecNo"]            := ::FRecNo
 	::tableState[ ::tableStateLen ]["Bof"]              := ::FBof
 	::tableState[ ::tableStateLen ]["Eof"]              := ::FEof
 	::tableState[ ::tableStateLen ]["Found"]            := ::FFound
 	::tableState[ ::tableStateLen ]["State"]            := ::FState
 	::tableState[ ::tableStateLen ]["IndexName"]        := ::IndexName
-	
-	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "FieldListNew" )
-		::FFieldList := {}
-		FOR EACH obj IN ::tableState[ ::tableStateLen ]["FieldList"]
-			AAdd( ::FFieldList, __ObjClone( obj ) )
-		NEXT
-		::tableState[ ::tableStateLen ]["FieldListNew"] := ::FFieldList
-	ELSE
-		FOR EACH obj IN ::tableState[ ::tableStateLen ]["FieldListNew"]
-			obj:CopyFrom( ::FFieldList[ obj:__enumIndex() ] )
-		NEXT
-		::FFieldList := ::tableState[ ::tableStateLen ]["FieldListNew"]
-	ENDIF
+	::tableState[ ::tableStateLen ]["DetailSourceList"] := hDSL
 
-	IF !HB_HHasKey( ::tableState[ ::tableStateLen ], "DetailSourceListNew" )
-		::DetailSourceList := {=>}
-		::tableState[ ::tableStateLen ]["DetailSourceListNew"] := ::DetailSourceList
-	ELSE
-		::DetailSourceList := ::tableState[ ::tableStateLen ]["DetailSourceListNew"]
-	ENDIF
+	FOR EACH tbl IN ::DetailSourceList
+		hDSL[ tbl:ObjectH ] := NIL
+		tbl:StatePush()
+	NEXT
 
 	::FState := dsBrowse
-	
+
 	::Alias:Push()
-	
+
 RETURN
 
 /*

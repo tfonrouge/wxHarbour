@@ -2,6 +2,50 @@
  * $Id$
  */
 
+2010-05-22 12:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+     + added class
+       + wxHtmlEasyPrinting
+     + added header platinfo.ch
+
+  *  include/wxHarbour/wxh.h
+  *  src/common/wx_harbour.cpp
+     + added function
+       + wxh_par_arrayInt
+     * using HB API to get array size value
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     ! Fixed wrong READ funcs 
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * moved method ::GetCellValueAtCol
+     + added property ColumnZero
+
+  *  src/raddox/TField.prg
+     + added property CloneData to get/set main personality values for TField obj
+     - removed CopyFrom method, functionality now in CloneData
+
+  *  src/raddox/TTable.prg
+     * minor code cleanup
+     * added protection to clear some arrays on Destroy method
+     ! Fixed StatePush/StatePop to correctly store/recover the full table state
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+     * minor code cleanup
+
+  *  wxharbour.bkl
+     * added src/html directory to sources
+
+  +  include/wxHarbour/wxbase/wx_HtmlEasyPrinting.h
+  +  src/html/wx_HtmlEasyPrinting.cpp
+  +  src/html/wxhHtmlEasyPrinting.prg
+     + added class:
+       + wxHtmlEasyPrinting : allows to print/preview from html documents
+
+
 2010-05-18 12:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      ! Fixed very stupid typo for ON INITDIALOG clause on CREATE DIALOG command

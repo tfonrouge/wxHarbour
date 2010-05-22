@@ -544,18 +544,42 @@ wxObject* wxh_par_WX( const int param )
 }
 
 /*
-	wxh_par_wxArrayString
-	Teo. Mexico 2009
+	wxh_par_arrayInt
+	Teo. Mexico 2010
 */
-wxArrayString wxh_par_wxArrayString( int param )
+void wxh_par_arrayInt( int param, int* arrayInt, const size_t len )
 {
-	wxArrayString arrayString;
 
 	if( ISARRAY( param ) )
 	{
 		PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
 		PHB_ITEM pItm;
-		ULONG ulLen = pArray->item.asArray.value->ulLen;
+		ULONG ulLen = min( hb_arrayLen( pArray ), len );
+		for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
+		{
+			pItm = hb_arrayGetItemPtr( pArray, ulI );
+			if( hb_itemType( pItm ) && HB_IT_NUMERIC )
+			{
+				arrayInt[ ulI - 1 ] = hb_arrayGetNI( pArray, ulI );
+			}
+		}
+	}
+
+}
+
+/*
+ wxh_par_wxArrayString
+ Teo. Mexico 2009
+ */
+wxArrayString wxh_par_wxArrayString( int param )
+{
+	wxArrayString arrayString;
+	
+	if( ISARRAY( param ) )
+	{
+		PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
+		PHB_ITEM pItm;
+		ULONG ulLen = hb_arrayLen( pArray );
 		for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
 		{
 			pItm = hb_arrayGetItemPtr( pArray, ulI );
@@ -565,7 +589,7 @@ wxArrayString wxh_par_wxArrayString( int param )
 			}
 		}
 	}
-
+	
 	return arrayString;
 }
 
