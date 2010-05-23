@@ -143,7 +143,7 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
 	bool emptyCell;
 
 	hb_objSendMsg( wxh_ItemListGet_HB( this ), "IsEmptyCell", 2, pRow, pCol );
-	emptyCell = hb_stackReturnItem()->item.asLogical.value;
+	emptyCell = hb_itemGetL( hb_stackReturnItem() );
 
 	hb_itemRelease( pRow );
 	hb_itemRelease( pCol );
@@ -162,7 +162,7 @@ wxString wx_GridTableBase::GetValue( int row, int col )
 	wxString value = _T("");
 
 	hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
-	value = wxh_CTowxString( hb_stackReturnItem()->item.asString.value, gridDataIsOEM );
+	value = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ), gridDataIsOEM );
 
 	hb_itemRelease( pRow );
 	hb_itemRelease( pCol );
@@ -176,7 +176,7 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
 	wxString labelValue = _T("");
 
 	hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
-	labelValue = wxh_CTowxString( hb_stackReturnItem()->item.asString.value );
+	labelValue = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ) );
 
 	hb_itemRelease( pCol );
 
@@ -189,7 +189,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
 	wxString labelValue = _T("");
 
 	hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
-	labelValue = wxh_CTowxString( hb_stackReturnItem()->item.asString.value );
+	labelValue = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ) );
 
 	hb_itemRelease( pRow );
 

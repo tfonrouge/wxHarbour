@@ -238,7 +238,7 @@ bool hbWindow<tW>::Validate()
 	if( pObj )
 	{
 		hb_objSendMsg( pObj, "Validate", 0 );
-		result = hb_stackReturnItem()->item.asLogical.value;
+		result = hb_itemGetL( hb_stackReturnItem() );
 	}
 	return result;
 }

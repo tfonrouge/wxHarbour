@@ -41,7 +41,7 @@ static int ChkFlagInArray( int iParam )
 			return hb_itemGetNI( p );
 		else if( HB_IS_ARRAY( p ) )
 		{
-			PHB_BASEARRAY pBaseArray = p->item.asArray.value;
+			PHB_BASEARRAY pBaseArray = (HB_BASEARRAY *) hb_arrayId( p );
 			int result = 0;
 			ULONG ulLen = pBaseArray->ulLen;
 			ULONG ulIndex;

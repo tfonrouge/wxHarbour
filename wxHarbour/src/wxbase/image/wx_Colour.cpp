@@ -62,18 +62,18 @@ HB_FUNC( WXCOLOUR_NEW )
 				if (hb_arrayLen( pArray ) == 3)
 				{
 					unsigned char r,g,b;
-					r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-					g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-					b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
+					r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+					g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+					b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
 					colour = new wx_Colour( r, g, b, (unsigned char)255 );
 				}
 				else if (hb_arrayLen( pArray ) == 4)
 				{
 					unsigned char r,g,b,a;
-					r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-					g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-					b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
-					a = hb_arrayGetItemPtr( pArray, 4 )->item.asInteger.value;
+					r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+					g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+					b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
+					a = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 4 ) );
 					colour = new wx_Colour( r, g, b, a );
 				}
 			}

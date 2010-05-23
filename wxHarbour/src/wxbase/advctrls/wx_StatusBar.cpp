@@ -68,7 +68,7 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 		PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY );
 		int* aInt = new int[ hb_arrayLen( pArray ) ];
 		for( unsigned int i=0; i < hb_arrayLen( pArray ); i++ )
-			aInt[i] = hb_arrayGetItemPtr( pArray, i+1 )->item.asInteger.value;
+			aInt[i] = hb_itemGetNI( hb_arrayGetItemPtr( pArray, i+1 ) );
 		widths = aInt;
 		//if( pSelf && statusBar ) statusBar->SetFieldsCount( number, widths );
 	}

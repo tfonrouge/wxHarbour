@@ -50,7 +50,7 @@ HB_FUNC( WXHBASECLASS_OBJECTH )
 {
 	PHB_ITEM pSelf = hb_stackSelfItem();
 	if( pSelf )
-		hb_retptr( pSelf->item.asArray.value );
+		hb_retptr( hb_arrayId( pSelf ) );
 }
 
 /*
@@ -242,7 +242,7 @@ void wxh_ObjParams::ProcessParamLists()
 void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 {
 	/* checks for a valid new pSelf object */
-	if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) == map_phbBaseArr.end() ) )
+	if( pSelf && ( map_phbBaseArr.find( (HB_BASEARRAY *) hb_arrayId( pSelf ) ) == map_phbBaseArr.end() ) )
 	{
 		pWxh_Item = NULL;
 		PHB_ITEM pItem = NULL;
@@ -250,11 +250,11 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 		pWxh_Item = new wxh_Item;
 		pWxh_Item->nullObj = false;
 		pWxh_Item->wxObj = wxObj;
-		pWxh_Item->uiClass = pSelf->item.asArray.value->uiClass;
-		pWxh_Item->objHandle = pSelf->item.asArray.value;
+		pWxh_Item->uiClass = hb_objGetClass( pSelf );
+		pWxh_Item->objHandle = (HB_BASEARRAY *) hb_arrayId( pSelf );
 
 		/* Objs derived from wxTopLevelWindow are not volatile to local */
-		if( hb_clsIsParent( pSelf->item.asArray.value->uiClass, "WXTOPLEVELWINDOW" ) )
+		if( hb_clsIsParent( hb_objGetClass( pSelf ), "WXTOPLEVELWINDOW" ) )
 		{
 			/* calculate the crc32 for the procname/procline/uiClass that created this obj */
 			char szName[ HB_SYMBOL_NAME_LEN + HB_SYMBOL_NAME_LEN + 5 ];
@@ -269,7 +269,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 			if( lOffset > 0 )
 				usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
 
-			UINT uiCrc32 = hb_crc32( (long) pSelf->item.asArray.value->uiClass + usProcLine, (const BYTECHAR *) szName, strlen( szName ) );
+			UINT uiCrc32 = hb_crc32( (long) hb_objGetClass( pSelf ) + usProcLine, (const BYTECHAR *) szName, strlen( szName ) );
 
 //			 qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
@@ -293,7 +293,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 			pWxh_Item->pSelf = pItem;
 		}
 
-		map_phbBaseArr[ pSelf->item.asArray.value ] = pWxh_Item;
+		map_phbBaseArr[ (HB_BASEARRAY *) hb_arrayId( pSelf ) ] = pWxh_Item;
 		map_wxObject[ wxObj ] = pWxh_Item;
 
 		linkChildParentParams = true;
@@ -403,9 +403,9 @@ wxh_Item* wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf )
 {
 	wxh_Item* pWxh_Item = NULL;
 
-	if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() ) )
+	if( pSelf && ( map_phbBaseArr.find( (HB_BASEARRAY *) hb_arrayId( pSelf ) ) != map_phbBaseArr.end() ) )
 	{
-		pWxh_Item = map_phbBaseArr[ pSelf->item.asArray.value ];
+		pWxh_Item = map_phbBaseArr[ (HB_BASEARRAY *) hb_arrayId( pSelf ) ];
 	}
 
 	return pWxh_Item;
@@ -419,9 +419,9 @@ wxObject* wxh_ItemListGet_WX( PHB_ITEM pSelf )
 {
 	wxObject* wxObj = NULL;
 
-	if( pSelf && ( map_phbBaseArr.find( pSelf->item.asArray.value ) != map_phbBaseArr.end() ) )
+	if( pSelf && ( map_phbBaseArr.find( (HB_BASEARRAY *) hb_arrayId( pSelf ) ) != map_phbBaseArr.end() ) )
 	{
-		wxObj = map_phbBaseArr[ pSelf->item.asArray.value ]->wxObj;
+		wxObj = map_phbBaseArr[ (HB_BASEARRAY *) hb_arrayId( pSelf ) ]->wxObj;
 	}
 
 	return wxObj;
@@ -504,7 +504,7 @@ PHB_ITEM wxh_itemNullObject( PHB_ITEM pSelf )
 {
 	if( HB_IS_OBJECT( pSelf ) )
 	{
-		//hb_gcRefDec( pSelf->item.asArray.value );
+		//hb_gcRefDec( hb_arrayId( pSelf ) );
 	}
 
 	return pSelf;
@@ -554,7 +554,7 @@ void wxh_par_arrayInt( int param, int* arrayInt, const size_t len )
 	{
 		PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
 		PHB_ITEM pItm;
-		ULONG ulLen = min( hb_arrayLen( pArray ), len );
+		ULONG ulLen = min( (size_t) hb_arrayLen( pArray ), len );
 		for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
 		{
 			pItm = hb_arrayGetItemPtr( pArray, ulI );
@@ -585,7 +585,7 @@ wxArrayString wxh_par_wxArrayString( int param )
 			pItm = hb_arrayGetItemPtr( pArray, ulI );
 			if( hb_itemType( pItm ) && ( HB_IT_STRING || HB_IT_MEMO ) )
 			{
-				arrayString.Add( wxh_CTowxString( pItm->item.asString.value ) );
+				arrayString.Add( wxh_CTowxString( hb_itemGetCPtr( pItm ) ) );
 			}
 		}
 	}
@@ -635,8 +635,8 @@ wxPoint wxh_par_wxPoint( int param )
 		PHB_ITEM p1,p2;
 		p1 = hb_arrayGetItemPtr( pStruct, 1 );
 		p2 = hb_arrayGetItemPtr( pStruct, 2 );
-		int x = HB_IS_NUMERIC( p1 ) ? p1->item.asInteger.value : -1;
-		int y = HB_IS_NUMERIC( p2 ) ? p2->item.asInteger.value : -1;
+		int x = HB_IS_NUMERIC( p1 ) ? hb_itemGetNI( p1 ) : -1;
+		int y = HB_IS_NUMERIC( p2 ) ? hb_itemGetNI( p2 ) : -1;
 		return wxPoint( x, y );
 	}
 	else
@@ -655,8 +655,8 @@ wxSize wxh_par_wxSize( int param )
 		PHB_ITEM pWidth,pHeight;
 		pWidth = hb_arrayGetItemPtr( pStruct, 1 );
 		pHeight = hb_arrayGetItemPtr( pStruct, 2 );
-		int iWidth = HB_IS_NUMERIC( pWidth ) ? pWidth->item.asInteger.value : -1;
-		int iHeight = HB_IS_NUMERIC( pHeight ) ? pHeight->item.asInteger.value : -1;
+		int iWidth = HB_IS_NUMERIC( pWidth ) ? hb_itemGetNI( pWidth ) : -1;
+		int iHeight = HB_IS_NUMERIC( pHeight ) ? hb_itemGetNI( pHeight ) : -1;
 		return wxSize( iWidth, iHeight );
 	}
 	else

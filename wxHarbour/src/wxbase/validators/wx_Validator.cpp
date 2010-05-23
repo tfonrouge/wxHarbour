@@ -46,7 +46,7 @@ bool wx_Validator::TransferFromWindow()
 	if( pSelf )
 	{
 		hb_objSendMsg( pSelf, "TransferFromWindow", 0 );
-		result = hb_stackReturnItem()->item.asLogical.value;
+		result = hb_itemGetL( hb_stackReturnItem() );
 	}
 	return result;
 }
@@ -63,7 +63,7 @@ bool wx_Validator::TransferToWindow()
 	if( pSelf )
 	{
 		hb_objSendMsg( pSelf, "TransferToWindow", 0 );
-		result = hb_stackReturnItem()->item.asLogical.value;
+		result = hb_itemGetL( hb_stackReturnItem() );
 	}
 	return result;
 }
