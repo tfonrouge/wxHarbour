@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2010-05-23 15:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh.h
+  *  src/common/wx_harbour.cpp
+  *  src/raddox/TTable_c.cpp
+  *  src/wxbase/advctrls/wx_GridTableBase.cpp
+  *  src/wxbase/advctrls/wx_StatusBar.cpp
+  *  src/wxbase/app/wx_App.cpp
+  *  src/wxbase/controls/wx_TextCtrl.cpp
+  *  src/wxbase/events/wx_Timer.cpp
+  *  src/wxbase/image/wx_Colour.cpp
+  *  src/wxbase/networking/wx_SocketBase.cpp
+  *  src/wxbase/sizers/wx_Sizer.cpp
+  *  src/wxbase/validators/wx_Validator.cpp
+     * removed some direct access and using HB API
+
+
 2010-05-22 12:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

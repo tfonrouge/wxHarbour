@@ -67,7 +67,7 @@ HB_FUNC_EXTERN( WXHERRORSYS );
 */
 int wx_App::OnExit()
 {
-	int iResult = hb_objSendMsg( hb_App, "OnExit", 0 )->item.asInteger.value;
+	int iResult = hb_itemGetNI( hb_objSendMsg( hb_App, "OnExit", 0 ) );
 	HB_FUNC_EXEC( __QUIT );
 	return iResult;
 }
@@ -104,7 +104,7 @@ bool wx_App::OnInit()
 
 	/* set our error handler */
 	HB_FUNC_EXEC( WXHERRORSYS );
-	return hb_objSendMsg( hb_App, "OnInit", 0 )->item.asLogical.value;
+	return hb_itemGetL( hb_objSendMsg( hb_App, "OnInit", 0 ) );
 }
 
 /*

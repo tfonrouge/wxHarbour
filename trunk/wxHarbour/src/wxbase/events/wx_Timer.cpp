@@ -59,7 +59,7 @@ HB_FUNC( WXTIMER_NEW )
 	wxEvtHandler* owner = (wxEvtHandler *) objParams.paramParent( 1 );
 	int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
 
-	const char* clsName = hb_clsName( objParams.pSelf->item.asArray.value->uiClass );
+	const char* clsName = hb_clsName( hb_objGetClass( objParams.pSelf ) );
 
 	wxTimer* timer;
 

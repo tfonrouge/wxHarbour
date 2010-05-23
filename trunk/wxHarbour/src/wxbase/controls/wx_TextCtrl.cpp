@@ -446,9 +446,9 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
 			{
 				wxColour* color;
 				unsigned char r,g,b;
-				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
+				r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+				g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+				b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
 				color = new wxColour( r, g, b, (unsigned char)255 );
 				textCtrl->SetBackgroundColour( *color );
 			}
@@ -456,10 +456,10 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
 			{
 				wxColour* color;
 				unsigned char r,g,b,a;
-				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
-				a = hb_arrayGetItemPtr( pArray, 4 )->item.asInteger.value;
+				r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+				g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+				b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
+				a = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 4 ) );
 				color = new wxColour( r, g, b, a );
 				textCtrl->SetBackgroundColour( *color );
 			}
@@ -502,9 +502,9 @@ HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
 			{
 				unsigned char r,g,b;
 				wxColour* color;
-				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
+				r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+				g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+				b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
 				color =  new wxColour( r, g, b, (unsigned char)255 );
 				textCtrl->SetForegroundColour( *color );
 			}
@@ -512,10 +512,10 @@ HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
 			{
 				unsigned char r,g,b,a;
 				wxColour* color;
-				r = hb_arrayGetItemPtr( pArray, 1 )->item.asInteger.value;
-				g = hb_arrayGetItemPtr( pArray, 2 )->item.asInteger.value;
-				b = hb_arrayGetItemPtr( pArray, 3 )->item.asInteger.value;
-				a = hb_arrayGetItemPtr( pArray, 4 )->item.asInteger.value;
+				r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+				g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+				b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
+				a = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 4 ) );
 				color = new wxColour( r, g, b, a );
 				textCtrl->SetForegroundColour( *color );
 			}
