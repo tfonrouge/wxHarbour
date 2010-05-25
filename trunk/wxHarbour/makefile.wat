@@ -285,6 +285,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wxhTimer.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wxhHtmlEasyPrinting.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhColour.obj &
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj &
@@ -367,6 +368,7 @@ WXHARBOUR_OBJECTS =  &
 	$(__BUILDDIR__)\wxHarbour_wx_Timer.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj &
+	$(__BUILDDIR__)\wxHarbour_wx_HtmlEasyPrinting.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Colour.obj &
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.obj &
@@ -469,6 +471,7 @@ install_wxHarbour_headers : .SYMBOLIC
 	copy include\wxHarbour\wxh\grid.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\gsocket.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\notebook.ch $(PREFIX)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\platinfo.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\socket.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\taskbar.ch $(PREFIX)\include\wxHarbour\wxh
 	copy include\wxHarbour\wxh\textctrl.ch $(PREFIX)\include\wxHarbour\wxh
@@ -499,6 +502,7 @@ uninstall_wxHarbour_headers : .SYMBOLIC
 	-if exist $(PREFIX)\include\wxHarbour\wxh\grid.ch -del $(PREFIX)\include\wxHarbour\wxh\grid.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\gsocket.ch -del $(PREFIX)\include\wxHarbour\wxh\gsocket.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\notebook.ch -del $(PREFIX)\include\wxHarbour\wxh\notebook.ch
+	-if exist $(PREFIX)\include\wxHarbour\wxh\platinfo.ch -del $(PREFIX)\include\wxHarbour\wxh\platinfo.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\socket.ch -del $(PREFIX)\include\wxHarbour\wxh\socket.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\taskbar.ch -del $(PREFIX)\include\wxHarbour\wxh\taskbar.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
@@ -766,6 +770,10 @@ $(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\w
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj :  .AUTODEPEND .\src\wxbase\events\wxhUpdateUIEvent.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhHtmlEasyPrinting.obj :  .AUTODEPEND .\src\wxbase\html\wxhHtmlEasyPrinting.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
@@ -1043,6 +1051,9 @@ $(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj :  .AUTODEPEND .\src\wxbase\events\w
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj :  .AUTODEPEND .\src\wxbase\events\wx_UpdateUIEvent.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_HtmlEasyPrinting.obj :  .AUTODEPEND .\src\wxbase\html\wx_HtmlEasyPrinting.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(WXHARBOUR_CXXFLAGS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj :  .AUTODEPEND .\src\wxbase\image\wx_Bitmap.cpp
