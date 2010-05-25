@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-05-25 00:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.wat
+  *  samples/dbf_ctrls1/dbf_ctrls1.prg
+     % added printing capabilities via wxHtmlEasyPrinting
+
+  *  src/wxbase/html/wx_HtmlEasyPrinting.cpp
+     ! Fixed 2nd parameter on SetHeader/SetFooter to use wxPAGE_ALL as
+       default value
+
 2010-05-23 15:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  src/common/wx_harbour.cpp

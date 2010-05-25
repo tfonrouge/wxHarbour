@@ -193,7 +193,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETHEADER )
 	
 	if( htmlEasyPrinting )
 	{
-		htmlEasyPrinting->SetHeader( wxh_parc( 1 ), hb_parni( 2 ) );
+		htmlEasyPrinting->SetHeader( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
 	}
 }
 
@@ -207,7 +207,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFOOTER )
 	
 	if( htmlEasyPrinting )
 	{
-		htmlEasyPrinting->SetFooter( wxh_parc( 1 ), hb_parni( 2 ) );
+		htmlEasyPrinting->SetFooter( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
 	}
 }
 
