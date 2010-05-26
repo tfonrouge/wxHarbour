@@ -69,6 +69,10 @@
 					METHOD <name> INLINE Super:<name> ;;
 					METHOD _<name> INLINE Super:_<name>
 
+#xcommand PROPERTY <name> DEFAULT <value> ;
+                    => ;
+                    DATA F<name> INIT <value>
+
 
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
 

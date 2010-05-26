@@ -658,7 +658,7 @@ autoOpen When .F.
 \end_layout
 
 \begin_layout Description
-TableNameValue Contains the table file name.
+TableFileName Contains the table file name.
 \end_layout
 
 \begin_layout Subsection
