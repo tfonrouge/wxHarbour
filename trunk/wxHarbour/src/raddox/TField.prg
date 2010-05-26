@@ -765,7 +765,7 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 	IF ::IsReadOnly .OR. ::FTable:State = dsInactive
 		RETURN
 	ENDIF
-	
+
 	IF ::FTable:State = dsBrowse .AND. !::IsKeyIndex .AND. ::FTable:autoEdit
 		oldState := ::FTable:State
 		::FTable:Edit()

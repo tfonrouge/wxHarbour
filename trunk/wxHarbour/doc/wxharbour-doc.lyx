@@ -522,10 +522,6 @@ As mentioned above, any window belonging to a sizer may have border, and
  controlled by the three parameters of the Add() method.
 \end_layout
 
-\begin_layout Standard
-
-\end_layout
-
 \begin_layout Subsection*
 Examples
 \end_layout
@@ -599,6 +595,78 @@ END SIZER
 
 \begin_layout Part
 RADOX Reference
+\end_layout
+
+\begin_layout Chapter
+Commands
+\end_layout
+
+\begin_layout Chapter
+Classes
+\end_layout
+
+\begin_layout Section
+TField
+\end_layout
+
+\begin_layout Section
+TIndex
+\end_layout
+
+\begin_layout Section
+TTable
+\end_layout
+
+\begin_layout Standard
+This class that give functionality to hold a table info; fields, indexes
+\end_layout
+
+\begin_layout Subsection
+Properties
+\end_layout
+
+\begin_layout Description
+Active (
+\emph on
+ReadOnly
+\emph default
+).
+ Returns .T.
+ if the database has been opened.
+\end_layout
+
+\begin_layout Description
+autoCreate If .T.
+ the table is created if it 
+\bar under
+not exist
+\bar default
+ already, otherwise an error is raised when trying to open an not existent
+ table
+\end_layout
+
+\begin_layout Description
+autoEdit When .T.
+ it allows to automatically call ::Edit() when any TField is required to
+ write data to the database
+\end_layout
+
+\begin_layout Description
+autoOpen When .F.
+ it allows to open the database in two steps by calling explicitly ::Open()
+ after instantiating the class.
+\end_layout
+
+\begin_layout Description
+TableNameValue Contains the table file name.
+\end_layout
+
+\begin_layout Subsection
+Methods
+\end_layout
+
+\begin_layout Standard
+BuildTable
 \end_layout
 
 \end_body

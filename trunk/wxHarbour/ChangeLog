@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-05-26 15:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  doc/wxharbour-doc.lyx
+  *  doc/wxharbour-doc.pdf
+     * updated
+
+  *  src/raddox/TField.prg
+     * minor code cleanup
+
+
 2010-05-26 14:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * renamed clause OBJVALUE to OBJTYPE
