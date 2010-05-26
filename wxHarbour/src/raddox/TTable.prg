@@ -57,7 +57,6 @@ PRIVATE:
 	DATA FState INIT dsInactive
 	DATA FSubState INIT dssNone
 	DATA FSyncingToContainerField INIT .F.
-	DATA FTableFileName
 	DATA FTimer INIT 0
 	DATA FUndoList
 
@@ -72,7 +71,6 @@ PRIVATE:
 	METHOD GetPrimaryMasterKeyField()
 	METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
 	METHOD GetPublishedFieldList
-	METHOD GetTableName INLINE ::TableNameValue
 	METHOD SetIndex( index )
 	METHOD SetIndexName( IndexName )
 	METHOD SetMasterSource( masterSource )
@@ -92,7 +90,7 @@ PROTECTED:
 	DATA FFound				INIT .F.
 	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
 	DATA FRecNo				INIT 0
-	DATA TableNameValue INIT "" // to be assigned (INIT) on inherited classes
+	DATA FTableFileName     INIT "" // to be assigned (INIT) on inherited classes
 	DATA tableState INIT {}
 	DATA tableStateLen INIT 0
 
@@ -106,6 +104,7 @@ PROTECTED:
 	METHOD InitDataBase INLINE TDataBase():New()
 	METHOD InitTable()
 	METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
+    METHOD SetTableFileName( tableFileName ) INLINE ::FTableFileName := tableFileName
 
 PUBLIC:
 
@@ -113,11 +112,12 @@ PUBLIC:
 
 	DATA aliasIdx
 	DATA aliasTmp
-	DATA allowOnDataChange INIT .T.
-	DATA autoEdit INIT .F.
-	DATA autoMasterSource INIT .F.
-	DATA autoOpen INIT .T.
-	DATA dataIsOEM	INIT .T.
+	DATA allowOnDataChange  INIT .T.
+    DATA autoCreate         INIT .F.
+	DATA autoEdit           INIT .F.
+	DATA autoMasterSource   INIT .F.
+	DATA autoOpen           INIT .T.
+	DATA dataIsOEM          INIT .T.
 	/*!
 		array of possible TObjectField's that have this (SELF) object referenced
 	 */
@@ -177,6 +177,7 @@ PUBLIC:
 	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
+    METHOD GetTableFileName()
 	METHOD HasChilds
 	METHOD IndexByName( IndexName, curClass )
 	METHOD Insert()
@@ -211,7 +212,7 @@ PUBLIC:
 	METHOD SyncDetailSources
 	METHOD SyncFromMasterSourceFields()
 	METHOD SyncRecNo( fromAlias )
-	METHOD TableClass INLINE ::ClassName + "@" + ::TableName
+	METHOD TableClass INLINE ::ClassName + "@" + ::TableFileName
 
 	METHOD Validate( showAlert )
 
@@ -254,7 +255,7 @@ PUBLIC:
 	PROPERTY State READ FState
 	PROPERTY SubState READ FSubState
 	PROPERTY SyncingToContainerField READ FSyncingToContainerField WRITE SetSyncingToContainerField
-	PROPERTY TableFileName READ FTableFileName
+    PROPERTY TableFileName READ GetTableFileName WRITE SetTableFileName
 	PROPERTY UndoList READ FUndoList
 
 PUBLISHED:
@@ -271,7 +272,6 @@ PUBLISHED:
 	PROPERTY PrimaryIndex READ GetPrimaryIndex
 	PROPERTY PublishedFieldList READ GetPublishedFieldList
 	PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
-	PROPERTY TableName READ GetTableName
 	PROPERTY Value READ GetAsVariant WRITE SetAsVariant
 
 ENDCLASS
@@ -303,8 +303,8 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
 		::FRDOClient := rdoClient
 
-		IF !HB_HHasKey( ::FInstances, ::TableName )
-			::FInstances[ ::TableName ] := ::GetInstance()
+		IF !HB_HHasKey( ::FInstances, ::TableFileName )
+			::FInstances[ ::TableFileName ] := ::GetInstance()
 		ENDIF
 
 		RETURN Self
@@ -338,7 +338,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
 	::OnCreate()
 
 	/* Check for a valid db structure (based on definitions on DEFINE FIELDS) */
-	IF !Empty( ::TableName ) .AND. ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
+	IF !Empty( ::TableFileName ) .AND. ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
 		::CheckDbStruct()
 	ENDIF
 
@@ -1759,6 +1759,18 @@ METHOD FUNCTION GetPublishedFieldList CLASS TTable
 RETURN Result
 
 /*
+    GetTableFileName
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetTableFileName() CLASS TTable
+    IF Empty( ::FTableFileName )
+        IF ::autoCreate
+            FClose( HB_FTempCreateEx( @::FTableFileName, NIL, NIL, ".dbf" ) )
+        ENDIF
+    ENDIF
+RETURN ::FTableFileName
+
+/*
 	HasChilds
 	Teo. Mexico
 */
@@ -1816,7 +1828,7 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	/*!
 	* Make sure that database is open here
 	*/
-	IF ::FAlias == NIL .AND. !Empty( ::TableName )
+	IF ::FAlias == NIL .AND. !Empty( ::TableFileName )
 		::FAlias := TAlias():New( Self )
 	ENDIF
 
@@ -2100,9 +2112,9 @@ METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
 	LOCAL s, sHostPort
 
 	IF tableName == NIL
-		tableName := ::TableNameValue
+		tableName := ::TableFileName
 	ELSE
-		::TableNameValue := tableName
+		::FTableFileName := tableName
 	ENDIF
 
 	/*
@@ -2110,7 +2122,7 @@ METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
 	*/
 	IF Upper( tableName ) = "RDO://"
 
-		s := HB_TokenGet( ::TableName, 2, "://" )
+		s := HB_TokenGet( ::TableFileName, 2, "://" )
 		sHostPort := HB_TokenGet( s, 1, "/" )
 		::FTableFileName := SubStr( s, At( "/", s ) + 1 )
 
@@ -2125,10 +2137,6 @@ METHOD PROCEDURE Process_TableName( tableName ) CLASS TTable
 			::Error_ConnectToServer_Failed()
 			RETURN
 		ENDIF
-
-	ELSE
-
-		::FTableFileName := ::TableName
 
 	ENDIF
 

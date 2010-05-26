@@ -56,7 +56,6 @@ PRIVATE:
 	METHOD Configure
 	METHOD GetBrw
 	METHOD OpenDB()
-	METHOD UpdateStructDbf( noteBook )
 
 PROTECTED:
 	METHOD GoToRecord()
@@ -315,7 +314,6 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 			BEGIN PANEL
 				BEGIN BOXSIZER HORIZONTAL
 					@ BROWSE VAR oBrwStruct NAME "structDBf" DATASOURCE aStruDbf SIZERINFO ALIGN EXPAND// STRETCH
-					@ BUTTON "Update" VAR btnUpdate NAME "btnUpdate" ACTION {|| ::UpdateStructDbf( noteBook ) }
 				END SIZER
 			END PANEL
 	END AUINOTEBOOK
@@ -345,8 +343,6 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 	noteBook:FindWindowByName( "choice" ):SetSelection( ordNumber )
 
 	noteBook:FindWindowByName( "table" ):AutoSizeColumns( .F. )
-	
-	noteBook:FindWindowByName( "btnUpdate" ):Enable( .F. )
 
 //	 DESTROY fileDlg
 
@@ -362,74 +358,6 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS MyApp
 	oBrw:GetBrowseParent():FindWindowByName( "key", oBrw:GetBrowseParent() ):SetLabel( ordKey() )
 	oBrw:GetBrowseParent():FindWindowByName( "for", oBrw:GetBrowseParent() ):SetLabel( ordFor() )
 	oBrw:GetBrowseParent():FindWindowByName( "keyval", oBrw:GetBrowseParent() ):SetValue( ordKeyVal() )
-RETURN
-
-/*
-	UpdateStructDbf
-	Teo. Mexico 2010
-*/
-METHOD PROCEDURE UpdateStructDbf( noteBook ) CLASS MyApp
-	LOCAL fileName
-	LOCAL tempName
-	LOCAL dataSource
-	LOCAL aStruct
-	LOCAL sPath,sName,sExt,sDrv
-	LOCAL sPath2,sName2,sExt2,sDrv2
-	
-	dataSource := noteBook:FindWindowByName( "table" ):DataSource
-	
-	aStruct := noteBook:FindWindowByName( "structDBf" ):DataSource
-	
-	fileName := dataSource:TableFileName
-	
-	HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
-	
-	dataSource:Destroy()
-	
-	CLOSE( Alias() )
-	
-	HB_FTempCreateEx( @tempName, sPath, "tmp", ".dbf" )
-	
-	DBCreate( tempName, aStruct )
-	
-	USE ( tempName ) NEW
-	
-	BEGIN SEQUENCE WITH ;
-		{|oErr| 
-			
-			IF oErr:GenCode = EG_DATATYPE
-				RETURN .F.
-			ENDIF
-
-			IF .T.
-				Break( oErr )
-			ENDIF
-
-			RETURN NIL
-		}
-
-		APPEND FROM ( fileName )
-		
-	RECOVER
-		
-	END SEQUENCE
-	
-	CLOSE ( Alias() )
-	
-	FRename( HB_FNameMerge( sPath, sName, sExt, sDrv ), HB_FNameMerge( sPath, "_" + sName, sExt, sDrv ) )
-
-	FRename( HB_FNameMerge( sPath, sName, ".fpt", sDrv ), HB_FNameMerge( sPath, "_" + sName, ".fpt", sDrv ) )
-	
-	HB_FNameSplit( tempName, @sPath2, @sName2, @sExt2, @sDrv2 )
-
-	FRename( HB_FNameMerge( sPath2, sName2, sExt2, sDrv2 ), HB_FNameMerge( sPath, sName, sExt, sDrv ) )
-
-	FRename( HB_FNameMerge( sPath2, sName2, ".fpt", sDrv2 ), HB_FNameMerge( sPath, sName, ".fpt", sDrv ) )
-	
-	noteBook:FindWindowByName( "table" ):DataSource := fileName
-	
-	noteBook:FindWindowByName( "btnUpdate" ):Enable( .F. )
-
 RETURN
 
 /*

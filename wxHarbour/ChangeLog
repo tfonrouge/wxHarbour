@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2010-05-26 17:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * removed unneeded method (it's now contained in TTable)
+
+  *  doc/wxharbour-doc.lyx
+     * updated
+
+  *  include/wxHarbour/property.ch
+     * added command:
+       + PROPERTY <name> DEFAULT <value> => DATA F<name> INIT <value>
+
+  *  src/raddox/TTable.prg
+     * unified member/method's TableName/TableNameValue to TableFileName
+     * added autoCreate prop
+     * GetTableName checks for autoCreate and if requiered creates tmp filename
+
 2010-05-26 15:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  doc/wxharbour-doc.lyx
   *  doc/wxharbour-doc.pdf
