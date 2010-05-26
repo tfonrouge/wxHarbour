@@ -61,10 +61,10 @@
 						ADD [<clauses0>] _NUMERIC FIELD <xFieldMethod> [<clauses1>] LEN <nLen> DEC <nDec> [<clauses2>]
 #xtranslate T_NumericField => TNumericField
 
-/* To REQUIRE OBJVALUE in TObjectField */
-#xtranslate ADD [<clauses0,...>] OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJVALUE <objValue> [<clauses2,...>] ;
+/* To REQUIRE OBJTYPE in TObjectField */
+#xtranslate ADD [<clauses0,...>] OBJECT FIELD <xFieldMethod> [<clauses1,...>] OBJTYPE <objValue> [<clauses2,...>] ;
 						=> ;
-						ADD [<clauses0>] _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJVALUE <objValue> [<clauses2>]
+						ADD [<clauses0>] _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJTYPE <objValue> [<clauses2>]
 #xtranslate T_ObjectField => TObjectField
 
 #xtranslate ADD [<calc: CALCULATED>] <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DAYTIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
@@ -85,7 +85,7 @@
 						[ <pv: PRIVATE> ] ;
 						[ INCREMENT <incrementBlock> ] ;
 						[ MASTERSOURCE <linkedTableMasterSource> ] ;
-						[ OBJVALUE <objValue> ] ;
+						[ OBJTYPE <objValue> ] ;
 						[ ON GETTEXT <bOnGetText> ] ;
 						[ ON SETTEXT <bOnSetText> ] ;
 						[ ON SETVALUE <bOnSetValue> ] ;
