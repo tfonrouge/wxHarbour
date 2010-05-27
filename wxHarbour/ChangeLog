@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-05-27 18:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * removed ::FCalculated from ::IsReadOnly calculation
+     * GetFieldReadBlock only search for calculated method's for ::FCalculated
+       and raise an error if none is found
+     * Reset doesn't do for ::FCalculated
+     * SetAsVariant calls inmediatly SetData for ::FCalculated
+     % general improvements to use CalcFields as regular fields except that
+       doesn't write/read from table
+
+
+
 2010-05-27 10:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TRDOServer_c.cpp
   *  src/wxbase/miscfuncs/ProcCtrlFuncs.cpp
