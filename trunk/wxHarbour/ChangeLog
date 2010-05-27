@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-05-27 00:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed setting values to ::FFieldReadBlock/::FFieldWriteBlock
+     * code cleanup
+
 2010-05-26 22:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * renamed data on TField from "ObjValue" to "ObjType"
