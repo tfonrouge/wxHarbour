@@ -132,9 +132,11 @@ HB_FUNC( WXNOTEBOOK_CHANGESELECTION )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retni( noteBook->ChangeSelection( hb_parni( 1 ) - 1 ) + 1 );
+		hb_retni( noteBook->ChangeSelection( page_i ) + 1 );
 	}
 }
 
@@ -164,9 +166,11 @@ HB_FUNC( WXNOTEBOOK_DELETEPAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retl( noteBook->DeletePage( hb_parni( 1 ) - 1 ) );
+		hb_retl( noteBook->DeletePage( page_i ) );
 	}
 }
 
@@ -213,9 +217,11 @@ HB_FUNC( WXNOTEBOOK_GETPAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		wxh_itemReturn( noteBook->GetPage( hb_parni( 1 ) - 1 ) );
+		wxh_itemReturn( noteBook->GetPage( page_i ) );
 	}
 }
 
@@ -245,9 +251,11 @@ HB_FUNC( WXNOTEBOOK_GETPAGEIMAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retni( noteBook->GetPageImage( hb_parnl( 1 ) - 1 ) );
+		hb_retni( noteBook->GetPageImage( page_i ) );
 	}
 }
 
@@ -261,9 +269,11 @@ HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		wxh_retc( noteBook->GetPageText( hb_parnl( 1 ) - 1 ) );
+		wxh_retc( noteBook->GetPageText( page_i ) );
 	}
 }
 
@@ -344,14 +354,16 @@ HB_FUNC( WXNOTEBOOK_INSERTPAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
 		wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 2 );
 		if( page )
 		{
 			bool select = ISNIL( 4 ) ? false : hb_parl( 4 );
 			int imageld = ISNIL( 5 ) ? -1 : hb_parni( 5 );
-			hb_retl( noteBook->InsertPage( hb_parnl( 1 ) - 1, page, wxh_parc( 3 ), select, imageld ) );
+			hb_retl( noteBook->InsertPage( page_i, page, wxh_parc( 3 ), select, imageld ) );
 		}
 	}
 }
@@ -366,9 +378,11 @@ HB_FUNC( WXNOTEBOOK_REMOVEPAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retl( noteBook->RemovePage( hb_parnl( 1 ) - 1 ) );
+		hb_retl( noteBook->RemovePage( page_i ) );
 	}
 }
 
@@ -434,9 +448,11 @@ HB_FUNC( WXNOTEBOOK_SETPAGEIMAGE )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retl( noteBook->SetPageImage( hb_parnl( 1 ) - 1, hb_parni( 2 ) ) );
+		hb_retl( noteBook->SetPageImage( page_i, hb_parni( 2 ) ) );
 	}
 }
 
@@ -450,9 +466,11 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
 
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retl( noteBook->SetPageText( hb_parnl( 1 ) - 1, wxh_parc( 2 ) ) );
+		hb_retl( noteBook->SetPageText( page_i, wxh_parc( 2 ) ) );
 	}
 }
 
@@ -466,8 +484,10 @@ HB_FUNC( WXNOTEBOOK_SETSELECTION )
 	
 	wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
 	
-	if( noteBook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( noteBook && noteBook->GetPageCount() > page_i )
 	{
-		hb_retni( noteBook->SetSelection( hb_parnl( 1 ) - 1 ) + 1 );
+		hb_retni( noteBook->SetSelection( page_i ) + 1 );
 	}
 }

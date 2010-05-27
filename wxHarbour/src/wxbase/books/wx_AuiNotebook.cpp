@@ -89,9 +89,11 @@ HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
-	if( auiNotebook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		hb_retl( auiNotebook->DeletePage( hb_parnl( 1 ) - 1 ) );
+		hb_retl( auiNotebook->DeletePage( page_i ) );
 	}
 }
 
@@ -104,10 +106,12 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 	wxh_ObjParams objParams = wxh_ObjParams();
 
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    
+    size_t page_i = hb_parnl( 1 ) - 1;
 
-	if( auiNotebook )
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		wxh_itemReturn( auiNotebook->GetPage( hb_parnl( 1 ) - 1 ) );
+		wxh_itemReturn( auiNotebook->GetPage( page_i ) );
 	}
 }
 
@@ -133,9 +137,11 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 	
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 	
-	if( auiNotebook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		wxh_retc( auiNotebook->GetPageText( hb_parnl( 1 ) - 1 ) );
+		wxh_retc( auiNotebook->GetPageText( page_i ) );
 	}
 }
 
@@ -165,9 +171,11 @@ HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
-	if( auiNotebook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		hb_retl( auiNotebook->RemovePage( hb_parnl( 1 ) - 1 ) );
+		hb_retl( auiNotebook->RemovePage( page_i ) );
 	}
 }
 
@@ -181,9 +189,11 @@ HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
-	if( auiNotebook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		hb_retl( auiNotebook->SetPageText( hb_parnl( 1 ) - 1, wxh_parc( 2 ) ) );
+		hb_retl( auiNotebook->SetPageText( page_i, wxh_parc( 2 ) ) );
 	}
 }
 
@@ -197,8 +207,10 @@ HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
 
 	wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
-	if( auiNotebook )
+    size_t page_i = hb_parnl( 1 ) - 1;
+    
+	if( auiNotebook && auiNotebook->GetPageCount() > page_i )
 	{
-		hb_retni( auiNotebook->SetSelection( hb_parnl( 1 ) - 1 ) + 1 );
+		hb_retni( auiNotebook->SetSelection( page_i ) + 1 );
 	}
 }

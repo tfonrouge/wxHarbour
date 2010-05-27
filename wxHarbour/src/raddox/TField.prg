@@ -77,7 +77,7 @@ PROTECTED:
 	DATA FCalculated INIT .F.
 	DATA FChanged INIT .F.
 	DATA FDefaultValue
-	DATA FDBS_DEC
+	DATA FDBS_DEC INIT 0
 	DATA FDBS_LEN
 	DATA FDBS_NAME
 	DATA FDBS_TYPE
@@ -94,6 +94,8 @@ PROTECTED:
 	
 	METHOD GetCloneData( cloneData )
 	METHOD GetDefaultValue( defaultValue )
+    METHOD GetDBS_LEN INLINE ::FDBS_LEN
+    METHOD GetDBS_TYPE INLINE ::FDBS_TYPE
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
 	METHOD GetFieldReadBlock()
@@ -123,6 +125,7 @@ PUBLIC:
 	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
 	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
+    METHOD IsTableField()
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
@@ -172,9 +175,9 @@ PUBLISHED:
 	PROPERTY AutoIncrementKeyIndex READ FAutoIncrementKeyIndex WRITE SetAutoIncrementKeyIndex
 	PROPERTY Changed READ FChanged
 	PROPERTY DBS_DEC READ FDBS_DEC WRITE SetDBS_DEC
-	PROPERTY DBS_LEN READ FDBS_LEN WRITE SetDBS_LEN
+	PROPERTY DBS_LEN READ GetDBS_LEN WRITE SetDBS_LEN
 	PROPERTY DBS_NAME READ FDBS_NAME
-	PROPERTY DBS_TYPE READ FDBS_TYPE
+	PROPERTY DBS_TYPE READ GetDBS_TYPE
 	PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
 	PROPERTY Description READ FDescription WRITE SetDescription
 	PROPERTY FieldArray READ GetFieldArray WRITE SetFieldMethod
@@ -586,6 +589,13 @@ METHOD FUNCTION GetValidValues() CLASS TField
 	ENDIF
 
 RETURN ::ValidValues
+
+/*
+    IsTableField
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IsTableField() CLASS TField
+RETURN ::FFieldMethodType = "C" .AND. !::FCalculated
 
 /*
 	IsValid
@@ -1036,6 +1046,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
 	CASE "A"
+
 		//::FReadOnly := .T.
 		::FFieldArrayIndex := {}
 		fieldName := ""
@@ -1053,7 +1064,9 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 		::FFieldReadBlock	 := NIL
 		::FFieldWriteBlock := NIL
 		::FFieldExpression := NIL
+
 		EXIT
+
 	CASE "B"
 		::FReadOnly := .T.
 		::FFieldArrayIndex := NIL
@@ -1061,7 +1074,9 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 		::FFieldReadBlock	 := NIL
 		::FFieldWriteBlock := NIL
 		::FFieldExpression := NIL
+
 		EXIT
+
 	CASE "C"
 
 		::FFieldArrayIndex := NIL
@@ -1069,47 +1084,58 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
 		FieldMethod := LTrim( RTrim( FieldMethod ) )
 
-		IF !calculated == .T. .AND. ::FTable:Alias != NIL .AND. ::FTable:Alias:FieldPos( FieldMethod ) > 0
+        ::FCalculated := ( calculated == .T. ) .OR. __ObjHasMsgAssigned( ::FTable, "CalcField_" + FieldMethod )
 
-			/* Check if the same FieldExpression is declared redeclared in the same table baseclass */
-			FOR EACH AField IN ::FTable:FieldList
-				IF !Empty( AField:FieldExpression ) .AND. ;
-					 Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-					 AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
-					RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
-				ENDIF
-			NEXT
+		IF ! ::FCalculated
 
-			::FDBS_NAME := FieldMethod
+            IF ::FTable:Alias != NIL
+                
+                IF ::FTable:Alias:FieldPos( FieldMethod ) = 0
+                    RAISE TFIELD FieldMethod ERROR "Field does not exist in table..."
+                ENDIF
 
-			::FFieldReadBlock := FieldBlock( FieldMethod )
-			::FFieldWriteBlock := FieldBlock( FieldMethod )
-			n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
-			/*!
-			 * Check if TField and database field are compatible
-			 * except for TObjectField's here
-			 */
-			IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
-				//RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
-			ENDIF
-			::FModStamp	:= ::Table:DbStruct[n][2] $ "=^+"
-			
-			::FDBS_LEN := ::Table:DbStruct[n][3]
-			::FDBS_DEC := ::Table:DbStruct[n][4]
+                /* Check if the same FieldExpression is declared redeclared in the same table baseclass */
+                FOR EACH AField IN ::FTable:FieldList
+                    IF !Empty( AField:FieldExpression ) .AND. ;
+                         Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
+                         AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
+                        RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
+                    ENDIF
+                NEXT
 
-			IF ::IsDerivedFrom("TStringField")
-				IF ::IsDerivedFrom("TMemoField")
-					::FSize := 0
-				ELSE
-					::FSize := ::FDBS_LEN
-				ENDIF
-			ENDIF
-			
-			::FCalculated := .F.
-		ELSE
-			::FFieldReadBlock := NIL
-			::FFieldWriteBlock := NIL
-			::FCalculated := .T.
+                ::FDBS_NAME := FieldMethod
+
+                ::FFieldReadBlock := FieldBlock( FieldMethod )
+                ::FFieldWriteBlock := FieldBlock( FieldMethod )
+                n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
+
+                /*!
+                 * Check if TField and database field are compatible
+                 * except for TObjectField's here
+                 */
+                IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
+                    //RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
+                ENDIF
+
+                ::FModStamp	:= ::Table:DbStruct[n][2] $ "=^+"
+
+                ::FDBS_LEN := ::Table:DbStruct[n][3]
+                ::FDBS_DEC := ::Table:DbStruct[n][4]
+
+                IF ::IsDerivedFrom("TStringField")
+                    IF ::IsDerivedFrom("TMemoField")
+                        ::FSize := 0
+                    ELSE
+                        ::FSize := ::FDBS_LEN
+                    ENDIF
+                ENDIF
+                
+            ELSE
+
+                ::FDBS_NAME := FieldMethod
+
+            ENDIF
+
 		ENDIF
 
 		fieldName := iif( Empty( ::FName ), FieldMethod, ::FName )
@@ -1123,7 +1149,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
 		EXIT
 
-	END
+	ENDSWITCH
 
 RETURN
 
@@ -1613,16 +1639,18 @@ ENDCLASS
 */
 CLASS TObjectField FROM TField
 PRIVATE:
-	DATA FObjValue
+	DATA FObjType
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
 	METHOD GetSize INLINE ::GetReferenceField():Size
 	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
-	METHOD SetObjValue( objValue ) INLINE ::FObjValue := objValue
+	METHOD SetObjType( objValue ) INLINE ::FObjType := objValue
 PROTECTED:
 	DATA FCalcMethod
 	DATA FType INIT "ObjectField"
 	DATA FValType INIT "O"
+    METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
+    METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
 	METHOD GetLinkedTable
 	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
 	METHOD GetFieldReadBlock()
@@ -1634,7 +1662,7 @@ PUBLIC:
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
-	PROPERTY ObjValue READ FObjValue WRITE SetObjValue
+	PROPERTY ObjType READ FObjType WRITE SetObjType
 	PROPERTY Size READ GetSize
 PUBLISHED:
 ENDCLASS
@@ -1739,24 +1767,24 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 
 	IF ::FLinkedTable == NIL
 
-		IF Empty( ::FObjValue )
-			RAISE TFIELD ::Name ERROR "TObjectField has not a ObjValue value."
+		IF Empty( ::FObjType )
+			RAISE TFIELD ::Name ERROR "TObjectField has not a ObjType value."
 		ENDIF
 
 		/*
-		 * Solve using the default ObjValue
+		 * Solve using the default ObjType
 		 */
-		SWITCH ValType( ::FObjValue )
+		SWITCH ValType( ::FObjType )
 		CASE 'C'
-			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjValue ) .AND. ::IsMasterFieldComponent
+			IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjType ) .AND. ::IsMasterFieldComponent
 				::FLinkedTable := ::FTable:MasterSource
 			ELSE
 				IF ::FLinkedTableMasterSource != NIL
 					linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
-				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjValue ) )
+				ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjType ) )
 					linkedTableMasterSource := ::FTable
 				ENDIF
-				::FLinkedTable := __ClsInstFromName( ::FObjValue )
+				::FLinkedTable := __ClsInstFromName( ::FObjType )
 				IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
 					RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
 				ENDIF
@@ -1764,10 +1792,10 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 			ENDIF
 			EXIT
 		CASE 'B'
-			::FLinkedTable := ::FObjValue:Eval( ::FTable )
+			::FLinkedTable := ::FObjType:Eval( ::FTable )
 			EXIT
 		CASE 'O'
-			::FLinkedTable := ::FObjValue
+			::FLinkedTable := ::FObjType
 			EXIT
 		ENDSWITCH
 
