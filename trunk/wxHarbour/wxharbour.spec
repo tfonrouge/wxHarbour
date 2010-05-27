@@ -9,7 +9,7 @@
 %define name        wxHarbour
 %define cname       wxHarbour
 %define version     0.5.0
-%define release     3
+%define release     4
 %define hbcompiler  harbour
 
 Summary:    A portable GUI toolkit for [x]Harbour using wxWidgets

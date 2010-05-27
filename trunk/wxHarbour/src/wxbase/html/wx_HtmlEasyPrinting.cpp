@@ -171,7 +171,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFONTS )
 	{
 		const int len = 7;
 		const int* sizes = NULL;
-		int aInt[ len ] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+		int aInt[ len ] = { 0, 0, 0, 0, 0, 0, 0 };
 		
 		if( hb_pcount() > 2 )
 		{

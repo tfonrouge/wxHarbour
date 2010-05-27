@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-05-27 10:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * some minor formatting
+
+  *  src/wxbase/html/wx_HtmlEasyPrinting.cpp
+     ! Fixed compiler warnings
+
+  *  wxharbour.spec
+     * changed revision to 4
+
+
 2010-05-27 00:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed setting values to ::FFieldReadBlock/::FFieldWriteBlock
@@ -19,7 +30,7 @@
      + added method:
        + IsTableField : returns true if field method type = "C" and is not
          calculated
-     * changed assignation on ::SetFieldMethodType to allow create new
+     * changed assignation on SetFieldMethodType to allow create new
        table
      ! Fixed retrieving values from DBS_LEN/DBS_TYPE on TObjectField's
 
