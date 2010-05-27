@@ -124,7 +124,7 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
-	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ::FCalculated .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
+	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
     METHOD IsTableField()
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
@@ -510,7 +510,7 @@ RETURN NIL
 	Teo. Mexico 2010
 */
 METHOD FUNCTION GetFieldReadBlock() CLASS TField
-	IF ::FFieldReadBlock == NIL
+	IF ::FFieldReadBlock == NIL .AND. ::FCalculated
 		IF __ObjHasMsgAssigned( ::FTable, "CalcField_" + ::FName )
 			::FFieldReadBlock := &("{|o,...|" + "o:CalcField_" + ::FName + "( ... ) }")
 		ELSE
@@ -518,11 +518,7 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
 				::FFieldReadBlock := &("{|o,...|" + "o:MasterSource:CalcField_" + ::FName + "( ... ) }")
 			ELSE
 				IF !::IsDerivedFrom("TObjectField")
-					IF Empty( ::FFieldExpression )
-						RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
-					ELSE
-						::FFieldReadBlock := &("{|| " + ::FFieldExpression + " }")
-					ENDIF
+					RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
 				ENDIF
 			ENDIF
 		ENDIF
@@ -687,81 +683,85 @@ METHOD FUNCTION Reset() CLASS TField
 	LOCAL AField
 	LOCAL i
 	LOCAL value
-	LOCAL result
-	
-	IF ::FDefaultValue = NIL
+	LOCAL result := .F.
+    
+    IF !::FCalculated
 
-		/* if is a masterfield component, then *must* resolve it in the MasterSource(s) */
-		IF ( result := ::IsMasterFieldComponent )
-		
-			result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
-			
-			IF result
-				
-				value := AField:GetBuffer()
-				/*
-				 * if there is a DefaultValue this is ignored (may be a warning is needed)
-				 */
-			ENDIF
+        IF ::FDefaultValue = NIL
 
-		ENDIF
-		
-		/* reset was not succesfull yet */
-		IF !result
-			/* resolve each field on a array of fields */
-			IF ::FFieldMethodType = 'A'
-			
-				result := .T.
+            /* if is a masterfield component, then *must* resolve it in the MasterSource(s) */
+            IF ( result := ::IsMasterFieldComponent )
 
-				FOR EACH i IN ::FFieldArrayIndex
-					IF result
-						result := ::FTable:FieldList[ i ]:Reset()
-					ENDIF
-				NEXT
+                result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
 
-				RETURN result
+                IF result
 
-			ELSE
-			
-				IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
-					IF ::FTable:MasterSource = NIL
-						RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' needs a MasterSource Table."
-					ELSE
-//						RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' cannot be resolved in MasterSource Table (" + ::FTable:MasterSource:ClassName() + ") ."
-					ENDIF
-				ENDIF
+                    value := AField:GetBuffer()
+                    /*
+                     * if there is a DefaultValue this is ignored (may be a warning is needed)
+                     */
+                ENDIF
 
-				IF ::IsDerivedFrom( "TObjectField" )
-					IF ::LinkedTable:GetPrimaryKeyField() != NIL
-						value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
-						IF value == NIL
-							value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
-						ENDIF
-					ENDIF
-				ELSE
-					value := ::GetDefaultValue()
-					IF value = NIL
-						value := ::GetEmptyValue()
-					ENDIF
-				ENDIF
+            ENDIF
 
-				result := .T.
+            /* reset was not succesfull yet */
+            IF !result
+                /* resolve each field on a array of fields */
+                IF ::FFieldMethodType = 'A'
 
-			ENDIF
-		ENDIF
+                    result := .T.
 
-	ELSE
-	
-		value := ::GetDefaultValue()
-		
-		result := .T.
+                    FOR EACH i IN ::FFieldArrayIndex
+                        IF result
+                            result := ::FTable:FieldList[ i ]:Reset()
+                        ENDIF
+                    NEXT
 
-	ENDIF
-	
-	::SetBuffer( value )
+                    RETURN result
 
-	::FChanged := .F.
-	::FWrittenValue := NIL
+                ELSE
+
+                    IF ::IsDerivedFrom("TObjectField") .AND. ::IsMasterFieldComponent
+                        IF ::FTable:MasterSource = NIL
+                            RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' needs a MasterSource Table."
+                        ELSE
+    //						RAISE ERROR "MasterField component '" + ::Table:ClassName + ":" + ::Name + "' cannot be resolved in MasterSource Table (" + ::FTable:MasterSource:ClassName() + ") ."
+                        ENDIF
+                    ENDIF
+
+                    IF ::IsDerivedFrom( "TObjectField" )
+                        IF ::LinkedTable:GetPrimaryKeyField() != NIL
+                            value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
+                            IF value == NIL
+                                value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
+                            ENDIF
+                        ENDIF
+                    ELSE
+                        value := ::GetDefaultValue()
+                        IF value = NIL
+                            value := ::GetEmptyValue()
+                        ENDIF
+                    ENDIF
+
+                    result := .T.
+
+                ENDIF
+            ENDIF
+
+        ELSE
+
+            value := ::GetDefaultValue()
+
+            result := .T.
+
+        ENDIF
+
+        ::SetBuffer( value )
+
+        ::FChanged := .F.
+        ::FWrittenValue := NIL
+
+    ENDIF
 
 RETURN result
 
@@ -771,10 +771,15 @@ RETURN result
 */
 METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 	LOCAL oldState
-
+    
 	IF ::IsReadOnly .OR. ::FTable:State = dsInactive
 		RETURN
 	ENDIF
+
+    IF ::FCalculated
+        ::SetData( value )
+        RETURN
+    ENDIF
 
 	IF ::FTable:State = dsBrowse .AND. !::IsKeyIndex .AND. ::FTable:autoEdit
 		oldState := ::FTable:State
@@ -900,12 +905,12 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
 	END
 
-	IF AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
+	IF !::FCalculated .AND. AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
 		RAISE TFIELD ::Name ERROR "SetData(): Table not in Edit or Insert mode..."
 		RETURN
 	ENDIF
 
-	IF ::FCalculated .OR. ::FModStamp
+	IF ::FReadOnly .OR. ::FModStamp
 		RETURN
 	ENDIF
 
@@ -982,12 +987,12 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		IF ::IsPrimaryKeyField .AND. ::FUniqueKeyIndex:ExistKey( ::GetKeyVal() )
 			RAISE TFIELD ::Name ERROR "Key violation."
 		ENDIF
-	
+
 		/* The physical write to the field */
 		::FTable:Alias:Eval( ::FFieldWriteBlock, Value )
-		
+
 		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
-		
+
 		/* fill undolist */
 		IF ::FTable:State = dsEdit
 			IF ! HB_HHasKey( ::FTable:UndoList, ::FName )
@@ -995,7 +1000,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 			ENDIF
 			::FChanged := ! Value == ::FTable:UndoList[ ::FName ]
 		ENDIF
-		
+
 		/*
 		 * Check if has to propagate change to child sources
 		 */
@@ -1006,12 +1011,12 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		IF ::OnAfterChange != NIL
 			::OnAfterChange:Eval( Self, buffer )
 		ENDIF
-		
+
 	RECOVER USING errObj
 
 		SHOW ERROR errObj
 
-	END
+	END SEQUENCE
 
 	/* masterkey field's aren't changed here */
 	IF ::IsMasterFieldComponent
@@ -1043,6 +1048,7 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 	LOCAL AField
 	LOCAL i
 	LOCAL n
+    LOCAL calcMethod
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
 	CASE "A"
@@ -1083,8 +1089,10 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 		::FFieldCodeBlock := NIL
 
 		FieldMethod := LTrim( RTrim( FieldMethod ) )
+        
+        calcMethod := __ObjHasMsgAssigned( ::FTable, "CalcField_" + FieldMethod )
 
-        ::FCalculated := ( calculated == .T. ) .OR. __ObjHasMsgAssigned( ::FTable, "CalcField_" + FieldMethod )
+        ::FCalculated := ( calculated == .T. ) .OR. calcMethod
 
 		IF ! ::FCalculated
 
@@ -1130,6 +1138,13 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
                 ::FFieldReadBlock := FieldBlock( FieldMethod )
                 ::FFieldWriteBlock := FieldBlock( FieldMethod )
 
+            ENDIF
+            
+        ELSE
+        
+            IF calcMethod
+
+                ::FFieldWriteBlock := {|value| __ObjSendMsg( ::FTable, "CalcField_" + FieldMethod, value ) }
             ENDIF
 
 		ENDIF
@@ -1316,7 +1331,7 @@ METHOD FUNCTION GetAsString CLASS TStringField
 		EXIT
 	OTHERWISE
 		Result := ::GetAsVariant()
-	END
+	ENDSWITCH
 
 RETURN Result
 
