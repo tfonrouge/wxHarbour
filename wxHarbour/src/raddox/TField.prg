@@ -1107,15 +1107,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
                 ::FFieldReadBlock := FieldBlock( FieldMethod )
                 ::FFieldWriteBlock := FieldBlock( FieldMethod )
-                n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
 
-                /*!
-                 * Check if TField and database field are compatible
-                 * except for TObjectField's here
-                 */
-                IF !::IsDerivedFrom("TObjectField") .AND. !::IsDerivedFrom( ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] )
-                    //RAISE TFIELD ::Name ERROR "Invalid type on TField Class '" + ::FTable:FieldTypes[ ::Table:DbStruct[n][2] ] + "' : <" + FieldMethod + ">"
-                ENDIF
+                n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
 
                 ::FModStamp	:= ::Table:DbStruct[n][2] $ "=^+"
 
@@ -1133,6 +1126,9 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
             ELSE
 
                 ::FDBS_NAME := FieldMethod
+
+                ::FFieldReadBlock := FieldBlock( FieldMethod )
+                ::FFieldWriteBlock := FieldBlock( FieldMethod )
 
             ENDIF
 
