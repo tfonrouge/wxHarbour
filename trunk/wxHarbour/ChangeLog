@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-05-27 10:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TRDOServer_c.cpp
+  *  src/wxbase/miscfuncs/ProcCtrlFuncs.cpp
+     ! Fixed warnings from MinGW/gcc 4.5 compiler. (Thanks to Jerry Finuliar)
+
+
 2010-05-27 10:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * some minor formatting
