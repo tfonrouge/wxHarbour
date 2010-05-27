@@ -87,6 +87,7 @@ PROTECTED:
 	DATA FFieldList
 	DATA FFilter
 	DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
+    DATA FIsTempFile        INIT .F.
 	DATA FFound				INIT .F.
 	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
 	DATA FRecNo				INIT 0
@@ -148,6 +149,7 @@ PUBLIC:
 	METHOD CopyRecord( origin )
 	METHOD Count( bForCondition, bWhileCondition, index, scope )
 	METHOD CreateIndex( index )
+    METHOD CreateTable()
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
 	METHOD Destroy()
@@ -246,6 +248,7 @@ PUBLIC:
 	PROPERTY HasFilter READ GetHasFilter
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
+    PROPERTY IsTempFile READ FIsTempFile
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY PrimaryIndexList READ FPrimaryIndexList
 	PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
@@ -699,6 +702,32 @@ METHOD FUNCTION Count( bForCondition, bWhileCondition, index, scope ) CLASS TTab
 RETURN nCount
 
 /*
+    CreateTable
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION CreateTable() CLASS TTable
+    LOCAL aDbs := {}
+    LOCAL fld
+
+	IF Empty( ::FFieldList )
+		::FFieldList := {}
+		::__DefineFields()
+		IF Empty( ::FFieldList )
+			::DefineFieldsFromDb()
+		ENDIF
+	ENDIF
+
+    FOR EACH fld IN ::FieldList
+        IF fld:IsTableField
+            AAdd( aDbs, { fld:DBS_NAME, fld:DBS_TYPE, fld:DBS_LEN, fld:DBS_DEC } )
+        ENDIF
+    NEXT
+
+    DbCreate( ::TableFileName, aDbs )
+
+RETURN .T.
+
+/*
 	CreateIndex
 	Teo. Mexico 2010
 */
@@ -737,7 +766,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 
 		IF index:temporary
 
-			FClose( HB_FTempCreateEx( @fileName, NIL, NIL, ".dbf" ) )
+			FClose( HB_FTempCreateEx( @fileName, NIL, "t", ".dbf" ) )
 
 			aliasName := "TMP_" + ::ClassName()
 
@@ -1765,7 +1794,8 @@ RETURN Result
 METHOD FUNCTION GetTableFileName() CLASS TTable
     IF Empty( ::FTableFileName )
         IF ::autoCreate
-            FClose( HB_FTempCreateEx( @::FTableFileName, NIL, NIL, ".dbf" ) )
+            FClose( HB_FTempCreateEx( @::FTableFileName, NIL, "t", ".dbf" ) )
+            ::FIsTempFile := .T.
         ENDIF
     ENDIF
 RETURN ::FTableFileName

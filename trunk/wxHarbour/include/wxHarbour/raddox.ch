@@ -102,6 +102,8 @@
 							[ :Label := <label> ] ;;
 							[ :ReadOnly := <.ro.> ] ;;
 							[ :ReUseField := <.ruf.> ] ;;
+							[ :ObjType := <objValue> ] ;;
+							[ :Size := <nSize> ] ;;
 							[ :SetFieldMethod( <xFieldMethod>, <.calc.> ) ] ;;
 							[ :ReadBlock := {|| <readblock> } ] ;;
 							[ :WriteBlock := {|Value| <writeblock> } ] ;;
@@ -110,14 +112,12 @@
 							[ :Group := <cGroup> ] ;;
 							[ :Description := <cDesc> ] ;;
 							[ :PickList := <pickList> ] ;;
-							[ :Size := <nSize> ] ;;
 							[ :DBS_LEN := <nLen> ] ;;
 							[ :DBS_DEC := <nDec> ] ;;
 							[ :Picture := <pict> ] ;;
 							[ :Published := !<.pv.> ] ;;
 							[ :IncrementBlock := <incrementBlock> ] ;;
 							[ :LinkedTableMasterSource := <linkedTableMasterSource> ] ;;
-							[ :ObjValue := <objValue> ] ;;
 							[ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
 							[ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
 							[ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;

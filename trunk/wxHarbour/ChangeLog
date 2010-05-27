@@ -2,6 +2,33 @@
  * $Id$
  */
 
+2010-05-26 22:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * renamed data on TField from "ObjValue" to "ObjType"
+     * changed order on assigning members on TField creation
+
+  *  src/raddox/TAlias.prg
+     * added code to create table if ::IsTempFile
+
+  *  src/raddox/TField.prg
+     + added method:
+       + IsTableField : returns true if field method type = "C" and is not
+         calculated
+     * changed assignation on ::SetFieldMethodType to allow create new
+       table
+     ! Fixed retrieving values from DBS_LEN/DBS_TYPE on TObjectField's
+
+  *  src/raddox/TTable.prg
+     + added prop's:
+       + IsTempFile : true if table is based on temporary data
+     + added method:
+       + CreateTable : creates the physical file for table
+
+  *  src/wxbase/books/wx_AuiNotebook.cpp
+  *  src/wxbase/books/wx_Notebook.cpp
+     % added protection against retriving a non existant page
+
+
 2010-05-26 17:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * removed unneeded method (it's now contained in TTable)

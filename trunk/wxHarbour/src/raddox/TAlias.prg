@@ -236,6 +236,10 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 			::FTableName := table:TableFileName
 			RETURN .T.
 		ENDIF
+        
+        IF table:IsTempFile .AND. !table:CreateTable()
+            RETURN .F.
+        ENDIF
 
 		IF table:DataBase:OpenBlock != NIL
 			IF !table:DataBase:OpenBlock:Eval( table, aliasName )
