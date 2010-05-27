@@ -48,12 +48,12 @@ HB_FUNC( WXKILL )
 {
 	long pid = hb_parnl( 1 );
 	wxSignal sig = ISNIL( 2 ) ? wxSIGTERM : (wxSignal) hb_parni( 2 );
-	wxKillError *rc = NULL;
+	wxKillError rc;
 	int flags = ISNIL( 4 ) ? 0 : hb_parni( 4 );
-	wxKill( pid, sig, rc, flags );
+	wxKill( pid, sig, &rc, flags );
 	if( hb_pcount() > 2 && ISBYREF( 3 ) )
 	{
-		hb_storni( (int &) rc, 3 );
+		hb_storni( (int) rc, 3 );
 	}
 }
 

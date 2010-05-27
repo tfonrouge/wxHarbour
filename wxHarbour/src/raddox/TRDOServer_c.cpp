@@ -174,7 +174,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
 
 					if( ! pDynSym )
 					{
-						wxLogMessage( _T( "Invalid Object Class name." ), nameClass );
+						wxLogMessage( _T( "Invalid Object Class name: %s." ), nameClass );
 						continue;
 					}
 
