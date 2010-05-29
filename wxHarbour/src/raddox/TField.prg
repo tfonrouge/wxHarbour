@@ -34,6 +34,7 @@ PRIVATE:
 	DATA FFieldCodeBlock									// Code Block
 	DATA FFieldWriteBlock									// Code Block to do WRITE
 	DATA FFieldExpression									// Literal Field expression on the Database
+    DATA FHasCalcFieldMethod INIT .F.
 	DATA FPickList											// codeblock to help to pick a value
 	DATA FGroup														// A Text label for grouping
 	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
@@ -124,6 +125,7 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
+    METHOD IndexExpression()
 	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
     METHOD IsTableField()
 	METHOD IsValid( showAlert )
@@ -186,6 +188,7 @@ PUBLISHED:
 	PROPERTY FieldMethod READ GetFieldMethod WRITE SetFieldMethod
 	PROPERTY FieldMethodType READ FFieldMethodType
 	PROPERTY FieldReadBlock READ GetFieldReadBlock
+    PROPERTY FieldWriteBlock READ FFieldWriteBlock
 	PROPERTY Group READ FGroup WRITE SetGroup
 	PROPERTY KeyIndex READ FKeyIndex WRITE SetKeyIndex
 	PROPERTY Label READ GetLabel WRITE SetLabel
@@ -587,6 +590,25 @@ METHOD FUNCTION GetValidValues() CLASS TField
 RETURN ::ValidValues
 
 /*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TField
+    LOCAL exp
+    LOCAL i
+    
+    IF ::FFieldMethodType = "A"
+        exp := ""
+		FOR EACH i IN ::FFieldArrayIndex
+			exp += ::FTable:FieldList[ i ]:IndexExpression
+		NEXT
+    ELSE
+        exp := ::FFieldExpression
+    ENDIF
+
+RETURN exp
+
+/*
     IsTableField
     Teo. Mexico 2010
 */
@@ -903,14 +925,14 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
 		RETURN
 
-	END
+	ENDSWITCH
 
 	IF !::FCalculated .AND. AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
 		RAISE TFIELD ::Name ERROR "SetData(): Table not in Edit or Insert mode..."
 		RETURN
 	ENDIF
 
-	IF ::FReadOnly .OR. ::FModStamp
+	IF ( ::FCalculated .AND. !::FHasCalcFieldMethod ) .OR. ::FReadOnly .OR. ::FModStamp
 		RETURN
 	ENDIF
 
@@ -1143,7 +1165,8 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
         ELSE
         
             IF calcMethod
-
+                
+                ::FHasCalcFieldMethod := .T.
                 ::FFieldWriteBlock := {|value| __ObjSendMsg( ::FTable, "CalcField_" + FieldMethod, value ) }
             ENDIF
 

@@ -87,7 +87,7 @@ PROTECTED:
 	DATA FFieldList
 	DATA FFilter
 	DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
-    DATA FIsTempFile        INIT .F.
+    DATA FIsTempTable        INIT .F.
 	DATA FFound				INIT .F.
 	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
 	DATA FRecNo				INIT 0
@@ -148,7 +148,8 @@ PUBLIC:
 	METHOD ChildSource( tableName )
 	METHOD CopyRecord( origin )
 	METHOD Count( bForCondition, bWhileCondition, index, scope )
-	METHOD CreateIndex( index )
+    METHOD CreateIndex( index )
+	METHOD CreateTempIndex( index )
     METHOD CreateTable()
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
@@ -248,7 +249,7 @@ PUBLIC:
 	PROPERTY HasFilter READ GetHasFilter
 	PROPERTY Instance READ GetInstance
 	PROPERTY Instances READ FInstances
-    PROPERTY IsTempFile READ FIsTempFile
+    PROPERTY IsTempTable READ FIsTempTable
 	PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
 	PROPERTY PrimaryIndexList READ FPrimaryIndexList
 	PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
@@ -437,10 +438,13 @@ METHOD FUNCTION AddRec() CLASS TTable
 	IF !( Result := ::Alias:AddRec(index) )
 		RETURN Result
 	ENDIF
-
-	::Reset() // Reset record data to default values
+    
+    ::FEof := .F.
+    ::FBof := .F.
 
 	::FRecNo := ::Alias:RecNo
+
+	::Reset() // Reset record data to default values
 
 	::SetState( dsInsert )
 	::FSubState := dssAdding
@@ -456,7 +460,7 @@ METHOD FUNCTION AddRec() CLASS TTable
 
 		FOR EACH AField IN ::FFieldList
 			IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent .AND. AField:WrittenValue == NIL
-				IF AField:DefaultValue != NIL .OR. AField:AutoIncrement
+				IF !AField:Calculated .AND. ( AField:DefaultValue != NIL .OR. AField:AutoIncrement )
 					AField:SetData()
 				ENDIF
 			ENDIF
@@ -728,10 +732,23 @@ METHOD FUNCTION CreateTable() CLASS TTable
 RETURN .T.
 
 /*
-	CreateIndex
-	Teo. Mexico 2010
+    CreateIndex
+    Teo. Mexico 2010
 */
 METHOD FUNCTION CreateIndex( index ) CLASS TTable
+    LOCAL indexExp
+    
+    indexExp := index:IndexExpression()
+
+    CREATE INDEX ON indexExp TAG index:Name ADDITIVE
+
+RETURN .T.
+
+/*
+	CreateTempIndex
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION CreateTempIndex( index ) CLASS TTable
 	LOCAL fileName
 	LOCAL pathName
 	LOCAL aliasName
@@ -1054,6 +1071,11 @@ METHOD PROCEDURE Destroy() CLASS TTable
 	::tableState := NIL
 
 	::FActive := .F.
+    
+    IF ::IsTempTable
+        ::Alias:DbCloseArea()
+        HB_DbDrop( ::TableFileName )
+    ENDIF
 
 RETURN
 
@@ -1282,7 +1304,7 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 		
 		HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
 
-		::Alias:DbCloseAll()
+		::Alias:DbCloseArea()
 		
 		HB_FTempCreateEx( @tempName, sPath, "tmp", ".dbf" )
 		
@@ -1795,7 +1817,7 @@ METHOD FUNCTION GetTableFileName() CLASS TTable
     IF Empty( ::FTableFileName )
         IF ::autoCreate
             FClose( HB_FTempCreateEx( @::FTableFileName, NIL, "t", ".dbf" ) )
-            ::FIsTempFile := .T.
+            ::FIsTempTable := .T.
         ENDIF
     ENDIF
 RETURN ::FTableFileName
@@ -1858,7 +1880,7 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	/*!
 	* Make sure that database is open here
 	*/
-	IF ::FAlias == NIL .AND. !Empty( ::TableFileName )
+	IF ::FAlias == NIL// .AND. !Empty( ::TableFileName )
 		::FAlias := TAlias():New( Self )
 	ENDIF
 
@@ -1977,7 +1999,7 @@ METHOD PROCEDURE OnDestruct() CLASS TTable
 	IF ::aliasTmp != NIL
 		dbfName := ::aliasTmp:DbInfo( DBI_FULLPATH )
 		indexName := ::aliasTmp:DbOrderInfo( DBOI_FULLPATH )
-		::aliasTmp:DbCloseAll()
+		::aliasTmp:DbCloseArea()
 		FErase( dbfName )
 		FErase( indexName )
 	ENDIF

@@ -2,6 +2,30 @@
  * $Id$
  */
 
+2010-05-28 20:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * minor formatting
+
+  *  src/raddox/TAlias.prg
+     * renamed DbCloseAll() to DbCloseArea()
+     ! Fixed using not shared mode on TempTable's
+
+  *  src/raddox/TField.prg
+     * added FHasCalcFieldMethod to indicate that method exists on CalcFields
+     + added IndexExpression to return the value to use on creating index
+     + added property FieldWriteBlock
+     ! Fixed return on SetData if FHasCalcFieldMethod
+
+  *  src/raddox/TIndex.prg
+     * added IndexExpression to return the value to use on creating index
+     * renamed CreateIndex to CreateTempIndex
+     + added CreateIndex : create regular indexes
+
+  *  src/raddox/TTable.prg
+     * renamed IsTempFile to IsTempTable
+     ! Fixed setting values to FEof/FBof on AddRecord
+     * added code to remove temp files on table destroy
+
 2010-05-27 18:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * removed ::FCalculated from ::IsReadOnly calculation
@@ -11,8 +35,6 @@
      * SetAsVariant calls inmediatly SetData for ::FCalculated
      % general improvements to use CalcFields as regular fields except that
        doesn't write/read from table
-
-
 
 2010-05-27 10:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TRDOServer_c.cpp

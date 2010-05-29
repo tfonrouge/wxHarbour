@@ -37,7 +37,7 @@ PUBLIC:
 
 	METHOD __DbZap()
 	METHOD AddRec( index )
-	METHOD DbCloseAll()
+	METHOD DbCloseArea()
 	METHOD DbDelete()
 	METHOD DbGoBottom( indexName )
 	METHOD DbGoTo( RecNo )
@@ -155,10 +155,10 @@ METHOD FUNCTION AddRec( index ) CLASS TAlias
 RETURN Result
 
 /*
-	DbCloseAll
+	DbCloseArea
 	Teo. Mexico 2010
 */
-METHOD PROCEDURE DbCloseAll() CLASS TAlias
+METHOD PROCEDURE DbCloseArea() CLASS TAlias
 	IF HB_HHasKey( ::FInstances, ::FTableName )
 		( ::workArea )->( DbCloseArea() )
 		HB_HDel( ::FInstances, ::FTableName )
@@ -237,8 +237,11 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 			RETURN .T.
 		ENDIF
         
-        IF table:IsTempFile .AND. !table:CreateTable()
-            RETURN .F.
+        IF table:IsTempTable
+            IF !table:CreateTable()
+                RETURN .F.
+            ENDIF
+            ::lShared := .F.
         ENDIF
 
 		IF table:DataBase:OpenBlock != NIL
