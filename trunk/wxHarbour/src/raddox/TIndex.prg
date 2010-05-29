@@ -79,6 +79,7 @@ PUBLIC:
 	METHOD Get4SeekLast( blk, keyVal, softSeek )
 	METHOD GetAlias()
 	METHOD GetCurrentRecord()
+    METHOD IndexExpression()
 	METHOD InsideScope()
 	
 	METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
@@ -188,9 +189,15 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, t
 	/* check for a valid index  order */
 	IF ::FTable:Alias:OrdNumber( ::TagName ) = 0
 		//RAISE ERROR "Order Name not valid '" + ::Name + "'"
-		IF ! ::FTable:CreateIndex( Self )
-			RAISE ERROR "Failure to create Index '" + ::Name + "'"
-		ENDIF
+        IF ::FTable:IsTempTable
+            IF ! ::FTable:CreateIndex( Self )
+                RAISE ERROR "Failure to create Index '" + ::Name + "'"
+            ENDIF
+        ELSE
+            IF ! ::FTable:CreateTempIndex( Self )
+                RAISE ERROR "Failure to create temporal Index '" + ::Name + "'"
+            ENDIF
+        ENDIF
 	ENDIF
 
 RETURN Self
@@ -402,7 +409,7 @@ METHOD FUNCTION GetField( nIndex ) CLASS TIndex
 	CASE 3
 		AField := ::FKeyField
 		EXIT
-	END
+	ENDSWITCH
 
 RETURN AField
 
@@ -439,6 +446,23 @@ METHOD FUNCTION GetMasterKeyVal() CLASS TIndex
 	ENDIF
 
 RETURN ::FMasterKeyField:GetKeyVal
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TIndex
+    LOCAL exp := ""
+
+    IF ::FMasterKeyField != NIL
+        exp += ::FMasterKeyField:IndexExpression
+    ENDIF
+
+    IF ::FKeyField != NIL
+        exp += ::FKeyField:IndexExpression
+    ENDIF
+
+RETURN exp
 
 /*
 	InsideScope
@@ -545,7 +569,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 	OTHERWISE
 		wxhAlert("! : Not a Valid Field Identifier...")
 		RETURN
-	END
+	ENDSWITCH
 
 	/* Assign PrimaryKeyComponent value */
 	IF ::FTable:PrimaryIndex == Self /* check if index is the Primary index */
@@ -584,7 +608,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 		AField:KeyIndex := Self
 		::FKeyField := AField
 		EXIT
-	END
+	ENDSWITCH
 
 RETURN
 
