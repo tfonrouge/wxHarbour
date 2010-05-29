@@ -65,6 +65,8 @@ src/wxbase/events/*.prg
 src/wxbase/events/*.cpp
 src/wxbase/image/*.prg
 src/wxbase/image/*.cpp
+src/wxbase/html/*.prg
+src/wxbase/html/*.cpp
 src/wxbase/manwindows/*.prg
 src/wxbase/manwindows/*.cpp
 src/wxbase/menu/*.prg
