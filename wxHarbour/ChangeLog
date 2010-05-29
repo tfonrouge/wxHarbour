@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-05-29 01:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxharbour.hbp
+     ! Updated script to include the src/html source dir
+       (thanks to Anonymous who report this in SF-Tracker)
+
 2010-05-28 20:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * minor formatting
