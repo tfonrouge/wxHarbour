@@ -52,8 +52,8 @@ HBLIBVER = 21
 !endif
 
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
-!ifndef HBPATH_INSTALL
-HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
+!ifndef HB_INSTALL_PREFIX
+HB_INSTALL_PREFIX = C:\Hrbborland
 !endif
 
 # [x]Harbour compiler executable name 
@@ -148,13 +148,13 @@ HBEXITSL = 2
 !endif
 
 # Where to search for Harbour includes 
-!ifndef HB_INC_PATH
-HB_INC_PATH = $(HB_INC_INSTALL)
+!ifndef HB_INC_INSTALL
+HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 !endif
 
 # Where to search for Harbour libs 
-!ifndef HB_LIB_PATH
-HB_LIB_PATH = $(HB_LIB_INSTALL)
+!ifndef HB_LIB_INSTALL
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib
 !endif
 
 # Where the object and lib files are built 
@@ -167,8 +167,8 @@ __BUILDDIR__ = obj\bcc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-!ifndef WX_PATH
-WX_PATH = C:\wxWidgets-2.8.11
+!ifndef HB_WITH_WX
+HB_WITH_WX = C:\wxWidgets-2.8.11
 !endif
 
 # Encoding [ansi,unicode]
@@ -189,18 +189,18 @@ WX_BUILD = release
 
 ### Variables: ###
 
-PREFIX = $(HBPATH_INSTALL)
-RADIOBOX_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_PATH) -O2 $(p) $(p_0) \
+PREFIX = $(HB_INSTALL_PREFIX)
+RADIOBOX_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_INSTALL) -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO) -Iinclude\wxHarbour -D__WXMSW__ \
-	-I$(HB_INC_PATH)\wxHarbour -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour \
+	-I$(HB_INC_INSTALL)\wxHarbour -I$(HB_WITH_WX)\Include \
+	-I$(HB_WITH_WX)\lib\bcc_lib\msw$(WX_LIBID) -I..\..\include\wxHarbour \
 	$(CPPFLAGS) -D__HARBOUR__
 RADIOBOX_OBJECTS =  \
 	$(__BUILDDIR__)\radiobox_radiobox.obj
 RADIOBOX_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) \
-	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\bcc_lib\msw$(WX_LIBID) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_INSTALL) $(p) $(p_0) \
+	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_INSTALL)\wxHarbour \
+	-I$(HB_WITH_WX)\Include -I$(HB_WITH_WX)\lib\bcc_lib\msw$(WX_LIBID) \
 	-I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
@@ -357,7 +357,7 @@ clean:
 	-if exist .\radiobox.ils del .\radiobox.ils
 
 .\radiobox.exe: $(RADIOBOX_OBJECTS)
-	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -aa -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\bcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS) @&&|
+	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -aa -L$(HB_LIB_INSTALL) $(__WX_DEBUG_INFO) -L$(HB_WITH_WX)\lib\bcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS) @&&|
 	c0w32.obj $(RADIOBOX_OBJECTS),$@,, $(__WXHLIBNAME_p) $(__LIB_HBEXTERN_p) hbdebug.lib $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) hbcplr.lib $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib advapi32.lib ws2_32.lib winspool.lib comctl32.lib comdlg32.lib shell32.lib uuid.lib rpcrt4.lib wsock32.lib ole32.lib oleaut32.lib mpr.lib winmm.lib mapi32.lib imm32.lib msimg32.lib wininet.lib import32.lib cw32.lib,,
 |
 

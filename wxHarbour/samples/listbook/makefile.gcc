@@ -34,7 +34,7 @@ HBLIBSTYPE ?= static
 HBLIBVER ?= 21
 
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
-HBPATH_INSTALL ?= $(HB_INSTALL_PREFIX)
+HB_INSTALL_PREFIX ?= C:\Hrbmingw
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -94,10 +94,10 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Where to search for Harbour includes 
-HB_INC_PATH ?= $(HB_INC_INSTALL)
+HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
 
 # Where to search for Harbour libs 
-HB_LIB_PATH ?= $(HB_LIB_INSTALL)
+HB_LIB_INSTALL ?= $(HB_INSTALL_PREFIX)\lib
 
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj\gcc_win32
@@ -107,7 +107,7 @@ __BUILDDIR__ ?= obj\gcc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-WX_PATH ?= C:\wxWidgets-2.8.11
+HB_WITH_WX ?= C:\wxWidgets-2.8.11
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -125,17 +125,17 @@ WX_BUILD ?= release
 
 _WL_STARTGROUP = -Wl,--start-group
 _WL_ENDGROUP = -Wl,--end-group
-PREFIX = $(HBPATH_INSTALL)
-LISTBOOK_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
-	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+PREFIX = $(HB_INSTALL_PREFIX)
+LISTBOOK_CFLAGS = -I$(HB_INC_INSTALL) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO) \
+	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_INSTALL)\wxHarbour \
+	-I$(HB_WITH_WX)\Include -I$(HB_WITH_WX)\lib\gcc_lib\msw$(WX_LIBID) \
 	-I..\..\include\wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
 LISTBOOK_OBJECTS =  \
 	$(__BUILDDIR__)\listbook_listbook.o
 LISTBOOK_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) \
-	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(WX_LIBID) \
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_INSTALL) $(p) $(p_0) \
+	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_INSTALL)\wxHarbour \
+	-I$(HB_WITH_WX)\Include -I$(HB_WITH_WX)\lib\gcc_lib\msw$(WX_LIBID) \
 	-I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
@@ -300,7 +300,7 @@ clean:
 	-if exist .\listbook.exe del .\listbook.exe
 
 .\listbook.exe: $(LISTBOOK_OBJECTS)
-	$(CXX) -o $@ $(LISTBOOK_OBJECTS)  -Wl,--subsystem,windows -mwindows -L$(HB_LIB_PATH) $(__WX_DEBUG_INFO) -L$(WX_PATH)\lib\gcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -ladvapi32 -lws2_32 -lwinspool -lcomctl32 -lcomdlg32 -lshell32 -luuid -lrpcrt4 -lwsock32 -lole32 -loleaut32 -lmpr -lwinmm -lmapi32 -limm32 -lmsimg32 -lwininet
+	$(CXX) -o $@ $(LISTBOOK_OBJECTS)  -Wl,--subsystem,windows -mwindows -L$(HB_LIB_INSTALL) $(__WX_DEBUG_INFO) -L$(HB_WITH_WX)\lib\gcc_lib -L..\..\$(__BUILDDIR__) $(LDFLAGS)  $(__WXHLIBNAME_p) $(_WL_STARTGROUP) $(__LIB_HBEXTERN_p) -lhbdebug $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) -lhbwin $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) -lhbcplr $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) $(_WL_ENDGROUP) -lwxmsw28$(WX_LIBID)_richtext -lwxmsw28$(WX_LIBID)_aui -lwxmsw28$(WX_LIBID)_core -lwxbase28$(WX_LIBID) -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxregex$(WX_LIBID) -lwxmsw28$(WX_LIBID)_adv -lwxmsw28$(WX_LIBID)_html -lwxmsw28$(WX_LIBID)_xrc -lwxbase28$(WX_LIBID)_net -lwxbase28$(WX_LIBID)_xml -lwxexpat -lkernel32 -luser32 -lgdi32 -ladvapi32 -lws2_32 -lwinspool -lcomctl32 -lcomdlg32 -lshell32 -luuid -lrpcrt4 -lwsock32 -lole32 -loleaut32 -lmpr -lwinmm -lmapi32 -limm32 -lmsimg32 -lwininet
 
 run: all
 	.\listbook.exe

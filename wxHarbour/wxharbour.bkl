@@ -46,11 +46,13 @@
 		<install-headers-to>$(PREFIX)</install-headers-to>
 	</wxharbour-lib>
 
+    <!--
 	<subproject id="demos">
 		<dir>demos</dir>
 		<depends>all</depends>
 		<installable>no</installable>
 	</subproject>
+    -->
 
 	<if cond="TOOLSET=='unix'">
 		<action id="sudoinstall">

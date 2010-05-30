@@ -28,7 +28,7 @@ CPPFLAGS ?=
 HBLIBSTYPE ?= static
 
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
-HBPATH_INSTALL ?= $(HB_INSTALL_PREFIX)
+HB_INSTALL_PREFIX ?= C:\Hrbmingw
 
 # [x]Harbour compiler executable name 
 HBCC ?= harbour
@@ -88,7 +88,7 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Where to search for Harbour includes 
-HB_INC_PATH ?= $(HB_INC_INSTALL)
+HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
 
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj\gcc_win32
@@ -98,7 +98,7 @@ __BUILDDIR__ ?= obj\gcc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-WX_PATH ?= C:\wxWidgets-2.8.11
+HB_WITH_WX ?= C:\wxWidgets-2.8.11
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -114,30 +114,17 @@ WX_BUILD ?= release
 
 ### Variables: ###
 
-MAKEARGS = EXEC_PREFIX="$(EXEC_PREFIX)" LINK_DLL_FLAGS="$(LINK_DLL_FLAGS)" \
-	LINK_MODULE_FLAGS="$(LINK_MODULE_FLAGS)" CC="$(CC)" CXX="$(CXX)" \
-	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" HBLIBSTYPE="$(HBLIBSTYPE)" \
-	HBLIBVER="$(HBLIBVER)" HBPATH_INSTALL="$(HBPATH_INSTALL)" HBCC="$(HBCC)" \
-	HBMT="$(HBMT)" HBLIB_TIP="$(HBLIB_TIP)" HBLIB_HBNETIO="$(HBLIB_HBNETIO)" \
-	HBLIB_FM="$(HBLIB_FM)" HBLIB_CT="$(HBLIB_CT)" HBLIB_GTWIN="$(HBLIB_GTWIN)" \
-	HBLIB_GTXVT="$(HBLIB_GTXVT)" HBLIB_GTWVT="$(HBLIB_GTWVT)" \
-	HBLIB_GTCGI="$(HBLIB_GTCGI)" HBLIB_GTSTD="$(HBLIB_GTSTD)" \
-	HBLIB_GTPCA="$(HBLIB_GTPCA)" HBFLAGS="$(HBFLAGS)" HBBUILD="$(HBBUILD)" \
-	HBOUTSRCLEVEL="$(HBOUTSRCLEVEL)" HBWARNL="$(HBWARNL)" \
-	HBEXITSL="$(HBEXITSL)" HB_BIN_PATH="$(HB_BIN_PATH)" \
-	HB_INC_PATH="$(HB_INC_PATH)" HB_LIB_PATH="$(HB_LIB_PATH)" \
-	__BUILDDIR__="$(__BUILDDIR__)" WX_PATH="$(WX_PATH)" \
-	WX_ENCODING="$(WX_ENCODING)" WX_BUILD="$(WX_BUILD)"
 CPPDEPS = -MT$@ -MF$@.d -MD -MP
-PREFIX = $(HBPATH_INSTALL)
-WXHARBOUR_CFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) $(__WX_DEBUG_INFO_2) \
-	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) \
-	$(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I$(HB_INC_PATH) -W -Wall -O2 $(p) $(p_0) \
+PREFIX = $(HB_INSTALL_PREFIX)
+WXHARBOUR_CFLAGS = -I$(HB_INC_INSTALL) -W -Wall -O2 $(p) $(p_0) \
 	$(__WX_DEBUG_INFO_2) -Iinclude\wxHarbour -D__WXMSW__ \
-	-I$(HB_INC_PATH)\wxHarbour -I$(WX_PATH)\Include \
-	-I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	-I$(HB_INC_INSTALL)\wxHarbour -I$(HB_WITH_WX)\Include \
+	-I$(HB_WITH_WX)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
+	-D__HARBOUR__ -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I$(HB_INC_INSTALL) -W -Wall -O2 $(p) $(p_0) \
+	$(__WX_DEBUG_INFO_2) -Iinclude\wxHarbour -D__WXMSW__ \
+	-I$(HB_INC_INSTALL)\wxHarbour -I$(HB_WITH_WX)\Include \
+	-I$(HB_WITH_WX)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES) $(CPPFLAGS) \
 	-D__HARBOUR__
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhfuncs.o \
@@ -322,9 +309,10 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_Validator.o \
 	$(__BUILDDIR__)\wxHarbour_wx_XmlDocument.o
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_PATH) $(p) $(p_0) \
-	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_PATH)\wxHarbour \
-	-I$(WX_PATH)\Include -I$(WX_PATH)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES)
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 -I$(HB_INC_INSTALL) $(p) $(p_0) \
+	-Iinclude\wxHarbour -D__WXMSW__ -I$(HB_INC_INSTALL)\wxHarbour \
+	-I$(HB_WITH_WX)\Include \
+	-I$(HB_WITH_WX)\lib\gcc_lib\msw$(__WX_LIBID_FILENAMES)
 
 ### Conditionally set variables: ###
 
@@ -396,7 +384,6 @@ clean:
 	-if exist $(__BUILDDIR__)\*.o del $(__BUILDDIR__)\*.o
 	-if exist $(__BUILDDIR__)\*.d del $(__BUILDDIR__)\*.d
 	-if exist $(__BUILDDIR__)\lib$(WXHLIBNAME).a del $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) clean
 
 $(__BUILDDIR__)\lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	if exist $@ del $@
@@ -474,9 +461,6 @@ uninstall_wxHarbour_headers:
 	-if exist $(PREFIX)\include\wxHarbour\wxh\taskbar.ch -del $(PREFIX)\include\wxHarbour\wxh\taskbar.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
 	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
-
-demos: all
-	$(MAKE) -C demos -f makefile.gcc $(MAKEARGS) all
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
@@ -1118,7 +1102,7 @@ $(__BUILDDIR__)\wxHarbour_wx_XmlDocument.o: ./src/wxbase/xmlclasses/wx_XmlDocume
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxHarbour uninstall_wxHarbour \
-	install_wxHarbour_headers uninstall_wxHarbour_headers demos
+	install_wxHarbour_headers uninstall_wxHarbour_headers
 
 
 SHELL := $(COMSPEC)

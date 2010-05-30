@@ -416,7 +416,6 @@ clean:
 	rm -f $(__BUILDDIR__)/*.o
 	rm -f $(__BUILDDIR__)/*.d
 	rm -f $(__BUILDDIR__)/lib$(WXHLIBNAME).a
-	-(cd demos && $(MAKE) clean)
 
 $(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	rm -f $@
@@ -443,9 +442,6 @@ uninstall_wxHarbour_headers:
 	for f in $(WXHARBOUR_HEADERS); do \
 	rm -f $(DESTDIR)$(prefix)/$$f; \
 	done
-
-demos: all
-	(cd demos && $(MAKE) all)
 
 sudoinstall: all
 	sudo make install
@@ -1090,7 +1086,7 @@ $(__BUILDDIR__)/wxHarbour_wx_XmlDocument.o: ./src/wxbase/xmlclasses/wx_XmlDocume
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_wxHarbour uninstall_wxHarbour \
-	install_wxHarbour_headers uninstall_wxHarbour_headers demos
+	install_wxHarbour_headers uninstall_wxHarbour_headers
 
 
 # Dependencies tracking:

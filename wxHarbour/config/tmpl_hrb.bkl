@@ -60,20 +60,20 @@ valid values are
 	</option>
 
 	<if cond="FORMAT!='gnu'">
-		<set var="HB_INSTALL_PREFIX">
-			$(envvar("HB_INSTALL_PREFIX"))
-		</set>
-		<option name="HBPATH_INSTALL">
-			<default-value>$(HB_INSTALL_PREFIX)</default-value>
+		<option name="HB_INSTALL_PREFIX">
+			<default-value>C:\Hrb$(FORMAT)</default-value>
 			<description>
 				Path for the installed [x]Harbour compiler (bin,lib and include dirs)
 			</description>
 		</option>
 		<set var="PREFIX" make_var="1">
-			$(HBPATH_INSTALL)
+			$(HB_INSTALL_PREFIX)
+		</set>
+		<set var="__HB_INSTALL_PREFIX">
+			$(HB_INSTALL_PREFIX)
 		</set>
 	</if>
-	
+
 	<option name="HBCC">
 		<default-value>harbour</default-value>
 		<description>
@@ -496,21 +496,9 @@ Standard flags for Harbour compiler
 		</if>
 	</set>
 
-	<if cond="TOOLSET=='win32'">
-		<set var="__HB_INC_PATH">
-			$(envvar("HB_INC_INSTALL"))
-		</set>
-	</if>
-
 	<if cond="TOOLSET=='unix'">
 		<set var="__HB_LIB_ARCH">
 			$(DOLLAR)(shell if uname -m | grep 64 >/dev/null ; then echo "64" ; else echo "" ; fi)
-		</set>
-	</if>
-
-	<if cond="TOOLSET=='win32'">
-		<set var="__HB_LIB_PATH">
-			$(envvar("HB_LIB_INSTALL"))
 		</set>
 	</if>
 
@@ -528,9 +516,9 @@ Where to search for the Harbour compiler
 	</option>
 
 	<if cond="TOOLSET=='win32'">
-		<option name="HB_INC_PATH" category="path">
-			<default-value force="1">
-				$(__HB_INC_PATH)
+		<option name="HB_INC_INSTALL" category="path">
+			<default-value>
+				$(__HB_INSTALL_PREFIX)\include
 			</default-value>
 			<description>
 				Where to search for Harbour includes
@@ -550,9 +538,9 @@ Where to search for the Harbour compiler
 	</if>
 
 	<if cond="TOOLSET=='win32'">
-		<option name="HB_LIB_PATH" category="path">
+		<option name="HB_LIB_INSTALL" category="path">
 			<default-value>
-				$(__HB_LIB_PATH)
+				$(__HB_INSTALL_PREFIX)\lib
 			</default-value>
 			<description>
 				Where to search for Harbour libs
@@ -594,7 +582,7 @@ Where to search for the Harbour compiler
 	</set>
 
 	<if cond="TOOLSET=='win32'">
-	<option name="WX_PATH" category="path">
+	<option name="HB_WITH_WX" category="path">
 		<default-value>
 			C:\wxWidgets-2.8.11
 		</default-value>
@@ -755,7 +743,7 @@ Where is wxWidgets installed
 			<lib-path>/usr/X11R6/lib</lib-path>
 		</if>
 		<if cond="TOOLSET=='win32'">
-			<lib-path>$(HB_LIB_PATH)</lib-path>
+			<lib-path>$(HB_LIB_INSTALL)</lib-path>
 		</if>
 		<if cond="COMPILER=='gcc'">
 			<ldlibs>$(_WL_STARTGROUP)</ldlibs>
@@ -838,7 +826,7 @@ Where is wxWidgets installed
 
 		<!-- includes -->
 		<if cond="TOOLSET=='win32'">
-			<include>$(HB_INC_PATH)</include>
+			<include>$(HB_INC_INSTALL)</include>
 		</if>
 
 		<if cond="TOOLSET=='unix'">
@@ -875,22 +863,22 @@ Where is wxWidgets installed
 		<include>include/wxHarbour</include>
 		<if cond="TOOLSET=='win32'">
 			<define>__WXMSW__</define>
-			<include>$(HB_INC_PATH)/wxHarbour</include>
-			<include>$(WX_PATH)/Include</include>
-			<include>$(WX_PATH)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
+			<include>$(HB_INC_INSTALL)/wxHarbour</include>
+			<include>$(HB_WITH_WX)/Include</include>
+			<include>$(HB_WITH_WX)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
 		</if>
 		<if cond="TOOLSET=='unix'">
 			<include>/usr/include/wxHarbour</include>
 			<include>/usr/local/include/wxHarbour</include>
 		</if>
 	</template>
-	
+
 	<template id="__wxwidgets_libs">
 		<if cond="TOOLSET=='unix'">
 			<ldlibs>`wx-config --libs`</ldlibs>
 		</if>
 		<if cond="TOOLSET=='win32'">
-			<lib-path>$(WX_PATH)/lib/$(COMPILER)_lib</lib-path>
+			<lib-path>$(HB_WITH_WX)/lib/$(COMPILER)_lib</lib-path>
 		</if>
 		<if cond="TOOLSET=='win32'">
 			<sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>

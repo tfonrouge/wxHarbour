@@ -33,7 +33,7 @@ HBLIBSTYPE = static
 HBLIBVER = 21
 
 # Path for the installed [x]Harbour compiler (bin,lib and include dirs) 
-HBPATH_INSTALL = $(HB_INSTALL_PREFIX)
+HB_INSTALL_PREFIX = C:\Hrbmsvc
 
 # [x]Harbour compiler executable name 
 HBCC = harbour
@@ -93,10 +93,10 @@ HBWARNL = 3
 HBEXITSL = 2
 
 # Where to search for Harbour includes 
-HB_INC_PATH = $(HB_INC_INSTALL)
+HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 
 # Where to search for Harbour libs 
-HB_LIB_PATH = $(HB_LIB_INSTALL)
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib
 
 # Where the object and lib files are built 
 __BUILDDIR__ = obj\vc_win32
@@ -106,7 +106,7 @@ __BUILDDIR__ = obj\vc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-WX_PATH = C:\wxWidgets-2.8.11
+HB_WITH_WX = C:\wxWidgets-2.8.11
 
 # Encoding [ansi,unicode]
 WX_ENCODING = unicode
@@ -122,19 +122,19 @@ WX_BUILD = release
 
 ### Variables: ###
 
-PREFIX = $(HBPATH_INSTALL)
-HELLOWORLD_CFLAGS = /MD$(__WX_DEBUG_INFO_10) /DWIN32 /I$(HB_INC_PATH) /W4 /O2 \
+PREFIX = $(HB_INSTALL_PREFIX)
+HELLOWORLD_CFLAGS = /MD$(__WX_DEBUG_INFO_10) /DWIN32 /I$(HB_INC_INSTALL) /W4 /O2 \
 	/D_WINDOWS $(p) $(p_0) $(__WX_DEBUG_INFO_7) $(p_1) /Fd.\helloworld.pdb \
-	/Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
+	/Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_INSTALL)\wxHarbour \
+	/I$(HB_WITH_WX)\Include /I$(HB_WITH_WX)\lib\vc_lib\msw$(WX_LIBID) \
 	/I..\..\include\wxHarbour $(CPPFLAGS) -D__HARBOUR__
 HELLOWORLD_OBJECTS =  \
 	$(__BUILDDIR__)\helloworld_helloworld.obj
 HELLOWORLD_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_PATH) /D_WINDOWS \
-	$(p) $(p_0) $(p_1) /Iinclude\wxHarbour /D__WXMSW__ /I$(HB_INC_PATH)\wxHarbour \
-	/I$(WX_PATH)\Include /I$(WX_PATH)\lib\vc_lib\msw$(WX_LIBID) \
-	/I..\..\include\wxHarbour
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 /I$(HB_INC_INSTALL) /D_WINDOWS \
+	$(p) $(p_0) $(p_1) /Iinclude\wxHarbour /D__WXMSW__ \
+	/I$(HB_INC_INSTALL)\wxHarbour /I$(HB_WITH_WX)\Include \
+	/I$(HB_WITH_WX)\lib\vc_lib\msw$(WX_LIBID) /I..\..\include\wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -299,7 +299,7 @@ clean:
 	-if exist .\helloworld.pdb del .\helloworld.pdb
 
 .\helloworld.exe: $(HELLOWORLD_OBJECTS)
-	link /NOLOGO /OUT:$@  /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_PATH) $(__WX_DEBUG_INFO_8) /pdb:".\helloworld.pdb" $(__WX_DEBUG_INFO_12) /LIBPATH:$(WX_PATH)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
+	link /NOLOGO /OUT:$@  /SUBSYSTEM:WINDOWS /LIBPATH:$(HB_LIB_INSTALL) $(__WX_DEBUG_INFO_8) /pdb:".\helloworld.pdb" $(__WX_DEBUG_INFO_12) /LIBPATH:$(HB_WITH_WX)\lib\vc_lib /LIBPATH:..\..\$(__BUILDDIR__) $(LDFLAGS) @<<
 	$(HELLOWORLD_OBJECTS)   $(__WXHLIBNAME_p) $(__LIB_HBEXTERN_p) hbdebug.lib $(__LIB_HBVM_p) $(__LIB_HBRTL_p) $(__LIB_HBLANG_p) $(__LIB_HBCPAGE_p) $(__LIB_GTCGI_p) $(__LIB_GTSTD_p) $(__LIB_GTPCA_p) $(__LIB_GTXVT_p) $(__LIB_GTWIN_p) $(__LIB_GTWVT_p) hbwin.lib $(__LIB_HBRDD_p) $(__LIB_HBUDDALL_p) $(__LIB_HBUSRRDD_p) $(__LIB_RDDNTX_p) $(__LIB_RDDCDX_p) $(__LIB_RDDNSX_p) $(__LIB_RDDFPT_p) $(__LIB_HBHSX_p) $(__LIB_HBSIX_p) $(__LIB_HBMACRO_p) hbcplr.lib $(__LIB_HBPP_p) $(__LIB_HBCOMMON_p) $(__LIB_HBPCRE_p) $(__LIB_HBFM_p) $(__LIB_HBCT_p) $(__LIB_HBTIP_p) $(__LIB_HBNETIO_p) $(__SLIB_HARBOUR_p) wxmsw28$(WX_LIBID)_richtext.lib wxmsw28$(WX_LIBID)_aui.lib wxmsw28$(WX_LIBID)_core.lib wxbase28$(WX_LIBID).lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex$(WX_LIBID).lib wxmsw28$(WX_LIBID)_adv.lib wxmsw28$(WX_LIBID)_html.lib wxmsw28$(WX_LIBID)_xrc.lib wxbase28$(WX_LIBID)_net.lib wxbase28$(WX_LIBID)_xml.lib wxexpat.lib kernel32.lib user32.lib gdi32.lib advapi32.lib ws2_32.lib winspool.lib comctl32.lib comdlg32.lib shell32.lib uuid.lib rpcrt4.lib wsock32.lib ole32.lib oleaut32.lib mpr.lib winmm.lib mapi32.lib imm32.lib msimg32.lib wininet.lib
 <<
 
