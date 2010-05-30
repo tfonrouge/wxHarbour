@@ -1643,7 +1643,7 @@ PROTECTED:
 	DATA FDefaultValue INIT {|| HB_DateTime() }
 	DATA FType INIT "DateTime"
 	DATA FValType INIT "C"
-	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
+	METHOD GetEmptyValue BLOCK {|| HB_CToT("") }
 PUBLIC:
 
     CLASSDATA fmtDate INIT "YYYY-MM-DD"
@@ -1676,7 +1676,7 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateTimeField
 		Super:SetAsVariant( variant )
 		EXIT
 	CASE 'D'
-		Super:SetAsVariant( HB_DateTime( variant ) )
+		Super:SetAsVariant( HB_DToT( variant ) )
 		EXIT
     CASE 'N'
         Super:SetAsVariant( HB_NToT( variant ) )
