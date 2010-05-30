@@ -1055,7 +1055,7 @@ RETURN .T.
 */
 METHOD PROCEDURE Destroy() CLASS TTable
 
-	IF ::MasterSource != NIL
+	IF HB_IsObject( ::MasterSource )
 		IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ObjectH )
 			HB_HDel( ::MasterSource:DetailSourceList, ::ObjectH )
 		ENDIF
@@ -1636,8 +1636,8 @@ METHOD FUNCTION GetFieldTypes CLASS TTable
 		::FFieldTypes['8'] := "TFloatField"			/* HB_FT_DOUBLE */
 		::FFieldTypes['B'] := "TFloatField"			/* HB_FT_DOUBLE */
 
-		::FFieldTypes['T'] := "TTimeField"			/* HB_FT_DAYTIME(8) HB_FT_TIME(4) */
-		::FFieldTypes['@'] := "TDayTimeField"		/* HB_FT_DAYTIME */
+		::FFieldTypes['T'] := "TTimeField"			/* HB_FT_TIME(4) */
+		::FFieldTypes['@'] := "TDateTimeField"		/* HB_FT_TIMESTAMP */
 		::FFieldTypes['='] := "TModTimeField"		/* HB_FT_MODTIME */
 		::FFieldTypes['^'] := "TRowVerField"		/* HB_FT_ROWVER */
 		::FFieldTypes['+'] := "TAutoIncField"		/* HB_FT_AUTOINC */
@@ -2003,6 +2003,8 @@ METHOD PROCEDURE OnDestruct() CLASS TTable
 		FErase( dbfName )
 		FErase( indexName )
 	ENDIF
+    
+    ::Destroy()
 
 RETURN
 

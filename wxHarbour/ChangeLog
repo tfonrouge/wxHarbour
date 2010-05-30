@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2010-05-30 00:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * renamed type field from DAYTIME to DATETIME
+
+  *  src/raddox/TField.prg
+     % added capability to read/write HB_FT_DATETIME values
+     ! Fixed SetAsVariant to process field's that are key index (IsKeyIndex)
+     ! Fixed SetKeyVal to compare using GetKeyVal values
+     ! Fixes to TDateTimeField:SetAsVariant to convert from diff value types
+
+  *  src/raddox/TTable.prg
+     ! Fixed logical expression on ::Destroy method
+     * renamed label for field TDayTimeField to TDateTimeField
+     * call ::Destroy on OnDestruct
+
+
 2010-05-29 01:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxharbour.hbp
      ! Updated script to include the src/html source dir

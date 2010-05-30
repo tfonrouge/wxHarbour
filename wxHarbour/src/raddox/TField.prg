@@ -558,6 +558,8 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
 		RETURN keyVal
 	CASE 'D'
 		RETURN DToS( keyVal )
+    CASE 'T'
+        RETURN HB_TToS( keyVal )
 	OTHERWISE
 		keyVal := AsString( keyVal )
 	ENDSWITCH
@@ -793,7 +795,7 @@ RETURN result
 */
 METHOD PROCEDURE SetAsVariant( value ) CLASS TField
 	LOCAL oldState
-    
+
 	IF ::IsReadOnly .OR. ::FTable:State = dsInactive
 		RETURN
 	ENDIF
@@ -803,7 +805,7 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
         RETURN
     ENDIF
 
-	IF ::FTable:State = dsBrowse .AND. !::IsKeyIndex .AND. ::FTable:autoEdit
+	IF ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
 		oldState := ::FTable:State
 		::FTable:Edit()
 	ENDIF
@@ -908,7 +910,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	CASE 'A'
 
 		IF Value != NIL
-			RAISE TFIELD ::Name ERROR "SetData: Not allowed custom value with a compund TField..."
+			RAISE TFIELD ::Name ERROR "SetData: Not allowed custom value in a compound TField..."
 		ENDIF
 
 		FOR EACH i IN ::FFieldArrayIndex
@@ -1233,7 +1235,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
 
-			IF ! ::FTable:LinkedObjField:GetAsVariant == ::FTable:GetPrimaryKeyField():GetBuffer()
+			IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:GetPrimaryKeyField():GetKeyVal()
 				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
 			ENDIF
 			
@@ -1446,10 +1448,10 @@ PROTECTED:
 	DATA FType INIT "Numeric"
 	DATA FValType INIT "N"
 	METHOD GetEmptyValue BLOCK {|| 0 }
-	METHOD SetAsVariant( variant )
 PUBLIC:
 
 	METHOD GetAsString
+	METHOD SetAsVariant( variant )
 
 	PROPERTY AsNumeric READ GetAsVariant WRITE SetAsVariant
 
@@ -1508,8 +1510,9 @@ PROTECTED:
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "I"
 	DATA FType INIT "Integer"
-	METHOD SetAsVariant( variant )
 PUBLIC:
+
+	METHOD SetAsVariant( variant )
 
 	PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
 
@@ -1595,10 +1598,13 @@ PROTECTED:
 	DATA FType INIT "Date"
 	DATA FValType INIT "D"
 	METHOD GetEmptyValue BLOCK {|| CtoD("") }
-	METHOD SetAsVariant( variant )
 PUBLIC:
+
 	METHOD GetAsString INLINE FDateS( ::GetAsVariant() )
+	METHOD SetAsVariant( variant )
+
 	PROPERTY Size READ FSize
+
 PUBLISHED:
 ENDCLASS
 
@@ -1624,27 +1630,63 @@ RETURN
 */
 
 /*
-	TDayTimeField
+	TDateTimeField
 	Teo. Mexico 2009
 */
-CLASS TDayTimeField FROM TField
+CLASS TDateTimeField FROM TField
 PRIVATE:
 PROTECTED:
 	DATA FSize INIT 23
 	DATA FDBS_LEN INIT 8
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "@"
-	DATA FDefaultValue INIT {|| HB_DateTime( Date() ) }
-	DATA FType INIT "DayTime"
+	DATA FDefaultValue INIT {|| HB_DateTime() }
+	DATA FType INIT "DateTime"
 	DATA FValType INIT "C"
 	METHOD GetEmptyValue BLOCK {|| HB_DateTime( CToD("") ) }
 PUBLIC:
+
+    CLASSDATA fmtDate INIT "YYYY-MM-DD"
+    CLASSDATA fmtTime
+
+    METHOD SetAsVariant( variant )
+
 	PROPERTY Size READ FSize
+
 PUBLISHED:
 ENDCLASS
 
 /*
-	EndClass TDayTimeField
+	SetAsVariant
+	Teo. Mexico 2009
+*/
+METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateTimeField
+
+	SWITCH ValType( variant )
+    CASE 'T'
+        Super:SetAsVariant( variant )
+        EXIT
+	CASE 'C'
+        variant := RTrim( variant )
+        IF NumToken( variant ) > 1
+            variant := HB_CToT( variant, ::fmtDate, ::fmtTime )
+        ELSE
+            variant := HB_SToT( variant )
+        ENDIF
+		Super:SetAsVariant( variant )
+		EXIT
+	CASE 'D'
+		Super:SetAsVariant( HB_DateTime( variant ) )
+		EXIT
+    CASE 'N'
+        Super:SetAsVariant( HB_NToT( variant ) )
+        EXIT
+	ENDSWITCH
+
+RETURN
+
+/*
+	EndClass TDateTimeField
 */
 
 
@@ -1652,7 +1694,7 @@ ENDCLASS
 	TModTimeField
 	Teo. Mexico 2009
 */
-CLASS TModTimeField FROM TDayTimeField
+CLASS TModTimeField FROM TDateTimeField
 PRIVATE:
 PROTECTED:
 	DATA FDBS_LEN INIT 8
