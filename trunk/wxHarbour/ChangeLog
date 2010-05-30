@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-05-30 16:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxharbour.spec
+     * changed version to 0.5.1-0
+
 2010-05-30 15:18 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed assigning datetime values with proper functions
