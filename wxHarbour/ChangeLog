@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-05-31 11:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed segfault when calling ::Destroy in ::OnDestruct
+       TODO: Check & fix this
+
 2010-05-30 16:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxharbour.spec
      * changed version to 0.5.1-0
