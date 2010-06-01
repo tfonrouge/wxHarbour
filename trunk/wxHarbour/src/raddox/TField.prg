@@ -1243,7 +1243,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 	ELSE
 
-		//RAISE TFIELD ::Name ERROR "Field has no Index in the Table..."
+		AltD()
 		wxhAlert( "Field '" + ::FName + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
 
 	ENDIF
