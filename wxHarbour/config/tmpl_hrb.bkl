@@ -883,18 +883,18 @@ Where is wxWidgets installed
 		<if cond="TOOLSET=='win32'">
 			<sys-lib>wxmsw28$(WX_LIBID)_richtext</sys-lib>
 			<sys-lib>wxmsw28$(WX_LIBID)_aui</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_html</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_xrc</sys-lib>
+			<sys-lib>wxmsw28$(WX_LIBID)_adv</sys-lib>
 			<sys-lib>wxmsw28$(WX_LIBID)_core</sys-lib>
 			<sys-lib>wxbase28$(WX_LIBID)</sys-lib>
+			<sys-lib>wxbase28$(WX_LIBID)_net</sys-lib>
+			<sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
 			<sys-lib>wxtiff</sys-lib>
 			<sys-lib>wxjpeg</sys-lib>
 			<sys-lib>wxpng</sys-lib>
 			<sys-lib>wxzlib</sys-lib>
 			<sys-lib>wxregex$(WX_LIBID)</sys-lib>
-			<sys-lib>wxmsw28$(WX_LIBID)_adv</sys-lib>
-			<sys-lib>wxmsw28$(WX_LIBID)_html</sys-lib>
-			<sys-lib>wxmsw28$(WX_LIBID)_xrc</sys-lib>
-			<sys-lib>wxbase28$(WX_LIBID)_net</sys-lib>
-			<sys-lib>wxbase28$(WX_LIBID)_xml</sys-lib>
 			<sys-lib>wxexpat</sys-lib>
 		</if>
 	</template>
