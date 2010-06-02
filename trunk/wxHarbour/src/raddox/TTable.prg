@@ -1025,7 +1025,6 @@ METHOD FUNCTION DeleteChilds CLASS TTable
 	LOCAL ChildDB
 	LOCAL nrec
 
-    AltD()
 	IF ! HB_HHasKey( ::DataBase:ParentChildList, ::ClassName )
 		RETURN .F.
 	ENDIF

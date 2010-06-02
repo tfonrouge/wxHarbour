@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2010-06-02 12:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh.h
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     % removed PRG level Validate and using C++ method, now
+       the validation for ctrls is automatically done at C++ level
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed condition that wasn't allowing to set warningBlock
+     ! Fixed don't call ::EvalWarnBlock twice on ctrl update/exit
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     ! Fixed getting the 'real' parent on GetBrowseParent()
+
+  *  src/raddox/TField.prg
+     % using ::GetLabel instead of ::Name on some messages/warnings
+     ! Fixed getting value of calculated field's on IsValid()
+     * using GetAsVariant on SetKeyVal
+
+  *  src/raddox/TTable.prg
+     * removed debug call
+
 2010-05-31 23:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      ! Fixed linking html libs under Win/MinGW

@@ -144,7 +144,7 @@ METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) 
 		::Picture := picture
 	ENDIF
 
-	IF !Empty( warning )
+	IF warning != NIL
 		IF HB_IsBlock( warning )
 			::warningBlock := warning
 		ELSE
@@ -797,9 +797,8 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 		IF ::actionBlock != NIL
 			::actionBlock:Eval( event )
 		ENDIF
+        ::EvalWarnBlock( control:GetParent() )
 	ENDIF
-
-	::EvalWarnBlock()
 
 RETURN
 

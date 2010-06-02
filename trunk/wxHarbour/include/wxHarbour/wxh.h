@@ -222,23 +222,4 @@ hbEvtHandler<T>::~hbEvtHandler()
 template <class tW>
 class hbWindow : public hbEvtHandler<tW>
 	{
-		bool Validate();
 	};
-
-/*
- Validate
- Teo. Mexico 2009
- */
-template <class tW>
-bool hbWindow<tW>::Validate()
-{
-	PHB_ITEM pObj = wxh_ItemListGet_HB( this );
-	bool result = false;
-
-	if( pObj )
-	{
-		hb_objSendMsg( pObj, "Validate", 0 );
-		result = hb_itemGetL( hb_stackReturnItem() );
-	}
-	return result;
-}
