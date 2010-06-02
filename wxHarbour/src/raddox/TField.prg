@@ -17,7 +17,7 @@
 					RAISE ERROR E"\nTable: <" + ::FTable:ClassName() + ">, FieldExpression: <" + <name> + ">" + ;
 											E"\n" + ;
 											<cDescription> + E"\n" ;
-								SUBSYSTEM ::ClassName + "<" + ::Name + ">"	;
+								SUBSYSTEM ::ClassName + "<'" + ::GetLabel() + "'>"	;
 								OPERATION E"\n" + ProcName(0)+"(" + LTrim(Str(ProcLine(0))) + ")"
 
 /*
@@ -39,7 +39,6 @@ PRIVATE:
 	DATA FGroup														// A Text label for grouping
 	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
 	DATA FKeyIndex
-	DATA FLabel
 	DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
 	DATA FPrimaryKeyComponent INIT .F.		// Field is included in a Array of fields for a Primary Index Key
 	DATA FPublished INIT .T.							// Logical: Appears in user field selection
@@ -53,7 +52,6 @@ PRIVATE:
 	METHOD GetFieldMethod
 	METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
 	METHOD GetIsPrimaryKeyField( masterSourceBaseClass ) INLINE ::Table:GetPrimaryKeyField( masterSourceBaseClass ) == Self
-	METHOD GetLabel INLINE iif( ::FLabel == NIL, ::FName, ::FLabel )
 	METHOD GetReadOnly INLINE ::FReadOnly
 	METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
 	METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
@@ -63,7 +61,6 @@ PRIVATE:
 	METHOD SetGroup( Group ) INLINE ::FGroup := Group
 	METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
 	METHOD SetKeyIndex( Index ) INLINE ::FKeyIndex := Index
-	METHOD SetLabel( label ) INLINE ::FLabel := label
 	METHOD SetName( name )
 	METHOD SetPickList( pickList )
 	METHOD SetPrimaryKeyComponent( PrimaryKeyComponent )
@@ -86,6 +83,7 @@ PROTECTED:
 	DATA FFieldArrayIndex								// Array of TField's indexes in FieldList
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
+	DATA FLabel
 	DATA FName INIT ""
 	DATA FTable
 	DATA FTableBaseClass
@@ -100,12 +98,14 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
 	METHOD GetFieldReadBlock()
+	METHOD GetLabel INLINE iif( ::FLabel == NIL, ::FName, ::FLabel )
 	METHOD GetLinkedTable() INLINE NIL
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
 	METHOD SetCloneData( cloneData )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
+	METHOD SetLabel( label ) INLINE ::FLabel := label
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
 	METHOD SetReUseField( reUseField ) INLINE ::FReUseField := reUseField
 
@@ -626,11 +626,11 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 	LOCAL value
 	LOCAL result
 
-	value := ::GetBuffer()
+	value := ::GetAsVariant()
 	
 	IF ::FRequired .AND. Empty( value )
 		IF showAlert == .T.
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty key value>" )
+			wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty key value>" )
 		ENDIF
 		RETURN .F.
 	ENDIF
@@ -643,7 +643,7 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 	 */		 
 		IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
 			IF showAlert == .T.
-				wxhAlert( ::FTable:ClassName + ":" + ::FName + " <key value already exists> '" + AsString( value ) + "'")
+				wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <key value already exists> '" + AsString( value ) + "'")
 			ENDIF
 			RETURN .F.
 		ENDIF
@@ -661,13 +661,13 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 			result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
 			EXIT
 		OTHERWISE
-			wxhAlert( ::FTable:ClassName + ":" + ::FName + " <Illegal value in 'ValidValues'> " )
+			wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
 			RETURN .F.
 		ENDSWITCH
 		
 		IF !result
 			IF showAlert == .T.
-				wxhAlert( ::FTable:ClassName + ":" + ::FName + " < value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+				wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' < value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
 			ENDIF
 			RETURN .F.
 		ENDIF
@@ -980,7 +980,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	/* Check if field is a masterkey in child tables */
 	IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
 		IF ::FTable:HasChilds()
-			wxhAlert( "Can't modify key <"+::FName+"> with "+Value+";Has dependant child tables.")
+			wxhAlert( "Can't modify key <'"+::GetLabel()+"'> with "+Value+";Has dependant child tables.")
 			RETURN
 		ENDIF
 	ENDIF
@@ -1233,7 +1233,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 		IF ::FTable:LinkedObjField != NIL
 
-			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetBuffer() )
+			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetAsVariant() )
 
 			IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:GetPrimaryKeyField():GetKeyVal()
 				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
@@ -1243,8 +1243,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 	ELSE
 
-		AltD()
-		wxhAlert( "Field '" + ::FName + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
+		wxhAlert( "Field '" + ::GetLabel() + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
 
 	ENDIF
 
@@ -1727,6 +1726,7 @@ PROTECTED:
 	DATA FValType INIT "O"
     METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
     METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
+    METHOD GetLabel()
 	METHOD GetLinkedTable
 	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
 	METHOD GetFieldReadBlock()
@@ -1759,6 +1759,16 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
 	ENDIF
 
 RETURN pkField:GetKeyVal( keyVal )
+
+/*
+    GetLabel
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetLabel() CLASS TObjectField
+    IF ::FLabel = NIL
+        RETURN ::GetReferenceField():Label
+    ENDIF
+RETURN ::FLabel
 
 /*
 	DataObj

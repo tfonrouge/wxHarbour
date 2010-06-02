@@ -90,7 +90,7 @@ PUBLIC:
 	METHOD DeleteAllColumns
 	METHOD FillColumns
 
-	METHOD GetBrowseParent INLINE ::GetGrandParent():GetParent()
+	METHOD GetBrowseParent INLINE ::GetGrandParent()
 
 	METHOD GoFirstPos
 	METHOD OnKeyDown( keyEvent )
