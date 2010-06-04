@@ -40,10 +40,12 @@
 #include "wx/taskbar.h"
 #include "wx/notebook.h"
 
-/*
- * differences between Harbour/xHarbour
- */
-typedef char BYTECHAR;
+
+#ifdef __VISUALC__
+
+#pragma warning(disable : 4800) // forcing value to bool ...
+
+#endif
 
 #ifndef wxVERSION
 #define wxVERSION ( wxMAJOR_VERSION * 10000 + wxMINOR_VERSION * 100 + wxRELEASE_NUMBER )

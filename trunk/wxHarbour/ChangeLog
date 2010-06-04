@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-06-04 18:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxh.h
+  *  src/common/wx_harbour.cpp
+     * disabling annoying MSVC warning c4800 (forcing value to bool...)
+     * removed unneeded typedef
+
 2010-06-02 12:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  src/wxbase/baseclasses/wx_Window.cpp
