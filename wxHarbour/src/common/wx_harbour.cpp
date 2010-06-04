@@ -269,7 +269,7 @@ void wxh_ObjParams::Return( wxObject* wxObj, bool bItemRelease )
 			if( lOffset > 0 )
 				usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
 
-			UINT uiCrc32 = hb_crc32( (long) hb_objGetClass( pSelf ) + usProcLine, (const BYTECHAR *) szName, strlen( szName ) );
+			UINT uiCrc32 = hb_crc32( (long) hb_objGetClass( pSelf ) + usProcLine, (const char *) szName, strlen( szName ) );
 
 //			 qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
 
