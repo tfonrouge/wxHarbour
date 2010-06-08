@@ -540,12 +540,15 @@ Where to search for the Harbour compiler
 	<if cond="TOOLSET=='win32'">
 		<option name="HB_LIB_INSTALL" category="path">
 			<default-value>
-				$(__HB_INSTALL_PREFIX)\lib
+				$(__HB_INSTALL_PREFIX)\lib\win\$(FORMAT)
 			</default-value>
 			<description>
 				Where to search for Harbour libs
 			</description>
 		</option>
+        <set var="LIBDIR">
+            $(HB_LIB_INSTALL)
+        </set>
 	</if>
 
 	<set var="__HBDEBUG__">

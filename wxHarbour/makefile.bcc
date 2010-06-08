@@ -147,6 +147,11 @@ HBEXITSL = 2
 HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 !endif
 
+# Where to search for Harbour libs 
+!ifndef HB_LIB_INSTALL
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib\win\borland
+!endif
+
 # Where the object and lib files are built 
 !ifndef __BUILDDIR__
 __BUILDDIR__ = obj\bcc_win32
@@ -443,11 +448,11 @@ $(__BUILDDIR__)\$(WXHLIBNAME).lib: $(WXHARBOUR_OBJECTS)
 |
 
 install_wxHarbour: $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	-mkdir $(PREFIX)\lib
-	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(PREFIX)\lib
+	-mkdir $(HB_LIB_INSTALL)
+	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(HB_LIB_INSTALL)
 
 uninstall_wxHarbour: 
-	-del $(PREFIX)\lib\$(WXHLIBNAME).lib
+	-del $(HB_LIB_INSTALL)\$(WXHLIBNAME).lib
 
 install_wxHarbour_headers: 
 	if not exist $(PREFIX) mkdir $(PREFIX)

@@ -165,7 +165,7 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 {
 	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	gridBrowse->m_maxRows = 0;
+    int maxRows = 0;
 
 	if( gridBrowse )
 	{
@@ -186,9 +186,10 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 		bottom = cellRect.GetBottom();
 
 		gridBrowse->m_maxRows = HB_MAX( 0, ( ( gridBrowse->m_gridWindowHeight - 10 ) / ( bottom - top ) ) - 2 );
+        maxRows = gridBrowse->m_maxRows;
 	}
 
-	hb_retni( gridBrowse->m_maxRows );
+	hb_retni( maxRows );
 }
 
 /*
@@ -226,6 +227,7 @@ HB_FUNC( WXHBROWSE_GETROWCOUNT )
 HB_FUNC( WXHBROWSE_SETCOLWIDTH )
 {
 	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+
 	if( gridBrowse )
 	{
 		int col = hb_parni( 1 ) - 1;
@@ -243,6 +245,7 @@ HB_FUNC( WXHBROWSE_SETROWCOUNT )
 {
 	wxhBrowse* gridBrowse = (wxhBrowse *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 	int rowCount = hb_parni( 1 );
+
 	if( gridBrowse && ( rowCount != gridBrowse->m_rowCount ) )
 	{
 		if( rowCount > gridBrowse->m_rowCount )

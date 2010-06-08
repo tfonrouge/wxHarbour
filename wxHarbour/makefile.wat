@@ -92,6 +92,9 @@ HBEXITSL = 2
 # Where to search for Harbour includes 
 HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 
+# Where to search for Harbour libs 
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib\win\watcom
+
 # Where the object and lib files are built 
 __BUILDDIR__ = obj\wat_win32
 
@@ -421,11 +424,11 @@ $(__BUILDDIR__)\$(WXHLIBNAME).lib :  $(WXHARBOUR_OBJECTS)
 	wlib -q -p4096 -n -b $^@ @$(__BUILDDIR__)\wxHarbour.lbc
 
 install_wxHarbour : .SYMBOLIC $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	-mkdir $(PREFIX)\lib
-	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(PREFIX)\lib
+	-mkdir $(HB_LIB_INSTALL)
+	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(HB_LIB_INSTALL)
 
 uninstall_wxHarbour : .SYMBOLIC 
-	-del $(PREFIX)\lib\$(WXHLIBNAME).lib
+	-del $(HB_LIB_INSTALL)\$(WXHLIBNAME).lib
 
 install_wxHarbour_headers : .SYMBOLIC 
 	if not exist $(PREFIX) mkdir $(PREFIX)
