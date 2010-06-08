@@ -96,7 +96,7 @@ HBEXITSL = 2
 HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 
 # Where to search for Harbour libs 
-HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib\win\msvc
 
 # Where the object and lib files are built 
 __BUILDDIR__ = obj\vc_win32

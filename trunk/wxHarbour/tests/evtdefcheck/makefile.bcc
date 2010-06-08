@@ -159,7 +159,7 @@ HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
 
 # Where to search for Harbour libs 
 !ifndef HB_LIB_INSTALL
-HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib
+HB_LIB_INSTALL = $(HB_INSTALL_PREFIX)\lib\win\borland
 !endif
 
 # Where the object and lib files are built 
