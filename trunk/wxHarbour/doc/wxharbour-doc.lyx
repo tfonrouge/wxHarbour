@@ -662,6 +662,91 @@ TableFileName Contains the table file name.
 \end_layout
 
 \begin_layout Subsection
+Events
+\end_layout
+
+\begin_layout Description
+OnCreate() Procedure executed on the object creation.
+ 
+\end_layout
+
+\begin_layout Description
+OnAfterCancel() Procedure executed after the Cancel() operation.
+ 
+\end_layout
+
+\begin_layout Description
+OnAfterChange() Procedure executed after the Post() operation and only if
+ any field was changed (TField:Changed) 
+\end_layout
+
+\begin_layout Description
+OnAfterDelete() Procedure executed after a successful Delete() operation.
+ 
+\end_layout
+
+\begin_layout Description
+OnAfterInsert() Procedure executed after a successful Insert() operation.
+ 
+\end_layout
+
+\begin_layout Description
+OnAfterOpen() Procedure executed after the Open() operation.
+ 
+\end_layout
+
+\begin_layout Description
+OnAfterPost() Procedure executed after a successful Post() operation.
+ Is executed before OnAfterChange().
+\end_layout
+
+\begin_layout Description
+OnBeforeInsert Function executed just before the adding record operation,
+ it must return a logical value.
+\end_layout
+
+\begin_layout Description
+OnBeforePost() Function executed just before the Post() operation, it must
+ return a logical value.
+\end_layout
+
+\begin_layout Description
+OnDataChange() Procedure executed after change is detected on record position.
+\end_layout
+
+\begin_layout Description
+OnPickList(
+\begin_inset space ~
+\end_inset
+
+param
+\begin_inset space ~
+\end_inset
+
+) Function executed when a TField requires a call to the table selection
+ mode.
+ 
+\end_layout
+
+\begin_layout Description
+OnStateChange(
+\begin_inset space ~
+\end_inset
+
+oldState
+\begin_inset space ~
+\end_inset
+
+) Procedure executed right after a change in the State() property.
+\end_layout
+
+\begin_layout Description
+OnSyncFromMasterSource() Procedure executed when the Table is synched with
+ his MasterSource (if any).
+ 
+\end_layout
+
+\begin_layout Subsection
 Methods
 \end_layout
 
