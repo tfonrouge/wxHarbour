@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-06-08 18:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  doc/wxharbour-doc.lyx
+  *  doc/wxharbour-doc.pdf
+     * added documentation for TTable events
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * added DATA:
+       + autoSizeColumnsOnRefresh: perform ::AutoSizeColumns( .F. ) on RefreshAll/RefreshCurrent
+     * minor code cleanup
+
+  *  src/raddox/TField.prg
+     * minor code formatting
+     * GetBuffer/SetBuffer are ignored if ::FCalculated
+     ! Fixed GetKeyVal for TIntegerField's
+     * TObjectField:GetAsString changed to get from Linked table primary key field
+
+  *  src/raddox/TTable.prg
+     * minor code cleanup
+
 2010-06-08 12:39 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  config/tmpl_hrb.bkl
      % adding lib\win\$(FORMAT) to HB_LIB_INSTALL on Win platforms

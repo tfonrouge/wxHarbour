@@ -193,7 +193,7 @@ PUBLIC:
 	METHOD Post()
 	METHOD RawSeek( Value, index )
 	METHOD RecLock
-	METHOD RecUnLock
+	METHOD RecUnLock()
 	METHOD Refresh
 	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyVal Value
 	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
@@ -226,12 +226,12 @@ PUBLIC:
 	METHOD OnAfterDelete() VIRTUAL
 	METHOD OnAfterInsert() VIRTUAL
 	METHOD OnAfterOpen() VIRTUAL
-	METHOD OnAfterPost VIRTUAL
+	METHOD OnAfterPost() VIRTUAL
 	METHOD OnBeforeInsert() INLINE .T.
 	METHOD OnBeforePost() INLINE .T.
 	METHOD OnDataChange()
 	METHOD OnPickList( param ) VIRTUAL
-	METHOD OnStateChange( state ) VIRTUAL
+	METHOD OnStateChange( oldState ) VIRTUAL
 	METHOD OnSyncFromMasterSource() VIRTUAL
 
 	PROPERTY Active READ FActive
@@ -2257,7 +2257,7 @@ RETURN result
 	RecUnLock
 	Teo. Mexico 2006
 */
-METHOD FUNCTION RecUnLock CLASS TTable
+METHOD FUNCTION RecUnLock() CLASS TTable
 	LOCAL Result
 	IF ( Result := ::Alias:RecUnLock() )
 		::SetState( dsBrowse )

@@ -269,7 +269,7 @@ METHOD PROCEDURE Delete CLASS TField
 
 		SHOW ERROR errObj
 
-	END
+	END SEQUENCE
 
 RETURN
 
@@ -320,7 +320,7 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
 		EXIT
 	OTHERWISE
 		RAISE TFIELD ::Name ERROR "GetAsVariant(): Field Method Type not supported: " + ::FFieldMethodType
-	END
+	ENDSWITCH
 
 RETURN Result
 
@@ -351,20 +351,22 @@ RETURN value
 METHOD FUNCTION GetBuffer() CLASS TField
 	LOCAL i
 
-	/* FieldArray's doesn't have a absolute FBuffer */
-	IF ::FFieldMethodType = "A"
-		IF ::FBuffer = NIL
-			::FBuffer := Array( Len( ::FFieldArrayIndex ) )
-		ENDIF
-		FOR EACH i IN ::FFieldArrayIndex
-			::FBuffer[ i:__enumIndex ] := ::FTable:FieldList[ i ]:GetBuffer()
-		NEXT
-		RETURN ::FBuffer
-	ENDIF
+    IF !::FCalculated
+        /* FieldArray's doesn't have a absolute FBuffer */
+        IF ::FFieldMethodType = "A"
+            IF ::FBuffer = NIL
+                ::FBuffer := Array( Len( ::FFieldArrayIndex ) )
+            ENDIF
+            FOR EACH i IN ::FFieldArrayIndex
+                ::FBuffer[ i:__enumIndex ] := ::FTable:FieldList[ i ]:GetBuffer()
+            NEXT
+            RETURN ::FBuffer
+        ENDIF
 
-	IF ::FBuffer == NIL
-		::Reset()
-	ENDIF
+        IF ::FBuffer == NIL
+            ::Reset()
+        ENDIF
+    ENDIF
 
 RETURN ::FBuffer
 
@@ -409,7 +411,7 @@ METHOD PROCEDURE GetData() CLASS TField
 			::FTable:FieldList[ i ]:GetData()
 		NEXT
 		EXIT
-	END
+	ENDSWITCH
 	
 	::FWrittenValue := NIL
 
@@ -505,7 +507,7 @@ METHOD FUNCTION GetFieldMethod CLASS TField
 		RETURN ::FFieldCodeBlock
 	CASE 'C'
 		RETURN ::FFieldExpression
-	END
+	ENDSWITCH
 RETURN NIL
 
 /*
@@ -695,7 +697,7 @@ METHOD FUNCTION OnPickList( param ) CLASS TField
 		RETURN ::FPickList:Eval( param )
 	CASE 'L'
 		RETURN ::FTable:OnPickList( param )
-	END
+	ENDSWITCH
 
 RETURN NIL
 
@@ -857,28 +859,30 @@ RETURN
 METHOD PROCEDURE SetBuffer( value ) CLASS TField
 	LOCAL itm
 
-	/* FieldArray's doesn't have a absolute FBuffer */
-	IF ::FFieldMethodType = "A"
-		SWITCH ValType( value )
-		CASE 'A'
-			FOR EACH itm IN value
-				::FTable:FieldList[ ::FFieldArrayIndex[ itm:__enumIndex ] ]:SetBuffer( itm )
-			NEXT
-			EXIT
-		ENDSWITCH
-		RETURN
-	ENDIF
+    IF !::FCalculated
+        /* FieldArray's doesn't have a absolute FBuffer */
+        IF ::FFieldMethodType = "A"
+            SWITCH ValType( value )
+            CASE 'A'
+                FOR EACH itm IN value
+                    ::FTable:FieldList[ ::FFieldArrayIndex[ itm:__enumIndex ] ]:SetBuffer( itm )
+                NEXT
+                EXIT
+            ENDSWITCH
+            RETURN
+        ENDIF
 
-	IF !( hb_IsNIL( value ) .OR. ValType( value ) = ::FValType ) .AND. ;
-		 ( ::IsDerivedFrom("TStringField") .AND. AScan( {"C","M"}, ValType( value ) ) = 0 )
-		RAISE TFIELD ::Name ERROR "Wrong Type Assign: [" + value:ClassName + "] to <" + ::ClassName + ">"
-	ENDIF
+        IF !( hb_IsNIL( value ) .OR. ValType( value ) = ::FValType ) .AND. ;
+             ( ::IsDerivedFrom("TStringField") .AND. AScan( {"C","M"}, ValType( value ) ) = 0 )
+            RAISE TFIELD ::Name ERROR "Wrong Type Assign: [" + value:ClassName + "] to <" + ::ClassName + ">"
+        ENDIF
 
-	::FBuffer := value
+        ::FBuffer := value
 
-	IF ::OnSetValue != NIL
-		::OnSetValue:Eval( Self, @::FBuffer )
-	ENDIF
+        IF ::OnSetValue != NIL
+            ::OnSetValue:Eval( Self, @::FBuffer )
+        ENDIF
+    ENDIF
 
 RETURN
 
@@ -973,7 +977,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	ENDIF
 
 	/* Don't bother... */
-	IF Value == ::FWrittenValue
+	IF !::FCalculated .AND. ( Value == ::FWrittenValue )
 		RETURN
 	ENDIF
 
@@ -1203,7 +1207,7 @@ METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TFiel
 		NEXT
 	CASE 'C'
 		::FIsMasterFieldComponent := IsMasterFieldComponent
-	END
+	ENDSWITCH
 	
 	IF ::IsDerivedFrom("TObjectField") .AND. Empty( ::FTable:GetMasterSourceClassName() )
 		RAISE TFIELD ::Name ERROR "ObjectField's needs a valid MasterSource table."
@@ -1277,7 +1281,7 @@ METHOD PROCEDURE SetPickList( pickList ) CLASS TField
 			::FPickList := .T.
 		ENDIF
 		EXIT
-	END
+	ENDSWITCH
 RETURN
 
 /*
@@ -1295,7 +1299,7 @@ METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
 		EXIT
 	CASE 'C'
 		::FPrimaryKeyComponent := PrimaryKeyComponent
-	END
+	ENDSWITCH
 
 RETURN
 
@@ -1490,7 +1494,7 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TNumericField
 	CASE 'N'
 		Super:SetAsVariant( variant )
 		EXIT
-	END
+	ENDSWITCH
 
 RETURN
 
@@ -1511,12 +1515,37 @@ PROTECTED:
 	DATA FType INIT "Integer"
 PUBLIC:
 
+    METHOD GetKeyVal( keyVal )
 	METHOD SetAsVariant( variant )
 
 	PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
+
+    IF keyVal = NIL
+        keyVal := I2Bin( ::AsVariant() )
+    ELSE
+        SWITCH ValType( keyVal )
+        CASE 'C'
+        CASE 'M'
+            keyVal := I2Bin( Val( keyVal ) )
+            EXIT
+        CASE 'N'
+            keyVal := I2Bin( keyVal )
+            EXIT
+        OTHERWISE
+            RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert value to integer field..."
+        ENDSWITCH
+    ENDIF
+
+RETURN keyVal
 
 /*
 	SetAsVariant
@@ -1531,7 +1560,7 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TIntegerField
 	CASE 'N'
 		Super:SetAsVariant( Int( variant ) )
 		EXIT
-	END
+	ENDSWITCH
 
 RETURN
 
@@ -1620,7 +1649,7 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateField
 	CASE 'D'
 		Super:SetAsVariant( variant )
 		EXIT
-	END
+	ENDSWITCH
 
 RETURN
 
@@ -1806,11 +1835,7 @@ RETURN linkedTable
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString CLASS TObjectField
-	LOCAL Result
-
-	Result := ::GetBuffer()
-
-RETURN Result
+RETURN ::GetLinkedTable():GetPrimaryKeyField():GetAsString()
 
 /*
 	GetAsVariant

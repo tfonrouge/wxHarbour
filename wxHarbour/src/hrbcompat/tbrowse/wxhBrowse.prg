@@ -82,6 +82,7 @@ PUBLIC:
 	/* End TBrowse compatible */
 
 	DATA AutoFill INIT .T.	/* autofill columns with DataSource data */
+    DATA autoSizeColumnsOnRefresh INIT .T. // performs a ::AutoSizeColumns on Refresh/RefreshAll
 	DATA BottomFirst INIT .F.
 	DATA FillColumnsChecked INIT .F.
 	DATA OnKeyDownBlock
@@ -123,7 +124,6 @@ METHOD PROCEDURE AddColumn( column ) CLASS wxhBrowse
 	IF column:Width != NIL
 		::SetColWidth( Len( ::GetTable():ColumnList ), column:Width )
 	ENDIF
-	//::AutoSizeColumn( Len( ::GetTable():ColumnList ) - 1 )
 RETURN
 
 /*
@@ -551,6 +551,10 @@ METHOD FUNCTION RefreshAll() CLASS wxhBrowse
 	ENDIF
 
 	::SetAllowOnDataChange( allowOnDataChange )
+    
+    IF ::autoSizeColumns
+        ::AutoSizeColumns( .F. )
+    ENDIF
 
 RETURN Self
 
@@ -567,6 +571,10 @@ METHOD FUNCTION RefreshCurrent() CLASS wxhBrowse
 	::ForceRefresh()
 
 	::SetAllowOnDataChange( allowOnDataChange )
+
+    IF ::autoSizeColumns
+        ::AutoSizeColumns( .F. )
+    ENDIF
 
 RETURN Self
 
