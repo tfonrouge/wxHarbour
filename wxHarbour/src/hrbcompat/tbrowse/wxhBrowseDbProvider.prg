@@ -440,19 +440,22 @@ RETURN
 */
 METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 	LOCAL oCol
-
 	oCol := ::GetView():GetColumn( col + 1 )
 	
 	IF oCol:CanSetValue
-	
-		//oCol:Block:Eval( ::RowParam, value )
+
 		oCol:SetValue( ::GetRowParam(), value )
 
         /*
-         TODO: Check why uncommenting this causes infinite loop (wxMAC at least)
+         TODO[FIXED]: Check why uncommenting this causes infinite loop (wxMAC at least)
                the loop trigger seems to be ::AutoSizeColumns inside ::RefreshCurrent
          However this is not needed here because an ::RefreshAll is done after
          ::HideCellEditControl()
+         
+            Seems that ENTER key triggers twice the SetValue call here...
+            anyway, this was solved by not allowing calling twice SetValue here
+            an flag in oCol is setted when calling oCol:SetValue to avoid re-enter here
+
         */
 		//::GetView():RefreshCurrent()
 

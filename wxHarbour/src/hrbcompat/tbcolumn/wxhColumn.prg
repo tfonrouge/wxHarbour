@@ -30,6 +30,7 @@ PRIVATE:
 	DATA FFooting
 	DATA FHeading INIT ""
 	DATA FField
+    DATA FOnSetValue INIT .F.
 	DATA FPicture
 	DATA FReadOnly INIT .F.
 	DATA FValType
@@ -103,7 +104,7 @@ RETURN Self
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetCanSetValue() CLASS wxhBrowseColumn
-RETURN ! ::ReadOnly
+RETURN ! ::ReadOnly .AND. !::FOnSetValue
 
 /*
 	GetValue
@@ -213,23 +214,31 @@ RETURN
 */
 METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
 
-	IF !::ReadOnly
-		IF ::Field != NIL
-			IF ::browse:DataSource:Eof()
-				RETURN .F.
-			ENDIF
-			IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
-				wxhAlert( "Can edit field '" + ::Field:Name + "' on database '" + ::browse:DataSource:ClassName() + "'" )
-				RETURN .F.
-			ENDIF
-			::Field:AsString := value
-		ELSE
-			::FBlock:Eval( rowParam, value )
-		ENDIF
-	ENDIF
+    IF !::FOnSetValue
 
-	IF ::OnSetValue != NIL
-		::OnSetValue:Eval()
-	ENDIF
+        ::FOnSetValue := .T.
+
+        IF !::ReadOnly
+            IF ::Field != NIL
+                IF ::browse:DataSource:Eof()
+                    RETURN .F.
+                ENDIF
+                IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
+                    wxhAlert( "Can edit field '" + ::Field:Name + "' on database '" + ::browse:DataSource:ClassName() + "'" )
+                    RETURN .F.
+                ENDIF
+                ::Field:AsString := value
+            ELSE
+                ::FBlock:Eval( rowParam, value )
+            ENDIF
+        ENDIF
+
+        IF ::OnSetValue != NIL
+            ::OnSetValue:Eval()
+        ENDIF
+        
+        ::FOnSetValue := .F.
+
+    ENDIF
 
 RETURN .T.
