@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-06-08 19:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     ! Fixed stupid typo
+
 2010-06-08 18:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  doc/wxharbour-doc.lyx
   *  doc/wxharbour-doc.pdf

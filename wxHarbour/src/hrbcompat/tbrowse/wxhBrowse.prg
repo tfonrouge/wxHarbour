@@ -552,7 +552,7 @@ METHOD FUNCTION RefreshAll() CLASS wxhBrowse
 
 	::SetAllowOnDataChange( allowOnDataChange )
     
-    IF ::autoSizeColumns
+    IF ::autoSizeColumnsOnRefresh
         ::AutoSizeColumns( .F. )
     ENDIF
 
@@ -572,7 +572,7 @@ METHOD FUNCTION RefreshCurrent() CLASS wxhBrowse
 
 	::SetAllowOnDataChange( allowOnDataChange )
 
-    IF ::autoSizeColumns
+    IF ::autoSizeColumnsOnRefresh
         ::AutoSizeColumns( .F. )
     ENDIF
 
