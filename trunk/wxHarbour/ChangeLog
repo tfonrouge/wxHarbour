@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-06-09 17:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % If an TObjectField needs a MasterSource and it is not found in the
+       ::FLinkedTableMasterSource and also the Table is not, then searchs
+       in the TObjectField's for a valid one.
+
+  *  src/raddox/TTable.prg
+     + added method:
+       + FieldByObjType : returns a TObjectField of the provided type
+     - removed FindTable, is not needed and not used
+
 2010-06-09 14:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      % added protection against double enter on the SetValue method when editing

@@ -164,10 +164,10 @@ PUBLIC:
 	METHOD DeleteChilds
 	METHOD Edit()
 	METHOD FieldByName( name, index )
+    METHOD FieldByObjType( objType, derived )
 	METHOD FilterEval( index )
 	METHOD FindIndex( index )
 	METHOD FindMasterSourceField( detailField )
-	METHOD FindTable( table )
 	METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
 	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
@@ -1123,6 +1123,31 @@ METHOD FUNCTION FieldByName( name, index ) CLASS TTable
 RETURN NIL
 
 /*
+    FieldByObjType
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION FieldByObjType( objType, derived ) CLASS TTable
+    LOCAL fld
+    
+    objType := Upper( objType )
+    
+    FOR EACH fld IN ::FFieldList
+        IF fld:IsDerivedFrom( "TObjectField" )
+            IF derived == .T.
+                IF fld:DataObj:IsDerivedFrom( objType )
+                    RETURN fld
+                ENDIF
+            ELSE
+                IF fld:DataObj:ClassName() == objType
+                    RETURN fld
+                ENDIF
+            ENDIF
+        ENDIF
+    NEXT
+    
+RETURN NIL
+
+/*
 	FillPrimaryIndexes
 	Teo. Mexico 2009
 */
@@ -1257,31 +1282,6 @@ METHOD FUNCTION FindMasterSourceField( detailField ) CLASS TTable
 	NEXT
 
 RETURN ::MasterSource:FieldByName( name )
-
-/*
-	FindTable : returns a ObjectField that has the table parameter
-	Teo. Mexico 2008
-*/
-METHOD FUNCTION FindTable( table ) CLASS TTable
-	LOCAL AField
-
-	FOR EACH AField IN ::FFieldList
-		IF AField:IsDerivedFrom( "TObjectField" )
-			IF AField:LinkedTable == table
-				RETURN AField
-			ENDIF
-		ENDIF
-	NEXT
-
-	/*
-	 * none found in current table
-	 * search in mastersource
-	 */
-	IF ::FMasterSource != NIL
-		RETURN ::MasterSource:FindTable( table )
-	ENDIF
-
-RETURN NIL
 
 /*
 	FixDbStruct
