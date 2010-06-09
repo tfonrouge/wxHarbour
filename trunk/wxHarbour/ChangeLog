@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-06-09 14:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     % added protection against double enter on the SetValue method when editing
+       via wxhBrowse:EnableCellEditControl/HideCellEditControl and ending the
+       editing mode with ENTER
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * code cleanup and removing TODO
+
 2010-06-08 22:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
      * remove unneeded call to wxhBrowse:RefreshCurrent
