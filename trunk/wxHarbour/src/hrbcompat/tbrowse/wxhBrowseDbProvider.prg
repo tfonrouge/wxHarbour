@@ -447,8 +447,14 @@ METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 	
 		//oCol:Block:Eval( ::RowParam, value )
 		oCol:SetValue( ::GetRowParam(), value )
-	
-		::GetView():RefreshCurrent()
+
+        /*
+         TODO: Check why uncommenting this causes infinite loop (wxMAC at least)
+               the loop trigger seems to be ::AutoSizeColumns inside ::RefreshCurrent
+         However this is not needed here because an ::RefreshAll is done after
+         ::HideCellEditControl()
+        */
+		//::GetView():RefreshCurrent()
 
 	ELSE
 
