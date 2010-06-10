@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2010-06-10 06:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * orden of processing of indexes definitions are now from parent classes
+       to childs
+
+  *  src/raddox/TField.prg
+     % simplified method to get the reference field of a TObjectField
+       ; BaseKeyField:
+       ; Each table has in the first (most parent) primary index key the
+         keyval that defines the unique key for all the table and his
+         descendants, of course that descendants can have their own
+         primary index but the BaseKeyField keeps the same
+
+  *  src/raddox/TTable.prg
+     * Hash FPrimaryIndexList keeps the order on which the elements are added
+     + added method:
+       + GetBaseKeyField : returns the BaseKeyField for the table
 2010-06-09 17:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % If an TObjectField needs a MasterSource and it is not found in the

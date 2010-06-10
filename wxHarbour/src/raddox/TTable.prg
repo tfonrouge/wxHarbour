@@ -89,7 +89,7 @@ PROTECTED:
 	DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
     DATA FIsTempTable        INIT .F.
 	DATA FFound				INIT .F.
-	DATA FPrimaryIndexList	INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName>
+	DATA FPrimaryIndexList	INIT HB_HSetOrder( HB_HSetCaseMatch( {=>}, .F. ), .T. )  // <className> => <indexName>
 	DATA FRecNo				INIT 0
 	DATA FTableFileName     INIT "" // to be assigned (INIT) on inherited classes
 	DATA tableState INIT {}
@@ -172,6 +172,7 @@ PUBLIC:
 	METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
 	METHOD GetAsString
 	METHOD GetAsVariant
+    METHOD GetBaseKeyField()
 	METHOD GetCurrentRecord( idxAlias )
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
@@ -1390,6 +1391,22 @@ METHOD FUNCTION GetAsVariant() CLASS TTable
 	ENDIF
 
 RETURN pkField:Value
+
+/*
+    GetBaseKeyField
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetBaseKeyField() CLASS TTable
+    LOCAL field
+    LOCAL className, indexName
+    
+    HB_HPairAt( ::FPrimaryIndexList, 1, @className, @indexName )
+    
+    IF !Empty( className )
+        field := ::FIndexList[ className, indexName ]:KeyField
+    ENDIF
+    
+RETURN field
 
 /*
 	GetCurrentRecord

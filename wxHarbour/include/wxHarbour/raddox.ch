@@ -160,11 +160,11 @@
 #xtranslate BEGIN INDEXES CLASS <className> ;
 						=> ;
 			METHOD PROCEDURE __DefineIndexes() CLASS <className> ;;
-			::curClassIndex := <(className)>
+			::curClassIndex := <(className)> ;;
+			Super:__DefineIndexes() ;;
 
 #xtranslate END INDEXES CLASS ;
 						=> ;
-			Super:__DefineIndexes() ;;
 			RETURN
 			
 #xtranslate BEGIN MASTERDETAIL FIELDS CLASS <className> => ;

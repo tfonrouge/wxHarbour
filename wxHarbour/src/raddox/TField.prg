@@ -1717,7 +1717,6 @@ RETURN
 	EndClass TDateTimeField
 */
 
-
 /*
 	TModTimeField
 	Teo. Mexico 2009
@@ -1953,17 +1952,7 @@ RETURN ::FLinkedTable
 	Teo. Mexico 2010
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
-	LOCAL pkField
-	LOCAL masterSourceClassName := ::FTable:GetMasterSourceClassName()
-
-	IF ::IsMasterFieldComponent .AND. !Empty( masterSourceClassName ) .AND. ::DataObj:IsDerivedFrom( masterSourceClassName )
-		pkField := ::DataObj:GetPrimaryKeyField( masterSourceClassName )
-	ELSE
-//		pkField := ::DataObj:GetPrimaryKeyField( ::DataObj:GetMasterSourceClassName() )
-		pkField := ::DataObj:GetPrimaryKeyField()
-	ENDIF
-
-RETURN pkField
+RETURN ::DataObj:GetBaseKeyField()
 
 /*
 	ENDCLASS TObjectField
