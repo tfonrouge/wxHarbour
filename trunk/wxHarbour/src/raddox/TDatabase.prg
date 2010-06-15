@@ -23,9 +23,10 @@ PRIVATE:
 	DATA cmdLevel     INIT { NIL }
 	METHOD SetName( name ) INLINE ::FName := name
 PROTECTED:
+	DATA FDirectory INIT ""
 	METHOD DefineRelations VIRTUAL
+    METHOD SetDirectory( directory ) INLINE ::FDirectory := directory
 PUBLIC:
-	DATA Directory INIT ""
 	DATA Driver    INIT "DBFCDX"
 	DATA OpenBlock
 	CONSTRUCTOR New( databaseName )
@@ -39,6 +40,7 @@ PUBLIC:
 	METHOD TableIsChildOf( table, fromTable )
 
 	PROPERTY ChildParentList READ FChildParentList
+    PROPERTY Directory READ FDirectory WRITE SetDirectory
 	PROPERTY ParentChildList READ FParentChildList
 	PROPERTY TableList	   READ FTableList
 PUBLISHED:

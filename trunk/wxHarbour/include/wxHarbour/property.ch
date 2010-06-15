@@ -71,7 +71,7 @@
 
 #xcommand PROPERTY <name> DEFAULT <value> ;
                     => ;
-                    DATA F<name> INIT <value>
+                    DATA F<name> INIT <value> PROTECTED
 
 
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR

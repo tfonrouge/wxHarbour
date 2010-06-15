@@ -33,7 +33,6 @@ PRIVATE:
 	DATA FDescription INIT ""
 	DATA FFieldCodeBlock									// Code Block
 	DATA FFieldWriteBlock									// Code Block to do WRITE
-	DATA FFieldExpression									// Literal Field expression on the Database
     DATA FHasCalcFieldMethod INIT .F.
 	DATA FPickList											// codeblock to help to pick a value
 	DATA FGroup														// A Text label for grouping
@@ -47,6 +46,7 @@ PRIVATE:
 	DATA FReUseField INIT .F.
 	DATA FUniqueKeyIndex
 	DATA FUsingField						// Field used on Calculated Field
+
 	METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
 	METHOD GetAutoIncrementValue
 	METHOD GetFieldMethod
@@ -81,6 +81,7 @@ PROTECTED:
 	DATA FDBS_TYPE
 	DATA FEvtOnBeforeChange
 	DATA FFieldArrayIndex								// Array of TField's indexes in FieldList
+	DATA FFieldExpression									// Literal Field expression on the Database
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
 	DATA FLabel
@@ -605,7 +606,7 @@ METHOD FUNCTION IndexExpression() CLASS TField
     IF ::FFieldMethodType = "A"
         exp := ""
 		FOR EACH i IN ::FFieldArrayIndex
-			exp += ::FTable:FieldList[ i ]:IndexExpression
+			exp += iif( Len( exp ) = 0, "", "+" ) + ::FTable:FieldList[ i ]:IndexExpression
 		NEXT
     ELSE
         exp := ::FFieldExpression
@@ -1517,6 +1518,7 @@ PROTECTED:
 PUBLIC:
 
     METHOD GetKeyVal( keyVal )
+    METHOD IndexExpression()
 	METHOD SetAsVariant( variant )
 
 	PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
@@ -1531,15 +1533,15 @@ ENDCLASS
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
 
     IF keyVal = NIL
-        keyVal := I2Bin( ::AsVariant() )
+        keyVal := L2Bin( ::AsVariant() )
     ELSE
         SWITCH ValType( keyVal )
         CASE 'C'
         CASE 'M'
-            keyVal := I2Bin( Val( keyVal ) )
+            keyVal := L2Bin( Val( keyVal ) )
             EXIT
         CASE 'N'
-            keyVal := I2Bin( keyVal )
+            keyVal := L2Bin( keyVal )
             EXIT
         OTHERWISE
             RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert value to integer field..."
@@ -1547,6 +1549,13 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
     ENDIF
 
 RETURN keyVal
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TIntegerField
+RETURN "L2Bin(" + ::FFieldExpression + ")"
 
 /*
 	SetAsVariant

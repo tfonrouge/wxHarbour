@@ -2,6 +2,47 @@
  * $Id$
  */
 
+2010-06-15 09:35 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  doc/wxharbour-doc.lyx
+  *  doc/wxharbour-doc.pdf
+     * updated
+
+  *  include/wxHarbour/property.ch
+     * changed scope for property data member to PROTECTED
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * honoring Published property on (auto) FillColumns
+
+  *  src/raddox/TAlias.prg
+     ! Fixed creating of table if it not exists and Table:AutoCreate
+
+  *  src/raddox/TDatabase.prg
+     * using data member for Directory property
+
+  *  src/raddox/TField.prg
+     * moved FFieldExpression to PROTECTED scope
+     ! Fixed building of index expression
+     * using L2Bin instead of I2Bin ( 2 byte -> 4 byte integers )
+     % building index expression for TIntegerField's
+
+  *  src/raddox/TIndex.prg
+     ! Using explicit "temporary" parameter for build temp indexes
+     ! Fixed building of index expression
+
+  *  src/raddox/TTable.prg
+     * using data member for AutoCreate property
+     * added parameter to CreateTable() method
+
+  +  demos/AddressBook
+  +  demos/AddressBook/AddressBook.prg
+  +  demos/AddressBook/Database.prg
+  +  demos/AddressBook/GNUmakefile
+  +  demos/AddressBook/Tbl_Name.prg
+  +  demos/AddressBook/hbmk.hbm
+  +  demos/AddressBook/makefile.bcc
+  +  demos/AddressBook/makefile.gcc
+  +  demos/AddressBook/makefile.vc
+     + added preliminary sample to show usage of Data Objects (RADO)
 2010-06-14 20:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      + added clause to tfield declarations:

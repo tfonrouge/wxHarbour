@@ -636,7 +636,7 @@ ReadOnly
 \end_layout
 
 \begin_layout Description
-autoCreate If .T.
+AutoCreate If .T.
  the table is created if it 
 \bar under
 not exist
