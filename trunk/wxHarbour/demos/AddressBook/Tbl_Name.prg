@@ -13,9 +13,10 @@ PUBLIC:
 
     PROPERTY AutoCreate DEFAULT .T.
 	PROPERTY TableFileName DEFAULT "names"
+    
+    CALCFIELD FullName()
 
     DEFINE FIELDS
-    
     DEFINE INDEXES
 
 PUBLISHED:
@@ -40,6 +41,10 @@ BEGIN FIELDS CLASS Tbl_Name
 
     ADD DATETIME FIELD "DoB" ;
         LABEL "Day of birth"
+        
+    /* Calculated Field's */
+    ADD CALCULATED STRING FIELD "FullName" SIZE 81 ;
+        LABEL "Full Name"
 
 END FIELDS CLASS
 
@@ -50,3 +55,9 @@ BEGIN INDEXES CLASS Tbl_Name
 	DEFINE PRIMARY INDEX "Primary" KEYFIELD "RecId" AUTOINCREMENT
     DEFINE SECONDARY INDEX "Name" KEYFIELD {"FName","LName"}
 END INDEXES CLASS
+
+/*
+    CalcField_FullName
+*/
+CALCFIELD FullName() CLASS Tbl_Name
+RETURN RTrim( ::Field_FName:Value ) + " " + RTrim( ::Field_LName:Value )

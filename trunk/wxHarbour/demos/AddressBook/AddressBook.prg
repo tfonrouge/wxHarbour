@@ -41,6 +41,7 @@ PROTECTED:
     DATA frame
     DATA tbl_Name
 
+    METHOD DefineDetailView()
     METHOD Version() INLINE "v0.1"
 
 PUBLIC:
@@ -58,20 +59,45 @@ METHOD FUNCTION OnInit() CLASS myApp
     CREATE FRAME ::frame ;
         TITLE "Address Book " + ::Version()
 
-    BEGIN PANEL
+    BEGIN NOTEBOOK
 
-        BEGIN BOXSIZER VERTICAL
+        ADD BOOKPAGE "List" FROM
+            BEGIN PANEL
 
-            @ BROWSE VAR ::brw DATASOURCE ::tbl_Name ;
-                SIZERINFO ALIGN EXPAND STRETCH
+                BEGIN BOXSIZER VERTICAL
 
-        END SIZER
+                    @ BROWSE VAR ::brw DATASOURCE ::tbl_Name ;
+                        SIZERINFO ALIGN EXPAND STRETCH
 
-    END PANEL
+                END SIZER
 
-//    ::brw:FillColumns()
-//    ::brw:AutoSizeColumns( .F. )
+            END PANEL
+
+        ADD BOOKPAGE "Detail" FROM
+            ::DefineDetailView()
+
+    END NOTEBOOK
 
     SHOW WINDOW ::frame FIT CENTRE
 
 RETURN .T.
+
+/*
+    DefineDetailView
+*/
+METHOD PROCEDURE DefineDetailView() CLASS myApp
+    
+    BEGIN PANEL
+        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2
+            @ SAY ::tbl_Name:Field_DoB:Label SIZERINFO ALIGN RIGHT
+                @ DATEPICKERCTRL ::tbl_Name:Field_DoB SIZERINFO ALIGN LEFT
+            @ SAY ::tbl_Name:Field_Genre:Label SIZERINFO ALIGN RIGHT
+                @ CHOICE ::tbl_Name:Field_Genre SIZERINFO ALIGN LEFT
+            @ SAY ::tbl_Name:Field_FName:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_FName SIZERINFO ALIGN EXPAND
+            @ SAY ::tbl_Name:Field_LName:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_LName SIZERINFO ALIGN EXPAND
+        END SIZER
+    END PANEL
+
+RETURN
