@@ -177,7 +177,7 @@ PUBLIC:
 	METHOD GetDisplayFieldBlock( xField )
 	METHOD GetDisplayFields( syncFromAlias )
 	METHOD GetField( fld )
-	METHOD GetKeyVal() INLINE ::PrimaryIndex:GetKeyVal()
+	METHOD GetKeyVal() INLINE ::GetBaseKeyField():GetKeyVal()
 	METHOD GetMasterSourceClassName( className )
 	METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
 	METHOD GetPrimaryKeyField( masterSourceBaseClass )
@@ -196,12 +196,12 @@ PUBLIC:
 	METHOD RecLock
 	METHOD RecUnLock()
 	METHOD Refresh
-	METHOD Reset()								// Set Field Record to their default values, Sync MasterKeyVal Value
+	METHOD Reset()	// Set Field Record to their default values, Sync MasterKeyVal Value
 	METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
 	METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
 	METHOD SetAlias( alias ) INLINE ::FAlias := alias
-	METHOD SetAsString( Value ) INLINE ::GetPrimaryKeyField():AsString := Value
-	METHOD SetAsVariant( Value ) INLINE ::GetPrimaryKeyField():Value := Value
+	METHOD SetAsString( Value ) INLINE ::GetBaseKeyField():AsString := Value
+	METHOD SetAsVariant( Value ) INLINE ::GetBaseKeyField():Value := Value
 	METHOD SetKeyVal( keyVal )
 	/*
 	 * TODO: Enhance this to:
@@ -238,6 +238,7 @@ PUBLIC:
 	PROPERTY Active READ FActive
 	PROPERTY Alias READ GetAlias WRITE SetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
+    PROPERTY BaseKeyField READ GetBaseKeyField
 	PROPERTY Bof READ FBof
 	PROPERTY DbStruct READ GetDbStruct
 	PROPERTY Deleted READ Alias:Deleted()
@@ -550,7 +551,7 @@ METHOD PROCEDURE Cancel CLASS TTable
 		EXIT
 	OTHERWISE
 
-	END
+	ENDSWITCH
 
 	::RecUnLock()
 	
@@ -572,11 +573,11 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 	LOCAL n
 	LOCAL aDb
 	LOCAL sResult := ""
-	
+
 	IF !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidating" )
-	
+
 		aDb := AClone( ::DbStruct() )
-	
+
 		::FInstances[ ::TableClass, "DbStructValidating" ] := NIL
 
 		FOR EACH AField IN ::FieldList
@@ -691,7 +692,7 @@ METHOD FUNCTION CopyRecord( origin ) CLASS TTable
 	OTHERWISE
 		RAISE ERROR "Unknown Record from Origin"
 		RETURN .F.
-	END
+	ENDSWITCH
 
 RETURN .T.
 
@@ -1371,7 +1372,7 @@ RETURN ::FAlias
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString() CLASS TTable
-	LOCAL pkField := ::GetPrimaryKeyField()
+	LOCAL pkField := ::GetBaseKeyField()
 
 	IF pkField == NIL
 		RETURN ""
@@ -1384,7 +1385,7 @@ RETURN pkField:AsString
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsVariant() CLASS TTable
-	LOCAL pkField := ::GetPrimaryKeyField()
+	LOCAL pkField := ::GetBaseKeyField()
 
 	IF pkField == NIL
 		RETURN NIL
@@ -1399,7 +1400,7 @@ RETURN pkField:Value
 METHOD FUNCTION GetBaseKeyField() CLASS TTable
     LOCAL field
     LOCAL className, indexName
-    
+
     HB_HPairAt( ::FPrimaryIndexList, 1, @className, @indexName )
     
     IF !Empty( className )
@@ -1516,7 +1517,7 @@ METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
 	CASE 'N'
 		AField := ::FieldList[ xField ]
 		EXIT
-	END
+	ENDSWITCH
 
 	IF AField == NIL
 		RAISE ERROR "Wrong value"
@@ -1685,7 +1686,7 @@ METHOD FUNCTION GetField( fld ) CLASS TTable
 		EXIT
 	OTHERWISE
 		RAISE ERROR "Unknown field reference..."
-	END
+	ENDSWITCH
 
 RETURN AField
 
@@ -1781,7 +1782,7 @@ METHOD FUNCTION GetMasterSource() CLASS TTable
 		RETURN ::FMasterSource:LinkedTable
 	CASE rxMasterSourceTypeBlock
 		RETURN ::FMasterSource:Eval()
-	END
+	ENDSWITCH
 
 RETURN NIL
 
@@ -2117,6 +2118,7 @@ METHOD FUNCTION Post() CLASS TTable
 	LOCAL itm
 	LOCAL postOk := .F.
 	LOCAL changed := .F.
+    LOCAL aChangedFields := {}
 
 	IF AScan( { dsEdit, dsInsert }, ::State ) = 0
 		::Error_Table_Not_In_Edit_or_Insert_mode()
@@ -2139,6 +2141,9 @@ METHOD FUNCTION Post() CLASS TTable
 			FOR EACH AField IN ::FieldList
 			
 				IF !changed .AND. AField:Changed
+                    IF AField:OnAfterPostChange != NIL
+                        AAdd( aChangedFields, AField )
+                    ENDIF
 					changed := .T.
 				ENDIF
 
@@ -2168,8 +2173,13 @@ METHOD FUNCTION Post() CLASS TTable
 
 	IF postOk
 		::OnAfterPost()
-		IF changed .AND. __ObjHasMsgAssigned( Self, "OnAfterChange" )
-			__ObjSendMsg( Self, "OnAfterChange" )
+		IF changed
+            FOR EACH AField IN aChangedFields
+                AField:OnAfterPostChange:Eval( Self )
+            NEXT
+            IF __ObjHasMsgAssigned( Self, "OnAfterChange" )
+                __ObjSendMsg( Self, "OnAfterChange" )
+            ENDIF
 		ENDIF
 	ENDIF
 
@@ -2354,7 +2364,7 @@ RETURN
 	Teo. Mexico 2010
 */
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TTable
-	::PrimaryIndex:SetKeyVal( keyVal )
+	::GetBaseKeyField():SetKeyVal( keyVal )
 RETURN Self
 
 /*
@@ -2389,7 +2399,7 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 		RETURN
 	OTHERWISE
 		RAISE ERROR "Invalid type in assigning MasterSource..."
-	END
+	ENDSWITCH
 
 	/*!
 	 * Check for a valid GetMasterSourceClassName (if any)

@@ -24,6 +24,10 @@
 
 FUNCTION Main
 
+#ifdef _DEBUG_
+    SetMode( 40, 80 )
+#endif
+
 	IMPLEMENT_APP( MyApp():New() )
 
 RETURN NIL
@@ -212,6 +216,7 @@ RETURN ::FHtmlEasyPrinting
     Teo. Mexico 2010
 */
 METHOD FUNCTION Preview() CLASS MyApp
+    wxhAltD()
 RETURN ::htmlEasyPrinting:PreviewText( ::htmlData )
 
 /*
