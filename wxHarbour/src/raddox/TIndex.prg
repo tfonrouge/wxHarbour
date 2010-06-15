@@ -188,14 +188,13 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, t
 
 	/* check for a valid index  order */
 	IF ::FTable:Alias:OrdNumber( ::TagName ) = 0
-		//RAISE ERROR "Order Name not valid '" + ::Name + "'"
-        IF ::FTable:IsTempTable
-            IF ! ::FTable:CreateIndex( Self )
-                RAISE ERROR "Failure to create Index '" + ::Name + "'"
-            ENDIF
-        ELSE
+        IF ::temporary
             IF ! ::FTable:CreateTempIndex( Self )
                 RAISE ERROR "Failure to create temporal Index '" + ::Name + "'"
+            ENDIF
+        ELSE
+            IF ! ::FTable:CreateIndex( Self )
+                RAISE ERROR "Failure to create Index '" + ::Name + "'"
             ENDIF
         ENDIF
 	ENDIF
@@ -455,11 +454,11 @@ METHOD FUNCTION IndexExpression() CLASS TIndex
     LOCAL exp := ""
 
     IF ::FMasterKeyField != NIL
-        exp += ::FMasterKeyField:IndexExpression
+        exp +=  iif( Len( exp ) = 0, "", "+" ) + ::FMasterKeyField:IndexExpression
     ENDIF
 
     IF ::FKeyField != NIL
-        exp += ::FKeyField:IndexExpression
+        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression
     ENDIF
 
 RETURN exp

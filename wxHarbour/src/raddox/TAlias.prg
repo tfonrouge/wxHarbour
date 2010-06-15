@@ -274,6 +274,12 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 		tableName := table
 
 	ENDIF
+    
+    IF ! HB_DbExists( tableFullFileName ) .AND. table:AutoCreate
+        IF !table:CreateTable( tableFullFileName )
+            BREAK( "TAlias: Cannot Create Table '" + tableFullFileName + "'" )
+        ENDIF
+    ENDIF
 
 	DbUseArea( .T., ::driver, tableFullFileName, aliasName, ::lShared, ::lReadOnly )
 

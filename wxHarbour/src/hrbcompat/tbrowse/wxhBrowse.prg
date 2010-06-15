@@ -216,7 +216,9 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 		__wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
 		FOR EACH fld IN ::FDataSource:FieldList
-			__wxh_BrowseAddColumnFromField( Self, fld, ::IsEditable() )
+            IF fld:Published
+                __wxh_BrowseAddColumnFromField( Self, fld, ::IsEditable() )
+            ENDIF
 		NEXT
 
 	CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
@@ -231,7 +233,9 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 			ENDIF
 			IF ValType( itm1 ) = "A"
 				FOR EACH fld IN ::FDataSource[ 1 ]
-					__wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
+                    IF fld:Published
+                        __wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
+                    ENDIF
 				NEXT
 			ELSE
 				__wxh_BrowseAddColumn( .F., Self, "", {|key| ::FDataSource[ key ] } )

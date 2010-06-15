@@ -82,6 +82,7 @@ PRIVATE:
 
 PROTECTED:
 
+    DATA FAutoCreate         INIT .F.
 	DATA FBof				INIT .T.
 	DATA FEof				INIT .T.
 	DATA FFieldList
@@ -114,7 +115,6 @@ PUBLIC:
 	DATA aliasIdx
 	DATA aliasTmp
 	DATA allowOnDataChange  INIT .T.
-    DATA autoCreate         INIT .F.
 	DATA autoEdit           INIT .F.
 	DATA autoMasterSource   INIT .F.
 	DATA autoOpen           INIT .T.
@@ -150,7 +150,7 @@ PUBLIC:
 	METHOD Count( bForCondition, bWhileCondition, index, scope )
     METHOD CreateIndex( index )
 	METHOD CreateTempIndex( index )
-    METHOD CreateTable()
+    METHOD CreateTable( fullFileName )
 	METHOD DefineMasterDetailFields			VIRTUAL
 	METHOD DefineRelations							VIRTUAL
 	METHOD Destroy()
@@ -238,6 +238,7 @@ PUBLIC:
 	PROPERTY Active READ FActive
 	PROPERTY Alias READ GetAlias WRITE SetAlias
 	PROPERTY AsString READ GetAsString WRITE SetAsString
+    PROPERTY AutoCreate READ FAutoCreate
     PROPERTY BaseKeyField READ GetBaseKeyField
 	PROPERTY Bof READ FBof
 	PROPERTY DbStruct READ GetDbStruct
@@ -711,7 +712,7 @@ RETURN nCount
     CreateTable
     Teo. Mexico 2010
 */
-METHOD FUNCTION CreateTable() CLASS TTable
+METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
     LOCAL aDbs := {}
     LOCAL fld
 
@@ -729,7 +730,11 @@ METHOD FUNCTION CreateTable() CLASS TTable
         ENDIF
     NEXT
 
-    DbCreate( ::TableFileName, aDbs )
+    IF fullFileName = NIL
+        DbCreate( ::TableFileName, aDbs )
+    ELSE
+        DbCreate( fullFileName, aDbs )
+    ENDIF
 
 RETURN .T.
 
@@ -1833,7 +1838,7 @@ RETURN Result
 */
 METHOD FUNCTION GetTableFileName() CLASS TTable
     IF Empty( ::FTableFileName )
-        IF ::autoCreate
+        IF ::AutoCreate
             FClose( HB_FTempCreateEx( @::FTableFileName, NIL, "t", ".dbf" ) )
             ::FIsTempTable := .T.
         ENDIF
