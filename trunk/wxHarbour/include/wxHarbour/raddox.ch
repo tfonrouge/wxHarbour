@@ -93,6 +93,7 @@
 						[ ON VALIDATE <bOnValidate> ] ;
 						[ ON SEARCH <bOnSearch> ] ;
 						[ ON AFTER CHANGE <bOnAfterChange> ] ;
+                        [ ON AFTER POST CHANGE <bOnAfterPostChange> ] ;
 						[ VALIDVALUES <validValues> ] ;
 						[ USING <usingField> ] ;
 						[ <ruf: REUSEFIELD> ] ;
@@ -125,6 +126,7 @@
 							[ :OnValidate := <bOnValidate> ] ;;
 							[ :OnSearch := <bOnSearch> ] ;;
 							[ :OnAfterChange := <bOnAfterChange> ] ;;
+                            [ :OnAfterPostChange := <bOnAfterPostChange> ] ;;
 							[ :ValidValues := <validValues> ] ;;
 							[ :UsingField := <usingField> ] ;;
 							:AddFieldMessage() ;;

@@ -2,6 +2,26 @@
  * $Id$
  */
 
+2010-06-14 20:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     + added clause to tfield declarations:
+       + ON AFTER POST CHANGE : evaluates given code block after a table post
+         and only if the field has been changed.
+
+  *  samples/dbf_ctrls1/dbf_ctrls1.prg
+     * setting mode for text window on debug mode
+
+  *  src/raddox/TField.prg
+     * added data to contain code block for on after post change
+       + OnAfterPostChange
+     * changed PrimaryIndex calls to BaseKeyField
+
+  *  src/raddox/TTable.prg
+     + added RO property BaseKeyField
+     * changed PrimaryIndex calls to BaseKeyFields
+     * added logic to process OnAfterPostChange tfield's events
+     * minor code cleanup
+
 2010-06-10 06:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * orden of processing of indexes definitions are now from parent classes

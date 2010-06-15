@@ -168,7 +168,8 @@ PUBLISHED:
 	DATA OnSearch			// Search in indexed field
 	DATA OnSetText			// Params: Sender: TField, Text: String
 	DATA OnSetValue			// Parama:
-	DATA OnAfterChange				// Params: Sender: TField
+	DATA OnAfterChange		// Params: Sender: TField
+    DATA OnAfterPostChange  // executes after Table post and only if field has been changed
 	DATA OnValidate			// Params: Sender: TField
 	
 	DATA ValidValues
@@ -756,10 +757,10 @@ METHOD FUNCTION Reset() CLASS TField
                     ENDIF
 
                     IF ::IsDerivedFrom( "TObjectField" )
-                        IF ::LinkedTable:GetPrimaryKeyField() != NIL
-                            value := ::LinkedTable:GetPrimaryKeyField():GetDefaultValue()
+                        IF ::LinkedTable:GetBaseKeyField() != NIL
+                            value := ::LinkedTable:GetBaseKeyField():GetDefaultValue()
                             IF value == NIL
-                                value := ::LinkedTable:GetPrimaryKeyField():GetEmptyValue()
+                                value := ::LinkedTable:GetBaseKeyField():GetEmptyValue()
                             ENDIF
                         ENDIF
                     ELSE
@@ -1237,9 +1238,9 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
 		IF ::FTable:LinkedObjField != NIL
 
-			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetPrimaryKeyField():GetAsVariant() )
+			::FTable:LinkedObjField:SetAsVariant( ::FTable:GetBaseKeyField():GetAsVariant() )
 
-			IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:GetPrimaryKeyField():GetKeyVal()
+			IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:GetBaseKeyField():GetKeyVal()
 				::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
 			ENDIF
 			
@@ -1756,12 +1757,12 @@ PROTECTED:
     METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
     METHOD GetLabel()
 	METHOD GetLinkedTable
-	METHOD GetEmptyValue() INLINE ::LinkedTable:GetPrimaryKeyField():EmptyValue
+	METHOD GetEmptyValue() INLINE ::LinkedTable:GetBaseKeyField():EmptyValue
 	METHOD GetFieldReadBlock()
 PUBLIC:
 	METHOD DataObj
 	METHOD GetKeyVal( keyVal )
-	METHOD GetAsString							//INLINE ::LinkedTable:GetPrimaryKeyField():AsString()
+	METHOD GetAsString							//INLINE ::LinkedTable:GetBaseKeyField():AsString()
 	METHOD GetAsVariant( ... )
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
 	PROPERTY LinkedTable READ GetLinkedTable
@@ -1819,10 +1820,10 @@ METHOD FUNCTION DataObj CLASS TObjectField
 	ELSE
 		keyVal := ::GetAsVariant()
 		/* Syncs with the current value */
-		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:PrimaryIndex:KeyVal == keyVal
+		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:BaseKeyField:KeyVal == keyVal
 			linkedObjField := linkedTable:LinkedObjField
 			linkedTable:LinkedObjField := NIL
-			linkedTable:PrimaryIndex:SetKeyVal( keyVal )
+			linkedTable:BaseKeyField:SetKeyVal( keyVal )
 			linkedTable:LinkedObjField := linkedObjField
 		ENDIF
 	ENDIF
@@ -1834,7 +1835,7 @@ RETURN linkedTable
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString CLASS TObjectField
-RETURN ::GetLinkedTable():GetPrimaryKeyField():GetAsString()
+RETURN ::GetLinkedTable():GetBaseKeyField():GetAsString()
 
 /*
 	GetAsVariant
