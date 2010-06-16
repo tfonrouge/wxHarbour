@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2010-06-16 10:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +  demos/AddressBook/png
+  +  demos/AddressBook/png/accept.png
+  +  demos/AddressBook/png/application_add.png
+  +  demos/AddressBook/png/application_edit.png
+  +  demos/AddressBook/png/application_remove.png
+  +  demos/AddressBook/png/back.png
+  +  demos/AddressBook/png/next.png
+  +  demos/AddressBook/png/page_next.png
+  +  demos/AddressBook/png/page_previous.png
+  +  demos/AddressBook/png/refresh.png
+  +  demos/AddressBook/png/remove.png
+  +  demos/AddressBook/png/skip_backward.png
+  +  demos/AddressBook/png/skip_forward.png
+     * added button images
+
 2010-06-16 10:47 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/GNUmakefile
