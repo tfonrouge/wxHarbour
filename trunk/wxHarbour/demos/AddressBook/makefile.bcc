@@ -197,6 +197,7 @@ ADDRESSBOOK_CFLAGS = -I$(BCCDIR)\include -I$(HB_INC_INSTALL) -O2 $(p) $(p_0) \
 	$(CPPFLAGS) -D__HARBOUR__
 ADDRESSBOOK_OBJECTS =  \
 	$(__BUILDDIR__)\AddressBook_AddressBook.obj \
+	$(__BUILDDIR__)\AddressBook_BaseBrowse.obj \
 	$(__BUILDDIR__)\AddressBook_Database.obj \
 	$(__BUILDDIR__)\AddressBook_Tbl_Name.obj
 ADDRESSBOOK_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) \
@@ -367,6 +368,10 @@ run: all
 	.\AddressBook.exe
 
 $(__BUILDDIR__)\AddressBook_AddressBook.obj: .\AddressBook.prg
+	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $**
+	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\AddressBook_BaseBrowse.obj: .\BaseBrowse.prg
 	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $**
 	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
 
