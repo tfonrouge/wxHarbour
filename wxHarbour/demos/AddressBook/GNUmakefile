@@ -127,6 +127,7 @@ ADDRESSBOOK_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
 	-I../../include/wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
 ADDRESSBOOK_OBJECTS =  \
 	$(__BUILDDIR__)/AddressBook_AddressBook.o \
+	$(__BUILDDIR__)/AddressBook_BaseBrowse.o \
 	$(__BUILDDIR__)/AddressBook_Database.o \
 	$(__BUILDDIR__)/AddressBook_Tbl_Name.o
 ADDRESSBOOK_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) \
@@ -313,6 +314,10 @@ run: all
 	../../bin/run_App.sh AddressBook
 
 $(__BUILDDIR__)/AddressBook_AddressBook.o: ./AddressBook.prg
+	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $<
+	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)/AddressBook_BaseBrowse.o: ./BaseBrowse.prg
 	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $<
 	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
 

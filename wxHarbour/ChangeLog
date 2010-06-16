@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-06-16 10:47 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/GNUmakefile
+  *  demos/AddressBook/Tbl_Name.prg
+  *  demos/AddressBook/makefile.bcc
+  *  demos/AddressBook/makefile.gcc
+  *  demos/AddressBook/makefile.vc
+  +  demos/AddressBook/AddressBook.ch
+  +  demos/AddressBook/BaseBrowse.prg
+     * updated demo
+
 2010-06-15 10:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/Tbl_Name.prg
