@@ -99,6 +99,9 @@ METHOD PROCEDURE DefineDetailView() CLASS myApp
     BEGIN PANEL
         BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2
 
+            @ SAY ::tbl_Name:Field_RecId:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_RecId SIZERINFO ALIGN LEFT
+
             @ SAY ::tbl_Name:Field_DoB:Label SIZERINFO ALIGN RIGHT
                 @ DATEPICKERCTRL ::tbl_Name:Field_DoB SIZERINFO ALIGN LEFT
 

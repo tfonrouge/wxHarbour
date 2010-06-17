@@ -136,6 +136,7 @@ PUBLIC:
     METHOD RevertValue()
 	METHOD SetAsVariant( value )
 	METHOD SetData( Value )
+    METHOD SetDbStruct( aStruct )
 	METHOD SetEditText( Text )
 	METHOD SetFieldMethod( FieldMethod, calculated )
 	METHOD SetKeyVal( keyVal )
@@ -1032,6 +1033,16 @@ METHOD PROCEDURE SetData( value ) CLASS TField
 RETURN
 
 /*
+    SetDbStruct
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetDbStruct( aStruct ) CLASS TField
+    ::FModStamp	:= aStruct[2] $ "=^+"
+    ::FDBS_LEN  := aStruct[3]
+    ::FDBS_DEC  := aStruct[4]
+RETURN
+
+/*
 	SetEditText
 	Teo. Mexico 2009
 */
@@ -1053,7 +1064,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 	LOCAL itm,fieldName
 	LOCAL AField
 	LOCAL i
-	LOCAL n
     LOCAL calcMethod
 
 	SWITCH (::FFieldMethodType := ValType( FieldMethod ))
@@ -1102,50 +1112,28 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
 		IF ! ::FCalculated
 
-            IF ::FTable:Alias != NIL
-                
-                IF ::FTable:Alias:FieldPos( FieldMethod ) = 0
-                    RAISE TFIELD FieldMethod ERROR "Field does not exist in table..."
+            ::FDBS_NAME := FieldMethod
+
+            /* Check if the same FieldExpression is declared redeclared in the same table baseclass */
+            FOR EACH AField IN ::FTable:FieldList
+                IF !Empty( AField:FieldExpression ) .AND. ;
+                     Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
+                     AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
+                    RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
                 ENDIF
+            NEXT
 
-                /* Check if the same FieldExpression is declared redeclared in the same table baseclass */
-                FOR EACH AField IN ::FTable:FieldList
-                    IF !Empty( AField:FieldExpression ) .AND. ;
-                         Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-                         AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
-                        RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
-                    ENDIF
-                NEXT
+            ::FFieldReadBlock := FieldBlock( FieldMethod )
+            ::FFieldWriteBlock := FieldBlock( FieldMethod )
 
-                ::FDBS_NAME := FieldMethod
-
-                ::FFieldReadBlock := FieldBlock( FieldMethod )
-                ::FFieldWriteBlock := FieldBlock( FieldMethod )
-
-                n := AScan( ::Table:DbStruct, {|e| Upper( FieldMethod ) == e[1] } )
-
-                ::FModStamp	:= ::Table:DbStruct[n][2] $ "=^+"
-
-                ::FDBS_LEN := ::Table:DbStruct[n][3]
-                ::FDBS_DEC := ::Table:DbStruct[n][4]
-
-                IF ::IsDerivedFrom("TStringField")
-                    IF ::IsDerivedFrom("TMemoField")
-                        ::FSize := 0
-                    ELSE
-                        ::FSize := ::FDBS_LEN
-                    ENDIF
+            IF ::IsDerivedFrom("TStringField")
+                IF ::IsDerivedFrom("TMemoField")
+                    ::FSize := 0
+                ELSE
+                    ::FSize := ::FDBS_LEN
                 ENDIF
-                
-            ELSE
-
-                ::FDBS_NAME := FieldMethod
-
-                ::FFieldReadBlock := FieldBlock( FieldMethod )
-                ::FFieldWriteBlock := FieldBlock( FieldMethod )
-
             ENDIF
-            
+
         ELSE
         
             IF calcMethod

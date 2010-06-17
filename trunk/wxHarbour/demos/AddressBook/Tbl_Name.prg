@@ -50,7 +50,7 @@ ENDCLASS
 BEGIN FIELDS CLASS Tbl_Name
 
     ADD INTEGER FIELD "RecId" ;
-        PRIVATE
+        //PRIVATE
 
     ADD STRING FIELD "FName" SIZE 40 ;
         REQUIRED ;
@@ -66,6 +66,8 @@ BEGIN FIELDS CLASS Tbl_Name
     ADD DATETIME FIELD "DoB" ;
         REQUIRED ;
         LABEL "Day of birth"
+        
+    ADD MEMO FIELD "Memo"
         
     /* Calculated Field's */
     ADD CALCULATED STRING FIELD "FullName" SIZE 81 ;

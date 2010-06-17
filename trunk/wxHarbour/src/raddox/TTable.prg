@@ -99,6 +99,7 @@ PROTECTED:
 	METHOD AddRec()
 	METHOD CheckDbStruct()
 	METHOD DefineFieldsFromDb()
+    METHOD FillFieldList()
 	METHOD FillPrimaryIndexes( curClass )
 	METHOD FindDetailSourceField( masterField )
 	METHOD FixDbStruct( aNewStruct, message )
@@ -132,7 +133,7 @@ PUBLIC:
 	
 	DATA OnDataChangeBlock
 	
-	DATA validateDbStruct INIT .T.		// On Open, Check for a valid struct dbf (against DEFINE FIELDS )
+	DATA validateDbStruct INIT .T.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
 	CONSTRUCTOR New( MasterSource, tableName )
 	DESTRUCTOR OnDestruct()
@@ -585,7 +586,11 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 			IF AField:FieldMethodType = "C" .AND. !AField:Calculated
 
 				n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
-				
+
+                IF n > 0
+                    AField:SetDbStruct( aDb[ n ] )
+                ENDIF
+
 				IF AField:IsDerivedFrom("TObjectField")
 					pkField := AField:GetReferenceField()
 					IF pkField = NIL
@@ -716,13 +721,7 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
     LOCAL aDbs := {}
     LOCAL fld
 
-	IF Empty( ::FFieldList )
-		::FFieldList := {}
-		::__DefineFields()
-		IF Empty( ::FFieldList )
-			::DefineFieldsFromDb()
-		ENDIF
-	ENDIF
+    ::FillFieldList()
 
     FOR EACH fld IN ::FieldList
         IF fld:IsTableField
@@ -1153,6 +1152,20 @@ METHOD FUNCTION FieldByObjType( objType, derived ) CLASS TTable
 RETURN NIL
 
 /*
+    FillFieldList
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE FillFieldList() CLASS TTable
+	IF Empty( ::FFieldList )
+		::FFieldList := {}
+		::__DefineFields()
+		IF Empty( ::FFieldList )
+			::DefineFieldsFromDb()
+		ENDIF
+	ENDIF
+RETURN
+
+/*
 	FillPrimaryIndexes
 	Teo. Mexico 2009
 */
@@ -1298,28 +1311,30 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 	LOCAL sPath,sName,sExt,sDrv
 	LOCAL sPath2,sName2,sExt2,sDrv2
 	LOCAL result
-	
+
 	IF message = NIL
 		message := ""
 	ENDIF
-	
+
 	IF wxhAlertYesNo( message + "Proceed to update Db Structure ?" ) = 1
-	
+
 		fileName := ::fullFileName
-		
-		HB_FNameSplit( fileName, @sPath, @sName, @sExt, @sDrv )
+
+        sExt := DbInfo( DBI_TABLEEXT )
+
+		HB_FNameSplit( fileName, @sPath, @sName, NIL, @sDrv )
 
 		::Alias:DbCloseArea()
-		
-		HB_FTempCreateEx( @tempName, sPath, "tmp", ".dbf" )
-		
+
+		FClose( HB_FTempCreateEx( @tempName, sPath, "tmp", sExt ) )
+
 		DBCreate( tempName, aNewStruct )
-		
+
 		USE ( tempName ) NEW
-		
+
 		BEGIN SEQUENCE WITH ;
 			{|oErr| 
-				
+
 				IF oErr:GenCode = EG_DATATYPE
 					RETURN .F.
 				ENDIF
@@ -1332,32 +1347,32 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 			}
 
 			APPEND FROM ( fileName )
-			
+
 			CLOSE ( Alias() )
-			
+
 			FRename( HB_FNameMerge( sPath, sName, sExt, sDrv ), HB_FNameMerge( sPath, "_" + sName, sExt, sDrv ) )
 
 			FRename( HB_FNameMerge( sPath, sName, ".fpt", sDrv ), HB_FNameMerge( sPath, "_" + sName, ".fpt", sDrv ) )
-			
+
 			HB_FNameSplit( tempName, @sPath2, @sName2, @sExt2, @sDrv2 )
 
 			FRename( HB_FNameMerge( sPath2, sName2, sExt2, sDrv2 ), HB_FNameMerge( sPath, sName, sExt, sDrv ) )
 
 			FRename( HB_FNameMerge( sPath2, sName2, ".fpt", sDrv2 ), HB_FNameMerge( sPath, sName, ".fpt", sDrv ) )
-			
-			result := ::Alias:DbOpen()
-			
+
+			result := ::Alias:DbOpen( Self )
+
 		RECOVER
 
 			result := .F.
-			
+
 		END SEQUENCE
-		
+
 	ELSE
 		::CancelAtFixDbStruct()
 		result := .F.
 	ENDIF
-	
+
 RETURN result
 
 /*
@@ -1898,13 +1913,6 @@ RETURN NIL
 */
 METHOD PROCEDURE InitTable() CLASS TTable
 
-	/*!
-	* Make sure that database is open here
-	*/
-	IF ::FAlias == NIL// .AND. !Empty( ::TableFileName )
-		::FAlias := TAlias():New( Self )
-	ENDIF
-
 	IF !HB_HHasKey( ::FInstances, ::TableClass )
 
 		::FInstances[ ::TableClass ] := HB_HSetCaseMatch( { "Initializing" => .T. }, .F. )
@@ -1932,12 +1940,13 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	/*!
 	 * Load definitions for Fields and Indexes
 	 */
-	IF Empty( ::FFieldList )
-		::FFieldList := {}
-		::__DefineFields()
-		IF Empty( ::FFieldList )
-			::DefineFieldsFromDb()
-		ENDIF
+    ::FillFieldList()
+
+	/*!
+	* Make sure that database is open here
+	*/
+	IF ::FAlias == NIL// .AND. !Empty( ::TableFileName )
+		::FAlias := TAlias():New( Self )
 	ENDIF
 
 	IF Empty( ::FIndexList )
