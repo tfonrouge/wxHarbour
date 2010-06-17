@@ -18,6 +18,7 @@ PUBLIC:
     PROPERTY AutoCreate DEFAULT .T.
 	PROPERTY TableFileName DEFAULT "names"
     
+    CALCFIELD Age()
     CALCFIELD FullName()
 
     DEFINE FIELDS
@@ -30,13 +31,15 @@ PUBLIC:
     METHOD CanMove( direction )
     METHOD CanPost() INLINE AScan( { dsEdit, dsInsert }, ::State ) > 0
     
+    METHOD OnAfterOpen()
     METHOD OnDataChange()
+    METHOD OnNotebookPageChanged( notebookEvt )
     METHOD OnNotebookPageChanging( notebookEvt )
     
-    METHOD TryDelete() INLINE ::Delete()
+    METHOD TryDelete()
     METHOD TryEdit()
     METHOD TryInsert()
-    METHOD TryPost() INLINE ::Post()
+    METHOD TryPost()
 
 PUBLISHED:
 ENDCLASS
@@ -67,6 +70,8 @@ BEGIN FIELDS CLASS Tbl_Name
     /* Calculated Field's */
     ADD CALCULATED STRING FIELD "FullName" SIZE 81 ;
         LABEL "Full Name"
+        
+    ADD CALCULATED FLOAT FIELD "Age"
 
 END FIELDS CLASS
 
@@ -75,8 +80,15 @@ END FIELDS CLASS
 */
 BEGIN INDEXES CLASS Tbl_Name
 	DEFINE PRIMARY INDEX "Primary" KEYFIELD "RecId" AUTOINCREMENT
-    DEFINE SECONDARY INDEX "Name" KEYFIELD {"FName","LName"}
+    DEFINE SECONDARY INDEX "Name" KEYFIELD {"FName","LName"} UNIQUE
+    DEFINE SECONDARY INDEX "DoB" KEYFIELD "DoB"
 END INDEXES CLASS
+
+/*
+    CalcField_Age
+*/
+CALCFIELD Age() CLASS Tbl_Name
+RETURN ( Date() - ::Field_DoB:Value ) / 365.25
 
 /*
     CalcField_FullName
@@ -105,6 +117,13 @@ METHOD FUNCTION CanMove( direction ) CLASS Tbl_Name
 RETURN Result .AND. ::State = dsBrowse
 
 /*
+    OnAfterOpen
+*/
+METHOD PROCEDURE OnAfterOpen() CLASS Tbl_Name
+    ::IndexName := "Name"
+RETURN
+
+/*
 	OnDataChange
 */
 METHOD PROCEDURE OnDataChange() CLASS Tbl_Name
@@ -120,17 +139,37 @@ METHOD PROCEDURE OnDataChange() CLASS Tbl_Name
 RETURN
 
 /*
+	OnNotebookPageChanged
+*/
+METHOD PROCEDURE OnNotebookPageChanged( notebookEvt ) CLASS Tbl_Name
+
+    IF notebookEvt:IsAllowed()
+
+        SWITCH notebookEvt:GetSelection()
+        CASE 1
+            IF wxGetApp():brw != NIL
+                wxGetApp():brw:RefreshAll()
+            END
+            EXIT
+        CASE 2
+            ::noteBook:GetPage( 2 ):TransferDataToWindow()
+            EXIT
+        ENDSWITCH
+
+    ENDIF
+
+    notebookEvt:Skip()
+
+RETURN
+
+/*
 	OnNotebookPageChanging
 */
 METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS Tbl_Name
-	LOCAL oldSelection
-	LOCAL selecting
-	
+
 	IF notebookEvt:IsAllowed()
-	
-		oldSelection := notebookEvt:GetOldSelection()
-		
-		SWITCH oldSelection
+
+		SWITCH notebookEvt:GetOldSelection()
 		CASE 2
 
 			IF AScan( { dsEdit, dsInsert }, ::State ) > 0
@@ -138,27 +177,22 @@ METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS Tbl_Name
 					notebookEvt:Veto()
 					RETURN
 				ENDIF
-				::Post()
+				::TryPost()
 			ENDIF
-			EXIT
-		ENDSWITCH
-
-		selecting := notebookEvt:GetSelection()
-		
-		SWITCH selecting
-		CASE 1
-			IF oldSelection = 2
-				wxGetApp():brw:RefreshAll()
-			ENDIF
-			EXIT
-		CASE 2
-			::noteBook:GetPage( 2 ):TransferDataToWindow()
 			EXIT
 		ENDSWITCH
 
 	ENDIF
+    
+    notebookEvt:Skip()
 
 RETURN
+
+/*
+    TryDelete
+*/
+METHOD FUNCTION TryDelete() CLASS Tbl_Name
+RETURN ::Delete()
 
 /*
 	TryEdit
@@ -189,3 +223,9 @@ METHOD FUNCTION TryInsert() CLASS Tbl_Name
 	ENDIF
 
 RETURN .F.
+
+/*
+    TryPost
+*/
+METHOD FUNCTION TryPost() CLASS Tbl_Name
+RETURN ::Post()

@@ -458,7 +458,7 @@ METHOD FUNCTION IndexExpression() CLASS TIndex
     ENDIF
 
     IF ::FKeyField != NIL
-        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression
+        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression( ::FCaseSensitive )
     ENDIF
 
 RETURN exp
@@ -561,6 +561,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 		/* Array of fields are stored in a TStringField (for the index nature) */
 		AField := TStringField():New( ::FTable )
 		AField:FieldMethod	:= XField
+        AField:AddFieldMessage()
 		EXIT
 	CASE 'U'
 		AField := NIL

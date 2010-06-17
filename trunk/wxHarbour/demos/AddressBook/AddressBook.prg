@@ -68,7 +68,7 @@ METHOD FUNCTION OnInit() CLASS myApp
 
     ::DefineToolbar()
 
-    BEGIN NOTEBOOK VAR ::tbl_Name:noteBook ON PAGE CHANGING {|notebookEvt| ::tbl_Name:OnNotebookPageChanging( notebookEvt ) }
+    BEGIN NOTEBOOK VAR ::tbl_Name:noteBook ON PAGE CHANGING {|notebookEvt| ::tbl_Name:OnNotebookPageChanging( notebookEvt ) } ON PAGE CHANGED {|notebookEvt| ::tbl_Name:OnNotebookPageChanged( notebookEvt ) }
 
         ADD BOOKPAGE "List" FROM
             BEGIN PANEL
