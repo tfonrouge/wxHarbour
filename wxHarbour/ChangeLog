@@ -2,6 +2,36 @@
  * $Id$
  */
 
+2010-06-17 14:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/Tbl_Name.prg
+     ! added ON PAGE CHANGED to catch the event on Win Platforms
+     % improved demo
+
+  *  src/raddox/TField.prg
+     + added protected method
+       + WriteToTable : centralizes writing field to table
+     + added method:
+       + IndexExpression : for each TField descendant
+       + RevertValue : to revert the original value stored in UndoList to
+         the field, this won't happen if the field belongs to a table that
+         haves MasterSource and the field is a master key component and
+         the value is not empty
+     ! Fixed converting keyval for TLogicalField
+     ! Added validation for not empty value for Unique field's
+     ! Fixed converting to string values for comparing in SetKeyVal
+     % adding GetAsNumeric/SetAsNumeric on TStringField's
+     * code cleanup
+
+  *  src/raddox/TIndex.prg
+     ! Fixed creation of index expression for TStringField's honoring the
+       case sensitive flag
+     ! Fixed adding new TField created on index definition
+
+  *  src/raddox/TTable.prg
+     * using TField:RevertValue on ::Cancel
+     * initializing ::FUndoList when state is changed to dsEdit
+
 2010-06-16 10:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +  demos/AddressBook/png
   +  demos/AddressBook/png/accept.png

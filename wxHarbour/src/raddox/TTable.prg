@@ -193,7 +193,7 @@ PUBLIC:
 	METHOD OrdKeyNo() INLINE ::Index:OrdKeyNo()
 	METHOD Post()
 	METHOD RawSeek( Value, index )
-	METHOD RecLock
+	METHOD RecLock()
 	METHOD RecUnLock()
 	METHOD Refresh
 	METHOD Reset()	// Set Field Record to their default values, Sync MasterKeyVal Value
@@ -546,7 +546,7 @@ METHOD PROCEDURE Cancel CLASS TTable
 	CASE dsEdit
 		FOR EACH AField IN ::FieldList
 			IF AField:FieldMethodType = "C" .AND. HB_HHasKey( ::FUndoList, AField:Name ) .AND. !AField:Value == ::FUndoList[ AField:Name ]
-				AField:Value := ::FUndoList[ AField:Name ]
+                AField:RevertValue()
 			ENDIF
 		NEXT
 		EXIT
@@ -744,7 +744,7 @@ RETURN .T.
 */
 METHOD FUNCTION CreateIndex( index ) CLASS TTable
     LOCAL indexExp
-    
+
     indexExp := index:IndexExpression()
 
     CREATE INDEX ON indexExp TAG index:Name ADDITIVE
@@ -1100,8 +1100,6 @@ METHOD FUNCTION Edit() CLASS TTable
 	IF !::RecLock()
 		RETURN .F.
 	ENDIF
-	
-	::FUndoList := HB_HSetCaseMatch( {=>}, .F. )
 
 RETURN .T.
 
@@ -2248,7 +2246,7 @@ RETURN ::FindIndex( index ):RawSeek( Value )
 	RecLock
 	Teo. Mexico 2006
 */
-METHOD FUNCTION RecLock CLASS TTable
+METHOD FUNCTION RecLock() CLASS TTable
 	LOCAL allowOnDataChange
 	LOCAL result
 
@@ -2455,6 +2453,11 @@ METHOD PROCEDURE SetState( state ) CLASS TTable
 
 	oldState := ::FState
 	::FState := state
+    
+    IF state = dsEdit
+        ::FUndoList := HB_HSetCaseMatch( {=>}, .F. )
+    ENDIF
+
 	::OnStateChange( oldState )
 
 RETURN

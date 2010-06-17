@@ -109,6 +109,7 @@ PROTECTED:
 	METHOD SetLabel( label ) INLINE ::FLabel := label
 	METHOD SetRequired( Required ) INLINE ::FRequired := Required
 	METHOD SetReUseField( reUseField ) INLINE ::FReUseField := reUseField
+    METHOD WriteToTable( value, buffer )
 
 PUBLIC:
 
@@ -118,7 +119,7 @@ PUBLIC:
 	CONSTRUCTOR New( Table, curBaseClass )
 
 	METHOD AddFieldMessage()
-	METHOD Delete
+	METHOD Delete()
 	METHOD GetAsString INLINE "<" + ::ClassName + ">"
 	METHOD GetAsVariant( ... )
 	METHOD GetBuffer()
@@ -126,12 +127,13 @@ PUBLIC:
 	METHOD GetData()
 	METHOD GetKeyVal( keyVal )
 	METHOD GetValidValues
-    METHOD IndexExpression()
+    METHOD IndexExpression VIRTUAL
 	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
     METHOD IsTableField()
 	METHOD IsValid( showAlert )
 	METHOD OnPickList( param )
 	METHOD Reset()
+    METHOD RevertValue()
 	METHOD SetAsVariant( value )
 	METHOD SetData( Value )
 	METHOD SetEditText( Text )
@@ -249,7 +251,7 @@ RETURN
 	Delete
 	Teo. Mexico 2009
 */
-METHOD PROCEDURE Delete CLASS TField
+METHOD PROCEDURE Delete() CLASS TField
 	LOCAL errObj
 
 	IF AScan( { dsEdit, dsInsert }, ::Table:State ) = 0
@@ -263,7 +265,7 @@ METHOD PROCEDURE Delete CLASS TField
 
 	BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
-		::Table:Alias:Eval( ::FFieldWriteBlock, ::EmptyValue() )
+        ::WriteToTable( ::EmptyValue() )
 
 		::Reset()
 
@@ -564,6 +566,8 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
 		RETURN DToS( keyVal )
     CASE 'T'
         RETURN HB_TToS( keyVal )
+    CASE 'L'
+        RETURN iif( keyVal, "T", "F" )
 	OTHERWISE
 		keyVal := AsString( keyVal )
 	ENDSWITCH
@@ -596,25 +600,6 @@ METHOD FUNCTION GetValidValues() CLASS TField
 RETURN ::ValidValues
 
 /*
-    IndexExpression
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION IndexExpression() CLASS TField
-    LOCAL exp
-    LOCAL i
-    
-    IF ::FFieldMethodType = "A"
-        exp := ""
-		FOR EACH i IN ::FFieldArrayIndex
-			exp += iif( Len( exp ) = 0, "", "+" ) + ::FTable:FieldList[ i ]:IndexExpression
-		NEXT
-    ELSE
-        exp := ::FFieldExpression
-    ENDIF
-
-RETURN exp
-
-/*
     IsTableField
     Teo. Mexico 2010
 */
@@ -640,11 +625,12 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 	ENDIF
 
 	IF ::Unique
-	/* IF Empty( value )
-		wxhAlert( ::FTable:ClassName + ":" + ::FName + " <empty INDEX key value>" )
-		RETURN .F.
-	ENDIF
-	 */		 
+        IF Empty( value )
+            IF showAlert == .T.
+                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty UNIQUE INDEX key value>" )
+            ENDIF
+            RETURN .F.
+        ENDIF
 		IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
 			IF showAlert == .T.
 				wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <key value already exists> '" + AsString( value ) + "'")
@@ -794,6 +780,14 @@ METHOD FUNCTION Reset() CLASS TField
 RETURN result
 
 /*
+    RevertValue
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE RevertValue() CLASS TField
+    ::WriteToTable( ::GetUndoValue() )
+RETURN
+
+/*
 	SetAsVariant
 	Teo. Mexico 2010
 */
@@ -905,7 +899,7 @@ RETURN
 	SetData
 	Teo. Mexico 2006
 */
-METHOD PROCEDURE SetData( Value ) CLASS TField
+METHOD PROCEDURE SetData( value ) CLASS TField
 	LOCAL i
 	LOCAL nTries
 	LOCAL errObj
@@ -915,7 +909,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 	SWITCH ::FFieldMethodType
 	CASE 'A'
 
-		IF Value != NIL
+		IF value != NIL
 			RAISE TFIELD ::Name ERROR "SetData: Not allowed custom value in a compound TField..."
 		ENDIF
 
@@ -946,7 +940,7 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
 	IF ::AutoIncrement
 
-		IF Value != NIL
+		IF value != NIL
 			RAISE TFIELD ::Name ERROR "Not allowed custom value in AutoIncrement Field..."
 		ENDIF
 
@@ -960,8 +954,8 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		/* Try to obtain a unique key */
 		nTries := 1000
 		WHILE .T.
-			Value := ::GetAutoIncrementValue()
-			IF !::FAutoIncrementKeyIndex:ExistKey( ::GetKeyVal( Value ) )
+			value := ::GetAutoIncrementValue()
+			IF !::FAutoIncrementKeyIndex:ExistKey( ::GetKeyVal( value ) )
 				EXIT
 			ENDIF
 			IF	(--nTries = 0)
@@ -972,14 +966,14 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 
 	ELSE
 
-		IF Value == NIL
-			Value := ::GetBuffer()
+		IF value == NIL
+			value := ::GetBuffer()
 		ENDIF
 
 	ENDIF
 
 	/* Don't bother... */
-	IF !::FCalculated .AND. ( Value == ::FWrittenValue )
+	IF !::FCalculated .AND. ( value == ::FWrittenValue )
 		RETURN
 	ENDIF
 
@@ -995,13 +989,13 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		::FEvtOnBeforeChange := __ObjHasMsgAssigned( ::FTable, "OnBeforeChange_Field_" + ::Name )
 	ENDIF
 
-	IF ::FEvtOnBeforeChange .AND. !__ObjSendMsg( ::FTable, "OnBeforeChange_Field_" + ::Name, Self, Value )
+	IF ::FEvtOnBeforeChange .AND. !__ObjSendMsg( ::FTable, "OnBeforeChange_Field_" + ::Name, Self, value )
 		RETURN
 	ENDIF
 
 	buffer := ::GetBuffer()
 
-	::SetBuffer( Value )
+	::SetBuffer( value )
 
 	/* Validate before the physical writting */
 	IF !::IsValid( .T. )
@@ -1017,26 +1011,8 @@ METHOD PROCEDURE SetData( Value ) CLASS TField
 		IF ::IsPrimaryKeyField .AND. ::FUniqueKeyIndex:ExistKey( ::GetKeyVal() )
 			RAISE TFIELD ::Name ERROR "Key violation."
 		ENDIF
-
-		/* The physical write to the field */
-		::FTable:Alias:Eval( ::FFieldWriteBlock, Value )
-
-		::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
-
-		/* fill undolist */
-		IF ::FTable:State = dsEdit
-			IF ! HB_HHasKey( ::FTable:UndoList, ::FName )
-				::FTable:UndoList[ ::FName ] := buffer
-			ENDIF
-			::FChanged := ! Value == ::FTable:UndoList[ ::FName ]
-		ENDIF
-
-		/*
-		 * Check if has to propagate change to child sources
-		 */
-		IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self
-			::FTable:SyncDetailSources()
-		ENDIF
+        
+        ::WriteToTable( value, buffer )
 
 		IF ::OnAfterChange != NIL
 			::OnAfterChange:Eval( Self, buffer )
@@ -1230,7 +1206,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 		ENDIF
 
 		IF !Empty( keyVal )
-			IF !::KeyIndex:KeyVal == keyVal
+			IF !::KeyIndex:KeyVal == ::GetKeyVal( keyVal )
 				::KeyIndex:Seek( keyVal )
 			ENDIF
 		ELSE
@@ -1318,6 +1294,38 @@ METHOD PROCEDURE SetUsingField( usingField ) CLASS TField
 RETURN
 
 /*
+    WriteToTable
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE WriteToTable( value, buffer ) CLASS TField
+
+    IF !( ::FTable:PrimaryMasterKeyField = NIL .AND. ::IsPrimaryKeyField .AND. Empty( value ) )
+
+        /* The physical write to the field */
+        ::FTable:Alias:Eval( ::FFieldWriteBlock, value )
+
+        ::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
+
+        /* fill undolist */
+        IF ::FTable:State = dsEdit
+            IF !HB_HHasKey( ::FTable:UndoList, ::FName ) .AND. PCount() > 1
+                ::FTable:UndoList[ ::FName ] := buffer
+                ::FChanged := ! value == ::FTable:UndoList[ ::FName ]
+            ENDIF
+        ENDIF
+
+        /*
+         * Check if has to propagate change to child sources
+         */
+        IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self
+            ::FTable:SyncDetailSources()
+        ENDIF
+
+    ENDIF
+
+RETURN
+
+/*
 	ENDCLASS TField
 */
 
@@ -1335,12 +1343,16 @@ PROTECTED:
 	DATA FType INIT "String"
 	DATA FValType INIT "C"
 	METHOD GetEmptyValue INLINE Space( ::Size )
+    METHOD GetAsNumeric INLINE Val( ::GetAsVariant() )
 	METHOD GetSize()
+    METHOD SetAsNumeric( n ) INLINE ::SetAsVariant( LTrim( Str( n ) ) )
 	METHOD SetBuffer( buffer )
 	METHOD SetDefaultValue( DefaultValue )
 	METHOD SetSize( size )
 PUBLIC:
 	METHOD GetAsString
+    METHOD IndexExpression( caseSensitive )
+    PROPERTY AsNumeric READ GetAsNumeric WRITE SetAsNumeric
 PUBLISHED:
 	PROPERTY Size READ GetSize WRITE SetSize
 ENDCLASS
@@ -1382,6 +1394,29 @@ METHOD FUNCTION GetSize() CLASS TStringField
 	ENDIF
 
 RETURN ::FSize
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression( caseSensitive ) CLASS TStringField
+    LOCAL exp
+    LOCAL i
+    
+    IF ::FFieldMethodType = "A"
+        exp := ""
+		FOR EACH i IN ::FFieldArrayIndex
+			exp += iif( Len( exp ) = 0, "", "+" ) + ::FTable:FieldList[ i ]:IndexExpression
+		NEXT
+    ELSE
+        IF caseSensitive == .T.
+            exp := ::FFieldExpression
+        ELSE
+            exp := "Upper(" + ::FFieldExpression + ")"
+        ENDIF
+    ENDIF
+
+RETURN exp
 
 /*
 	SetBuffer
@@ -1456,6 +1491,7 @@ PROTECTED:
 PUBLIC:
 
 	METHOD GetAsString
+    METHOD IndexExpression()
 	METHOD SetAsVariant( variant )
 
 	PROPERTY AsNumeric READ GetAsVariant WRITE SetAsVariant
@@ -1482,6 +1518,13 @@ METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
 	ENDIF
 
 RETURN Result
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TNumericField
+RETURN "Str(" + ::FieldExpression + ")"
 
 /*
 	SetAsVariant
@@ -1612,10 +1655,19 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| .F. }
 PUBLIC:
 
+    METHOD IndexExpression()
+
 	PROPERTY AsBoolean READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TLogicalField
+RETURN "iif(" + ::FFieldExpression + ",'T','F')"
 
 /*
 	ENDCLASS TLogicalField
@@ -1639,12 +1691,20 @@ PROTECTED:
 PUBLIC:
 
 	METHOD GetAsString INLINE FDateS( ::GetAsVariant() )
+    METHOD IndexExpression()
 	METHOD SetAsVariant( variant )
 
 	PROPERTY Size READ FSize
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TDateField
+RETURN "DToS(" + ::FFieldExpression + ")"
 
 /*
 	SetAsVariant
@@ -1687,12 +1747,20 @@ PUBLIC:
     CLASSDATA fmtDate INIT "YYYY-MM-DD"
     CLASSDATA fmtTime
 
+    METHOD IndexExpression()
     METHOD SetAsVariant( variant )
 
 	PROPERTY Size READ FSize
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TDateTimeField
+RETURN "HB_TToS(" + ::FFieldExpression + ")"
 
 /*
 	SetAsVariant
@@ -1774,39 +1842,13 @@ PUBLIC:
 	METHOD GetAsString							//INLINE ::LinkedTable:GetBaseKeyField():AsString()
 	METHOD GetAsVariant( ... )
 	METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
+    METHOD IndexExpression()
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
 	PROPERTY ObjType READ FObjType WRITE SetObjType
 	PROPERTY Size READ GetSize
 PUBLISHED:
 ENDCLASS
-
-/*
-	GetKeyVal
-	Teo. Mexico 2009
-*/
-METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
-	LOCAL pkField
-	
-	keyVal := Super:GetKeyVal( keyVal )
-
-	pkField := ::GetReferenceField()
-	
-	IF pkField = NIL
-		RETURN keyVal
-	ENDIF
-
-RETURN pkField:GetKeyVal( keyVal )
-
-/*
-    GetLabel
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION GetLabel() CLASS TObjectField
-    IF ::FLabel = NIL
-        RETURN ::GetReferenceField():Label
-    ENDIF
-RETURN ::FLabel
 
 /*
 	DataObj
@@ -1838,6 +1880,33 @@ METHOD FUNCTION DataObj CLASS TObjectField
 	ENDIF
 
 RETURN linkedTable
+
+/*
+	GetKeyVal
+	Teo. Mexico 2009
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
+	LOCAL pkField
+	
+	keyVal := Super:GetKeyVal( keyVal )
+
+	pkField := ::GetReferenceField()
+	
+	IF pkField = NIL
+		RETURN keyVal
+	ENDIF
+
+RETURN pkField:GetKeyVal( keyVal )
+
+/*
+    GetLabel
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetLabel() CLASS TObjectField
+    IF ::FLabel = NIL
+        RETURN ::GetReferenceField():Label
+    ENDIF
+RETURN ::FLabel
 
 /*
 	GetAsString
@@ -1963,6 +2032,13 @@ RETURN ::FLinkedTable
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
 RETURN ::DataObj:GetBaseKeyField()
+
+/*
+    IndexExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION IndexExpression() CLASS TObjectField
+RETURN ::FFieldExpression
 
 /*
 	ENDCLASS TObjectField
