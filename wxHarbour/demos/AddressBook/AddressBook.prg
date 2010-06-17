@@ -97,7 +97,7 @@ RETURN .T.
 METHOD PROCEDURE DefineDetailView() CLASS myApp
     
     BEGIN PANEL
-        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2
+        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
 
             @ SAY ::tbl_Name:Field_RecId:Label SIZERINFO ALIGN RIGHT
                 @ GET ::tbl_Name:Field_RecId SIZERINFO ALIGN LEFT
@@ -114,6 +114,9 @@ METHOD PROCEDURE DefineDetailView() CLASS myApp
             @ SAY ::tbl_Name:Field_LName:Label SIZERINFO ALIGN RIGHT
                 @ GET ::tbl_Name:Field_LName SIZERINFO ALIGN EXPAND
 
+            @ SAY ::tbl_Name:Field_Memo:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_Memo MULTILINE SIZERINFO ALIGN EXPAND
+
         END SIZER
     END PANEL
 
@@ -129,51 +132,51 @@ METHOD PROCEDURE DefineToolbar() CLASS myApp
 
     BEGIN FRAME TOOLBAR //STYLE HB_BitOr( wxTB_HORIZONTAL, wxNO_BORDER ) SIZERINFO ALIGN RIGHT BORDER 0
 
-        @ TOOL BUTTON ID idBase + abID_DB_INSERT LABEL "Add" SHORTHELP "Agrega " BITMAP "png/application_add.png" ;
+        @ TOOL BUTTON ID idBase + abID_DB_INSERT LABEL "Add" SHORTHELP "Add " BITMAP "png/application_add.png" ;
             ACTION {|| ::tbl_Name:TryInsert() } ;
             ENABLED {|| ::tbl_Name:CanInsert() }
 
-        @ TOOL BUTTON ID idBase + abID_DB_EDIT LABEL "Edit" SHORTHELP "Modifica " BITMAP "png/application_edit.png" ;
+        @ TOOL BUTTON ID idBase + abID_DB_EDIT LABEL "Edit" SHORTHELP "Edit " BITMAP "png/application_edit.png" ;
             ACTION {|| ::tbl_Name:TryEdit() } ;
             ENABLED {|| ::tbl_Name:CanEdit() }
 
-        @ TOOL BUTTON ID idBase + abID_DB_DELETE LABEL "Remove" SHORTHELP "Elimina " BITMAP "png/application_remove.png" ;
+        @ TOOL BUTTON ID idBase + abID_DB_DELETE LABEL "Remove" SHORTHELP "Remove " BITMAP "png/application_remove.png" ;
             ACTION {|| ::tbl_Name:TryDelete( .T. ) } ;
             ENABLED {|| ::tbl_Name:CanDelete() }
 
         @ TOOL SEPARATOR
 
-        @ TOOL BUTTON ID idBase + abID_DB_POST LABEL "Post" SHORTHELP "Escribe a base de datos"  BITMAP "png/accept.png" ;
+        @ TOOL BUTTON ID idBase + abID_DB_POST LABEL "Post" SHORTHELP "Write to table"  BITMAP "png/accept.png" ;
             ACTION {|| ::tbl_Name:TryPost() } ;
             ENABLED {|| ::tbl_Name:CanPost() }
 
-        @ TOOL BUTTON ID idBase + abID_DB_CANCEL LABEL "Cancel" SHORTHELP "Cancela cambios"  BITMAP "png/remove.png" ;
+        @ TOOL BUTTON ID idBase + abID_DB_CANCEL LABEL "Cancel" SHORTHELP "Cancel changes"  BITMAP "png/remove.png" ;
             ACTION {|| ::tbl_Name:Cancel() } ;
             ENABLED {|| ::tbl_Name:CanCancel() }
 
         @ TOOL SEPARATOR
 
-        @ TOOL BUTTON ID idBase + abID_GOTOP LABEL "Top" SHORTHELP "Mueve hacia primer registro" BITMAP "png/skip_backward.png" ;
+        @ TOOL BUTTON ID idBase + abID_GOTOP LABEL "Top" SHORTHELP "Go to first record" BITMAP "png/skip_backward.png" ;
             ACTION {|| ::brw:GoTop() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
 
-        @ TOOL BUTTON ID idBase + abID_GOPGUP LABEL "PgUp" SHORTHELP "Mueve una pagina hacia arriba" BITMAP "png/page_previous.png" ;
+        @ TOOL BUTTON ID idBase + abID_GOPGUP LABEL "PgUp" SHORTHELP "Go to one Page Up" BITMAP "png/page_previous.png" ;
             ACTION {|| ::brw:PageUp() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
 
-        @ TOOL BUTTON ID idBase + abID_GOUP LABEL "Up" SHORTHELP "Mueve un registro hacia arriba" BITMAP "png/back.png" ;
+        @ TOOL BUTTON ID idBase + abID_GOUP LABEL "Up" SHORTHELP "Go to one record Up" BITMAP "png/back.png" ;
             ACTION {|| ::brw:Up() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
 
-        @ TOOL BUTTON ID idBase + abID_GODOWN LABEL "Down" SHORTHELP "Mueve un registro hacia abajo" BITMAP "png/next.png" ;
+        @ TOOL BUTTON ID idBase + abID_GODOWN LABEL "Down" SHORTHELP "Go to one record Down" BITMAP "png/next.png" ;
             ACTION {|| ::brw:Down() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
 
-        @ TOOL BUTTON ID idBase + abID_GOPGDOWN LABEL "PgDn" SHORTHELP "Mueve una pagina hacia abajo" BITMAP "png/page_next.png" ;
+        @ TOOL BUTTON ID idBase + abID_GOPGDOWN LABEL "PgDn" SHORTHELP "Go to one Page Down" BITMAP "png/page_next.png" ;
             ACTION {|| ::brw:PageDown() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
 
-        @ TOOL BUTTON ID idBase + abID_GOBOTTOM LABEL "Bottom" SHORTHELP "Mueve hacia ultimo registro" BITMAP "png/skip_forward.png" ;
+        @ TOOL BUTTON ID idBase + abID_GOBOTTOM LABEL "Bottom" SHORTHELP "Go to last record" BITMAP "png/skip_forward.png" ;
             ACTION {|| ::brw:GoBottom() } ;
             ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
 
