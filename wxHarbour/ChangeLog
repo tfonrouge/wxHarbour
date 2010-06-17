@@ -2,6 +2,25 @@
  * $Id$
  */
 
+2010-06-17 16:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/Tbl_Name.prg
+     * updated demo
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     ! Fixed alert message
+
+  *  src/raddox/TField.prg
+     + added method
+       + SetDbStruct : assigns data to field from table structure
+     * removing checking for alias/dbstruct on field definition time
+
+  *  src/raddox/TTable.prg
+     + added method
+       + FillFieldList
+     ! Fixed FixDbStruct
+     * moved alias object creation after file definition
+
 2010-06-17 14:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/Tbl_Name.prg

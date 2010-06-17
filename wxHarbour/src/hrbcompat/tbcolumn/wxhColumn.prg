@@ -224,7 +224,7 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
                     RETURN .F.
                 ENDIF
                 IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
-                    wxhAlert( "Can edit field '" + ::Field:Name + "' on database '" + ::browse:DataSource:ClassName() + "'" )
+                    wxhAlert( "Can't edit field '" + ::Field:Label + "' on table '" + ::browse:DataSource:ClassName() + "'" )
                     RETURN .F.
                 ENDIF
                 ::Field:AsString := value
