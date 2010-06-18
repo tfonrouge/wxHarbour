@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2010-06-17 23:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * code cleanup
+
+  *  src/raddox/TIndex.prg
+     * added member FTableBaseClass to hold classname on index definition
+     ! Fixed double adding of index defined field's
+
+  *  wxharbour.spec
+     * release to 1
+
 2010-06-17 17:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
      * updated demo
