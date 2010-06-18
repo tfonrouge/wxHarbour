@@ -221,21 +221,6 @@ METHOD New( Table, curBaseClass ) CLASS TField
 	::FTable := Table
 	::FTableBaseClass := curBaseClass
 
-	/* Set default field name */
-	/*
-
-	n := 0
-	::FName := ""
-
-	FOR EACH e IN ::FTable:FieldList
-		IF e:ClassName == ::ClassName
-			n++
-		ENDIF
-	NEXT
-
-	::FName := SubStr( ::ClassName, 2 ) + LTrim( Str( n ) )
-	*/
-
 	::FActive := .T.
 
 RETURN Self

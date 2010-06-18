@@ -54,6 +54,7 @@ PRIVATE:
 	METHOD SetScopeBottom( value )
 	METHOD SetScopeTop( value )
 PROTECTED:
+    DATA FTableBaseClass
 PUBLIC:
 
 	DATA associatedTable
@@ -125,9 +126,9 @@ ENDCLASS
 METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
 
 	::FTable := Table
-	
+
 	::FTagName := tagName
-	
+
 	IF Empty( name )
 		name := tagName
 	ENDIF
@@ -137,7 +138,9 @@ METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
 	IF curClass = NIL
 		curClass := ::FTable:ClassName()
 	ENDIF
-	
+
+    ::FTableBaseClass := curClass
+
 	IF !HB_HHasKey( ::FTable:IndexList, curClass )
 		::FTable:IndexList[ curClass ] := HB_HSetCaseMatch( {=>}, .F. )
 	ENDIF
@@ -541,6 +544,7 @@ RETURN
 */
 METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 	LOCAL AField
+    LOCAL fld
 
 	SWITCH ValType( XField )
 	CASE 'C'
@@ -559,9 +563,14 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 		EXIT
 	CASE 'A'
 		/* Array of fields are stored in a TStringField (for the index nature) */
-		AField := TStringField():New( ::FTable )
+		AField := TStringField():New( ::FTable, ::FTableBaseClass )
 		AField:FieldMethod	:= XField
-        AField:AddFieldMessage()
+        fld := ::FTable:FieldByName( AField:Name )
+        IF fld = NIL
+            AField:AddFieldMessage()
+        ELSE
+            AField := fld
+        ENDIF
 		EXIT
 	CASE 'U'
 		AField := NIL
