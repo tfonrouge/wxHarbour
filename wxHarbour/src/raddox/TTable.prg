@@ -967,8 +967,7 @@ METHOD PROCEDURE DefineFieldsFromDb() CLASS TTable
 	LOCAL fld
 	LOCAL AField
 
-	IF Empty( ::FFieldList ) .AND. !Empty( dbStruct := ::GetDbStruct() )
-
+	IF ::Alias != NIL .AND. Empty( ::FFieldList ) .AND. !Empty( dbStruct := ::GetDbStruct() )
 		FOR EACH fld IN dbStruct
 
 			AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
@@ -1919,6 +1918,13 @@ METHOD PROCEDURE InitTable() CLASS TTable
 
 	ENDIF
 
+	/*!
+	* Make sure that database is open here
+	*/
+	IF ::FAlias == NIL
+		::FAlias := TAlias():New( Self )
+	ENDIF
+
 	IF ::FInstances[ ::TableClass, "Initializing" ]
 	
 		::OnClassInitializing()
@@ -1941,13 +1947,6 @@ METHOD PROCEDURE InitTable() CLASS TTable
 	 * Load definitions for Fields and Indexes
 	 */
     ::FillFieldList()
-
-	/*!
-	* Make sure that database is open here
-	*/
-	IF ::FAlias == NIL// .AND. !Empty( ::TableFileName )
-		::FAlias := TAlias():New( Self )
-	ENDIF
 
 	IF Empty( ::FIndexList )
 		::__DefineIndexes()

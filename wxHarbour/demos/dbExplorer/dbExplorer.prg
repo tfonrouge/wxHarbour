@@ -33,6 +33,8 @@
 REQUEST DBFCDX
 REQUEST DBFFPT
 
+REQUEST WXH_L2BEBIN,L2BIN
+
 FUNCTION Main( ... )
 
 	SetMode( 40, 100 )
@@ -182,7 +184,7 @@ METHOD PROCEDURE Configure CLASS MyApp
 
 	IF oDlg:GetReturnCode() = wxID_OK
 
-		BEGIN SEQUENCE WITH {|oErr| BREAK( oErr ) }
+		BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
 			rddSetDefault( rddName )
 

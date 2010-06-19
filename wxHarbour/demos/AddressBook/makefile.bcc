@@ -199,6 +199,8 @@ ADDRESSBOOK_OBJECTS =  \
 	$(__BUILDDIR__)\AddressBook_AddressBook.obj \
 	$(__BUILDDIR__)\AddressBook_BaseBrowse.obj \
 	$(__BUILDDIR__)\AddressBook_Database.obj \
+	$(__BUILDDIR__)\AddressBook_Tbl_Address.obj \
+	$(__BUILDDIR__)\AddressBook_Tbl_Common.obj \
 	$(__BUILDDIR__)\AddressBook_Tbl_Name.obj
 ADDRESSBOOK_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) \
 	-es$(HBEXITSL) $(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_WIN_32 \
@@ -376,6 +378,14 @@ $(__BUILDDIR__)\AddressBook_BaseBrowse.obj: .\BaseBrowse.prg
 	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)\AddressBook_Database.obj: .\Database.prg
+	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $**
+	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\AddressBook_Tbl_Address.obj: .\Tbl_Address.prg
+	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $**
+	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
+
+$(__BUILDDIR__)\AddressBook_Tbl_Common.obj: .\Tbl_Common.prg
 	$(HBCC) $(ADDRESSBOOK_HBFLAGS) -o$@_.c $**
 	$(CC) -c $(ADDRESSBOOK_CFLAGS) -o$@ $@_.c
 

@@ -21,7 +21,7 @@
 CLASS TIndex FROM WXHBaseClass
 PRIVATE:
 	DATA FAutoIncrementKeyField
-	DATA FCaseSensitive INIT .F.
+	DATA FCaseSensitive INIT .T.
 	DATA FCustom INIT .F.
 	DATA FDescend INIT .F.
 	DATA FFilter
@@ -220,9 +220,9 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
 	keyValue := ::KeyField:GetKeyVal( keyValue )
 
 	IF direction = 0
-		alias:Seek( ::MasterKeyVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
+		alias:Seek( ::MasterKeyVal + keyValue, ::FTagName, lSoftSeek )
 	ELSE
-		alias:SeekLast( ::MasterKeyVal + iif( ::FCaseSensitive, keyValue, Upper( keyValue ) ), ::FTagName, lSoftSeek )
+		alias:SeekLast( ::MasterKeyVal + keyValue, ::FTagName, lSoftSeek )
 	ENDIF
 
 	::GetCurrentRecord()
@@ -341,8 +341,7 @@ RETURN
 	Teo. Mexico 2007
 */
 METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
-RETURN ::GetAlias():ExistKey( ::MasterKeyVal + iif( ::FCaseSensitive, ;
-	keyValue, Upper( keyValue ) ), ::FTagName, ;
+RETURN ::GetAlias():ExistKey( ::MasterKeyVal + keyValue, ::FTagName, ;
 		{||
 			IF ::IdxAlias = NIL
 				RETURN ::FTable:RecNo 
@@ -435,7 +434,7 @@ METHOD FUNCTION GetKeyVal() CLASS TIndex
 		RETURN ""
 	ENDIF
 
-RETURN iif( ::FCaseSensitive, ::FKeyField:GetKeyVal, Upper( ::FKeyField:GetKeyVal ) )
+RETURN ::FKeyField:GetKeyVal
 
 /*
 	GetMasterKeyVal
@@ -461,7 +460,7 @@ METHOD FUNCTION IndexExpression() CLASS TIndex
     ENDIF
 
     IF ::FKeyField != NIL
-        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression( ::FCaseSensitive )
+        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression
     ENDIF
 
 RETURN exp
@@ -614,6 +613,9 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
 		IF AField:IsDerivedFrom( "TStringField" ) .AND. Len( AField ) = 0
 			RAISE ERROR ::FTable:ClassName + ": Master key field <" + AField:Name + ">	needs a size > zero..."
 		ENDIF
+        IF AField:KeyIndex != NIL
+            RAISE ERROR ::FTable:ClassName + ": Field <" + AField:Name + ">	already defined as Key Field..." 
+        ENDIF
 		AField:KeyIndex := Self
 		::FKeyField := AField
 		EXIT

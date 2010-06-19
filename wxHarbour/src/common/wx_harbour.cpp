@@ -834,9 +834,14 @@ HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
 	hb_retl( evtHandler->ProcessEvent( navEvent ) );
 }
 
-HB_FUNC( WXISPRINT )
+/*
+    wxh_L2BEBin
+    Teo. Mexico 2010
+ */
+HB_FUNC( WXH_L2BEBIN )
 {
-	int keycode = hb_parni(1);
-	hb_retl(wxIsprint(keycode));
+    char szResult[ 4 ];
+    HB_U32 i = ( HB_U32 ) hb_parnl( 1 );
+    HB_PUT_BE_UINT32( szResult, i );
+    hb_retclen( szResult, 4 );
 }
-

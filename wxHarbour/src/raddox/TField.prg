@@ -37,7 +37,6 @@ PRIVATE:
 	DATA FPickList											// codeblock to help to pick a value
 	DATA FGroup														// A Text label for grouping
 	DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
-	DATA FKeyIndex
 	DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
 	DATA FPrimaryKeyComponent INIT .F.		// Field is included in a Array of fields for a Primary Index Key
 	DATA FPublished INIT .T.							// Logical: Appears in user field selection
@@ -50,13 +49,10 @@ PRIVATE:
 	METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
 	METHOD GetAutoIncrementValue
 	METHOD GetFieldMethod
-	METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
 	METHOD GetIsPrimaryKeyField( masterSourceBaseClass ) INLINE ::Table:GetPrimaryKeyField( masterSourceBaseClass ) == Self
 	METHOD GetReadOnly INLINE ::FReadOnly
 	METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
 	METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
-	METHOD SetDBS_DEC( dec ) INLINE ::FDBS_DEC := dec
-	METHOD SetDBS_LEN( len ) INLINE ::FDBS_LEN := len
 	METHOD SetDescription( Description ) INLINE ::FDescription := Description
 	METHOD SetGroup( Group ) INLINE ::FGroup := Group
 	METHOD SetIsMasterFieldComponent( IsMasterFieldComponent )
@@ -84,6 +80,7 @@ PROTECTED:
 	DATA FFieldExpression									// Literal Field expression on the Database
 	DATA FFieldMethodType
 	DATA FFieldReadBlock								// Code Block to do READ
+	DATA FKeyIndex
 	DATA FLabel
 	DATA FName INIT ""
 	DATA FTable
@@ -99,11 +96,14 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| NIL }
 	METHOD GetFieldArray()
 	METHOD GetFieldReadBlock()
+	METHOD GetIsKeyIndex INLINE ::FKeyIndex != NIL
 	METHOD GetLabel INLINE iif( ::FLabel == NIL, ::FName, ::FLabel )
 	METHOD GetLinkedTable() INLINE NIL
 	METHOD GetUndoValue()
 	METHOD SetAsString( string ) INLINE ::SetAsVariant( string )
 	METHOD SetBuffer( value )
+	METHOD SetDBS_DEC( dec ) INLINE ::FDBS_DEC := dec
+    METHOD SetDBS_LEN( dbs_Len ) INLINE ::FDBS_LEN := dbs_Len
 	METHOD SetCloneData( cloneData )
 	METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
 	METHOD SetLabel( label ) INLINE ::FLabel := label
@@ -125,7 +125,7 @@ PUBLIC:
 	METHOD GetBuffer()
 	METHOD GetEditText
 	METHOD GetData()
-	METHOD GetKeyVal( keyVal )
+	METHOD GetKeyVal( keyVal ) VIRTUAL
 	METHOD GetValidValues
     METHOD IndexExpression VIRTUAL
 	METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
@@ -521,46 +521,6 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
 RETURN ::FFieldReadBlock
 
 /*
-	GetKeyVal
-	Teo. Mexico 2010
-*/
-METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
-	LOCAL AField
-	LOCAL i
-
-	IF keyVal == NIL
-		IF ::FFieldMethodType = "A"
-			keyVal := ""
-			FOR EACH i IN ::FFieldArrayIndex
-				AField := ::FTable:FieldList[ i ]
-				keyVal += AField:GetKeyVal()
-			NEXT
-		ELSE
-			keyVal := ::GetAsVariant()
-		ENDIF
-	ENDIF
-	
-	IF ::OnGetIndexKeyVal != NIL
-		keyVal := ::OnGetIndexKeyVal:Eval( keyVal )
-	ENDIF
-
-	SWITCH ValType( keyVal )
-	CASE 'C'
-	CASE 'M'
-		RETURN keyVal
-	CASE 'D'
-		RETURN DToS( keyVal )
-    CASE 'T'
-        RETURN HB_TToS( keyVal )
-    CASE 'L'
-        RETURN iif( keyVal, "T", "F" )
-	OTHERWISE
-		keyVal := AsString( keyVal )
-	ENDSWITCH
-
-RETURN keyVal
-
-/*
 	GetUndoValue
 	Teo. Mexico 2009
 */
@@ -605,7 +565,7 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 	
 	IF ::FRequired .AND. Empty( value )
 		IF showAlert == .T.
-			wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty key value>" )
+			wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty field required value>" )
 		ENDIF
 		RETURN .F.
 	ENDIF
@@ -643,7 +603,7 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
 		
 		IF !result
 			IF showAlert == .T.
-				wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' < value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+				wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
 			ENDIF
 			RETURN .F.
 		ENDIF
@@ -1022,9 +982,9 @@ RETURN
     Teo. Mexico 2010
 */
 METHOD PROCEDURE SetDbStruct( aStruct ) CLASS TField
-    ::FModStamp	:= aStruct[2] $ "=^+"
-    ::FDBS_LEN  := aStruct[3]
-    ::FDBS_DEC  := aStruct[4]
+    ::FModStamp	:= aStruct[ 2 ] $ "=^+"
+    ::SetDBS_LEN( aStruct[ 3 ] )
+    ::SetDBS_DEC( aStruct[ 4 ] )
 RETURN
 
 /*
@@ -1110,14 +1070,6 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
 
             ::FFieldReadBlock := FieldBlock( FieldMethod )
             ::FFieldWriteBlock := FieldBlock( FieldMethod )
-
-            IF ::IsDerivedFrom("TStringField")
-                IF ::IsDerivedFrom("TMemoField")
-                    ::FSize := 0
-                ELSE
-                    ::FSize := ::FDBS_LEN
-                ENDIF
-            ENDIF
 
         ELSE
         
@@ -1320,11 +1272,13 @@ PROTECTED:
 	METHOD GetSize()
     METHOD SetAsNumeric( n ) INLINE ::SetAsVariant( LTrim( Str( n ) ) )
 	METHOD SetBuffer( buffer )
+    METHOD SetDBS_LEN( dbs_Len )
 	METHOD SetDefaultValue( DefaultValue )
 	METHOD SetSize( size )
 PUBLIC:
 	METHOD GetAsString
-    METHOD IndexExpression( caseSensitive )
+    METHOD GetKeyVal( keyVal )
+    METHOD IndexExpression()
     PROPERTY AsNumeric READ GetAsNumeric WRITE SetAsNumeric
 PUBLISHED:
 	PROPERTY Size READ GetSize WRITE SetSize
@@ -1351,6 +1305,32 @@ METHOD FUNCTION GetAsString CLASS TStringField
 RETURN Result
 
 /*
+	GetKeyVal
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
+	LOCAL AField
+	LOCAL i
+
+	IF keyVal == NIL
+		IF ::FFieldMethodType = "A"
+			keyVal := ""
+			FOR EACH i IN ::FFieldArrayIndex
+				AField := ::FTable:FieldList[ i ]
+				keyVal += AField:GetKeyVal()
+			NEXT
+		ELSE
+            IF ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive )
+                keyVal := Upper( ::GetAsVariant() )
+            ELSE
+                keyVal := ::GetAsVariant()
+            ENDIF
+		ENDIF
+	ENDIF
+
+RETURN keyVal
+
+/*
 	GetSize
 	Teo. Mexico 2010
 */
@@ -1372,7 +1352,7 @@ RETURN ::FSize
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression( caseSensitive ) CLASS TStringField
+METHOD FUNCTION IndexExpression() CLASS TStringField
     LOCAL exp
     LOCAL i
     
@@ -1382,7 +1362,7 @@ METHOD FUNCTION IndexExpression( caseSensitive ) CLASS TStringField
 			exp += iif( Len( exp ) = 0, "", "+" ) + ::FTable:FieldList[ i ]:IndexExpression
 		NEXT
     ELSE
-        IF caseSensitive == .T.
+        IF ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive )
             exp := ::FFieldExpression
         ELSE
             exp := "Upper(" + ::FFieldExpression + ")"
@@ -1404,6 +1384,17 @@ METHOD PROCEDURE SetBuffer( buffer ) CLASS TStringField
 RETURN
 
 /*
+    SetDBS_LEN
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetDBS_LEN( dbs_Len ) CLASS TStringField
+    ::FDBS_LEN := dbs_Len
+    IF ::FSize = NIL
+        ::FSize := dbs_Len
+    ENDIF
+RETURN
+
+/*
 	SetDefaultValue
 	Teo. Mexico 2006
 */
@@ -1421,7 +1412,7 @@ RETURN
 */
 METHOD PROCEDURE SetSize( size ) CLASS TStringField
 	::FSize := size
-	::DBS_LEN := size
+	::FDBS_LEN := size
 RETURN
 
 /*
@@ -1464,6 +1455,7 @@ PROTECTED:
 PUBLIC:
 
 	METHOD GetAsString
+    METHOD GetKeyVal( keyVal )
     METHOD IndexExpression()
 	METHOD SetAsVariant( variant )
 
@@ -1491,6 +1483,16 @@ METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
 	ENDIF
 
 RETURN Result
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TNumericField
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
+RETURN Str( keyVal )
 
 /*
     IndexExpression
@@ -1549,15 +1551,15 @@ ENDCLASS
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
 
     IF keyVal = NIL
-        keyVal := L2Bin( ::AsVariant() )
+        keyVal := WXH_L2BEBin( ::AsVariant() )
     ELSE
         SWITCH ValType( keyVal )
         CASE 'C'
         CASE 'M'
-            keyVal := L2Bin( Val( keyVal ) )
+            keyVal := WXH_L2BEBin( Val( keyVal ) )
             EXIT
         CASE 'N'
-            keyVal := L2Bin( keyVal )
+            keyVal := WXH_L2BEBin( keyVal )
             EXIT
         OTHERWISE
             RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert value to integer field..."
@@ -1571,7 +1573,7 @@ RETURN keyVal
     Teo. Mexico 2010
 */
 METHOD FUNCTION IndexExpression() CLASS TIntegerField
-RETURN "L2Bin(" + ::FFieldExpression + ")"
+RETURN "WXH_L2BEBin(" + ::FFieldExpression + ")"
 
 /*
 	SetAsVariant
@@ -1628,12 +1630,23 @@ PROTECTED:
 	METHOD GetEmptyValue BLOCK {|| .F. }
 PUBLIC:
 
+    METHOD GetKeyVal( keyVal )
     METHOD IndexExpression()
 
 	PROPERTY AsBoolean READ GetAsVariant WRITE SetAsVariant
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TLogicalField
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
+RETURN iif( keyVal, "T", "F" )
 
 /*
     IndexExpression
@@ -1664,6 +1677,7 @@ PROTECTED:
 PUBLIC:
 
 	METHOD GetAsString INLINE FDateS( ::GetAsVariant() )
+    METHOD GetKeyVal( keyVal )
     METHOD IndexExpression()
 	METHOD SetAsVariant( variant )
 
@@ -1671,6 +1685,16 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TDateField
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
+RETURN DToS( keyVal )
 
 /*
     IndexExpression
@@ -1720,6 +1744,7 @@ PUBLIC:
     CLASSDATA fmtDate INIT "YYYY-MM-DD"
     CLASSDATA fmtTime
 
+    METHOD GetKeyVal( keyVal )
     METHOD IndexExpression()
     METHOD SetAsVariant( variant )
 
@@ -1727,6 +1752,16 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TDateTimeField
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
+RETURN HB_TToS( keyVal )
 
 /*
     IndexExpression
@@ -1859,17 +1894,12 @@ RETURN linkedTable
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
-	LOCAL pkField
-	
-	keyVal := Super:GetKeyVal( keyVal )
 
-	pkField := ::GetReferenceField()
-	
-	IF pkField = NIL
-		RETURN keyVal
-	ENDIF
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
 
-RETURN pkField:GetKeyVal( keyVal )
+RETURN ::GetReferenceField():GetKeyVal( keyVal )
 
 /*
     GetLabel
