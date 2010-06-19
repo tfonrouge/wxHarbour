@@ -2,6 +2,51 @@
  * $Id$
  */
 
+2010-06-19 11:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/BaseBrowse.prg
+  *  demos/AddressBook/GNUmakefile
+  *  demos/AddressBook/Tbl_Name.prg
+  *  demos/AddressBook/makefile.bcc
+  *  demos/AddressBook/makefile.gcc
+  *  demos/AddressBook/makefile.vc
+  *  demos/dbExplorer/dbExplorer.prg
+  +  demos/AddressBook/Tbl_Address.prg
+  +  demos/AddressBook/Tbl_Common.prg
+     * updated demo, adding address table with country's
+       ; work in progress
+
+  *  include/wxHarbour/raddox.ch
+     * changed clause CASESENSITIVE to NO_CASE_SENSITIVE on index
+       definition
+
+  *  src/common/wx_harbour.cpp
+     - removed (unused?) wxIsPrint() function
+     + added function
+       + WXH_L2BEBin( U32 ) to convert integers to big-endian bin string
+         usable in a index expression
+
+  *  src/raddox/TAlias.prg
+     * method inline to function
+
+  *  src/raddox/TField.prg
+     * standarized SetDBS_DEC/SetDBS_LEN to TField base class
+     * TField:GetKeyVal is virtual now, all the descendant TField classes
+       has their own implementation
+     * some cleanup in text messages
+     ! Fixed index expression on TStringField's honoring the CaseSensitive
+       value
+     * using WXH_L2BEBin on converting integer values to string representation
+
+  *  src/raddox/TIndex.prg
+     * FCaseSensitive default is .T.
+     ! Fixed forcing aplying the CaseSensitive value to an whole index
+       expression on Seek operations
+     * adding protection agains double assigning an TField as Key Index Field
+
+  *  src/raddox/TTable.prg
+     * aded protection agains getting DbStruct on an empty alias
+     * moving the Alias creation before filling the field list on :InitTable
 2010-06-17 23:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * code cleanup

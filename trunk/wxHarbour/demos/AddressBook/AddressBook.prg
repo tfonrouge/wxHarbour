@@ -40,6 +40,7 @@ PRIVATE:
 PROTECTED:
 
     DATA frame
+    DATA searchExp
     DATA tbl_Name
 
     METHOD DefineDetailView()
@@ -61,6 +62,8 @@ ENDCLASS
 METHOD FUNCTION OnInit() CLASS myApp
 
     ::tbl_Name := Tbl_Name():New()
+    
+    Tbl_Country():New()
 
     CREATE FRAME ::frame ;
         TITLE "Address Book " + ::Version() ;
@@ -68,7 +71,8 @@ METHOD FUNCTION OnInit() CLASS myApp
 
     ::DefineToolbar()
 
-    BEGIN NOTEBOOK VAR ::tbl_Name:noteBook ON PAGE CHANGING {|notebookEvt| ::tbl_Name:OnNotebookPageChanging( notebookEvt ) } ON PAGE CHANGED {|notebookEvt| ::tbl_Name:OnNotebookPageChanged( notebookEvt ) }
+    BEGIN NOTEBOOK VAR ::tbl_Name:noteBook ON PAGE CHANGING {|notebookEvt| ::tbl_Name:OnNotebookPageChanging( notebookEvt ) } ON PAGE CHANGED {|notebookEvt| ::tbl_Name:OnNotebookPageChanged( notebookEvt ) } ;
+        SIZERINFO  ALIGN EXPAND STRETCH
 
         ADD BOOKPAGE "List" FROM
             BEGIN PANEL
@@ -108,11 +112,11 @@ METHOD PROCEDURE DefineDetailView() CLASS myApp
             @ SAY ::tbl_Name:Field_Genre:Label SIZERINFO ALIGN RIGHT
                 @ CHOICE ::tbl_Name:Field_Genre SIZERINFO ALIGN LEFT
 
-            @ SAY ::tbl_Name:Field_FName:Label SIZERINFO ALIGN RIGHT
-                @ GET ::tbl_Name:Field_FName SIZERINFO ALIGN EXPAND
+            @ SAY ::tbl_Name:Field_FirstName:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_FirstName SIZERINFO ALIGN EXPAND
 
-            @ SAY ::tbl_Name:Field_LName:Label SIZERINFO ALIGN RIGHT
-                @ GET ::tbl_Name:Field_LName SIZERINFO ALIGN EXPAND
+            @ SAY ::tbl_Name:Field_LastName:Label SIZERINFO ALIGN RIGHT
+                @ GET ::tbl_Name:Field_LastName SIZERINFO ALIGN EXPAND
 
             @ SAY ::tbl_Name:Field_Memo:Label SIZERINFO ALIGN RIGHT
                 @ GET ::tbl_Name:Field_Memo MULTILINE SIZERINFO ALIGN EXPAND
@@ -128,62 +132,64 @@ RETURN
 METHOD PROCEDURE DefineToolbar() CLASS myApp
     LOCAL idBase
 
-    idBase := ::tbl_Name:ClassH * 100
+    idBase := ::brw:ClassH * 100
 
     BEGIN FRAME TOOLBAR //STYLE HB_BitOr( wxTB_HORIZONTAL, wxNO_BORDER ) SIZERINFO ALIGN RIGHT BORDER 0
 
         @ TOOL BUTTON ID idBase + abID_DB_INSERT LABEL "Add" SHORTHELP "Add " BITMAP "png/application_add.png" ;
-            ACTION {|| ::tbl_Name:TryInsert() } ;
-            ENABLED {|| ::tbl_Name:CanInsert() }
+            ACTION {|| ::brw:TryInsert() } ;
+            ENABLED {|| ::brw:CanInsert() }
 
         @ TOOL BUTTON ID idBase + abID_DB_EDIT LABEL "Edit" SHORTHELP "Edit " BITMAP "png/application_edit.png" ;
-            ACTION {|| ::tbl_Name:TryEdit() } ;
-            ENABLED {|| ::tbl_Name:CanEdit() }
+            ACTION {|| ::brw:TryEdit() } ;
+            ENABLED {|| ::brw:CanEdit() }
 
         @ TOOL BUTTON ID idBase + abID_DB_DELETE LABEL "Remove" SHORTHELP "Remove " BITMAP "png/application_remove.png" ;
-            ACTION {|| ::tbl_Name:TryDelete( .T. ) } ;
-            ENABLED {|| ::tbl_Name:CanDelete() }
+            ACTION {|| ::brw:TryDelete( .T. ) } ;
+            ENABLED {|| ::brw:CanDelete() }
 
         @ TOOL SEPARATOR
 
         @ TOOL BUTTON ID idBase + abID_DB_POST LABEL "Post" SHORTHELP "Write to table"  BITMAP "png/accept.png" ;
-            ACTION {|| ::tbl_Name:TryPost() } ;
-            ENABLED {|| ::tbl_Name:CanPost() }
+            ACTION {|| ::brw:TryPost() } ;
+            ENABLED {|| ::brw:CanPost() }
 
         @ TOOL BUTTON ID idBase + abID_DB_CANCEL LABEL "Cancel" SHORTHELP "Cancel changes"  BITMAP "png/remove.png" ;
-            ACTION {|| ::tbl_Name:Cancel() } ;
-            ENABLED {|| ::tbl_Name:CanCancel() }
+            ACTION {|| ::brw:Cancel() } ;
+            ENABLED {|| ::brw:CanCancel() }
 
         @ TOOL SEPARATOR
 
         @ TOOL BUTTON ID idBase + abID_GOTOP LABEL "Top" SHORTHELP "Go to first record" BITMAP "png/skip_backward.png" ;
             ACTION {|| ::brw:GoTop() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
+            ENABLED {|| ::brw:CanMove( abID_UP ) }
 
         @ TOOL BUTTON ID idBase + abID_GOPGUP LABEL "PgUp" SHORTHELP "Go to one Page Up" BITMAP "png/page_previous.png" ;
             ACTION {|| ::brw:PageUp() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
+            ENABLED {|| ::brw:CanMove( abID_UP ) }
 
         @ TOOL BUTTON ID idBase + abID_GOUP LABEL "Up" SHORTHELP "Go to one record Up" BITMAP "png/back.png" ;
             ACTION {|| ::brw:Up() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_UP ) }
+            ENABLED {|| ::brw:CanMove( abID_UP ) }
 
         @ TOOL BUTTON ID idBase + abID_GODOWN LABEL "Down" SHORTHELP "Go to one record Down" BITMAP "png/next.png" ;
             ACTION {|| ::brw:Down() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
+            ENABLED {|| ::brw:CanMove( abID_DOWN ) }
 
         @ TOOL BUTTON ID idBase + abID_GOPGDOWN LABEL "PgDn" SHORTHELP "Go to one Page Down" BITMAP "png/page_next.png" ;
             ACTION {|| ::brw:PageDown() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
+            ENABLED {|| ::brw:CanMove( abID_DOWN ) }
 
         @ TOOL BUTTON ID idBase + abID_GOBOTTOM LABEL "Bottom" SHORTHELP "Go to last record" BITMAP "png/skip_forward.png" ;
             ACTION {|| ::brw:GoBottom() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_DOWN ) }
+            ENABLED {|| ::brw:CanMove( abID_DOWN ) }
 
         @ TOOL BUTTON ID idBase + abID_REFRESH LABEL "Refresh" SHORTHELP "Refresh List data" BITMAP "png/refresh.png" ;
             ACTION {|| ::brw:RefreshAll() } ;
-            ENABLED {|| ::tbl_Name:CanMove( abID_NONE ) }
+            ENABLED {|| ::brw:CanMove( abID_NONE ) }
         
+        @ SEARCHCTRL ::searchExp SIZERINFO ALIGN RIGHT
+
     END TOOLBAR
 
 RETURN

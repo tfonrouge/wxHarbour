@@ -194,7 +194,7 @@
 						[ MASTERKEYFIELD <cMasterKeyField> ] ;
 						[ KEYFIELD <cKeyField> ] ;
 						[ FOR <ForKey> ] ;
-						[ <cs: CASESENSITIVE> ] ;
+						[ <ncs: NO_CASE_SENSITIVE> ] ;
 						[ <de: DESCENDING> ] ;
 						[ <cu: CUSTOM> ] ;
 						[ <un: UNIQUE> ] ;
@@ -203,7 +203,7 @@
 						[ USEINDEX <useIndex> ] ;
 						=> ;
 						WITH OBJECT TIndex():New( Self , <tagName>, [<name>], <"type">, ::curClassIndex ) ;;
-								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], [<.cs.>], [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
+								:AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], !<.ncs.>, [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
 						ENDWITH
 						
 #xtranslate DEFINE EXTERNAL INDEX <name> WITH <table> GET_RECNO <getRecNo> SET_RECNO <setRecNo> ;

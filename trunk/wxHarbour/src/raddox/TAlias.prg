@@ -47,7 +47,7 @@ PUBLIC:
 	METHOD DbOrderInfo( ... )
 	METHOD DbRecall()
 	METHOD DbSkip( nRecords, indexName )
-	METHOD DbStruct INLINE (::workArea)->(DbStruct())
+	METHOD DbStruct()
 	METHOD DbUnLock() INLINE (::workArea)->( DbUnLock() )
 	METHOD Deleted()
 	METHOD Eval( codeBlock, ... )
@@ -323,6 +323,13 @@ METHOD FUNCTION DbSkip( nRecords, indexName ) CLASS TAlias
 	::SyncFromAlias()
 
 RETURN Result
+
+/*
+    DbStruct
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION DbStruct() CLASS TAlias
+RETURN (::workArea)->(DbStruct())
 
 /*
 	Deleted
