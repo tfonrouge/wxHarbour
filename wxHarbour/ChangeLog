@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2010-06-21 17:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed bug when searching on non TStringField's (TIntegerField i.e.) on
+       SetKeyVal
+     ! Fixed TStringField:GetKeyVal on string parameter passed
+     ! Fixed GetKeyVal for: TNumericField, TIntegerField, TLogicalField,
+       TDateField, TDateTimeField
+     ! Fixed for TObjectField:DataObj on getting the value for the key value
+       to sync by using ::GetKeyVal
+     ! Fixed TObjectField:GetAsString to use the DataObj call in order to get
+       the current value from the linked table
+     ! Fixed TObjectField:GetReferenceField to not use DataObj, it just need to
+       use ::GetLinkedTable
 2010-06-19 11:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/BaseBrowse.prg

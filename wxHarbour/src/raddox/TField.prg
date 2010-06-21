@@ -1131,7 +1131,8 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 		ENDIF
 
 		IF !Empty( keyVal )
-			IF !::KeyIndex:KeyVal == ::GetKeyVal( keyVal )
+            keyVal := ::GetKeyVal( keyVal )
+			IF !::KeyIndex:KeyVal == keyVal
 				::KeyIndex:Seek( keyVal )
 			ENDIF
 		ELSE
@@ -1310,23 +1311,34 @@ RETURN Result
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
 	LOCAL AField
-	LOCAL i
+	LOCAL i,start,size,value
 
-	IF keyVal == NIL
-		IF ::FFieldMethodType = "A"
-			keyVal := ""
-			FOR EACH i IN ::FFieldArrayIndex
-				AField := ::FTable:FieldList[ i ]
-				keyVal += AField:GetKeyVal()
-			NEXT
-		ELSE
-            IF ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive )
-                keyVal := Upper( ::GetAsVariant() )
-            ELSE
-                keyVal := ::GetAsVariant()
-            ENDIF
-		ENDIF
-	ENDIF
+    IF ::FFieldMethodType = "A"
+        IF keyVal = NIL
+            keyVal := ""
+            FOR EACH i IN ::FFieldArrayIndex
+                keyVal += ::FTable:FieldList[ i ]:GetKeyVal()
+            NEXT
+        ELSE
+            keyVal := PadR( keyVal, ::Size )
+            start := 1
+            FOR EACH i IN ::FFieldArrayIndex
+                AField := ::FTable:FieldList[ i ]
+                size := AField:Size
+                value := SubStr( keyVal, start, size )
+                value := AField:GetKeyVal( value )
+                keyVal := Stuff( keyVal, start, size, value )
+                start += Len( value )
+            NEXT
+        ENDIF
+    ELSE
+        IF keyVal = NIL
+            keyVal := ::GetAsVariant()
+        ENDIF
+        IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
+            keyVal := Upper( keyVal )
+        ENDIF
+    ENDIF
 
 RETURN keyVal
 
@@ -1489,10 +1501,18 @@ RETURN Result
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TNumericField
-    IF keyVal = NIL
-        keyVal := ::GetAsVariant()
-    ENDIF
-RETURN Str( keyVal )
+    SWITCH ValType( keyVal )
+    CASE 'C'
+        RETURN keyVal
+    CASE 'N'
+        RETURN Str( keyVal )
+    CASE 'U'
+        RETURN Str( ::GetAsVariant() )
+    ENDSWITCH
+
+    RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
+
+RETURN NIL
 
 /*
     IndexExpression
@@ -1532,6 +1552,7 @@ PROTECTED:
 	DATA FDBS_LEN INIT 4
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "I"
+    DATA FSize INIT 4
 	DATA FType INIT "Integer"
 PUBLIC:
 
@@ -1540,6 +1561,7 @@ PUBLIC:
 	METHOD SetAsVariant( variant )
 
 	PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
+    PROPERTY Size READ FSize
 
 PUBLISHED:
 ENDCLASS
@@ -1550,23 +1572,18 @@ ENDCLASS
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
 
-    IF keyVal = NIL
-        keyVal := WXH_L2BEBin( ::AsVariant() )
-    ELSE
-        SWITCH ValType( keyVal )
-        CASE 'C'
-        CASE 'M'
-            keyVal := WXH_L2BEBin( Val( keyVal ) )
-            EXIT
-        CASE 'N'
-            keyVal := WXH_L2BEBin( keyVal )
-            EXIT
-        OTHERWISE
-            RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert value to integer field..."
-        ENDSWITCH
-    ENDIF
+    SWITCH ValType( keyVal )
+    CASE 'C'
+        RETURN keyVal
+    CASE 'N'
+        RETURN WXH_L2BEBin( keyVal )
+    CASE 'U'
+        RETURN WXH_L2BEBin( ::GetAsVariant() )
+    ENDSWITCH
 
-RETURN keyVal
+    RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
+
+RETURN NIL
 
 /*
     IndexExpression
@@ -1625,6 +1642,7 @@ PROTECTED:
 	DATA FDBS_LEN INIT 1
 	DATA FDBS_DEC INIT 0
 	DATA FDBS_TYPE INIT "L"
+    DATA FSize INIT 1
 	DATA FType INIT "Logical"
 	DATA FValType INIT "L"
 	METHOD GetEmptyValue BLOCK {|| .F. }
@@ -1634,6 +1652,7 @@ PUBLIC:
     METHOD IndexExpression()
 
 	PROPERTY AsBoolean READ GetAsVariant WRITE SetAsVariant
+    PROPERTY Size READ FSize
 
 PUBLISHED:
 ENDCLASS
@@ -1643,10 +1662,19 @@ ENDCLASS
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TLogicalField
-    IF keyVal = NIL
-        keyVal := ::GetAsVariant()
-    ENDIF
-RETURN iif( keyVal, "T", "F" )
+
+    SWITCH ValType( keyVal )
+    CASE 'C'
+        RETURN keyVal
+    CASE 'L'
+        RETURN iif( keyVal, "T", "F" )
+    CASE 'U'
+        RETURN iif( ::GetAsVariant(), "T", "F" )
+    ENDSWITCH
+
+    RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
+
+RETURN NIL
 
 /*
     IndexExpression
@@ -1691,10 +1719,19 @@ ENDCLASS
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TDateField
-    IF keyVal = NIL
-        keyVal := ::GetAsVariant()
-    ENDIF
-RETURN DToS( keyVal )
+
+    SWITCH ValType( keyVal )
+    CASE 'C'
+        RETURN keyVal
+    CASE 'D'
+        RETURN DToS( keyVal )
+    CASE 'U'
+        RETURN DToS( ::GetAsVariant() )
+    ENDSWITCH
+
+    RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
+
+RETURN NIL
 
 /*
     IndexExpression
@@ -1758,9 +1795,18 @@ ENDCLASS
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetKeyVal( keyVal ) CLASS TDateTimeField
-    IF keyVal = NIL
-        keyVal := ::GetAsVariant()
-    ENDIF
+
+    SWITCH ValType( keyVal )
+    CASE 'C'
+        RETURN keyVal
+    CASE 'T'
+        RETURN HB_TToS( keyVal )
+    CASE 'U'
+        RETURN HB_TToS( ::GetAsVariant() )
+    ENDSWITCH
+
+    RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
+
 RETURN HB_TToS( keyVal )
 
 /*
@@ -1831,7 +1877,6 @@ PRIVATE:
 	DATA FObjType
 	DATA FLinkedTable									 /* holds the Table object */
 	DATA FLinkedTableMasterSource
-	METHOD GetSize INLINE ::GetReferenceField():Size
 	METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
 	METHOD SetObjType( objValue ) INLINE ::FObjType := objValue
 PROTECTED:
@@ -1854,7 +1899,7 @@ PUBLIC:
 	PROPERTY LinkedTable READ GetLinkedTable
 	PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
 	PROPERTY ObjType READ FObjType WRITE SetObjType
-	PROPERTY Size READ GetSize
+	PROPERTY Size READ GetReferenceField():Size
 PUBLISHED:
 ENDCLASS
 
@@ -1872,12 +1917,12 @@ METHOD FUNCTION DataObj CLASS TObjectField
 		RETURN ::FieldReadBlock:Eval( ::FTable )
 	ENDIF
 
-	linkedTable := ::LinkedTable
+	linkedTable := ::GetLinkedTable()
 
 	IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 
 	ELSE
-		keyVal := ::GetAsVariant()
+		keyVal := ::GetKeyVal()
 		/* Syncs with the current value */
 		IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:BaseKeyField:KeyVal == keyVal
 			linkedObjField := linkedTable:LinkedObjField
@@ -1888,6 +1933,26 @@ METHOD FUNCTION DataObj CLASS TObjectField
 	ENDIF
 
 RETURN linkedTable
+
+/*
+	GetAsVariant
+	Teo. Mexico 2010
+*/
+METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
+	LOCAL variant
+	
+	variant := Super:GetAsVariant( ... )
+	
+	IF HB_IsObject( variant )
+
+		IF variant:IsDerivedFrom("TObjectField")
+			RETURN variant:DataObj:GetKeyVal()
+		ELSEIF variant:IsDerivedFrom("TTable")
+			RETURN variant:GetKeyVal()
+		ENDIF
+	ENDIF
+
+RETURN variant
 
 /*
 	GetKeyVal
@@ -1916,27 +1981,7 @@ RETURN ::FLabel
 	Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString CLASS TObjectField
-RETURN ::GetLinkedTable():GetBaseKeyField():GetAsString()
-
-/*
-	GetAsVariant
-	Teo. Mexico 2010
-*/
-METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
-	LOCAL variant
-	
-	variant := Super:GetAsVariant( ... )
-	
-	IF HB_IsObject( variant )
-
-		IF variant:IsDerivedFrom("TObjectField")
-			RETURN variant:DataObj:GetKeyVal()
-		ELSEIF variant:IsDerivedFrom("TTable")
-			RETURN variant:GetKeyVal()
-		ENDIF
-	ENDIF
-
-RETURN variant
+RETURN ::DataObj:GetAsString()
 
 /*
 	GetFieldReadBlock
@@ -2034,7 +2079,7 @@ RETURN ::FLinkedTable
 	Teo. Mexico 2010
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
-RETURN ::DataObj:GetBaseKeyField()
+RETURN ::GetLinkedTable():GetBaseKeyField()
 
 /*
     IndexExpression
