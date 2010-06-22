@@ -1650,14 +1650,18 @@ RETURN menuItem
  * __wxh_PanelBegin
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled )
+FUNCTION __wxh_PanelBegin( parent, id, pos, size, style, name, bEnabled, fromClass )
 	LOCAL panel
 
 	IF parent == NIL
 		parent := containerObj():LastParent()
 	ENDIF
 
-	panel := wxPanel():New( parent, id, pos, size, style, name )
+	IF !Empty( fromClass )
+        panel := __ClsInstFromName( fromClass ):New( parent, id, pos, size, style, name )
+	ELSE
+        panel := wxPanel():New( parent, id, pos, size, style, name )
+	ENDIF
 
 	__wxh_EnableControl( parent, panel, panel:GetId(), bEnabled )
 
@@ -2596,8 +2600,8 @@ METHOD PROCEDURE RemoveLastParent( className ) CLASS TContainerObj
 
 	/* do some checking */
 	IF className != NIL
-		IF !Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) == Upper( className )
-			wxhAlert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.",{"QUIT"})
+		IF ! ATail( ::ParentList )[ "parent" ]:IsDerivedFrom( className )
+			wxhAlert("Attempt to remove wrong parent on stack (ClassName not equal).;"+Upper( ATail( ::ParentList )[ "parent" ]:ClassName ) + "==" + Upper( className )+";"+"Check for missing/wrong END ... clauses to your controls definition.")
 			::QUIT()
 		ENDIF
 	ENDIF

@@ -657,6 +657,7 @@
 						[ STYLE <style> ] ;
 						[ NAME <name> ] ;
 						[ ENABLED <enabled> ] ;
+                        [ CLASS <fromClass> ] ;
 					=> ;
 					[ <panel> := ]__wxh_PanelBegin( ;
 						[<parent>],;
@@ -665,7 +666,8 @@
 						[{<nWidth>,<nHeight>}],;
 						[<style>],;
 						[<name>],;
-						[<enabled>] )
+						[<enabled>],;
+                        [<fromClass>] )
 
 #xcommand END PANEL => __wxh_PanelEnd()
 

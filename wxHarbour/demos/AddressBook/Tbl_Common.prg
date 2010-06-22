@@ -13,16 +13,21 @@ PROTECTED:
     METHOD InitDataBase INLINE MyDataBase():New()
 PUBLIC:
 
-    DATA noteBook
+    DATA panel
 
     PROPERTY AutoCreate DEFAULT .T.
 
     DEFINE FIELDS
 
+    METHOD CanCancel() INLINE AScan( { dsEdit, dsInsert }, ::State ) > 0
+    METHOD CanDelete() INLINE ! ::Eof() .AND. ::State = dsBrowse
+    METHOD CanEdit() INLINE ! ::Eof() .AND. ::State = dsBrowse
+    METHOD CanInsert() INLINE ::State = dsBrowse
+    METHOD CanMove( direction )
+    METHOD CanPost() INLINE AScan( { dsEdit, dsInsert }, ::State ) > 0
+
     METHOD OnDataChange()
-    METHOD OnNotebookPageChanged( notebookEvt )
-    METHOD OnNotebookPageChanging( notebookEvt )
-    
+
     METHOD TryDelete()
     METHOD TryEdit()
     METHOD TryInsert()
@@ -41,67 +46,37 @@ BEGIN FIELDS CLASS Tbl_Common
 END FIELDS CLASS
 
 /*
+	CanMove
+*/
+METHOD FUNCTION CanMove( direction ) CLASS Tbl_Common
+	LOCAL Result := .F.
+	
+	SWITCH direction
+	CASE abID_UP
+		Result := !::Bof()
+		EXIT
+	CASE abID_DOWN
+		Result := !::Eof()
+		EXIT
+	CASE abID_NONE
+		Result := .T.
+		EXIT
+	ENDSWITCH
+
+RETURN Result .AND. ::State = dsBrowse
+
+/*
 	OnDataChange
 */
 METHOD PROCEDURE OnDataChange() CLASS Tbl_Common
 
-	IF ::noteBook != NIL
-		IF ::noteBook:GetSelection() = 2
-			::noteBook:GetCurrentPage():TransferDataToWindow()
+	IF ::panel != NIL
+		IF ::panel:noteBook:GetSelection() = 2
+			::panel:noteBook:GetCurrentPage():TransferDataToWindow()
 		ENDIF
 	ENDIF
 	
 	Super:OnDataChange()
-
-RETURN
-
-/*
-	OnNotebookPageChanged
-*/
-METHOD PROCEDURE OnNotebookPageChanged( notebookEvt ) CLASS Tbl_Common
-
-    IF notebookEvt:IsAllowed()
-
-        SWITCH notebookEvt:GetSelection()
-        CASE 1
-            IF wxGetApp():brw != NIL
-                wxGetApp():brw:RefreshAll()
-            END
-            EXIT
-        CASE 2
-            ::noteBook:GetPage( 2 ):TransferDataToWindow()
-            EXIT
-        ENDSWITCH
-
-    ENDIF
-
-    notebookEvt:Skip()
-
-RETURN
-
-/*
-	OnNotebookPageChanging
-*/
-METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS Tbl_Common
-
-	IF notebookEvt:IsAllowed()
-
-		SWITCH notebookEvt:GetOldSelection()
-		CASE 2
-
-			IF AScan( { dsEdit, dsInsert }, ::State ) > 0
-				IF !::Validate( .T. )
-					notebookEvt:Veto()
-					RETURN
-				ENDIF
-				::TryPost()
-			ENDIF
-			EXIT
-		ENDSWITCH
-
-	ENDIF
-    
-    notebookEvt:Skip()
 
 RETURN
 
@@ -117,9 +92,9 @@ RETURN ::Delete()
 METHOD FUNCTION TryEdit() CLASS Tbl_Common
 
 	IF ::Edit()
-		IF ::noteBook != NIL
-			::noteBook:SetSelection( 2 )
-			::noteBook:GetPage( 2 ):TransferDataToWindow()
+		IF ::panel:noteBook != NIL
+			::panel:noteBook:SetSelection( 2 )
+			::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
 		ENDIF
 		RETURN .T.
 	ENDIF
@@ -132,9 +107,9 @@ RETURN .F.
 METHOD FUNCTION TryInsert() CLASS Tbl_Common
 
 	IF ::Insert()
-		IF ::noteBook != NIL
-			::noteBook:SetSelection( 2 )
-			::noteBook:GetPage( 2 ):TransferDataToWindow()
+		IF ::panel:noteBook != NIL
+			::panel:noteBook:SetSelection( 2 )
+			::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
 		ENDIF
 		RETURN .T.
 	ENDIF
