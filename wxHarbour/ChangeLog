@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-06-22 11:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * minor code formatting
+     * enhanced log entry on previous commit
+
+
 2010-06-22 11:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/BaseBrowse.prg
@@ -9,11 +15,12 @@
      * updated demo
 
   *  include/wxHarbour/wxharbour.ch
-     * added clause CLASS to PANEL definition
+     * added clause CLASS to BEGIN PANEL construct definition
 
   *  src/common/wxhfuncs.prg
      ! Fixed to allow to use class descendants for parent controls in
        BEGIN ... END constructs
+
 2010-06-21 17:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed bug when searching on non TStringField's (TIntegerField i.e.) on
@@ -27,6 +34,7 @@
        the current value from the linked table
      ! Fixed TObjectField:GetReferenceField to not use DataObj, it just need to
        use ::GetLinkedTable
+
 2010-06-19 11:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/BaseBrowse.prg
@@ -72,6 +80,7 @@
   *  src/raddox/TTable.prg
      * aded protection agains getting DbStruct on an empty alias
      * moving the Alias creation before filling the field list on :InitTable
+
 2010-06-17 23:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * code cleanup
@@ -209,6 +218,7 @@
   +  demos/AddressBook/makefile.gcc
   +  demos/AddressBook/makefile.vc
      + added preliminary sample to show usage of Data Objects (RADO)
+
 2010-06-14 20:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      + added clause to tfield declarations:
@@ -246,6 +256,7 @@
      * Hash FPrimaryIndexList keeps the order on which the elements are added
      + added method:
        + GetBaseKeyField : returns the BaseKeyField for the table
+
 2010-06-09 17:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % If an TObjectField needs a MasterSource and it is not found in the
@@ -416,6 +427,7 @@
   *  src/hrbcompat/tbrowse/wx_Browse.cpp
      ! Fixed possible GPF on WXHBROWSE_CALCMAXROWS
      * minor code cleanup
+
 2010-06-04 18:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  src/common/wx_harbour.cpp
