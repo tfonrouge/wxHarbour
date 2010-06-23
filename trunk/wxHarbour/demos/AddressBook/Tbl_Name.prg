@@ -48,6 +48,9 @@ BEGIN FIELDS CLASS Tbl_Name
         REQUIRED ;
         LABEL "Day of birth"
         
+    ADD OBJECT FIELD "Country" ;
+        OBJTYPE "Tbl_Country"
+        
     ADD MEMO FIELD "Memo"
         
     /* Calculated Field's */

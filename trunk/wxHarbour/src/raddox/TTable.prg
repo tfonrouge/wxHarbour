@@ -601,18 +601,18 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 				ENDIF
 				
 				IF n = 0
-					AAdd( aDb, { pkField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
-					sResult += "Field not found '" + pkField:DBS_NAME + E"'\n"
+					AAdd( aDb, { AField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
+					sResult += "Field not found '" + AField:DBS_NAME + E"'\n"
 				ELSEIF !aDb[ n, 2 ] == pkField:DBS_TYPE
-					sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + pkField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
+					sResult += "Wrong type ('" + aDb[ n, 2 ] + "') on field '" + AField:DBS_NAME +"', must be '" + pkField:DBS_TYPE + E"'\n"
 					aDb[ n, 2 ] := pkField:DBS_TYPE
 					aDb[ n, 3 ] := pkField:DBS_LEN
 					aDb[ n, 4 ] := pkField:DBS_DEC
 				ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:DBS_LEN
-					sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
+					sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + AField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
 					aDb[ n, 3 ] := pkField:DBS_LEN
 				ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
-					sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] ) + "," + NTrim( aDb[ n, 4 ] ) + ") on 'N' field '" + pkField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
+					sResult += "Wrong len/dec values (" + NTrim( aDb[ n, 3 ] ) + "," + NTrim( aDb[ n, 4 ] ) + ") on 'N' field '" + AField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + "," + NTrim( pkField:DBS_DEC ) + E"\n"
 					aDb[ n, 3 ] := pkField:DBS_LEN
 					aDb[ n, 4 ] := pkField:DBS_DEC
 				ENDIF
