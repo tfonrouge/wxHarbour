@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-06-22 22:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+     ! Fixed posting when changing tab on notebook
+
 2010-06-22 11:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * minor code formatting
