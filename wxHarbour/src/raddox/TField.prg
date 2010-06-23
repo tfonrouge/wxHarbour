@@ -1885,7 +1885,6 @@ PROTECTED:
 	DATA FValType INIT "O"
     METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
     METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
-    METHOD GetLabel()
 	METHOD GetLinkedTable
 	METHOD GetEmptyValue() INLINE ::LinkedTable:GetBaseKeyField():EmptyValue
 	METHOD GetFieldReadBlock()
@@ -1965,16 +1964,6 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
     ENDIF
 
 RETURN ::GetReferenceField():GetKeyVal( keyVal )
-
-/*
-    GetLabel
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION GetLabel() CLASS TObjectField
-    IF ::FLabel = NIL
-        RETURN ::GetReferenceField():Label
-    ENDIF
-RETURN ::FLabel
 
 /*
 	GetAsString
