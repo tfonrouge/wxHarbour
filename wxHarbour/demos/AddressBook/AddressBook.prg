@@ -252,7 +252,7 @@ METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS MyPanel
 					notebookEvt:Veto()
 					RETURN
 				ENDIF
-				::TryPost()
+				::browse:DataSource:TryPost()
 			ENDIF
 			EXIT
 		ENDSWITCH
