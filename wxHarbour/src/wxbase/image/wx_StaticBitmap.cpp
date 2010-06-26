@@ -31,7 +31,7 @@
  */
 wx_StaticBitmap::~wx_StaticBitmap()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -40,21 +40,21 @@ wx_StaticBitmap::~wx_StaticBitmap()
  */
 HB_FUNC( WXSTATICBITMAP_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
-	
-	wx_StaticBitmap* staticBitmap;
-	
-	wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-	wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-	const wxBitmap& label = * (wxBitmap *) wxh_par_WX( 3 );
-	wxPoint pos = wxh_par_wxPoint( 4 );
-	wxSize size = wxh_par_wxSize( 5 );
-	long style = hb_parnl( 6 );
-	wxString name = wxh_parc( 7 );
-	
-	staticBitmap = new wx_StaticBitmap( parent, id, label, pos, size, style, name );
-	
-	objParams.Return( staticBitmap );
+    wxh_ObjParams objParams = wxh_ObjParams();
+    
+    wx_StaticBitmap* staticBitmap;
+    
+    wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    const wxBitmap& label = * (wxBitmap *) wxh_par_WX( 3 );
+    wxPoint pos = wxh_par_wxPoint( 4 );
+    wxSize size = wxh_par_wxSize( 5 );
+    long style = hb_parnl( 6 );
+    wxString name = wxh_parc( 7 );
+    
+    staticBitmap = new wx_StaticBitmap( parent, id, label, pos, size, style, name );
+    
+    objParams.Return( staticBitmap );
 }
 
 /*
@@ -63,13 +63,13 @@ HB_FUNC( WXSTATICBITMAP_NEW )
  */
 HB_FUNC( WXSTATICBITMAP_GETBITMAP )
 {
-	wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( staticBitmap )
-	{
-	wxBitmap bitmap = staticBitmap->GetBitmap();
-	wxh_itemReturn( &bitmap );
-	}
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( staticBitmap )
+    {
+    wxBitmap bitmap = staticBitmap->GetBitmap();
+    wxh_itemReturn( &bitmap );
+    }
 }
 
 /*
@@ -78,13 +78,13 @@ HB_FUNC( WXSTATICBITMAP_GETBITMAP )
  */
 HB_FUNC( WXSTATICBITMAP_GETICON )
 {
-	wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( staticBitmap )
-	{
-	wxIcon icon = staticBitmap->GetIcon();
-	wxh_itemReturn( &icon );
-	}
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( staticBitmap )
+    {
+    wxIcon icon = staticBitmap->GetIcon();
+    wxh_itemReturn( &icon );
+    }
 }
 
 /*
@@ -93,13 +93,13 @@ HB_FUNC( WXSTATICBITMAP_GETICON )
  */
 HB_FUNC( WXSTATICBITMAP_SETBITMAP )
 {
-	wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( staticBitmap )
-	{
-	const wxBitmap& bitmap = * (wxBitmap *) wxh_par_WX( 1 );
-	staticBitmap->SetBitmap( bitmap );
-	}
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( staticBitmap )
+    {
+    const wxBitmap& bitmap = * (wxBitmap *) wxh_par_WX( 1 );
+    staticBitmap->SetBitmap( bitmap );
+    }
 }
 
 /*
@@ -108,11 +108,11 @@ HB_FUNC( WXSTATICBITMAP_SETBITMAP )
  */
 HB_FUNC( WXSTATICBITMAP_SETICON )
 {
-	wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( staticBitmap )
-	{
-	const wxIcon& icon = * (wxIcon *) wxh_par_WX( 1 );
-	staticBitmap->SetIcon( icon );
-	}
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( staticBitmap )
+    {
+    const wxIcon& icon = * (wxIcon *) wxh_par_WX( 1 );
+    staticBitmap->SetIcon( icon );
+    }
 }

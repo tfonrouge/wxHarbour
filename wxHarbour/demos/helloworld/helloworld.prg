@@ -3,84 +3,84 @@
  */
 
 /*
-	(C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-	wxarel
-	Teo. Mexico 2006
+    wxarel
+    Teo. Mexico 2006
 */
 
 #include "wxharbour.ch"
 
 FUNCTION Main()
 
-	IMPLEMENT_APP( MyApp():New() )
+    IMPLEMENT_APP( MyApp():New() )
 
 RETURN NIL
 
 PROCEDURE CTest()
-	LOCAL o
+    LOCAL o
 
-	o := MyClass1():New()
+    o := MyClass1():New()
 
-	wxGetApp():MyObj := WXH_NullObject( o )
+    wxGetApp():MyObj := WXH_NullObject( o )
 
-	? "Copy:", wxGetApp():MyObj:ClassName()
-	wxGetApp():MyObj:Ping()
+    ? "Copy:", wxGetApp():MyObj:ClassName()
+    wxGetApp():MyObj:Ping()
 
-	o := NIL
+    o := NIL
 
-	? "Class is finished ?"
+    ? "Class is finished ?"
 
-	? wxGetApp():MyObj:ClassName()
+    ? wxGetApp():MyObj:ClassName()
 
 RETURN
 
 CLASS MyClass1
 
-	DESTRUCTOR Destruct()
+    DESTRUCTOR Destruct()
 
-	METHOD Ping INLINE qout("Hello...")
+    METHOD Ping INLINE qout("Hello...")
 
 ENDCLASS
 
 METHOD PROCEDURE Destruct() CLASS MyClass1
-	? "Destroying: " + ::ClassName()
-	//ASize( wxGetApp():MyObj, 1 )
+    ? "Destroying: " + ::ClassName()
+    //ASize( wxGetApp():MyObj, 1 )
 RETURN
 
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-	DATA frame
-	DATA MyObj
-	METHOD OnInit()
+    DATA frame
+    DATA MyObj
+    METHOD OnInit()
 PUBLISHED:
 ENDCLASS
 
 METHOD FUNCTION OnInit() CLASS MyApp
-	LOCAL g_cve := ""
-	LOCAL cComentario := ""
+    LOCAL g_cve := ""
+    LOCAL cComentario := ""
 
-	CTest()
-	
-	//? "devuelta:", wxGetApp():MyObj:ClassName()
+    CTest()
+    
+    //? "devuelta:", wxGetApp():MyObj:ClassName()
 
-	CREATE FRAME ::frame ;
-		TITLE "Frame1"
+    CREATE FRAME ::frame ;
+        TITLE "Frame1"
 
-	BEGIN BOXSIZER VERTICAL
-	    BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
-		@ SAY "Codigo" SIZERINFO ALIGN RIGHT
-		@ GET g_cve SIZERINFO ALIGN LEFT
-    		@ SAY "Comentario" SIZERINFO ALIGN RIGHT
-		@ GET cComentario MULTILINE SIZERINFO ALIGN EXPAND
-	    END SIZER
-	    @ BUTTON "ShowTitle" ACTION {|| wxMessageBox( wxGetApp():frame:GetTitle() ) }
-	END SIZER	
+    BEGIN BOXSIZER VERTICAL
+        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
+        @ SAY "Codigo" SIZERINFO ALIGN RIGHT
+        @ GET g_cve SIZERINFO ALIGN LEFT
+            @ SAY "Comentario" SIZERINFO ALIGN RIGHT
+        @ GET cComentario MULTILINE SIZERINFO ALIGN EXPAND
+        END SIZER
+        @ BUTTON "ShowTitle" ACTION {|| wxMessageBox( wxGetApp():frame:GetTitle() ) }
+    END SIZER	
 
-	SHOW WINDOW ::frame FIT CENTRE
+    SHOW WINDOW ::frame FIT CENTRE
 
 RETURN .T.

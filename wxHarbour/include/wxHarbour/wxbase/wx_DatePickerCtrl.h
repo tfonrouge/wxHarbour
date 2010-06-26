@@ -22,11 +22,11 @@
 #include "wx/datectrl.h"
 
 class wx_DatePickerCtrl : public wxDatePickerCtrl
-	{
-	private:
-	protected:
-	public:
-		wx_DatePickerCtrl(wxWindow *parent, wxWindowID id, const wxDateTime& dt = wxDefaultDateTime, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDP_DEFAULT | wxDP_SHOWCENTURY, const wxValidator& validator = wxDefaultValidator, const wxString& name = _T("datectrl") ) : wxDatePickerCtrl( parent, id, dt, pos, size, style, validator, name ) {}
-		~wx_DatePickerCtrl();
-		
-	};
+    {
+    private:
+    protected:
+    public:
+        wx_DatePickerCtrl(wxWindow *parent, wxWindowID id, const wxDateTime& dt = wxDefaultDateTime, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDP_DEFAULT | wxDP_SHOWCENTURY, const wxValidator& validator = wxDefaultValidator, const wxString& name = _T("datectrl") ) : wxDatePickerCtrl( parent, id, dt, pos, size, style, validator, name ) {}
+        ~wx_DatePickerCtrl();
+        
+    };

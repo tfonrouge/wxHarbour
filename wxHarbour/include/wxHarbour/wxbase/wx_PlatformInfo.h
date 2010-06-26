@@ -26,7 +26,7 @@ class wx_PlatformInfo : public wxPlatformInfo
 private:
 protected:
 public:
-	
-	~wx_PlatformInfo();
-	
+    
+    ~wx_PlatformInfo();
+    
 };

@@ -3,20 +3,20 @@
  */
 
 /*
-	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
-	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	(C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-	defs.ch
-	Teo. Mexico 2006
+    defs.ch
+    Teo. Mexico 2006
 */
 
 #ifndef _WX_DEFS_H_
@@ -27,18 +27,18 @@
 /*  ---------------------------------------------------------------------------- */
 
 /*  Standard menu IDs */
-		/* no id matches this one when compared to it */
+        /* no id matches this one when compared to it */
 #define wxID_NONE       -3
 
-		/*  id for a separator line in the menu (invalid for normal item) */
+        /*  id for a separator line in the menu (invalid for normal item) */
 #define wxID_SEPARATOR  -2
 
-		/* any id: means that we don't care about the id, whether when installing
-		 * an event handler or when creating a new window */
+        /* any id: means that we don't care about the id, whether when installing
+         * an event handler or when creating a new window */
 #define wxID_ANY        -1
 
 
-		/* all predefined ids are between wxID_LOWEST and wxID_HIGHEST */
+        /* all predefined ids are between wxID_LOWEST and wxID_HIGHEST */
 #define wxID_LOWEST     4999
 
 #define wxID_OPEN               wxID_LOWEST + 1
@@ -98,7 +98,7 @@
 #define wxID_FILE8              wxID_FILE + 8
 #define wxID_FILE9              wxID_FILE + 9
 
-		/*  Standard button and menu IDs */
+        /*  Standard button and menu IDs */
 #define wxID_OK                 5100
 #define wxID_CANCEL             wxID_OK + 1
 #define wxID_APPLY              wxID_OK + 2
@@ -143,7 +143,7 @@
 #define wxID_UNDELETE           wxID_OK + 39
 #define wxID_REVERT_TO_SAVED    wxID_OK + 40
 
-		/*  System menu IDs (used by wxUniv): */
+        /*  System menu IDs (used by wxUniv): */
 #define wxID_SYSTEM_MENU        5200
 #define wxID_CLOSE_FRAME        wxID_SYSTEM_MENU + 1
 #define wxID_MOVE_FRAME         wxID_SYSTEM_MENU + 2
@@ -152,7 +152,7 @@
 #define wxID_ICONIZE_FRAME      wxID_SYSTEM_MENU + 5
 #define wxID_RESTORE_FRAME      wxID_SYSTEM_MENU + 6
 
-		/*  IDs used by generic file dialog (13 consecutive starting from this value) */
+        /*  IDs used by generic file dialog (13 consecutive starting from this value) */
 #define wxID_FILEDLGG           5900
 
 #define wxID_HIGHEST            5999
@@ -364,9 +364,9 @@
 #define wxLB_INT_HEIGHT     0x0800
 
 #ifdef WXWIN_COMPATIBILITY_2_6
-		/*  deprecated synonyms */
-		#define wxPROCESS_ENTER   0x0400  /*  wxTE_PROCESS_ENTER */
-		#define wxPASSWORD        0x0800  /*  wxTE_PASSWORD */
+        /*  deprecated synonyms */
+        #define wxPROCESS_ENTER   0x0400  /*  wxTE_PROCESS_ENTER */
+        #define wxPASSWORD        0x0800  /*  wxTE_PASSWORD */
 #endif
 
 /*
@@ -496,9 +496,9 @@
 #define WXK_SPACE               32
 #define WXK_DELETE              127
 
-		/* These are, by design, not compatible with unicode characters.
-			 If you want to get a unicode character from a key event, use
-			 wxKeyEvent::GetUnicodeKey instead.                           */
+        /* These are, by design, not compatible with unicode characters.
+             If you want to get a unicode character from a key event, use
+             wxKeyEvent::GetUnicodeKey instead.                           */
 #define WXK_START               300
 #define WXK_LBUTTON             WXK_START + 1
 #define WXK_RBUTTON             WXK_START + 2
@@ -610,7 +610,7 @@
 #define WXK_WINDOWS_MENU         WXK_START + 95
 #define WXK_COMMAND              WXK_START + 96
 
-		/* Hardware-specific buttons */
+        /* Hardware-specific buttons */
 #define WXK_SPECIAL1            193
 #define WXK_SPECIAL2            WXK_SPECIAL1 + 1
 #define WXK_SPECIAL3            WXK_SPECIAL1 + 2

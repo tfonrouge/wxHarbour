@@ -7,25 +7,25 @@
 #include "AddressBook.ch"
 
 /*
-	TBasicBrowse : a browse with basic features
+    TBasicBrowse : a browse with basic features
 */
 CLASS TBaseBrowse FROM wxhBrowse
 PRIVATE:
 PROTECTED:
 PUBLIC:
 
-	METHOD OnCreate()
+    METHOD OnCreate()
 
 PUBLISHED:
 ENDCLASS
 
 /*
-	OnCreate
+    OnCreate
 */
 METHOD PROCEDURE OnCreate() CLASS TBaseBrowse
 
-	Super:OnCreate()
-	
-	::ConnectGridEvt( ::GetId(), wxEVT_GRID_LABEL_LEFT_DCLICK, {|gridEvent| gridEvent:GetEventObject():AutoSizeColumns( .F. )  } )
+    Super:OnCreate()
+    
+    ::ConnectGridEvt( ::GetId(), wxEVT_GRID_LABEL_LEFT_DCLICK, {|gridEvent| gridEvent:GetEventObject():AutoSizeColumns( .F. )  } )
 
 RETURN

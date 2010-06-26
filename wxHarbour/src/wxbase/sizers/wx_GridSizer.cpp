@@ -30,16 +30,16 @@
  */
 wx_GridSizer::~wx_GridSizer()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 HB_FUNC( WXGRIDSIZER_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
-	
-	wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
-	
-	objParams.Return( gridSizer );
+    wxh_ObjParams objParams = wxh_ObjParams();
+    
+    wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
+    
+    objParams.Return( gridSizer );
 }
 
 /*
@@ -48,10 +48,10 @@ HB_FUNC( WXGRIDSIZER_NEW )
  */
 HB_FUNC( WXGRIDSIZER_GETCOLS )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		hb_retni( gridSizer->GetCols() );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        hb_retni( gridSizer->GetCols() );
 }
 
 /*
@@ -60,10 +60,10 @@ HB_FUNC( WXGRIDSIZER_GETCOLS )
  */
 HB_FUNC( WXGRIDSIZER_GETHGAP )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		hb_retni( gridSizer->GetHGap() );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        hb_retni( gridSizer->GetHGap() );
 }
 
 /*
@@ -72,10 +72,10 @@ HB_FUNC( WXGRIDSIZER_GETHGAP )
  */
 HB_FUNC( WXGRIDSIZER_GETROWS )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		hb_retni( gridSizer->GetRows() );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        hb_retni( gridSizer->GetRows() );
 }
 
 /*
@@ -84,10 +84,10 @@ HB_FUNC( WXGRIDSIZER_GETROWS )
  */
 HB_FUNC( WXGRIDSIZER_GETVGAP )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		hb_retni( gridSizer->GetVGap() );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        hb_retni( gridSizer->GetVGap() );
 }
 
 /*
@@ -96,10 +96,10 @@ HB_FUNC( WXGRIDSIZER_GETVGAP )
  */
 HB_FUNC( WXGRIDSIZER_SETCOLS )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		gridSizer->SetCols( hb_parni( 1 ) );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        gridSizer->SetCols( hb_parni( 1 ) );
 }
 
 /*
@@ -108,10 +108,10 @@ HB_FUNC( WXGRIDSIZER_SETCOLS )
  */
 HB_FUNC( WXGRIDSIZER_SETHGAP )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		gridSizer->SetHGap( hb_parni( 1 ) );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        gridSizer->SetHGap( hb_parni( 1 ) );
 }
 
 /*
@@ -120,10 +120,10 @@ HB_FUNC( WXGRIDSIZER_SETHGAP )
  */
 HB_FUNC( WXGRIDSIZER_SETROWS )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		gridSizer->SetRows( hb_parni( 1 ) );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        gridSizer->SetRows( hb_parni( 1 ) );
 }
 
 /*
@@ -132,8 +132,8 @@ HB_FUNC( WXGRIDSIZER_SETROWS )
  */
 HB_FUNC( WXGRIDSIZER_SETVGAP )
 {
-	wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( gridSizer )
-		gridSizer->SetVGap( hb_parni( 1 ) );
+    wxGridSizer* gridSizer = (wxGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( gridSizer )
+        gridSizer->SetVGap( hb_parni( 1 ) );
 }

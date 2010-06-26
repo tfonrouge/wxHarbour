@@ -1,6 +1,6 @@
 /*
     $Id$
-	MyDataBase
+    MyDataBase
 */
 
 #include "wxharbour.ch"
@@ -8,7 +8,7 @@
 CLASS MyDataBase FROM TDataBase
 PRIVATE:
 PROTECTED:
-	METHOD DefineRelations()
+    METHOD DefineRelations()
 PUBLIC:
     CONSTRUCTOR New()
     PROPERTY Directory DEFAULT "data"

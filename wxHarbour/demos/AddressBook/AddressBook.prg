@@ -9,13 +9,13 @@
 
 #ifdef _DEBUG_
 #ifdef HB_OS_UNIX
-	REQUEST HB_GT_XWC_DEFAULT
+    REQUEST HB_GT_XWC_DEFAULT
 #endif
 #ifdef HB_OS_WINDOWS
-	REQUEST HB_GT_WVT_DEFAULT
+    REQUEST HB_GT_WVT_DEFAULT
 #endif
 #else
-	REQUEST HB_GT_NUL_DEFAULT
+    REQUEST HB_GT_NUL_DEFAULT
 #endif
 
 REQUEST DBFCDX
@@ -214,7 +214,7 @@ PUBLISHED:
 ENDCLASS
 
 /*
-	OnNotebookPageChanged
+    OnNotebookPageChanged
 */
 METHOD PROCEDURE OnNotebookPageChanged( notebookEvt ) CLASS MyPanel
 
@@ -238,26 +238,26 @@ METHOD PROCEDURE OnNotebookPageChanged( notebookEvt ) CLASS MyPanel
 RETURN
 
 /*
-	OnNotebookPageChanging
+    OnNotebookPageChanging
 */
 METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS MyPanel
 
-	IF notebookEvt:IsAllowed()
+    IF notebookEvt:IsAllowed()
 
-		SWITCH notebookEvt:GetOldSelection()
-		CASE 2
+        SWITCH notebookEvt:GetOldSelection()
+        CASE 2
 
-			IF AScan( { dsEdit, dsInsert }, ::browse:DataSource:State ) > 0
-				IF !::Validate( .T. )
-					notebookEvt:Veto()
-					RETURN
-				ENDIF
-				::browse:DataSource:TryPost()
-			ENDIF
-			EXIT
-		ENDSWITCH
+            IF AScan( { dsEdit, dsInsert }, ::browse:DataSource:State ) > 0
+                IF !::Validate( .T. )
+                    notebookEvt:Veto()
+                    RETURN
+                ENDIF
+                ::browse:DataSource:TryPost()
+            ENDIF
+            EXIT
+        ENDSWITCH
 
-	ENDIF
+    ENDIF
     
     notebookEvt:Skip()
 

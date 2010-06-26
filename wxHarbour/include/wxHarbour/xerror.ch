@@ -3,8 +3,8 @@
  */
 
 /*
-	xerror.ch - eXtended error manager
-	Teo. Mexico 2007
+    xerror.ch - eXtended error manager
+    Teo. Mexico 2007
 */
 
 #ifndef __XERROR_CH__
@@ -13,21 +13,21 @@
 #xtranslate THROW(<oErr>) => (Eval(ErrorBlock(), <oErr>), Break(<oErr>))
 
 #xcommand RAISE ERROR <cDescription> ;
-										[ SUBSYSTEM <cSubsystem> ] ;
-										[ OPERATION <cOperation> ] ;
-										[ ARGS <aArgs> ] ;
-					=> ;
-					Throw( MyErrorNew( [<cSubsystem>], ;
-														 [<cOperation>], ;
-															<cDescription>, ;
-														 [<aArgs>], ;
-															ProcFile(), ;
-															ProcName(), ;
-															ProcLine() ;
-														) ;
-								)
+                                        [ SUBSYSTEM <cSubsystem> ] ;
+                                        [ OPERATION <cOperation> ] ;
+                                        [ ARGS <aArgs> ] ;
+                    => ;
+                    Throw( MyErrorNew( [<cSubsystem>], ;
+                                                         [<cOperation>], ;
+                                                            <cDescription>, ;
+                                                         [<aArgs>], ;
+                                                            ProcFile(), ;
+                                                            ProcName(), ;
+                                                            ProcLine() ;
+                                                        ) ;
+                                )
 
 #xcommand SHOW ERROR <errObj> ;
-					=> ;
-			wxhShowError( "", { wxhLABEL_ACCEPT }, <errObj> )
+                    => ;
+            wxhShowError( "", { wxhLABEL_ACCEPT }, <errObj> )
 #endif

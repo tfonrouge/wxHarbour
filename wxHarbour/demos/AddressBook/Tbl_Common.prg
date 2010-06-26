@@ -37,7 +37,7 @@ PUBLISHED:
 ENDCLASS
 
 /*
-	FIELDS
+    FIELDS
 */
 BEGIN FIELDS CLASS Tbl_Common
 
@@ -46,37 +46,37 @@ BEGIN FIELDS CLASS Tbl_Common
 END FIELDS CLASS
 
 /*
-	CanMove
+    CanMove
 */
 METHOD FUNCTION CanMove( direction ) CLASS Tbl_Common
-	LOCAL Result := .F.
-	
-	SWITCH direction
-	CASE abID_UP
-		Result := !::Bof()
-		EXIT
-	CASE abID_DOWN
-		Result := !::Eof()
-		EXIT
-	CASE abID_NONE
-		Result := .T.
-		EXIT
-	ENDSWITCH
+    LOCAL Result := .F.
+    
+    SWITCH direction
+    CASE abID_UP
+        Result := !::Bof()
+        EXIT
+    CASE abID_DOWN
+        Result := !::Eof()
+        EXIT
+    CASE abID_NONE
+        Result := .T.
+        EXIT
+    ENDSWITCH
 
 RETURN Result .AND. ::State = dsBrowse
 
 /*
-	OnDataChange
+    OnDataChange
 */
 METHOD PROCEDURE OnDataChange() CLASS Tbl_Common
 
-	IF ::panel != NIL
-		IF ::panel:noteBook:GetSelection() = 2
-			::panel:noteBook:GetCurrentPage():TransferDataToWindow()
-		ENDIF
-	ENDIF
-	
-	Super:OnDataChange()
+    IF ::panel != NIL
+        IF ::panel:noteBook:GetSelection() = 2
+            ::panel:noteBook:GetCurrentPage():TransferDataToWindow()
+        ENDIF
+    ENDIF
+    
+    Super:OnDataChange()
 
 RETURN
 
@@ -87,32 +87,32 @@ METHOD FUNCTION TryDelete() CLASS Tbl_Common
 RETURN ::Delete()
 
 /*
-	TryEdit
+    TryEdit
 */
 METHOD FUNCTION TryEdit() CLASS Tbl_Common
 
-	IF ::Edit()
-		IF ::panel:noteBook != NIL
-			::panel:noteBook:SetSelection( 2 )
-			::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
-		ENDIF
-		RETURN .T.
-	ENDIF
+    IF ::Edit()
+        IF ::panel:noteBook != NIL
+            ::panel:noteBook:SetSelection( 2 )
+            ::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
+        ENDIF
+        RETURN .T.
+    ENDIF
 
 RETURN .F.
 
 /*
-	TryInsert
+    TryInsert
 */
 METHOD FUNCTION TryInsert() CLASS Tbl_Common
 
-	IF ::Insert()
-		IF ::panel:noteBook != NIL
-			::panel:noteBook:SetSelection( 2 )
-			::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
-		ENDIF
-		RETURN .T.
-	ENDIF
+    IF ::Insert()
+        IF ::panel:noteBook != NIL
+            ::panel:noteBook:SetSelection( 2 )
+            ::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
+        ENDIF
+        RETURN .T.
+    ENDIF
 
 RETURN .F.
 
