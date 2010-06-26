@@ -20,11 +20,11 @@
  */
 
 class wx_FlexGridSizer : public wxFlexGridSizer
-	{
-	private:
-	protected:
-	public:
-		wx_FlexGridSizer( int rows, int cols, int vgap, int hgap ) : wxFlexGridSizer( rows, cols, vgap, hgap ) {}
-		
-		~wx_FlexGridSizer();
-	};
+    {
+    private:
+    protected:
+    public:
+        wx_FlexGridSizer( int rows, int cols, int vgap, int hgap ) : wxFlexGridSizer( rows, cols, vgap, hgap ) {}
+        
+        ~wx_FlexGridSizer();
+    };

@@ -30,7 +30,7 @@
  */
 wx_HtmlEasyPrinting::~wx_HtmlEasyPrinting()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -39,12 +39,12 @@ wx_HtmlEasyPrinting::~wx_HtmlEasyPrinting()
  */
 HB_FUNC( WXHTMLEASYPRINTING_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
-	
-	const wxString& name = ISNIL( 1 ) ? wxString( _T("Printing") ) : wxh_parc( 1 );
-	wxWindow* parent = (wxWindow *) objParams.paramParent( 2 );
+    wxh_ObjParams objParams = wxh_ObjParams();
+    
+    const wxString& name = ISNIL( 1 ) ? wxString( _T("Printing") ) : wxh_parc( 1 );
+    wxWindow* parent = (wxWindow *) objParams.paramParent( 2 );
 
-	objParams.Return( new wx_HtmlEasyPrinting( name, parent ) );
+    objParams.Return( new wx_HtmlEasyPrinting( name, parent ) );
 }
 
 /*
@@ -53,12 +53,12 @@ HB_FUNC( WXHTMLEASYPRINTING_NEW )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPARENTWINDOW )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		wxh_itemReturn( htmlEasyPrinting->GetParentWindow() );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        wxh_itemReturn( htmlEasyPrinting->GetParentWindow() );
+    }
 }
 
 /*
@@ -67,12 +67,12 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPARENTWINDOW )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPRINTDATA )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		wxh_itemReturn( htmlEasyPrinting->GetPrintData() );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        wxh_itemReturn( htmlEasyPrinting->GetPrintData() );
+    }
 }
 
 /*
@@ -81,12 +81,12 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPRINTDATA )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPAGESETUPDATA )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		wxh_itemReturn( htmlEasyPrinting->GetPageSetupData() );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        wxh_itemReturn( htmlEasyPrinting->GetPageSetupData() );
+    }
 }
 
 /*
@@ -95,12 +95,12 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPAGESETUPDATA )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PREVIEWFILE )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		hb_retl( htmlEasyPrinting->PreviewFile( wxh_parc( 1 ) ) );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        hb_retl( htmlEasyPrinting->PreviewFile( wxh_parc( 1 ) ) );
+    }
 }
 
 /*
@@ -109,12 +109,12 @@ HB_FUNC( WXHTMLEASYPRINTING_PREVIEWFILE )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PREVIEWTEXT )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		hb_retl( htmlEasyPrinting->PreviewText( wxh_parc( 1 ), wxh_parc( 2 ) ) );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        hb_retl( htmlEasyPrinting->PreviewText( wxh_parc( 1 ), wxh_parc( 2 ) ) );
+    }
 }
 
 /*
@@ -123,12 +123,12 @@ HB_FUNC( WXHTMLEASYPRINTING_PREVIEWTEXT )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PRINTFILE )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		hb_retl( htmlEasyPrinting->PrintFile( wxh_parc( 1 ) ) );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        hb_retl( htmlEasyPrinting->PrintFile( wxh_parc( 1 ) ) );
+    }
 }
 
 /*
@@ -137,12 +137,12 @@ HB_FUNC( WXHTMLEASYPRINTING_PRINTFILE )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PRINTTEXT )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		hb_retl( htmlEasyPrinting->PrintText( wxh_parc( 1 ), wxh_parc( 2 ) ) );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        hb_retl( htmlEasyPrinting->PrintText( wxh_parc( 1 ), wxh_parc( 2 ) ) );
+    }
 }
 
 /*
@@ -151,12 +151,12 @@ HB_FUNC( WXHTMLEASYPRINTING_PRINTTEXT )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PAGESETUP )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		htmlEasyPrinting->PageSetup();
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        htmlEasyPrinting->PageSetup();
+    }
 }
 
 /*
@@ -165,22 +165,22 @@ HB_FUNC( WXHTMLEASYPRINTING_PAGESETUP )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETFONTS )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		const int len = 7;
-		const int* sizes = NULL;
-		int aInt[ len ] = { 0, 0, 0, 0, 0, 0, 0 };
-		
-		if( hb_pcount() > 2 )
-		{
-			wxh_par_arrayInt( 3, &aInt[ 0 ], len );
-			sizes = &aInt[ 0 ];
-		}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        const int len = 7;
+        const int* sizes = NULL;
+        int aInt[ len ] = { 0, 0, 0, 0, 0, 0, 0 };
+        
+        if( hb_pcount() > 2 )
+        {
+            wxh_par_arrayInt( 3, &aInt[ 0 ], len );
+            sizes = &aInt[ 0 ];
+        }
 
-		htmlEasyPrinting->SetFonts( wxh_parc( 1 ), wxh_parc( 2 ), sizes );
-	}
+        htmlEasyPrinting->SetFonts( wxh_parc( 1 ), wxh_parc( 2 ), sizes );
+    }
 }
 
 /*
@@ -189,12 +189,12 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFONTS )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETHEADER )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		htmlEasyPrinting->SetHeader( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        htmlEasyPrinting->SetHeader( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
+    }
 }
 
 /*
@@ -203,12 +203,12 @@ HB_FUNC( WXHTMLEASYPRINTING_SETHEADER )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETFOOTER )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		htmlEasyPrinting->SetFooter( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        htmlEasyPrinting->SetFooter( wxh_parc( 1 ), hb_pcount() > 1 ? hb_parni( 2 ) : wxPAGE_ALL );
+    }
 }
 
 /*
@@ -217,10 +217,10 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFOOTER )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETPARENTWINDOW )
 {
-	wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( htmlEasyPrinting )
-	{
-		htmlEasyPrinting->SetParentWindow( (wxWindow *) wxh_par_WX( 1 ) );
-	}
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlEasyPrinting )
+    {
+        htmlEasyPrinting->SetParentWindow( (wxWindow *) wxh_par_WX( 1 ) );
+    }
 }

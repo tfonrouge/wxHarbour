@@ -32,7 +32,7 @@
  */
 wx_DatePickerCtrl::~wx_DatePickerCtrl()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -41,18 +41,18 @@ wx_DatePickerCtrl::~wx_DatePickerCtrl()
  */
 HB_FUNC( WXDATEPICKERCTRL_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
-	
-	wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-	wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-	wxDateTime dt = wxh_par_wxDateTime( 3 );
-	const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
-	const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
-	long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
-	const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.param( 7 ))) ;
-	const wxString& name = ISNIL( 8 ) ? wxString( _T("dateCtrl") ) : wxh_parc( 8 );
-	
-	objParams.Return( new wx_DatePickerCtrl( parent, id, dt, pos, size, style, validator, name ) );
+    wxh_ObjParams objParams = wxh_ObjParams();
+    
+    wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
+    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxDateTime dt = wxh_par_wxDateTime( 3 );
+    const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
+    const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
+    long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
+    const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.param( 7 ))) ;
+    const wxString& name = ISNIL( 8 ) ? wxString( _T("dateCtrl") ) : wxh_parc( 8 );
+    
+    objParams.Return( new wx_DatePickerCtrl( parent, id, dt, pos, size, style, validator, name ) );
 }
 
 /*
@@ -61,13 +61,13 @@ HB_FUNC( WXDATEPICKERCTRL_NEW )
  */
 HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
 {
-	wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( dateCtrl )
-	{
-		wxDateTime dt = dateCtrl->GetValue();
-		hb_retd( dt.GetYear(), dt.GetMonth() + 1, dt.GetDay() );
-	}
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( dateCtrl )
+    {
+        wxDateTime dt = dateCtrl->GetValue();
+        hb_retd( dt.GetYear(), dt.GetMonth() + 1, dt.GetDay() );
+    }
 }
 
 /*
@@ -76,10 +76,10 @@ HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
  */
 HB_FUNC( WXDATEPICKERCTRL_SETVALUE )
 {
-	wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	
-	if( dateCtrl )
-	{
-		dateCtrl->SetValue( wxh_par_wxDateTime( 1 ) );
-	}
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( dateCtrl )
+    {
+        dateCtrl->SetValue( wxh_par_wxDateTime( 1 ) );
+    }
 }

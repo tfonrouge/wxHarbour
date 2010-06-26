@@ -20,12 +20,12 @@
  */
 
 class wx_BitmapButton : public wxBitmapButton
-	{
-	private:
-	protected:
-	public:
-	wx_BitmapButton() : wxBitmapButton() {}
-	wx_BitmapButton( wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxBU_AUTODRAW, const wxValidator& validator = wxDefaultValidator, const wxString& name = _T("bitmapButton") ) : wxBitmapButton( parent, id, bitmap, pos, size, style, validator, name ) {}
-	
-	~wx_BitmapButton();
-	};
+    {
+    private:
+    protected:
+    public:
+    wx_BitmapButton() : wxBitmapButton() {}
+    wx_BitmapButton( wxWindow* parent, wxWindowID id, const wxBitmap& bitmap, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxBU_AUTODRAW, const wxValidator& validator = wxDefaultValidator, const wxString& name = _T("bitmapButton") ) : wxBitmapButton( parent, id, bitmap, pos, size, style, validator, name ) {}
+    
+    ~wx_BitmapButton();
+    };

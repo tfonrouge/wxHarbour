@@ -3,66 +3,66 @@
  */
 
 /*
-	grid sample
-	Teo. Mexico 2009
+    grid sample
+    Teo. Mexico 2009
 */
 
 #include "wxharbour.ch"
 
 FUNCTION Main
-	LOCAL MyApp
+    LOCAL MyApp
 
-	MyApp := MyApp():New()
+    MyApp := MyApp():New()
 
-	IMPLEMENT_APP( MyApp )
+    IMPLEMENT_APP( MyApp )
 
 RETURN NIL
 
 /*
-	MyApp
-	Teo. Mexico 2008
+    MyApp
+    Teo. Mexico 2008
 */
 CLASS MyApp FROM wxApp
 PRIVATE:
 PROTECTED:
 PUBLIC:
-	METHOD OnInit
+    METHOD OnInit
 PUBLISHED:
 ENDCLASS
 /*
-	EndClass MyApp
+    EndClass MyApp
 */
 
 /*
-	OnInit
-	Teo. Mexico 2008
+    OnInit
+    Teo. Mexico 2008
 */
 METHOD FUNCTION OnInit() CLASS MyApp
-	LOCAL oWnd
+    LOCAL oWnd
 
-	CREATE FRAME oWnd ;
-				 WIDTH 800 HEIGHT 600 ;
-				 ID 999 ;
-				 TITLE "Panel's Sample"
+    CREATE FRAME oWnd ;
+                 WIDTH 800 HEIGHT 600 ;
+                 ID 999 ;
+                 TITLE "Panel's Sample"
 
-	DEFINE MENUBAR STYLE 1
-		DEFINE MENU "&File"
-			ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
-					HELPLINE "Quits this sample..."
-		ENDMENU
-		DEFINE MENU "Help"
-			ADD MENUSEPARATOR
-			ADD MENUITEM "About..."
-		ENDMENU
-	ENDMENU
+    DEFINE MENUBAR STYLE 1
+        DEFINE MENU "&File"
+            ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() ;
+                    HELPLINE "Quits this sample..."
+        ENDMENU
+        DEFINE MENU "Help"
+            ADD MENUSEPARATOR
+            ADD MENUITEM "About..."
+        ENDMENU
+    ENDMENU
 
-	BEGIN BOXSIZER HORIZONTAL BORDER 100
-		BEGIN PANEL STYLE wxSUNKEN_BORDER SIZERINFO ALIGN EXPAND STRETCH
-		END PANEL
-		BEGIN PANEL STYLE wxSUNKEN_BORDER SIZERINFO ALIGN EXPAND STRETCH
-		END PANEL
-	END SIZER
+    BEGIN BOXSIZER HORIZONTAL BORDER 100
+        BEGIN PANEL STYLE wxSUNKEN_BORDER SIZERINFO ALIGN EXPAND STRETCH
+        END PANEL
+        BEGIN PANEL STYLE wxSUNKEN_BORDER SIZERINFO ALIGN EXPAND STRETCH
+        END PANEL
+    END SIZER
 
-	SHOW WINDOW oWnd CENTRE
+    SHOW WINDOW oWnd CENTRE
 
 RETURN .T.

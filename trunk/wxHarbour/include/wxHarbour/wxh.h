@@ -3,24 +3,24 @@
  */
 
 /*
-	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
-	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	(C) 2009 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-	wxh.h
-	Teo. Mexico 2009
+    wxh.h
+    Teo. Mexico 2009
 */
 
 /*
-	Harbour related include files
+    Harbour related include files
 */
 #include "hbvmint.h"
 
@@ -61,65 +61,65 @@ using namespace std;
 
 typedef struct _CONN_PARAMS
 {
-	bool force;
-	int id;
-	int lastId;
-	wxEventType eventType;
-	PHB_ITEM pItmActionBlock;
+    bool force;
+    int id;
+    int lastId;
+    wxEventType eventType;
+    PHB_ITEM pItmActionBlock;
 } CONN_PARAMS, *PCONN_PARAMS;
 
 /* PHB_ITEM key, wxObject* values */
 WX_DECLARE_HASH_MAP( PHB_ITEM, bool, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
 
 /*
-	wxh_Item class : Holds PHB_ITEM's and the wxObject associated
+    wxh_Item class : Holds PHB_ITEM's and the wxObject associated
 */
 class wxh_Item
 {
 public:
-	bool delete_WX;
-	bool nullObj;
-	wxObject* wxObj;
-	USHORT uiClass;
-	PHB_BASEARRAY objHandle;
-	vector<PCONN_PARAMS> evtList;
-	PHB_ITEM pSelf;
-	USHORT uiRefCount;
-	UINT uiProcNameLine;
+    bool delete_WX;
+    bool nullObj;
+    wxObject* wxObj;
+    USHORT uiClass;
+    PHB_BASEARRAY objHandle;
+    vector<PCONN_PARAMS> evtList;
+    PHB_ITEM pSelf;
+    USHORT uiRefCount;
+    UINT uiProcNameLine;
 
-	wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; uiProcNameLine = 0; }
-	~wxh_Item();
+    wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; uiProcNameLine = 0; }
+    ~wxh_Item();
 
 };
 
 class wxh_ObjParams
 {
 private:
-	bool linkChildParentParams;
-	void SetChildItem( const PHB_ITEM pChildItem );
+    bool linkChildParentParams;
+    void SetChildItem( const PHB_ITEM pChildItem );
 public:
 
-	PHB_ITEM pParamParent;
-	MAP_PHB_ITEM map_paramListChild;
+    PHB_ITEM pParamParent;
+    MAP_PHB_ITEM map_paramListChild;
 
-	PHB_ITEM pSelf;
-	wxh_Item* pWxh_Item;
+    PHB_ITEM pSelf;
+    wxh_Item* pWxh_Item;
 
-	wxh_ObjParams();
-	wxh_ObjParams( PHB_ITEM pHbObj );
-	~wxh_ObjParams();
+    wxh_ObjParams();
+    wxh_ObjParams( PHB_ITEM pHbObj );
+    ~wxh_ObjParams();
 
-	void ProcessParamLists();
+    void ProcessParamLists();
 
-	void Return( wxObject* wxObj, bool bItemRelease = false );
+    void Return( wxObject* wxObj, bool bItemRelease = false );
 
-	wxObject* param( int param );
-	wxObject* paramChild( PHB_ITEM pChildItm );
-	wxObject* paramChild( int param );
-	wxObject* paramParent( PHB_ITEM pParentItm );
-	wxObject* paramParent( int param );
+    wxObject* param( int param );
+    wxObject* paramChild( PHB_ITEM pChildItm );
+    wxObject* paramChild( int param );
+    wxObject* paramParent( PHB_ITEM pParentItm );
+    wxObject* paramParent( int param );
 
-	wxObject* Get_wxObject();
+    wxObject* Get_wxObject();
 
 };
 
@@ -162,7 +162,7 @@ void          wxh_ItemListReleaseAll();
 bool          wxh_ItemListSwap( wxObject *oldObj, wxObject *newObj );
 PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 #define		  wxh_wxStringToC( string ) \
-				(string).mb_str( wxConvUTF8 )
+                (string).mb_str( wxConvUTF8 )
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
@@ -171,50 +171,50 @@ void qoutf( const char* format, ... );
 void qqoutf( const char* format, ... );
 
 /*
-	template for send event handling to harbour objects
-	Teo. Mexico 2009
+    template for send event handling to harbour objects
+    Teo. Mexico 2009
 */
 template <class T>
 class hbEvtHandler : public T
 {
 private:
-	void __OnEvent( wxEvent &event );
+    void __OnEvent( wxEvent &event );
 public:
 
-	void OnActivateEvent( wxActivateEvent& event );
-	void OnCloseEvent( wxCloseEvent& event );
-	void OnCommandEvent( wxCommandEvent& event );
-	void OnFocusEvent( wxFocusEvent& event );
-	void OnGridEvent( wxGridEvent& event );
-	void OnInitDialogEvent( wxInitDialogEvent& event );
-	void OnKeyEvent( wxKeyEvent& event );
-	void OnMenuEvent( wxMenuEvent& event );
-	void OnMouseEvent( wxMouseEvent& event );
-	void OnNotebookEvent( wxNotebookEvent& event );
-	void OnSocketEvent( wxSocketEvent& event );
-	void OnTaskBarIconEvent( wxTaskBarIconEvent& event );
-	void OnTimerEvent( wxTimerEvent& event );
-	void OnUpdateUIEvent( wxUpdateUIEvent& event );
+    void OnActivateEvent( wxActivateEvent& event );
+    void OnCloseEvent( wxCloseEvent& event );
+    void OnCommandEvent( wxCommandEvent& event );
+    void OnFocusEvent( wxFocusEvent& event );
+    void OnGridEvent( wxGridEvent& event );
+    void OnInitDialogEvent( wxInitDialogEvent& event );
+    void OnKeyEvent( wxKeyEvent& event );
+    void OnMenuEvent( wxMenuEvent& event );
+    void OnMouseEvent( wxMouseEvent& event );
+    void OnNotebookEvent( wxNotebookEvent& event );
+    void OnSocketEvent( wxSocketEvent& event );
+    void OnTaskBarIconEvent( wxTaskBarIconEvent& event );
+    void OnTimerEvent( wxTimerEvent& event );
+    void OnUpdateUIEvent( wxUpdateUIEvent& event );
 
-	void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
+    void wxhConnect( int evtClass, PCONN_PARAMS pConnParams );
 
-	~hbEvtHandler<T>();
+    ~hbEvtHandler<T>();
 };
 
 /*
-	~hbEvtHandler
-	Teo. Mexico 2009
+    ~hbEvtHandler
+    Teo. Mexico 2009
 */
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler()
 {
-	wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
+    wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
 
-	if( pWxh_Item )
-	{
-		pWxh_Item->delete_WX = false;
-		//delete pWxh_Item;
-	}
+    if( pWxh_Item )
+    {
+        pWxh_Item->delete_WX = false;
+        //delete pWxh_Item;
+    }
 }
 
 /*
@@ -223,5 +223,5 @@ hbEvtHandler<T>::~hbEvtHandler()
  */
 template <class tW>
 class hbWindow : public hbEvtHandler<tW>
-	{
-	};
+    {
+    };

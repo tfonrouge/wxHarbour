@@ -3,15 +3,15 @@
  */
 
 /*
-	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
 
-	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	(C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 // ----------------------------------------------------------------------------
@@ -60,8 +60,8 @@
 #define wxTE_BESTWRAP       0x0000  // this is the default
 
 #ifdef WXWIN_COMPATIBILITY_2_6
-		// obsolete synonym
-		#define wxTE_LINEWRAP       wxTE_CHARWRAP
+        // obsolete synonym
+        #define wxTE_LINEWRAP       wxTE_CHARWRAP
 #endif // WXWIN_COMPATIBILITY_2_6
 
 // force using RichEdit version 2.0 or 3.0 instead of 1.0 (default) for

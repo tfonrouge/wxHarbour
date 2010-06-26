@@ -3,20 +3,20 @@
  */
 
 /*
-	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
-	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	(C) 2009 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-	wx_Timer: Implementation
-	Teo. Mexico 2009
+    wx_Timer: Implementation
+    Teo. Mexico 2009
 */
 
 #include "wx/wx.h"
@@ -26,156 +26,156 @@
 #include "wxbase/wx_Timer.h"
 
 /*
-	~wx_Timer
-	Teo. Mexico 2009
+    ~wx_Timer
+    Teo. Mexico 2009
 */
 wx_Timer::~wx_Timer()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 /*
-	Notify
-	Teo. Mexico 2009
+    Notify
+    Teo. Mexico 2009
 */
 void wx_Timer::Notify()
 {
-	PHB_ITEM pTimer = wxh_ItemListGet_HB( this );
+    PHB_ITEM pTimer = wxh_ItemListGet_HB( this );
 
-	if( pTimer )
-	{
-		hb_objSendMsg( pTimer, "Notify", 0  );
-	}
+    if( pTimer )
+    {
+        hb_objSendMsg( pTimer, "Notify", 0  );
+    }
 }
 
 /*
-	New
-	Teo. Mexico 2009
+    New
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams();
 
-	wxEvtHandler* owner = (wxEvtHandler *) objParams.paramParent( 1 );
-	int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
+    wxEvtHandler* owner = (wxEvtHandler *) objParams.paramParent( 1 );
+    int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
 
-	const char* clsName = hb_clsName( hb_objGetClass( objParams.pSelf ) );
+    const char* clsName = hb_clsName( hb_objGetClass( objParams.pSelf ) );
 
-	wxTimer* timer;
+    wxTimer* timer;
 
-	if( strcmp( clsName, "WXTIMER" ) == 0 )
-	{
+    if( strcmp( clsName, "WXTIMER" ) == 0 )
+    {
 
-		if( hb_pcount() )
-		{
-			timer = new wxTimer( owner, id );
-		}
-		else
-			timer = new wxTimer();
+        if( hb_pcount() )
+        {
+            timer = new wxTimer( owner, id );
+        }
+        else
+            timer = new wxTimer();
 
-		objParams.Return( timer );
+        objParams.Return( timer );
 
-	}
-	else
-	{
+    }
+    else
+    {
 
-		if( hb_pcount() )
-		{
-			timer = new wx_Timer( owner, id );
-		}
-		else
-			timer = new wx_Timer();
+        if( hb_pcount() )
+        {
+            timer = new wx_Timer( owner, id );
+        }
+        else
+            timer = new wx_Timer();
 
-		objParams.Return( timer );
+        objParams.Return( timer );
 
-	}
+    }
 }
 
 
 /*
-	GetInterval
-	Teo. Mexico 2009
+    GetInterval
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_GETINTERVAL )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	if( timer )
-	{
-		hb_retni( timer->GetInterval() );
-	}
+    if( timer )
+    {
+        hb_retni( timer->GetInterval() );
+    }
 }
 
 /*
-	IsOneShot
-	Teo. Mexico 2009
+    IsOneShot
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_ISONESHOT )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	if( timer )
-	{
-		hb_retl( timer->IsOneShot() );
-	}
+    if( timer )
+    {
+        hb_retl( timer->IsOneShot() );
+    }
 }
 
 /*
-	IsRunning
-	Teo. Mexico 2009
+    IsRunning
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_ISRUNNING )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	if( timer )
-	{
-		hb_retl( timer->IsRunning() );
-	}
+    if( timer )
+    {
+        hb_retl( timer->IsRunning() );
+    }
 }
 
 /*
-	SetOwner
-	Teo. Mexico 2009
+    SetOwner
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_SETOWNER )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-	wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_par_WX( 1 );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_par_WX( 1 );
 
-	if( timer && evtHandler )
-	{
-		int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
-		timer->SetOwner( evtHandler, id );
-	}
+    if( timer && evtHandler )
+    {
+        int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
+        timer->SetOwner( evtHandler, id );
+    }
 }
 
 /*
-	Start
-	Teo. Mexico 2009
+    Start
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_START )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	if( timer )
-	{
-		int milliseconds = ISNIL( 1 ) ? -1 : hb_parni( 1 );
-		bool oneShot = ISNIL( 2 ) ? false : hb_parnl( 2 );
-		hb_retl( timer->Start( milliseconds, oneShot ) );
-	}
+    if( timer )
+    {
+        int milliseconds = ISNIL( 1 ) ? -1 : hb_parni( 1 );
+        bool oneShot = ISNIL( 2 ) ? false : hb_parnl( 2 );
+        hb_retl( timer->Start( milliseconds, oneShot ) );
+    }
 }
 
 /*
-	Stop
-	Teo. Mexico 2009
+    Stop
+    Teo. Mexico 2009
 */
 HB_FUNC( WXTIMER_STOP )
 {
-	wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-	if( timer )
-	{
-		timer->Stop();
-	}
+    if( timer )
+    {
+        timer->Stop();
+    }
 }

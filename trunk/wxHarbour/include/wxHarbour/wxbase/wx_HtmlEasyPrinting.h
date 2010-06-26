@@ -27,7 +27,7 @@ class wx_HtmlEasyPrinting : public wxHtmlEasyPrinting
 private:
 protected:
 public:
-	wx_HtmlEasyPrinting( const wxString& name = _T("Printing"), wxWindow *parentWindow = NULL ) : wxHtmlEasyPrinting( name, parentWindow ) {}
-	~wx_HtmlEasyPrinting();
-	
+    wx_HtmlEasyPrinting( const wxString& name = _T("Printing"), wxWindow *parentWindow = NULL ) : wxHtmlEasyPrinting( name, parentWindow ) {}
+    ~wx_HtmlEasyPrinting();
+    
 };

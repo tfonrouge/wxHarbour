@@ -3,20 +3,20 @@
  */
 
 /*
-	wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
 
-	This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
-	This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+    You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-	(C) 2009 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
-	wxListCtrl
-	Teo. Mexico 2009
+    wxListCtrl
+    Teo. Mexico 2009
 */
 
 #include "hbclass.ch"
@@ -24,25 +24,25 @@
 #include "wx.ch"
 
 /*
-	wxListCtrl
-	Teo. Mexico 2009
+    wxListCtrl
+    Teo. Mexico 2009
 */
 CLASS wxListCtrl FROM wxControl
 PRIVATE:
 PROTECTED:
 PUBLIC:
 
-	CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
+    CONSTRUCTOR New( parent, id, value, pos, size, style, validator, name )
 
-	METHOD Arrange( flag )
-	METHOD AssignImageList( imageList, which )
-	METHOD ClearAll()
-	METHOD DeleteAllItems()
-	METHOD DeleteColumn( col )
-	METHOD DeleteItem( item )
-	METHOD EditLabel( item )
-	METHOD EnsureVisible( item )
-	METHOD FindItem( start, str, partial )
+    METHOD Arrange( flag )
+    METHOD AssignImageList( imageList, which )
+    METHOD ClearAll()
+    METHOD DeleteAllItems()
+    METHOD DeleteColumn( col )
+    METHOD DeleteItem( item )
+    METHOD EditLabel( item )
+    METHOD EnsureVisible( item )
+    METHOD FindItem( start, str, partial )
 
 // wxListCtrl::GetColumn
 // wxListCtrl::GetColumnCount
@@ -102,5 +102,5 @@ PUBLISHED:
 ENDCLASS
 
 /*
-	EndClass wxListCtrl
+    EndClass wxListCtrl
 */

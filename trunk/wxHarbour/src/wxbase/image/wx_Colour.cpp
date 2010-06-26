@@ -29,7 +29,7 @@
  */
 wx_Colour::~wx_Colour()
 {
-	wxh_ItemListDel_WX( this );
+    wxh_ItemListDel_WX( this );
 }
 
 /*
@@ -38,81 +38,81 @@ wx_Colour::~wx_Colour()
  */
 HB_FUNC( WXCOLOUR_NEW )
 {
-	wxh_ObjParams objParams = wxh_ObjParams();
-	wx_Colour* colour = NULL;
-	
-	switch( hb_pcount() )
-	{
-	case 0 :
-		{
-			colour = new wx_Colour();
-		}
-		break;
-	case 1 :
-		{
-			if( ISCHAR( 1 ) )
-			{
-				const wxString& name = wxh_parc( 1 );
-				colour = new wx_Colour( name );
-				printf("char");
-			}
-			else if( ISARRAY(1) )
-			{
-				PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
-				if (hb_arrayLen( pArray ) == 3)
-				{
-					unsigned char r,g,b;
-					r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
-					g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
-					b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
-					colour = new wx_Colour( r, g, b, (unsigned char)255 );
-				}
-				else if (hb_arrayLen( pArray ) == 4)
-				{
-					unsigned char r,g,b,a;
-					r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
-					g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
-					b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
-					a = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 4 ) );
-					colour = new wx_Colour( r, g, b, a );
-				}
-			}
-			else
-			{
-				colour = new wx_Colour();
-			}
-		}
-		break;
-	case 3:
-		{
-			if( ISNUM(1) && ISNUM(2) && ISNUM(3) )	
-			{
-				colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)255 );
-			}
-			else
-			{
-				colour = new wx_Colour();
-			}
-		}
-		break;
-	case 4:
-		{
-			if( ISNUM(1) && ISNUM(2) && ISNUM(3) && ISNUM(4))	
-			{
-				colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)hb_parni(4) );
-			}
-			else
-			{
-				colour = new wx_Colour();
-			}
-		}
-		break;
-	default :
-		colour = new wx_Colour();
-		break;
-	}
-	
-	objParams.Return( colour );
+    wxh_ObjParams objParams = wxh_ObjParams();
+    wx_Colour* colour = NULL;
+    
+    switch( hb_pcount() )
+    {
+    case 0 :
+        {
+            colour = new wx_Colour();
+        }
+        break;
+    case 1 :
+        {
+            if( ISCHAR( 1 ) )
+            {
+                const wxString& name = wxh_parc( 1 );
+                colour = new wx_Colour( name );
+                printf("char");
+            }
+            else if( ISARRAY(1) )
+            {
+                PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
+                if (hb_arrayLen( pArray ) == 3)
+                {
+                    unsigned char r,g,b;
+                    r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+                    g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+                    b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
+                    colour = new wx_Colour( r, g, b, (unsigned char)255 );
+                }
+                else if (hb_arrayLen( pArray ) == 4)
+                {
+                    unsigned char r,g,b,a;
+                    r = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 1 ) );
+                    g = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 2 ) );
+                    b = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 3 ) );
+                    a = hb_itemGetNI( hb_arrayGetItemPtr( pArray, 4 ) );
+                    colour = new wx_Colour( r, g, b, a );
+                }
+            }
+            else
+            {
+                colour = new wx_Colour();
+            }
+        }
+        break;
+    case 3:
+        {
+            if( ISNUM(1) && ISNUM(2) && ISNUM(3) )	
+            {
+                colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)255 );
+            }
+            else
+            {
+                colour = new wx_Colour();
+            }
+        }
+        break;
+    case 4:
+        {
+            if( ISNUM(1) && ISNUM(2) && ISNUM(3) && ISNUM(4))	
+            {
+                colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)hb_parni(4) );
+            }
+            else
+            {
+                colour = new wx_Colour();
+            }
+        }
+        break;
+    default :
+        colour = new wx_Colour();
+        break;
+    }
+    
+    objParams.Return( colour );
 }
 
 
