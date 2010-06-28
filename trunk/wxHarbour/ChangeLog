@@ -2,6 +2,29 @@
  * $Id$
  */
 
+2010-06-28 16:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  +  src/common/wx_err.cpp
+     + wx_err.cpp source added, contains calls to RT errors
+
+  *  include/wxHarbour/wxh.h
+     + added prototype for RT error on wrong number of params passed
+
+  *  samples/grid/grid.prg
+     % enhanced sample
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * removed decrement on DeleteCols/DeleteRows param call
+
+  *  src/wxbase/advctrls/wx_Grid.cpp
+  *  src/wxbase/advctrls/wx_GridTableBase.cpp
+     ! Fixed param checking and RT error for this
+     ! Fixed to convert from 1 based lists (HB) to 0 based lists (c++)
+
 2010-06-26 10:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/BaseBrowse.prg

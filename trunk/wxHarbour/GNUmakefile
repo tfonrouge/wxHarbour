@@ -234,6 +234,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhValidator.o \
 	$(__BUILDDIR__)/wxHarbour_wxhXmlDocument.o \
 	$(__BUILDDIR__)/wxHarbour_sysdefs.o \
+	$(__BUILDDIR__)/wxHarbour_wx_err.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_harbour.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Browse.o \
@@ -831,6 +832,9 @@ $(__BUILDDIR__)/wxHarbour_wxhXmlDocument.o: ./src/wxbase/xmlclasses/wxhXmlDocume
 	$(CC) -c $(WXHARBOUR_CFLAGS) -o$@ $@_.c
 
 $(__BUILDDIR__)/wxHarbour_sysdefs.o: ./src/common/sysdefs.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_wx_err.o: ./src/common/wx_err.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/common/wx_functions.cpp

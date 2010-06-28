@@ -3,7 +3,7 @@
  */
 
 /*
-    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2009 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2010 Teo Fonrouge
 
     This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -11,12 +11,12 @@
 
     You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-    (C) 2009 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2010 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
     wx_Grid: Implementation
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 
 #include "wx/wx.h"
@@ -28,7 +28,7 @@
 
 /*
     ~wx_Grid
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 wx_Grid::~wx_Grid()
 {
@@ -37,7 +37,7 @@ wx_Grid::~wx_Grid()
 
 /*
     Constructor: wxGrid Object
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_NEW )
 {
@@ -57,7 +57,7 @@ HB_FUNC( WXGRID_NEW )
 
 /*
  AppendCols
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_APPENDCOLS )
 {
@@ -69,7 +69,7 @@ HB_FUNC( WXGRID_APPENDCOLS )
 
 /*
  AppendRows
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_APPENDROWS )
 {
@@ -81,7 +81,7 @@ HB_FUNC( WXGRID_APPENDROWS )
 
 /*
  AutoSize
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_AUTOSIZE )
 {
@@ -93,22 +93,27 @@ HB_FUNC( WXGRID_AUTOSIZE )
 
 /*
  AutoSizeColumn
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_AUTOSIZECOLUMN )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-    int col = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-    bool setAsMin = ISNIL( 2 ) ? true : hb_parl( 2 );
-
     if( grid )
-        grid->AutoSizeColumn( col, setAsMin );
+    {
+        if( hb_pcount() > 0 )
+        {
+            bool setAsMin = hb_pcount() > 1 ? hb_parl( 2 ) : true;
+            grid->AutoSizeColumn( hb_parni( 1 ) - 1, setAsMin );
+        }
+        else
+            wxh_errRT_ParamNum();
+    }
 }
 
 /*
     AutoSizeColumns
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_AUTOSIZECOLUMNS )
 {
@@ -116,29 +121,34 @@ HB_FUNC( WXGRID_AUTOSIZECOLUMNS )
 
     if( grid )
     {
-        bool setAsMin = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool setAsMin = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->AutoSizeColumns( setAsMin );
     }
 }
 
 /*
     AutoSizeRow
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_AUTOSIZEROW )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-    int row = ISNIL( 1 ) ? 1 : hb_parni( 1 );
-    bool setAsMin = ISNIL( 2 ) ? true : hb_parl( 2 );
-
     if( grid )
-        grid->AutoSizeRow( row, setAsMin );
+    {
+        if( hb_pcount() > 0 )
+        {
+            bool setAsMin = hb_pcount() > 1 ? hb_parl( 2 ) : true;
+            grid->AutoSizeRow( hb_parni( 1 ) - 1, setAsMin );
+        }
+        else
+            wxh_errRT_ParamNum();
+    }
 }
 
 /*
     AutoSizeRows
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_AUTOSIZEROWS )
 {
@@ -146,14 +156,14 @@ HB_FUNC( WXGRID_AUTOSIZEROWS )
 
     if( grid )
     {
-        bool setAsMin = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool setAsMin = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->AutoSizeRows( setAsMin );
     }
 }
 
 /*
     BeginBatch
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_BEGINBATCH )
 {
@@ -167,7 +177,7 @@ HB_FUNC( WXGRID_BEGINBATCH )
 
 /*
     CanDragColMove
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CANDRAGCOLMOVE )
 {
@@ -181,7 +191,7 @@ HB_FUNC( WXGRID_CANDRAGCOLMOVE )
 
 /*
     CanDragGridSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CANDRAGGRIDSIZE )
 {
@@ -195,7 +205,7 @@ HB_FUNC( WXGRID_CANDRAGGRIDSIZE )
 
 /*
     CanEnableCellControl
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CANENABLECELLCONTROL )
 {
@@ -209,7 +219,7 @@ HB_FUNC( WXGRID_CANENABLECELLCONTROL )
 
 /*
     ClearGrid
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CLEARGRID )
 {
@@ -223,7 +233,7 @@ HB_FUNC( WXGRID_CLEARGRID )
 
 /*
     ClearSelection
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CLEARSELECTION )
 {
@@ -237,50 +247,59 @@ HB_FUNC( WXGRID_CLEARSELECTION )
 
 /*
     CreateGrid
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_CREATEGRID )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-    int numRows = hb_parnl( 1 );
-    int numCols = hb_parnl( 2 );
-
-    wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
-
     if( grid )
-        hb_retl( grid->CreateGrid( numRows, numCols, selmode ));
-    else
-        hb_ret();
+    {
+        if( hb_pcount() > 1 )
+        {
+            wxGrid::wxGridSelectionModes selmode = (wxGrid::wxGridSelectionModes) hb_parnl( 3 );
+            hb_retl( grid->CreateGrid( hb_parnl( 1 ), hb_parnl( 2 ), selmode ) );
+        }
+        else
+            wxh_errRT_ParamNum();
+    }
 }
 
 /*
  DeleteCols
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_DELETECOLS )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( grid )
-        hb_retl( grid->DeleteCols( hb_parni( 1 ), hb_parni( 2 ) ) );
+    {
+        int pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        int numCols = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
+        hb_retl( grid->DeleteCols( pos, numCols ) );
+    }
 }
 
 /*
  DeleteRows
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_DELETEROWS )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( grid )
-        hb_retl( grid->DeleteRows( hb_parni( 1 ), hb_parni( 2 ) ) );
+    {
+        int pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        int numRows = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
+        hb_retl( grid->DeleteRows( pos, numRows ) );
+    }
 }
 
 /*
     DisableCellEditControl
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_DISABLECELLEDITCONTROL )
 {
@@ -294,7 +313,7 @@ HB_FUNC( WXGRID_DISABLECELLEDITCONTROL )
 
 /*
     DisableDragColMove
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_DISABLEDRAGCOLMOVE )
 {
@@ -308,7 +327,7 @@ HB_FUNC( WXGRID_DISABLEDRAGCOLMOVE )
 
 /*
     DisableDragColSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_DISABLEDRAGCOLSIZE )
 {
@@ -322,7 +341,7 @@ HB_FUNC( WXGRID_DISABLEDRAGCOLSIZE )
 
 /*
     DisableDragGridSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_DISABLEDRAGGRIDSIZE )
 {
@@ -336,7 +355,7 @@ HB_FUNC( WXGRID_DISABLEDRAGGRIDSIZE )
 
 /*
     DisableDragRowSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_DISABLEDRAGROWSIZE )
 {
@@ -350,7 +369,7 @@ HB_FUNC( WXGRID_DISABLEDRAGROWSIZE )
 
 /*
     EnableCellEditControl
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLECELLEDITCONTROL )
 {
@@ -358,14 +377,14 @@ HB_FUNC( WXGRID_ENABLECELLEDITCONTROL )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableCellEditControl( enable );
     }
 }
 
 /*
     EnableDragColSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEDRAGCOLSIZE )
 {
@@ -373,14 +392,14 @@ HB_FUNC( WXGRID_ENABLEDRAGCOLSIZE )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableDragColSize( enable );
     }
 }
 
 /*
     EnableDragColMove
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEDRAGCOLMOVE )
 {
@@ -388,14 +407,14 @@ HB_FUNC( WXGRID_ENABLEDRAGCOLMOVE )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableDragColMove( enable );
     }
 }
 
 /*
     EnableDragGridSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEDRAGGRIDSIZE )
 {
@@ -403,14 +422,14 @@ HB_FUNC( WXGRID_ENABLEDRAGGRIDSIZE )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableDragGridSize( enable );
     }
 }
 
 /*
     EnableDragRowSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEDRAGROWSIZE )
 {
@@ -418,14 +437,14 @@ HB_FUNC( WXGRID_ENABLEDRAGROWSIZE )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableDragRowSize( enable );
     }
 }
 
 /*
     EnableEditing
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEEDITING )
 {
@@ -433,14 +452,18 @@ HB_FUNC( WXGRID_ENABLEEDITING )
 
     if( grid )
     {
-        bool editing = ISNIL( 1 ) ? true : hb_parl( 1 );
-        grid->EnableEditing( editing );
+        if( hb_pcount() == 1 )
+        {
+            grid->EnableEditing( hb_parl( 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     wxGrid:EnableGridLines
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENABLEGRIDLINES )
 {
@@ -448,14 +471,14 @@ HB_FUNC( WXGRID_ENABLEGRIDLINES )
 
     if( grid )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = hb_pcount() > 0 ? hb_parl( 1 ) : true;
         grid->EnableGridLines( enable );
     }
 }
 
 /*
     EndBatch
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ENDBATCH )
 {
@@ -467,7 +490,7 @@ HB_FUNC( WXGRID_ENDBATCH )
 
 /*
     Fit
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_FIT )
 {
@@ -479,7 +502,7 @@ HB_FUNC( WXGRID_FIT )
 
 /*
     ForceRefresh
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_FORCEREFRESH )
 {
@@ -491,7 +514,7 @@ HB_FUNC( WXGRID_FORCEREFRESH )
 
 /*
     GetBatchCount
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_GETBATCHCOUNT )
 {
@@ -503,7 +526,7 @@ HB_FUNC( WXGRID_GETBATCHCOUNT )
 
 /*
     GetCellValue
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_GETCELLVALUE )
 {
@@ -511,13 +534,18 @@ HB_FUNC( WXGRID_GETCELLVALUE )
 
     if( grid )
     {
-        wxh_retc( grid->GetCellValue( hb_parni( 1 ), hb_parni( 2 ) ) );
+        if( hb_pcount() == 2 )
+        {
+            wxh_retc( grid->GetCellValue( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  GetDefaultRowLabelSize
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETDEFAULTROWLABELSIZE )
 {
@@ -531,7 +559,7 @@ HB_FUNC( WXGRID_GETDEFAULTROWLABELSIZE )
 
 /*
  GetDefaultRowSize
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETDEFAULTROWSIZE )
 {
@@ -545,7 +573,7 @@ HB_FUNC( WXGRID_GETDEFAULTROWSIZE )
 
 /*
     GetGridCursorCol
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_GETGRIDCURSORCOL )
 {
@@ -559,7 +587,7 @@ HB_FUNC( WXGRID_GETGRIDCURSORCOL )
 
 /*
     GetGridCursorRow
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_GETGRIDCURSORROW )
 {
@@ -573,7 +601,7 @@ HB_FUNC( WXGRID_GETGRIDCURSORROW )
 
 /*
     GetNumberCols
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_GETNUMBERCOLS )
 {
@@ -587,7 +615,7 @@ HB_FUNC( WXGRID_GETNUMBERCOLS )
 
 /*
  GetNumberRows
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETNUMBERROWS )
 {
@@ -601,7 +629,7 @@ HB_FUNC( WXGRID_GETNUMBERROWS )
 
 /*
  GetRowLabelSize
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETROWLABELSIZE )
 {
@@ -615,7 +643,7 @@ HB_FUNC( WXGRID_GETROWLABELSIZE )
 
 /*
  GetRowLabelValue
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETROWLABELVALUE )
 {
@@ -623,13 +651,18 @@ HB_FUNC( WXGRID_GETROWLABELVALUE )
     
     if( grid && grid->GetTable() )
     {
-        wxh_retc( grid->GetRowLabelValue( hb_parni( 1 ) ) );
+        if( hb_pcount() == 1 )
+        {
+            wxh_retc( grid->GetRowLabelValue( hb_parni( 1 ) - 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  GetRowSize
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETROWSIZE )
 {
@@ -637,13 +670,18 @@ HB_FUNC( WXGRID_GETROWSIZE )
     
     if( grid && grid->GetTable() )
     {
-        hb_retni( grid->GetRowSize( hb_parni( 1 ) ) );
+        if( hb_pcount() == 1 )
+        {
+            hb_retni( grid->GetRowSize( hb_parni( 1 ) - 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  GetTable
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_GETTABLE )
 {
@@ -654,14 +692,14 @@ HB_FUNC( WXGRID_GETTABLE )
         wx_GridTableBase* gridTable = (wx_GridTableBase *) grid->GetTable();
         if( gridTable )
         {
-        wxh_itemReturn( gridTable );
+            wxh_itemReturn( gridTable );
         }
     }
 }
 
 /*
  HideCellEditControl
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_HIDECELLEDITCONTROL )
 {
@@ -675,31 +713,39 @@ HB_FUNC( WXGRID_HIDECELLEDITCONTROL )
 
 /*
  InsertCols
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_INSERTCOLS )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( grid )
-        hb_retl( grid->InsertCols( hb_parni( 1 ), hb_parni( 2 ) ) );
+    {
+        int pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        int numCols = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
+        hb_retl( grid->InsertCols( pos, numCols ) );
+    }
 }
 
 /*
  InsertRows
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_INSERTROWS )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( grid )
-        hb_retl( grid->InsertRows( hb_parni( 1 ), hb_parni( 2 ) ) );
+    {
+        int pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        int numRows = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
+        hb_retl( grid->InsertRows( pos, numRows ) );
+    }
 }
 
 /*
  IsCellEditControlEnabled
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISCELLEDITCONTROLENABLED )
 {
@@ -713,7 +759,7 @@ HB_FUNC( WXGRID_ISCELLEDITCONTROLENABLED )
 
 /*
  IsCurrentCellReadOnly
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISCURRENTCELLREADONLY )
 {
@@ -727,7 +773,7 @@ HB_FUNC( WXGRID_ISCURRENTCELLREADONLY )
 
 /*
  IsEditable
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISEDITABLE )
 {
@@ -741,7 +787,7 @@ HB_FUNC( WXGRID_ISEDITABLE )
 
 /*
  IsInSelection
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISINSELECTION )
 {
@@ -749,13 +795,18 @@ HB_FUNC( WXGRID_ISINSELECTION )
     
     if( grid )
     {
-        hb_retl( grid->IsInSelection( hb_parni( 1 ), hb_parni( 2 ) ) );
+        if( hb_pcount() == 2 )
+        {
+            hb_retl( grid->IsInSelection( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  IsReadOnly
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISREADONLY )
 {
@@ -763,13 +814,18 @@ HB_FUNC( WXGRID_ISREADONLY )
     
     if( grid )
     {
-        hb_retl( grid->IsReadOnly( hb_parni( 1 ), hb_parni( 2 ) ) );
+        if( hb_pcount() == 2 )
+        {
+            hb_retl( grid->IsReadOnly( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  IsSelection
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_ISSELECTION )
 {
@@ -783,7 +839,7 @@ HB_FUNC( WXGRID_ISSELECTION )
 
 /*
     IsVisible
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_ISVISIBLE )
 {
@@ -791,25 +847,38 @@ HB_FUNC( WXGRID_ISVISIBLE )
 
     if( grid )
     {
-        hb_retl( grid->IsVisible( hb_parni( 1 ), hb_parni( 2 ), hb_parl( 3 ) ) );
+        if( hb_pcount() > 1 )
+        {
+            bool wholeCellVisible = hb_pcount() > 2 ? hb_parl( 3 ) : true;
+            hb_retl( grid->IsVisible( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1, wholeCellVisible ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     MakeCellVisible
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_MAKECELLVISIBLE )
 {
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( grid )
-        grid->MakeCellVisible( hb_parni( 1 ), hb_parni( 2 ) );
+    {
+        if( hb_pcount() == 2 )
+        {
+            grid->MakeCellVisible( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1 );
+        }
+        else
+            wxh_errRT_ParamNum();
+    }
 }
 
 /*
     MoveCursorLeft
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_MOVECURSORLEFT )
 {
@@ -823,7 +892,7 @@ HB_FUNC( WXGRID_MOVECURSORLEFT )
 
 /*
     MoveCursorRight
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_MOVECURSORRIGHT )
 {
@@ -837,7 +906,7 @@ HB_FUNC( WXGRID_MOVECURSORRIGHT )
 
 /*
  SelectCol
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SELECTCOL )
 {
@@ -845,13 +914,18 @@ HB_FUNC( WXGRID_SELECTCOL )
     
     if( grid )
     {
-        grid->SelectCol( hb_parni( 1 ), hb_parnl( 2 ) );
+        if( hb_pcount() > 0 )
+        {
+            grid->SelectCol( hb_parni( 1 ) - 1, hb_parnl( 2 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SelectRow
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SELECTROW )
 {
@@ -859,13 +933,18 @@ HB_FUNC( WXGRID_SELECTROW )
     
     if( grid )
     {
-        grid->SelectRow( hb_parni( 1 ), hb_parnl( 2 ) );
+        if( hb_pcount() > 0 )
+        {
+            grid->SelectRow( hb_parni( 1 ) - 1, hb_parnl( 2 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     wxGrid:SetCellAlignment
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_SETCELLALIGNMENT )
 {
@@ -875,18 +954,20 @@ HB_FUNC( WXGRID_SETCELLALIGNMENT )
     {
         if( hb_pcount() == 3 )
         {
-            grid->SetCellAlignment( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ) );
+            grid->SetCellAlignment( hb_parni( 1 ), hb_parni( 2 ) - 1, hb_parni( 3 ) - 1 );
         }
         else if( hb_pcount() == 4 )
         {
-            grid->SetCellAlignment( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
+            grid->SetCellAlignment( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1, hb_parni( 3 ), hb_parni( 4 ) );
         }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetCellBackgroundColour
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETCELLBACKGROUNDCOLOUR )
 {
@@ -894,13 +975,18 @@ HB_FUNC( WXGRID_SETCELLBACKGROUNDCOLOUR )
     
     if( grid )
     {
-        grid->SetCellBackgroundColour( hb_parni( 1 ), hb_parni( 2 ), wxh_par_wxColour( 3 ) );
+        if( hb_pcount() == 3 )
+        {
+            grid->SetCellBackgroundColour( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1, wxh_par_wxColour( 3 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetCellTextColour
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETCELLTEXTCOLOUR )
 {
@@ -908,13 +994,25 @@ HB_FUNC( WXGRID_SETCELLTEXTCOLOUR )
     
     if( grid )
     {
-        grid->SetCellTextColour( hb_parni( 1 ), hb_parni( 2 ), wxh_par_wxColour( 3 ) );
+        if( hb_pcount() == 3 )
+        {
+            if( hb_itemType( hb_param( 1, HB_IT_ANY ) ) & HB_IT_NUMERIC )
+                grid->SetCellTextColour( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1, wxh_par_wxColour( 3 ) );
+            else
+                grid->SetCellTextColour( wxh_par_wxColour( 1 ), hb_parni( 2 ) - 1, hb_parni( 3 ) - 1 );
+        }
+        else if( hb_pcount() == 1 )
+        {
+            grid->SetCellTextColour( wxh_par_wxColour( 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetCellValue
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETCELLVALUE )
 {
@@ -922,13 +1020,21 @@ HB_FUNC( WXGRID_SETCELLVALUE )
     
     if( grid )
     {
-        grid->SetCellValue( hb_parni( 1 ), hb_parni( 2 ), wxh_parc( 3 ) );
+        if( hb_pcount() == 3 )
+        {
+            if( hb_itemType( hb_param( 1, HB_IT_ANY ) ) & HB_IT_STRING )
+                grid->SetCellValue( wxh_parc( 1 ), hb_parni( 2 ) - 1, hb_parni( 3 ) - 1 );
+            else
+                grid->SetCellValue( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1, wxh_parc( 3 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetColAttr
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETCOLATTR )
 {
@@ -936,19 +1042,24 @@ HB_FUNC( WXGRID_SETCOLATTR )
     
     if( grid )
     {
-        wxColour colour = wxColour( wxh_parc( 2 ) );
-        
-        wxGridCellAttr *attr;
-        attr = new wxGridCellAttr;
-        attr->SetBackgroundColour( colour );
-
-        grid->SetColAttr( hb_parni( 1 ), attr );
+        if( hb_pcount() == 2 )
+        {
+            wxColour colour = wxColour( wxh_parc( 2 ) );
+            
+            wxGridCellAttr *attr;
+            attr = new wxGridCellAttr;
+            attr->SetBackgroundColour( colour );
+            
+            grid->SetColAttr( hb_parni( 1 ) - 1, attr );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetColFormatBool
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETCOLFORMATBOOL )
 {
@@ -956,13 +1067,16 @@ HB_FUNC( WXGRID_SETCOLFORMATBOOL )
     
     if( grid )
     {
-        grid->SetColFormatBool( hb_parni( 1 ) );
+        if( hb_pcount() == 1 )
+            grid->SetColFormatBool( hb_parni( 1 ) - 1 );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     SetColFormatNumber
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_SETCOLFORMATNUMBER )
 {
@@ -970,13 +1084,16 @@ HB_FUNC( WXGRID_SETCOLFORMATNUMBER )
 
     if( grid )
     {
-        grid->SetColFormatNumber( hb_parni( 1 ) );
+        if( hb_pcount() == 1 )
+            grid->SetColFormatNumber( hb_parni( 1 ) - 1 );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     SetColFormatFloat
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_SETCOLFORMATFLOAT )
 {
@@ -984,7 +1101,14 @@ HB_FUNC( WXGRID_SETCOLFORMATFLOAT )
 
     if( grid )
     {
-        grid->SetColFormatFloat( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ) );
+        if( hb_pcount() > 0 && hb_pcount() < 4 )
+        {
+            int width = hb_pcount() > 1 ? hb_parni( 2 ) : -1;
+            int precision = hb_pcount() > 2 ? hb_parni( 3 ) : -1;
+            grid->SetColFormatFloat( hb_parni( 1 ) - 1, width, precision );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -994,8 +1118,12 @@ HB_FUNC( WXGRID_SETCOLLABELSIZE )
 
     if( grid )
     {
-        int height = hb_parni( 1 );
-        grid->SetColLabelSize( height );
+        if( hb_pcount() == 1 )
+        {
+            grid->SetColLabelSize( hb_parni( 1 ) );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -1005,15 +1133,16 @@ HB_FUNC( WXGRID_SETCOLLABELVALUE )
 
     if( grid )
     {
-        int col = hb_parni( 1 );
-        wxString value = wxh_parc( 2 );
-        grid->SetColLabelValue( col, value );
+        if( hb_pcount() == 2 )
+            grid->SetColLabelValue( hb_parni( 1 ) - 1, wxh_parc( 2 ) );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
     SetColSize
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRID_SETCOLSIZE )
 {
@@ -1021,15 +1150,16 @@ HB_FUNC( WXGRID_SETCOLSIZE )
 
     if( grid )
     {
-        int col = hb_parni( 1 );
-        int width = hb_parni( 2 );
-        grid->SetColSize( col, width );
+        if( hb_pcount() == 2 )
+            grid->SetColSize( hb_parni( 1 ) - 1, hb_parni( 2 ) );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
 /*
  SetDefaultCellAlignment
- Teo. Mexico 2009
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRID_SETDEFAULTCELLALIGNMENT )
 {
@@ -1037,7 +1167,10 @@ HB_FUNC( WXGRID_SETDEFAULTCELLALIGNMENT )
     
     if( grid )
     {
-        grid->SetDefaultCellAlignment( hb_parni( 1 ), hb_parni( 2 ) );
+        if( hb_pcount() == 2 )
+            grid->SetDefaultCellAlignment( hb_parni( 1 ), hb_parni( 2 ) );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -1047,9 +1180,13 @@ HB_FUNC( WXGRID_SETDEFAULTCOLSIZE )
 
     if( grid )
     {
-        int width = hb_parni( 1 );
-        bool resizeExistingCols = hb_parl( 2 );
-        grid->SetDefaultColSize( width, resizeExistingCols );
+        if( hb_pcount() > 0 )
+        {
+            bool resizeExistingCols = hb_pcount() > 1 ? hb_parl( 2 ) : false;
+            grid->SetDefaultColSize( hb_parni( 1 ), resizeExistingCols );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -1059,9 +1196,13 @@ HB_FUNC( WXGRID_SETDEFAULTROWSIZE )
 
     if( grid )
     {
-        int height = hb_parni(1);
-        bool resizeExistingRows = hb_parl( 2 );
-        grid->SetDefaultRowSize( height, resizeExistingRows );
+        if( hb_pcount() > 0 )
+        {
+            bool resizeExistingRows = hb_pcount() > 1 ? hb_parl( 2 ) : false;
+            grid->SetDefaultRowSize( hb_parni( 1 ), resizeExistingRows );
+        }
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -1073,7 +1214,12 @@ HB_FUNC( WXGRID_SETGRIDCURSOR )
     wx_Grid* grid = (wx_Grid *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( grid )
-        grid->SetGridCursor( hb_parni( 1 ), hb_parni( 2 ) );
+    {
+        if( hb_pcount() == 2 )
+            grid->SetGridCursor( hb_parni( 1 ), hb_parni( 2 ) );
+        else
+            wxh_errRT_ParamNum();
+    }
 }
 
 HB_FUNC( WXGRID_SETROWLABELSIZE )
@@ -1082,7 +1228,10 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 
     if( grid )
     {
-        grid->SetRowLabelSize( hb_parni( 1 ) );
+        if( hb_pcount() == 1 )
+            grid->SetRowLabelSize( hb_parni( 1 ) );
+        else
+            wxh_errRT_ParamNum();
     }
 }
 
@@ -1093,10 +1242,15 @@ HB_FUNC( WXGRID_SETTABLE )
 
     if( grid ) /* gridTable can be NULL */
     {
-        wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.paramChild( 1 );
-        if( gridTable )
+        if( hb_pcount() > 0 )
         {
-            grid->SetTable( gridTable, hb_parl( 2 ), (wxGrid::wxGridSelectionModes) hb_parnl( 3 ) );
+            wx_GridTableBase* gridTable = (wx_GridTableBase *) objParams.paramChild( 1 );
+            if( gridTable )
+            {
+                grid->SetTable( gridTable, hb_parl( 2 ), (wxGrid::wxGridSelectionModes) hb_parnl( 3 ) );
+            }
         }
+        else
+            wxh_errRT_ParamNum();
     }
 }

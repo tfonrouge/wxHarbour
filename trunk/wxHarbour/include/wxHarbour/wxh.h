@@ -170,6 +170,9 @@ void          TRACEOUT( const char* fmt, long int val);
 void qoutf( const char* format, ... );
 void qqoutf( const char* format, ... );
 
+/* wxharbour error handling */
+void wxh_errRT_ParamNum();   // error at wrong number of params
+
 /*
     template for send event handling to harbour objects
     Teo. Mexico 2009
