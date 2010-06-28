@@ -3,7 +3,7 @@
  */
 
 /*
-    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2006 Teo Fonrouge
+    wxHarbour: a portable GUI for [x]Harbour Copyright (C) 2010 Teo Fonrouge
 
     This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
@@ -11,12 +11,12 @@
 
     You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-    (C) 2006 Teo Fonrouge <teo@windtelsoft.com>
+    (C) 2010 Teo Fonrouge <teo@windtelsoft.com>
 */
 
 /*
     wx_GridTableBase: Implementation
-    Teo. Mexico 2006
+    Teo. Mexico 2010
 */
 
 #include "wx/wx.h"
@@ -29,7 +29,7 @@
 
 /*
     ~wx_GridTableBase
-    Teo. Mexico 2006
+    Teo. Mexico 2010
 */
 wx_GridTableBase::~wx_GridTableBase()
 {
@@ -38,7 +38,7 @@ wx_GridTableBase::~wx_GridTableBase()
 
 /*
     AppendCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::AppendCols( size_t numCols )
 {
@@ -54,7 +54,7 @@ bool wx_GridTableBase::AppendCols( size_t numCols )
 
 /*
     AppendRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::AppendRows( size_t numRows )
 {
@@ -70,7 +70,7 @@ bool wx_GridTableBase::AppendRows( size_t numRows )
 
 /*
     DeleteCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::DeleteCols( size_t pos, size_t numCols )
 {
@@ -86,7 +86,7 @@ bool wx_GridTableBase::DeleteCols( size_t pos, size_t numCols )
 
 /*
     DeleteRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::DeleteRows( size_t pos, size_t numRows )
 {
@@ -102,7 +102,7 @@ bool wx_GridTableBase::DeleteRows( size_t pos, size_t numRows )
 
 /*
     InsertCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::InsertCols( size_t pos, size_t numCols )
 {
@@ -118,7 +118,7 @@ bool wx_GridTableBase::InsertCols( size_t pos, size_t numCols )
 
 /*
     InsertRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::InsertRows( size_t pos, size_t numRows )
 {
@@ -134,7 +134,7 @@ bool wx_GridTableBase::InsertRows( size_t pos, size_t numRows )
 
 /*
     IsEmptyCell
-    Teo. Mexico 2006
+    Teo. Mexico 2010
 */
 bool wx_GridTableBase::IsEmptyCell( int row, int col )
 {
@@ -153,7 +153,7 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
 
 /*
     GetValue
-    Teo. Mexico 2006
+    Teo. Mexico 2010
 */
 wxString wx_GridTableBase::GetValue( int row, int col )
 {
@@ -198,7 +198,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
 
 /*
     SetValue
-    Teo. Mexico 2006
+    Teo. Mexico 2010
 */
 void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 {
@@ -219,7 +219,7 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
 
 /*
     New
-    Teo. Mexico 2009
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_NEW )
 {
@@ -232,13 +232,13 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
 
 /*
     AppendCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 {
     wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-    size_t numCols = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+    size_t numCols = hb_pcount() > 0 ? hb_parni( 1 ) : 1;
 
     if( gridTable )
     {
@@ -248,14 +248,13 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 
 /*
     AppendRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
-    size_t numRows = ISNIL( 1 ) ? 1 : hb_parni( 1 );
+    size_t numRows = hb_pcount() > 0 ? hb_parni( 1 ) : 1;
 
     if( gridTable )
         hb_retl( gridTable->AppendRows( numRows ) );
@@ -263,44 +262,43 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 
 /*
     DeleteCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
-
-    size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
-    size_t numCols = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
+    {
+        size_t pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        size_t numCols = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
         hb_retl( gridTable->DeleteCols( pos, numCols ) );
+    }
 }
 
 /*
     DeleteRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
-
-    size_t pos = ISNIL( 1 ) ? 0 : hb_parni( 1 );
-    size_t numRows = ISNIL( 2 ) ? 1 : hb_parni( 2 );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
+    {
+        size_t pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        size_t numRows = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
         hb_retl( gridTable->DeleteRows( pos, numRows ) );
+    }
 }
 
 /*
     GetGridDataIsOEM
-    Teo. Mexico 2008
+    Teo. Mexico 2010
  */
 HB_FUNC( WXGRIDTABLEBASE_GETGRIDDATAISOEM )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {
@@ -310,12 +308,11 @@ HB_FUNC( WXGRIDTABLEBASE_GETGRIDDATAISOEM )
 
 /*
  GetNumberCols
- Teo. Mexico 2008
+ Teo. Mexico 2010
  */
 HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {
@@ -325,12 +322,11 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 
 /*
     GetNumberRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -340,67 +336,64 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 
 /*
     GetView
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
         wx_Grid* grid = (wx_Grid *) gridTable->GetView();
         if( grid )
         {
-        wxh_itemReturn( grid );
+            wxh_itemReturn( grid );
         }
     }
 }
 
 /*
     InsertCols
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
-
-    size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
-    size_t numCols = ISNIL( 2 ) ? 1 : hb_parni(2);
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
+    {
+        size_t pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        size_t numCols = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
         hb_retl( gridTable->InsertCols( pos, numCols ) );
+    }
 }
 
 /*
     InsertRows
-    Teo. Mexico 2008
+    Teo. Mexico 2010
 */
 HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
-
-    size_t pos = ISNIL( 1 ) ? 0 : hb_parni(1);
-    size_t numRows = ISNIL( 2 ) ? 1 : hb_parni(2);
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
+    {
+        size_t pos = hb_pcount() > 0 ? hb_parni( 1 ) - 1 : 0;
+        size_t numRows = hb_pcount() > 1 ? hb_parni( 2 ) : 1;
         hb_retl( gridTable->InsertRows( pos, numRows ) );
+    }
 }
 
 /*
     SetGridDataIsOEM
-    Teo. Mexico 2008
+    Teo. Mexico 2010
  */
 HB_FUNC( WXGRIDTABLEBASE_SETGRIDDATAISOEM )
 {
-    PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( pSelf );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {
-    gridTable->gridDataIsOEM = hb_parl( 1 );
+        gridTable->gridDataIsOEM = hb_parl( 1 );
     }
 }
-

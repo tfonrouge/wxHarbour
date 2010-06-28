@@ -147,7 +147,7 @@ METHOD FUNCTION DelColumn( pos ) CLASS wxhBrowse
     LOCAL column
     LOCAL length := ::ColCount
 
-    IF !Empty( pos ) .AND. pos > 0 .AND. pos <= length .AND. ::GetTable():DeleteCols( pos - 1, 1 )
+    IF !Empty( pos ) .AND. pos > 0 .AND. pos <= length .AND. ::GetTable():DeleteCols( pos, 1 )
         column := ::GetTable():ColumnList[ pos ]
         ADel( ::GetTable():ColumnList, pos )
         ASize( ::GetTable():ColumnList, length - 1 )
@@ -479,7 +479,7 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
 
         IF rowCount > 0
             IF rowCount < ::GetNumberRows()
-                ::DeleteRows( rowCount - 1, ::GetNumberRows() - rowCount )
+                ::DeleteRows( rowCount, ::GetNumberRows() - rowCount )
             ELSE
                 ::AppendRows( rowCount - ::GetNumberRows() )
                 FOR n:=1 TO ::GetNumberCols
@@ -488,7 +488,7 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
                 NEXT
             ENDIF
         ELSE
-            ::DeleteRows( 0, ::GetNumberRows() )
+            ::DeleteRows( 1, ::GetNumberRows() )
         ENDIF
 
         ::GetTable():FillGridBuffer( 0 )

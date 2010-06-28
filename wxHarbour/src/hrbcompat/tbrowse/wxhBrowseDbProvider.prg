@@ -373,7 +373,7 @@ RETURN
 */
 METHOD PROCEDURE SetColumnList( columnList ) CLASS wxhBrowseTableBase
     ::FColumnList := columnList
-    ::DeleteCols( 0, ::GetNumberCols() )
+    ::DeleteCols( 1, ::GetNumberCols() )
     ::AppendCols( Len( columnList ) )
 RETURN
 
