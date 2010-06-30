@@ -12,6 +12,9 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
+    DATA autoEdit INIT .T.
+    DATA panelDetail
+
     PROPERTY TableFileName DEFAULT "names"
     
     CALCFIELD Age()
@@ -21,6 +24,7 @@ PUBLIC:
     DEFINE INDEXES
 
     METHOD OnAfterOpen()
+    METHOD OnDataChange()
 
 PUBLISHED:
 ENDCLASS
@@ -55,7 +59,7 @@ BEGIN FIELDS CLASS Tbl_Name
         
     /* Calculated Field's */
     ADD CALCULATED STRING FIELD "FullName" SIZE 81 ;
-        LABEL "Full Name"
+        LABEL "Name"
         
     ADD CALCULATED FLOAT FIELD "Age"
 
@@ -87,4 +91,17 @@ RETURN RTrim( ::Field_FirstName:Value ) + " " + RTrim( ::Field_LastName:Value )
 */
 METHOD PROCEDURE OnAfterOpen() CLASS Tbl_Name
     ::IndexName := "Name"
+RETURN
+
+/*
+    OnDataChange
+*/
+METHOD PROCEDURE OnDataChange() CLASS Tbl_Name
+
+    IF ::panelDetail != NIL
+        ::panelDetail:TransferDataToWindow()
+    ENDIF
+    
+    //Super:OnDataChange()
+
 RETURN
