@@ -179,6 +179,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhTreeCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhFileDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhSplitterWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhCloseEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhCommandEvent.obj \
@@ -266,6 +267,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_TreeCtrl.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_FileDialog.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_MessageDialog.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_SplitterWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_CloseEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_CommandEvent.obj \
@@ -647,6 +649,10 @@ $(__BUILDDIR__)\wxHarbour_wxhMessageDialog.obj: .\src\wxbase\comdialogs\wxhMessa
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhSplitterWindow.obj: .\src\wxbase\containers\wxhSplitterWindow.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhActivateEvent.obj: .\src\wxbase\events\wxhActivateEvent.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
@@ -957,6 +963,9 @@ $(__BUILDDIR__)\wxHarbour_wx_FileDialog.obj: .\src\wxbase\comdialogs\wx_FileDial
 
 $(__BUILDDIR__)\wxHarbour_wx_MessageDialog.obj: .\src\wxbase\comdialogs\wx_MessageDialog.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\comdialogs\wx_MessageDialog.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_SplitterWindow.obj: .\src\wxbase\containers\wx_SplitterWindow.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\containers\wx_SplitterWindow.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_ActivateEvent.obj: .\src\wxbase\events\wx_ActivateEvent.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\events\wx_ActivateEvent.cpp

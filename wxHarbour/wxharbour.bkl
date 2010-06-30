@@ -26,6 +26,7 @@
 			src/wxbase/books
 			src/wxbase/controls
 			src/wxbase/comdialogs
+			src/wxbase/containers
 			src/wxbase/events
 			src/wxbase/html
 			src/wxbase/image

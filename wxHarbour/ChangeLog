@@ -2,6 +2,23 @@
  * $Id$
  */
 
+2010-06-30 13:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  wxharbour.bkl
+  +  include/wxHarbour/wxbase/wx_SplitterWindow.h
+  +  src/wxbase/containers
+  +  src/wxbase/containers/wx_SplitterWindow.cpp
+  +  src/wxbase/containers/wxhSplitterWindow.prg
+     + new class (partial) added:
+       + wxSplitterWindow
+
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/Tbl_Name.prg
+     * enhanced demo (work in progress)
+
 2010-06-28 16:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

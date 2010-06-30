@@ -26,7 +26,7 @@ FUNCTION Main()
     SetMode( 40, 100 )
 #endif
 
-    RddSetDefault( "DBFCDX" )
+    //RddSetDefault( "DBFCDX" )
 
     IMPLEMENT_APP( myApp():New() )
 
@@ -44,6 +44,7 @@ PROTECTED:
     DATA tbl_Name
 
     METHOD DefineDetailView()
+    METHOD DefineMainList()
     METHOD DefineToolbar()
     METHOD Version() INLINE "v0.1"
 
@@ -70,26 +71,12 @@ METHOD FUNCTION OnInit() CLASS myApp
     ::DefineToolbar()
 
     BEGIN PANEL VAR ::tbl_Name:panel CLASS "MyPanel"
-        BEGIN BOXSIZER VERTICAL
-            BEGIN NOTEBOOK VAR ::tbl_Name:panel:noteBook ON PAGE CHANGING {|notebookEvt| ::tbl_Name:panel:OnNotebookPageChanging( notebookEvt ) } ON PAGE CHANGED {|notebookEvt| ::tbl_Name:panel:OnNotebookPageChanged( notebookEvt ) } ;
-                SIZERINFO ALIGN EXPAND STRETCH
+        BEGIN BOXSIZER HORIZONTAL
+        
+            ::DefineMainList()
 
-                ADD BOOKPAGE "List" FROM
-                    BEGIN PANEL
+            ::DefineDetailView()
 
-                        BEGIN BOXSIZER VERTICAL
-
-                            @ BROWSE VAR ::tbl_Name:panel:browse DATASOURCE ::tbl_Name CLASS "TBaseBrowse" ;
-                                SIZERINFO ALIGN EXPAND STRETCH
-
-                        END SIZER
-
-                    END PANEL
-
-                ADD BOOKPAGE "Detail" FROM
-                    ::DefineDetailView()
-
-            END NOTEBOOK
         END SIZER
     END PANEL
 
@@ -102,7 +89,7 @@ RETURN .T.
 */
 METHOD PROCEDURE DefineDetailView() CLASS myApp
     
-    BEGIN PANEL
+    BEGIN PANEL VAR ::tbl_Name:panelDetail
         BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
 
             @ SAY ::tbl_Name:Field_RecId:Label SIZERINFO ALIGN RIGHT
@@ -125,6 +112,18 @@ METHOD PROCEDURE DefineDetailView() CLASS myApp
 
         END SIZER
     END PANEL
+
+RETURN
+
+/*
+    DefineMainList
+*/
+METHOD PROCEDURE DefineMainList() CLASS myApp
+
+    @ BROWSE VAR ::tbl_Name:panel:browse DATASOURCE ::tbl_Name CLASS "TBaseBrowse" ;
+        SIZERINFO ALIGN EXPAND STRETCH
+        
+    ADD BCOLUMN TO ::tbl_Name:panel:browse FIELD "FullName"
 
 RETURN
 
@@ -205,7 +204,6 @@ PROTECTED:
 PUBLIC:
 
     DATA browse
-    DATA noteBook
 
     METHOD OnNotebookPageChanged( notebookEvt )
     METHOD OnNotebookPageChanging( notebookEvt )
