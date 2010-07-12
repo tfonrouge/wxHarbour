@@ -89,8 +89,8 @@ RETURN .T.
 */
 METHOD PROCEDURE DefineDetailView() CLASS myApp
     
-    BEGIN PANEL VAR ::tbl_Name:panelDetail
-        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2 ALIGN EXPAND
+    BEGIN PANEL VAR ::tbl_Name:panelDetail SIZERINFO ALIGN EXPAND STRETCH
+        BEGIN FLEXGRIDSIZER COLS 2 GROWABLECOLS 2// ALIGN EXPAND
 
             @ SAY ::tbl_Name:Field_RecId:Label SIZERINFO ALIGN RIGHT
                 @ GET ::tbl_Name:Field_RecId SIZERINFO ALIGN LEFT
@@ -121,7 +121,7 @@ RETURN
 METHOD PROCEDURE DefineMainList() CLASS myApp
 
     @ BROWSE VAR ::tbl_Name:panel:browse DATASOURCE ::tbl_Name CLASS "TBaseBrowse" ;
-        SIZERINFO ALIGN EXPAND STRETCH
+        SIZERINFO ALIGN EXPAND //STRETCH
         
     ADD BCOLUMN TO ::tbl_Name:panel:browse FIELD "FullName"
 

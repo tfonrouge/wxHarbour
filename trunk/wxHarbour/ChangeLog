@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-07-12 11:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+     * UI cleanup
+
 2010-06-30 13:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
