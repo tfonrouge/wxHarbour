@@ -28,10 +28,10 @@
 #include "wxbase/wx_Sizer.h"
 
 /*
- * ChkFlagInArray
- * Teo. Mexico 2008
+ * ChkFlagInParameter
+ * Teo. USA 2010
  */
-static int ChkFlagInArray( int iParam )
+static int ChkFlagInParameter( int iParam )
 {
     PHB_ITEM p = hb_param( iParam, HB_IT_ANY );
 
@@ -43,7 +43,7 @@ static int ChkFlagInArray( int iParam )
         {
             PHB_BASEARRAY pBaseArray = (HB_BASEARRAY *) hb_arrayId( p );
             int result = 0;
-            ULONG ulLen = pBaseArray->ulLen;
+            ULONG ulLen = hb_arrayLen( p );
             ULONG ulIndex;
             for( ulIndex = 0; ulIndex < ulLen; ulIndex++ )
             {
@@ -75,26 +75,26 @@ HB_FUNC( WXSIZER_ADD )
             {
                 if( hb_pcount() == 2 )
                 /*wxSizerItem* Add(wxWindow* window, const wxSizerFlags& flags)*/
-                    sizer->Add( (wxWindow *) obj, ChkFlagInArray( 2 ) ) ;
+                    sizer->Add( (wxWindow *) obj, ChkFlagInParameter( 2 ) ) ;
                 else
                 /*wxSizerItem* Add(wxWindow* window, int proportion = 0,int flag = 0, int border = 0, wxObject* userData = NULL)*/
-                    sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) objParams.param( 5 ) );
+                    sizer->Add( (wxWindow *) obj, ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInParameter( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) objParams.param( 5 ) );
             }
             else
                 if( obj->IsKindOf( CLASSINFO( wxSizer ) ) )
                 {
                     if( hb_pcount() == 2 )
                     /*wxSizerItem* Add(wxSizer* sizer, const wxSizerFlags& flags)*/
-                        sizer->Add( (wxSizer *) objParams.paramChild( 1 ), ChkFlagInArray( 2 ) ) ;
+                        sizer->Add( (wxSizer *) objParams.paramChild( 1 ), ChkFlagInParameter( 2 ) ) ;
                     else
                     /*wxSizerItem* Add(wxSizer* sizer, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-                        sizer->Add( (wxSizer *) objParams.paramChild( 1 ), ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInArray( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) objParams.param( 5 ) );
+                        sizer->Add( (wxSizer *) objParams.paramChild( 1 ), ISNIL( 2 ) ? 0 : hb_parnl( 2 ), ChkFlagInParameter( 3 ), ISNIL( 4 ) ? 0 : hb_parnl( 4 ), ISNIL( 5 ) ? NULL : (wxObject *) objParams.param( 5 ) );
                 }
         }
         else
             if( ISNUM( 1 ) )
             /*wxSizerItem* Add(int width, int height, int proportion = 0, int flag = 0, int border = 0, wxObject* userData = NULL)*/
-                sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInArray( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) objParams.param( 6 ) );
+                sizer->Add( hb_parnl( 1 ), hb_parnl( 2 ), ISNIL( 3 ) ? 0 : hb_parnl( 3 ), ChkFlagInParameter( 4 ), ISNIL( 5 ) ? 0 : hb_parnl( 5 ), ISNIL( 6 ) ? NULL : (wxObject *) objParams.param( 6 ) );
     }
 }
 

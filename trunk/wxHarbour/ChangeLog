@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2010-07-20 11:29 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/sizers/wx_Sizer.cpp
+     ! Fixed name of struct var member on PHB_ARRAY ( ulLen -> nLen )
+       using now HB api to get the array size
+
 2010-07-12 11:08 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
      * UI cleanup
