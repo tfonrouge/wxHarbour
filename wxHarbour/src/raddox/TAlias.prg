@@ -17,7 +17,7 @@ PRIVATE:
     DATA FBof      INIT .T.
     DATA FEof      INIT .T.
     DATA FFound    INIT .F.
-    DATA FRecNo    INIT 0
+    DATA FRecNo
     DATA FStack    INIT {}
     DATA FStackLen INIT 0
     DATA FTableName
@@ -102,13 +102,13 @@ ENDCLASS
 */
 METHOD New( table, aliasName ) CLASS TAlias
     LOCAL tableName
-    
+
     IF Empty( table )
         RAISE ERROR "TAlias: Empty Table parameter."
     ENDIF
-    
+
     IF HB_IsObject( table )
-    
+
         tableName := table:TableFileName
 
         /* Check if this is a remote request */
@@ -116,14 +116,12 @@ METHOD New( table, aliasName ) CLASS TAlias
             RETURN table:Alias
         ENDIF
 
-        ::FRecNo := 0
-
         IF Empty( tableName )
             RAISE ERROR "TAlias: Empty Table Name..."
         ENDIF
-        
+
     ELSE
-    
+
         tableName := table
 
     ENDIF
@@ -133,7 +131,7 @@ METHOD New( table, aliasName ) CLASS TAlias
         BREAK( "TAlias: Cannot Open Table '" + tableName + "'" )
     ENDIF
 
-    ::SyncFromRecNo()
+    ::SyncFromAlias()
 
 RETURN Self
 

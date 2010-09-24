@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-09-24 08:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TAlias.prg
+     ! Fixed to keep current workarea info when creating alias object
+
+  *  src/raddox/TTable.prg
+     % Added capability to use different TDataBase's on tables
+     * SyncFromMasterSourceFields now syncs record on tables without
+       mastersource
+
 2010-07-20 16:25 UTC-0400 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxharbour.spec
      * update release to 2

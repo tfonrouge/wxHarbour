@@ -82,8 +82,11 @@ PRIVATE:
 
 PROTECTED:
 
+    CLASSDATA hDataBase INIT HB_HSetCaseMatch( {=>}, .F. )
+
     DATA FAutoCreate         INIT .F.
     DATA FBof				INIT .T.
+    DATA FDataBaseClass
     DATA FEof				INIT .T.
     DATA FFieldList
     DATA FFilter
@@ -103,15 +106,15 @@ PROTECTED:
     METHOD FillPrimaryIndexes( curClass )
     METHOD FindDetailSourceField( masterField )
     METHOD FixDbStruct( aNewStruct, message )
+    METHOD GetDataBase()
     METHOD GetHasFilter()
     METHOD InitDataBase INLINE TDataBase():New()
     METHOD InitTable()
     METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
+    METHOD SetDataBase( dataBase )
     METHOD SetTableFileName( tableFileName ) INLINE ::FTableFileName := tableFileName
 
 PUBLIC:
-
-    CLASSDATA DataBase
 
     DATA aliasIdx
     DATA aliasTmp
@@ -242,6 +245,7 @@ PUBLIC:
     PROPERTY AutoCreate READ FAutoCreate
     PROPERTY BaseKeyField READ GetBaseKeyField
     PROPERTY Bof READ FBof
+    PROPERTY DataBase READ GetDataBase WRITE SetDataBase
     PROPERTY DbStruct READ GetDbStruct
     PROPERTY Deleted READ Alias:Deleted()
     PROPERTY DisplayFields READ GetDisplayFields
@@ -292,7 +296,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
     LOCAL rdoClient
     LOCAL Result,itm
     LOCAL ms
-    
+
     ::Process_TableName( tableName )
 
     IF ::FRDOClient != NIL
@@ -1507,6 +1511,16 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 RETURN Result
 
 /*
+    GetDataBase
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetDataBase() CLASS TTable
+    IF ::FDataBaseClass = NIL
+        RETURN NIL
+    ENDIF
+RETURN ::hDataBase[ ::FDataBaseClass ]
+
+/*
     GetDbStruct
     Teo. Mexico 2007
 */
@@ -1813,6 +1827,11 @@ METHOD FUNCTION GetMasterSourceClassName( className ) CLASS TTable
     IF className = NIL
         className := ::ClassName
     ENDIF
+
+    IF ::DataBase = NIL
+        ::DataBase := ::InitDataBase()
+    ENDIF
+    
 
     IF HB_HHasKey( ::DataBase:ChildParentList, className )
         Result := ::DataBase:ChildParentList[ className ]
@@ -2336,6 +2355,21 @@ METHOD PROCEDURE Reset() CLASS TTable
 RETURN
 
 /*
+    SetDataBase
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetDataBase( dataBase ) CLASS TTable
+    IF dataBase = NIL
+        ::FDataBaseClass := NIL
+    ELSE
+        ::FDataBaseClass := dataBase:ClassName
+        IF !HB_HHasKey( ::hDataBase, ::FDataBaseClass )
+            ::hDataBase[ dataBase:ClassName ] := dataBase
+        ENDIF
+    ENDIF
+RETURN
+
+/*
     SetIndex
     Teo. Mexico 2010
 */
@@ -2646,38 +2680,50 @@ RETURN
 */
 METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
 
-    IF ::MasterSource != NIL .AND. ::FActive .AND. ::MasterSource:Active
+    IF ::FActive
 
-        ::OnSyncFromMasterSource()
-        
-        IF !::MasterSource:Eof() .AND. ::Alias != NIL
+        IF ::MasterSource != NIL
 
-            /* TField:Reset does the job */
-            IF ::PrimaryMasterKeyField != NIL
-                IF ! ::PrimaryMasterKeyField:Reset()
-                    // raise error
+            IF ::MasterSource:Active
+
+                ::OnSyncFromMasterSource()
+                
+                IF !::MasterSource:Eof() .AND. ::Alias != NIL
+
+                    /* TField:Reset does the job */
+                    IF ::PrimaryMasterKeyField != NIL
+                        IF ! ::PrimaryMasterKeyField:Reset()
+                            // raise error
+                        ENDIF
+                    ENDIF
+
+                    IF ::InsideScope()
+                        ::GetCurrentRecord()
+                    ELSE
+                        ::DbGoTop()
+                    ENDIF
+
+                ELSE
+
+                    ::FEof := .T.
+                    ::FBof := .T.
+                    ::FFound := .F.
+
+                    ::Reset()
+
+                    ::SyncDetailSources()
+
+                    IF ::allowOnDataChange
+                        ::OnDataChange()
+                    ENDIF
+
                 ENDIF
-            ENDIF
 
-            IF ::InsideScope()
-                ::GetCurrentRecord()
-            ELSE
-                ::DbGoTop()
             ENDIF
 
         ELSE
-
-            ::FEof := .T.
-            ::FBof := .T.
-            ::FFound := .F.
-
-            ::Reset()
-
-            ::SyncDetailSources()
-
-            IF ::allowOnDataChange
-                ::OnDataChange()
-            ENDIF
+        
+            ::GetCurrentRecord()
 
         ENDIF
 
