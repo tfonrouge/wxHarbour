@@ -67,9 +67,9 @@ PRIVATE:
     METHOD GetFound INLINE ::Alias:Found
     METHOD GetIndexName INLINE iif( ::FIndex = NIL, NIL, ::FIndex:Name )
     METHOD GetInstance
+    METHOD GetMasterKeyField()
+    METHOD GetMasterKeyString INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:AsString )
     METHOD GetMasterSource()
-    METHOD GetPrimaryMasterKeyField()
-    METHOD GetPrimaryMasterKeyString INLINE iif( ::GetPrimaryMasterKeyField == NIL, "", ::GetPrimaryMasterKeyField:AsString )
     METHOD GetPublishedFieldList
     METHOD SetIndex( index )
     METHOD SetIndexName( IndexName )
@@ -259,8 +259,9 @@ PUBLIC:
     PROPERTY Instances READ FInstances
     PROPERTY IsTempTable READ FIsTempTable
     PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
+    PROPERTY MasterKeyString READ GetMasterKeyString
+    PROPERTY MasterKeyVal READ GetMasterKeyVal
     PROPERTY PrimaryIndexList READ FPrimaryIndexList
-    PROPERTY PrimaryMasterKeyString READ GetPrimaryMasterKeyString
     PROPERTY RDOClient READ FRDOClient
     PROPERTY RecCount READ GetAlias:RecCount()
     PROPERTY RecNo READ FRecNo WRITE DbGoTo
@@ -279,8 +280,8 @@ PUBLISHED:
     PROPERTY IndexList READ FIndexList
     PROPERTY IndexName READ GetIndexName WRITE SetIndexName
     PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
+    PROPERTY MasterKeyField READ GetMasterKeyField
     PROPERTY MasterSource READ GetMasterSource WRITE SetMasterSource
-    PROPERTY PrimaryMasterKeyField READ GetPrimaryMasterKeyField
     PROPERTY PrimaryIndex READ GetPrimaryIndex
     PROPERTY PublishedFieldList READ GetPublishedFieldList
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
@@ -458,7 +459,7 @@ METHOD FUNCTION AddRec() CLASS TTable
     ::FSubState := dssAdding
 
     /*
-     * Write the PrimaryMasterKeyField
+     * Write the MasterKeyField
      * Write the PrimaryKeyField
      * Write the Fields that have a DefaultValue
      */
@@ -1769,6 +1770,16 @@ METHOD FUNCTION GetPrimaryIndex( curClass, masterSourceBaseClass ) CLASS TTable
 RETURN NIL
 
 /*
+    GetMasterKeyField
+    Teo. Mexico 2009
+*/
+METHOD FUNCTION GetMasterKeyField() CLASS TTable
+    IF ::PrimaryIndex != NIL
+        RETURN ::PrimaryIndex:MasterKeyField
+    ENDIF
+RETURN NIL
+
+/*
     GetPrimaryKeyField
     Teo. Mexico 2009
 */
@@ -1785,16 +1796,6 @@ METHOD FUNCTION GetPrimaryKeyField( masterSourceBaseClass ) CLASS TTable
         RETURN index:KeyField
     ENDIF
 
-RETURN NIL
-
-/*
-    GetPrimaryMasterKeyField
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION GetPrimaryMasterKeyField() CLASS TTable
-    IF ::PrimaryIndex != NIL
-        RETURN ::PrimaryIndex:MasterKeyField
-    ENDIF
 RETURN NIL
 
 /*
@@ -2375,7 +2376,7 @@ RETURN
 */
 METHOD PROCEDURE SetIndex( index ) CLASS TTable
     IF !::FIndex == index
-        IF ::PrimaryIndex != NIL .AND. !::PrimaryMasterKeyField == index:MasterKeyField
+        IF ::PrimaryIndex != NIL .AND. !::MasterKeyField == index:MasterKeyField
             //wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
         ENDIF
         ::FIndex := index
@@ -2691,8 +2692,8 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
                 IF !::MasterSource:Eof() .AND. ::Alias != NIL
 
                     /* TField:Reset does the job */
-                    IF ::PrimaryMasterKeyField != NIL
-                        IF ! ::PrimaryMasterKeyField:Reset()
+                    IF ::MasterKeyField != NIL
+                        IF ! ::MasterKeyField:Reset()
                             // raise error
                         ENDIF
                     ENDIF

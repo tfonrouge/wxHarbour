@@ -273,12 +273,12 @@ METHOD PROCEDURE CustomKeyUpdate CLASS TIndex
         Value := Upper( Value )
     ENDIF
 
-    IF KeyVal != NIL .AND. ( Len( KeyVal ) != Len( ::FTable:PrimaryMasterKeyString + Value ) )
+    IF KeyVal != NIL .AND. ( Len( KeyVal ) != Len( ::FTable:MasterKeyString + Value ) )
         ::Error_Custom_Index_Lenght_does_not_match_value()
         RETURN
     ENDIF
 
-    ::FTable:Alias:ordKeyAdd( ::FTagName, , ::FTable:PrimaryMasterKeyString + Value )
+    ::FTable:Alias:ordKeyAdd( ::FTagName, , ::FTable:MasterKeyString + Value )
 
 RETURN
 
@@ -443,7 +443,7 @@ RETURN ::FKeyField:GetKeyVal
 METHOD FUNCTION GetMasterKeyVal() CLASS TIndex
 
     IF ::FMasterKeyField == NIL
-        RETURN "" //::FTable:PrimaryMasterKeyString
+        RETURN "" //::FTable:MasterKeyString
     ENDIF
 
 RETURN ::FMasterKeyField:GetKeyVal
