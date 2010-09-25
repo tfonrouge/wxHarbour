@@ -1225,7 +1225,7 @@ RETURN
 */
 METHOD PROCEDURE WriteToTable( value, buffer ) CLASS TField
 
-    IF !( ::FTable:PrimaryMasterKeyField = NIL .AND. ::IsPrimaryKeyField .AND. Empty( value ) )
+    //IF !( ::FTable:MasterKeyField = NIL .AND. ::IsPrimaryKeyField .AND. Empty( value ) )
 
         /* The physical write to the field */
         ::FTable:Alias:Eval( ::FFieldWriteBlock, value )
@@ -1247,7 +1247,7 @@ METHOD PROCEDURE WriteToTable( value, buffer ) CLASS TField
             ::FTable:SyncDetailSources()
         ENDIF
 
-    ENDIF
+    //ENDIF
 
 RETURN
 

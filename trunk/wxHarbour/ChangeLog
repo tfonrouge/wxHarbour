@@ -2,6 +2,24 @@
  * $Id$
  */
 
+2010-09-25 14:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added pp commands to declare relations on databases
+
+  *  src/raddox/TField.prg
+     * renamed Table:PrimaryMaster* to Table:Master*
+     ! Removed conditional that avoid to write to key field's
+       TODO: Check why was this done this way
+
+  *  src/raddox/TIndex.prg
+     * renamed Table:PrimaryMaster* to Table:Master*
+
+  *  src/raddox/TTable.prg
+     * removed "Primary" prefix on calling for Master info, this is
+       not needed on tables because in tables the Master info allways
+       refers to the primary index
+
+
 2010-09-24 08:49 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
      ! Fixed to keep current workarea info when creating alias object

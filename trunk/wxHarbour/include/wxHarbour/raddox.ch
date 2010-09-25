@@ -33,6 +33,18 @@
     => ;
     METHOD OnBeforeChange_Field_<name>( field_<name>, value )
 
+#xtranslate DEFINE RELATIONS ;
+    => ;
+    METHOD DefineRelations()
+
+#xtranslate BEGIN RELATIONS CLASS <className> ;
+    => ;
+    METHOD PROCEDURE DefineRelations() CLASS <className>
+
+#xtranslate END RELATIONS CLASS ;
+    => ;
+    RETURN
+
 #xtranslate ADD TABLE <tableName> [ <vt: VIRTUAL> ] [ INDEX <indexName> ] ;
             => ;
             ::cmdAddTable( <tableName>, [ <indexName> ], <.vt.> )
