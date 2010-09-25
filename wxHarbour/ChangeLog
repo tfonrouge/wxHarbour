@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-09-25 15:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * added GetMasterKeyVal for MasterKeyVal property
+
 2010-09-25 14:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * added pp commands to declare relations on databases

@@ -69,6 +69,7 @@ PRIVATE:
     METHOD GetInstance
     METHOD GetMasterKeyField()
     METHOD GetMasterKeyString INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:AsString )
+    METHOD GetMasterKeyVal INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:GetKeyVal )
     METHOD GetMasterSource()
     METHOD GetPublishedFieldList
     METHOD SetIndex( index )
