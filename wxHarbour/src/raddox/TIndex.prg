@@ -149,6 +149,7 @@ METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
 
     IF "PRIMARY" = indexType
         ::FTable:PrimaryIndexList[ curClass ] := name
+        ::FTable:SetPrimaryIndex( Self )
     ENDIF
 
 RETURN Self

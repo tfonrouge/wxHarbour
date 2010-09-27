@@ -49,7 +49,7 @@ PRIVATE:
     METHOD GetAutoIncrement INLINE ::FAutoIncrementKeyIndex != NIL
     METHOD GetAutoIncrementValue
     METHOD GetFieldMethod
-    METHOD GetIsPrimaryKeyField( masterSourceBaseClass ) INLINE ::Table:GetPrimaryKeyField( masterSourceBaseClass ) == Self
+    METHOD GetIsPrimaryKeyField INLINE ::Table:KeyField == Self
     METHOD GetReadOnly INLINE ::FReadOnly
     METHOD GetUnique INLINE ::FUniqueKeyIndex != NIL
     METHOD SetAutoIncrementKeyIndex( Index ) INLINE ::FAutoIncrementKeyIndex := Index
@@ -690,10 +690,10 @@ METHOD FUNCTION Reset() CLASS TField
                     ENDIF
 
                     IF ::IsDerivedFrom( "TObjectField" )
-                        IF ::LinkedTable:GetBaseKeyField() != NIL
-                            value := ::LinkedTable:GetBaseKeyField():GetDefaultValue()
+                        IF ::LinkedTable:KeyField != NIL
+                            value := ::LinkedTable:KeyField:GetDefaultValue()
                             IF value == NIL
-                                value := ::LinkedTable:GetBaseKeyField():GetEmptyValue()
+                                value := ::LinkedTable:KeyField:GetEmptyValue()
                             ENDIF
                         ENDIF
                     ELSE
@@ -1141,9 +1141,9 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
         IF ::FTable:LinkedObjField != NIL
 
-            ::FTable:LinkedObjField:SetAsVariant( ::FTable:GetBaseKeyField():GetAsVariant() )
+            ::FTable:LinkedObjField:SetAsVariant( ::FTable:KeyField:GetAsVariant() )
 
-            IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:GetBaseKeyField():GetKeyVal()
+            IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:KeyField:GetKeyVal()
                 ::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
             ENDIF
             
@@ -1886,12 +1886,12 @@ PROTECTED:
     METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
     METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
     METHOD GetLinkedTable
-    METHOD GetEmptyValue() INLINE ::LinkedTable:GetBaseKeyField():EmptyValue
+    METHOD GetEmptyValue() INLINE ::LinkedTable:KeyField:EmptyValue
     METHOD GetFieldReadBlock()
 PUBLIC:
     METHOD DataObj
     METHOD GetKeyVal( keyVal )
-    METHOD GetAsString							//INLINE ::LinkedTable:GetBaseKeyField():AsString()
+    METHOD GetAsString							//INLINE ::LinkedTable:KeyField:AsString()
     METHOD GetAsVariant( ... )
     METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
     METHOD IndexExpression()
@@ -1923,10 +1923,10 @@ METHOD FUNCTION DataObj CLASS TObjectField
     ELSE
         keyVal := ::GetKeyVal()
         /* Syncs with the current value */
-        IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:BaseKeyField:KeyVal == keyVal
+        IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:KeyField:KeyVal == keyVal
             linkedObjField := linkedTable:LinkedObjField
             linkedTable:LinkedObjField := NIL
-            linkedTable:BaseKeyField:SetKeyVal( keyVal )
+            linkedTable:KeyField:SetKeyVal( keyVal )
             linkedTable:LinkedObjField := linkedObjField
         ENDIF
     ENDIF
@@ -2068,7 +2068,7 @@ RETURN ::FLinkedTable
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
-RETURN ::GetLinkedTable():GetBaseKeyField()
+RETURN ::GetLinkedTable():KeyField
 
 /*
     IndexExpression
