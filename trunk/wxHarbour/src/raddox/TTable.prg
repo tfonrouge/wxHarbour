@@ -67,6 +67,7 @@ PRIVATE:
     METHOD GetFound INLINE ::Alias:Found
     METHOD GetIndexName INLINE iif( ::FIndex = NIL, NIL, ::FIndex:Name )
     METHOD GetInstance
+    METHOD GetKeyField()
     METHOD GetMasterKeyField()
     METHOD GetMasterKeyString INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:AsString )
     METHOD GetMasterKeyVal INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:GetKeyVal )
@@ -94,6 +95,7 @@ PROTECTED:
     DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
     DATA FIsTempTable        INIT .F.
     DATA FFound				INIT .F.
+    DATA FPrimaryIndex
     DATA FPrimaryIndexList	INIT HB_HSetOrder( HB_HSetCaseMatch( {=>}, .F. ), .T. )  // <className> => <indexName>
     DATA FRecNo				INIT 0
     DATA FTableFileName     INIT "" // to be assigned (INIT) on inherited classes
@@ -177,15 +179,12 @@ PUBLIC:
     METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
     METHOD GetAsString
     METHOD GetAsVariant
-    METHOD GetBaseKeyField()
     METHOD GetCurrentRecord( idxAlias )
     METHOD GetDisplayFieldBlock( xField )
     METHOD GetDisplayFields( syncFromAlias )
     METHOD GetField( fld )
-    METHOD GetKeyVal() INLINE ::GetBaseKeyField():GetKeyVal()
+    METHOD GetKeyVal() INLINE ::GetKeyField():GetKeyVal()
     METHOD GetMasterSourceClassName( className )
-    METHOD GetPrimaryIndex( curClass, masterSourceBaseClass )
-    METHOD GetPrimaryKeyField( masterSourceBaseClass )
     METHOD GetTableFileName()
     METHOD HasChilds
     METHOD IndexByName( IndexName, curClass )
@@ -205,8 +204,8 @@ PUBLIC:
     METHOD Seek( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 0, Value, AIndex, SoftSeek )
     METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
     METHOD SetAlias( alias ) INLINE ::FAlias := alias
-    METHOD SetAsString( Value ) INLINE ::GetBaseKeyField():AsString := Value
-    METHOD SetAsVariant( Value ) INLINE ::GetBaseKeyField():Value := Value
+    METHOD SetAsString( Value ) INLINE ::GetKeyField():AsString := Value
+    METHOD SetAsVariant( Value ) INLINE ::GetKeyField():Value := Value
     METHOD SetKeyVal( keyVal )
     /*
      * TODO: Enhance this to:
@@ -214,6 +213,7 @@ PUBLIC:
      *			 able to create a live index
      */
     METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
+    METHOD SetPrimaryIndex( primaryIndex )
     METHOD SkipBrowse( n )
     METHOD SkipFilter( n, index )
     METHOD StatePop()
@@ -244,7 +244,6 @@ PUBLIC:
     PROPERTY Alias READ GetAlias WRITE SetAlias
     PROPERTY AsString READ GetAsString WRITE SetAsString
     PROPERTY AutoCreate READ FAutoCreate
-    PROPERTY BaseKeyField READ GetBaseKeyField
     PROPERTY Bof READ FBof
     PROPERTY DataBase READ GetDataBase WRITE SetDataBase
     PROPERTY DbStruct READ GetDbStruct
@@ -259,6 +258,7 @@ PUBLIC:
     PROPERTY Instance READ GetInstance
     PROPERTY Instances READ FInstances
     PROPERTY IsTempTable READ FIsTempTable
+    PROPERTY KeyField READ GetKeyField
     PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
     PROPERTY MasterKeyString READ GetMasterKeyString
     PROPERTY MasterKeyVal READ GetMasterKeyVal
@@ -283,7 +283,7 @@ PUBLISHED:
     PROPERTY MasterDetailFieldList READ FInstances[ ::TableClass, "MasterDetailFieldList" ]
     PROPERTY MasterKeyField READ GetMasterKeyField
     PROPERTY MasterSource READ GetMasterSource WRITE SetMasterSource
-    PROPERTY PrimaryIndex READ GetPrimaryIndex
+    PROPERTY PrimaryIndex READ FPrimaryIndex
     PROPERTY PublishedFieldList READ GetPublishedFieldList
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
     PROPERTY Value READ GetAsVariant WRITE SetAsVariant
@@ -439,8 +439,8 @@ METHOD FUNCTION AddRec() CLASS TTable
 
     IF ::FHasDeletedOrder
         index := "Deleted"
-    ELSEIF ::PrimaryIndex != NIL
-        index := ::PrimaryIndex:Name
+    ELSEIF ::FPrimaryIndex != NIL
+        index := ::FPrimaryIndex:Name
     ENDIF
 
     ::FRecNoBeforeInsert := ::RecNo()
@@ -1226,7 +1226,7 @@ METHOD FUNCTION FilterEval( index ) CLASS TTable
         RETURN .F.
     ENDIF
 
-    IF ::filterPrimaryIndexScope .AND. ::PrimaryIndex != NIL .AND. !::PrimaryIndex:InsideScope()
+    IF ::filterPrimaryIndexScope .AND. ::FPrimaryIndex != NIL .AND. !::FPrimaryIndex:InsideScope()
         RETURN .F.
     ENDIF
 
@@ -1260,7 +1260,7 @@ METHOD FUNCTION FindIndex( index ) CLASS TTable
         EXIT
     CASE 'C'
         IF Empty( index )
-            AIndex := ::PrimaryIndex
+            AIndex := ::FPrimaryIndex
         ELSE
             AIndex := ::IndexByName( index )
         ENDIF
@@ -1395,7 +1395,7 @@ RETURN ::FAlias
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsString() CLASS TTable
-    LOCAL pkField := ::GetBaseKeyField()
+    LOCAL pkField := ::GetKeyField()
 
     IF pkField == NIL
         RETURN ""
@@ -1408,29 +1408,13 @@ RETURN pkField:AsString
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetAsVariant() CLASS TTable
-    LOCAL pkField := ::GetBaseKeyField()
+    LOCAL pkField := ::GetKeyField()
 
     IF pkField == NIL
         RETURN NIL
     ENDIF
 
 RETURN pkField:Value
-
-/*
-    GetBaseKeyField
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION GetBaseKeyField() CLASS TTable
-    LOCAL field
-    LOCAL className, indexName
-
-    HB_HPairAt( ::FPrimaryIndexList, 1, @className, @indexName )
-    
-    IF !Empty( className )
-        field := ::FIndexList[ className, indexName ]:KeyField
-    ENDIF
-    
-RETURN field
 
 /*
     GetCurrentRecord
@@ -1749,25 +1733,13 @@ METHOD FUNCTION GetInstance CLASS TTable
 RETURN NIL
 
 /*
-    GetPrimaryIndex
-    Teo. Mexico 2009
+    GetKeyField
+    Teo. Mexico 2010
 */
-METHOD FUNCTION GetPrimaryIndex( curClass, masterSourceBaseClass ) CLASS TTable
-    LOCAL className
-
-    curClass := iif( curClass = NIL, Self, curClass )
-    className := curClass:ClassName()
-
-    IF ! className == "TTABLE"
-        IF className == masterSourceBaseClass
-            masterSourceBaseClass := NIL
-        ENDIF
-        IF HB_HHasKey( ::FPrimaryIndexList, className ) .AND. Empty( masterSourceBaseClass )
-            RETURN ::FIndexList[ className, ::FPrimaryIndexList[ className ] ]
-        ENDIF
-        RETURN ::GetPrimaryIndex( curClass:Super, masterSourceBaseClass )
+METHOD FUNCTION GetKeyField() CLASS TTable
+    IF ::FPrimaryIndex != NIL
+        RETURN ::FPrimaryIndex:KeyField
     ENDIF
-
 RETURN NIL
 
 /*
@@ -1775,28 +1747,9 @@ RETURN NIL
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetMasterKeyField() CLASS TTable
-    IF ::PrimaryIndex != NIL
-        RETURN ::PrimaryIndex:MasterKeyField
+    IF ::FPrimaryIndex != NIL
+        RETURN ::FPrimaryIndex:MasterKeyField
     ENDIF
-RETURN NIL
-
-/*
-    GetPrimaryKeyField
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION GetPrimaryKeyField( masterSourceBaseClass ) CLASS TTable
-    LOCAL index
-
-    IF masterSourceBaseClass != NIL
-        masterSourceBaseClass := Upper( masterSourceBaseClass )
-    ENDIF
-
-    index := ::GetPrimaryIndex( NIL, masterSourceBaseClass )
-    
-    IF index != NIL
-        RETURN index:KeyField
-    ENDIF
-
 RETURN NIL
 
 /*
@@ -1974,7 +1927,7 @@ METHOD PROCEDURE InitTable() CLASS TTable
     ENDIF
 
     IF ::FIndex = NIL
-        ::FIndex := ::PrimaryIndex
+        ::FIndex := ::FPrimaryIndex
     ENDIF
 
 RETURN
@@ -2377,7 +2330,7 @@ RETURN
 */
 METHOD PROCEDURE SetIndex( index ) CLASS TTable
     IF !::FIndex == index
-        IF ::PrimaryIndex != NIL .AND. !::MasterKeyField == index:MasterKeyField
+        IF ::FPrimaryIndex != NIL .AND. !::MasterKeyField == index:MasterKeyField
             //wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
         ENDIF
         ::FIndex := index
@@ -2411,7 +2364,7 @@ RETURN
     Teo. Mexico 2010
 */
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TTable
-    ::GetBaseKeyField():SetKeyVal( keyVal )
+    ::GetKeyField():SetKeyVal( keyVal )
 RETURN Self
 
 /*
@@ -2473,6 +2426,14 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
 
     ::SyncFromMasterSourceFields()
 
+RETURN
+
+/*
+    SetPrimaryIndex
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE SetPrimaryIndex( primaryIndex ) CLASS TTable
+    ::FPrimaryIndex := primaryIndex
 RETURN
 
 /*

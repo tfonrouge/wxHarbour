@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2010-09-27 14:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * ::GetIsPrimaryKeyField is using now ::FTable:KeyField for comparing
+     * deprecated Table:GetBaseKeyField in favor of Table:KeyField
+
+  *  src/raddox/TIndex.prg
+     * setting the primary index on last current "PRIMARY" index processed
+       this keeps the primary index stored in the Table data var
+
+  *  src/raddox/TTable.prg
+     * added data var ::FPrimaryIndex to hold the primary index for the table
+     * deprecated Table:GetBaseKeyField in favor of Table:KeyField
+     * renamed property ::BaseKeyField to ::KeyField
+     * removed ::GetPrimaryIndex, now simplified by using ::FPrimaryIndex
+
 2010-09-25 15:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * added GetMasterKeyVal for MasterKeyVal property
