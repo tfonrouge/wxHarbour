@@ -223,7 +223,11 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
 
     CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
 
-//		 __wxh_BrowseAddColumn( .T., Self, "", {|| ::RecNo }, "9999" )
+        IF vType = "A"
+            __wxh_BrowseAddColumn( .T., Self, "", {|recNo| recNo }, "9999" )
+        ELSE
+            __wxh_BrowseAddColumn( .T., Self, "", {|key| key } )
+        ENDIF
 
         IF !Empty( ::FDataSource )
             IF vType = "A"
@@ -233,9 +237,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
             ENDIF
             IF ValType( itm1 ) = "A"
                 FOR EACH fld IN ::FDataSource[ 1 ]
-                    IF fld:Published
-                        __wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
-                    ENDIF
+                    __wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
                 NEXT
             ELSE
                 __wxh_BrowseAddColumn( .F., Self, "", {|key| ::FDataSource[ key ] } )

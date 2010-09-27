@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-09-27 15:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/arrbrowser/arrbrowser.prg
+     * added debug conditionals helpers
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     % adding column zero on array/hash datasource's
+     ! Removed wrong conditional
+
 2010-09-27 14:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * ::GetIsPrimaryKeyField is using now ::FTable:KeyField for comparing
