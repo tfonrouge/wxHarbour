@@ -98,4 +98,13 @@
 
 #xcommand TRACE <clauses,...> => ? "TRACE: "+ProcName()+"()["+LTrim(Str(ProcLine()))+"]: ", <clauses>
 
+#xcommand SINGLETON CLASS <!clsName!> [ FROM <!fromCls1!> [,<!fromClsN!>] ] => ;
+FUNCTION <clsName>() ;;
+STATIC obj, once ;;
+IF obj == NIL ;;
+   hb_threadOnce( @once, {|| obj := __S_<clsName>() } ) ;;
+END ;;
+RETURN obj;;
+CLASS <clsName> [ FROM <fromCls1> ] [, <fromClsN> ] STATIC FUNCTION __S_<clsName>
+
 #endif

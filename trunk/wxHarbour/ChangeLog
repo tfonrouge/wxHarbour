@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2010-10-01 15:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  +  include/wxHarbour/wxbase/wx_HtmlWindow.h
+  +  include/wxHarbour/wxbase/wx_ScrolledWindow.h
+  +  src/wxbase/baseclasses/wx_ScrolledWindow.cpp
+  +  src/wxbase/baseclasses/wxhScrolledWindow.prg
+  +  src/wxbase/html/wx_HtmlWindow.cpp
+  +  src/wxbase/html/wxhHtmlWindow.prg
+     + added sources for classes: wxScrolledWindow, wxHtmlWindow
+
+  *  include/wxHarbour/property.ch
+     + added command for declaring singleton classes
+
+  *  src/wxbase/advctrls/wxhGrid.prg
+     * removed declaration for wxScrolledWindow class
+
+  *  src/wxbase/events/wx_SizeEvent.cpp
+     ! Fixed wrong definition of GetSize
+
 2010-09-27 15:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/arrbrowser/arrbrowser.prg
      * added debug conditionals helpers
