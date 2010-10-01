@@ -18,18 +18,6 @@
 #include "property.ch"
 
 /*
-    wxScrolledWindow
-    Teo. Mexico 2006
-*/
-CLASS wxScrolledWindow FROM wxWindow
-ENDCLASS
-
-/*
-    EndClass wxScrolledWindow
-*/
-
-
-/*
     wxGrid
     Teo. Mexico 2006
 */

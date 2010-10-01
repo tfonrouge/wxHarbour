@@ -158,6 +158,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhImageList.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhObject.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhScrolledWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhAuiNotebook.obj \
@@ -200,6 +201,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wxhTimerEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhHtmlEasyPrinting.obj \
+	$(__BUILDDIR__)\wxHarbour_wxhHtmlWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhBitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhColour.obj \
 	$(__BUILDDIR__)\wxHarbour_wxhGDIObject.obj \
@@ -247,6 +249,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_ImageList.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ListItem.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Object.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_ScrolledWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_TopLevelWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Window.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_AuiNotebook.obj \
@@ -285,6 +288,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_TimerEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_HtmlEasyPrinting.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_HtmlWindow.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Colour.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Icon.obj \
@@ -565,6 +569,10 @@ $(__BUILDDIR__)\wxHarbour_wxhObject.obj: .\src\wxbase\baseclasses\wxhObject.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
+$(__BUILDDIR__)\wxHarbour_wxhScrolledWindow.obj: .\src\wxbase\baseclasses\wxhScrolledWindow.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
 $(__BUILDDIR__)\wxHarbour_wxhTopLevelWindow.obj: .\src\wxbase\baseclasses\wxhTopLevelWindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
@@ -730,6 +738,10 @@ $(__BUILDDIR__)\wxHarbour_wxhUpdateUIEvent.obj: .\src\wxbase\events\wxhUpdateUIE
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
 $(__BUILDDIR__)\wxHarbour_wxhHtmlEasyPrinting.obj: .\src\wxbase\html\wxhHtmlEasyPrinting.prg
+	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
+	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
+
+$(__BUILDDIR__)\wxHarbour_wxhHtmlWindow.obj: .\src\wxbase\html\wxhHtmlWindow.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $**
 	$(CC) /c $(WXHARBOUR_CFLAGS) /Fo$@ $@_.c
 
@@ -904,6 +916,9 @@ $(__BUILDDIR__)\wxHarbour_wx_ListItem.obj: .\src\wxbase\baseclasses\wx_ListItem.
 $(__BUILDDIR__)\wxHarbour_wx_Object.obj: .\src\wxbase\baseclasses\wx_Object.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_Object.cpp
 
+$(__BUILDDIR__)\wxHarbour_wx_ScrolledWindow.obj: .\src\wxbase\baseclasses\wx_ScrolledWindow.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_ScrolledWindow.cpp
+
 $(__BUILDDIR__)\wxHarbour_wx_TopLevelWindow.obj: .\src\wxbase\baseclasses\wx_TopLevelWindow.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\baseclasses\wx_TopLevelWindow.cpp
 
@@ -1017,6 +1032,9 @@ $(__BUILDDIR__)\wxHarbour_wx_UpdateUIEvent.obj: .\src\wxbase\events\wx_UpdateUIE
 
 $(__BUILDDIR__)\wxHarbour_wx_HtmlEasyPrinting.obj: .\src\wxbase\html\wx_HtmlEasyPrinting.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\html\wx_HtmlEasyPrinting.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_HtmlWindow.obj: .\src\wxbase\html\wx_HtmlWindow.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\html\wx_HtmlWindow.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_Bitmap.obj: .\src\wxbase\image\wx_Bitmap.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\image\wx_Bitmap.cpp

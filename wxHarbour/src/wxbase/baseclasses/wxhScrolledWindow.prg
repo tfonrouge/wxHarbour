@@ -14,26 +14,41 @@
     (C) 2010 Teo Fonrouge <teo@windtelsoft.com>
 */
 
-/*
-    wx_SizeEvent: Implementation
-    Teo. Mexico 2010
-*/
-
-#include "wx/wx.h"
-
-#include "wxh.h"
+#include "hbclass.ch"
+#include "property.ch"
 
 /*
-    GetKeyCode
+    wxScrolledWindow
     Teo. Mexico 2010
 */
-HB_FUNC( WXSIZEEVENT_GETSIZE )
-{
-    wxSizeEvent * sizeEvent = (wxSizeEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+CLASS wxScrolledWindow FROM wxPanel
+PRIVATE:
+PROTECTED:
+PUBLIC:
 
-    if( sizeEvent )
-    {
-        wxSize size = sizeEvent->GetSize();
-        wxh_ret_wxSize( &size );
-    }
-}
+//    CONSTRUCTOR New( parent, id, pos, size, style, name )
+
+//wxScrolledWindow::wxScrolledWindow
+//wxScrolledWindow::~wxScrolledWindow
+//wxScrolledWindow::CalcScrolledPosition
+//wxScrolledWindow::CalcUnscrolledPosition
+//wxScrolledWindow::Create
+//wxScrolledWindow::EnableScrolling
+//wxScrolledWindow::GetScrollPixelsPerUnit
+//wxScrolledWindow::GetViewStart
+//wxScrolledWindow::GetVirtualSize
+//wxScrolledWindow::IsRetained
+//wxScrolledWindow::DoPrepareDC
+//wxScrolledWindow::OnDraw
+//wxScrolledWindow::PrepareDC
+//wxScrolledWindow::Scroll
+//wxScrolledWindow::SetScrollbars
+//wxScrolledWindow::SetScrollRate
+//wxScrolledWindow::SetTargetWindow
+
+PUBLISHED:
+ENDCLASS
+
+/*
+    End Class wxScrolledWindow
+*/
