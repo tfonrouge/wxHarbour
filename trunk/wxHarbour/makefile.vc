@@ -315,6 +315,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticBoxSizer.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Gauge.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj \
+	$(__BUILDDIR__)\wxHarbour_wx_Env.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_Font.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.obj \
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.obj \
@@ -1113,6 +1114,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Gauge.obj: .\src\wxbase\static\wx_Gauge.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_StaticLine.obj: .\src\wxbase\static\wx_StaticLine.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\static\wx_StaticLine.cpp
+
+$(__BUILDDIR__)\wxHarbour_wx_Env.obj: .\src\wxbase\system\wx_Env.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_Env.cpp
 
 $(__BUILDDIR__)\wxHarbour_wx_Font.obj: .\src\wxbase\system\wx_Font.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(WXHARBOUR_CXXFLAGS) .\src\wxbase\system\wx_Font.cpp
