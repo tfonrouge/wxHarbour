@@ -38,18 +38,23 @@ wx_HtmlWindow::~wx_HtmlWindow()
  */
 wxHtmlOpeningStatus wx_HtmlWindow::OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect )
 {
-    PHB_ITEM hbType = hb_itemNew( NULL );
-    PHB_ITEM hbUrl = hb_itemNew( NULL );
-    PHB_ITEM hbRedirect = hb_itemNew( NULL );
+    static PHB_DYNS s___OnOpeningURL = NULL;
     
-    hb_itemPutNI( hbType, type );
-    hb_itemPutC( hbUrl, url.mb_str() );
-    hb_itemPutC( hbRedirect, redirect->mb_str() );
+    if(!s___OnOpeningURL)
+        s___OnOpeningURL = hb_dynsymGetCase( "ONOPENINGURL" );
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnOpeningURL", 3, hbType, hbUrl, hbRedirect );
+    PHB_ITEM hbRedirect = hb_itemPutC( NULL, redirect->mb_str() );
+    
+    hb_vmPushDynSym( s___OnOpeningURL );
+    hb_vmPush( wxh_ItemListGet_HB( this ) );
+    hb_vmPushInteger( type );
+    hb_vmPushString( url.mb_str(), strlen( url.mb_str() ) );
+    hb_vmPushItemRef( hbRedirect );
+    
+    hb_vmSend( 3 );
+    
+    *redirect = wxh_CTowxString( hb_itemGetCPtr( hbRedirect ) );
 
-    hb_itemRelease( hbType );
-    hb_itemRelease( hbUrl );
     hb_itemRelease( hbRedirect );
 
     return wxHtmlOpeningStatus( hb_itemGetNI( hb_stackReturnItem() ) );
@@ -75,7 +80,7 @@ void wx_HtmlWindow::OnSetTitle( const wxString& title )
 HB_FUNC( WXHTMLWINDOW_NEW )
 {
     wxh_ObjParams objParams = wxh_ObjParams();
-    
+
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxPoint pos = wxh_par_wxPoint( 3 );
@@ -93,7 +98,7 @@ HB_FUNC( WXHTMLWINDOW_NEW )
 HB_FUNC( WXHTMLWINDOW_APPENDTOPAGE )
 {
     wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
-    
+
     if( htmlWindow )
     {
         hb_retl( htmlWindow->AppendToPage( wxh_parc( 1 ) ) );

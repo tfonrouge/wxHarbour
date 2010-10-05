@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-10-05 15:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/html/wx_HtmlWindow.cpp
+     ! Fixed virtual function OnOpeningURL to get by reference the "redirect" value
+
 2010-10-05 10:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxbase/wx_HtmlWindow.h
      * added virtual function OnSetTitle()
