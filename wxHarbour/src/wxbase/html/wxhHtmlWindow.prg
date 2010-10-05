@@ -51,30 +51,23 @@ PUBLIC:
     //METHOD OnCellClicked
     //METHOD OnCellMouseHover
     //METHOD OnLinkClicked
-    METHOD OnOpeningURL( type, url, redirect ) //VIRTUAL
-    //METHOD OnSetTitle
+    METHOD OnOpeningURL( type, url, redirect ) VIRTUAL
+    METHOD OnSetTitle( title ) VIRTUAL
     //METHOD ReadCustomization
-    //METHOD SelectAll
-    //METHOD SelectionToText
-    //METHOD SelectLine
-    //METHOD SelectWord
-    //METHOD SetBorders
-    //METHOD SetFonts
+    METHOD SelectAll()
+    METHOD SelectionToText()
+    METHOD SelectLine( pos )
+    METHOD SelectWord( pos )
+    METHOD SetBorders( border )
+    METHOD SetFonts( normal_face, fixed_face, sizes )
     METHOD SetPage( source )
-    //METHOD SetRelatedFrame
-    //METHOD SetRelatedStatusBar
-    //METHOD ToText
+    METHOD SetRelatedFrame( frame, format )
+    METHOD SetRelatedStatusBar( bar )
+    METHOD ToText()
     //METHOD WriteCustomization
 
 PUBLISHED:
 ENDCLASS
-
-METHOD FUNCTION OnOpeningURL( type, url, redirect ) CLASS wxHtmlWindow
-    AltD()
-    HB_SYMBOL_UNUSED( type )
-    HB_SYMBOL_UNUSED( url )
-    HB_SYMBOL_UNUSED( redirect )
-RETURN 0
 
 /*
     EndClass wxHtmlWindow

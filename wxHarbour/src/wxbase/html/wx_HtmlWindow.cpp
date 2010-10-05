@@ -43,8 +43,8 @@ wxHtmlOpeningStatus wx_HtmlWindow::OnOpeningURL( wxHtmlURLType type, const wxStr
     PHB_ITEM hbRedirect = hb_itemNew( NULL );
     
     hb_itemPutNI( hbType, type );
-    hb_itemPutC( hbUrl, url.mb_str() ); 
-    hb_itemPutC( hbRedirect, redirect->mb_str() ); 
+    hb_itemPutC( hbUrl, url.mb_str() );
+    hb_itemPutC( hbRedirect, redirect->mb_str() );
 
     hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnOpeningURL", 3, hbType, hbUrl, hbRedirect );
 
@@ -53,6 +53,20 @@ wxHtmlOpeningStatus wx_HtmlWindow::OnOpeningURL( wxHtmlURLType type, const wxStr
     hb_itemRelease( hbRedirect );
 
     return wxHtmlOpeningStatus( hb_itemGetNI( hb_stackReturnItem() ) );
+}
+
+/*
+ * OnSetTitle
+ */
+void wx_HtmlWindow::OnSetTitle( const wxString& title )
+{
+    PHB_ITEM hbTitle = hb_itemNew( NULL );
+
+    hb_itemPutC( hbTitle, title.mb_str() );
+    
+    hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnSetTitle", 1, hbTitle );
+    
+    hb_itemRelease( hbTitle );
 }
 
 /*
@@ -204,6 +218,94 @@ HB_FUNC( WXHTMLWINDOW_LOADPAGE )
 }
 
 /*
+ * SelectAll
+ */
+HB_FUNC( WXHTMLWINDOW_SELECTALL )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SelectAll();
+    }
+}
+
+/*
+ * SelectionToText
+ */
+HB_FUNC( WXHTMLWINDOW_SELECTIONTOTEXT )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        wxh_retc( htmlWindow->SelectionToText() );
+    }
+}
+
+/*
+ * SelectLine
+ */
+HB_FUNC( WXHTMLWINDOW_SELECTLINE )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SelectLine( wxh_par_wxPoint( 1 ) );
+    }
+}
+
+/*
+ * SelectWord
+ */
+HB_FUNC( WXHTMLWINDOW_SELECTWORD )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SelectWord( wxh_par_wxPoint( 1 ) );
+    }
+}
+
+/*
+ * SetBorders
+ */
+HB_FUNC( WXHTMLWINDOW_SETBORDERS )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SetBorders( hb_parni( 1 ) );
+    }
+}
+
+/*
+ * SetFonts
+ */
+HB_FUNC( WXHTMLWINDOW_SETFONTS )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        const int len = 7;
+        const int* sizes = NULL;
+        int aInt[ len ] = { 0, 0, 0, 0, 0, 0, 0 };
+        
+        if( hb_pcount() > 2 )
+        {
+            wxh_par_arrayInt( 3, &aInt[ 0 ], len );
+            sizes = &aInt[ 0 ];
+        }
+
+        htmlWindow->SetFonts( wxh_parc( 1 ), wxh_parc( 2 ), sizes );
+    }
+}
+
+/*
  * SetPage
  */
 HB_FUNC( WXHTMLWINDOW_SETPAGE )
@@ -213,6 +315,45 @@ HB_FUNC( WXHTMLWINDOW_SETPAGE )
     if( htmlWindow )
     {
         hb_retl( htmlWindow->SetPage( wxh_parc( 1 ) ) );
+    }
+}
+
+/*
+ * SetRelatedFrame
+ */
+HB_FUNC( WXHTMLWINDOW_SETRELATEDFRAME )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SetRelatedFrame( (wxFrame *) wxh_par_WX( 1 ), wxh_parc( 2 ) );
+    }
+}
+
+/*
+ * SetRelatedStatusBar
+ */
+HB_FUNC( WXHTMLWINDOW_SETRELATEDSTATUSBAR )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        htmlWindow->SetRelatedStatusBar( hb_parni( 1 ) );
+    }
+}
+
+/*
+ * ToText
+ */
+HB_FUNC( WXHTMLWINDOW_TOTEXT )
+{
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    
+    if( htmlWindow )
+    {
+        wxh_retc( htmlWindow->ToText() );
     }
 }
 

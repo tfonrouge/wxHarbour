@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-10-05 10:46 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxbase/wx_HtmlWindow.h
+     * added virtual function OnSetTitle()
+
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+     * added command for wxHtmlWindow: @ HTMLWINDOW ...
+
+  *  src/wxbase/html/wx_HtmlWindow.cpp
+  *  src/wxbase/html/wxhHtmlWindow.prg
+     * added more method's
+
 2010-10-01 15:10 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
