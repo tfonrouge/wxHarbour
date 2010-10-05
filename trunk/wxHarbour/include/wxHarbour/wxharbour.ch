@@ -583,6 +583,29 @@
                     @ SIZERINFO [<sizerClauses>]
 
 /*
+ * HtmlWindow
+ */
+#xcommand @ HTMLWINDOW [ VAR <htmlWindow> ] ;
+                       [ PARENT <parent> ] ;
+                       [ ID <id> ] ;
+                       [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
+                       [ STYLE <style> ] ;
+                       [ NAME <name> ] ;
+                    => ;
+                    [ <htmlWindow> := ]__wxh_HtmlWindow( ;
+                        [<parent>],;
+                        [<id>],;
+                        ,;
+                        [{<nWidth>,<nHeight>}],;
+                        [<style>],;
+                        [<name>] )
+
+#xcommand @ HTMLWINDOW [<hwClauses,...>] SIZERINFO [<sizerClauses,...>] ;
+                    => ;
+                    @ HTMLWINDOW [<hwClauses>] ;;
+                    @ SIZERINFO [<sizerClauses>]
+
+/*
  * ListCtrl
  * Teo. Mexico 2009
  */

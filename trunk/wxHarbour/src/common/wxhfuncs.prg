@@ -1490,6 +1490,23 @@ PROCEDURE __wxh_GridSizerBegin( rows, cols, vgap, hgap, stretch, align, border, 
 RETURN
 
 /*
+    __wxh_HtmlWindow
+    Teo. Mexico 2010
+*/
+FUNCTION __wxh_HtmlWindow( parent, id, pos, size, style, name )
+    LOCAL htmlWindow
+
+    IF parent == NIL
+        parent := containerObj():LastParent()
+    ENDIF
+
+    htmlWindow := wxHtmlWindow():New( parent, id, pos, size, style, name )
+
+    containerObj():SetLastChild( htmlWindow )
+
+RETURN htmlWindow
+
+/*
     __wxh_ListCtrl
     Teo. Mexico 2009
 */

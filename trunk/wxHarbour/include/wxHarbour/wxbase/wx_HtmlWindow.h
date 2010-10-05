@@ -32,6 +32,8 @@ public:
     
     wxHtmlOpeningStatus OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect );
     
+    virtual void OnSetTitle( const wxString& title );
+    
     ~wx_HtmlWindow();
 
 };
