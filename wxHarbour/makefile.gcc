@@ -312,6 +312,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticBoxSizer.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Gauge.o \
 	$(__BUILDDIR__)\wxHarbour_wx_StaticLine.o \
+	$(__BUILDDIR__)\wxHarbour_wx_Env.o \
 	$(__BUILDDIR__)\wxHarbour_wx_Font.o \
 	$(__BUILDDIR__)\wxHarbour_wx_PlatformInfo.o \
 	$(__BUILDDIR__)\wxHarbour_wx_ToolBar.o \
@@ -1115,6 +1116,9 @@ $(__BUILDDIR__)\wxHarbour_wx_Gauge.o: ./src/wxbase/static/wx_Gauge.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_StaticLine.o: ./src/wxbase/static/wx_StaticLine.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)\wxHarbour_wx_Env.o: ./src/wxbase/system/wx_Env.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)\wxHarbour_wx_Font.o: ./src/wxbase/system/wx_Font.cpp
