@@ -1320,7 +1320,7 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
                 keyVal += ::FTable:FieldList[ i ]:GetKeyVal()
             NEXT
         ELSE
-            keyVal := PadR( keyVal, ::Size )
+            keyVal := PadR( keyVal, Min( Len( keyVal ), ::Size ) )
             start := 1
             FOR EACH i IN ::FFieldArrayIndex
                 AField := ::FTable:FieldList[ i ]
