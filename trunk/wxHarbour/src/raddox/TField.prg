@@ -37,7 +37,6 @@ PRIVATE:
     DATA FPickList											// codeblock to help to pick a value
     DATA FGroup														// A Text label for grouping
     DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
-    DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
     DATA FPrimaryKeyComponent INIT .F.		// Field is included in a Array of fields for a Primary Index Key
     DATA FPublished INIT .T.							// Logical: Appears in user field selection
     DATA FReadOnly	INIT .F.
@@ -82,6 +81,7 @@ PROTECTED:
     DATA FFieldReadBlock								// Code Block to do READ
     DATA FKeyIndex
     DATA FLabel
+    DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
     DATA FName INIT ""
     DATA FTable
     DATA FTableBaseClass
@@ -1859,6 +1859,7 @@ PROTECTED:
     DATA FDBS_LEN INIT 8
     DATA FDBS_DEC INIT 0
     DATA FDBS_TYPE INIT "="
+    DATA FModStamp	INIT .T.        // Field is automatically mantained (dbf layer)
     DATA FType INIT "ModTime"
 PUBLIC:
 PUBLISHED:
