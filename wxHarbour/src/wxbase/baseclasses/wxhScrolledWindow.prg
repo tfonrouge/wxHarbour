@@ -26,25 +26,23 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
-//    CONSTRUCTOR New( parent, id, pos, size, style, name )
+    CONSTRUCTOR New( parent, id, pos, size, style, name )
 
-//wxScrolledWindow::wxScrolledWindow
-//wxScrolledWindow::~wxScrolledWindow
-//wxScrolledWindow::CalcScrolledPosition
-//wxScrolledWindow::CalcUnscrolledPosition
-//wxScrolledWindow::Create
-//wxScrolledWindow::EnableScrolling
-//wxScrolledWindow::GetScrollPixelsPerUnit
-//wxScrolledWindow::GetViewStart
-//wxScrolledWindow::GetVirtualSize
-//wxScrolledWindow::IsRetained
-//wxScrolledWindow::DoPrepareDC
-//wxScrolledWindow::OnDraw
-//wxScrolledWindow::PrepareDC
-//wxScrolledWindow::Scroll
-//wxScrolledWindow::SetScrollbars
-//wxScrolledWindow::SetScrollRate
-//wxScrolledWindow::SetTargetWindow
+    METHOD CalcScrolledPosition( x, y, xx, yy )
+    METHOD CalcUnscrolledPosition( x, y, xx, yy )
+    //wxScrolledWindow::Create
+    METHOD EnableScrolling( xScrolling, yScrolling )
+    METHOD GetScrollPixelsPerUnit( xUnit, yUnit )
+    METHOD GetViewStart( x, y )
+    METHOD GetVirtualSize( x, y )
+    METHOD IsRetained()
+    //wxScrolledWindow::DoPrepareDC
+    //wxScrolledWindow::OnDraw
+    //wxScrolledWindow::PrepareDC
+    METHOD Scroll( x, y )
+    METHOD SetScrollbars( pixelsPerUnitX, pixelsPerUnitY, noUnitsX, noUnitsY, xPos, yPos, noRefresh )
+    METHOD SetScrollRate( xStep, yStep )
+    METHOD SetTargetWindow( window )
 
 PUBLISHED:
 ENDCLASS
