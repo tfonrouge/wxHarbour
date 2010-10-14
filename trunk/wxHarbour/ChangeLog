@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-10-14 10:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * added more detail on error message
+
+  *  src/raddox/TField.prg
+     * Default to LEN=15,DEC=2 for TNumericField's
+
 2010-10-07 21:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxbase/wx_ScrolledWindow.h
   *  src/wxbase/baseclasses/wx_ScrolledWindow.cpp
