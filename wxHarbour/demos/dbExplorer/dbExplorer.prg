@@ -280,7 +280,7 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 
     RECOVER USING oErr
 
-        wxMessageBox( oErr:description, "Error", HB_BitOr( wxOK, wxICON_ERROR ), ::oWnd )
+        wxMessageBox( oErr:description + " : " + oErr:Operation, "Error", HB_BitOr( wxOK, wxICON_ERROR ), ::oWnd )
 
 //	 DESTROY fileDlg
         RETURN
