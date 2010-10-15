@@ -2081,3 +2081,19 @@ RETURN ::FFieldExpression
 /*
     ENDCLASS TObjectField
 */
+
+/*
+    TVariantField
+    Teo. Mexico 2010
+*/
+CLASS TVariantField FROM TField
+PRIVATE:
+PROTECTED:
+    DATA FType INIT "Variant"
+PUBLIC:
+PUBLISHED:
+ENDCLASS
+
+/*
+    ENDCLASS TFloatField
+*/
