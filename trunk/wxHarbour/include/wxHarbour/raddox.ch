@@ -79,7 +79,7 @@
                         ADD [<clauses0>] _OBJECT FIELD <xFieldMethod> [<clauses1>] OBJTYPE <objValue> [<clauses2>]
 #xtranslate T_ObjectField => TObjectField
 
-#xtranslate ADD [<calc: CALCULATED>] <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DATETIME, MODTIME, _OBJECT> FIELD [<xFieldMethod>] ;
+#xtranslate ADD [<calc: CALCULATED>] <type: _STRING, MEMO, _NUMERIC, FLOAT, INTEGER, LOGICAL, DATE, DATETIME, MODTIME, _OBJECT, VARIANT> FIELD [<xFieldMethod>] ;
                         [ NAME <cName> ] ;
                         [ LABEL <label> ] ;
                         [ <ro: READONLY> ] ;

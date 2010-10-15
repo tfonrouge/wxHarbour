@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2010-10-14 20:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TField.prg
+     % added support for TVariantField's
+
+
 2010-10-14 10:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/dbExplorer/dbExplorer.prg
      * added more detail on error message
