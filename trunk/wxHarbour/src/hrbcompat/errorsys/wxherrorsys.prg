@@ -181,6 +181,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
             ELSE
                 cMessage += ";" + oErr:Description
             ENDIF
+            cMessage += ": " + oErr:Operation
         ENDIF
         RETURN Alert( cMessage, aOptions )
     ENDIF
@@ -197,7 +198,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
     aErrLst := __objGetValueList( oErr, .T., 0 )
 
     IF .F.
-        s := cMessage + E":\n\n" + oErr:Description + E"\n\n"
+        s := cMessage + E":\n\n" + oErr:Description + ": " + oErr:Operation + E"\n\n"
         i := 3
         WHILE !Empty( ProcName( i ) )
             s += "Called from " + ProcName( i )	 + "(" + NTrim( ProcLine( i ) ) + E")\n"

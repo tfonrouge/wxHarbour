@@ -2,6 +2,18 @@
  * $Id$
  */
 
+2010-10-18 23:15 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     % improved error message
+
+  *  src/raddox/TField.prg
+     ! Fixed wrong usage of GetMasterSourceClassName, it doesn't accepts a parameter anymore
+     * Check if required mastersource is the Table
+
+  *  src/raddox/TTable.prg
+     ! Fixed GetKeyVal to return NIL if there is not keyField in the table
+     * removed accepting parameter in GetMasterSourceClassName
+
 2010-10-14 20:31 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TField.prg

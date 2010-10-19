@@ -183,8 +183,8 @@ PUBLIC:
     METHOD GetDisplayFieldBlock( xField )
     METHOD GetDisplayFields( syncFromAlias )
     METHOD GetField( fld )
-    METHOD GetKeyVal() INLINE ::GetKeyField():GetKeyVal()
-    METHOD GetMasterSourceClassName( className )
+    METHOD GetKeyVal()
+    METHOD GetMasterSourceClassName()
     METHOD GetTableFileName()
     METHOD HasChilds
     METHOD IndexByName( IndexName, curClass )
@@ -1743,6 +1743,18 @@ METHOD FUNCTION GetKeyField() CLASS TTable
 RETURN NIL
 
 /*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal() CLASS TTable
+    LOCAL fld
+    fld := ::GetKeyField()
+    IF fld = NIL
+        RETURN NIL
+    ENDIF
+RETURN fld:GetKeyVal()
+
+/*
     GetMasterKeyField
     Teo. Mexico 2009
 */
@@ -1776,17 +1788,13 @@ RETURN NIL
     GetMasterSourceClassName
     Teo. Mexico 2008
 */
-METHOD FUNCTION GetMasterSourceClassName( className ) CLASS TTable
+METHOD FUNCTION GetMasterSourceClassName() CLASS TTable
     LOCAL Result := ""
-    
-    IF className = NIL
-        className := ::ClassName
-    ENDIF
+    LOCAL className := ::ClassName
 
     IF ::DataBase = NIL
         ::DataBase := ::InitDataBase()
     ENDIF
-    
 
     IF HB_HHasKey( ::DataBase:ChildParentList, className )
         Result := ::DataBase:ChildParentList[ className ]
