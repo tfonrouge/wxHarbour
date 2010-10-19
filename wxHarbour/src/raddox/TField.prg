@@ -2010,11 +2010,12 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
             ELSE
                 IF ::FLinkedTableMasterSource != NIL
                     linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
-                ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName( ::FObjType ) )
+                ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjType ) )
                     linkedTableMasterSource := ::FTable
                 ENDIF
 
                 ::FLinkedTable := __ClsInstFromName( ::FObjType )
+
                 IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
                     RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
                 ENDIF
@@ -2022,7 +2023,9 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
                 /* check if we still need a mastersource and it exists in TObjectField's Table */
                 IF Empty( linkedTableMasterSource )
                     className := ::FLinkedTable:GetMasterSourceClassName()
-                    IF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjType( className ) )
+                    IF ::FTable:IsDerivedFrom( className )
+                        linkedTableMasterSource := ::FTable
+                    ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjType( className ) )
                         linkedTableMasterSource := fld:DataObj
                     ENDIF
                 ENDIF
