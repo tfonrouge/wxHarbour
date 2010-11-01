@@ -63,7 +63,7 @@ static int ChkFlagInParameter( int iParam )
 */
 HB_FUNC( WXSIZER_ADD )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxSizer* sizer = (wxSizer *) objParams.Get_wxObject();
     
     if(sizer)
@@ -104,7 +104,7 @@ HB_FUNC( WXSIZER_ADD )
 */
 HB_FUNC( WXSIZER_SETSIZEHINTS )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxSizer* sizer = (wxSizer *) objParams.Get_wxObject();
 
     if( sizer )

@@ -40,7 +40,7 @@ wx_TextCtrl::~wx_TextCtrl()
 */
 HB_FUNC( WXTEXTCTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );

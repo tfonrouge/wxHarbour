@@ -41,7 +41,7 @@ wx_Grid::~wx_Grid()
 */
 HB_FUNC( WXGRID_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
@@ -1237,7 +1237,7 @@ HB_FUNC( WXGRID_SETROWLABELSIZE )
 
 HB_FUNC( WXGRID_SETTABLE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_Grid* grid = (wx_Grid *) objParams.Get_wxObject();
 
     if( grid ) /* gridTable can be NULL */

@@ -39,7 +39,7 @@ wx_AuiNotebook::~wx_AuiNotebook()
 */
 HB_FUNC( WXAUINOTEBOOK_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_AuiNotebook* auiNotebook;
 
@@ -64,7 +64,7 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
 */
 HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
     //const wxBitmap& bitmap = objParam.paramParent( 4 );
@@ -85,7 +85,7 @@ HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
@@ -103,7 +103,7 @@ HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
     
@@ -121,7 +121,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
@@ -133,7 +133,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 
 HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
     
@@ -151,7 +151,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 */
 HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
@@ -167,7 +167,7 @@ HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
 */
 HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
@@ -185,7 +185,7 @@ HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 
@@ -203,7 +203,7 @@ HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 */
 HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
 

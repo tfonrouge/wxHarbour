@@ -39,7 +39,7 @@ wx_SocketClient::~wx_SocketClient()
 */
 HB_FUNC( WXSOCKETCLIENT_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_SocketClient* socketClient;
     wxSocketFlags flags = ISNUM( 1 ) ? hb_parni( 1 ) : wxSOCKET_NONE;
@@ -55,7 +55,7 @@ HB_FUNC( WXSOCKETCLIENT_NEW )
 */
 HB_FUNC( WXSOCKETCLIENT_CONNECT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketClient* socketClient = (wx_SocketClient*) objParams.Get_wxObject();
 
     wxSockAddress* local = NULL;

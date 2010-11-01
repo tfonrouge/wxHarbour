@@ -41,7 +41,7 @@ wx_Dialog::wx_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, co
 */
 HB_FUNC( WXDIALOG_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Dialog* dialog;
 

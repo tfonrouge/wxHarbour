@@ -43,7 +43,7 @@ wx_MDIChildFrame::wx_MDIChildFrame( wxMDIParentFrame* parent, wxWindowID id, con
 */
 HB_FUNC( WXMDICHILDFRAME_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_MDIChildFrame* frame;
 

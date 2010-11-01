@@ -46,7 +46,7 @@ wx_SocketServer::~wx_SocketServer()
 */
 HB_FUNC( WXSOCKETSERVER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_SocketServer* socketServer;
     wxSockAddress* address;
@@ -95,7 +95,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 */
 HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketServer* socketServer = (wx_SocketServer*) objParams.Get_wxObject();
 
     wxSocketBase* socket;

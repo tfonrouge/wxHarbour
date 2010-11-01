@@ -40,7 +40,7 @@ wx_Menu::~wx_Menu()
 */
 HB_FUNC( WXMENU_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Menu* menu = new wx_Menu();
 
@@ -64,7 +64,7 @@ HB_FUNC( WXMENU_APPEND2 )
 
 HB_FUNC( WXMENU_APPEND3 )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_Menu* menu = (wx_Menu *) objParams.Get_wxObject();
     wxMenuItem* menuItem = (wxMenuItem *) objParams.paramChild( 1 );
 

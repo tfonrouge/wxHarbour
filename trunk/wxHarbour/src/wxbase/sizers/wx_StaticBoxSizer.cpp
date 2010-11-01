@@ -35,7 +35,7 @@ wx_StaticBoxSizer::~wx_StaticBoxSizer()
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_StaticBoxSizer* boxSizer;
 

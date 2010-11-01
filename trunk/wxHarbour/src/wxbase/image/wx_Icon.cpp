@@ -40,7 +40,7 @@ wx_Icon::~wx_Icon()
 */
 HB_FUNC( WXICON_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Icon* icon;
 

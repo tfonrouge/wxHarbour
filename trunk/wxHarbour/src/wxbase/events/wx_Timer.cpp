@@ -54,7 +54,7 @@ void wx_Timer::Notify()
 */
 HB_FUNC( WXTIMER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxEvtHandler* owner = (wxEvtHandler *) objParams.paramParent( 1 );
     int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );

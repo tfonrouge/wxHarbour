@@ -40,7 +40,7 @@ wx_Listbook::~wx_Listbook()
 */
 HB_FUNC( WXLISTBOOK_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Listbook* listBook;
 
@@ -66,7 +66,7 @@ HB_FUNC( WXLISTBOOK_NEW )
 */
 HB_FUNC( WXLISTBOOK_ADDPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxListbook* Listbook = (wxListbook *) objParams.Get_wxObject();
 
     wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 1 );

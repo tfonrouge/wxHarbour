@@ -40,7 +40,7 @@ wx_ScrolledWindow::~wx_ScrolledWindow()
  */
 HB_FUNC( WXSCROLLEDWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     wx_ScrolledWindow* scrolledWindow;
 

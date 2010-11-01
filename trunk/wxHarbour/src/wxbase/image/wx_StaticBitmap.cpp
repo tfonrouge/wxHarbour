@@ -40,7 +40,7 @@ wx_StaticBitmap::~wx_StaticBitmap()
  */
 HB_FUNC( WXSTATICBITMAP_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     wx_StaticBitmap* staticBitmap;
     

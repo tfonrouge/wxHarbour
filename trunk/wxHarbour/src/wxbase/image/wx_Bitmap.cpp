@@ -168,7 +168,7 @@ wx_Bitmap::~wx_Bitmap()
  */
 HB_FUNC( WXBITMAP_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     wx_Bitmap* bitmap;
     

@@ -39,7 +39,7 @@ wx_HtmlEasyPrinting::~wx_HtmlEasyPrinting()
  */
 HB_FUNC( WXHTMLEASYPRINTING_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     const wxString& name = ISNIL( 1 ) ? wxString( _T("Printing") ) : wxh_parc( 1 );
     wxWindow* parent = (wxWindow *) objParams.paramParent( 2 );

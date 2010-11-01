@@ -97,23 +97,14 @@ wxh_Item::~wxh_Item()
     constructor
     Teo. Mexico 2009
 */
-wxh_ObjParams::wxh_ObjParams()
-{
-    pParamParent = NULL;
-    linkChildParentParams = false;
-    pSelf = hb_stackSelfItem();
-    pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
-}
-
-/*
-    constructor
-    Teo. Mexico 2009
-*/
 wxh_ObjParams::wxh_ObjParams( PHB_ITEM pHbObj )
 {
     pParamParent = NULL;
     linkChildParentParams = false;
-    pSelf = pHbObj;
+    if( pHbObj == NULL )
+        pSelf = hb_stackSelfItem();
+    else
+        pSelf = pHbObj;
     pWxh_Item = wxh_ItemListGet_PWXH_ITEM( pSelf );
 }
 
