@@ -39,7 +39,7 @@ wx_ComboBox::~wx_ComboBox()
 */
 HB_FUNC( WXCOMBOBOX_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     //New( parent, id, value, pos, size, choices, style, validator, name )
 

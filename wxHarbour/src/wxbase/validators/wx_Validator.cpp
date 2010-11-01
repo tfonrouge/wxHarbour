@@ -103,7 +103,7 @@ wx_Validator::~wx_Validator()
 */
 HB_FUNC( WXVALIDATOR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Validator* validator = new wx_Validator;
     

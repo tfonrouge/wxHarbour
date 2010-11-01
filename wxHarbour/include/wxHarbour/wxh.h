@@ -105,7 +105,6 @@ public:
     PHB_ITEM pSelf;
     wxh_Item* pWxh_Item;
 
-    wxh_ObjParams();
     wxh_ObjParams( PHB_ITEM pHbObj );
     ~wxh_ObjParams();
 

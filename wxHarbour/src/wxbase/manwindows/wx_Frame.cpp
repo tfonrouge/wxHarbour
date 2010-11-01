@@ -62,7 +62,7 @@ wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString
 */
 HB_FUNC( WXFRAME_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Frame* frame;
 
@@ -122,7 +122,7 @@ HB_FUNC( WXFRAME_CREATETOOLBAR )
 */
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
 
     if( frame )
@@ -141,7 +141,7 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 */
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
 
     if( frame )

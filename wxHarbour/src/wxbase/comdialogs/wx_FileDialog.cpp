@@ -34,7 +34,7 @@ wx_FileDialog::~wx_FileDialog()
 */
 HB_FUNC( WXFILEDIALOG_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     const wxString& message = ISNIL( 2 ) ? wxString( _T("Choose a file") ) : wxh_parc( 2 );

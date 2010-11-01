@@ -35,7 +35,7 @@ wx_GridSizer::~wx_GridSizer()
 
 HB_FUNC( WXGRIDSIZER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     wx_GridSizer* gridSizer = new wx_GridSizer( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ) );
     

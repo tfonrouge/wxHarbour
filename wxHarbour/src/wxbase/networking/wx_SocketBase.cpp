@@ -47,7 +47,7 @@ wx_SocketBase::~wx_SocketBase()
 */
 HB_FUNC( WXSOCKETBASE_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_SocketBase* socketBase;
 
@@ -126,7 +126,7 @@ HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_GETLOCAL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
     wxObject* object = (wxObject *) objParams.param( 1 );
@@ -153,7 +153,7 @@ HB_FUNC( WXSOCKETBASE_GETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_GETPEER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
     wxObject* object = (wxObject *) objParams.param( 1 );
@@ -391,7 +391,7 @@ HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
     wxEvtHandler* evtHandler = (wxEvtHandler *) objParams.paramParent( 1 );
@@ -422,7 +422,7 @@ HB_FUNC( WXSOCKETBASE_SETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_SETLOCAL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
 
     wxIPV4address* local = (wxIPV4address *) objParams.param( 1 );

@@ -39,7 +39,7 @@ wx_SplitterWindow::~wx_SplitterWindow()
 */
 HB_FUNC( WXSPLITTERWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_SplitterWindow* panel;
 

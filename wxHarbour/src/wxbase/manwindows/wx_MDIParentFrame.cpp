@@ -41,7 +41,7 @@ wx_MDIParentFrame::wx_MDIParentFrame( wxWindow* parent, wxWindowID id, const wxS
 */
 HB_FUNC( WXMDIPARENTFRAME_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_MDIParentFrame* frame;
 

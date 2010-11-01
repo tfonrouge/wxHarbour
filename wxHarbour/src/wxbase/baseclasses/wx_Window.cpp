@@ -45,7 +45,7 @@ wx_Window::wx_Window( wxWindow* parent, wxWindowID id, const wxPoint& pos, const
 */
 HB_FUNC( WXWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Window* window;
 
@@ -178,7 +178,7 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
     if( wnd )
@@ -196,7 +196,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
     if( wnd )
@@ -214,7 +214,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
     if( wnd )
@@ -513,7 +513,7 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
  */
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
@@ -664,7 +664,7 @@ HB_FUNC( WXWINDOW_SETNAME )
  */
 HB_FUNC( WXWINDOW_SETSIZER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
 
     if( wnd )

@@ -39,7 +39,7 @@ wx_Panel::~wx_Panel()
 */
 HB_FUNC( WXPANEL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Panel* panel;
 

@@ -39,7 +39,7 @@ wx_IPV4address::~wx_IPV4address()
 */
 HB_FUNC( WXIPV4ADDRESS_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_IPV4address* ipv4Address;
 

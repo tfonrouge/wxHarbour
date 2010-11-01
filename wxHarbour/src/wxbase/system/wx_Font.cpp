@@ -39,7 +39,7 @@ wx_Font::~wx_Font()
 */
 HB_FUNC( WXFONT_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_Font* font = new wx_Font();
 

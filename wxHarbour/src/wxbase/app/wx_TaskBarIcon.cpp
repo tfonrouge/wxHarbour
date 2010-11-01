@@ -54,7 +54,7 @@ wxMenu* wx_TaskBarIcon::CreatePopupMenu()
 
 HB_FUNC( WXTASKBARICON_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_TaskBarIcon* taskBarIcon = new wx_TaskBarIcon();
 

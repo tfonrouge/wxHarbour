@@ -39,7 +39,7 @@ wx_MenuItem::~wx_MenuItem()
 */
 HB_FUNC( WXMENUITEM_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxMenu* parentMenu = (wxMenu *) objParams.paramParent( 1 );
     int id = hb_parni( 2 );

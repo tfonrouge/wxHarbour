@@ -39,7 +39,7 @@ wx_PlatformInfo::~wx_PlatformInfo()
  */
 HB_FUNC( WXPLATFORMINFO_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     
     const wxPlatformInfo* platInfo =  &(wxPlatformInfo::Get());
     

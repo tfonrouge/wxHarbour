@@ -30,7 +30,7 @@
 */
 HB_FUNC( WXXMLDOCUMENT_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_XmlDocument* xmlDocument = new wx_XmlDocument;
 

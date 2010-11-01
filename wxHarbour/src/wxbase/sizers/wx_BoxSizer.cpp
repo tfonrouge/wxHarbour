@@ -35,7 +35,7 @@ wx_BoxSizer::~wx_BoxSizer()
 
 HB_FUNC( WXBOXSIZER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 

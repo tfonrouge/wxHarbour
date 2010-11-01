@@ -39,7 +39,7 @@ wx_ListItem::~wx_ListItem()
 */
 HB_FUNC( WXLISTITEM_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_ListItem* listItem = new wx_ListItem();
 

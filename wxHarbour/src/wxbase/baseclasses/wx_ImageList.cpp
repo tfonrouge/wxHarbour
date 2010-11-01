@@ -39,7 +39,7 @@ wx_ImageList::~wx_ImageList()
 */
 HB_FUNC( WXIMAGELIST_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wx_ImageList* imageList = new wx_ImageList();
 

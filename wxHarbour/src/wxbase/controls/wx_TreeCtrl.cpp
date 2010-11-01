@@ -40,7 +40,7 @@ wx_TreeCtrl::~wx_TreeCtrl()
 
 HB_FUNC( WXTREECTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -60,7 +60,7 @@ HB_FUNC( WXTREECTRL_NEW )
 */
 HB_FUNC( WXTREECTRL_ADDROOT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
 
     const wxString& text = wxh_parc( 1 );
@@ -84,7 +84,7 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 */
 HB_FUNC( WXTREECTRL_APPENDITEM )
 {
-    wxh_ObjParams objParams = wxh_ObjParams();
+    wxh_ObjParams objParams = wxh_ObjParams( NULL );
     wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
 
     wxTreeItemId parent = wxTreeItemId( (void *) hb_parnl( 1 ) );
