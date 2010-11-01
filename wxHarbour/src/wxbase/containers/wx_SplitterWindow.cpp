@@ -30,7 +30,7 @@
 */
 wx_SplitterWindow::~wx_SplitterWindow()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

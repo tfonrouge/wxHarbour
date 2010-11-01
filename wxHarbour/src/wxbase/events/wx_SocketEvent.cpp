@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXSOCKETEVENT_GETCLIENTDATA )
 {
-    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( socketEvent )
         hb_retptr( socketEvent->GetClientData() );
@@ -41,7 +41,7 @@ HB_FUNC( WXSOCKETEVENT_GETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETEVENT_GETSOCKET )
 {
-    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( socketEvent )
         wxh_itemReturn( socketEvent->GetSocket() );
@@ -53,7 +53,7 @@ HB_FUNC( WXSOCKETEVENT_GETSOCKET )
 */
 HB_FUNC( WXSOCKETEVENT_GETSOCKETEVENT )
 {
-    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSocketEvent * socketEvent = (wxSocketEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( socketEvent )
         hb_retni( socketEvent->GetSocketEvent() );

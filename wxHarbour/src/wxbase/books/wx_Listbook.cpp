@@ -31,7 +31,7 @@
 */
 wx_Listbook::~wx_Listbook()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

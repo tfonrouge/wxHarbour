@@ -30,7 +30,7 @@
 */
 wx_RadioBox::~wx_RadioBox()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXRADIOBOX_NEW )
@@ -60,7 +60,7 @@ HB_FUNC( WXRADIOBOX_NEW )
 HB_FUNC( WXRADIOBOX_GETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_ItemListGet_WX( pSelf );
+    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_itemListGet_WX( pSelf );
 
     if( radioBox )
     {
@@ -75,7 +75,7 @@ HB_FUNC( WXRADIOBOX_GETSELECTION )
 HB_FUNC( WXRADIOBOX_SETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_ItemListGet_WX( pSelf );
+    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_itemListGet_WX( pSelf );
 
     if( radioBox )
     {

@@ -29,7 +29,7 @@
 HB_FUNC( WXCONTROLWITHITEMS_APPEND1 )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -44,7 +44,7 @@ HB_FUNC( WXCONTROLWITHITEMS_APPEND1 )
 HB_FUNC( WXCONTROLWITHITEMS_APPEND2 )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -59,7 +59,7 @@ HB_FUNC( WXCONTROLWITHITEMS_APPEND2 )
 HB_FUNC( WXCONTROLWITHITEMS_CLEAR )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -74,7 +74,7 @@ HB_FUNC( WXCONTROLWITHITEMS_CLEAR )
 HB_FUNC( WXCONTROLWITHITEMS_DELETE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -89,7 +89,7 @@ HB_FUNC( WXCONTROLWITHITEMS_DELETE )
 HB_FUNC( WXCONTROLWITHITEMS_FINDSTRING )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -105,7 +105,7 @@ HB_FUNC( WXCONTROLWITHITEMS_FINDSTRING )
 HB_FUNC( WXCONTROLWITHITEMS_GETCOUNT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -120,7 +120,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETCOUNT )
 HB_FUNC( WXCONTROLWITHITEMS_GETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -135,7 +135,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSELECTION )
 HB_FUNC( WXCONTROLWITHITEMS_GETSTRING )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -150,7 +150,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSTRING )
 HB_FUNC( WXCONTROLWITHITEMS_GETSTRINGS )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -171,7 +171,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSTRINGS )
 HB_FUNC( WXCONTROLWITHITEMS_GETSTRINGSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -186,7 +186,7 @@ HB_FUNC( WXCONTROLWITHITEMS_GETSTRINGSELECTION )
 HB_FUNC( WXCONTROLWITHITEMS_INSERT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -201,7 +201,7 @@ HB_FUNC( WXCONTROLWITHITEMS_INSERT )
 HB_FUNC( WXCONTROLWITHITEMS_ISEMPTY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -216,7 +216,7 @@ HB_FUNC( WXCONTROLWITHITEMS_ISEMPTY )
 HB_FUNC( WXCONTROLWITHITEMS_SETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -231,7 +231,7 @@ HB_FUNC( WXCONTROLWITHITEMS_SETSELECTION )
 HB_FUNC( WXCONTROLWITHITEMS_SETSTRING )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {
@@ -246,7 +246,7 @@ HB_FUNC( WXCONTROLWITHITEMS_SETSTRING )
 HB_FUNC( WXCONTROLWITHITEMS_SETSTRINGSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_ItemListGet_WX( pSelf );
+    wxControlWithItems* ctrlWItms = (wxControlWithItems *) wxh_itemListGet_WX( pSelf );
 
     if( ctrlWItms )
     {

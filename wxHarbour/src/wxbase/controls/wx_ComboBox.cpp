@@ -30,7 +30,7 @@
 */
 wx_ComboBox::~wx_ComboBox()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -64,7 +64,7 @@ HB_FUNC( WXCOMBOBOX_NEW )
 */
 HB_FUNC( WXCOMBOBOX_CANCOPY )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -78,7 +78,7 @@ HB_FUNC( WXCOMBOBOX_CANCOPY )
 */
 HB_FUNC( WXCOMBOBOX_CANCUT )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -92,7 +92,7 @@ HB_FUNC( WXCOMBOBOX_CANCUT )
 */
 HB_FUNC( WXCOMBOBOX_CANPASTE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -106,7 +106,7 @@ HB_FUNC( WXCOMBOBOX_CANPASTE )
 */
 HB_FUNC( WXCOMBOBOX_CANREDO )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -120,7 +120,7 @@ HB_FUNC( WXCOMBOBOX_CANREDO )
 */
 HB_FUNC( WXCOMBOBOX_CANUNDO )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -134,7 +134,7 @@ HB_FUNC( WXCOMBOBOX_CANUNDO )
 */
 HB_FUNC( WXCOMBOBOX_COPY )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -148,7 +148,7 @@ HB_FUNC( WXCOMBOBOX_COPY )
 */
 HB_FUNC( WXCOMBOBOX_CUT )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -162,7 +162,7 @@ HB_FUNC( WXCOMBOBOX_CUT )
 */
 HB_FUNC( WXCOMBOBOX_GETCURRENTSELECTION )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -176,7 +176,7 @@ HB_FUNC( WXCOMBOBOX_GETCURRENTSELECTION )
 */
 HB_FUNC( WXCOMBOBOX_GETINSERTIONPOINT )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -191,7 +191,7 @@ HB_FUNC( WXCOMBOBOX_GETINSERTIONPOINT )
 HB_FUNC( WXCOMBOBOX_GETSELECTION )
 {
 #if wxVERSION > 20804
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -215,7 +215,7 @@ HB_FUNC( WXCOMBOBOX_GETSELECTION )
 */
 HB_FUNC( WXCOMBOBOX_GETVALUE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -229,7 +229,7 @@ HB_FUNC( WXCOMBOBOX_GETVALUE )
 */
 HB_FUNC( WXCOMBOBOX_PASTE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -243,7 +243,7 @@ HB_FUNC( WXCOMBOBOX_PASTE )
 */
 HB_FUNC( WXCOMBOBOX_REDO )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -257,7 +257,7 @@ HB_FUNC( WXCOMBOBOX_REDO )
 */
 HB_FUNC( WXCOMBOBOX_REPLACE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -271,7 +271,7 @@ HB_FUNC( WXCOMBOBOX_REPLACE )
 */
 HB_FUNC( WXCOMBOBOX_REMOVE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -285,7 +285,7 @@ HB_FUNC( WXCOMBOBOX_REMOVE )
 */
 HB_FUNC( WXCOMBOBOX_SETINSERTIONPOINT )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -299,7 +299,7 @@ HB_FUNC( WXCOMBOBOX_SETINSERTIONPOINT )
 */
 HB_FUNC( WXCOMBOBOX_SETINSERTIONPOINTEND )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -313,7 +313,7 @@ HB_FUNC( WXCOMBOBOX_SETINSERTIONPOINTEND )
 */
 HB_FUNC( WXCOMBOBOX_SETSELECTION )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -327,7 +327,7 @@ HB_FUNC( WXCOMBOBOX_SETSELECTION )
 */
 HB_FUNC( WXCOMBOBOX_SETVALUE )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {
@@ -341,7 +341,7 @@ HB_FUNC( WXCOMBOBOX_SETVALUE )
 */
 HB_FUNC( WXCOMBOBOX_UNDO )
 {
-    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_ComboBox* comboBox = (wx_ComboBox *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( comboBox )
     {

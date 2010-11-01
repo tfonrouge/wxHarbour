@@ -32,7 +32,7 @@
  */
 wx_DatePickerCtrl::~wx_DatePickerCtrl()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -61,7 +61,7 @@ HB_FUNC( WXDATEPICKERCTRL_NEW )
  */
 HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
 {
-    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dateCtrl )
     {
@@ -76,7 +76,7 @@ HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
  */
 HB_FUNC( WXDATEPICKERCTRL_SETVALUE )
 {
-    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dateCtrl )
     {

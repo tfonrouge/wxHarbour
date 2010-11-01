@@ -30,7 +30,7 @@
 */
 wx_CheckBox::~wx_CheckBox()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXCHECKBOX_NEW )
@@ -58,7 +58,7 @@ HB_FUNC( WXCHECKBOX_NEW )
 HB_FUNC( WXCHECKBOX_GET3STATEVALUE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {
@@ -83,7 +83,7 @@ HB_FUNC( WXCHECKBOX_GET3STATEVALUE )
 HB_FUNC( WXCHECKBOX_IS3RDSTATEALLOWEDFORUSER )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {
@@ -98,7 +98,7 @@ HB_FUNC( WXCHECKBOX_IS3RDSTATEALLOWEDFORUSER )
 HB_FUNC( WXCHECKBOX_IS3STATE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {
@@ -113,7 +113,7 @@ HB_FUNC( WXCHECKBOX_IS3STATE )
 HB_FUNC( WXCHECKBOX_ISCHECKED )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {
@@ -128,7 +128,7 @@ HB_FUNC( WXCHECKBOX_ISCHECKED )
 HB_FUNC( WXCHECKBOX_SET3STATEVALUE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {
@@ -150,7 +150,7 @@ HB_FUNC( WXCHECKBOX_SET3STATEVALUE )
 HB_FUNC( WXCHECKBOX_SETVALUE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_ItemListGet_WX( pSelf );
+    wx_CheckBox* checkBox = (wx_CheckBox *) wxh_itemListGet_WX( pSelf );
 
     if( checkBox )
     {

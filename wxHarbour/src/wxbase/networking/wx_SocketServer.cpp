@@ -37,7 +37,7 @@ using namespace std;
 */
 wx_SocketServer::~wx_SocketServer()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -71,7 +71,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 HB_FUNC( WXSOCKETSERVER_ACCEPT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
+    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_itemListGet_WX( pSelf );
     wxSocketBase* socketBase;
 
     bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
@@ -123,7 +123,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
+    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_itemListGet_WX( pSelf );
 
     if( socketServer )
     {

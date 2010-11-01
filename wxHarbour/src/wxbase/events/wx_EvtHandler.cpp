@@ -43,7 +43,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
     if( objParams.pWxh_Item )
     {
         objParams.pWxh_Item->delete_WX = false;
-        wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
+        wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
 
         if( pWxh_Item )
         {
@@ -61,7 +61,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
         }
     }
 
-    //wxh_ItemListDel_HB( pEvent );
+    //wxh_itemListDel_HB( pEvent );
     hb_itemRelease( pEvent ); //this has to be done on above line
 }
 
@@ -280,7 +280,7 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
     if( objFunc )
     {
-        wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
+        wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
 
         if( pWxh_Item )
         {
@@ -306,7 +306,7 @@ static void Connect( int evtClass )
 
     ParseConnectParams( pConnParams );
 
-    hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_ItemListGet_WX( pSelf );
+    hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_itemListGet_WX( pSelf );
 
     if( !( pSelf && evtHandler ) )
         return;

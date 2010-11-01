@@ -32,7 +32,7 @@
 */
 wx_TaskBarIcon::~wx_TaskBarIcon()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -41,13 +41,13 @@ wx_TaskBarIcon::~wx_TaskBarIcon()
 */
 wxMenu* wx_TaskBarIcon::CreatePopupMenu()
 {
-    PHB_ITEM pTaskBarIcon = wxh_ItemListGet_HB( this );
+    PHB_ITEM pTaskBarIcon = wxh_itemListGet_HB( this );
     wxMenu* menu = NULL;
 
     if( pTaskBarIcon )
     {
         hb_objSendMsg( pTaskBarIcon, "CreatePopupMenu", 0 );
-        menu = (wxMenu *) wxh_ItemListGet_WX( hb_stackReturnItem() );
+        menu = (wxMenu *) wxh_itemListGet_WX( hb_stackReturnItem() );
     }
     return menu;
 }
@@ -67,7 +67,7 @@ HB_FUNC( WXTASKBARICON_NEW )
 */
 HB_FUNC( WXTASKBARICON_ISICONINSTALLED )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->IsIconInstalled() );
@@ -79,7 +79,7 @@ HB_FUNC( WXTASKBARICON_ISICONINSTALLED )
 */
 HB_FUNC( WXTASKBARICON_ISOK )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->IsOk() );
@@ -91,7 +91,7 @@ HB_FUNC( WXTASKBARICON_ISOK )
 */
 HB_FUNC( WXTASKBARICON_POPUPMENU )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( taskBarIcon )
     {
@@ -108,7 +108,7 @@ HB_FUNC( WXTASKBARICON_POPUPMENU )
 */
 HB_FUNC( WXTASKBARICON_REMOVEICON )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->RemoveIcon() );
@@ -120,7 +120,7 @@ HB_FUNC( WXTASKBARICON_REMOVEICON )
 */
 HB_FUNC( WXTASKBARICON_SETICON )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( taskBarIcon )
     {

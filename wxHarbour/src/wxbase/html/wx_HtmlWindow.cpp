@@ -30,7 +30,7 @@
  */
 wx_HtmlWindow::~wx_HtmlWindow()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -46,7 +46,7 @@ wxHtmlOpeningStatus wx_HtmlWindow::OnOpeningURL( wxHtmlURLType type, const wxStr
     PHB_ITEM hbRedirect = hb_itemPutC( NULL, redirect->mb_str() );
     
     hb_vmPushDynSym( s___OnOpeningURL );
-    hb_vmPush( wxh_ItemListGet_HB( this ) );
+    hb_vmPush( wxh_itemListGet_HB( this ) );
     hb_vmPushInteger( type );
     hb_vmPushString( url.mb_str(), strlen( url.mb_str() ) );
     hb_vmPushItemRef( hbRedirect );
@@ -69,7 +69,7 @@ void wx_HtmlWindow::OnSetTitle( const wxString& title )
 
     hb_itemPutC( hbTitle, title.mb_str() );
     
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnSetTitle", 1, hbTitle );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "OnSetTitle", 1, hbTitle );
     
     hb_itemRelease( hbTitle );
 }
@@ -97,7 +97,7 @@ HB_FUNC( WXHTMLWINDOW_NEW )
  */
 HB_FUNC( WXHTMLWINDOW_APPENDTOPAGE )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( htmlWindow )
     {
@@ -110,7 +110,7 @@ HB_FUNC( WXHTMLWINDOW_APPENDTOPAGE )
  */
 HB_FUNC( WXHTMLWINDOW_GETOPENEDANCHOR )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -123,7 +123,7 @@ HB_FUNC( WXHTMLWINDOW_GETOPENEDANCHOR )
  */
 HB_FUNC( WXHTMLWINDOW_GETOPENEDPAGE )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -136,7 +136,7 @@ HB_FUNC( WXHTMLWINDOW_GETOPENEDPAGE )
  */
 HB_FUNC( WXHTMLWINDOW_GETRELATEDFRAME )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -149,7 +149,7 @@ HB_FUNC( WXHTMLWINDOW_GETRELATEDFRAME )
  */
 HB_FUNC( WXHTMLWINDOW_HISTORYBACK )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -162,7 +162,7 @@ HB_FUNC( WXHTMLWINDOW_HISTORYBACK )
  */
 HB_FUNC( WXHTMLWINDOW_HISTORYCANBACK )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -175,7 +175,7 @@ HB_FUNC( WXHTMLWINDOW_HISTORYCANBACK )
  */
 HB_FUNC( WXHTMLWINDOW_HISTORYCANFORWARD )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -188,7 +188,7 @@ HB_FUNC( WXHTMLWINDOW_HISTORYCANFORWARD )
  */
 HB_FUNC( WXHTMLWINDOW_HISTORYCLEAR )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -201,7 +201,7 @@ HB_FUNC( WXHTMLWINDOW_HISTORYCLEAR )
  */
 HB_FUNC( WXHTMLWINDOW_HISTORYFORWARD )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -214,7 +214,7 @@ HB_FUNC( WXHTMLWINDOW_HISTORYFORWARD )
  */
 HB_FUNC( WXHTMLWINDOW_LOADPAGE )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -227,7 +227,7 @@ HB_FUNC( WXHTMLWINDOW_LOADPAGE )
  */
 HB_FUNC( WXHTMLWINDOW_SELECTALL )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -240,7 +240,7 @@ HB_FUNC( WXHTMLWINDOW_SELECTALL )
  */
 HB_FUNC( WXHTMLWINDOW_SELECTIONTOTEXT )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -253,7 +253,7 @@ HB_FUNC( WXHTMLWINDOW_SELECTIONTOTEXT )
  */
 HB_FUNC( WXHTMLWINDOW_SELECTLINE )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -266,7 +266,7 @@ HB_FUNC( WXHTMLWINDOW_SELECTLINE )
  */
 HB_FUNC( WXHTMLWINDOW_SELECTWORD )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -279,7 +279,7 @@ HB_FUNC( WXHTMLWINDOW_SELECTWORD )
  */
 HB_FUNC( WXHTMLWINDOW_SETBORDERS )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -292,7 +292,7 @@ HB_FUNC( WXHTMLWINDOW_SETBORDERS )
  */
 HB_FUNC( WXHTMLWINDOW_SETFONTS )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -315,7 +315,7 @@ HB_FUNC( WXHTMLWINDOW_SETFONTS )
  */
 HB_FUNC( WXHTMLWINDOW_SETPAGE )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -328,7 +328,7 @@ HB_FUNC( WXHTMLWINDOW_SETPAGE )
  */
 HB_FUNC( WXHTMLWINDOW_SETRELATEDFRAME )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -341,7 +341,7 @@ HB_FUNC( WXHTMLWINDOW_SETRELATEDFRAME )
  */
 HB_FUNC( WXHTMLWINDOW_SETRELATEDSTATUSBAR )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {
@@ -354,7 +354,7 @@ HB_FUNC( WXHTMLWINDOW_SETRELATEDSTATUSBAR )
  */
 HB_FUNC( WXHTMLWINDOW_TOTEXT )
 {
-    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlWindow* htmlWindow = (wxHtmlWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlWindow )
     {

@@ -30,7 +30,7 @@
 */
 wx_ListCtrl::~wx_ListCtrl()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -59,7 +59,7 @@ HB_FUNC( WXLISTCTRL_NEW )
 */
 HB_FUNC( WXLISTCTRL_ARRANGE )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -73,7 +73,7 @@ HB_FUNC( WXLISTCTRL_ARRANGE )
 */
 HB_FUNC( WXLISTCTRL_ASSIGNIMAGELIST )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -88,7 +88,7 @@ HB_FUNC( WXLISTCTRL_ASSIGNIMAGELIST )
 */
 HB_FUNC( WXLISTCTRL_CLEARALL )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -102,7 +102,7 @@ HB_FUNC( WXLISTCTRL_CLEARALL )
 */
 HB_FUNC( WXLISTCTRL_DELETEALLITEMS )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -116,7 +116,7 @@ HB_FUNC( WXLISTCTRL_DELETEALLITEMS )
 */
 HB_FUNC( WXLISTCTRL_DELETECOLUMN )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -130,7 +130,7 @@ HB_FUNC( WXLISTCTRL_DELETECOLUMN )
 */
 HB_FUNC( WXLISTCTRL_DELETEITEM )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -144,7 +144,7 @@ HB_FUNC( WXLISTCTRL_DELETEITEM )
 */
 HB_FUNC( WXLISTCTRL_EDITLABEL )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -158,7 +158,7 @@ HB_FUNC( WXLISTCTRL_EDITLABEL )
 */
 HB_FUNC( WXLISTCTRL_ENSUREVISIBLE )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {
@@ -172,7 +172,7 @@ HB_FUNC( WXLISTCTRL_ENSUREVISIBLE )
 */
 HB_FUNC( WXLISTCTRL_FINDITEM )
 {
-    wxListCtrl* listCtrl = (wxListCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxListCtrl* listCtrl = (wxListCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( listCtrl )
     {

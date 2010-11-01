@@ -30,7 +30,7 @@
 */
 wx_Button::~wx_Button()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXBUTTON_NEW )
@@ -57,7 +57,7 @@ HB_FUNC( WXBUTTON_NEW )
 */
 HB_FUNC( WXBUTTON_GETLABEL )
 {
-    wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( button )
         wxh_retc( button->GetLabel() );
@@ -69,7 +69,7 @@ HB_FUNC( WXBUTTON_GETLABEL )
 */
 HB_FUNC( WXBUTTON_SETDEFAULT )
 {
-    wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( button )
         button->SetDefault();
@@ -81,7 +81,7 @@ HB_FUNC( WXBUTTON_SETDEFAULT )
 */
 HB_FUNC( WXBUTTON_SETLABEL )
 {
-    wxButton* button = (wxButton *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( button )
         button->SetLabel( wxh_parc( 1 ) );

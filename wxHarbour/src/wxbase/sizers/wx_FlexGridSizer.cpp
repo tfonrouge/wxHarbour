@@ -30,7 +30,7 @@
  */
 wx_FlexGridSizer::~wx_FlexGridSizer()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXFLEXGRIDSIZER_NEW )
@@ -48,7 +48,7 @@ HB_FUNC( WXFLEXGRIDSIZER_NEW )
  */
 HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLECOL )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->AddGrowableCol( hb_parnl( 1 ) - 1, hb_parni( 2 ) );
@@ -60,7 +60,7 @@ HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLECOL )
  */
 HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLEROW )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->AddGrowableRow( hb_parnl( 1 ) - 1, hb_parni( 2 ) );
@@ -72,7 +72,7 @@ HB_FUNC( WXFLEXGRIDSIZER_ADDGROWABLEROW )
  */
 HB_FUNC( WXFLEXGRIDSIZER_GETFLEXIBLEDIRECTION )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         hb_retni( flexGridSizer->GetFlexibleDirection() );
@@ -84,7 +84,7 @@ HB_FUNC( WXFLEXGRIDSIZER_GETFLEXIBLEDIRECTION )
  */
 HB_FUNC( WXFLEXGRIDSIZER_GETNONFLEXIBLEGROWMODE )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         hb_retni( flexGridSizer->GetNonFlexibleGrowMode() );
@@ -96,7 +96,7 @@ HB_FUNC( WXFLEXGRIDSIZER_GETNONFLEXIBLEGROWMODE )
  */
 HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLECOL )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->RemoveGrowableCol( hb_parnl( 1 ) - 1 );
@@ -108,7 +108,7 @@ HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLECOL )
  */
 HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLEROW )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->RemoveGrowableRow( hb_parnl( 1 ) );
@@ -120,7 +120,7 @@ HB_FUNC( WXFLEXGRIDSIZER_REMOVEGROWABLEROW )
  */
 HB_FUNC( WXFLEXGRIDSIZER_SETFLEXIBLEDIRECTION )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->SetFlexibleDirection( hb_parni( 1 ) - 1 );
@@ -132,7 +132,7 @@ HB_FUNC( WXFLEXGRIDSIZER_SETFLEXIBLEDIRECTION )
  */
 HB_FUNC( WXFLEXGRIDSIZER_SETNONFLEXIBLEGROWMODE )
 {
-    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxFlexGridSizer* flexGridSizer = (wxFlexGridSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( flexGridSizer )
         flexGridSizer->SetNonFlexibleGrowMode( (wxFlexSizerGrowMode) hb_parni( 1 ) );

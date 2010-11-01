@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXNOTIFYEVENT_ALLOW )
 {
-    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( notifyEvent )
         notifyEvent->Allow();
@@ -41,7 +41,7 @@ HB_FUNC( WXNOTIFYEVENT_ALLOW )
 */
 HB_FUNC( WXNOTIFYEVENT_ISALLOWED )
 {
-    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( notifyEvent )
         hb_retl( notifyEvent->IsAllowed() );
@@ -53,7 +53,7 @@ HB_FUNC( WXNOTIFYEVENT_ISALLOWED )
 */
 HB_FUNC( WXNOTIFYEVENT_VETO )
 {
-    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxNotifyEvent * notifyEvent = (wxNotifyEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( notifyEvent )
         notifyEvent->Veto();

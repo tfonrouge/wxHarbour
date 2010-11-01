@@ -30,7 +30,7 @@
 HB_FUNC( WXKEYEVENT_ALTDOWN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->AltDown() );
@@ -42,7 +42,7 @@ HB_FUNC( WXKEYEVENT_ALTDOWN )
 HB_FUNC( WXKEYEVENT_CMDDOWN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->CmdDown() );
@@ -54,7 +54,7 @@ HB_FUNC( WXKEYEVENT_CMDDOWN )
 HB_FUNC( WXKEYEVENT_CONTROLDOWN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->ControlDown() );
@@ -66,7 +66,7 @@ HB_FUNC( WXKEYEVENT_CONTROLDOWN )
 HB_FUNC( WXKEYEVENT_GETKEYCODE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
 
     if( keyEvent )
         hb_retni( keyEvent->GetKeyCode() );
@@ -79,7 +79,7 @@ HB_FUNC( WXKEYEVENT_GETKEYCODE )
 HB_FUNC( WXKEYEVENT_GETMODIFIERS )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
 
     if( keyEvent )
         hb_retni( keyEvent->GetModifiers() );
@@ -92,7 +92,7 @@ HB_FUNC( WXKEYEVENT_GETMODIFIERS )
 HB_FUNC( WXKEYEVENT_GETPOSITION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         wxh_ret_wxPoint( keyEvent->GetPosition() );
@@ -105,7 +105,7 @@ HB_FUNC( WXKEYEVENT_GETPOSITION )
 HB_FUNC( WXKEYEVENT_GETUNICODEKEY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
 
     if( keyEvent )
         hb_retni( keyEvent->GetUnicodeKey() );
@@ -119,7 +119,7 @@ HB_FUNC( WXKEYEVENT_GETUNICODEKEY )
 HB_FUNC( WXKEYEVENT_GETX )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retnl( keyEvent->GetX() );
@@ -132,7 +132,7 @@ HB_FUNC( WXKEYEVENT_GETX )
 HB_FUNC( WXKEYEVENT_GETY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retnl( keyEvent->GetY() );
@@ -144,7 +144,7 @@ HB_FUNC( WXKEYEVENT_GETY )
 HB_FUNC( WXKEYEVENT_HASMODIFIERS )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->HasModifiers() );
@@ -156,7 +156,7 @@ HB_FUNC( WXKEYEVENT_HASMODIFIERS )
 HB_FUNC( WXKEYEVENT_METADOWN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->MetaDown() );
@@ -169,7 +169,7 @@ HB_FUNC( WXKEYEVENT_METADOWN )
 HB_FUNC( WXKEYEVENT_SHIFTDOWN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_ItemListGet_WX( pSelf );
+    wxKeyEvent * keyEvent = (wxKeyEvent *) wxh_itemListGet_WX( pSelf );
     
     if( keyEvent )
         hb_retl( keyEvent->ShiftDown() );

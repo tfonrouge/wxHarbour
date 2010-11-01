@@ -30,7 +30,7 @@
 */
 wx_SpinCtrl::~wx_SpinCtrl()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -62,7 +62,7 @@ HB_FUNC( WXSPINCTRL_NEW )
 */
 HB_FUNC( WXSPINCTRL_GETMIN )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
         hb_retni( spinCtrl->GetMin() );
@@ -74,7 +74,7 @@ HB_FUNC( WXSPINCTRL_GETMIN )
 */
 HB_FUNC( WXSPINCTRL_GETMAX )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
         hb_retni( spinCtrl->GetMax() );
@@ -86,7 +86,7 @@ HB_FUNC( WXSPINCTRL_GETMAX )
 */
 HB_FUNC( WXSPINCTRL_GETVALUE )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
         hb_retni( spinCtrl->GetValue() );
@@ -98,7 +98,7 @@ HB_FUNC( WXSPINCTRL_GETVALUE )
 */
 HB_FUNC( WXSPINCTRL_SETRANGE )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
         spinCtrl->SetRange( hb_parni( 1 ), hb_parni( 2 ) );
@@ -110,7 +110,7 @@ HB_FUNC( WXSPINCTRL_SETRANGE )
 */
 HB_FUNC( WXSPINCTRL_SETSELECTION )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
         spinCtrl->SetSelection( hb_parni( 1 ), hb_parni( 2 ) );
@@ -122,7 +122,7 @@ HB_FUNC( WXSPINCTRL_SETSELECTION )
 */
 HB_FUNC( WXSPINCTRL_SETVALUE )
 {
-    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSpinCtrl* spinCtrl = (wxSpinCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( spinCtrl )
     {

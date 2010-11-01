@@ -30,7 +30,7 @@
 */
 wx_SocketClient::~wx_SocketClient()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -99,7 +99,7 @@ HB_FUNC( WXSOCKETCLIENT_CONNECT )
 HB_FUNC( WXSOCKETCLIENT_WAITONCONNECT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketClient* socketClient = (wx_SocketClient*) wxh_ItemListGet_WX( pSelf );
+    wx_SocketClient* socketClient = (wx_SocketClient*) wxh_itemListGet_WX( pSelf );
 
     if( socketClient )
     {

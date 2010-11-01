@@ -30,7 +30,7 @@
 */
 wx_MenuItem::~wx_MenuItem()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -59,7 +59,7 @@ HB_FUNC( WXMENUITEM_NEW )
 */
 HB_FUNC( WXMENUITEM_ENABLE )
 {
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuItem )
         menuItem->Enable( hb_parl( 1 ) );
@@ -72,7 +72,7 @@ HB_FUNC( WXMENUITEM_ENABLE )
 HB_FUNC( WXMENUITEM_GETITEMLABEL )
 {
 #if wxVERSION > 20804
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuItem )
         wxh_retc( menuItem->GetItemLabel() );
@@ -86,7 +86,7 @@ HB_FUNC( WXMENUITEM_GETITEMLABEL )
 HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
 {
 #if wxVERSION > 20804
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuItem )
         wxh_retc( menuItem->GetItemLabelText() );
@@ -99,7 +99,7 @@ HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
  */
 HB_FUNC( WXMENUITEM_SETBITMAP )
 {
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( menuItem )
     {

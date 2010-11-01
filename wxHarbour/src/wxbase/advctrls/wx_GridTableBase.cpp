@@ -33,7 +33,7 @@
 */
 wx_GridTableBase::~wx_GridTableBase()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -142,7 +142,7 @@ bool wx_GridTableBase::IsEmptyCell( int row, int col )
     PHB_ITEM pCol = hb_itemPutNI( NULL, col );
     bool emptyCell;
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "IsEmptyCell", 2, pRow, pCol );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "IsEmptyCell", 2, pRow, pCol );
     emptyCell = hb_itemGetL( hb_stackReturnItem() );
 
     hb_itemRelease( pRow );
@@ -161,7 +161,7 @@ wxString wx_GridTableBase::GetValue( int row, int col )
     PHB_ITEM pCol = hb_itemPutNI( NULL, col );
     wxString value = _T("");
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetValue", 2, pRow, pCol );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "GetValue", 2, pRow, pCol );
     value = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ), gridDataIsOEM );
 
     hb_itemRelease( pRow );
@@ -175,7 +175,7 @@ wxString wx_GridTableBase::GetColLabelValue( int col )
     PHB_ITEM pCol = hb_itemPutNI( NULL, col );
     wxString labelValue = _T("");
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetColLabelValue", 1, pCol );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "GetColLabelValue", 1, pCol );
     labelValue = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ) );
 
     hb_itemRelease( pCol );
@@ -188,7 +188,7 @@ wxString wx_GridTableBase::GetRowLabelValue( int row )
     PHB_ITEM pRow = hb_itemPutNI( NULL, row );
     wxString labelValue = _T("");
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "GetRowLabelValue", 1, pRow );
     labelValue = wxh_CTowxString( hb_itemGetCPtr( hb_stackReturnItem() ) );
 
     hb_itemRelease( pRow );
@@ -210,7 +210,7 @@ void wx_GridTableBase::SetValue( int row, int col, const wxString& value )
     hb_itemPutNI( hbCol, col );
     hb_itemPutC( hbStr, value.mb_str() );
 
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "SetValue", 3, hbRow, hbCol, hbStr );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "SetValue", 3, hbRow, hbCol, hbStr );
 
     hb_itemRelease( hbRow );
     hb_itemRelease( hbCol );
@@ -236,7 +236,7 @@ HB_FUNC( WXGRIDTABLEBASE_NEW )
 */
 HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     size_t numCols = hb_pcount() > 0 ? hb_parni( 1 ) : 1;
 
@@ -252,7 +252,7 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDCOLS )
 */
 HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     size_t numRows = hb_pcount() > 0 ? hb_parni( 1 ) : 1;
 
@@ -266,7 +266,7 @@ HB_FUNC( WXGRIDTABLEBASE_APPENDROWS )
 */
 HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -282,7 +282,7 @@ HB_FUNC( WXGRIDTABLEBASE_DELETECOLS )
 */
 HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -298,7 +298,7 @@ HB_FUNC( WXGRIDTABLEBASE_DELETEROWS )
  */
 HB_FUNC( WXGRIDTABLEBASE_GETGRIDDATAISOEM )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {
@@ -312,7 +312,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETGRIDDATAISOEM )
  */
 HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {
@@ -326,7 +326,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERCOLS )
 */
 HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -340,7 +340,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETNUMBERROWS )
 */
 HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -358,7 +358,7 @@ HB_FUNC( WXGRIDTABLEBASE_GETVIEW )
 */
 HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -374,7 +374,7 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTCOLS )
 */
 HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( gridTable )
     {
@@ -390,7 +390,7 @@ HB_FUNC( WXGRIDTABLEBASE_INSERTROWS )
  */
 HB_FUNC( WXGRIDTABLEBASE_SETGRIDDATAISOEM )
 {
-    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_GridTableBase* gridTable = (wx_GridTableBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( gridTable )
     {

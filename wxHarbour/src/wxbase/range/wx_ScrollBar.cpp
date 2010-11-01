@@ -30,7 +30,7 @@
 */
 wx_ScrollBar::~wx_ScrollBar()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -62,7 +62,7 @@ HB_FUNC( WXSCROLLBAR_GETRANGE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
 
     if( sb )
     {
@@ -78,7 +78,7 @@ HB_FUNC( WXSCROLLBAR_GETPAGESIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
 
     if( sb )
     {
@@ -94,7 +94,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
     
     if( sb )
     {
@@ -110,7 +110,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBSIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
 
     if( sb )
     {
@@ -126,7 +126,7 @@ HB_FUNC( WXSCROLLBAR_SETTHUMBPOSITION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
 
     if( sb )
     {
@@ -143,7 +143,7 @@ HB_FUNC( WXSCROLLBAR_SETSCROLLBAR )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_ItemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
 
     if( sb )
     {
