@@ -31,7 +31,7 @@
 */
 wx_AuiNotebook::~wx_AuiNotebook()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 /*
     wxAuiNotebook:New

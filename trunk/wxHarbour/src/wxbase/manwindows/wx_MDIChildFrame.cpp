@@ -66,7 +66,7 @@ HB_FUNC( WXMDICHILDFRAME_NEW )
 HB_FUNC( WXMDICHILDFRAME_ACTIVATE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_ItemListGet_WX( pSelf );
+    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_itemListGet_WX( pSelf );
 
     if( frame )
         frame->Activate();
@@ -79,7 +79,7 @@ HB_FUNC( WXMDICHILDFRAME_ACTIVATE )
 HB_FUNC( WXMDICHILDFRAME_MAXIMIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_ItemListGet_WX( pSelf );
+    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_itemListGet_WX( pSelf );
 
     if( frame )
     {
@@ -95,7 +95,7 @@ HB_FUNC( WXMDICHILDFRAME_MAXIMIZE )
 HB_FUNC( WXMDICHILDFRAME_RESTORE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_ItemListGet_WX( pSelf );
+    wx_MDIChildFrame* frame = (wx_MDIChildFrame *) wxh_itemListGet_WX( pSelf );
 
     if( frame )
         frame->Restore();

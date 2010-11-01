@@ -98,7 +98,7 @@ PHB_ITEM rdo_ItmObjListGet( RDO_ITMOBJLIST rdo_itmObjList, PHB_BASEARRAY pObjHan
 HB_FUNC( TRDOSERVER_ACCEPT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_ItemListGet_WX( pSelf );
+    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_itemListGet_WX( pSelf );
     wxSocketBase* socketBase;
 
     bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
@@ -125,7 +125,7 @@ HB_FUNC( TRDOSOCKETBASE_PROCESSCLIENTREQUESTS )
     PHB_ITEM pSelf = hb_stackSelfItem();
     static PHB_DYNS s___rdoSendMsg = NULL;
 
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_ItemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
 
     ULONG bufSize;
     USHORT iPCount;

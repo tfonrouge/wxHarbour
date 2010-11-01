@@ -30,7 +30,7 @@
 */
 wx_ToolBar::~wx_ToolBar()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXTOOLBAR_NEW )
@@ -55,7 +55,7 @@ HB_FUNC( WXTOOLBAR_NEW )
 */
 HB_FUNC( WXTOOLBAR_ADDCONTROL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( toolBar )
     {
@@ -70,7 +70,7 @@ HB_FUNC( WXTOOLBAR_ADDCONTROL )
  */
 HB_FUNC( WXTOOLBAR_ADDSEPARATOR )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     toolBar->AddSeparator();
@@ -82,7 +82,7 @@ HB_FUNC( WXTOOLBAR_ADDSEPARATOR )
  */
 HB_FUNC( WXTOOLBAR_ADDTOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -114,7 +114,7 @@ HB_FUNC( WXTOOLBAR_ADDTOOL )
  */
 HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -130,7 +130,7 @@ HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
  */
 HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -146,7 +146,7 @@ HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
  */
 HB_FUNC( WXTOOLBAR_CLEARTOOLS )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     toolBar->ClearTools();
@@ -158,7 +158,7 @@ HB_FUNC( WXTOOLBAR_CLEARTOOLS )
  */
 HB_FUNC( WXTOOLBAR_DELETETOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     hb_retl( toolBar->DeleteTool( hb_parni( 1 ) ) );
@@ -170,7 +170,7 @@ HB_FUNC( WXTOOLBAR_DELETETOOL )
  */
 HB_FUNC( WXTOOLBAR_DELETETOOLBYPOS )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     hb_retl( toolBar->DeleteToolByPos( hb_parnl( 1 ) ) );
@@ -182,7 +182,7 @@ HB_FUNC( WXTOOLBAR_DELETETOOLBYPOS )
  */
 HB_FUNC( WXTOOLBAR_ENABLETOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     toolBar->EnableTool( hb_parni( 1 ), hb_parl( 2 ) );
@@ -194,7 +194,7 @@ HB_FUNC( WXTOOLBAR_ENABLETOOL )
  */
 HB_FUNC( WXTOOLBAR_FINDBYID )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -208,7 +208,7 @@ HB_FUNC( WXTOOLBAR_FINDBYID )
  */
 HB_FUNC( WXTOOLBAR_FINDCONTROL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -222,7 +222,7 @@ HB_FUNC( WXTOOLBAR_FINDCONTROL )
  */
 HB_FUNC( WXTOOLBAR_FINDTOOLFORPOSITION )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -236,7 +236,7 @@ HB_FUNC( WXTOOLBAR_FINDTOOLFORPOSITION )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLSCOUNT )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     hb_parni( toolBar->GetToolsCount() );
@@ -248,7 +248,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSCOUNT )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLSIZE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -263,7 +263,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSIZE )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLBITMAPSIZE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -278,7 +278,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLBITMAPSIZE )
  */
 HB_FUNC( WXTOOLBAR_GETMARGINS )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -293,7 +293,7 @@ HB_FUNC( WXTOOLBAR_GETMARGINS )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLCLIENTDATA )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -307,7 +307,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLCLIENTDATA )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLENABLED )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -321,7 +321,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLENABLED )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLLONGHELP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -335,7 +335,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLLONGHELP )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLPACKING )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -349,7 +349,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLPACKING )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLPOS )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -363,7 +363,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLPOS )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLSEPARATION )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -377,7 +377,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSEPARATION )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLSHORTHELP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -391,7 +391,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSHORTHELP )
  */
 HB_FUNC( WXTOOLBAR_GETTOOLSTATE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -405,7 +405,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSTATE )
  */
 HB_FUNC( WXTOOLBAR_INSERTCONTROL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -420,7 +420,7 @@ HB_FUNC( WXTOOLBAR_INSERTCONTROL )
  */
 HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -435,7 +435,7 @@ HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
  */
 HB_FUNC( WXTOOLBAR_REALIZE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -449,7 +449,7 @@ HB_FUNC( WXTOOLBAR_REALIZE )
  */
 HB_FUNC( WXTOOLBAR_REMOVETOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -464,7 +464,7 @@ HB_FUNC( WXTOOLBAR_REMOVETOOL )
 #ifdef __WXWINCE__
 HB_FUNC( WXTOOLBAR_SETBITMAPRESOURCE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -479,7 +479,7 @@ HB_FUNC( WXTOOLBAR_SETBITMAPRESOURCE )
  */
 HB_FUNC( WXTOOLBAR_SETMARGINS )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -502,7 +502,7 @@ HB_FUNC( WXTOOLBAR_SETMARGINS )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLBITMAPSIZE )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -516,7 +516,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLBITMAPSIZE )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLCLIENTDATA )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -530,7 +530,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLCLIENTDATA )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLDISABLEDBITMAP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -544,7 +544,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLDISABLEDBITMAP )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLLONGHELP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -558,7 +558,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLLONGHELP )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLPACKING )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -572,7 +572,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLPACKING )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLSHORTHELP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -586,7 +586,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLSHORTHELP )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLNORMALBITMAP )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -600,7 +600,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLNORMALBITMAP )
  */
 HB_FUNC( WXTOOLBAR_SETTOOLSEPARATION )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {
@@ -614,7 +614,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLSEPARATION )
  */
 HB_FUNC( WXTOOLBAR_TOGGLETOOL )
 {
-    wxToolBar* toolBar = (wxToolBar *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxToolBar* toolBar = (wxToolBar *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( toolBar )
     {

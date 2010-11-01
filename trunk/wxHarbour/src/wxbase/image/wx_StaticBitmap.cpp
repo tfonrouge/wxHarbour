@@ -31,7 +31,7 @@
  */
 wx_StaticBitmap::~wx_StaticBitmap()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -63,7 +63,7 @@ HB_FUNC( WXSTATICBITMAP_NEW )
  */
 HB_FUNC( WXSTATICBITMAP_GETBITMAP )
 {
-    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( staticBitmap )
     {
@@ -78,7 +78,7 @@ HB_FUNC( WXSTATICBITMAP_GETBITMAP )
  */
 HB_FUNC( WXSTATICBITMAP_GETICON )
 {
-    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( staticBitmap )
     {
@@ -93,7 +93,7 @@ HB_FUNC( WXSTATICBITMAP_GETICON )
  */
 HB_FUNC( WXSTATICBITMAP_SETBITMAP )
 {
-    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( staticBitmap )
     {
@@ -108,7 +108,7 @@ HB_FUNC( WXSTATICBITMAP_SETBITMAP )
  */
 HB_FUNC( WXSTATICBITMAP_SETICON )
 {
-    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticBitmap* staticBitmap = (wxStaticBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( staticBitmap )
     {

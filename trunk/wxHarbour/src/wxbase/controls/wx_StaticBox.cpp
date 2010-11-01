@@ -30,7 +30,7 @@
 */
 wx_StaticBox::~wx_StaticBox()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

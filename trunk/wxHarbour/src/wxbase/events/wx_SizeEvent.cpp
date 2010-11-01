@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXSIZEEVENT_GETSIZE )
 {
-    wxSizeEvent * sizeEvent = (wxSizeEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxSizeEvent * sizeEvent = (wxSizeEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( sizeEvent )
     {

@@ -29,7 +29,7 @@
  */
 wx_Colour::~wx_Colour()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

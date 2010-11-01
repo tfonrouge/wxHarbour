@@ -69,7 +69,7 @@ HB_FUNC( WXDIALOG_NEW )
 */
 HB_FUNC( WXDIALOG_CENTRE )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
     {
@@ -85,7 +85,7 @@ HB_FUNC( WXDIALOG_CENTRE )
 */
 HB_FUNC( WXDIALOG_CREATEBUTTONSIZER )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
     {
@@ -99,7 +99,7 @@ HB_FUNC( WXDIALOG_CREATEBUTTONSIZER )
  */
 HB_FUNC( WXDIALOG_CREATESEPARATEDBUTTONSIZER )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
     {
@@ -113,7 +113,7 @@ HB_FUNC( WXDIALOG_CREATESEPARATEDBUTTONSIZER )
  */
 HB_FUNC( WXDIALOG_CREATESTDDIALOGBUTTONSIZER )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
     {
@@ -127,7 +127,7 @@ HB_FUNC( WXDIALOG_CREATESTDDIALOGBUTTONSIZER )
  */
 HB_FUNC( WXDIALOG_ENDMODAL )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
         dialog->EndModal( hb_parni( 1 ) );
@@ -139,7 +139,7 @@ HB_FUNC( WXDIALOG_ENDMODAL )
  */
 HB_FUNC( WXDIALOG_GETAFFIRMATIVEID )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dialog )
         hb_retni( dialog->GetAffirmativeId() );
@@ -151,7 +151,7 @@ HB_FUNC( WXDIALOG_GETAFFIRMATIVEID )
  */
 HB_FUNC( WXDIALOG_GETESCAPEID )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dialog )
         hb_retni( dialog->GetEscapeId() );
@@ -163,7 +163,7 @@ HB_FUNC( WXDIALOG_GETESCAPEID )
  */
 HB_FUNC( WXDIALOG_GETRETURNCODE )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
         hb_retni( dialog->GetReturnCode() );
@@ -175,7 +175,7 @@ HB_FUNC( WXDIALOG_GETRETURNCODE )
  */
 HB_FUNC( WXDIALOG_SETAFFIRMATIVEID )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dialog )
         dialog->SetAffirmativeId( hb_parni( 1 ) );
@@ -187,7 +187,7 @@ HB_FUNC( WXDIALOG_SETAFFIRMATIVEID )
  */
 HB_FUNC( WXDIALOG_SETESCAPEID )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( dialog )
         dialog->SetEscapeId( hb_parni( 1 ) );
@@ -200,7 +200,7 @@ HB_FUNC( WXDIALOG_SETESCAPEID )
 */
 HB_FUNC( WXDIALOG_SHOW )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
         hb_retl( dialog->Show( hb_parl( 1 ) ) );
@@ -213,7 +213,7 @@ HB_FUNC( WXDIALOG_SHOW )
 */
 HB_FUNC( WXDIALOG_SHOWMODAL )
 {
-    wx_Dialog* dialog = (wx_Dialog *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Dialog* dialog = (wx_Dialog *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( dialog )
         hb_retni( dialog->ShowModal() );

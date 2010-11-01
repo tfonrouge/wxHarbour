@@ -30,7 +30,7 @@
 */
 wx_Choice::~wx_Choice()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXCHOICE_NEW )
@@ -58,7 +58,7 @@ HB_FUNC( WXCHOICE_NEW )
 HB_FUNC( WXCHOICE_GETCURRENTSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Choice* choice = (wx_Choice *) wxh_ItemListGet_WX( pSelf );
+    wx_Choice* choice = (wx_Choice *) wxh_itemListGet_WX( pSelf );
 
     if( choice )
     {

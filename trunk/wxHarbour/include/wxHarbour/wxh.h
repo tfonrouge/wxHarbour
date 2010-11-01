@@ -152,13 +152,13 @@ void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 
 wxString      wxh_CTowxString( const char * szStr, bool convOEM = false );
-void          wxh_ItemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );
-wxh_Item*     wxh_ItemListGet_PWXH_ITEM( wxObject* wxObj );
-wxh_Item*     wxh_ItemListGet_PWXH_ITEM( PHB_ITEM pSelf );
-PHB_ITEM      wxh_ItemListGet_HB( wxObject* wxObj );
-wxObject*     wxh_ItemListGet_WX( PHB_ITEM pSelf );
-void          wxh_ItemListReleaseAll();
-bool          wxh_ItemListSwap( wxObject *oldObj, wxObject *newObj );
+void          wxh_itemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );
+wxh_Item*     wxh_itemListGet_PWXH_ITEM( wxObject* wxObj );
+wxh_Item*     wxh_itemListGet_PWXH_ITEM( PHB_ITEM pSelf );
+PHB_ITEM      wxh_itemListGet_HB( wxObject* wxObj );
+wxObject*     wxh_itemListGet_WX( PHB_ITEM pSelf );
+void          wxh_itemListReleaseAll();
+bool          wxh_itemListSwap( wxObject *oldObj, wxObject *newObj );
 PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 #define		  wxh_wxStringToC( string ) \
                 (string).mb_str( wxConvUTF8 )
@@ -210,7 +210,7 @@ public:
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler()
 {
-    wxh_Item* pWxh_Item = wxh_ItemListGet_PWXH_ITEM( this );
+    wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
 
     if( pWxh_Item )
     {

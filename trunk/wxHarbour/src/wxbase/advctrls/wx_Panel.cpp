@@ -30,7 +30,7 @@
 */
 wx_Panel::~wx_Panel()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

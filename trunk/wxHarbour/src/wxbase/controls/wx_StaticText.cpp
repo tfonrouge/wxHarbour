@@ -30,7 +30,7 @@
 */
 wx_StaticText::~wx_StaticText()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -59,7 +59,7 @@ HB_FUNC( WXSTATICTEXT_NEW )
 */
 HB_FUNC( WXSTATICTEXT_GETLABEL )
 {
-    wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticText* staticText = (wxStaticText *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( staticText )
         wxh_retc( staticText->GetLabel() );
@@ -71,7 +71,7 @@ HB_FUNC( WXSTATICTEXT_GETLABEL )
 */
 HB_FUNC( WXSTATICTEXT_SETLABEL )
 {
-    wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticText* staticText = (wxStaticText *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( staticText )
         staticText->SetLabel( wxh_parc( 1 ) );
@@ -83,7 +83,7 @@ HB_FUNC( WXSTATICTEXT_SETLABEL )
 */
 HB_FUNC( WXSTATICTEXT_WRAP )
 {
-    wxStaticText* staticText = (wxStaticText *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticText* staticText = (wxStaticText *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     staticText->Wrap( hb_parni( 1 ) );
 }

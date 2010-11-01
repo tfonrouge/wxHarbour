@@ -31,7 +31,7 @@
 */
 wx_Menu::~wx_Menu()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -49,14 +49,14 @@ HB_FUNC( WXMENU_NEW )
 
 HB_FUNC( WXMENU_APPEND1 )
 {
-    wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Menu* menu = (wx_Menu *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), wxh_parc( 3 ), hb_parnl( 4 ) );
 }
 
 HB_FUNC( WXMENU_APPEND2 )
 {
-    wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Menu* menu = (wx_Menu *) wxh_itemListGet_WX( hb_stackSelfItem() );
     wxMenuItem* menuItem = menu->Append( hb_parnl( 1 ), wxh_parc( 2 ), (wx_Menu *) wxh_par_WX( 3 ), wxh_parc( 4 ) );
 
     wxh_itemNewReturn( "wxMenuItem", menuItem, menu );
@@ -74,7 +74,7 @@ HB_FUNC( WXMENU_APPEND3 )
 
 HB_FUNC( WXMENU_APPENDSEPARATOR )
 {
-    wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Menu* menu = (wx_Menu *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menu )
         wxh_itemNewReturn( "wxMenuItem", menu->AppendSeparator(), menu ) ;
@@ -86,7 +86,7 @@ HB_FUNC( WXMENU_APPENDSEPARATOR )
 */
 HB_FUNC( WXMENU_FINDITEM )
 {
-    wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Menu* menu = (wx_Menu *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menu )
     {
@@ -100,7 +100,7 @@ HB_FUNC( WXMENU_FINDITEM )
 */
 HB_FUNC( WXMENU_GETMENUITEMS )
 {
-    wx_Menu* menu = (wx_Menu *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Menu* menu = (wx_Menu *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menu )
     {
@@ -112,7 +112,7 @@ HB_FUNC( WXMENU_GETMENUITEMS )
 
         for( it = menuItemList.begin(); it != menuItemList.end(); it++ )
         {
-            hb_arraySet( pArray, ++index, wxh_ItemListGet_HB( *it ) );
+            hb_arraySet( pArray, ++index, wxh_itemListGet_HB( *it ) );
         }
 
         hb_itemReturnRelease( pArray );

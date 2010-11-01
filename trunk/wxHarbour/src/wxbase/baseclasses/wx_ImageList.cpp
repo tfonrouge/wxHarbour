@@ -30,7 +30,7 @@
 */
 wx_ImageList::~wx_ImageList()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -52,7 +52,7 @@ HB_FUNC( WXIMAGELIST_NEW )
 */
 // HB_FUNC( WXIMAGELIST_ADD )
 // {
-//   wxImageList* imageList = (wxImageList *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+//   wxImageList* imageList = (wxImageList *) wxh_itemListGet_WX( hb_stackSelfItem() );
 //
 //   if( imageList )
 //   {

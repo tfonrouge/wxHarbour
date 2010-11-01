@@ -31,7 +31,7 @@
 */
 wx_Notebook::~wx_Notebook()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 /*
     wxNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr)
@@ -321,7 +321,7 @@ HB_FUNC( WXNOTEBOOK_GETSELECTION )
 //
 //   if( noteBook )
 //   {
-//     hb_itemReturn( wxh_ItemListGet_HB( noteBook->GetThemeBackgroundColour() ) );
+//     hb_itemReturn( wxh_itemListGet_HB( noteBook->GetThemeBackgroundColour() ) );
 //   }
 // }
 

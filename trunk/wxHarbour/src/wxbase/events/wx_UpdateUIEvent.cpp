@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXUPDATEUIEVENT_CANUPDATE )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->CanUpdate( (wxWindow *) wxh_par_WX( 1 ) ) );
@@ -41,7 +41,7 @@ HB_FUNC( WXUPDATEUIEVENT_CANUPDATE )
 */
 HB_FUNC( WXUPDATEUIEVENT_CHECK )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->Check( hb_parl( 1 ) );
@@ -53,7 +53,7 @@ HB_FUNC( WXUPDATEUIEVENT_CHECK )
 */
 HB_FUNC( WXUPDATEUIEVENT_ENABLE )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->Enable( hb_parl( 1 ) );
@@ -65,7 +65,7 @@ HB_FUNC( WXUPDATEUIEVENT_ENABLE )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETCHECKED )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetChecked() );
@@ -77,7 +77,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETCHECKED )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETENABLED )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetEnabled() );
@@ -89,7 +89,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETENABLED )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETMODE )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retni( updateUIEvent->GetMode() );
@@ -101,7 +101,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETMODE )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETSETCHECKED )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetSetChecked() );
@@ -113,7 +113,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETSETCHECKED )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETSETENABLED )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetSetEnabled() );
@@ -125,7 +125,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETSETENABLED )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETSETSHOWN )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetSetShown() );
@@ -137,7 +137,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETSETSHOWN )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETSETTEXT )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetSetText() );
@@ -149,7 +149,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETSETTEXT )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETSHOWN )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retl( updateUIEvent->GetShown() );
@@ -161,7 +161,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETSHOWN )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETTEXT )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         wxh_retc( updateUIEvent->GetText() );
@@ -173,7 +173,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETTEXT )
 */
 HB_FUNC( WXUPDATEUIEVENT_GETUPDATEINTERVAL )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         hb_retnl( updateUIEvent->GetUpdateInterval() );
@@ -185,7 +185,7 @@ HB_FUNC( WXUPDATEUIEVENT_GETUPDATEINTERVAL )
 */
 HB_FUNC( WXUPDATEUIEVENT_RESETUPDATETIME )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->ResetUpdateTime();
@@ -197,7 +197,7 @@ HB_FUNC( WXUPDATEUIEVENT_RESETUPDATETIME )
 */
 HB_FUNC( WXUPDATEUIEVENT_SETMODE )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->SetMode( (wxUpdateUIMode) hb_parni( 1 ) );
@@ -209,7 +209,7 @@ HB_FUNC( WXUPDATEUIEVENT_SETMODE )
 */
 HB_FUNC( WXUPDATEUIEVENT_SETTEXT )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->SetText( wxh_parc( 1 ) );
@@ -221,7 +221,7 @@ HB_FUNC( WXUPDATEUIEVENT_SETTEXT )
 */
 HB_FUNC( WXUPDATEUIEVENT_SETUPDATEINTERVAL )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->SetUpdateInterval( hb_parnl( 1 ) );
@@ -233,7 +233,7 @@ HB_FUNC( WXUPDATEUIEVENT_SETUPDATEINTERVAL )
 */
 HB_FUNC( WXUPDATEUIEVENT_SHOW )
 {
-    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxUpdateUIEvent * updateUIEvent = (wxUpdateUIEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( updateUIEvent )
         updateUIEvent->Show( hb_parl( 1 ) );

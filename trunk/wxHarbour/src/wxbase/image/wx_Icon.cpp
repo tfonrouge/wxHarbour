@@ -31,7 +31,7 @@
 */
 wx_Icon::~wx_Icon()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -82,7 +82,7 @@ HB_FUNC( WXICON_NEW )
  */
 HB_FUNC( WXICON_COPYFROMBITMAP )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -97,7 +97,7 @@ HB_FUNC( WXICON_COPYFROMBITMAP )
  */
 HB_FUNC( WXICON_GETDEPTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -111,7 +111,7 @@ HB_FUNC( WXICON_GETDEPTH )
  */
 HB_FUNC( WXICON_GETHEIGHT )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -125,7 +125,7 @@ HB_FUNC( WXICON_GETHEIGHT )
  */
 HB_FUNC( WXICON_GETWIDTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -139,7 +139,7 @@ HB_FUNC( WXICON_GETWIDTH )
  */
 HB_FUNC( WXICON_ISOK )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -153,7 +153,7 @@ HB_FUNC( WXICON_ISOK )
 */
 HB_FUNC( WXICON_LOADFILE )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( icon )
     {
@@ -170,7 +170,7 @@ HB_FUNC( WXICON_LOADFILE )
  */
 HB_FUNC( WXICON_SETDEPTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -184,7 +184,7 @@ HB_FUNC( WXICON_SETDEPTH )
  */
 HB_FUNC( WXICON_SETHEIGHT )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -198,7 +198,7 @@ HB_FUNC( WXICON_SETHEIGHT )
  */
 HB_FUNC( WXICON_SETWIDTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( icon )
     {

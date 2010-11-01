@@ -31,7 +31,7 @@
  */
 HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 {
-    wxEvent *event = (wxEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( event )
     {
@@ -52,7 +52,7 @@ HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 HB_FUNC( WXFOCUSEVENT_GETWINDOW )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFocusEvent *event = (wxFocusEvent *) wxh_ItemListGet_WX( pSelf );
+    wxFocusEvent *event = (wxFocusEvent *) wxh_itemListGet_WX( pSelf );
 
     if( event )
     {

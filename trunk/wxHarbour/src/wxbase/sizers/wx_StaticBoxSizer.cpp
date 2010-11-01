@@ -30,7 +30,7 @@
 */
 wx_StaticBoxSizer::~wx_StaticBoxSizer()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )
@@ -60,7 +60,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 */
 HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
 {
-    wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( sbSizer )
     {

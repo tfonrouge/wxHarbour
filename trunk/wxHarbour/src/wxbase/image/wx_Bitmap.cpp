@@ -159,7 +159,7 @@ wx_Bitmap* getDefaultBitmap( int i )
  */
 wx_Bitmap::~wx_Bitmap()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -213,7 +213,7 @@ HB_FUNC( WXBITMAP_NEW )
  */
 HB_FUNC( WXBITMAP_ADDHANDLER )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -227,7 +227,7 @@ HB_FUNC( WXBITMAP_ADDHANDLER )
  */
 HB_FUNC( WXBITMAP_CLEANUPHANDLERS )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -241,7 +241,7 @@ HB_FUNC( WXBITMAP_CLEANUPHANDLERS )
  */
 HB_FUNC( WXBITMAP_CONVERTTOIMAGE )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -256,7 +256,7 @@ HB_FUNC( WXBITMAP_CONVERTTOIMAGE )
  */
 HB_FUNC( WXBITMAP_COPYFROMICON )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -271,7 +271,7 @@ HB_FUNC( WXBITMAP_COPYFROMICON )
  */
 HB_FUNC( WXBITMAP_GETDEPTH )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -285,7 +285,7 @@ HB_FUNC( WXBITMAP_GETDEPTH )
  */
 HB_FUNC( WXBITMAP_GETHEIGHT )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -299,7 +299,7 @@ HB_FUNC( WXBITMAP_GETHEIGHT )
  */
 HB_FUNC( WXBITMAP_GETMASK )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -313,7 +313,7 @@ HB_FUNC( WXBITMAP_GETMASK )
  */
 HB_FUNC( WXBITMAP_GETPALETTE )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -327,7 +327,7 @@ HB_FUNC( WXBITMAP_GETPALETTE )
  */
 HB_FUNC( WXBITMAP_GETWIDTH )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -341,7 +341,7 @@ HB_FUNC( WXBITMAP_GETWIDTH )
  */
 HB_FUNC( WXBITMAP_INITSTANDARDHANDLERS )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -355,7 +355,7 @@ HB_FUNC( WXBITMAP_INITSTANDARDHANDLERS )
  */
 HB_FUNC( WXBITMAP_INSERTHANDLER )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -369,7 +369,7 @@ HB_FUNC( WXBITMAP_INSERTHANDLER )
  */
 HB_FUNC( WXBITMAP_ISOK )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -383,7 +383,7 @@ HB_FUNC( WXBITMAP_ISOK )
  */
 HB_FUNC( WXBITMAP_LOADFILE )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -400,7 +400,7 @@ HB_FUNC( WXBITMAP_LOADFILE )
  */
 HB_FUNC( WXBITMAP_REMOVEHANDLER )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -414,7 +414,7 @@ HB_FUNC( WXBITMAP_REMOVEHANDLER )
  */
 HB_FUNC( WXBITMAP_SAVEFILE )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -429,7 +429,7 @@ HB_FUNC( WXBITMAP_SAVEFILE )
  */
 HB_FUNC( WXBITMAP_SETDEPTH )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -443,7 +443,7 @@ HB_FUNC( WXBITMAP_SETDEPTH )
  */
 HB_FUNC( WXBITMAP_SETHEIGHT )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -457,7 +457,7 @@ HB_FUNC( WXBITMAP_SETHEIGHT )
  */
 HB_FUNC( WXBITMAP_SETMASK )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -471,7 +471,7 @@ HB_FUNC( WXBITMAP_SETMASK )
  */
 HB_FUNC( WXBITMAP_SETPALETTE )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {
@@ -486,7 +486,7 @@ HB_FUNC( WXBITMAP_SETPALETTE )
  */
 HB_FUNC( WXBITMAP_SETWIDTH )
 {
-    wxBitmap* bitmap = (wxBitmap *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxBitmap* bitmap = (wxBitmap *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( bitmap )
     {

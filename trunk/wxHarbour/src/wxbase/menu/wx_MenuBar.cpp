@@ -31,7 +31,7 @@
 */
 wx_MenuBar::~wx_MenuBar()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*

@@ -25,7 +25,7 @@
 */
 wx_MessageDialog::~wx_MessageDialog()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -54,7 +54,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 HB_FUNC( WXMESSAGEDIALOG_SHOWMODAL )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MessageDialog* msgDlg = (wx_MessageDialog *) wxh_ItemListGet_WX( pSelf );
+    wx_MessageDialog* msgDlg = (wx_MessageDialog *) wxh_itemListGet_WX( pSelf );
 
     if( msgDlg )
         hb_retni( msgDlg->ShowModal() );

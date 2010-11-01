@@ -30,7 +30,7 @@
  */
 wx_HtmlEasyPrinting::~wx_HtmlEasyPrinting()
 {
-    wxh_ItemListDel_WX( this );
+    wxh_itemListDel_WX( this );
 }
 
 /*
@@ -53,7 +53,7 @@ HB_FUNC( WXHTMLEASYPRINTING_NEW )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPARENTWINDOW )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -67,7 +67,7 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPARENTWINDOW )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPRINTDATA )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -81,7 +81,7 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPRINTDATA )
  */
 HB_FUNC( WXHTMLEASYPRINTING_GETPAGESETUPDATA )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -95,7 +95,7 @@ HB_FUNC( WXHTMLEASYPRINTING_GETPAGESETUPDATA )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PREVIEWFILE )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -109,7 +109,7 @@ HB_FUNC( WXHTMLEASYPRINTING_PREVIEWFILE )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PREVIEWTEXT )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -123,7 +123,7 @@ HB_FUNC( WXHTMLEASYPRINTING_PREVIEWTEXT )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PRINTFILE )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -137,7 +137,7 @@ HB_FUNC( WXHTMLEASYPRINTING_PRINTFILE )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PRINTTEXT )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -151,7 +151,7 @@ HB_FUNC( WXHTMLEASYPRINTING_PRINTTEXT )
  */
 HB_FUNC( WXHTMLEASYPRINTING_PAGESETUP )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -165,7 +165,7 @@ HB_FUNC( WXHTMLEASYPRINTING_PAGESETUP )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETFONTS )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -189,7 +189,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFONTS )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETHEADER )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -203,7 +203,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETHEADER )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETFOOTER )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {
@@ -217,7 +217,7 @@ HB_FUNC( WXHTMLEASYPRINTING_SETFOOTER )
  */
 HB_FUNC( WXHTMLEASYPRINTING_SETPARENTWINDOW )
 {
-    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxHtmlEasyPrinting* htmlEasyPrinting = (wxHtmlEasyPrinting *) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( htmlEasyPrinting )
     {

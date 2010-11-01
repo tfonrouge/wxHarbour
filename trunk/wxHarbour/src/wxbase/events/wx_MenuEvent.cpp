@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXMENUEVENT_GETMENU )
 {
-    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuEvent )
         wxh_itemReturn( menuEvent->GetMenu() );
@@ -41,7 +41,7 @@ HB_FUNC( WXMENUEVENT_GETMENU )
 */
 HB_FUNC( WXMENUEVENT_GETMENUID )
 {
-    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuEvent )
         hb_retni( menuEvent->GetMenuId() );
@@ -53,7 +53,7 @@ HB_FUNC( WXMENUEVENT_GETMENUID )
 */
 HB_FUNC( WXMENUEVENT_ISPOPUP )
 {
-    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wxMenuEvent* menuEvent = (wxMenuEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( menuEvent )
         hb_retl( menuEvent->IsPopup() );

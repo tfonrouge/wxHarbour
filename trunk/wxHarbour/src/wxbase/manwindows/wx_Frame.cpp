@@ -45,9 +45,9 @@ wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString
     PHB_ITEM pId = hb_itemPutNI( NULL, id );
     PHB_ITEM pName = hb_itemPutC( NULL, wxh_wxStringToC( name ) );
         
-    hb_objSendMsg( wxh_ItemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
+    hb_objSendMsg( wxh_itemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
 
-    wx_ToolBar* toolBar = (wx_ToolBar *) wxh_ItemListGet_WX( hb_stackReturnItem() );
+    wx_ToolBar* toolBar = (wx_ToolBar *) wxh_itemListGet_WX( hb_stackReturnItem() );
     
     hb_itemRelease( pStyle );
     hb_itemRelease( pId );
@@ -90,7 +90,7 @@ HB_FUNC( WXFRAME_NEW )
  */
 HB_FUNC( WXFRAME_CENTRE )
 {
-    wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Frame* frame = (wx_Frame*) wxh_itemListGet_WX( hb_stackSelfItem() );
     
     if( frame )
     {
@@ -105,7 +105,7 @@ HB_FUNC( WXFRAME_CENTRE )
  */
 HB_FUNC( WXFRAME_CREATETOOLBAR )
 {
-    wx_Frame* frame = (wx_Frame*) wxh_ItemListGet_WX( hb_stackSelfItem() );
+    wx_Frame* frame = (wx_Frame*) wxh_itemListGet_WX( hb_stackSelfItem() );
 
     if( frame )
     {
