@@ -20,11 +20,11 @@ static PHB_ITEM lastTopLevelWindow;
  */
 xho_Item::~xho_Item()
 {
-    hashPHB_BASEARRAY.erase( m_pBaseArray );
-    hashXHOObject.erase( m_xhoObject );
+    hashPHB_BASEARRAY.erase( hashPHB_BASEARRAY.find( m_pBaseArray ) );
+    hashXHOObject.erase( hashXHOObject.find( m_xhoObject ) );
     
     if( map_crc32.find( uiProcNameLine ) != map_crc32.end() )
-        map_crc32.erase( uiProcNameLine );
+        map_crc32.erase( map_crc32.find( uiProcNameLine ) );
     
     /* release codeblocks stored in event list */
     if( evtList.size() > 0 )
@@ -179,7 +179,11 @@ void xho_ObjParams::ProcessParamLists()
         while( map_paramListChild.size() > 0 )
         {
             MAP_PHB_ITEM::iterator it = map_paramListChild.begin();
+#ifdef QTHARBOUR_LIBRARY
+            SetChildItem( it.key() );
+#else
             SetChildItem( it->first );
+#endif
             map_paramListChild.erase( it );
         }
         
@@ -327,7 +331,11 @@ PHB_ITEM xho_itemListGet_HB( xhoObject* wxObj )
                 pSelf = NULL;
         }
         else {
+#ifdef QTHARBOUR_LIBRARY
+            QString clsName( wxObj->metaObject()->className() );
+#else
             wxString clsName( wxObj->GetClassInfo()->GetClassName() );
+#endif
             //const char *ascii = clsName.ToAscii();
             //qoutf("xho_itemListGet_HB (no xho_Item): %s", ascii );
         }
@@ -355,7 +363,7 @@ xho_Item* xho_itemListGet_PXHO_ITEM( PHB_ITEM pSelf )
  xho_itemListGet_PXHO_ITEM
  Teo. Mexico 2009
  */
-xho_Item* xho_itemListGet_PXHO_ITEM( wxObject* m_xhoObject )
+xho_Item* xho_itemListGet_PXHO_ITEM( xhoObject* m_xhoObject )
 {
     xho_Item* pXho_Item = NULL;
     
@@ -371,7 +379,7 @@ xho_Item* xho_itemListGet_PXHO_ITEM( wxObject* m_xhoObject )
  xho_itemListGet_XHO
  Teo. Mexico 2009
  */
-wxObject* xho_itemListGet_XHO( PHB_ITEM pSelf )
+xhoObject* xho_itemListGet_XHO( PHB_ITEM pSelf )
 {
     xhoObject* m_xhoObject = NULL;
     
@@ -394,8 +402,13 @@ void xho_itemListReleaseAll()
     while( ! hashXHOObject.empty() )
     {
         it = hashXHOObject.begin();
+#ifdef QTHARBOUR_LIBRARY
+        it.value()->delete_Xho = false;
+        delete it.value();
+#else
         it->second->delete_Xho = false;
         delete it->second;
+#endif
         //xho_itemListDel_XHO( it->first );
     }
 }
@@ -411,7 +424,7 @@ bool xho_itemListSwap( xhoObject *oldObj, xhoObject *newObj )
     if( pXho_Item )
     {
         pXho_Item->m_xhoObject = newObj;
-        hashXHOObject.erase( oldObj );
+        hashXHOObject.erase( hashXHOObject.find( oldObj ) );
         hashXHOObject[ newObj ] = pXho_Item;
         delete oldObj;
         return true;
