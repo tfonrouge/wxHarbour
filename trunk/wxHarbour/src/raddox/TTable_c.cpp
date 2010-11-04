@@ -67,7 +67,7 @@ HB_FUNC( TTABLE_SENDTOSERVER )
 
     hb_objSendMsg( pSelf, "RDOClient", 0 );
     PHB_ITEM pRDOClient = hb_stackReturnItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pRDOClient );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pRDOClient );
 
     if( socketBase )
     {

@@ -37,7 +37,7 @@ using namespace std;
 */
 wx_SocketServer::~wx_SocketServer()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -46,7 +46,7 @@ wx_SocketServer::~wx_SocketServer()
 */
 HB_FUNC( WXSOCKETSERVER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_SocketServer* socketServer;
     wxSockAddress* address;
@@ -71,7 +71,7 @@ HB_FUNC( WXSOCKETSERVER_NEW )
 HB_FUNC( WXSOCKETSERVER_ACCEPT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_itemListGet_WX( pSelf );
+    wx_SocketServer* socketServer = (wx_SocketServer*) xho_itemListGet_XHO( pSelf );
     wxSocketBase* socketBase;
 
     bool wait = ISLOG( 1 ) ? hb_parl( 1 ) : true;
@@ -83,7 +83,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
         {
             HB_FUNC_EXEC( WXSOCKETBASE );
             PHB_ITEM p = hb_stackReturnItem();
-            wxh_ObjParams objParams = wxh_ObjParams( p );
+            xho_ObjParams objParams = xho_ObjParams( p );
             objParams.Return( socketBase, true );
         }
     }
@@ -95,8 +95,8 @@ HB_FUNC( WXSOCKETSERVER_ACCEPT )
 */
 HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_SocketServer* socketServer = (wx_SocketServer*) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_SocketServer* socketServer = (wx_SocketServer*) objParams.Get_xhoObject();
 
     wxSocketBase* socket;
 
@@ -123,7 +123,7 @@ HB_FUNC( WXSOCKETSERVER_ACCEPTWITH )
 HB_FUNC( WXSOCKETSERVER_WAITFORACCEPT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketServer* socketServer = (wx_SocketServer*) wxh_itemListGet_WX( pSelf );
+    wx_SocketServer* socketServer = (wx_SocketServer*) xho_itemListGet_XHO( pSelf );
 
     if( socketServer )
     {

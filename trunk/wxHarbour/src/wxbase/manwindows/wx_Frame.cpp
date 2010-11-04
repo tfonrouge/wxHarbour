@@ -45,9 +45,9 @@ wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString
     PHB_ITEM pId = hb_itemPutNI( NULL, id );
     PHB_ITEM pName = hb_itemPutC( NULL, wxh_wxStringToC( name ) );
         
-    hb_objSendMsg( wxh_itemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
+    hb_objSendMsg( xho_itemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
 
-    wx_ToolBar* toolBar = (wx_ToolBar *) wxh_itemListGet_WX( hb_stackReturnItem() );
+    wx_ToolBar* toolBar = (wx_ToolBar *) xho_itemListGet_XHO( hb_stackReturnItem() );
     
     hb_itemRelease( pStyle );
     hb_itemRelease( pId );
@@ -62,7 +62,7 @@ wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString
 */
 HB_FUNC( WXFRAME_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Frame* frame;
 
@@ -90,7 +90,7 @@ HB_FUNC( WXFRAME_NEW )
  */
 HB_FUNC( WXFRAME_CENTRE )
 {
-    wx_Frame* frame = (wx_Frame*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Frame* frame = (wx_Frame*) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( frame )
     {
@@ -105,14 +105,14 @@ HB_FUNC( WXFRAME_CENTRE )
  */
 HB_FUNC( WXFRAME_CREATETOOLBAR )
 {
-    wx_Frame* frame = (wx_Frame*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Frame* frame = (wx_Frame*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( frame )
     {
         long style = ISNIL( 1 ) ? wxTB_FLAT | wxTB_HORIZONTAL : hb_parnl( 1 );
         wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
         const wxString& name = ISNIL( 3 ) ? wxString( _T("toolBar") ) : wxh_parc( 3 );
-        wxh_itemReturn( frame->CreateToolBar( style, id, name ) );
+        xho_itemReturn( frame->CreateToolBar( style, id, name ) );
     }
 }
 
@@ -122,8 +122,8 @@ HB_FUNC( WXFRAME_CREATETOOLBAR )
 */
 HB_FUNC( WXFRAME_SETMENUBAR )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_Frame* frame = (wx_Frame *) objParams.Get_xhoObject();
 
     if( frame )
     {
@@ -141,8 +141,8 @@ HB_FUNC( WXFRAME_SETMENUBAR )
 */
 HB_FUNC( WXFRAME_SETSTATUSBAR )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_Frame* frame = (wx_Frame *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_Frame* frame = (wx_Frame *) objParams.Get_xhoObject();
 
     if( frame )
     {

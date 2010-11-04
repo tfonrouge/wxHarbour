@@ -53,12 +53,12 @@
     Validator macro
     Teo. Mexico 2009
 */
-#xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING [<warnMsg>] WHEN <warnBlk> ]  [ ACTION <bAction> ] ;
+#xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING [<warnMsg>] WHEN <warnBlk> ][ ACTION <bAction> ] ;
             => ;
             containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warnBlk>], [<{warnBlk}>], [<warnMsg>], [<{bAction}>] )
 
 /*
-    Calls ::__Destroy() to remove wxh_Item associated to objects
+    Calls ::__Destroy() to remove xho_Item associated to objects
     Teo. Mexico 2009
 */
 #xcommand DESTROY <obj> => <obj>:__Destroy() ; <obj> := NIL

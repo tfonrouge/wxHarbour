@@ -29,11 +29,11 @@
 */
 HB_FUNC( WXEVENT_GETEVENTOBJECT )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( event )
     {
-        wxh_itemReturn( event->GetEventObject() );
+        xho_itemReturn( event->GetEventObject() );
     }
 }
 
@@ -43,7 +43,7 @@ HB_FUNC( WXEVENT_GETEVENTOBJECT )
 */
 HB_FUNC( WXEVENT_GETEVENTTYPE )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( event )
         hb_retni( event->GetEventType() );
@@ -55,7 +55,7 @@ HB_FUNC( WXEVENT_GETEVENTTYPE )
  */
 HB_FUNC( WXEVENT_GETID )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         hb_retni( event->GetId() );
@@ -67,7 +67,7 @@ HB_FUNC( WXEVENT_GETID )
  */
 HB_FUNC( WXEVENT_GETSKIPPED )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         hb_retl( event->GetSkipped() );
@@ -79,7 +79,7 @@ HB_FUNC( WXEVENT_GETSKIPPED )
  */
 HB_FUNC( WXEVENT_GETTIMESTAMP )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         hb_retnl( event->GetTimestamp() );
@@ -91,7 +91,7 @@ HB_FUNC( WXEVENT_GETTIMESTAMP )
  */
 HB_FUNC( WXEVENT_ISCOMMANDEVENT )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         hb_retl( event->IsCommandEvent() );
@@ -103,10 +103,10 @@ HB_FUNC( WXEVENT_ISCOMMANDEVENT )
  */
 HB_FUNC( WXEVENT_SETEVENTOBJECT )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
-        event->SetEventObject( wxh_par_WX( 1 ) );
+        event->SetEventObject( xho_par_XhoObject( 1 ) );
 }
 
 /*
@@ -115,7 +115,7 @@ HB_FUNC( WXEVENT_SETEVENTOBJECT )
  */
 HB_FUNC( WXEVENT_SETEVENTTYPE )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         event->SetEventType( (wxEventType) hb_parni( 1 ) );
@@ -127,7 +127,7 @@ HB_FUNC( WXEVENT_SETEVENTTYPE )
  */
 HB_FUNC( WXEVENT_SETID )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         event->SetId( hb_parni( 1 ) );
@@ -139,7 +139,7 @@ HB_FUNC( WXEVENT_SETID )
  */
 HB_FUNC( WXEVENT_SETTIMESTAMP )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         event->SetTimestamp( hb_parnl( 1 ) );
@@ -151,7 +151,7 @@ HB_FUNC( WXEVENT_SETTIMESTAMP )
  */
 HB_FUNC( WXEVENT_SHOULDPROPAGATE )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
         hb_retl( event->ShouldPropagate() );
@@ -163,7 +163,7 @@ HB_FUNC( WXEVENT_SHOULDPROPAGATE )
  */
 HB_FUNC( WXEVENT_SKIP )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     bool skip = ISNIL( 1 ) ? true : hb_parl( 1 );
     
@@ -173,7 +173,7 @@ HB_FUNC( WXEVENT_SKIP )
 
 HB_FUNC( WXEVENT_STOPPROPAGATION )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( event )
             hb_retni(event->StopPropagation());
@@ -181,7 +181,7 @@ HB_FUNC( WXEVENT_STOPPROPAGATION )
 
 HB_FUNC( WXEVENT_RESUMEPROPAGATION )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( event )
             event->ResumePropagation(hb_parni(1));

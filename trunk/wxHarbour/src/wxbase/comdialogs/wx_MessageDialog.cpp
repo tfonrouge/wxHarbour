@@ -25,7 +25,7 @@
 */
 wx_MessageDialog::~wx_MessageDialog()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -34,7 +34,7 @@ wx_MessageDialog::~wx_MessageDialog()
 */
 HB_FUNC( WXMESSAGEDIALOG_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     const wxString& message = wxh_parc( 2 );
@@ -54,7 +54,7 @@ HB_FUNC( WXMESSAGEDIALOG_NEW )
 HB_FUNC( WXMESSAGEDIALOG_SHOWMODAL )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MessageDialog* msgDlg = (wx_MessageDialog *) wxh_itemListGet_WX( pSelf );
+    wx_MessageDialog* msgDlg = (wx_MessageDialog *) xho_itemListGet_XHO( pSelf );
 
     if( msgDlg )
         hb_retni( msgDlg->ShowModal() );

@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXTIMEREVENT_GETINTERVAL )
 {
-    wxTimerEvent * timerEvent = (wxTimerEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTimerEvent * timerEvent = (wxTimerEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timerEvent )
         hb_retni( timerEvent->GetInterval() );

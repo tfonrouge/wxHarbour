@@ -30,12 +30,12 @@
 */
 wx_StaticBoxSizer::~wx_StaticBoxSizer()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXSTATICBOXSIZER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_StaticBoxSizer* boxSizer;
 
@@ -60,10 +60,10 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 */
 HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
 {
-    wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( sbSizer )
     {
-        wxh_itemNewReturn( "wxStaticBox", sbSizer->GetStaticBox(), sbSizer );
+        xho_itemNewReturn( "wxStaticBox", sbSizer->GetStaticBox(), sbSizer );
     }
 }

@@ -35,12 +35,12 @@ extern "C"
 */
 wx_TreeCtrl::~wx_TreeCtrl()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXTREECTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -60,8 +60,8 @@ HB_FUNC( WXTREECTRL_NEW )
 */
 HB_FUNC( WXTREECTRL_ADDROOT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_xhoObject();
 
     const wxString& text = wxh_parc( 1 );
     int image = ISNIL( 2 ) ? -1 : hb_parni( 2 );
@@ -84,8 +84,8 @@ HB_FUNC( WXTREECTRL_ADDROOT )
 */
 HB_FUNC( WXTREECTRL_APPENDITEM )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) objParams.Get_xhoObject();
 
     wxTreeItemId parent = wxTreeItemId( (void *) hb_parnl( 1 ) );
     const wxString& text = wxh_parc( 2 );
@@ -110,7 +110,7 @@ HB_FUNC( WXTREECTRL_APPENDITEM )
 HB_FUNC( WXTREECTRL_DELETE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -127,7 +127,7 @@ HB_FUNC( WXTREECTRL_DELETE )
 HB_FUNC( WXTREECTRL_DELETEALLITEMS )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -142,7 +142,7 @@ HB_FUNC( WXTREECTRL_DELETEALLITEMS )
 HB_FUNC( WXTREECTRL_DELETECHILDREN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -159,7 +159,7 @@ HB_FUNC( WXTREECTRL_DELETECHILDREN )
 HB_FUNC( WXTREECTRL_COLLAPSE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -176,7 +176,7 @@ HB_FUNC( WXTREECTRL_COLLAPSE )
 HB_FUNC( WXTREECTRL_COLLAPSEALL )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -191,7 +191,7 @@ HB_FUNC( WXTREECTRL_COLLAPSEALL )
 HB_FUNC( WXTREECTRL_COLLAPSEALLCHILDREN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -208,7 +208,7 @@ HB_FUNC( WXTREECTRL_COLLAPSEALLCHILDREN )
 HB_FUNC( WXTREECTRL_ENSUREVISIBLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -225,7 +225,7 @@ HB_FUNC( WXTREECTRL_ENSUREVISIBLE )
 HB_FUNC( WXTREECTRL_EXPAND )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -242,7 +242,7 @@ HB_FUNC( WXTREECTRL_EXPAND )
 HB_FUNC( WXTREECTRL_EXPANDALL )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -257,7 +257,7 @@ HB_FUNC( WXTREECTRL_EXPANDALL )
 HB_FUNC( WXTREECTRL_EXPANDALLCHILDREN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -274,7 +274,7 @@ HB_FUNC( WXTREECTRL_EXPANDALLCHILDREN )
 HB_FUNC( WXTREECTRL_GETCHILDRENCOUNT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -292,7 +292,7 @@ HB_FUNC( WXTREECTRL_GETCHILDRENCOUNT )
 HB_FUNC( WXTREECTRL_GETCOUNT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -307,7 +307,7 @@ HB_FUNC( WXTREECTRL_GETCOUNT )
 HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -343,7 +343,7 @@ HB_FUNC( WXTREECTRL_GETFIRSTCHILD )
 HB_FUNC( WXTREECTRL_GETITEMPARENT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -364,7 +364,7 @@ HB_FUNC( WXTREECTRL_GETITEMPARENT )
 HB_FUNC( WXTREECTRL_GETLASTCHILD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -385,7 +385,7 @@ HB_FUNC( WXTREECTRL_GETLASTCHILD )
 HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -421,7 +421,7 @@ HB_FUNC( WXTREECTRL_GETNEXTCHILD )
 HB_FUNC( WXTREECTRL_GETNEXTSIBLING )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -442,7 +442,7 @@ HB_FUNC( WXTREECTRL_GETNEXTSIBLING )
 HB_FUNC( WXTREECTRL_GETNEXTVISIBLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -463,7 +463,7 @@ HB_FUNC( WXTREECTRL_GETNEXTVISIBLE )
 HB_FUNC( WXTREECTRL_GETPREVSIBLING )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -484,7 +484,7 @@ HB_FUNC( WXTREECTRL_GETPREVSIBLING )
 HB_FUNC( WXTREECTRL_GETPREVVISIBLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -505,7 +505,7 @@ HB_FUNC( WXTREECTRL_GETPREVVISIBLE )
 HB_FUNC( WXTREECTRL_GETROOTITEM )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -524,7 +524,7 @@ HB_FUNC( WXTREECTRL_GETROOTITEM )
 HB_FUNC( WXTREECTRL_ISEMPTY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     if( treeCtrl )
     {
@@ -539,7 +539,7 @@ HB_FUNC( WXTREECTRL_ISEMPTY )
 HB_FUNC( WXTREECTRL_ISEXPANDED )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -556,7 +556,7 @@ HB_FUNC( WXTREECTRL_ISEXPANDED )
 HB_FUNC( WXTREECTRL_ISSELECTED )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -573,7 +573,7 @@ HB_FUNC( WXTREECTRL_ISSELECTED )
 HB_FUNC( WXTREECTRL_ISVISIBLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 
@@ -590,7 +590,7 @@ HB_FUNC( WXTREECTRL_ISVISIBLE )
 HB_FUNC( WXTREECTRL_ITEMHASCHILDREN )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) wxh_itemListGet_WX( pSelf );
+    wxTreeCtrl* treeCtrl = (wxTreeCtrl *) xho_itemListGet_XHO( pSelf );
 
     wxTreeItemId item = wxTreeItemId( (void *) hb_parnl( 1 ) );
 

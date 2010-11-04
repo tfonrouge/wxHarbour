@@ -38,7 +38,7 @@ wx_SocketBase::wx_SocketBase()
 */
 wx_SocketBase::~wx_SocketBase()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -47,7 +47,7 @@ wx_SocketBase::~wx_SocketBase()
 */
 HB_FUNC( WXSOCKETBASE_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_SocketBase* socketBase;
 
@@ -62,7 +62,7 @@ HB_FUNC( WXSOCKETBASE_NEW )
 */
 HB_FUNC( WXSOCKETBASE_CLOSE )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->Close();
@@ -74,7 +74,7 @@ HB_FUNC( WXSOCKETBASE_CLOSE )
 */
 HB_FUNC( WXSOCKETBASE_DESTROY )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->Destroy() );
@@ -87,7 +87,7 @@ HB_FUNC( WXSOCKETBASE_DESTROY )
 HB_FUNC( WXSOCKETBASE_DISCARD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     if( socketBase )
     {
@@ -102,7 +102,7 @@ HB_FUNC( WXSOCKETBASE_DISCARD )
 */
 HB_FUNC( WXSOCKETBASE_ERROR )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->Error() );
@@ -114,7 +114,7 @@ HB_FUNC( WXSOCKETBASE_ERROR )
 */
 HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retptr( socketBase->GetClientData() );
@@ -126,8 +126,8 @@ HB_FUNC( WXSOCKETBASE_GETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_GETLOCAL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_xhoObject();
 
     wxObject* object = (wxObject *) objParams.param( 1 );
 
@@ -141,7 +141,7 @@ HB_FUNC( WXSOCKETBASE_GETLOCAL )
 */
 HB_FUNC( WXSOCKETBASE_GETFLAGS )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retnl( socketBase->GetFlags() );
@@ -153,8 +153,8 @@ HB_FUNC( WXSOCKETBASE_GETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_GETPEER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_xhoObject();
 
     wxObject* object = (wxObject *) objParams.param( 1 );
 
@@ -168,7 +168,7 @@ HB_FUNC( WXSOCKETBASE_GETPEER )
 */
 HB_FUNC( WXSOCKETBASE_INTERRUPTWAIT )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->InterruptWait();
@@ -180,7 +180,7 @@ HB_FUNC( WXSOCKETBASE_INTERRUPTWAIT )
 */
 HB_FUNC( WXSOCKETBASE_ISCONNECTED )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->IsConnected() );
@@ -192,7 +192,7 @@ HB_FUNC( WXSOCKETBASE_ISCONNECTED )
 */
 HB_FUNC( WXSOCKETBASE_ISDATA )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->IsData() );
@@ -204,7 +204,7 @@ HB_FUNC( WXSOCKETBASE_ISDATA )
 */
 HB_FUNC( WXSOCKETBASE_ISDISCONNECTED )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->IsDisconnected() );
@@ -216,7 +216,7 @@ HB_FUNC( WXSOCKETBASE_ISDISCONNECTED )
 */
 HB_FUNC( WXSOCKETBASE_LASTCOUNT )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retnl( socketBase->LastCount() );
@@ -228,7 +228,7 @@ HB_FUNC( WXSOCKETBASE_LASTCOUNT )
 */
 HB_FUNC( WXSOCKETBASE_LASTERROR )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retnl( socketBase->LastError() );
@@ -240,7 +240,7 @@ HB_FUNC( WXSOCKETBASE_LASTERROR )
 */
 HB_FUNC( WXSOCKETBASE_NOTIFY )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->Notify( hb_parl( 1 ) );
@@ -252,7 +252,7 @@ HB_FUNC( WXSOCKETBASE_NOTIFY )
 */
 HB_FUNC( WXSOCKETBASE_ISOK )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         hb_retl( socketBase->IsOk() );
@@ -265,7 +265,7 @@ HB_FUNC( WXSOCKETBASE_ISOK )
 HB_FUNC( WXSOCKETBASE_PEEK )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
     wxUint32 nbytes = hb_parnl( 2 );
@@ -292,7 +292,7 @@ HB_FUNC( WXSOCKETBASE_PEEK )
 void wxSocketBase_ReadBase( BYTE type )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
 
@@ -355,7 +355,7 @@ HB_FUNC( WXSOCKETBASE_READMSG )
 */
 HB_FUNC( WXSOCKETBASE_RESTORESTATE )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->RestoreState();
@@ -367,7 +367,7 @@ HB_FUNC( WXSOCKETBASE_RESTORESTATE )
 */
 HB_FUNC( WXSOCKETBASE_SAVESTATE )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->SaveState();
@@ -379,7 +379,7 @@ HB_FUNC( WXSOCKETBASE_SAVESTATE )
 */
 HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
         socketBase->SetClientData( hb_parptr( 1 ) );
@@ -391,8 +391,8 @@ HB_FUNC( WXSOCKETBASE_SETCLIENTDATA )
 */
 HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_xhoObject();
 
     wxEvtHandler* evtHandler = (wxEvtHandler *) objParams.paramParent( 1 );
 
@@ -409,7 +409,7 @@ HB_FUNC( WXSOCKETBASE_SETEVENTHANDLER )
 */
 HB_FUNC( WXSOCKETBASE_SETFLAGS )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     wxSocketFlags flags = hb_parnl( 1 );
     if( socketBase )
@@ -422,8 +422,8 @@ HB_FUNC( WXSOCKETBASE_SETFLAGS )
 */
 HB_FUNC( WXSOCKETBASE_SETLOCAL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_SocketBase* socketBase = (wx_SocketBase*) objParams.Get_xhoObject();
 
     wxIPV4address* local = (wxIPV4address *) objParams.param( 1 );
 
@@ -439,7 +439,7 @@ HB_FUNC( WXSOCKETBASE_SETLOCAL )
 */
 HB_FUNC( WXSOCKETBASE_SETNOTIFY )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -454,7 +454,7 @@ HB_FUNC( WXSOCKETBASE_SETNOTIFY )
 */
 HB_FUNC( WXSOCKETBASE_SETTIMEOUT )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -470,7 +470,7 @@ HB_FUNC( WXSOCKETBASE_SETTIMEOUT )
 HB_FUNC( WXSOCKETBASE_UNREAD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     PHB_ITEM pBuffer = hb_param( 1, HB_IT_STRING );
     wxUint32 nbytes = hb_parnl( 2 );
@@ -496,7 +496,7 @@ HB_FUNC( WXSOCKETBASE_UNREAD )
 */
 HB_FUNC( WXSOCKETBASE_WAIT )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -512,7 +512,7 @@ HB_FUNC( WXSOCKETBASE_WAIT )
 */
 HB_FUNC( WXSOCKETBASE_WAITFORLOST )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -528,7 +528,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORLOST )
 */
 HB_FUNC( WXSOCKETBASE_WAITFORREAD )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -544,7 +544,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORREAD )
 */
 HB_FUNC( WXSOCKETBASE_WAITFORWRITE )
 {
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( socketBase )
     {
@@ -561,7 +561,7 @@ HB_FUNC( WXSOCKETBASE_WAITFORWRITE )
 HB_FUNC( WXSOCKETBASE_WRITE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     if( socketBase )
     {
@@ -579,7 +579,7 @@ HB_FUNC( WXSOCKETBASE_WRITE )
 HB_FUNC( WXSOCKETBASE_WRITEMSG )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_SocketBase* socketBase = (wx_SocketBase*) wxh_itemListGet_WX( pSelf );
+    wx_SocketBase* socketBase = (wx_SocketBase*) xho_itemListGet_XHO( pSelf );
 
     if( socketBase )
     {

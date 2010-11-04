@@ -31,7 +31,7 @@
 */
 wx_Icon::~wx_Icon()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_Icon::~wx_Icon()
 */
 HB_FUNC( WXICON_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Icon* icon;
 
@@ -82,11 +82,11 @@ HB_FUNC( WXICON_NEW )
  */
 HB_FUNC( WXICON_COPYFROMBITMAP )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
-    const wxBitmap& bitmap = *(wxBitmap *) wxh_par_WX( 1 );
+    const wxBitmap& bitmap = *(wxBitmap *) xho_par_XhoObject( 1 );
         icon->CopyFromBitmap( bitmap );
     }
 }
@@ -97,7 +97,7 @@ HB_FUNC( WXICON_COPYFROMBITMAP )
  */
 HB_FUNC( WXICON_GETDEPTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -111,7 +111,7 @@ HB_FUNC( WXICON_GETDEPTH )
  */
 HB_FUNC( WXICON_GETHEIGHT )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -125,7 +125,7 @@ HB_FUNC( WXICON_GETHEIGHT )
  */
 HB_FUNC( WXICON_GETWIDTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -139,7 +139,7 @@ HB_FUNC( WXICON_GETWIDTH )
  */
 HB_FUNC( WXICON_ISOK )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -153,7 +153,7 @@ HB_FUNC( WXICON_ISOK )
 */
 HB_FUNC( WXICON_LOADFILE )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( icon )
     {
@@ -170,7 +170,7 @@ HB_FUNC( WXICON_LOADFILE )
  */
 HB_FUNC( WXICON_SETDEPTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -184,7 +184,7 @@ HB_FUNC( WXICON_SETDEPTH )
  */
 HB_FUNC( WXICON_SETHEIGHT )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {
@@ -198,7 +198,7 @@ HB_FUNC( WXICON_SETHEIGHT )
  */
 HB_FUNC( WXICON_SETWIDTH )
 {
-    wxIcon* icon = (wxIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxIcon* icon = (wxIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( icon )
     {

@@ -36,18 +36,18 @@ template <class T>
 void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 {
     PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
-    wxh_ObjParams objParams = wxh_ObjParams( pEvent );
+    xho_ObjParams objParams = xho_ObjParams( pEvent );
 
     objParams.Return( &event );
 
-    if( objParams.pWxh_Item )
+    if( objParams.pXho_Item )
     {
-        objParams.pWxh_Item->delete_WX = false;
-        wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
+        objParams.pXho_Item->delete_Xho = false;
+        xho_Item* pXho_Item = xho_itemListGet_PXHO_ITEM( this );
 
-        if( pWxh_Item )
+        if( pXho_Item )
         {
-            for( vector<PCONN_PARAMS>::iterator it = pWxh_Item->evtList.begin(); it < pWxh_Item->evtList.end(); it++ )
+            for( vector<PCONN_PARAMS>::iterator it = pXho_Item->evtList.begin(); it < pXho_Item->evtList.end(); it++ )
             {
                 PCONN_PARAMS pConnParams = *it;
                 if( event.GetEventType() == pConnParams->eventType ) /* TODO: this check is needed ? */
@@ -280,11 +280,11 @@ void hbEvtHandler<T>::wxhConnect( int evtClass, PCONN_PARAMS pConnParams )
 
     if( objFunc )
     {
-        wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
+        xho_Item* pXho_Item = xho_itemListGet_PXHO_ITEM( this );
 
-        if( pWxh_Item )
+        if( pXho_Item )
         {
-            pWxh_Item->evtList.push_back( pConnParams );
+            pXho_Item->evtList.push_back( pConnParams );
             this->Connect( pConnParams->id, pConnParams->lastId, pConnParams->eventType, objFunc );
         }
     }
@@ -306,7 +306,7 @@ static void Connect( int evtClass )
 
     ParseConnectParams( pConnParams );
 
-    hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) wxh_itemListGet_WX( pSelf );
+    hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) xho_itemListGet_XHO( pSelf );
 
     if( !( pSelf && evtHandler ) )
         return;

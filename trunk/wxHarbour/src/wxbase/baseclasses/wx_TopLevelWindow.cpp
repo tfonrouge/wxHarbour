@@ -25,7 +25,7 @@
 HB_FUNC( WXTOPLEVELWINDOW_CANSETTRANSPARENT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_itemListGet_WX( pSelf );
+    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) xho_itemListGet_XHO( pSelf );
 
     if( tlWnd )
         hb_retl( tlWnd->CanSetTransparent() );
@@ -34,7 +34,7 @@ HB_FUNC( WXTOPLEVELWINDOW_CANSETTRANSPARENT )
 HB_FUNC( WXTOPLEVELWINDOW_GETTITLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_itemListGet_WX( pSelf );
+    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) xho_itemListGet_XHO( pSelf );
 
     if( tlWnd )
         wxh_retc( tlWnd->GetTitle() );
@@ -43,7 +43,7 @@ HB_FUNC( WXTOPLEVELWINDOW_GETTITLE )
 HB_FUNC( WXTOPLEVELWINDOW_SETTITLE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) wxh_itemListGet_WX( pSelf );
+    wxTopLevelWindow* tlWnd = (wxTopLevelWindow *) xho_itemListGet_XHO( pSelf );
 
     if( tlWnd )
     {

@@ -30,7 +30,7 @@
 */
 wx_SplitterWindow::~wx_SplitterWindow()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_SplitterWindow::~wx_SplitterWindow()
 */
 HB_FUNC( WXSPLITTERWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_SplitterWindow* panel;
 

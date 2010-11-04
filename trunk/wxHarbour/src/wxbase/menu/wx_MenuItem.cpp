@@ -30,7 +30,7 @@
 */
 wx_MenuItem::~wx_MenuItem()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_MenuItem::~wx_MenuItem()
 */
 HB_FUNC( WXMENUITEM_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxMenu* parentMenu = (wxMenu *) objParams.paramParent( 1 );
     int id = hb_parni( 2 );
@@ -59,7 +59,7 @@ HB_FUNC( WXMENUITEM_NEW )
 */
 HB_FUNC( WXMENUITEM_ENABLE )
 {
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( menuItem )
         menuItem->Enable( hb_parl( 1 ) );
@@ -72,7 +72,7 @@ HB_FUNC( WXMENUITEM_ENABLE )
 HB_FUNC( WXMENUITEM_GETITEMLABEL )
 {
 #if wxVERSION > 20804
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( menuItem )
         wxh_retc( menuItem->GetItemLabel() );
@@ -86,7 +86,7 @@ HB_FUNC( WXMENUITEM_GETITEMLABEL )
 HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
 {
 #if wxVERSION > 20804
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( menuItem )
         wxh_retc( menuItem->GetItemLabelText() );
@@ -99,11 +99,11 @@ HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
  */
 HB_FUNC( WXMENUITEM_SETBITMAP )
 {
-    wx_MenuItem* menuItem = (wx_MenuItem *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_MenuItem* menuItem = (wx_MenuItem *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( menuItem )
     {
-        const wxBitmap& bitmap = * (wxBitmap *) wxh_par_WX( 1 );
+        const wxBitmap& bitmap = * (wxBitmap *) xho_par_XhoObject( 1 );
         menuItem->SetBitmap( bitmap );
     }
 }

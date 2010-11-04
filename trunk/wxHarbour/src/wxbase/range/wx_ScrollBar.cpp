@@ -30,7 +30,7 @@
 */
 wx_ScrollBar::~wx_ScrollBar()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_ScrollBar::~wx_ScrollBar()
 */
 HB_FUNC( WXSCROLLBAR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
@@ -62,7 +62,7 @@ HB_FUNC( WXSCROLLBAR_GETRANGE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
 
     if( sb )
     {
@@ -78,7 +78,7 @@ HB_FUNC( WXSCROLLBAR_GETPAGESIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
 
     if( sb )
     {
@@ -94,7 +94,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
     
     if( sb )
     {
@@ -110,7 +110,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBSIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
 
     if( sb )
     {
@@ -126,7 +126,7 @@ HB_FUNC( WXSCROLLBAR_SETTHUMBPOSITION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
 
     if( sb )
     {
@@ -143,7 +143,7 @@ HB_FUNC( WXSCROLLBAR_SETSCROLLBAR )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
 
-    wx_ScrollBar* sb = (wx_ScrollBar *) wxh_itemListGet_WX( pSelf );
+    wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
 
     if( sb )
     {

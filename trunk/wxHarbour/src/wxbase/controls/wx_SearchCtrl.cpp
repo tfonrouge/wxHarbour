@@ -30,7 +30,7 @@
 */
 wx_SearchCtrl::~wx_SearchCtrl()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_SearchCtrl::~wx_SearchCtrl()
 */
 HB_FUNC( WXSEARCHCTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
@@ -60,11 +60,11 @@ HB_FUNC( WXSEARCHCTRL_NEW )
 */
 HB_FUNC( WXSEARCHCTRL_GETMENU )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {
-        wxh_itemReturn( searchCtrl->GetMenu() );
+        xho_itemReturn( searchCtrl->GetMenu() );
     }
 }
 
@@ -74,7 +74,7 @@ HB_FUNC( WXSEARCHCTRL_GETMENU )
 */
 HB_FUNC( WXSEARCHCTRL_ISCANCELBUTTONVISIBLE )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {
@@ -88,7 +88,7 @@ HB_FUNC( WXSEARCHCTRL_ISCANCELBUTTONVISIBLE )
 */
 HB_FUNC( WXSEARCHCTRL_ISSEARCHBUTTONVISIBLE )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {
@@ -102,11 +102,11 @@ HB_FUNC( WXSEARCHCTRL_ISSEARCHBUTTONVISIBLE )
 */
 HB_FUNC( WXSEARCHCTRL_SETMENU )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {
-        wxMenu* menu = (wxMenu *) wxh_par_WX( 1 );
+        wxMenu* menu = (wxMenu *) xho_par_XhoObject( 1 );
         searchCtrl->SetMenu( menu );
     }
 }
@@ -117,7 +117,7 @@ HB_FUNC( WXSEARCHCTRL_SETMENU )
 */
 HB_FUNC( WXSEARCHCTRL_SHOWCANCELBUTTON )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {
@@ -131,7 +131,7 @@ HB_FUNC( WXSEARCHCTRL_SHOWCANCELBUTTON )
 */
 HB_FUNC( WXSEARCHCTRL_SHOWSEARCHBUTTON )
 {
-    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxSearchCtrl* searchCtrl = (wxSearchCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( searchCtrl )
     {

@@ -45,7 +45,7 @@ wx_Window::wx_Window( wxWindow* parent, wxWindowID id, const wxPoint& pos, const
 */
 HB_FUNC( WXWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Window* window;
 
@@ -74,7 +74,7 @@ HB_FUNC( WXWINDOW_NEW )
  */
 HB_FUNC( WXWINDOW_CENTRE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -89,7 +89,7 @@ HB_FUNC( WXWINDOW_CENTRE )
  */
 HB_FUNC( WXWINDOW_CLOSE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         hb_retl( wnd->Close( hb_parl( 1 ) ) );
@@ -101,7 +101,7 @@ HB_FUNC( WXWINDOW_CLOSE )
  */
 HB_FUNC( WXWINDOW_DESTROYCHILDREN )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         wnd->DestroyChildren();
@@ -113,7 +113,7 @@ HB_FUNC( WXWINDOW_DESTROYCHILDREN )
  */
 HB_FUNC( WXWINDOW_DISABLE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retl( wnd->Disable() );
@@ -125,7 +125,7 @@ HB_FUNC( WXWINDOW_DISABLE )
  */
 HB_FUNC( WXWINDOW_DESTROY )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retl( wnd->Destroy() );
@@ -138,7 +138,7 @@ HB_FUNC( WXWINDOW_DESTROY )
 HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
 {
 /*
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         wnd->DragAcceptFiles( hb_parl( 1 ) );
@@ -151,7 +151,7 @@ HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
 */
 HB_FUNC( WXWINDOW_ENABLE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -166,10 +166,10 @@ HB_FUNC( WXWINDOW_ENABLE )
 */
 HB_FUNC( WXWINDOW_FINDFOCUS )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
-        wxh_itemReturn( wnd->FindFocus() );
+        xho_itemReturn( wnd->FindFocus() );
 }
 
 /*
@@ -178,15 +178,15 @@ HB_FUNC( WXWINDOW_FINDFOCUS )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYID )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxWindow* wnd = (wxWindow *) objParams.Get_xhoObject();
 
     if( wnd )
     {
         long id = hb_parnl(1);
         wxWindow* parent = (wxWindow *) objParams.param( 2 );
         wxWindow* result = wnd->FindWindowById( id, parent );
-        wxh_itemReturn( result );
+        xho_itemReturn( result );
     }
 }
 
@@ -196,15 +196,15 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYID )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxWindow* wnd = (wxWindow *) objParams.Get_xhoObject();
 
     if( wnd )
     {
         const wxString& label = wxh_parc( 1 );
         wxWindow* parent = (wxWindow *) objParams.param( 2 );
         wxWindow* result =	wnd->FindWindowByLabel( label, parent );
-        wxh_itemReturn( result );
+        xho_itemReturn( result );
     }
 }
 
@@ -214,15 +214,15 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYLABEL )
  */
 HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxWindow* wnd = (wxWindow *) objParams.Get_xhoObject();
 
     if( wnd )
     {
         const wxString& name = wxh_parc( 1 );
         wxWindow* parent = (wxWindow *) objParams.param( 2 );
         wxWindow* result =	wnd->FindWindowByName( name, parent );
-        wxh_itemReturn( result );
+        xho_itemReturn( result );
     }
 }
 
@@ -232,7 +232,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
  */
 HB_FUNC( WXWINDOW_FITINSIDE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         wnd->FitInside();
@@ -244,7 +244,7 @@ HB_FUNC( WXWINDOW_FITINSIDE )
 */
 HB_FUNC( WXWINDOW_FREEZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->Freeze();
@@ -256,7 +256,7 @@ HB_FUNC( WXWINDOW_FREEZE )
  */
 HB_FUNC( WXWINDOW_GETCLIENTSIZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
     {
@@ -271,7 +271,7 @@ HB_FUNC( WXWINDOW_GETCLIENTSIZE )
  */
 HB_FUNC( WXWINDOW_GETCHILDREN )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -284,7 +284,7 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
         for( iter = windowList.begin(); iter != windowList.end(); ++iter )
         {
             window = *iter;
-            pItm = wxh_itemListGet_HB( window );
+            pItm = xho_itemListGet_HB( window );
             if( pItm )
                 hb_arraySet( pList, ++index, pItm );
         }
@@ -298,7 +298,7 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
  */
 HB_FUNC( WXWINDOW_GETEXTRASTYLE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retnl( wnd->GetExtraStyle() );
@@ -310,14 +310,14 @@ HB_FUNC( WXWINDOW_GETEXTRASTYLE )
 */
 HB_FUNC( WXWINDOW_GETFONT )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
         wxFont *font = new wxFont( wnd->GetFont() );
         HB_FUNC_EXEC( WXFONT );
         PHB_ITEM pFont = hb_stackReturnItem();
-        wxh_ObjParams objParams = wxh_ObjParams( pFont );
+        xho_ObjParams objParams = xho_ObjParams( pFont );
         objParams.Return( font, true );
     }
 }
@@ -328,10 +328,10 @@ HB_FUNC( WXWINDOW_GETFONT )
  */
 HB_FUNC( WXWINDOW_GETGRANDPARENT )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
-        wxh_itemReturn( wnd->GetGrandParent() );
+        xho_itemReturn( wnd->GetGrandParent() );
 }
 
 /*
@@ -340,7 +340,7 @@ HB_FUNC( WXWINDOW_GETGRANDPARENT )
  */
 HB_FUNC( WXWINDOW_GETID )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retnl( wnd->GetId() );
@@ -352,7 +352,7 @@ HB_FUNC( WXWINDOW_GETID )
  */
 HB_FUNC( WXWINDOW_GETLABEL )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wxh_retc( wnd->GetLabel() );
@@ -364,7 +364,7 @@ HB_FUNC( WXWINDOW_GETLABEL )
  */
 HB_FUNC( WXWINDOW_GETNAME )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wxh_retc( wnd->GetName() );
@@ -376,14 +376,14 @@ HB_FUNC( WXWINDOW_GETNAME )
  */
 HB_FUNC( WXWINDOW_GETPARENT )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
         wxWindow* parent =	wnd->GetParent();
         if( parent )
         {
-            wxh_itemReturn( parent );
+            xho_itemReturn( parent );
         }
     }
 }
@@ -394,7 +394,7 @@ HB_FUNC( WXWINDOW_GETPARENT )
  */
 HB_FUNC( WXWINDOW_GETPOINTSIZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retni( wnd->GetFont().GetPointSize() );
@@ -406,7 +406,7 @@ HB_FUNC( WXWINDOW_GETPOINTSIZE )
  */
 HB_FUNC( WXWINDOW_GETSIZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
     {
@@ -421,14 +421,14 @@ HB_FUNC( WXWINDOW_GETSIZE )
  */
 HB_FUNC( WXWINDOW_GETSIZER )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
     {
         wxSizer* sizer =	wnd->GetSizer();
         if( sizer )
         {
-            wxh_itemReturn( sizer );
+            xho_itemReturn( sizer );
         }
     }
 }
@@ -439,11 +439,11 @@ HB_FUNC( WXWINDOW_GETSIZER )
  */
 HB_FUNC( WXWINDOW_GETVALIDATOR )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
-        wxh_itemReturn( wnd->GetValidator() );
+        xho_itemReturn( wnd->GetValidator() );
     }
 }
 
@@ -453,7 +453,7 @@ HB_FUNC( WXWINDOW_GETVALIDATOR )
  */
 HB_FUNC( WXWINDOW_HIDE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         hb_retl( wnd->Hide() );
@@ -465,7 +465,7 @@ HB_FUNC( WXWINDOW_HIDE )
 */
 HB_FUNC( WXWINDOW_ISENABLED )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         hb_retl( wnd->IsEnabled() );
@@ -477,7 +477,7 @@ HB_FUNC( WXWINDOW_ISENABLED )
  */
 HB_FUNC( WXWINDOW_ISSHOWN )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         hb_retl( wnd->IsShown() );
@@ -489,7 +489,7 @@ HB_FUNC( WXWINDOW_ISSHOWN )
  */
 HB_FUNC( WXWINDOW_LAYOUT )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
         wnd->Layout();
@@ -501,7 +501,7 @@ HB_FUNC( WXWINDOW_LAYOUT )
  */
 HB_FUNC( WXWINDOW_MAKEMODAL )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->MakeModal( hb_parl( 1 ) );
@@ -513,9 +513,9 @@ HB_FUNC( WXWINDOW_MAKEMODAL )
  */
 HB_FUNC( WXWINDOW_POPUPMENU )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+    wxWindow* wnd = (wxWindow *) objParams.Get_xhoObject();
 
     wx_Menu* menu = (wx_Menu *) objParams.paramParent( 1 );
 
@@ -546,7 +546,7 @@ HB_FUNC( WXWINDOW_POPUPMENU )
  */
 HB_FUNC( WXWINDOW_RAISE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->Raise();
@@ -558,7 +558,7 @@ HB_FUNC( WXWINDOW_RAISE )
  */
 HB_FUNC( WXWINDOW_REFRESH )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->Refresh();
@@ -570,7 +570,7 @@ HB_FUNC( WXWINDOW_REFRESH )
  */
 HB_FUNC( WXWINDOW_SETEXTRASTYLE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->SetExtraStyle( hb_parnl( 1 ) );
@@ -582,7 +582,7 @@ HB_FUNC( WXWINDOW_SETEXTRASTYLE )
  */
 HB_FUNC( WXWINDOW_SETFOCUS )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->SetFocus();
@@ -594,7 +594,7 @@ HB_FUNC( WXWINDOW_SETFOCUS )
  */
 HB_FUNC( WXWINDOW_SETID )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->SetId( hb_parni( 1 ) );
@@ -606,7 +606,7 @@ HB_FUNC( WXWINDOW_SETID )
  */
 HB_FUNC( WXWINDOW_SETLABEL )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -621,7 +621,7 @@ HB_FUNC( WXWINDOW_SETLABEL )
 */
 HB_FUNC( WXWINDOW_SETMAXSIZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -635,7 +635,7 @@ HB_FUNC( WXWINDOW_SETMAXSIZE )
 */
 HB_FUNC( WXWINDOW_SETMINSIZE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -649,7 +649,7 @@ HB_FUNC( WXWINDOW_SETMINSIZE )
  */
 HB_FUNC( WXWINDOW_SETNAME )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -664,8 +664,8 @@ HB_FUNC( WXWINDOW_SETNAME )
  */
 HB_FUNC( WXWINDOW_SETSIZER )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxWindow* wnd = (wxWindow *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxWindow* wnd = (wxWindow *) objParams.Get_xhoObject();
 
     if( wnd )
     {
@@ -683,7 +683,7 @@ HB_FUNC( WXWINDOW_SETSIZER )
  */
 HB_FUNC( WXWINDOW_SETTOOLTIP )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -697,11 +697,11 @@ HB_FUNC( WXWINDOW_SETTOOLTIP )
  */
 HB_FUNC( WXWINDOW_SETVALIDATOR )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
-        wxValidator* val = (wxValidator *) wxh_par_WX( 1 );
+        wxValidator* val = (wxValidator *) xho_par_XhoObject( 1 );
         if( val )
         {
             const wxValidator& validator = *val;
@@ -716,7 +716,7 @@ HB_FUNC( WXWINDOW_SETVALIDATOR )
  */
 HB_FUNC( WXWINDOW_SHOW )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
     {
@@ -731,7 +731,7 @@ HB_FUNC( WXWINDOW_SHOW )
 */
 HB_FUNC( WXWINDOW_THAW )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( wnd )
         wnd->Thaw();
@@ -743,7 +743,7 @@ HB_FUNC( WXWINDOW_THAW )
 */
 HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
     {
@@ -757,7 +757,7 @@ HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
  */
 HB_FUNC( WXWINDOW_VALIDATE )
 {
-    wxWindow* wnd = (wxWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( wnd )
     {

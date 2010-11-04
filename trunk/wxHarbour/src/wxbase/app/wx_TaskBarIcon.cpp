@@ -32,7 +32,7 @@
 */
 wx_TaskBarIcon::~wx_TaskBarIcon()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -41,20 +41,20 @@ wx_TaskBarIcon::~wx_TaskBarIcon()
 */
 wxMenu* wx_TaskBarIcon::CreatePopupMenu()
 {
-    PHB_ITEM pTaskBarIcon = wxh_itemListGet_HB( this );
+    PHB_ITEM pTaskBarIcon = xho_itemListGet_HB( this );
     wxMenu* menu = NULL;
 
     if( pTaskBarIcon )
     {
         hb_objSendMsg( pTaskBarIcon, "CreatePopupMenu", 0 );
-        menu = (wxMenu *) wxh_itemListGet_WX( hb_stackReturnItem() );
+        menu = (wxMenu *) xho_itemListGet_XHO( hb_stackReturnItem() );
     }
     return menu;
 }
 
 HB_FUNC( WXTASKBARICON_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_TaskBarIcon* taskBarIcon = new wx_TaskBarIcon();
 
@@ -67,7 +67,7 @@ HB_FUNC( WXTASKBARICON_NEW )
 */
 HB_FUNC( WXTASKBARICON_ISICONINSTALLED )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->IsIconInstalled() );
@@ -79,7 +79,7 @@ HB_FUNC( WXTASKBARICON_ISICONINSTALLED )
 */
 HB_FUNC( WXTASKBARICON_ISOK )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->IsOk() );
@@ -91,11 +91,11 @@ HB_FUNC( WXTASKBARICON_ISOK )
 */
 HB_FUNC( WXTASKBARICON_POPUPMENU )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( taskBarIcon )
     {
-        wxMenu* menu = (wxMenu *) wxh_par_WX( 1 );
+        wxMenu* menu = (wxMenu *) xho_par_XhoObject( 1 );
 
         if( menu )
             hb_retl( taskBarIcon->PopupMenu( menu ) );
@@ -108,7 +108,7 @@ HB_FUNC( WXTASKBARICON_POPUPMENU )
 */
 HB_FUNC( WXTASKBARICON_REMOVEICON )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( taskBarIcon )
         hb_retl( taskBarIcon->RemoveIcon() );
@@ -120,7 +120,7 @@ HB_FUNC( WXTASKBARICON_REMOVEICON )
 */
 HB_FUNC( WXTASKBARICON_SETICON )
 {
-    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTaskBarIcon* taskBarIcon = (wxTaskBarIcon *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( taskBarIcon )
     {
@@ -130,7 +130,7 @@ HB_FUNC( WXTASKBARICON_SETICON )
         }
         else
         {
-            wxIcon* icon = (wxIcon *) wxh_par_WX( 1 );
+            wxIcon* icon = (wxIcon *) xho_par_XhoObject( 1 );
             if( icon )
                 hb_retl( taskBarIcon->SetIcon( *icon, wxh_parc( 2 ) ) );
         }

@@ -30,7 +30,7 @@
 */
 wx_ImageList::~wx_ImageList()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_ImageList::~wx_ImageList()
 */
 HB_FUNC( WXIMAGELIST_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_ImageList* imageList = new wx_ImageList();
 
@@ -52,7 +52,7 @@ HB_FUNC( WXIMAGELIST_NEW )
 */
 // HB_FUNC( WXIMAGELIST_ADD )
 // {
-//   wxImageList* imageList = (wxImageList *) wxh_itemListGet_WX( hb_stackSelfItem() );
+//   wxImageList* imageList = (wxImageList *) xho_itemListGet_XHO( hb_stackSelfItem() );
 //
 //   if( imageList )
 //   {

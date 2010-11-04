@@ -31,7 +31,7 @@
 */
 wx_AuiNotebook::~wx_AuiNotebook()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 /*
     wxAuiNotebook:New
@@ -39,7 +39,7 @@ wx_AuiNotebook::~wx_AuiNotebook()
 */
 HB_FUNC( WXAUINOTEBOOK_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_AuiNotebook* auiNotebook;
 
@@ -64,8 +64,8 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
 */
 HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     //const wxBitmap& bitmap = objParam.paramParent( 4 );
     if( auiNotebook )
@@ -85,9 +85,9 @@ HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -103,15 +103,15 @@ HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
     
     size_t page_i = hb_parnl( 1 ) - 1;
 
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
-        wxh_itemReturn( auiNotebook->GetPage( page_i ) );
+        xho_itemReturn( auiNotebook->GetPage( page_i ) );
     }
 }
 
@@ -121,9 +121,9 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     if( auiNotebook )
     {
@@ -133,9 +133,9 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 
 HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
     
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
     
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -151,9 +151,9 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 */
 HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     if( auiNotebook )
     {
@@ -167,9 +167,9 @@ HB_FUNC( WXAUINOTEBOOK_GETSELECTION )
 */
 HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -185,9 +185,9 @@ HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
 */
 HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -203,9 +203,9 @@ HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
 */
 HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_wxObject();
+    wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     

@@ -31,7 +31,7 @@
 */
 wx_Timer::~wx_Timer()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_Timer::~wx_Timer()
 */
 void wx_Timer::Notify()
 {
-    PHB_ITEM pTimer = wxh_itemListGet_HB( this );
+    PHB_ITEM pTimer = xho_itemListGet_HB( this );
 
     if( pTimer )
     {
@@ -54,7 +54,7 @@ void wx_Timer::Notify()
 */
 HB_FUNC( WXTIMER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxEvtHandler* owner = (wxEvtHandler *) objParams.paramParent( 1 );
     int id = ISNIL( 2 ) ? -1 : hb_parni( 2 );
@@ -98,7 +98,7 @@ HB_FUNC( WXTIMER_NEW )
 */
 HB_FUNC( WXTIMER_GETINTERVAL )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timer )
     {
@@ -112,7 +112,7 @@ HB_FUNC( WXTIMER_GETINTERVAL )
 */
 HB_FUNC( WXTIMER_ISONESHOT )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timer )
     {
@@ -126,7 +126,7 @@ HB_FUNC( WXTIMER_ISONESHOT )
 */
 HB_FUNC( WXTIMER_ISRUNNING )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timer )
     {
@@ -140,8 +140,8 @@ HB_FUNC( WXTIMER_ISRUNNING )
 */
 HB_FUNC( WXTIMER_SETOWNER )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
-    wxEvtHandler* evtHandler = (wxEvtHandler *) wxh_par_WX( 1 );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
+    wxEvtHandler* evtHandler = (wxEvtHandler *) xho_par_XhoObject( 1 );
 
     if( timer && evtHandler )
     {
@@ -156,7 +156,7 @@ HB_FUNC( WXTIMER_SETOWNER )
 */
 HB_FUNC( WXTIMER_START )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timer )
     {
@@ -172,7 +172,7 @@ HB_FUNC( WXTIMER_START )
 */
 HB_FUNC( WXTIMER_STOP )
 {
-    wx_Timer *timer = (wx_Timer *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Timer *timer = (wx_Timer *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( timer )
     {

@@ -31,7 +31,7 @@
 */
 wx_TextCtrl::~wx_TextCtrl()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_TextCtrl::~wx_TextCtrl()
 */
 HB_FUNC( WXTEXTCTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
@@ -61,7 +61,7 @@ HB_FUNC( WXTEXTCTRL_NEW )
 */
 HB_FUNC( WXTEXTCTRL_APPENDTEXT )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( textCtrl )
     {
@@ -76,7 +76,7 @@ HB_FUNC( WXTEXTCTRL_APPENDTEXT )
  */
 HB_FUNC( WXTEXTCTRL_CHANGEVALUE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     textCtrl->ChangeValue( wxh_parc( 1 ) );
@@ -88,7 +88,7 @@ HB_FUNC( WXTEXTCTRL_CHANGEVALUE )
 */
 HB_FUNC( WXTEXTCTRL_CLEAR )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( textCtrl )
     {
@@ -102,7 +102,7 @@ HB_FUNC( WXTEXTCTRL_CLEAR )
  */
 HB_FUNC( WXTEXTCTRL_DISCARDEDITS )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->DiscardEdits();
@@ -114,7 +114,7 @@ HB_FUNC( WXTEXTCTRL_DISCARDEDITS )
  */
 HB_FUNC( WXTEXTCTRL_GETINSERTIONPOINT )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     hb_retnl( textCtrl->GetInsertionPoint() );
@@ -126,7 +126,7 @@ HB_FUNC( WXTEXTCTRL_GETINSERTIONPOINT )
  */
 HB_FUNC( WXTEXTCTRL_GETLASTPOSITION )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     hb_retnl( textCtrl->GetLastPosition() );
@@ -138,7 +138,7 @@ HB_FUNC( WXTEXTCTRL_GETLASTPOSITION )
  */
 HB_FUNC( WXTEXTCTRL_GETLINELENGTH )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_parni( textCtrl->GetLineLength( hb_parnl( 1 ) ) );
@@ -150,7 +150,7 @@ HB_FUNC( WXTEXTCTRL_GETLINELENGTH )
  */
 HB_FUNC( WXTEXTCTRL_GETLINETEXT )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         wxh_retc( textCtrl->GetLineText( hb_parnl( 1 ) ) );
@@ -162,7 +162,7 @@ HB_FUNC( WXTEXTCTRL_GETLINETEXT )
  */
 HB_FUNC( WXTEXTCTRL_GETNUMBEROFLINES )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_parni( textCtrl->GetNumberOfLines() );
@@ -174,7 +174,7 @@ HB_FUNC( WXTEXTCTRL_GETNUMBEROFLINES )
  */
 HB_FUNC( WXTEXTCTRL_GETRANGE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         wxh_retc( textCtrl->GetRange( hb_parnl( 1 ), hb_parnl( 2 ) ) );
@@ -186,7 +186,7 @@ HB_FUNC( WXTEXTCTRL_GETRANGE )
  */
 HB_FUNC( WXTEXTCTRL_GETSTRINGSELECTION )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         wxh_retc( textCtrl->GetStringSelection() );
@@ -198,7 +198,7 @@ HB_FUNC( WXTEXTCTRL_GETSTRINGSELECTION )
  */
 HB_FUNC( WXTEXTCTRL_GETVALUE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         wxh_retc( textCtrl->GetValue() );
@@ -210,7 +210,7 @@ HB_FUNC( WXTEXTCTRL_GETVALUE )
  */
 HB_FUNC( WXTEXTCTRL_ISEDITABLE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     hb_retl( textCtrl->IsEditable() );
@@ -222,7 +222,7 @@ HB_FUNC( WXTEXTCTRL_ISEDITABLE )
  */
 HB_FUNC( WXTEXTCTRL_ISEMPTY )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_retl( textCtrl->IsEmpty() );
@@ -234,7 +234,7 @@ HB_FUNC( WXTEXTCTRL_ISEMPTY )
  */
 HB_FUNC( WXTEXTCTRL_ISMODIFIED )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_retl( textCtrl->IsModified() );
@@ -246,7 +246,7 @@ HB_FUNC( WXTEXTCTRL_ISMODIFIED )
 */
 HB_FUNC( WXTEXTCTRL_ISMULTILINE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( textCtrl )
         hb_retl( textCtrl->IsMultiLine() );
@@ -258,7 +258,7 @@ HB_FUNC( WXTEXTCTRL_ISMULTILINE )
  */
 HB_FUNC( WXTEXTCTRL_ISSINGLELINE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     hb_retl( textCtrl->IsSingleLine() );
@@ -270,7 +270,7 @@ HB_FUNC( WXTEXTCTRL_ISSINGLELINE )
  */
 HB_FUNC( WXTEXTCTRL_LOADFILE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_retl( textCtrl->LoadFile( wxh_parc( 1 ), hb_parni( 2 ) ) );
@@ -282,7 +282,7 @@ HB_FUNC( WXTEXTCTRL_LOADFILE )
  */
 HB_FUNC( WXTEXTCTRL_MARKDIRTY )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->MarkDirty();
@@ -294,7 +294,7 @@ HB_FUNC( WXTEXTCTRL_MARKDIRTY )
  */
 HB_FUNC( WXTEXTCTRL_SAVEFILE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         hb_retl( textCtrl->SaveFile( wxh_parc( 1 ), hb_parni( 2 ) ) );
@@ -306,7 +306,7 @@ HB_FUNC( WXTEXTCTRL_SAVEFILE )
  */
 HB_FUNC( WXTEXTCTRL_SETEDITABLE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     {
@@ -321,7 +321,7 @@ HB_FUNC( WXTEXTCTRL_SETEDITABLE )
  */
 HB_FUNC( WXTEXTCTRL_SETINSERTIONPOINT )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->SetInsertionPoint( hb_parnl( 1 ) );
@@ -333,7 +333,7 @@ HB_FUNC( WXTEXTCTRL_SETINSERTIONPOINT )
  */
 HB_FUNC( WXTEXTCTRL_SETINSERTIONPOINTEND )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->SetInsertionPointEnd();
@@ -345,7 +345,7 @@ HB_FUNC( WXTEXTCTRL_SETINSERTIONPOINTEND )
  */
 HB_FUNC( WXTEXTCTRL_SETMAXLENGTH )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->SetMaxLength( ( ULONG ) hb_parnl( 1 ) );
@@ -357,7 +357,7 @@ HB_FUNC( WXTEXTCTRL_SETMAXLENGTH )
  */
 HB_FUNC( WXTEXTCTRL_SETMODIFIED )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     {
@@ -372,7 +372,7 @@ HB_FUNC( WXTEXTCTRL_SETMODIFIED )
  */
 HB_FUNC( WXTEXTCTRL_SETSELECTION )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
     textCtrl->SetSelection( ISNIL( 1 ) ? -1 : hb_parnl( 1 ), ISNIL( 2 ) ? -1 : hb_parnl( 2 ) );
@@ -384,7 +384,7 @@ HB_FUNC( WXTEXTCTRL_SETSELECTION )
 */
 HB_FUNC( WXTEXTCTRL_SETVALUE )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( textCtrl )
     {
@@ -399,7 +399,7 @@ HB_FUNC( WXTEXTCTRL_SETVALUE )
  */
 HB_FUNC( WXTEXTCTRL_SHOWPOSITION )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->ShowPosition( hb_parnl( 1 ) );
@@ -411,7 +411,7 @@ HB_FUNC( WXTEXTCTRL_SHOWPOSITION )
  */
 HB_FUNC( WXTEXTCTRL_WRITETEXT )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
         textCtrl->WriteText( wxh_parc( 1 ) );
@@ -423,7 +423,7 @@ HB_FUNC( WXTEXTCTRL_WRITETEXT )
  */
 HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
  
     if( textCtrl )
     {
@@ -466,7 +466,7 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
         }
         else if (hb_pcount() == 1 && ISOBJECT(1) )			
         {
-            const wxColour& color = * (wxColour *) wxh_par_WX( 1 );
+            const wxColour& color = * (wxColour *) xho_par_XhoObject( 1 );
             textCtrl->SetBackgroundColour( color );
         }
     }
@@ -478,7 +478,7 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
  */
 HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
 {
-    wxTextCtrl* textCtrl = (wxTextCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
 
     if( textCtrl )
@@ -522,7 +522,7 @@ HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
         }
         else if (hb_pcount() == 1 && ISOBJECT(1) )			
         {
-            const wxColour& color = * (wxColour *) wxh_par_WX( 1 );
+            const wxColour& color = * (wxColour *) xho_par_XhoObject( 1 );
             textCtrl->SetForegroundColour( color );
         }
     }

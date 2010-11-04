@@ -31,7 +31,7 @@
 */
 wx_MenuBar::~wx_MenuBar()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_MenuBar::~wx_MenuBar()
 */
 HB_FUNC( WXMENUBAR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_MenuBar* menuBar = new wx_MenuBar( hb_parnl( 1 ) );
 
@@ -49,8 +49,8 @@ HB_FUNC( WXMENUBAR_NEW )
 
 HB_FUNC( WXMENUBAR_APPEND )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wx_MenuBar* menuBar = (wx_MenuBar *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wx_MenuBar* menuBar = (wx_MenuBar *) objParams.Get_xhoObject();
 
     wx_Menu* menu = (wx_Menu *) objParams.paramChild( 1 );
 

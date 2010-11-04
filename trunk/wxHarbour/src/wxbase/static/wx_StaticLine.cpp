@@ -30,7 +30,7 @@
 */
 wx_StaticLine::~wx_StaticLine()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_StaticLine::~wx_StaticLine()
 */
 HB_FUNC( WXSTATICLINE_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -58,7 +58,7 @@ HB_FUNC( WXSTATICLINE_NEW )
 */
 HB_FUNC( WXSTATICLINE_ISVERTICAL )
 {
-    wxStaticLine* staticLine = (wxStaticLine *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxStaticLine* staticLine = (wxStaticLine *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( staticLine )
     {
@@ -72,7 +72,7 @@ HB_FUNC( WXSTATICLINE_ISVERTICAL )
 */
 HB_FUNC( WXSTATICLINE_GETDEFAULTSIZE )
 {
-    wxStaticLine* staticLine = (wxStaticLine *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxStaticLine* staticLine = (wxStaticLine *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( staticLine )
     {

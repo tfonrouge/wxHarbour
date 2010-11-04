@@ -25,7 +25,7 @@
 */
 wx_FileDialog::~wx_FileDialog()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -34,7 +34,7 @@ wx_FileDialog::~wx_FileDialog()
 */
 HB_FUNC( WXFILEDIALOG_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     const wxString& message = ISNIL( 2 ) ? wxString( _T("Choose a file") ) : wxh_parc( 2 );
@@ -58,7 +58,7 @@ HB_FUNC( WXFILEDIALOG_NEW )
 HB_FUNC( WXFILEDIALOG_GETDIRECTORY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         wxh_retc( fileDlg->GetDirectory() );
@@ -71,7 +71,7 @@ HB_FUNC( WXFILEDIALOG_GETDIRECTORY )
 HB_FUNC( WXFILEDIALOG_GETFILENAME )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         wxh_retc( fileDlg->GetFilename() );
@@ -84,7 +84,7 @@ HB_FUNC( WXFILEDIALOG_GETFILENAME )
 HB_FUNC( WXFILEDIALOG_GETFILENAMES )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     wxArrayString filenames;
 
@@ -113,7 +113,7 @@ HB_FUNC( WXFILEDIALOG_GETFILENAMES )
 HB_FUNC( WXFILEDIALOG_GETFILTERINDEX )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         hb_retni( fileDlg->GetFilterIndex() );
@@ -126,7 +126,7 @@ HB_FUNC( WXFILEDIALOG_GETFILTERINDEX )
 HB_FUNC( WXFILEDIALOG_GETMESSAGE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         wxh_retc( fileDlg->GetMessage() );
@@ -139,7 +139,7 @@ HB_FUNC( WXFILEDIALOG_GETMESSAGE )
 HB_FUNC( WXFILEDIALOG_GETPATH )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         wxh_retc( fileDlg->GetPath() );
@@ -152,7 +152,7 @@ HB_FUNC( WXFILEDIALOG_GETPATH )
 HB_FUNC( WXFILEDIALOG_GETPATHS )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     wxArrayString paths;
 
@@ -181,7 +181,7 @@ HB_FUNC( WXFILEDIALOG_GETPATHS )
 HB_FUNC( WXFILEDIALOG_GETWILDCARD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         wxh_retc( fileDlg->GetWildcard() );
@@ -194,7 +194,7 @@ HB_FUNC( WXFILEDIALOG_GETWILDCARD )
 HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -210,7 +210,7 @@ HB_FUNC( WXFILEDIALOG_SETDIRECTORY )
 HB_FUNC( WXFILEDIALOG_SETFILENAME )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -226,7 +226,7 @@ HB_FUNC( WXFILEDIALOG_SETFILENAME )
 HB_FUNC( WXFILEDIALOG_SETFILTERINDEX )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -242,7 +242,7 @@ HB_FUNC( WXFILEDIALOG_SETFILTERINDEX )
 HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -258,7 +258,7 @@ HB_FUNC( WXFILEDIALOG_SETMESSAGE )
 HB_FUNC( WXFILEDIALOG_SETPATH )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -274,7 +274,7 @@ HB_FUNC( WXFILEDIALOG_SETPATH )
 HB_FUNC( WXFILEDIALOG_SETWILDCARD )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
     {
@@ -290,7 +290,7 @@ HB_FUNC( WXFILEDIALOG_SETWILDCARD )
 HB_FUNC( WXFILEDIALOG_SHOWMODAL )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFileDialog* fileDlg = (wxFileDialog *) wxh_itemListGet_WX( pSelf );
+    wxFileDialog* fileDlg = (wxFileDialog *) xho_itemListGet_XHO( pSelf );
 
     if( fileDlg )
         hb_retni( fileDlg->ShowModal() );

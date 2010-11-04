@@ -30,12 +30,12 @@
 */
 wx_BoxSizer::~wx_BoxSizer()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXBOXSIZER_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_BoxSizer* boxSizer = new wx_BoxSizer( hb_parni( 1 ) );
 
@@ -49,7 +49,7 @@ HB_FUNC( WXBOXSIZER_NEW )
 HB_FUNC( WXBOXSIZER_GETORIENTATION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxBoxSizer* boxSizer = (wxBoxSizer *) wxh_itemListGet_WX( pSelf );
+    wxBoxSizer* boxSizer = (wxBoxSizer *) xho_itemListGet_XHO( pSelf );
 
     if( boxSizer )
     {
