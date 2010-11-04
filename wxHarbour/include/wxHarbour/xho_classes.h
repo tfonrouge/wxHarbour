@@ -14,6 +14,10 @@ void          xho_itemReturn( xhoObject* wxObj );
 void          xho_par_arrayInt( int param, int* arrayInt, const size_t len );
 xhoObject*    xho_par_XhoObject( int param );
 
+/* generic qoutf for debug output */
+void qoutf( const char* format, ... );
+void qqoutf( const char* format, ... );
+
 typedef struct _CONN_PARAMS
 {
     bool force;

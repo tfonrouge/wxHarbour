@@ -111,10 +111,6 @@ PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 void          TRACEOUT( const char* fmt, const void* val);
 void          TRACEOUT( const char* fmt, long int val);
 
-/* generic qoutf for debug output */
-void qoutf( const char* format, ... );
-void qqoutf( const char* format, ... );
-
 /* wxharbour error handling */
 void wxh_errRT_ParamNum();   // error at wrong number of params
 
