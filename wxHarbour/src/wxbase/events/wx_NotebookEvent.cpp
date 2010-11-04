@@ -31,7 +31,7 @@
 */
 HB_FUNC( WXNOTEBOOKEVENT_GETOLDSELECTION )
 {
-    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( notebookEvent )
         hb_retni( notebookEvent->GetOldSelection() + 1 );
@@ -43,7 +43,7 @@ HB_FUNC( WXNOTEBOOKEVENT_GETOLDSELECTION )
 */
 HB_FUNC( WXNOTEBOOKEVENT_GETSELECTION )
 {
-    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( notebookEvent )
         hb_retni( notebookEvent->GetSelection() + 1 );
@@ -55,7 +55,7 @@ HB_FUNC( WXNOTEBOOKEVENT_GETSELECTION )
 */
 HB_FUNC( WXNOTEBOOKEVENT_SETOLDSELECTION )
 {
-    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( notebookEvent )
         notebookEvent->SetOldSelection( hb_parni( 1 ) - 1 );
@@ -67,7 +67,7 @@ HB_FUNC( WXNOTEBOOKEVENT_SETOLDSELECTION )
 */
 HB_FUNC( WXNOTEBOOKEVENT_SETSELECTION )
 {
-    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxNotebookEvent * notebookEvent = (wxNotebookEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( notebookEvent )
         notebookEvent->SetSelection( hb_parni( 1 ) - 1 );

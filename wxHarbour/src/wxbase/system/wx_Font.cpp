@@ -30,7 +30,7 @@
 */
 wx_Font::~wx_Font()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_Font::~wx_Font()
 */
 HB_FUNC( WXFONT_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Font* font = new wx_Font();
 
@@ -53,7 +53,7 @@ HB_FUNC( WXFONT_NEW )
 HB_FUNC( WXFONT_GETFACENAME )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Font* font = (wx_Font *) wxh_itemListGet_WX( pSelf );
+    wx_Font* font = (wx_Font *) xho_itemListGet_XHO( pSelf );
 
     if( font )
         wxh_retc( font->GetFaceName() );
@@ -66,7 +66,7 @@ HB_FUNC( WXFONT_GETFACENAME )
 HB_FUNC( WXFONT_GETPOINTSIZE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Font* font = (wx_Font *) wxh_itemListGet_WX( pSelf );
+    wx_Font* font = (wx_Font *) xho_itemListGet_XHO( pSelf );
 
     if( font )
         hb_retni( font->GetPointSize() );

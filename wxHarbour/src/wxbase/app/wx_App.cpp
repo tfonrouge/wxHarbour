@@ -55,7 +55,7 @@ HB_FUNC_EXTERN( WXHERRORSYS );
 */
 HB_FUNC( WXSAFEYIELD )
 {
-    hb_retl( wxSafeYield( (wxWindow *) wxh_itemListGet_WX( hb_param( 1, HB_IT_OBJECT ) ), hb_parl( 2 ) ) );
+    hb_retl( wxSafeYield( (wxWindow *) xho_itemListGet_XHO( hb_param( 1, HB_IT_OBJECT ) ), hb_parl( 2 ) ) );
 }
 
 HB_FUNC_EXTERN( __QUIT );
@@ -78,7 +78,7 @@ int wx_App::OnExit()
 */
 wx_App::~wx_App()
 {
-    wxh_itemListReleaseAll();
+    xho_itemListReleaseAll();
     hb_itemRelease( hb_App );
 }
 
@@ -151,7 +151,7 @@ HB_FUNC( WXAPP_GETTOPWINDOW )
 {
     wxWindow *window = wxGetApp().GetTopWindow();
     if( window )
-        wxh_itemReturn( window );
+        xho_itemReturn( window );
     else
         hb_ret();
 }

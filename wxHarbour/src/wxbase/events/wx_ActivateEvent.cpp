@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXACTIVATEEVENT_GETACTIVE )
 {
-    wxActivateEvent* activateEvent = (wxActivateEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxActivateEvent* activateEvent = (wxActivateEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( activateEvent )
         hb_retl( activateEvent->GetActive() );

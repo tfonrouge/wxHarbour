@@ -30,12 +30,12 @@
 */
 wx_RadioBox::~wx_RadioBox()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXRADIOBOX_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -60,7 +60,7 @@ HB_FUNC( WXRADIOBOX_NEW )
 HB_FUNC( WXRADIOBOX_GETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_itemListGet_WX( pSelf );
+    wx_RadioBox* radioBox = (wx_RadioBox *) xho_itemListGet_XHO( pSelf );
 
     if( radioBox )
     {
@@ -75,7 +75,7 @@ HB_FUNC( WXRADIOBOX_GETSELECTION )
 HB_FUNC( WXRADIOBOX_SETSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_RadioBox* radioBox = (wx_RadioBox *) wxh_itemListGet_WX( pSelf );
+    wx_RadioBox* radioBox = (wx_RadioBox *) xho_itemListGet_XHO( pSelf );
 
     if( radioBox )
     {

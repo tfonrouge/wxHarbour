@@ -31,7 +31,7 @@
  */
 wx_ScrolledWindow::~wx_ScrolledWindow()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_ScrolledWindow::~wx_ScrolledWindow()
  */
 HB_FUNC( WXSCROLLEDWINDOW_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
     
     wx_ScrolledWindow* scrolledWindow;
 
@@ -66,7 +66,7 @@ HB_FUNC( WXSCROLLEDWINDOW_NEW )
  */
 HB_FUNC( WXSCROLLEDWINDOW_CALCSCROLLEDPOSITION )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -96,7 +96,7 @@ HB_FUNC( WXSCROLLEDWINDOW_CALCSCROLLEDPOSITION )
  */
 HB_FUNC( WXSCROLLEDWINDOW_CALCUNSCROLLEDPOSITION )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -126,7 +126,7 @@ HB_FUNC( WXSCROLLEDWINDOW_CALCUNSCROLLEDPOSITION )
  */
 HB_FUNC( WXSCROLLEDWINDOW_ENABLESCROLLING )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -139,7 +139,7 @@ HB_FUNC( WXSCROLLEDWINDOW_ENABLESCROLLING )
  */
 HB_FUNC( WXSCROLLEDWINDOW_GETSCROLLPIXELSPERUNIT )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -169,7 +169,7 @@ HB_FUNC( WXSCROLLEDWINDOW_GETSCROLLPIXELSPERUNIT )
  */
 HB_FUNC( WXSCROLLEDWINDOW_GETVIEWSTART )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -199,7 +199,7 @@ HB_FUNC( WXSCROLLEDWINDOW_GETVIEWSTART )
  */
 HB_FUNC( WXSCROLLEDWINDOW_GETVIRTUALSIZE )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -229,7 +229,7 @@ HB_FUNC( WXSCROLLEDWINDOW_GETVIRTUALSIZE )
  */
 HB_FUNC( WXSCROLLEDWINDOW_ISRETAINED )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -242,7 +242,7 @@ HB_FUNC( WXSCROLLEDWINDOW_ISRETAINED )
  */
 HB_FUNC( WXSCROLLEDWINDOW_SCROLL )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -255,7 +255,7 @@ HB_FUNC( WXSCROLLEDWINDOW_SCROLL )
  */
 HB_FUNC( WXSCROLLEDWINDOW_SETSCROLLBARS )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -268,7 +268,7 @@ HB_FUNC( WXSCROLLEDWINDOW_SETSCROLLBARS )
  */
 HB_FUNC( WXSCROLLEDWINDOW_SETSCROLLRATE )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
@@ -281,10 +281,10 @@ HB_FUNC( WXSCROLLEDWINDOW_SETSCROLLRATE )
  */
 HB_FUNC( WXSCROLLEDWINDOW_SETTARGETWINDOW )
 {
-    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_ScrolledWindow* scrolledWindow = (wx_ScrolledWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( scrolledWindow )
     {
-        scrolledWindow->SetTargetWindow( (wxWindow *) wxh_par_WX( 1 ) );
+        scrolledWindow->SetTargetWindow( (wxWindow *) xho_par_XhoObject( 1 ) );
     }
 }

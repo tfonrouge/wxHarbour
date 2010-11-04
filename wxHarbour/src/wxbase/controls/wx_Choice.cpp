@@ -30,12 +30,12 @@
 */
 wx_Choice::~wx_Choice()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXCHOICE_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -58,7 +58,7 @@ HB_FUNC( WXCHOICE_NEW )
 HB_FUNC( WXCHOICE_GETCURRENTSELECTION )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_Choice* choice = (wx_Choice *) wxh_itemListGet_WX( pSelf );
+    wx_Choice* choice = (wx_Choice *) xho_itemListGet_XHO( pSelf );
 
     if( choice )
     {

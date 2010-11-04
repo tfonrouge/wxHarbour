@@ -31,7 +31,7 @@
 wx_Validator::wx_Validator( const wx_Validator& validator ) : wxValidator()
 {
     Copy( validator );
-    wxh_itemListSwap( (wxObject *) &validator, this );
+    xho_itemListSwap( (wxObject *) &validator, this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_Validator::wx_Validator( const wx_Validator& validator ) : wxValidator()
 */
 bool wx_Validator::TransferFromWindow()
 {
-    PHB_ITEM pSelf = wxh_itemListGet_HB( this );
+    PHB_ITEM pSelf = xho_itemListGet_HB( this );
     bool result = false;
 
     if( pSelf )
@@ -57,7 +57,7 @@ bool wx_Validator::TransferFromWindow()
 */
 bool wx_Validator::TransferToWindow()
 {
-    PHB_ITEM pSelf = wxh_itemListGet_HB( this );
+    PHB_ITEM pSelf = xho_itemListGet_HB( this );
     bool result = false;
     
     if( pSelf )
@@ -74,11 +74,11 @@ bool wx_Validator::TransferToWindow()
 */
 bool wx_Validator::Validate( wxWindow* parent )
 {
-    PHB_ITEM pSelf = wxh_itemListGet_HB( this );
+    PHB_ITEM pSelf = xho_itemListGet_HB( this );
 
     if( pSelf )
     {
-        PHB_ITEM pParent = wxh_itemListGet_HB( parent );
+        PHB_ITEM pParent = xho_itemListGet_HB( parent );
         if( pParent )
         {
             hb_objSendMsg( pSelf, "Validate", 1, pParent );
@@ -94,7 +94,7 @@ bool wx_Validator::Validate( wxWindow* parent )
 */
 wx_Validator::~wx_Validator()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -103,7 +103,7 @@ wx_Validator::~wx_Validator()
 */
 HB_FUNC( WXVALIDATOR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Validator* validator = new wx_Validator;
     
@@ -116,11 +116,11 @@ HB_FUNC( WXVALIDATOR_NEW )
 */
 HB_FUNC( WXVALIDATOR_GETWINDOW )
 {
-    wx_Validator* validator = (wx_Validator *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wx_Validator* validator = (wx_Validator *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( validator )
     {
-        wxh_itemReturn( validator->GetWindow() );
+        xho_itemReturn( validator->GetWindow() );
     }
 }
 
@@ -130,10 +130,10 @@ HB_FUNC( WXVALIDATOR_GETWINDOW )
 */
 HB_FUNC( WXVALIDATOR_SETWINDOW )
 {
-    wxValidator* validator = (wxValidator *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxValidator* validator = (wxValidator *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( validator )
     {
-        validator->SetWindow( (wxWindow *) wxh_par_WX( 1 ) );
+        validator->SetWindow( (wxWindow *) xho_par_XhoObject( 1 ) );
     }
 }

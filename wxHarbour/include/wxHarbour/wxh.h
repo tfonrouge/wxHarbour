@@ -40,7 +40,6 @@
 #include "wx/taskbar.h"
 #include "wx/notebook.h"
 
-
 #ifdef __VISUALC__
 
 #pragma warning(disable : 4800) // forcing value to bool ...
@@ -59,68 +58,26 @@
 
 using namespace std;
 
-typedef struct _CONN_PARAMS
-{
-    bool force;
-    int id;
-    int lastId;
-    wxEventType eventType;
-    PHB_ITEM pItmActionBlock;
-} CONN_PARAMS, *PCONN_PARAMS;
+//typedef wxObject    xhoObject;
+#define xhoObject wxObject
+#define xhoEventType wxEventType
+#define xhoTopLevelWindow   "WXTOPLEVELWINDOW"
+
+class xho_Item;
+
+/* PHB_BASEARRAY keys, xho_Item* values */
+WX_DECLARE_HASH_MAP( PHB_BASEARRAY, xho_Item*, wxPointerHash, wxPointerEqual, MAP_PHB_BASEARRAY );
+
+/* wxObject* keys, xho_Item* values */
+WX_DECLARE_HASH_MAP( wxObject*, xho_Item*, wxPointerHash, wxPointerEqual, MAP_XHOOBJECT );
+
+/* long keys (crc32), xho_Item* values */
+WX_DECLARE_HASH_MAP( long, xho_Item*, wxIntegerHash, wxIntegerEqual, MAP_CRC32 );
 
 /* PHB_ITEM key, wxObject* values */
 WX_DECLARE_HASH_MAP( PHB_ITEM, bool, wxPointerHash, wxPointerEqual, MAP_PHB_ITEM );
 
-/*
-    wxh_Item class : Holds PHB_ITEM's and the wxObject associated
-*/
-class wxh_Item
-{
-public:
-    bool delete_WX;
-    bool nullObj;
-    wxObject* wxObj;
-    USHORT uiClass;
-    PHB_BASEARRAY objHandle;
-    vector<PCONN_PARAMS> evtList;
-    PHB_ITEM pSelf;
-    USHORT uiRefCount;
-    UINT uiProcNameLine;
-
-    wxh_Item() { delete_WX = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; uiProcNameLine = 0; }
-    ~wxh_Item();
-
-};
-
-class wxh_ObjParams
-{
-private:
-    bool linkChildParentParams;
-    void SetChildItem( const PHB_ITEM pChildItem );
-public:
-
-    PHB_ITEM pParamParent;
-    MAP_PHB_ITEM map_paramListChild;
-
-    PHB_ITEM pSelf;
-    wxh_Item* pWxh_Item;
-
-    wxh_ObjParams( PHB_ITEM pHbObj );
-    ~wxh_ObjParams();
-
-    void ProcessParamLists();
-
-    void Return( wxObject* wxObj, bool bItemRelease = false );
-
-    wxObject* param( int param );
-    wxObject* paramChild( PHB_ITEM pChildItm );
-    wxObject* paramChild( int param );
-    wxObject* paramParent( PHB_ITEM pParentItm );
-    wxObject* paramParent( int param );
-
-    wxObject* Get_wxObject();
-
-};
+#include "xho_classes.h"
 
 HB_FUNC_EXTERN( WXACTIVATEEVENT );
 HB_FUNC_EXTERN( WXCLOSEEVENT );
@@ -137,10 +94,6 @@ HB_FUNC_EXTERN( WXTASKBARICONEVENT );
 HB_FUNC_EXTERN( WXTIMEREVENT );
 HB_FUNC_EXTERN( WXUPDATEUIEVENT );
 
-void          wxh_itemNewReturn( const char * szClsName, wxObject* ctrl, wxObject* parent = NULL );
-void		  wxh_itemReturn( wxObject* wxObj );
-wxObject*     wxh_par_WX( int param );
-void          wxh_par_arrayInt( int param, int* arrayInt, const size_t len );
 wxArrayString wxh_par_wxArrayString( int param );
 wxColour      wxh_par_wxColour( int param );
 wxDateTime    wxh_par_wxDateTime( int param );
@@ -152,13 +105,6 @@ void		  wxh_ret_wxSize( wxSize* size );
 void		  wxh_retc( const wxString & string );
 
 wxString      wxh_CTowxString( const char * szStr, bool convOEM = false );
-void          wxh_itemListDel_WX( wxObject* wxObj, bool bDeleteWxObj = false );
-wxh_Item*     wxh_itemListGet_PWXH_ITEM( wxObject* wxObj );
-wxh_Item*     wxh_itemListGet_PWXH_ITEM( PHB_ITEM pSelf );
-PHB_ITEM      wxh_itemListGet_HB( wxObject* wxObj );
-wxObject*     wxh_itemListGet_WX( PHB_ITEM pSelf );
-void          wxh_itemListReleaseAll();
-bool          wxh_itemListSwap( wxObject *oldObj, wxObject *newObj );
 PHB_ITEM      wxh_itemNullObject( PHB_ITEM pSelf );
 #define		  wxh_wxStringToC( string ) \
                 (string).mb_str( wxConvUTF8 )
@@ -210,12 +156,12 @@ public:
 template <class T>
 hbEvtHandler<T>::~hbEvtHandler()
 {
-    wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( this );
+    xho_Item* pXho_Item = xho_itemListGet_PXHO_ITEM( this );
 
-    if( pWxh_Item )
+    if( pXho_Item )
     {
-        pWxh_Item->delete_WX = false;
-        //delete pWxh_Item;
+        pXho_Item->delete_Xho = false;
+        //delete pXho_Item;
     }
 }
 

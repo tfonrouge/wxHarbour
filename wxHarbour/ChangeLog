@@ -2,6 +2,103 @@
  * $Id$
  */
 
+2010-11-03 22:16 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  include/wxHarbour/wxh.h
+  *  include/wxHarbour/wxharbour.ch
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  src/common/wx_harbour.cpp
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  *  src/raddox/TRDOServer_c.cpp
+  *  src/raddox/TTable_c.cpp
+  *  src/wxbase/advctrls/wx_Grid.cpp
+  *  src/wxbase/advctrls/wx_GridTableBase.cpp
+  *  src/wxbase/advctrls/wx_Panel.cpp
+  *  src/wxbase/advctrls/wx_StatusBar.cpp
+  *  src/wxbase/app/wx_App.cpp
+  *  src/wxbase/app/wx_TaskBarIcon.cpp
+  *  src/wxbase/baseclasses/wx_ControlWithItems.cpp
+  *  src/wxbase/baseclasses/wx_ImageList.cpp
+  *  src/wxbase/baseclasses/wx_ListItem.cpp
+  *  src/wxbase/baseclasses/wx_Object.cpp
+  *  src/wxbase/baseclasses/wx_ScrolledWindow.cpp
+  *  src/wxbase/baseclasses/wx_TopLevelWindow.cpp
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/books/wx_AuiNotebook.cpp
+  *  src/wxbase/books/wx_Listbook.cpp
+  *  src/wxbase/books/wx_Notebook.cpp
+  *  src/wxbase/comdialogs/wx_FileDialog.cpp
+  *  src/wxbase/comdialogs/wx_MessageDialog.cpp
+  *  src/wxbase/containers/wx_SplitterWindow.cpp
+  *  src/wxbase/controls/wx_BitmapButton.cpp
+  *  src/wxbase/controls/wx_Button.cpp
+  *  src/wxbase/controls/wx_CheckBox.cpp
+  *  src/wxbase/controls/wx_Choice.cpp
+  *  src/wxbase/controls/wx_ComboBox.cpp
+  *  src/wxbase/controls/wx_ListCtrl.cpp
+  *  src/wxbase/controls/wx_RadioBox.cpp
+  *  src/wxbase/controls/wx_SearchCtrl.cpp
+  *  src/wxbase/controls/wx_SpinCtrl.cpp
+  *  src/wxbase/controls/wx_StaticBox.cpp
+  *  src/wxbase/controls/wx_StaticText.cpp
+  *  src/wxbase/controls/wx_TextCtrl.cpp
+  *  src/wxbase/controls/wx_TreeCtrl.cpp
+  *  src/wxbase/events/wx_ActivateEvent.cpp
+  *  src/wxbase/events/wx_CloseEvent.cpp
+  *  src/wxbase/events/wx_CommandEvent.cpp
+  *  src/wxbase/events/wx_Event.cpp
+  *  src/wxbase/events/wx_EvtHandler.cpp
+  *  src/wxbase/events/wx_FocusEvent.cpp
+  *  src/wxbase/events/wx_GridEvent.cpp
+  *  src/wxbase/events/wx_KeyEvent.cpp
+  *  src/wxbase/events/wx_MenuEvent.cpp
+  *  src/wxbase/events/wx_NotebookEvent.cpp
+  *  src/wxbase/events/wx_NotifyEvent.cpp
+  *  src/wxbase/events/wx_SizeEvent.cpp
+  *  src/wxbase/events/wx_SocketEvent.cpp
+  *  src/wxbase/events/wx_Timer.cpp
+  *  src/wxbase/events/wx_TimerEvent.cpp
+  *  src/wxbase/events/wx_UpdateUIEvent.cpp
+  *  src/wxbase/html/wx_HtmlEasyPrinting.cpp
+  *  src/wxbase/html/wx_HtmlWindow.cpp
+  *  src/wxbase/image/wx_Bitmap.cpp
+  *  src/wxbase/image/wx_Colour.cpp
+  *  src/wxbase/image/wx_Icon.cpp
+  *  src/wxbase/image/wx_StaticBitmap.cpp
+  *  src/wxbase/manwindows/wx_Dialog.cpp
+  *  src/wxbase/manwindows/wx_Frame.cpp
+  *  src/wxbase/manwindows/wx_MDIChildFrame.cpp
+  *  src/wxbase/manwindows/wx_MDIParentFrame.cpp
+  *  src/wxbase/menu/wx_Menu.cpp
+  *  src/wxbase/menu/wx_MenuBar.cpp
+  *  src/wxbase/menu/wx_MenuItem.cpp
+  *  src/wxbase/miscfuncs/wx_DialogFuncs.cpp
+  *  src/wxbase/networking/wx_IPV4address.cpp
+  *  src/wxbase/networking/wx_SocketBase.cpp
+  *  src/wxbase/networking/wx_SocketClient.cpp
+  *  src/wxbase/networking/wx_SocketServer.cpp
+  *  src/wxbase/pickers/wx_DatePickerCtrl.cpp
+  *  src/wxbase/range/wx_ScrollBar.cpp
+  *  src/wxbase/sizers/wx_BoxSizer.cpp
+  *  src/wxbase/sizers/wx_FlexGridSizer.cpp
+  *  src/wxbase/sizers/wx_GridSizer.cpp
+  *  src/wxbase/sizers/wx_Sizer.cpp
+  *  src/wxbase/sizers/wx_StaticBoxSizer.cpp
+  *  src/wxbase/static/wx_Gauge.cpp
+  *  src/wxbase/static/wx_StaticLine.cpp
+  *  src/wxbase/system/wx_Font.cpp
+  *  src/wxbase/system/wx_PlatformInfo.cpp
+  *  src/wxbase/toolbar/wx_ToolBar.cpp
+  *  src/wxbase/toolbar/wx_ToolBarToolBase.cpp
+  *  src/wxbase/validators/wx_Validator.cpp
+  *  src/wxbase/xmlclasses/wx_XmlDocument.cpp
+  +  include/wxHarbour/xho_classes.h
+  +  src/common/xho_classes.cpp
+     * isolated engine to link Harbour objs with C++ objs
+     * renamed some prefix funcs from wxh* to xho*
+
 2010-11-01 17:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  src/common/wx_harbour.cpp

@@ -240,6 +240,7 @@ WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wx_err.o \
 	$(__BUILDDIR__)/wxHarbour_wx_functions.o \
 	$(__BUILDDIR__)/wxHarbour_wx_harbour.o \
+	$(__BUILDDIR__)/wxHarbour_xho_classes.o \
 	$(__BUILDDIR__)/wxHarbour_wx_Browse.o \
 	$(__BUILDDIR__)/wxHarbour_TRDOServer_c.o \
 	$(__BUILDDIR__)/wxHarbour_TTable_c.o \
@@ -340,6 +341,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/rdodefs.h \
 	include/wxHarbour/wxh.h \
 	include/wxHarbour/wxhevtdefs.h \
+	include/wxHarbour/xho.h \
 	include/wxHarbour/wxh/auibook.ch \
 	include/wxHarbour/wxh/bitmap.ch \
 	include/wxHarbour/wxh/bookctrl.ch \
@@ -860,6 +862,9 @@ $(__BUILDDIR__)/wxHarbour_wx_functions.o: ./src/common/wx_functions.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_harbour.o: ./src/common/wx_harbour.cpp
+	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
+
+$(__BUILDDIR__)/wxHarbour_xho_classes.o: ./src/common/xho_classes.cpp
 	$(CXX) -c -o $@ $(WXHARBOUR_CXXFLAGS) $(CPPDEPS) $<
 
 $(__BUILDDIR__)/wxHarbour_wx_Browse.o: ./src/hrbcompat/tbrowse/wx_Browse.cpp

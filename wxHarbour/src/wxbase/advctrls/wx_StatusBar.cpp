@@ -30,7 +30,7 @@
 */
 wx_StatusBar::~wx_StatusBar()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_StatusBar::~wx_StatusBar()
 */
 HB_FUNC( WXSTATUSBAR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = (wxWindowID) hb_parni( 2 );
@@ -58,7 +58,7 @@ HB_FUNC( WXSTATUSBAR_NEW )
 HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_StatusBar* statusBar = (wx_StatusBar *) wxh_itemListGet_WX( pSelf );
+    wx_StatusBar* statusBar = (wx_StatusBar *) xho_itemListGet_XHO( pSelf );
 
     int number = hb_parni(1);
     int* widths = NULL;
@@ -89,7 +89,7 @@ HB_FUNC( WXSTATUSBAR_SETFIELDSCOUNT )
 HB_FUNC( WXSTATUSBAR_SETSTATUSTEXT )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_StatusBar* statusBar = (wx_StatusBar *) wxh_itemListGet_WX( pSelf );
+    wx_StatusBar* statusBar = (wx_StatusBar *) xho_itemListGet_XHO( pSelf );
 
     const wxString& text = wxh_parc( 1 );
     int i = hb_parni( 2 );

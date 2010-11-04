@@ -30,7 +30,7 @@
 */
 wx_Gauge::~wx_Gauge()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_Gauge::~wx_Gauge()
 */
 HB_FUNC( WXGAUGE_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -59,7 +59,7 @@ HB_FUNC( WXGAUGE_NEW )
 */
 HB_FUNC( WXGAUGE_GETRANGE )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -73,7 +73,7 @@ HB_FUNC( WXGAUGE_GETRANGE )
 */
 HB_FUNC( WXGAUGE_GETVALUE )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -87,7 +87,7 @@ HB_FUNC( WXGAUGE_GETVALUE )
 */
 HB_FUNC( WXGAUGE_ISVERTICAL )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -101,7 +101,7 @@ HB_FUNC( WXGAUGE_ISVERTICAL )
 */
 HB_FUNC( WXGAUGE_PULSE)
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -114,7 +114,7 @@ HB_FUNC( WXGAUGE_PULSE)
 */
 HB_FUNC( WXGAUGE_SETRANGE )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -128,7 +128,7 @@ HB_FUNC( WXGAUGE_SETRANGE )
 */
 HB_FUNC( WXGAUGE_SETSHADOWWIDTH )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {
@@ -142,7 +142,7 @@ HB_FUNC( WXGAUGE_SETSHADOWWIDTH )
 */
 HB_FUNC( WXGAUGE_SETVALUE )
 {
-    wxGauge* gauge = (wxGauge *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxGauge* gauge = (wxGauge *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( gauge )
     {

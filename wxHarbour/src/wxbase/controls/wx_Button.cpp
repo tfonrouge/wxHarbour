@@ -30,12 +30,12 @@
 */
 wx_Button::~wx_Button()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 HB_FUNC( WXBUTTON_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -57,7 +57,7 @@ HB_FUNC( WXBUTTON_NEW )
 */
 HB_FUNC( WXBUTTON_GETLABEL )
 {
-    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( button )
         wxh_retc( button->GetLabel() );
@@ -69,7 +69,7 @@ HB_FUNC( WXBUTTON_GETLABEL )
 */
 HB_FUNC( WXBUTTON_SETDEFAULT )
 {
-    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( button )
         button->SetDefault();
@@ -81,7 +81,7 @@ HB_FUNC( WXBUTTON_SETDEFAULT )
 */
 HB_FUNC( WXBUTTON_SETLABEL )
 {
-    wxButton* button = (wxButton *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxButton* button = (wxButton *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( button )
         button->SetLabel( wxh_parc( 1 ) );

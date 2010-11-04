@@ -29,7 +29,7 @@
  */
 wx_Colour::~wx_Colour()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -38,7 +38,7 @@ wx_Colour::~wx_Colour()
  */
 HB_FUNC( WXCOLOUR_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
     wx_Colour* colour = NULL;
     
     switch( hb_pcount() )

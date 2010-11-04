@@ -41,7 +41,7 @@ wx_MDIParentFrame::wx_MDIParentFrame( wxWindow* parent, wxWindowID id, const wxS
 */
 HB_FUNC( WXMDIPARENTFRAME_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_MDIParentFrame* frame;
 
@@ -69,7 +69,7 @@ HB_FUNC( WXMDIPARENTFRAME_NEW )
 HB_FUNC( WXMDIPARENTFRAME_CASCADE )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wx_MDIParentFrame* frame = (wx_MDIParentFrame *) wxh_itemListGet_WX( pSelf );
+    wx_MDIParentFrame* frame = (wx_MDIParentFrame *) xho_itemListGet_XHO( pSelf );
 
     if( frame )
         frame->Cascade();

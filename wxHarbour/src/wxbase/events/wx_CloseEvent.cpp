@@ -29,7 +29,7 @@
 */
 HB_FUNC( WXCLOSEEVENT_CANVETO )
 {
-    wxCloseEvent * closeEvent = (wxCloseEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxCloseEvent * closeEvent = (wxCloseEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( closeEvent )
         hb_retl( closeEvent->CanVeto() );
@@ -41,7 +41,7 @@ HB_FUNC( WXCLOSEEVENT_CANVETO )
 */
 HB_FUNC( WXCLOSEEVENT_GETLOGGINGOFF )
 {
-    wxCloseEvent * closeEvent = (wxCloseEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxCloseEvent * closeEvent = (wxCloseEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( closeEvent )
         hb_retl( closeEvent->GetLoggingOff() );
@@ -53,7 +53,7 @@ HB_FUNC( WXCLOSEEVENT_GETLOGGINGOFF )
 */
 HB_FUNC( WXCLOSEEVENT_SETCANVETO )
 {
-    wxCloseEvent * closeEvent = (wxCloseEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxCloseEvent * closeEvent = (wxCloseEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( closeEvent )
         closeEvent->SetCanVeto( hb_parl( 1 ) );
@@ -65,7 +65,7 @@ HB_FUNC( WXCLOSEEVENT_SETCANVETO )
 */
 HB_FUNC( WXCLOSEEVENT_SETLOGGINGOFF )
 {
-    wxCloseEvent * closeEvent = (wxCloseEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxCloseEvent * closeEvent = (wxCloseEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( closeEvent )
         closeEvent->SetLoggingOff( hb_parl( 1 ) );
@@ -77,7 +77,7 @@ HB_FUNC( WXCLOSEEVENT_SETLOGGINGOFF )
 */
 HB_FUNC( WXCLOSEEVENT_VETO )
 {
-    wxCloseEvent * closeEvent = (wxCloseEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxCloseEvent * closeEvent = (wxCloseEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( closeEvent )
         closeEvent->Veto( hb_parl( 1 ) );

@@ -39,17 +39,17 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
     /* As we are here, it means that there not exist another PHB_ITEM's of this HB class
          So, we just need to call the C++ destructor of this object */
 
-    wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( pSelf );
+    xho_Item* pXho_Item = xho_itemListGet_PXHO_ITEM( pSelf );
 
-    if( pWxh_Item )
+    if( pXho_Item )
     {
-        if( pWxh_Item->nullObj )
+        if( pXho_Item->nullObj )
         {
-            pWxh_Item->pSelf->type = HB_IT_NIL;
-            hb_itemRelease( pWxh_Item->pSelf );
+            pXho_Item->pSelf->type = HB_IT_NIL;
+            hb_itemRelease( pXho_Item->pSelf );
         }
-        pWxh_Item->pSelf = NULL;
-        delete pWxh_Item;
+        pXho_Item->pSelf = NULL;
+        delete pXho_Item;
     }
 }
 
@@ -59,11 +59,11 @@ HB_FUNC( TBASECLASS_HB_DESTRUCT )
 */
 HB_FUNC( TBASECLASS___DESTROY )
 {
-    wxh_Item* pWxh_Item = wxh_itemListGet_PWXH_ITEM( hb_stackSelfItem() );
+    xho_Item* pXho_Item = xho_itemListGet_PXHO_ITEM( hb_stackSelfItem() );
 
-    if( pWxh_Item )
+    if( pXho_Item )
     {
-        delete pWxh_Item;
+        delete pXho_Item;
     }
 }
 
@@ -78,7 +78,7 @@ HB_FUNC( TBASECLASS___DESTROY )
 HB_FUNC( WXOBJECT_OBJECTP )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxObject* wxObj = wxh_itemListGet_WX( pSelf );
+    wxObject* wxObj = xho_itemListGet_XHO( pSelf );
 
     if( wxObj )
         hb_retptr( wxObj );

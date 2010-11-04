@@ -30,7 +30,7 @@
 */
 wx_Panel::~wx_Panel()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -39,7 +39,7 @@ wx_Panel::~wx_Panel()
 */
 HB_FUNC( WXPANEL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Panel* panel;
 

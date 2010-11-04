@@ -31,7 +31,7 @@
  */
 HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 {
-    wxEvent *event = (wxEvent *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( event )
     {
@@ -40,11 +40,11 @@ HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 
         if( wxWin && wxWin->IsKindOf( CLASSINFO( wxGrid ) ) ) 
         {
-            wxh_itemReturn( wxWin );
+            xho_itemReturn( wxWin );
         }
         else
         {
-            wxh_itemReturn( wxObj );
+            xho_itemReturn( wxObj );
         }
     }
 }
@@ -52,10 +52,10 @@ HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 HB_FUNC( WXFOCUSEVENT_GETWINDOW )
 {
     PHB_ITEM pSelf = hb_stackSelfItem();
-    wxFocusEvent *event = (wxFocusEvent *) wxh_itemListGet_WX( pSelf );
+    wxFocusEvent *event = (wxFocusEvent *) xho_itemListGet_XHO( pSelf );
 
     if( event )
     {
-        wxh_itemReturn( event->GetWindow() );
+        xho_itemReturn( event->GetWindow() );
     }
 }

@@ -23,7 +23,7 @@
 */
 HB_FUNC( WXTOOLBARTOOLBASE_ENABLE )
 {
-    wxToolBarToolBase* toolBarToolBase = (wxToolBarToolBase *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxToolBarToolBase* toolBarToolBase = (wxToolBarToolBase *) xho_itemListGet_XHO( hb_stackSelfItem() );
 
     if( toolBarToolBase )
         hb_retl( toolBarToolBase->Enable( hb_parl( 1 ) ) );

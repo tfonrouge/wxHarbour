@@ -31,7 +31,7 @@
 */
 wx_Listbook::~wx_Listbook()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -40,7 +40,7 @@ wx_Listbook::~wx_Listbook()
 */
 HB_FUNC( WXLISTBOOK_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Listbook* listBook;
 
@@ -66,8 +66,8 @@ HB_FUNC( WXLISTBOOK_NEW )
 */
 HB_FUNC( WXLISTBOOK_ADDPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
-    wxListbook* Listbook = (wxListbook *) objParams.Get_wxObject();
+    xho_ObjParams objParams = xho_ObjParams( NULL );
+    wxListbook* Listbook = (wxListbook *) objParams.Get_xhoObject();
 
     wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 1 );
 

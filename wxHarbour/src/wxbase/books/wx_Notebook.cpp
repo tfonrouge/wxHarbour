@@ -31,7 +31,7 @@
 */
 wx_Notebook::~wx_Notebook()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 /*
     wxNotebook(wxWindow* parent, wxWindowID id, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0, const wxString& name = wxNotebookNameStr)
@@ -43,7 +43,7 @@ wx_Notebook::~wx_Notebook()
 */
 HB_FUNC( WXNOTEBOOK_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Notebook* noteBook;
 
@@ -69,9 +69,9 @@ HB_FUNC( WXNOTEBOOK_NEW )
 */
 HB_FUNC( WXNOTEBOOK_ADDPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -91,9 +91,9 @@ HB_FUNC( WXNOTEBOOK_ADDPAGE )
 */
 HB_FUNC( WXNOTEBOOK_ADVANCESELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -108,9 +108,9 @@ HB_FUNC( WXNOTEBOOK_ADVANCESELECTION )
 */
 HB_FUNC( WXNOTEBOOK_ASSIGNIMAGELIST )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -128,9 +128,9 @@ HB_FUNC( WXNOTEBOOK_ASSIGNIMAGELIST )
 */
 HB_FUNC( WXNOTEBOOK_CHANGESELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -146,9 +146,9 @@ HB_FUNC( WXNOTEBOOK_CHANGESELECTION )
 */
 HB_FUNC( WXNOTEBOOK_DELETEALLPAGES )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -162,9 +162,9 @@ HB_FUNC( WXNOTEBOOK_DELETEALLPAGES )
 */
 HB_FUNC( WXNOTEBOOK_DELETEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -180,13 +180,13 @@ HB_FUNC( WXNOTEBOOK_DELETEPAGE )
 */
 HB_FUNC( WXNOTEBOOK_GETCURRENTPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
-        wxh_itemReturn( noteBook->GetCurrentPage() );
+        xho_itemReturn( noteBook->GetCurrentPage() );
     }
 }
 
@@ -196,14 +196,14 @@ HB_FUNC( WXNOTEBOOK_GETCURRENTPAGE )
 */
 HB_FUNC( WXNOTEBOOK_GETIMAGELIST )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
         /* TODO: Check why it's neccesary to cast to wxObject* */
-        wxh_itemReturn( (wxObject *) noteBook->GetImageList() );
+        xho_itemReturn( (wxObject *) noteBook->GetImageList() );
     }
 }
 
@@ -213,15 +213,15 @@ HB_FUNC( WXNOTEBOOK_GETIMAGELIST )
 */
 HB_FUNC( WXNOTEBOOK_GETPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
-        wxh_itemReturn( noteBook->GetPage( page_i ) );
+        xho_itemReturn( noteBook->GetPage( page_i ) );
     }
 }
 
@@ -231,9 +231,9 @@ HB_FUNC( WXNOTEBOOK_GETPAGE )
 */
 HB_FUNC( WXNOTEBOOK_GETPAGECOUNT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -247,9 +247,9 @@ HB_FUNC( WXNOTEBOOK_GETPAGECOUNT )
 */
 HB_FUNC( WXNOTEBOOK_GETPAGEIMAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -265,9 +265,9 @@ HB_FUNC( WXNOTEBOOK_GETPAGEIMAGE )
 */
 HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -283,9 +283,9 @@ HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
 */
 HB_FUNC( WXNOTEBOOK_GETROWCOUNT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -299,9 +299,9 @@ HB_FUNC( WXNOTEBOOK_GETROWCOUNT )
 */
 HB_FUNC( WXNOTEBOOK_GETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -315,13 +315,13 @@ HB_FUNC( WXNOTEBOOK_GETSELECTION )
 */
 // HB_FUNC( WXNOTEBOOK_GETTHEMEBACKGROUNDCOLOUR )
 // {
-//   wxh_ObjParams objParams = wxh_ObjParams( NULL );
+//   xho_ObjParams objParams = xho_ObjParams( NULL );
 //
-//   wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+//   wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 //
 //   if( noteBook )
 //   {
-//     hb_itemReturn( wxh_itemListGet_HB( noteBook->GetThemeBackgroundColour() ) );
+//     hb_itemReturn( xho_itemListGet_HB( noteBook->GetThemeBackgroundColour() ) );
 //   }
 // }
 
@@ -331,9 +331,9 @@ HB_FUNC( WXNOTEBOOK_GETSELECTION )
 */
 HB_FUNC( WXNOTEBOOK_HITTEST )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -350,9 +350,9 @@ HB_FUNC( WXNOTEBOOK_HITTEST )
 */
 HB_FUNC( WXNOTEBOOK_INSERTPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -374,9 +374,9 @@ HB_FUNC( WXNOTEBOOK_INSERTPAGE )
 */
 HB_FUNC( WXNOTEBOOK_REMOVEPAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -392,9 +392,9 @@ HB_FUNC( WXNOTEBOOK_REMOVEPAGE )
 */
 HB_FUNC( WXNOTEBOOK_SETIMAGELIST )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -412,9 +412,9 @@ HB_FUNC( WXNOTEBOOK_SETIMAGELIST )
 */
 HB_FUNC( WXNOTEBOOK_SETPADDING )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -428,9 +428,9 @@ HB_FUNC( WXNOTEBOOK_SETPADDING )
 */
 HB_FUNC( WXNOTEBOOK_SETPAGESIZE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     if( noteBook )
     {
@@ -444,9 +444,9 @@ HB_FUNC( WXNOTEBOOK_SETPAGESIZE )
 */
 HB_FUNC( WXNOTEBOOK_SETPAGEIMAGE )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -462,9 +462,9 @@ HB_FUNC( WXNOTEBOOK_SETPAGEIMAGE )
 */
 HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
 
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
     
@@ -480,9 +480,9 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
  */
 HB_FUNC( WXNOTEBOOK_SETSELECTION )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
     
-    wxNotebook* noteBook = (wxNotebook *) objParams.Get_wxObject();
+    wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
     
     size_t page_i = hb_parnl( 1 ) - 1;
     

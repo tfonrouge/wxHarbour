@@ -32,7 +32,7 @@
  */
 wx_DatePickerCtrl::~wx_DatePickerCtrl()
 {
-    wxh_itemListDel_WX( this );
+    xho_itemListDel_XHO( this );
 }
 
 /*
@@ -41,7 +41,7 @@ wx_DatePickerCtrl::~wx_DatePickerCtrl()
  */
 HB_FUNC( WXDATEPICKERCTRL_NEW )
 {
-    wxh_ObjParams objParams = wxh_ObjParams( NULL );
+    xho_ObjParams objParams = xho_ObjParams( NULL );
     
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
     wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
@@ -61,7 +61,7 @@ HB_FUNC( WXDATEPICKERCTRL_NEW )
  */
 HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
 {
-    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( dateCtrl )
     {
@@ -76,7 +76,7 @@ HB_FUNC( WXDATEPICKERCTRL_GETVALUE )
  */
 HB_FUNC( WXDATEPICKERCTRL_SETVALUE )
 {
-    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) wxh_itemListGet_WX( hb_stackSelfItem() );
+    wxDatePickerCtrl* dateCtrl = (wxDatePickerCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( dateCtrl )
     {
