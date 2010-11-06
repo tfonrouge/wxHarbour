@@ -341,7 +341,7 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/rdodefs.h \
 	include/wxHarbour/wxh.h \
 	include/wxHarbour/wxhevtdefs.h \
-	include/wxHarbour/xho.h \
+	include/wxHarbour/xho_classes.h \
 	include/wxHarbour/wxh/auibook.ch \
 	include/wxHarbour/wxh/bitmap.ch \
 	include/wxHarbour/wxh/bookctrl.ch \

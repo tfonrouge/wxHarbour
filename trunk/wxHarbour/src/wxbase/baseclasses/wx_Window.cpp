@@ -66,8 +66,6 @@ HB_FUNC( WXWINDOW_NEW )
 
 }
 
-
-
 /*
  Centre
  Teo. Mexico 2009

@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2010-11-05 21:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+     * rebuilded makefiles
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+     * minor code cleanup
+
 2010-11-04 07:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxh.h
   *  include/wxHarbour/xho_classes.h
