@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2010-11-24 10:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * renamed "Database" to "Table"
+
 2010-11-24 09:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/xho_classes.h
   *  src/common/xho_classes.cpp

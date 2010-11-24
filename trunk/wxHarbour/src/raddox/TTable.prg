@@ -600,7 +600,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                 IF AField:IsDerivedFrom("TObjectField")
                     pkField := AField:GetReferenceField()
                     IF pkField = NIL
-                        RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Database '" + ::ClassName + "'"
+                        RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Table '" + ::ClassName + "'"
                     ENDIF
                 ELSE
                     pkField := AField
@@ -625,12 +625,12 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 
             ENDIF
         NEXT
-        
+
         ::FInstances[ ::TableClass, "DbStructValidated" ] := .T.
 
         IF ! Empty( sResult )
             sResult := "Error on Db structure." + ;
-                        E"\nClass: " + ::ClassName() + ", Database: " + ::Alias:Name + ;
+                        E"\nClass: " + ::ClassName() + ", Table: " + ::Alias:Name + ;
                         E"\n\n-----\n" + ;
                         sResult + ;
                         E"-----\n\n"
