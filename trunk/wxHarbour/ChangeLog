@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2010-11-24 09:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/xho_classes.h
+  *  src/common/xho_classes.cpp
+     % added 2nd parameter to xho_itemListGet_XHO function to validate
+       for a sz class name required
+     % ditto from above for the xho_par_XhoObject function
+
+
 2010-11-05 21:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

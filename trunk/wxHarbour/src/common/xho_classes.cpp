@@ -114,7 +114,7 @@ xhoObject* xho_ObjParams::paramChild( PHB_ITEM pChildItm )
             linkChildParentParams = true;
         }
     }
-
+    
     return m_xhoObject;
 }
 
@@ -134,11 +134,11 @@ xhoObject* xho_ObjParams::paramChild( const int param )
 xhoObject* xho_ObjParams::paramParent( PHB_ITEM pParentItm )
 {
     xhoObject* m_xhoObject = NULL;
-
+    
     if( pParentItm )
     {
         m_xhoObject = xho_itemListGet_XHO( pParentItm );
-
+        
         if( m_xhoObject )
         {
             if( this->pParamParent == NULL )
@@ -379,15 +379,19 @@ xho_Item* xho_itemListGet_PXHO_ITEM( xhoObject* m_xhoObject )
  xho_itemListGet_XHO
  Teo. Mexico 2009
  */
-xhoObject* xho_itemListGet_XHO( PHB_ITEM pSelf )
+xhoObject* xho_itemListGet_XHO( PHB_ITEM pSelf, const char* inheritFrom )
 {
     xhoObject* m_xhoObject = NULL;
     
-    if( pSelf && ( hashPHB_BASEARRAY.find( (HB_BASEARRAY *) hb_arrayId( pSelf ) ) != hashPHB_BASEARRAY.end() ) )
-    {
-        m_xhoObject = hashPHB_BASEARRAY[ (HB_BASEARRAY *) hb_arrayId( pSelf ) ]->m_xhoObject;
-    }
     
+    if( inheritFrom == NULL || hb_clsIsParent( hb_objGetClass( pSelf ), inheritFrom ) )
+    {
+        if( pSelf && ( hashPHB_BASEARRAY.find( (HB_BASEARRAY *) hb_arrayId( pSelf ) ) != hashPHB_BASEARRAY.end() ) )
+        {
+            m_xhoObject = hashPHB_BASEARRAY[ (HB_BASEARRAY *) hb_arrayId( pSelf ) ]->m_xhoObject;
+        }
+    }
+
     return m_xhoObject;
 }
 
@@ -503,9 +507,16 @@ void xho_par_arrayInt( int param, int* arrayInt, const size_t len )
  xho_par_XhoObject
  Teo. Mexico 2009
  */
-xhoObject* xho_par_XhoObject( const int param )
+xhoObject* xho_par_XhoObject( const int param, const char* inheritFrom )
 {
-    return xho_itemListGet_XHO( hb_param( param, HB_IT_OBJECT ) );
+    PHB_ITEM hbObj = hb_param( param, HB_IT_OBJECT );
+    xhoObject* object = NULL;
+    
+    if( hbObj )
+    {
+        object = xho_itemListGet_XHO( hbObj, inheritFrom );
+    }
+    return object;
 }
 
 /*
