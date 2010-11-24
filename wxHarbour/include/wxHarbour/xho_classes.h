@@ -6,13 +6,13 @@ void          xho_itemListDel_XHO( xhoObject* wxObj, bool bDeleteWxObj = false )
 xho_Item*     xho_itemListGet_PXHO_ITEM( xhoObject* wxObj );
 xho_Item*     xho_itemListGet_PXHO_ITEM( PHB_ITEM pSelf );
 PHB_ITEM      xho_itemListGet_HB( xhoObject* wxObj );
-xhoObject*    xho_itemListGet_XHO( PHB_ITEM pSelf );
+xhoObject*    xho_itemListGet_XHO( PHB_ITEM pSelf, const char* inheritFrom = NULL );
 void          xho_itemListReleaseAll();
 bool          xho_itemListSwap( xhoObject *oldObj, xhoObject *newObj );
 void          xho_itemNewReturn( const char * szClsName, xhoObject* ctrl, xhoObject* parent = NULL );
 void          xho_itemReturn( xhoObject* wxObj );
 void          xho_par_arrayInt( int param, int* arrayInt, const size_t len );
-xhoObject*    xho_par_XhoObject( int param );
+xhoObject*    xho_par_XhoObject( int param, const char* inheritFrom = NULL );
 
 /* generic qoutf for debug output */
 void qoutf( const char* format, ... );
