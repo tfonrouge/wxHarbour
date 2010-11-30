@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-11-30 13:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     * added request to HB_NumToHex function
+
+  *  src/raddox/TField.prg
+     ! Fixed converting to index expression an integer value
+
 2010-11-24 10:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * renamed "Database" to "Table"

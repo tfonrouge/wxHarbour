@@ -1576,9 +1576,9 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TIntegerField
     CASE 'C'
         RETURN keyVal
     CASE 'N'
-        RETURN WXH_L2BEBin( keyVal )
+        RETURN HB_NumToHex( keyVal, 8 )
     CASE 'U'
-        RETURN WXH_L2BEBin( ::GetAsVariant() )
+        RETURN HB_NumToHex( ::GetAsVariant(), 8 )
     ENDSWITCH
 
     RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
@@ -1590,7 +1590,7 @@ RETURN NIL
     Teo. Mexico 2010
 */
 METHOD FUNCTION IndexExpression() CLASS TIntegerField
-RETURN "WXH_L2BEBin(" + ::FFieldExpression + ")"
+RETURN "HB_NumToHex(" + ::FFieldExpression + ",8)"
 
 /*
     SetAsVariant
@@ -2072,7 +2072,8 @@ RETURN ::FLinkedTable
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
-RETURN ::GetLinkedTable():KeyField
+RETURN ::GetLinkedTable():KeyField()
+//RETURN ::GetLinkedTable():IndexList[ ::ObjType, ::GetLinkedTable():PrimaryIndexList[ ::ObjType ] ]:KeyField
 
 /*
     IndexExpression
