@@ -57,7 +57,7 @@ METHOD FUNCTION OnInit() CLASS MyApp
 
     DEFINE MENUBAR
         DEFINE MENU "&File"
-            ADD MENUITEM E"Open \tF1" BITMAP "fileopen.xpm" ACTION {|| Open( oWnd ) }
+            ADD MENUITEM E"Open \tF1" BITMAP "fileopen.xpm" ACTION {|| Open2( oWnd ) }
             ADD MENUITEM E"Printer" BITMAP "print.xpm" ACTION {|| wxMessageBox( "Printing..." ) }
             ADD MENUITEM E"Quit \tCtrl+Q" ID wxID_EXIT ACTION oWnd:Close() HELPLINE "Quits this sample..."
         ENDMENU
@@ -107,13 +107,30 @@ STATIC PROCEDURE Open( parentWnd )
                  PARENT parentWnd
 
     BEGIN BOXSIZER VERTICAL
-        @ BUTTON "Cerrar" ID wxID_CLOSE
+        @ SPACER
+        BEGIN BOXSIZER HORIZONTAL
+            @ BUTTON "Cancel" ID wxID_CANCEL // ACTION oDlg:Close()
+            @ BUTTON "Ok" ID wxID_OK // ACTION oDlg:Close()
+        END SIZER
     END SIZER
-
-//   wxButton():New( oDlg, wxID_ANY, "CloseT" )
 
     SHOW WINDOW oDlg MODAL
 
-    oDlg:Destroy()
+    DESTROY oDlg
+
+RETURN
+
+STATIC PROCEDURE Open2( parentWnd )
+    LOCAL oDlg
+    
+    oDlg := wxDialog():New( parentWnd )
+
+    //oDlg:SetExtraStyle( wxWS_EX_BLOCK_EVENTS )
+    
+    wxButton():New( oDlg, wxID_CANCEL, "Cancel", -1, -1, 0 )
+    
+    oDlg:ShowModal()
+    
+    DESTROY oDlg
 
 RETURN
