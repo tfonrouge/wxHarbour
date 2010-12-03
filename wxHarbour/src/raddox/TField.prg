@@ -2072,8 +2072,27 @@ RETURN ::FLinkedTable
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
-RETURN ::GetLinkedTable():KeyField()
-//RETURN ::GetLinkedTable():IndexList[ ::ObjType, ::GetLinkedTable():PrimaryIndexList[ ::ObjType ] ]:KeyField
+    LOCAL itm
+
+    SWITCH ValType( ::ObjType )
+    CASE "B"
+        RETURN ::ObjType:Eval( ::FTable ):KeyField
+    CASE "O"
+        RETURN ::ObjType:KeyField
+    CASE "C"
+        IF HB_HHasKey( ::GetLinkedTable():IndexList, ::ObjType )
+            RETURN ::GetLinkedTable():IndexList[ ::ObjType, ::GetLinkedTable():PrimaryIndexList[ ::ObjType ] ]:KeyField
+        ELSE
+            FOR EACH itm IN ::GetLinkedTable():IndexList DESCEND
+                IF ::GetLinkedTable():IsDerivedFrom( itm:__enumKey() )
+                    RETURN ::GetLinkedTable():KeyField
+                ENDIF
+            NEXT
+        ENDIF
+        EXIT
+    ENDSWITCH
+
+RETURN NIL
 
 /*
     IndexExpression

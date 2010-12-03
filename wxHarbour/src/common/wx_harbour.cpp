@@ -287,3 +287,12 @@ HB_FUNC( WXH_L2BEBIN )
     HB_PUT_BE_UINT32( szResult, i );
     hb_retclen( szResult, 4 );
 }
+
+/*
+ wxIsPrint  (UNDOCUMENTED on wxWidgets)
+ Teo. Mexico 2010
+ */
+HB_FUNC( WXISPRINT )
+{
+    hb_retl( wxIsprint( hb_parni( 1 ) ) );
+}
