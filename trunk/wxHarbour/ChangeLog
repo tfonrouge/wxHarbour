@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2010-12-03 12:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+     * minor cleanup
+
+  *  samples/menu/menu.prg
+     * updated sample
+       TODO: Check why in Linux is not working ESC key when there is a wxID_CANCEL/wxID_OK
+       button, also why are different Open/Open2 versions of creating dialogs, one "Open"
+       doesn't allow to close with "X" button on window.
+
 2010-12-03 09:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wx_harbour.cpp
      ! Fixed sample wxget, it needs undocumented function wxIsprint()
@@ -28,7 +38,6 @@
      % added 2nd parameter to xho_itemListGet_XHO function to validate
        for a sz class name required
      % ditto from above for the xho_par_XhoObject function
-
 
 2010-11-05 21:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
