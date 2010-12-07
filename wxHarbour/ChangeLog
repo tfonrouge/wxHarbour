@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2010-12-07 07:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/AddressBook/AddressBook.prg
+  *  demos/AddressBook/Tbl_Common.prg
+     ! Fixes on Add/Edit records
+       ( thanks to Marco Bra to pointing this )
+
+  *  src/raddox/TField.prg
+     ! Fixed to check for primary key on ::PrimaryIndexList hash list
+
 2010-12-03 12:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
      * minor cleanup

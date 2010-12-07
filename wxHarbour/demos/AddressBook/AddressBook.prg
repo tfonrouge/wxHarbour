@@ -205,58 +205,5 @@ PUBLIC:
 
     DATA browse
 
-    METHOD OnNotebookPageChanged( notebookEvt )
-    METHOD OnNotebookPageChanging( notebookEvt )
-
 PUBLISHED:
 ENDCLASS
-
-/*
-    OnNotebookPageChanged
-*/
-METHOD PROCEDURE OnNotebookPageChanged( notebookEvt ) CLASS MyPanel
-
-    IF notebookEvt:IsAllowed()
-
-        SWITCH notebookEvt:GetSelection()
-        CASE 1
-            IF ::browse != NIL
-                ::browse:RefreshAll()
-            END
-            EXIT
-        CASE 2
-            ::noteBook:GetPage( 2 ):TransferDataToWindow()
-            EXIT
-        ENDSWITCH
-
-    ENDIF
-
-    notebookEvt:Skip()
-
-RETURN
-
-/*
-    OnNotebookPageChanging
-*/
-METHOD PROCEDURE OnNotebookPageChanging( notebookEvt ) CLASS MyPanel
-
-    IF notebookEvt:IsAllowed()
-
-        SWITCH notebookEvt:GetOldSelection()
-        CASE 2
-
-            IF AScan( { dsEdit, dsInsert }, ::browse:DataSource:State ) > 0
-                IF !::Validate( .T. )
-                    notebookEvt:Veto()
-                    RETURN
-                ENDIF
-                ::browse:DataSource:TryPost()
-            ENDIF
-            EXIT
-        ENDSWITCH
-
-    ENDIF
-    
-    notebookEvt:Skip()
-
-RETURN
