@@ -2080,7 +2080,7 @@ METHOD FUNCTION GetReferenceField() CLASS TObjectField
     CASE "O"
         RETURN ::ObjType:KeyField
     CASE "C"
-        IF HB_HHasKey( ::GetLinkedTable():IndexList, ::ObjType )
+        IF HB_HHasKey( ::GetLinkedTable():PrimaryIndexList, ::ObjType )
             RETURN ::GetLinkedTable():IndexList[ ::ObjType, ::GetLinkedTable():PrimaryIndexList[ ::ObjType ] ]:KeyField
         ELSE
             FOR EACH itm IN ::GetLinkedTable():IndexList DESCEND

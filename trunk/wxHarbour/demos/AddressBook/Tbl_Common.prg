@@ -71,11 +71,9 @@ RETURN Result .AND. ::State = dsBrowse
 METHOD PROCEDURE OnDataChange() CLASS Tbl_Common
 
     IF ::panel != NIL
-        IF ::panel:noteBook:GetSelection() = 2
-            ::panel:noteBook:GetCurrentPage():TransferDataToWindow()
-        ENDIF
+        ::panel:TransferDataToWindow()
     ENDIF
-    
+
     Super:OnDataChange()
 
 RETURN
@@ -92,10 +90,7 @@ RETURN ::Delete()
 METHOD FUNCTION TryEdit() CLASS Tbl_Common
 
     IF ::Edit()
-        IF ::panel:noteBook != NIL
-            ::panel:noteBook:SetSelection( 2 )
-            ::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
-        ENDIF
+        ::panel:TransferDataToWindow()
         RETURN .T.
     ENDIF
 
@@ -107,10 +102,7 @@ RETURN .F.
 METHOD FUNCTION TryInsert() CLASS Tbl_Common
 
     IF ::Insert()
-        IF ::panel:noteBook != NIL
-            ::panel:noteBook:SetSelection( 2 )
-            ::panel:noteBook:GetPage( 2 ):TransferDataToWindow()
-        ENDIF
+        ::panel:TransferDataToWindow()
         RETURN .T.
     ENDIF
 
@@ -119,5 +111,7 @@ RETURN .F.
 /*
     TryPost
 */
-METHOD FUNCTION TryPost() CLASS Tbl_Common
-RETURN ::Post()
+METHOD PROCEDURE TryPost() CLASS Tbl_Common
+    ::Post()
+    ::panel:browse:RefreshAll()
+RETURN
