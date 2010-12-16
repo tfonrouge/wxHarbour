@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2010-12-16 16:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed to not convert to uppercase field ::IsMasterFieldComponent
+
+  *  wxharbour.spec
+     * changed release to 3
+
 2010-12-07 07:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  demos/AddressBook/AddressBook.prg
   *  demos/AddressBook/Tbl_Common.prg

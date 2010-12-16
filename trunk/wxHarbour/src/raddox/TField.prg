@@ -1335,7 +1335,8 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
         IF keyVal = NIL
             keyVal := ::GetAsVariant()
         ENDIF
-        IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
+        //IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
+        IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
             keyVal := Upper( keyVal )
         ENDIF
     ENDIF
