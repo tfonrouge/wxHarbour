@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-01-26 09:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/wxbase/advctrls/wx_Grid.cpp
+     ! Fixed zero index based on Col/Row set/get functions
+
 2010-12-16 16:20 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed to not convert to uppercase field ::IsMasterFieldComponent

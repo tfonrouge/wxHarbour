@@ -143,7 +143,7 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
             SWITCH ::ValType
             CASE 'N'
                 ::FAlign := wxALIGN_RIGHT
-                ::FBrowse:SetColFormatNumber( nCol - 1 )
+                ::FBrowse:SetColFormatNumber( nCol )
                 EXIT
             CASE 'C'
             CASE 'M'
@@ -152,13 +152,13 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
             CASE 'L'
                 ::FAlign := wxALIGN_CENTRE
 //				 ::GetView():SetColFormatBool( nCol - 1 )
-                ::FBrowse:SetColumnAlignment( nCol - 1, ::FAlign )
+                ::FBrowse:SetColumnAlignment( nCol, ::FAlign )
                 EXIT
             OTHERWISE
                 ::FAlign := wxALIGN_CENTRE
             END
         ENDIF
-        ::FBrowse:SetColumnAlignment( nCol - 1, ::FAlign )
+        ::FBrowse:SetColumnAlignment( nCol, ::FAlign )
     ENDIF
 
 RETURN result

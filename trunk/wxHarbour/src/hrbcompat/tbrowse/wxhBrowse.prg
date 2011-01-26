@@ -195,7 +195,7 @@ RETURN Self
 */
 METHOD FUNCTION End() CLASS wxhBrowse
     ::SetColPos( ::ColCount() )
-    ::MakeCellVisible( ::GetGridCursorRow(), ::GetNumberCols() - 1 )
+    ::MakeCellVisible( ::GetGridCursorRow(), ::GetNumberCols() )
 RETURN Self
 
 /*
@@ -623,7 +623,7 @@ RETURN oldValue
     Teo. Mexico 2010
 */
 METHOD PROCEDURE SetColPos( colPos ) CLASS wxhBrowse
-    ::SetGridCursor( ::GetGridCursorRow(), colPos - 1 )
+    ::SetGridCursor( ::GetGridCursorRow(), colPos )
 RETURN
 
 /*
@@ -631,10 +631,10 @@ RETURN
     Teo. Mexico 2009
 */
 METHOD PROCEDURE SetColumnAlignment( nCol, align ) CLASS wxhBrowse
-    LOCAL i
+    LOCAL nRow
 
-    FOR i:=0 TO ::RowCount - 1
-        ::SetCellAlignment( align, i, nCol - 1 )
+    FOR nRow:=1 TO ::RowCount
+        ::SetCellAlignment( align, nRow, nCol )
     NEXT
 
 RETURN
@@ -739,7 +739,7 @@ METHOD PROCEDURE SetRowPos( rowPos ) CLASS wxhBrowse
     IF rowPos > ::RowCount
         rowPos := ::RowCount
     ENDIF
-    ::SetGridCursor( rowPos - 1, ::GetGridCursorCol() )
+    ::SetGridCursor( rowPos, ::GetGridCursorCol() )
     
     ::SetAllowOnDataChange( allowOnDataChange )
 

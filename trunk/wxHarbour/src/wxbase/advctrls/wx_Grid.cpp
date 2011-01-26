@@ -581,7 +581,7 @@ HB_FUNC( WXGRID_GETGRIDCURSORCOL )
 
     if( grid )
     {
-        hb_retni( grid->GetGridCursorCol() );
+        hb_retni( grid->GetGridCursorCol() + 1 );
     }
 }
 
@@ -595,7 +595,7 @@ HB_FUNC( WXGRID_GETGRIDCURSORROW )
 
     if( grid )
     {
-        hb_retni( grid->GetGridCursorRow() );
+        hb_retni( grid->GetGridCursorRow() + 1 );
     }
 }
 
@@ -1216,7 +1216,7 @@ HB_FUNC( WXGRID_SETGRIDCURSOR )
     if( grid )
     {
         if( hb_pcount() == 2 )
-            grid->SetGridCursor( hb_parni( 1 ), hb_parni( 2 ) );
+            grid->SetGridCursor( hb_parni( 1 ) - 1, hb_parni( 2 ) - 1 );
         else
             wxh_errRT_ParamNum();
     }
