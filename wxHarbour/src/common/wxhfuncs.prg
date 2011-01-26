@@ -995,7 +995,7 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
     ELSE
         wxhBrw:AddColumn( column )
         IF colour != NIL
-            wxhBrw:SetColAttr( wxhBrw:ColCount() - 1, colour )
+            wxhBrw:SetColAttr( wxhBrw:ColCount(), colour )
         ENDIF
     ENDIF
 
@@ -1003,12 +1003,12 @@ PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, typ
         type := Upper( type )
         DO CASE
         CASE type == "BOOL"
-            wxhBrw:SetColFormatBool( wxhBrw:ColCount() - 1 )
+            wxhBrw:SetColFormatBool( wxhBrw:ColCount() )
         CASE type == "NUMBER"
-            wxhBrw:SetColFormatNumber( wxhBrw:ColCount() - 1 )
+            wxhBrw:SetColFormatNumber( wxhBrw:ColCount() )
         CASE type == "FLOAT"
             IF wp != NIL
-                wxhBrw:SetColFormatFloat( wxhBrw:ColCount() - 1, wp[ 1 ], wp[ 2 ] )
+                wxhBrw:SetColFormatFloat( wxhBrw:ColCount(), wp[ 1 ], wp[ 2 ] )
             ENDIF
         ENDCASE
     ENDIF
@@ -1043,7 +1043,7 @@ PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
     wxhBrw:AddColumn( column )
 
     IF colour != NIL
-        wxhBrw:SetColAttr( wxhBrw:ColCount() - 1, colour )
+        wxhBrw:SetColAttr( wxhBrw:ColCount(), colour )
     ENDIF
 
 RETURN
