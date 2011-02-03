@@ -2,6 +2,29 @@
  * $Id$
  */
 
+2011-02-03 08:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/dbf_ctrls1/dbf_ctrls1.prg
+     * minor code cleanup
+
+  *  src/raddox/TField.prg
+     * added TODO on ReUseField
+     ! Fixed UsingField property to correctly delegate to another field the db info/operations
+     * when assigning UsingField ppty, it does not set the field as Calculated
+     % enhanced error message on wrong/incomplete data on IndexExpression
+
+  *  src/raddox/TIndex.prg
+     + added method's:
+       + KeyExpression: returns IndexExpression on KeyField
+       + MasterKeyExpression: returns IndexExpression on MasterKeyField
+
+  *  src/raddox/TTable.prg
+     + added properties:
+       + KeyExpression: returns KeyExpression on PrimaryIndex
+       + KeyString: returns AsString on KeyField
+       + MasterKeyExpression: returns MasterKeyExpression on PrimaryIndex
+     ! Fixed not checking for field's with UsingField ppty on CheckDbStruct
+     % Enhanced error message on Post fail
+
 2011-01-26 09:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
   *  src/hrbcompat/tbcolumn/wxhColumn.prg

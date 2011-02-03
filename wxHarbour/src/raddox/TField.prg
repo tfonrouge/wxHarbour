@@ -41,6 +41,7 @@ PRIVATE:
     DATA FPublished INIT .T.							// Logical: Appears in user field selection
     DATA FReadOnly	INIT .F.
     DATA FRequired INIT .F.
+    /* TODO: remove or fix validations, i.e. when reusing a primary index field */
     DATA FReUseField INIT .F.
     DATA FUniqueKeyIndex
     DATA FUsingField						// Field used on Calculated Field
@@ -245,7 +246,7 @@ METHOD PROCEDURE Delete() CLASS TField
         RETURN
     ENDIF
 
-    IF !::FFieldMethodType = 'C' .OR. ::FCalculated .OR. ::FFieldWriteBlock == NIL .OR. ::FModStamp
+    IF !::FFieldMethodType = 'C' .OR. ::FCalculated .OR. ::FFieldWriteBlock == NIL .OR. ::FModStamp .OR. ::FUsingField != NIL
         RETURN
     ENDIF
 
@@ -273,6 +274,10 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
     LOCAL Result
     LOCAL value
 
+    IF ::FUsingField != NIL
+        RETURN ::FUsingField:GetAsVariant( ... )
+    ENDIF
+
     //::SyncToContainerField()
     
     SWITCH ::FFieldMethodType
@@ -292,15 +297,11 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
         NEXT
         EXIT
     CASE "B"
-        IF ::FUsingField == NIL
-            Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
-            IF HB_IsObject( Result )
-                Result := Result:Value
-            ENDIF
-        ELSE
-            Result := ::FFieldCodeBlock:Eval( ::FUsingField:Value )
+        Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
+        IF HB_IsObject( Result )
+            Result := Result:Value
         ENDIF
-            EXIT
+        EXIT
     CASE "C"
         IF ::FCalculated
             Result := ::FTable:Alias:Eval( ::FieldReadBlock, ::FTable, ... )
@@ -383,6 +384,11 @@ RETURN cloneData
 */
 METHOD PROCEDURE GetData() CLASS TField
     LOCAL i
+
+    /* this is called for Table:GetCurrentRecord, used field has been read */
+    IF ::FUsingField != NIL
+        RETURN
+    ENDIF
 
     SWITCH ::FFieldMethodType
     CASE 'B'
@@ -550,7 +556,7 @@ RETURN ::ValidValues
     Teo. Mexico 2010
 */
 METHOD FUNCTION IsTableField() CLASS TField
-RETURN ::FFieldMethodType = "C" .AND. !::FCalculated
+RETURN ::FFieldMethodType = "C" .AND. !::FCalculated .AND. ::FUsingField = NIL
 
 /*
     IsValid
@@ -625,7 +631,7 @@ METHOD FUNCTION OnPickList( param ) CLASS TField
     IF ::FPickList == NIL
         RETURN NIL
     ENDIF
-    
+
     SWITCH ValType( ::FPickList )
     CASE 'B'
         RETURN ::FPickList:Eval( param )
@@ -850,6 +856,11 @@ METHOD PROCEDURE SetData( value ) CLASS TField
     LOCAL nTries
     LOCAL errObj
     LOCAL buffer
+
+    IF ::FUsingField != NIL
+        ::FUsingField:SetData( value )
+        RETURN
+    ENDIF
 
     /* SetData is only for the physical fields on the database */
     SWITCH ::FFieldMethodType
@@ -1125,7 +1136,7 @@ RETURN
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
     IF ::IsKeyIndex
-    
+
         IF ::OnSearch != NIL
             ::OnSearch:Eval( Self )
         ENDIF
@@ -1215,7 +1226,6 @@ METHOD PROCEDURE SetUsingField( usingField ) CLASS TField
     LOCAL AField := ::FTable:FieldByName( usingField )
     IF AField != NIL
         ::FUsingField := AField
-        ::FCalculated := .T.
     ENDIF
 RETURN
 
@@ -1378,7 +1388,11 @@ METHOD FUNCTION IndexExpression() CLASS TStringField
         IF ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive )
             exp := ::FFieldExpression
         ELSE
-            exp := "Upper(" + ::FFieldExpression + ")"
+            IF ::FFieldExpression = NIL
+                exp := "<error: IndexExpression on '" + ::Name + "'>"
+            ELSE
+                exp := "Upper(" + ::FFieldExpression + ")"
+            ENDIF
         ENDIF
     ENDIF
 
