@@ -82,6 +82,8 @@ PUBLIC:
     METHOD GetCurrentRecord()
     METHOD IndexExpression()
     METHOD InsideScope()
+    METHOD KeyExpression()
+    METHOD MasterKeyExpression()
     
     METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
     METHOD OrdCreate( ... ) INLINE ::FTable:OrdCreate( ... )
@@ -454,15 +456,11 @@ RETURN ::FMasterKeyField:GetKeyVal
     Teo. Mexico 2010
 */
 METHOD FUNCTION IndexExpression() CLASS TIndex
-    LOCAL exp := ""
+    LOCAL exp
 
-    IF ::FMasterKeyField != NIL
-        exp +=  iif( Len( exp ) = 0, "", "+" ) + ::FMasterKeyField:IndexExpression
-    ENDIF
+    exp := ::MasterKeyExpression
 
-    IF ::FKeyField != NIL
-        exp += iif( Len( exp ) = 0, "", "+" ) + ::FKeyField:IndexExpression
-    ENDIF
+    exp += iif( Len( exp ) = 0, "", "+" ) + ::KeyExpression
 
 RETURN exp
 
@@ -495,6 +493,30 @@ METHOD FUNCTION InsideScope() CLASS TIndex
     
 RETURN keyValue >= ( masterKeyVal + ::GetScopeTop() ) .AND. ;
              keyValue <= ( masterKeyVal + ::GetScopeBottom() )
+
+/*
+    KeyExpression
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION KeyExpression() CLASS TIndex
+
+    IF ::FKeyField != NIL
+        RETURN ::FKeyField:IndexExpression
+    ENDIF
+
+RETURN ""
+
+/*
+    MasterKeyExpression
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION MasterKeyExpression() CLASS TIndex
+
+    IF ::FMasterKeyField != NIL
+        RETURN ::FMasterKeyField:IndexExpression
+    ENDIF
+
+RETURN ""
 
 /*
     RawGet4Seek

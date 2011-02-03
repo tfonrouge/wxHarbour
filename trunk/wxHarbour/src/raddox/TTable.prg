@@ -67,7 +67,10 @@ PRIVATE:
     METHOD GetFound INLINE ::Alias:Found
     METHOD GetIndexName INLINE iif( ::FIndex = NIL, NIL, ::FIndex:Name )
     METHOD GetInstance
+    METHOD GetKeyExpression()
     METHOD GetKeyField()
+    METHOD GetKeyString INLINE iif( ::GetKeyField == NIL, "", ::GetKeyField:AsString )
+    METHOD GetMasterKeyExpression()
     METHOD GetMasterKeyField()
     METHOD GetMasterKeyString INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:AsString )
     METHOD GetMasterKeyVal INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:GetKeyVal )
@@ -258,8 +261,11 @@ PUBLIC:
     PROPERTY Instance READ GetInstance
     PROPERTY Instances READ FInstances
     PROPERTY IsTempTable READ FIsTempTable
+    PROPERTY KeyExpression READ GetKeyExpression
     PROPERTY KeyField READ GetKeyField
+    PROPERTY KeyString READ GetKeyString
     PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
+    PROPERTY MasterKeyExpression READ GetMasterKeyExpression
     PROPERTY MasterKeyString READ GetMasterKeyString
     PROPERTY MasterKeyVal READ GetMasterKeyVal
     PROPERTY PrimaryIndexList READ FPrimaryIndexList
@@ -589,7 +595,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
         ::FInstances[ ::TableClass, "DbStructValidating" ] := NIL
 
         FOR EACH AField IN ::FieldList
-            IF AField:FieldMethodType = "C" .AND. !AField:Calculated
+            IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. AField:UsingField = NIL
 
                 n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
 
@@ -1733,6 +1739,18 @@ METHOD FUNCTION GetInstance CLASS TTable
 RETURN NIL
 
 /*
+    GetKeyExpression
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetKeyExpression() CLASS TTable
+
+    IF ::FPrimaryIndex != NIL
+        RETURN ::FPrimaryIndex:KeyExpression
+    ENDIF
+
+RETURN ""
+
+/*
     GetKeyField
     Teo. Mexico 2010
 */
@@ -1753,6 +1771,18 @@ METHOD FUNCTION GetKeyVal() CLASS TTable
         RETURN NIL
     ENDIF
 RETURN fld:GetKeyVal()
+
+/*
+    GetMasterKeyExpression
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetMasterKeyExpression() CLASS TTable
+
+    IF ::FPrimaryIndex != NIL
+        RETURN ::FPrimaryIndex:MasterKeyExpression
+    ENDIF
+
+RETURN ""
 
 /*
     GetMasterKeyField
@@ -2132,7 +2162,7 @@ METHOD FUNCTION Post() CLASS TTable
             ENDIF
 
             FOR EACH AField IN ::FieldList
-            
+
                 IF !changed .AND. AField:Changed
                     IF AField:OnAfterPostChange != NIL
                         AAdd( aChangedFields, AField )
@@ -2141,7 +2171,7 @@ METHOD FUNCTION Post() CLASS TTable
                 ENDIF
 
                 IF !AField:IsValid()
-                    RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">"
+                    RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
                 ENDIF
 
             NEXT
