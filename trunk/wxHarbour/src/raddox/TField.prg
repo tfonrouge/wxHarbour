@@ -90,6 +90,7 @@ PROTECTED:
     DATA FValType INIT "U"
     DATA FWrittenValue
     
+    METHOD GetAsExpression INLINE HB_StrToExp( ::GetAsString )
     METHOD GetCloneData( cloneData )
     METHOD GetDefaultValue( defaultValue )
     METHOD GetDBS_LEN INLINE ::FDBS_LEN
@@ -143,6 +144,7 @@ PUBLIC:
     METHOD SetKeyVal( keyVal )
     METHOD ValidateFieldInfo VIRTUAL
 
+    PROPERTY AsExpression READ GetAsExpression
     PROPERTY AsString READ GetAsString WRITE SetAsString
     PROPERTY AsVariant READ GetAsVariant WRITE SetAsVariant
     PROPERTY Calculated READ FCalculated
@@ -165,7 +167,6 @@ PUBLIC:
 PUBLISHED:
     
     DATA IncrementBlock
-    DATA OnGetIndexKeyVal
     /*
      * Event holders
      */
@@ -1349,6 +1350,9 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
         IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
             keyVal := Upper( keyVal )
         ENDIF
+        IF Len( keyVal ) < ::DBS_LEN
+            keyVal := PadR( keyVal, ::DBS_LEN )
+        ENDIF
     ENDIF
 
 RETURN keyVal
@@ -1961,9 +1965,9 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
     IF HB_IsObject( variant )
 
         IF variant:IsDerivedFrom("TObjectField")
-            RETURN variant:DataObj:GetKeyVal()
+            RETURN variant:DataObj:GetAsVariant()
         ELSEIF variant:IsDerivedFrom("TTable")
-            RETURN variant:GetKeyVal()
+            RETURN variant:GetAsVariant()
         ENDIF
     ENDIF
 

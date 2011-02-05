@@ -101,7 +101,6 @@
                         [ ON GETTEXT <bOnGetText> ] ;
                         [ ON SETTEXT <bOnSetText> ] ;
                         [ ON SETVALUE <bOnSetValue> ] ;
-                        [ ON INDEXKEYVAL <bIndexKeyVal> ] ;
                         [ ON VALIDATE <bOnValidate> ] ;
                         [ ON SEARCH <bOnSearch> ] ;
                         [ ON AFTER CHANGE <bOnAfterChange> ] ;
@@ -134,7 +133,6 @@
                             [ :OnGetText := {|field,Text| <bOnGetText> } ] ;;
                             [ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
                             [ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;
-                            [ :OnGetIndexKeyVal := <bIndexKeyVal> ] ;;
                             [ :OnValidate := <bOnValidate> ] ;;
                             [ :OnSearch := <bOnSearch> ] ;;
                             [ :OnAfterChange := <bOnAfterChange> ] ;;

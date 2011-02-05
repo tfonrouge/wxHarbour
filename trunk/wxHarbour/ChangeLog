@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2011-02-04 21:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * removed unused clause
+
+  *  src/raddox/TField.prg
+     % added property (ro):
+       + AsExpression : returns HB_StrToExp value
+     * removed unused data
+     ! on TStringField:GetKeyVal; Fixed len returned string by using len of field on database
+     * on TObjectField:GetAsVariant changed using GetKeyVal by GetAsVariant
+
+2011-02-04 21:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * removed unused clause
+
+  *  src/raddox/TField.prg
+     % added property (ro):
+       + AsExpression : returns HB_StrToExp value
+     * removed unused data
+     ! Fixed len of KeyVal by using len of field on database
+     * on TObjectField:GetAsVariant changed using GetKeyVal by GetAsVariant
+
 2011-02-03 08:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbf_ctrls1/dbf_ctrls1.prg
      * minor code cleanup
