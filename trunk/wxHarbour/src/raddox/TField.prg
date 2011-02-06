@@ -328,6 +328,10 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
     value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyVal, AIndex:TagName )
 
+    IF Len( value ) > ::Size
+        value := Left( value, ::Size )
+    ENDIF
+
     IF ::IncrementBlock = NIL
         value := Inc( value )
     ELSE
