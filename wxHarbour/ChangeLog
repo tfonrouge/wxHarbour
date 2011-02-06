@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-02-06 11:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed TField:GetAutoIncrementValue to db field size on key
+
 2011-02-04 21:58 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * removed unused clause
