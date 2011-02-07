@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-02-07 00:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+     ! raise error when an TObjectField is used as keyfield and is flagged as
+       autoincement
+
 2011-02-06 11:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed TField:GetAutoIncrementValue to db field size on key

@@ -625,7 +625,10 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
         EXIT
     CASE 1	 /* AutoIncrementKeyField */
         IF AField:FieldMethodType = 'A'
-            RAISE ERROR "Array of Fields Not Allowed as AutoIncrement Index Key..."
+            RAISE ERROR "Array of Fields are not Allowed as AutoIncrement Index Key..."
+        ENDIF
+        IF AField:IsDerivedFrom( "TObjectField" )
+            RAISE ERROR "TObjectField's are not Allowed as AutoIncrement Index Key..."
         ENDIF
         AField:AutoIncrementKeyIndex := Self
         ::FAutoIncrementKeyField := AField
