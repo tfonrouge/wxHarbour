@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-02-09 14:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed usage of a TObjectField as an MasterSource in GetLinkedTable
+
+  *  src/raddox/TTable.prg
+     ! Fixed setting current index using a secondary index if there is not a primary one
+
 2011-02-07 00:04 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TIndex.prg
      ! raise error when an TObjectField is used as keyfield and is flagged as

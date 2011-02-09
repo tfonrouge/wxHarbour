@@ -1965,7 +1965,11 @@ METHOD PROCEDURE InitTable() CLASS TTable
     ENDIF
 
     IF ::FIndex = NIL
-        ::FIndex := ::FPrimaryIndex
+        IF ::FPrimaryIndex != NIL
+            ::FIndex := ::FPrimaryIndex
+        ELSEIF !Empty( ::FIndexList )
+            ::FIndex := HB_HValueAt( HB_HValueAt( ::FIndexList, 1 ), 1 )
+        ENDIF
     ENDIF
 
 RETURN

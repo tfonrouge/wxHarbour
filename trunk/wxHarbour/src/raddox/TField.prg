@@ -2049,7 +2049,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
                     IF ::FTable:IsDerivedFrom( className )
                         linkedTableMasterSource := ::FTable
                     ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjType( className ) )
-                        linkedTableMasterSource := fld:DataObj
+                        linkedTableMasterSource := fld
                     ENDIF
                 ENDIF
                 ::FLinkedTable:New( linkedTableMasterSource )
