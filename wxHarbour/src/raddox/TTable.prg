@@ -620,7 +620,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                     aDb[ n, 2 ] := pkField:DBS_TYPE
                     aDb[ n, 3 ] := pkField:DBS_LEN
                     aDb[ n, 4 ] := pkField:DBS_DEC
-                ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:DBS_LEN
+                ELSEIF aDb[ n, 2 ] = "C" .AND. aDb[ n, 3 ] < pkField:Size
                     sResult += "Wrong len value (" + NTrim( aDb[ n, 3 ] ) + ") on 'C' field '" + AField:DBS_NAME + E"', must be " + NTrim( pkField:DBS_LEN ) + E"\n"
                     aDb[ n, 3 ] := pkField:DBS_LEN
                 ELSEIF aDb[ n, 2 ] = "N" .AND. ( !aDb[ n, 3 ] == pkField:DBS_LEN .OR. !aDb[ n, 4 ] == pkField:DBS_DEC )
@@ -2673,7 +2673,10 @@ METHOD PROCEDURE SyncDetailSources CLASS TTable
 
     IF !Empty( ::DetailSourceList )
         FOR EACH itm IN ::DetailSourceList
-            itm:SyncFromMasterSourceFields()
+            /* don't sync if both linked TObjectField's are in the same table */
+            IF (::LinkedObjField = NIL .OR. itm:LinkedObjField = NIL) .OR. !::LinkedObjField:Table == itm:LinkedObjField:Table
+                itm:SyncFromMasterSourceFields()
+            ENDIF
         NEXT
     ENDIF
 
