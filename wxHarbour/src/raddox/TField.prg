@@ -1901,7 +1901,7 @@ PRIVATE:
     DATA FObjType
     DATA FLinkedTable									 /* holds the Table object */
     DATA FLinkedTableMasterSource
-    METHOD SetLinkedTableMasterSource( linkedTableMasterSource ) INLINE ::FLinkedTableMasterSource := linkedTableMasterSource
+    METHOD SetLinkedTableMasterSource( linkedTableMasterSource )
     METHOD SetObjType( objValue ) INLINE ::FObjType := objValue
 PROTECTED:
     DATA FCalcMethod
@@ -1945,6 +1945,13 @@ METHOD FUNCTION DataObj CLASS TObjectField
     IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 
     ELSE
+        /* 
+            to sure a resync with linkedTable mastersource table
+            on TObjectField's that have a mastersource field (another TObjectField)
+            in the same table
+        */
+        linkedTable:MasterSource() 
+
         keyVal := ::GetKeyVal()
         /* Syncs with the current value */
         IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:KeyField:KeyVal == keyVal
@@ -2032,7 +2039,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
                 ::FLinkedTable := ::FTable:MasterSource
             ELSE
                 IF ::FLinkedTableMasterSource != NIL
-                    linkedTableMasterSource := ::FLinkedTableMasterSource:Eval( ::FTable )
+                    linkedTableMasterSource := ::FLinkedTableMasterSource
                 ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjType ) )
                     linkedTableMasterSource := ::FTable
                 ENDIF
@@ -2123,6 +2130,27 @@ RETURN NIL
 */
 METHOD FUNCTION IndexExpression() CLASS TObjectField
 RETURN ::FFieldExpression
+
+/*
+    SetLinkedTableMasterSource
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetLinkedTableMasterSource( linkedTableMasterSource ) CLASS TObjectField
+
+    SWITCH ValType( linkedTableMasterSource )
+    CASE "C"
+        linkedTableMasterSource := ::Table:FieldByName( linkedTableMasterSource )
+    CASE "O"
+        IF linkedTableMasterSource:IsDerivedFrom( "TObjectField" ) .OR. linkedTableMasterSource:IsDerivedFrom( "TTable" )
+            EXIT
+        ENDIF
+    OTHERWISE
+        RAISE ERROR "Invalid master source value..."
+    ENDSWITCH
+
+    ::FLinkedTableMasterSource := linkedTableMasterSource
+
+RETURN
 
 /*
     ENDCLASS TObjectField

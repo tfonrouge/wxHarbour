@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-02-10 10:56 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! on TObjectField:DataObj making sure that linkedTable is current with his
+       master source table
+     % on TObjectField:SetLinkedTableMasterSource accepts a TObjectField, TTable, or
+       the name of a TObjectField
+
 2011-02-09 14:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed usage of a TObjectField as an MasterSource in GetLinkedTable
