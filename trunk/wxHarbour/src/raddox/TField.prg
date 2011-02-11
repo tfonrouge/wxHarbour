@@ -37,6 +37,7 @@ PRIVATE:
     DATA FPickList											// codeblock to help to pick a value
     DATA FGroup														// A Text label for grouping
     DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
+    DATA FOnActiveSetKeyVal INIT .F.
     DATA FPrimaryKeyComponent INIT .F.		// Field is included in a Array of fields for a Primary Index Key
     DATA FPublished INIT .T.							// Logical: Appears in user field selection
     DATA FReadOnly	INIT .F.
@@ -1140,34 +1141,42 @@ RETURN
 */
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
-    IF ::IsKeyIndex
+    IF !::FOnActiveSetKeyVal
 
-        IF ::OnSearch != NIL
-            ::OnSearch:Eval( Self )
-        ENDIF
+        ::FOnActiveSetKeyVal := .T.
 
-        IF !Empty( keyVal )
-            keyVal := ::GetKeyVal( keyVal )
-            IF !::KeyIndex:KeyVal == keyVal
-                ::KeyIndex:Seek( keyVal )
+        IF ::IsKeyIndex
+
+            IF ::OnSearch != NIL
+                ::OnSearch:Eval( Self )
             ENDIF
+
+            IF !Empty( keyVal )
+                keyVal := ::GetKeyVal( keyVal )
+                IF !::KeyIndex:KeyVal == keyVal
+                    ::KeyIndex:Seek( keyVal )
+                ENDIF
+            ELSE
+                ::FTable:DbGoTo( 0 )
+            ENDIF
+
+            IF ::FTable:LinkedObjField != NIL
+
+                ::FTable:LinkedObjField:SetAsVariant( ::FTable:KeyField:GetAsVariant() )
+
+                IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:KeyField:GetKeyVal()
+                    ::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
+                ENDIF
+                
+            ENDIF
+
         ELSE
-            ::FTable:DbGoTo( 0 )
+
+            wxhAlert( "Field '" + ::GetLabel() + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
+
         ENDIF
 
-        IF ::FTable:LinkedObjField != NIL
-
-            ::FTable:LinkedObjField:SetAsVariant( ::FTable:KeyField:GetAsVariant() )
-
-            IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:KeyField:GetKeyVal()
-                ::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
-            ENDIF
-            
-        ENDIF
-
-    ELSE
-
-        wxhAlert( "Field '" + ::GetLabel() + "' has no Index in the '" + ::FTable:ClassName() + "' Table..." )
+        ::FOnActiveSetKeyVal := .F.
 
     ENDIF
 

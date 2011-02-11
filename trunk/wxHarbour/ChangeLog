@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2011-02-10 20:51 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % added protection against a double call to SetKeyVal
+
+  *  src/raddox/TTable.prg
+     * leave SynDetailSources at it was in previous version, the fix is done in above
+       entry on TField.prg
+
 2011-02-10 12:38 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed checking for needed size on DbStruct (not the actual db field size)
