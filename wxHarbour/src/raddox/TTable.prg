@@ -2673,10 +2673,7 @@ METHOD PROCEDURE SyncDetailSources CLASS TTable
 
     IF !Empty( ::DetailSourceList )
         FOR EACH itm IN ::DetailSourceList
-            /* don't sync if both linked TObjectField's are in the same table */
-            IF (::LinkedObjField = NIL .OR. itm:LinkedObjField = NIL) .OR. !::LinkedObjField:Table == itm:LinkedObjField:Table
-                itm:SyncFromMasterSourceFields()
-            ENDIF
+            itm:SyncFromMasterSourceFields()
         NEXT
     ENDIF
 
