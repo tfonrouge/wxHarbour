@@ -329,7 +329,7 @@ METHOD FUNCTION GetAutoIncrementValue CLASS TField
 
     value := ::Table:Alias:Get4SeekLast(	{|| ::FieldReadBlock:Eval() }, AIndex:MasterKeyVal, AIndex:TagName )
 
-    IF Len( value ) > ::Size
+    IF HB_IsChar( value ) .AND. Len( value ) > ::Size
         value := Left( value, ::Size )
     ENDIF
 
