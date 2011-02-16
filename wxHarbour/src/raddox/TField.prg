@@ -128,7 +128,7 @@ PUBLIC:
     METHOD GetBuffer()
     METHOD GetEditText
     METHOD GetData()
-    METHOD GetKeyVal( keyVal ) VIRTUAL
+    METHOD GetKeyVal( keyVal )
     METHOD GetValidValues
     METHOD IndexExpression VIRTUAL
     METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
@@ -531,6 +531,47 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
         ENDIF
     ENDIF
 RETURN ::FFieldReadBlock
+
+/*
+    GetKeyVal
+    Teo. Mexico 2010
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
+    LOCAL AField
+    LOCAL i,start,size,value
+
+    IF ::FFieldMethodType = "A"
+        IF keyVal = NIL
+            keyVal := ""
+            FOR EACH i IN ::FFieldArrayIndex
+                keyVal += ::FTable:FieldList[ i ]:GetKeyVal()
+            NEXT
+        ELSE
+            keyVal := PadR( keyVal, Min( Len( keyVal ), ::Size ) )
+            start := 1
+            FOR EACH i IN ::FFieldArrayIndex
+                AField := ::FTable:FieldList[ i ]
+                size := AField:Size
+                value := SubStr( keyVal, start, size )
+                value := AField:GetKeyVal( value )
+                keyVal := Stuff( keyVal, start, size, value )
+                start += Len( value )
+            NEXT
+        ENDIF
+    ELSE
+        IF keyVal = NIL
+            keyVal := ::GetAsVariant()
+        ENDIF
+        //IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
+        IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
+            keyVal := Upper( keyVal )
+        ENDIF
+        IF Len( keyVal ) < ::DBS_LEN
+            keyVal := PadR( keyVal, ::DBS_LEN )
+        ENDIF
+    ENDIF
+
+RETURN keyVal
 
 /*
     GetUndoValue
@@ -1302,7 +1343,6 @@ PROTECTED:
     METHOD SetSize( size )
 PUBLIC:
     METHOD GetAsString
-    METHOD GetKeyVal( keyVal )
     METHOD IndexExpression()
     PROPERTY AsNumeric READ GetAsNumeric WRITE SetAsNumeric
 PUBLISHED:
@@ -1328,47 +1368,6 @@ METHOD FUNCTION GetAsString CLASS TStringField
     ENDSWITCH
 
 RETURN Result
-
-/*
-    GetKeyVal
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION GetKeyVal( keyVal ) CLASS TStringField
-    LOCAL AField
-    LOCAL i,start,size,value
-
-    IF ::FFieldMethodType = "A"
-        IF keyVal = NIL
-            keyVal := ""
-            FOR EACH i IN ::FFieldArrayIndex
-                keyVal += ::FTable:FieldList[ i ]:GetKeyVal()
-            NEXT
-        ELSE
-            keyVal := PadR( keyVal, Min( Len( keyVal ), ::Size ) )
-            start := 1
-            FOR EACH i IN ::FFieldArrayIndex
-                AField := ::FTable:FieldList[ i ]
-                size := AField:Size
-                value := SubStr( keyVal, start, size )
-                value := AField:GetKeyVal( value )
-                keyVal := Stuff( keyVal, start, size, value )
-                start += Len( value )
-            NEXT
-        ENDIF
-    ELSE
-        IF keyVal = NIL
-            keyVal := ::GetAsVariant()
-        ENDIF
-        //IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
-        IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
-            keyVal := Upper( keyVal )
-        ENDIF
-        IF Len( keyVal ) < ::DBS_LEN
-            keyVal := PadR( keyVal, ::DBS_LEN )
-        ENDIF
-    ENDIF
-
-RETURN keyVal
 
 /*
     GetSize
@@ -2003,7 +2002,7 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
         keyVal := ::GetAsVariant()
     ENDIF
 
-RETURN ::GetReferenceField():GetKeyVal( keyVal )
+RETURN Super:GetKeyVal( keyVal )
 
 /*
     GetAsString

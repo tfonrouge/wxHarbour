@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2011-02-16 13:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * moved TStringField:GetKeyVal to TField
+     ! Fixed TObjectField:GetKeyVal to validate against current db field data
+
+  *  src/raddox/TTable.prg
+     * force adding DBS_LEN/DBS_DEC to db fields in new tables
+     ! Fixed setting alias when creating a new index
+
 2011-02-12 09:37 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed checking for a string type value on ::AutoIncrement
