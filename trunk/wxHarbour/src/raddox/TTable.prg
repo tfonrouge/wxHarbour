@@ -304,6 +304,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
     LOCAL rdoClient
     LOCAL Result,itm
     LOCAL ms
+    LOCAL n
 
     ::Process_TableName( tableName )
 
@@ -334,7 +335,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
     IF ::DataBase == NIL
         ::DataBase := ::InitDataBase()
     ENDIF
-    
+
     IF masterSource = NIL .AND. !Empty( ms := ::GetMasterSourceClassName() ) .AND. ::autoMasterSource
         masterSource := __ClsInstName( ms )
         masterSource:autoMasterSource := .T.
@@ -361,6 +362,15 @@ METHOD New( masterSource, tableName ) CLASS TTable
     IF !Empty( ::TableFileName ) .AND. ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
         ::CheckDbStruct()
     ENDIF
+
+    /* sets the DBS field info for each table field */
+    FOR EACH itm IN ::FFieldList
+        IF itm:IsTableField()
+            n := Upper( itm:DBS_NAME )
+            n := AScan( ::DbStruct, {|e| e[ 1 ] == n } )
+            itm:SetDbStruct( ::DbStruct[ n ] )
+        ENDIF
+    NEXT
 
     IF ::autoOpen
         ::Open()
@@ -757,6 +767,8 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
     LOCAL indexExp
 
     indexExp := index:IndexExpression()
+
+    DbSelectArea( ::Alias:Name )
 
     CREATE INDEX ON indexExp TAG index:Name ADDITIVE
 
