@@ -562,12 +562,13 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TField
         IF keyVal = NIL
             keyVal := ::GetAsVariant()
         ENDIF
-        //IF !( ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive ) )
-        IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
-            keyVal := Upper( keyVal )
-        ENDIF
-        IF Len( keyVal ) < ::DBS_LEN
-            keyVal := PadR( keyVal, ::DBS_LEN )
+        IF HB_IsChar( keyVal )
+            IF ::IsKeyIndex .AND. !::FKeyIndex:CaseSensitive
+                keyVal := Upper( keyVal )
+            ENDIF
+            IF Len( keyVal ) < ::DBS_LEN
+                keyVal := PadR( keyVal, ::DBS_LEN )
+            ENDIF
         ENDIF
     ENDIF
 
@@ -802,7 +803,7 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
         RETURN
     ENDIF
 
-    IF ::FTable:LinkedObjField = NIL .AND. ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
+    IF (::FTable:LinkedObjField = NIL .OR. ::FTable:LinkedObjField:Table:State = dsBrowse) .AND. ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
         oldState := ::FTable:State
         ::FTable:Edit()
     ENDIF

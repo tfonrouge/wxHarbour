@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2011-02-17 12:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Added protection to check for a string keyVal in TField:GetKeyVal
+     ! On assigning a value on SetAsVariant and trying to set autoEdit, check if the 
+       field table has linked obj field and it's at dsBrowse state
+
 2011-02-17 09:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! ::TField:SetAsVariant fixed don't autoEdit if Table's field has a LinkedObjField and
