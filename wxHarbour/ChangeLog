@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-02-17 09:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! ::TField:SetAsVariant fixed don't autoEdit if Table's field has a LinkedObjField and
+       then just perform a plain seek
+
 2011-02-16 13:44 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * moved TStringField:GetKeyVal to TField
