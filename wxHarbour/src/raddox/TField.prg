@@ -37,7 +37,6 @@ PRIVATE:
     DATA FPickList											// codeblock to help to pick a value
     DATA FGroup														// A Text label for grouping
     DATA FIsMasterFieldComponent INIT .F. // Field is a MasterField component
-    DATA FOnActiveSetKeyVal INIT .F.
     DATA FPrimaryKeyComponent INIT .F.		// Field is included in a Array of fields for a Primary Index Key
     DATA FPublished INIT .T.							// Logical: Appears in user field selection
     DATA FReadOnly	INIT .F.
@@ -81,6 +80,7 @@ PROTECTED:
     DATA FFieldExpression									// Literal Field expression on the Database
     DATA FFieldMethodType
     DATA FFieldReadBlock								// Code Block to do READ
+    DATA FFieldType     INIT ftBase
     DATA FKeyIndex
     DATA FLabel
     DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
@@ -196,6 +196,7 @@ PUBLISHED:
     PROPERTY FieldMethod READ GetFieldMethod WRITE SetFieldMethod
     PROPERTY FieldMethodType READ FFieldMethodType
     PROPERTY FieldReadBlock READ GetFieldReadBlock
+    PROPERTY FieldType READ FFieldType
     PROPERTY FieldWriteBlock READ FFieldWriteBlock
     PROPERTY Group READ FGroup WRITE SetGroup
     PROPERTY KeyIndex READ FKeyIndex WRITE SetKeyIndex
@@ -1183,9 +1184,9 @@ RETURN
 */
 METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
-    IF !::FOnActiveSetKeyVal
+    IF !::FTable:OnActiveSetKeyVal()
 
-        ::FOnActiveSetKeyVal := .T.
+        ::FTable:OnActiveSetKeyVal( .T. )
 
         IF ::IsKeyIndex
 
@@ -1218,7 +1219,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
         ENDIF
 
-        ::FOnActiveSetKeyVal := .F.
+        ::FTable:OnActiveSetKeyVal( .F. )
 
     ENDIF
 
@@ -1914,6 +1915,7 @@ PRIVATE:
     METHOD SetObjType( objValue ) INLINE ::FObjType := objValue
 PROTECTED:
     DATA FCalcMethod
+    DATA FFieldType INIT ftObject
     DATA FType INIT "ObjectField"
     DATA FValType INIT "O"
     METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
@@ -1929,6 +1931,7 @@ PUBLIC:
     METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
     METHOD IndexExpression()
     PROPERTY LinkedTable READ GetLinkedTable
+    PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
     PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
     PROPERTY ObjType READ FObjType WRITE SetObjType
     PROPERTY Size READ GetReferenceField():Size
@@ -1959,7 +1962,7 @@ METHOD FUNCTION DataObj CLASS TObjectField
             on TObjectField's that have a mastersource field (another TObjectField)
             in the same table
         */
-        linkedTable:MasterSource() 
+        //linkedTable:MasterSource() 
 
         keyVal := ::GetKeyVal()
         /* Syncs with the current value */
@@ -2044,6 +2047,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
          */
         SWITCH ValType( ::FObjType )
         CASE 'C'
+
             IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjType ) .AND. ::IsMasterFieldComponent
                 ::FLinkedTable := ::FTable:MasterSource
             ELSE

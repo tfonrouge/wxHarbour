@@ -21,6 +21,9 @@
 #define dssAdding   1
 #define dssPosting  2
 
+#define ftBase      0
+#define ftObject    1
+
 /* Events for TTable */
 #xtranslate EVENT ONAFTEROPEN => METHOD OnAfterOpen()
 #xtranslate EVENT ONAFTEROPEN CLASS <className> => METHOD PROCEDURE OnAfterOpen() CLASS <className>
