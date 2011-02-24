@@ -98,6 +98,7 @@ PROTECTED:
     DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
     DATA FIsTempTable        INIT .F.
     DATA FFound				INIT .F.
+    DATA FOnActiveSetKeyVal  INIT .F.
     DATA FPrimaryIndex
     DATA FPrimaryIndexList	INIT HB_HSetOrder( HB_HSetCaseMatch( {=>}, .F. ), .T. )  // <className> => <indexName>
     DATA FRecNo				INIT 0
@@ -230,6 +231,7 @@ PUBLIC:
 
     METHOD OnClassInitializing() VIRTUAL
     METHOD OnCreate() VIRTUAL
+    METHOD OnActiveSetKeyVal( value )
     METHOD OnAfterCancel() VIRTUAL
     METHOD OnAfterChange() VIRTUAL
     METHOD OnAfterDelete() VIRTUAL
@@ -610,7 +612,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                 n := AScan( aDb, {|e| Upper( e[1] ) == Upper( AField:DBS_NAME ) } )
 
                 IF n > 0
-                    AField:SetDbStruct( aDb[ n ] )
+                    //AField:SetDbStruct( aDb[ n ] )
                 ENDIF
 
                 IF AField:IsDerivedFrom("TObjectField")
@@ -1443,6 +1445,7 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
     LOCAL Result
     LOCAL index
     LOCAL read
+    LOCAL table
 
     IF idxAlias = NIL
         IF ::aliasIdx != NIL
@@ -1488,6 +1491,13 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 
                     IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
                         AField:GetData()
+                    ENDIF
+
+                    IF AField:FieldType = ftObject .AND. AField:Calculated .AND. AField:LinkedTableAssigned
+                        table := AField:LinkedTable
+                        IF table:LinkedObjField != NIL .AND. table:LinkedObjField:Calculated .AND. !table:MasterSource == Self .AND. table:MasterSource == table:LinkedObjField:Table:KeyField:LinkedTable
+                            table:LinkedObjField:Table:KeyField:DataObj()
+                        ENDIF    
                     ENDIF
 
                 NEXT
@@ -1730,7 +1740,8 @@ RETURN AField
     Teo. Mexico 2010
 */
 METHOD GetHasFilter() CLASS TTable
-RETURN ::filterPrimaryIndexScope .OR. ::FFilter != NIL
+//RETURN ::filterPrimaryIndexScope .OR. ::FFilter != NIL
+RETURN ::FFilter != NIL
 
 /*
     GetInstance
@@ -1811,13 +1822,13 @@ RETURN NIL
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetMasterSource() CLASS TTable
-    
+
     SWITCH ::FMasterSourceType
     CASE rxMasterSourceTypeTTable
         RETURN ::FMasterSource
     CASE rxMasterSourceTypeTField
         IF ::Active .AND. ::FMasterSource:Table:Active
-            RETURN ::FMasterSource:DataObj
+            RETURN ::FMasterSource:LinkedTable
         ENDIF
         RETURN ::FMasterSource:LinkedTable
     CASE rxMasterSourceTypeBlock
@@ -2035,6 +2046,17 @@ METHOD FUNCTION InsideScope() CLASS TTable
     ENDIF
 
 RETURN ::FIndex = NIL .OR. ::FIndex:InsideScope()
+
+/*
+    OnActiveSetKeyVal
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION OnActiveSetKeyVal( value ) CLASS TTable
+    IF value == NIL
+        RETURN ::FOnActiveSetKeyVal
+    ENDIF
+    ::FOnActiveSetKeyVal := value
+RETURN value
 
 /*
     OnDataChange
@@ -2680,12 +2702,14 @@ RETURN
     SyncDetailSources
     Teo. Mexico 2007
 */
-METHOD PROCEDURE SyncDetailSources CLASS TTable
+METHOD PROCEDURE SyncDetailSources( sender ) CLASS TTable
     LOCAL itm
 
     IF !Empty( ::DetailSourceList )
         FOR EACH itm IN ::DetailSourceList
-            itm:SyncFromMasterSourceFields()
+            IF sender == NIL .OR. !sender == itm
+                itm:SyncFromMasterSourceFields()
+            ENDIF
         NEXT
     ENDIF
 
