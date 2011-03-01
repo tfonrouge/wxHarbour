@@ -13,9 +13,6 @@
 # 'install' program location 
 INSTALL ?= install
 
-# Location where the package is installed by 'make install' 
-prefix ?= /usr/local
-
 # Destination root (/ is used if empty) 
 DESTDIR ?= 
 
@@ -126,16 +123,13 @@ WX_BUILD ?= release
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-WXHARBOUR_CFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
-	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
-	-D__HARBOUR__ -fno-strict-aliasing
-WXHARBOUR_CXXFLAGS = -I/usr/include/harbour -I/usr/local/include/harbour \
-	-I/usr/include -I/usr/local/include -W -Wall -O2 $(__D_WX_UNICODE_p) \
-	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour \
-	-I/usr/include/wxHarbour -I/usr/local/include/wxHarbour $(CPPFLAGS) \
-	-D__HARBOUR__ -fno-strict-aliasing `wx-config --cxxflags`
+WXHARBOUR_CFLAGS = -I`hbmk2 --hbdirinc` -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour -I`hbmk2 \
+	--hbdirinc`/wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing
+WXHARBOUR_CXXFLAGS = -I`hbmk2 --hbdirinc` -W -Wall -O2 $(__D_WX_UNICODE_p) \
+	$(__D_WX_DEBUG_p) $(__WX_DEBUG_INFO_2) -Iinclude/wxHarbour -I`hbmk2 \
+	--hbdirinc`/wxHarbour $(CPPFLAGS) -D__HARBOUR__ -fno-strict-aliasing \
+	`wx-config --cxxflags`
 WXHARBOUR_OBJECTS =  \
 	$(__BUILDDIR__)/wxHarbour_wxhfuncs.o \
 	$(__BUILDDIR__)/wxHarbour_wxhutils.o \
@@ -359,11 +353,9 @@ WXHARBOUR_HEADERS =  \
 	include/wxHarbour/wxh/textctrl.ch \
 	include/wxHarbour/wxh/toolbar.ch
 WXHARBOUR_HBFLAGS = $(HBFLAGS) -gc$(HBOUTSRCLEVEL) -w$(HBWARNL) -es$(HBEXITSL) \
-	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_UNIX $(HBOSUNIXDEF) \
-	-I/usr/include/harbour -I/usr/local/include/harbour -I/usr/include \
-	-I/usr/local/include $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) \
-	-Iinclude/wxHarbour -I/usr/include/wxHarbour \
-	-I/usr/local/include/wxHarbour
+	$(__HBDEBUG__) $(__HBMTFLAG__) -dHB_OS_UNIX $(HBOSUNIXDEF) -I`hbmk2 \
+	--hbdirinc` $(__D_WX_UNICODE_p) $(__D_WX_DEBUG_p) -Iinclude/wxHarbour \
+	-I`hbmk2 --hbdirinc`/wxHarbour
 
 ### Conditionally set variables: ###
 
@@ -433,24 +425,24 @@ $(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
-	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
-	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirlib)/
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(shell hbmk2 --hbdirlib)/
 
 uninstall_wxHarbour: 
-	rm -f $(DESTDIR)$(prefix)/lib/lib$(WXHLIBNAME).a
+	rm -f $(DESTDIR)$(shell hbmk2 --hbdirlib)//lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(prefix)
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(prefix)/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(prefix)/`dirname $$f`; \
+	if test ! -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(prefix)/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(shell hbmk2 --hbdirinc)/$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(prefix)/$$f; \
+	rm -f $(DESTDIR)$(shell hbmk2 --hbdirinc)/$$f; \
 	done
 
 sudoinstall: all

@@ -90,9 +90,6 @@ HBEXITSL ?= 2
 # Where to search for Harbour includes 
 HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
 
-# Where to search for Harbour libs 
-HB_LIB_INSTALL ?= $(HB_INSTALL_PREFIX)\lib\win\mingw
-
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj\gcc_win32
 
@@ -403,78 +400,78 @@ $(__BUILDDIR__)\lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	ranlib $@
 
 install_wxHarbour: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	-mkdir $(HB_LIB_INSTALL)
-	copy /Y $(__BUILDDIR__)\lib$(WXHLIBNAME).a $(HB_LIB_INSTALL)
+	-mkdir $(shell hbmk2 --hbdirlib)\
+	copy /Y $(__BUILDDIR__)\lib$(WXHLIBNAME).a $(shell hbmk2 --hbdirlib)\
 
 uninstall_wxHarbour: 
-	-del $(HB_LIB_INSTALL)\lib$(WXHLIBNAME).a
+	-del $(shell hbmk2 --hbdirlib)\\lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	if not exist $(PREFIX) mkdir $(PREFIX)
-	if not exist $(PREFIX)\include/wxHarbour/wxh mkdir $(PREFIX)\include/wxHarbour/wxh
-	if not exist $(PREFIX)\include/wxHarbour mkdir $(PREFIX)\include/wxHarbour
-	copy include\wxHarbour\defs.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\dialog.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\event.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\property.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\raddox.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\toplevel.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wx.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wxharbour.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\xerror.ch $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\defs.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\rdodefs.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wxh.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wxhevtdefs.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\xho_classes.h $(PREFIX)\include\wxHarbour
-	copy include\wxHarbour\wxh\auibook.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\bitmap.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\bookctrl.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\button.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\dateevt.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\filedlg.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gauge.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gdicmn.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\grid.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gsocket.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\notebook.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\platinfo.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\socket.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\taskbar.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\textctrl.ch $(PREFIX)\include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\toolbar.ch $(PREFIX)\include\wxHarbour\wxh
+	if not exist $(shell hbmk2 --hbdirinc) mkdir $(shell hbmk2 --hbdirinc)
+	if not exist $(shell hbmk2 --hbdirinc)\include/wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\include/wxHarbour/wxh
+	if not exist $(shell hbmk2 --hbdirinc)\include/wxHarbour mkdir $(shell hbmk2 --hbdirinc)\include/wxHarbour
+	copy include\wxHarbour\defs.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\dialog.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\event.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\property.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\raddox.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\toplevel.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\wx.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\wxharbour.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\xerror.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\defs.h $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\rdodefs.h $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\wxh.h $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\wxhevtdefs.h $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\xho_classes.h $(shell hbmk2 --hbdirinc)\include\wxHarbour
+	copy include\wxHarbour\wxh\auibook.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\bitmap.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\bookctrl.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\button.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\dateevt.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\filedlg.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gauge.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gdicmn.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\grid.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gsocket.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\notebook.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\platinfo.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\socket.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\taskbar.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\textctrl.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\toolbar.ch $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh
 
 uninstall_wxHarbour_headers: 
-	-if exist $(PREFIX)\include\wxHarbour\defs.ch -del $(PREFIX)\include\wxHarbour\defs.ch
-	-if exist $(PREFIX)\include\wxHarbour\dialog.ch -del $(PREFIX)\include\wxHarbour\dialog.ch
-	-if exist $(PREFIX)\include\wxHarbour\event.ch -del $(PREFIX)\include\wxHarbour\event.ch
-	-if exist $(PREFIX)\include\wxHarbour\property.ch -del $(PREFIX)\include\wxHarbour\property.ch
-	-if exist $(PREFIX)\include\wxHarbour\raddox.ch -del $(PREFIX)\include\wxHarbour\raddox.ch
-	-if exist $(PREFIX)\include\wxHarbour\toplevel.ch -del $(PREFIX)\include\wxHarbour\toplevel.ch
-	-if exist $(PREFIX)\include\wxHarbour\wx.ch -del $(PREFIX)\include\wxHarbour\wx.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxharbour.ch -del $(PREFIX)\include\wxHarbour\wxharbour.ch
-	-if exist $(PREFIX)\include\wxHarbour\xerror.ch -del $(PREFIX)\include\wxHarbour\xerror.ch
-	-if exist $(PREFIX)\include\wxHarbour\defs.h -del $(PREFIX)\include\wxHarbour\defs.h
-	-if exist $(PREFIX)\include\wxHarbour\rdodefs.h -del $(PREFIX)\include\wxHarbour\rdodefs.h
-	-if exist $(PREFIX)\include\wxHarbour\wxh.h -del $(PREFIX)\include\wxHarbour\wxh.h
-	-if exist $(PREFIX)\include\wxHarbour\wxhevtdefs.h -del $(PREFIX)\include\wxHarbour\wxhevtdefs.h
-	-if exist $(PREFIX)\include\wxHarbour\xho_classes.h -del $(PREFIX)\include\wxHarbour\xho_classes.h
-	-if exist $(PREFIX)\include\wxHarbour\wxh\auibook.ch -del $(PREFIX)\include\wxHarbour\wxh\auibook.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\bitmap.ch -del $(PREFIX)\include\wxHarbour\wxh\bitmap.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\bookctrl.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\button.ch -del $(PREFIX)\include\wxHarbour\wxh\button.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\dateevt.ch -del $(PREFIX)\include\wxHarbour\wxh\dateevt.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\filedlg.ch -del $(PREFIX)\include\wxHarbour\wxh\filedlg.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\gauge.ch -del $(PREFIX)\include\wxHarbour\wxh\gauge.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch -del $(PREFIX)\include\wxHarbour\wxh\gdicmn.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\grid.ch -del $(PREFIX)\include\wxHarbour\wxh\grid.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\gsocket.ch -del $(PREFIX)\include\wxHarbour\wxh\gsocket.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\notebook.ch -del $(PREFIX)\include\wxHarbour\wxh\notebook.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\platinfo.ch -del $(PREFIX)\include\wxHarbour\wxh\platinfo.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\socket.ch -del $(PREFIX)\include\wxHarbour\wxh\socket.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\taskbar.ch -del $(PREFIX)\include\wxHarbour\wxh\taskbar.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\textctrl.ch -del $(PREFIX)\include\wxHarbour\wxh\textctrl.ch
-	-if exist $(PREFIX)\include\wxHarbour\wxh\toolbar.ch -del $(PREFIX)\include\wxHarbour\wxh\toolbar.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\defs.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\defs.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\dialog.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\dialog.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\event.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\event.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\property.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\property.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\raddox.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\raddox.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\toplevel.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\toplevel.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wx.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wx.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxharbour.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxharbour.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\xerror.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\xerror.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\defs.h -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\defs.h
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\rdodefs.h -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\rdodefs.h
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh.h -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh.h
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxhevtdefs.h -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxhevtdefs.h
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\xho_classes.h -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\xho_classes.h
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\auibook.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\auibook.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\bitmap.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\bitmap.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\bookctrl.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\bookctrl.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\button.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\button.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\dateevt.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\dateevt.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\filedlg.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\filedlg.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gauge.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gauge.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gdicmn.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gdicmn.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\grid.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\grid.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gsocket.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\gsocket.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\notebook.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\notebook.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\platinfo.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\platinfo.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\socket.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\socket.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\taskbar.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\taskbar.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\textctrl.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\textctrl.ch
+	-if exist $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\toolbar.ch -del $(shell hbmk2 --hbdirinc)\include\wxHarbour\wxh\toolbar.ch
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<

@@ -39,6 +39,14 @@
 		</set>
 	</if>
 	
+	<set var="__HBDIRLIB__">
+	    $(DOLLAR)(shell hbmk2 --hbdirlib)
+	</set>
+	
+	<option name="HBDIRLIB" category="path">
+	    <default-value>$(__HBDIRLIB__)</default-value>
+	</option>
+	
 	<option name="HBLIBSTYPE">
 		<default-value>static</default-value>
 		<description>
@@ -741,8 +749,7 @@ Where is wxWidgets installed
 	<!-- Harbour libs section -->
 	<template id="__harbour_libs">
 		<if cond="TOOLSET=='unix'">
-			<lib-path>/usr/lib$(HB_LIB_ARCH)/harbour</lib-path>
-			<lib-path>/usr/local/lib$(HB_LIB_ARCH)/harbour</lib-path>
+			<lib-path>$(HBDIRLIB)</lib-path>
 			<lib-path>/usr/X11R6/lib</lib-path>
 		</if>
 		<if cond="TOOLSET=='win32'">
@@ -833,10 +840,7 @@ Where is wxWidgets installed
 		</if>
 
 		<if cond="TOOLSET=='unix'">
-			<include>/usr/include/harbour</include>
-			<include>/usr/local/include/harbour</include>
-			<include>/usr/include</include>
-			<include>/usr/local/include</include>
+			<include>`hbmk2 --hbdirinc`</include>
 		</if>
 
 		<warnings>max</warnings>
@@ -871,8 +875,7 @@ Where is wxWidgets installed
 			<include>$(HB_WITH_WX)/lib/$(COMPILER)_lib/msw$(WX_LIBID)</include>
 		</if>
 		<if cond="TOOLSET=='unix'">
-			<include>/usr/include/wxHarbour</include>
-			<include>/usr/local/include/wxHarbour</include>
+			<include>`hbmk2 --hbdirinc`/wxHarbour</include>
 		</if>
 	</template>
 

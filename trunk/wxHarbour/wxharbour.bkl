@@ -43,8 +43,11 @@
 			src/wxbase/validators
 			src/wxbase/xmlclasses
 		</sources-at>
+		<set var="LIBDIR">
+			$(DOLLAR)(shell hbmk2 --hbdirlib)/
+		</set>
 		<install-to>$(LIBDIR)</install-to>
-		<install-headers-to>$(PREFIX)</install-headers-to>
+		<install-headers-to>$(DOLLAR)(shell hbmk2 --hbdirinc)</install-headers-to>
 	</wxharbour-lib>
 
     <!--

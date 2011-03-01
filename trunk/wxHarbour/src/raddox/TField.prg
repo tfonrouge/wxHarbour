@@ -2006,7 +2006,7 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
         keyVal := ::GetAsVariant()
     ENDIF
 
-RETURN Super:GetKeyVal( keyVal )
+RETURN ::GetReferenceField:GetKeyVal( keyVal )
 
 /*
     GetAsString

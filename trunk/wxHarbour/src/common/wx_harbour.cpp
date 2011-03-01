@@ -119,9 +119,17 @@ wxColour wxh_par_wxColour( int param )
 wxDateTime wxh_par_wxDateTime( int param )
 {
     long lDate = hb_pardl( param );
-    int iYear, iMonth, iDay;
-    hb_dateDecode( lDate, &iYear, &iMonth, &iDay );
-    return wxDateTime( iDay, (wxDateTime::Month) (iMonth - 1), iYear, 0, 0, 0, 0 );
+    if( lDate )
+    {
+        int iYear, iMonth, iDay;
+        hb_dateDecode( lDate, &iYear, &iMonth, &iDay );
+        return wxDateTime( iDay, (wxDateTime::Month) (iMonth - 1), iYear, 0, 0, 0, 0 );
+    }
+    else
+    {
+        return wxDefaultDateTime;
+    }
+
 }
 
 /*
