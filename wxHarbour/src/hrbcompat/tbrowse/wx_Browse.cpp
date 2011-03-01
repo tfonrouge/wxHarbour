@@ -175,7 +175,9 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 
         /* needed to calculate cell row height */
         if( gridBrowse->GetNumberRows() == 0 )
+        {
             gridBrowse->AppendRows( 1 );
+        }
 
         gridBrowse->m_gridWindowHeight = size.GetHeight();
 

@@ -24,6 +24,7 @@
 CLASS wxhBrowse FROM wxGrid
 PRIVATE:
     DATA FAlwaysShowSelectedRow INIT .T.
+    DATA FCreated INIT .F.
     DATA FColPos					INIT 0
     DATA FDataSource
     DATA FDataSourceType
@@ -336,6 +337,7 @@ METHOD PROCEDURE OnCreate() CLASS wxhBrowse
     ::EnableDragColMove( .T. )
     ::SetColLabelSize( 22 )
     ::SetRowLabelSize( 0 )
+    ::FCreated := .T.
 RETURN
 
 /*
@@ -464,38 +466,41 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
     LOCAL height
     LOCAL n
     LOCAL column
-
-    IF !::FillColumnsChecked .AND. ::AutoFill .AND. ::DataSource != NIL
-        IF ::ColCount = 0
-            ::FillColumns()
-        ENDIF
-        ::FillColumnsChecked := .T.
-    ENDIF
-
-    rowCount := ::GetRowCount()
-    maxRows := ::CalcMaxRows()
-
-    height := size[ 2 ]
-
-    IF ::FHeight != height .AND. maxRows != rowCount
-
-        IF rowCount > 0
-            IF rowCount < ::GetNumberRows()
-                ::DeleteRows( rowCount, ::GetNumberRows() - rowCount )
-            ELSE
-                ::AppendRows( rowCount - ::GetNumberRows() )
-                FOR n:=1 TO ::GetNumberCols
-                    column := ::GetTable():ColumnList[ n ]
-                    ::SetColumnAlignment( n, column:Align )
-                NEXT
+    
+    IF ::FCreated
+        IF !::FillColumnsChecked .AND. ::AutoFill .AND. ::DataSource != NIL
+            IF ::ColCount = 0
+                ::FillColumns()
             ENDIF
-        ELSE
-            ::DeleteRows( 1, ::GetNumberRows() )
+            ::FillColumnsChecked := .T.
         ENDIF
 
-        ::GetTable():FillGridBuffer( 0 )
+        rowCount := ::GetRowCount()
+        maxRows := ::CalcMaxRows()
 
-        ::FHeight := height
+        height := size[ 2 ]
+
+        IF ::FHeight != height .AND. maxRows != rowCount
+
+            IF rowCount > 0
+                IF rowCount < ::GetNumberRows()
+                    ::DeleteRows( rowCount, ::GetNumberRows() - rowCount )
+                ELSE
+                    ::AppendRows( rowCount - ::GetNumberRows() )
+                    FOR n:=1 TO ::GetNumberCols
+                        column := ::GetTable():ColumnList[ n ]
+                        ::SetColumnAlignment( n, column:Align )
+                    NEXT
+                ENDIF
+            ELSE
+                ::DeleteRows( 1, ::GetNumberRows() )
+            ENDIF
+
+            ::GetTable():FillGridBuffer( 0 )
+
+            ::FHeight := height
+
+        ENDIF
 
     ENDIF
 
