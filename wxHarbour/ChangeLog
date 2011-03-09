@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2011-03-09 08:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+  *  wxharbour.bkl
+     ! Fixed location of installing headers
+
+  *  demos/AddressBook/Tbl_Name.prg
+  *  include/wxHarbour/raddox.ch
+     * renamed clause OBJTYPE to CLASS
+
+  *  src/raddox/TField.prg
+     * added property at TDateTimeField:
+       + Time
+     * renamed member TObjectField:ObjType to TObjectField:ObjClass
+     * using a derivated class as a MasterSource when creating the LinkedTable at
+       GetLinkedTable ( ::FTable:FieldByObjClass( className, .T. ) )
+
+  *  src/raddox/TTable.prg
+     * renamed TTable:FieldByObjType to TTable:FieldByObjClass
+
 2011-03-01 14:11 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.gcc
