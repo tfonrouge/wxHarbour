@@ -53,7 +53,7 @@ BEGIN FIELDS CLASS Tbl_Name
         LABEL "Day of birth"
         
     ADD OBJECT FIELD "Country" ;
-        OBJTYPE "Tbl_Country"
+        CLASS "Tbl_Country"
         
     ADD MEMO FIELD "Memo"
         

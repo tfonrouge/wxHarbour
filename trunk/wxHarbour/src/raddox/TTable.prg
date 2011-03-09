@@ -175,7 +175,7 @@ PUBLIC:
     METHOD DeleteChilds
     METHOD Edit()
     METHOD FieldByName( name, index )
-    METHOD FieldByObjType( objType, derived )
+    METHOD FieldByObjClass( objClass, derived )
     METHOD FilterEval( index )
     METHOD FindIndex( index )
     METHOD FindMasterSourceField( detailField )
@@ -1152,22 +1152,22 @@ METHOD FUNCTION FieldByName( name, index ) CLASS TTable
 RETURN NIL
 
 /*
-    FieldByObjType
+    FieldByObjClass
     Teo. Mexico 2010
 */
-METHOD FUNCTION FieldByObjType( objType, derived ) CLASS TTable
+METHOD FUNCTION FieldByObjClass( objClass, derived ) CLASS TTable
     LOCAL fld
     
-    objType := Upper( objType )
+    objClass := Upper( objClass )
     
     FOR EACH fld IN ::FFieldList
         IF fld:IsDerivedFrom( "TObjectField" )
             IF derived == .T.
-                IF fld:DataObj:IsDerivedFrom( objType )
+                IF fld:LinkedTable:IsDerivedFrom( objClass )
                     RETURN fld
                 ENDIF
             ELSE
-                IF fld:DataObj:ClassName() == objType
+                IF fld:LinkedTable:ClassName() == objClass
                     RETURN fld
                 ENDIF
             ENDIF

@@ -1809,6 +1809,8 @@ PROTECTED:
     DATA FType INIT "DateTime"
     DATA FValType INIT "C"
     METHOD GetEmptyValue BLOCK {|| HB_CToT("") }
+    METHOD GetTime
+    METHOD SetTime( cTime )
 PUBLIC:
 
     CLASSDATA fmtDate INIT "YYYY-MM-DD"
@@ -1819,6 +1821,7 @@ PUBLIC:
     METHOD SetAsVariant( variant )
 
     PROPERTY Size READ FSize
+    PROPERTY Time READ GetTime WRITE SetTime
 
 PUBLISHED:
 ENDCLASS
@@ -1841,6 +1844,23 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TDateTimeField
     RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
 
 RETURN HB_TToS( keyVal )
+
+/*
+    GetTime
+    Teo. Mexico 2011
+*/
+METHOD GetTime CLASS TDateTimeField
+    LOCAL cTime := "00:00:00"
+    LOCAL time
+    
+    time := ::GetAsVariant()
+    
+    IF !Empty( time )
+        cTime := SubStr( HB_TToS( time ), 9, 6 )
+        cTime := Left( cTime, 2 ) + ":" + SubStr( cTime, 3, 2 ) + ":" + SubStr( cTime, 5, 2 )
+    ENDIF
+
+RETURN cTime
 
 /*
     IndexExpression
@@ -1879,6 +1899,14 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateTimeField
 RETURN
 
 /*
+    SetTime
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetTime( cTime ) CLASS TDateTimeField
+    HB_SYMBOL_UNUSED( cTime )
+RETURN
+
+/*
     EndClass TDateTimeField
 */
 
@@ -1908,11 +1936,11 @@ ENDCLASS
 */
 CLASS TObjectField FROM TField
 PRIVATE:
-    DATA FObjType
+    DATA FObjClass
     DATA FLinkedTable									 /* holds the Table object */
     DATA FLinkedTableMasterSource
     METHOD SetLinkedTableMasterSource( linkedTableMasterSource )
-    METHOD SetObjType( objValue ) INLINE ::FObjType := objValue
+    METHOD SetObjClass( objValue ) INLINE ::FObjClass := objValue
 PROTECTED:
     DATA FCalcMethod
     DATA FFieldType INIT ftObject
@@ -1933,7 +1961,7 @@ PUBLIC:
     PROPERTY LinkedTable READ GetLinkedTable
     PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
     PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
-    PROPERTY ObjType READ FObjType WRITE SetObjType
+    PROPERTY ObjClass READ FObjClass WRITE SetObjClass
     PROPERTY Size READ GetReferenceField():Size
 PUBLISHED:
 ENDCLASS
@@ -2038,26 +2066,26 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 
     IF ::FLinkedTable == NIL
 
-        IF Empty( ::FObjType )
-            RAISE TFIELD ::Name ERROR "TObjectField has not a ObjType value."
+        IF Empty( ::FObjClass )
+            RAISE TFIELD ::Name ERROR "TObjectField has not a ObjClass value."
         ENDIF
 
         /*
-         * Solve using the default ObjType
+         * Solve using the default ObjClass
          */
-        SWITCH ValType( ::FObjType )
+        SWITCH ValType( ::FObjClass )
         CASE 'C'
 
-            IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjType ) .AND. ::IsMasterFieldComponent
+            IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjClass ) .AND. ::IsMasterFieldComponent
                 ::FLinkedTable := ::FTable:MasterSource
             ELSE
                 IF ::FLinkedTableMasterSource != NIL
                     linkedTableMasterSource := ::FLinkedTableMasterSource
-                ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjType ) )
+                ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjClass ) )
                     linkedTableMasterSource := ::FTable
                 ENDIF
 
-                ::FLinkedTable := __ClsInstFromName( ::FObjType )
+                ::FLinkedTable := __ClsInstFromName( ::FObjClass )
 
                 IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
                     RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
@@ -2068,7 +2096,7 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
                     className := ::FLinkedTable:GetMasterSourceClassName()
                     IF ::FTable:IsDerivedFrom( className )
                         linkedTableMasterSource := ::FTable
-                    ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjType( className ) )
+                    ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjClass( className, .T. ) )
                         linkedTableMasterSource := fld
                     ENDIF
                 ENDIF
@@ -2076,10 +2104,10 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
             ENDIF
             EXIT
         CASE 'B'
-            ::FLinkedTable := ::FObjType:Eval( ::FTable )
+            ::FLinkedTable := ::FObjClass:Eval( ::FTable )
             EXIT
         CASE 'O'
-            ::FLinkedTable := ::FObjType
+            ::FLinkedTable := ::FObjClass
             EXIT
         ENDSWITCH
 
@@ -2117,14 +2145,14 @@ RETURN ::FLinkedTable
 METHOD FUNCTION GetReferenceField() CLASS TObjectField
     LOCAL itm
 
-    SWITCH ValType( ::ObjType )
+    SWITCH ValType( ::ObjClass )
     CASE "B"
-        RETURN ::ObjType:Eval( ::FTable ):KeyField
+        RETURN ::ObjClass:Eval( ::FTable ):KeyField
     CASE "O"
-        RETURN ::ObjType:KeyField
+        RETURN ::ObjClass:KeyField
     CASE "C"
-        IF HB_HHasKey( ::GetLinkedTable():PrimaryIndexList, ::ObjType )
-            RETURN ::GetLinkedTable():IndexList[ ::ObjType, ::GetLinkedTable():PrimaryIndexList[ ::ObjType ] ]:KeyField
+        IF HB_HHasKey( ::GetLinkedTable():PrimaryIndexList, ::ObjClass )
+            RETURN ::GetLinkedTable():IndexList[ ::ObjClass, ::GetLinkedTable():PrimaryIndexList[ ::ObjClass ] ]:KeyField
         ELSE
             FOR EACH itm IN ::GetLinkedTable():IndexList DESCEND
                 IF ::GetLinkedTable():IsDerivedFrom( itm:__enumKey() )

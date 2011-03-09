@@ -432,17 +432,17 @@ uninstall_wxHarbour:
 	rm -f $(DESTDIR)$(shell hbmk2 --hbdirlib)//lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/..
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/`dirname $$f`; \
+	if test ! -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/../`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/../`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(shell hbmk2 --hbdirinc)/$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(shell hbmk2 --hbdirinc)/../$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(shell hbmk2 --hbdirinc)/$$f; \
+	rm -f $(DESTDIR)$(shell hbmk2 --hbdirinc)/../$$f; \
 	done
 
 sudoinstall: all
