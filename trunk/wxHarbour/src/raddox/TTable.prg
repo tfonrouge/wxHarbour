@@ -135,7 +135,7 @@ PUBLIC:
      */
     DATA DetailSourceList INIT {=>}
     DATA ExternalIndexList INIT {=>}
-    DATA FieldNamePrefix	INIT "Field_"		// Table Field Name prefix
+    DATA FieldNamePrefix	INIT "Field_"	// Table Field Name prefix
     DATA filterPrimaryIndexScope INIT .T.	// include filter if PrimaryIndex is in valid scope
     DATA FUnderReset INIT .F.
     DATA fullFileName
@@ -2010,11 +2010,11 @@ METHOD FUNCTION Insert() CLASS TTable
     
     IF ::OnBeforeInsert() .AND. ::AddRec()
 
+        ::OnAfterInsert()
+    
         /* To Flush !!! */
         ::Alias:DbSkip( 0 )
         
-        ::OnAfterInsert()
-    
         RETURN .T.
 
     ENDIF
