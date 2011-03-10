@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-03-10 13:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed call DbSkip( 0 ) after OnAfterInsert() to assure update
+
 2011-03-09 08:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc
