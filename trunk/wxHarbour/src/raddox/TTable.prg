@@ -1489,7 +1489,7 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 
                 FOR EACH AField IN ::FFieldList
 
-                    IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
+                    IF AField:FieldMethodType = "C" .AND. !AField:Calculated //.AND. !AField:IsMasterFieldComponent
                         AField:GetData()
                     ENDIF
 
@@ -2406,9 +2406,6 @@ RETURN
 */
 METHOD PROCEDURE SetIndex( index ) CLASS TTable
     IF !::FIndex == index
-        IF ::FPrimaryIndex != NIL .AND. !::MasterKeyField == index:MasterKeyField
-            //wxhAlert( "On Table '" + ::ClassName + "' MasterKeyField on index '" + index:Name + "' doesn't match the Primary MasterKeyField..." )
-        ENDIF
         ::FIndex := index
     ENDIF
 RETURN
