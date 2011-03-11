@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2011-03-11 12:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+     ! Fixed using current index to sync record data in table
+
+  *  src/raddox/TTable.prg
+     * commented out section that disables reading data if it was a Master field component
+       on ::GetCurrentRecord()
+     * removed commented out section on ::SetIndex()
+
 2011-03-10 13:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed call DbSkip( 0 ) after OnAfterInsert() to assure update

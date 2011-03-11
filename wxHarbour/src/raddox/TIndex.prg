@@ -382,8 +382,11 @@ RETURN ::IdxAlias
 */
 METHOD FUNCTION GetCurrentRecord() CLASS TIndex
     LOCAL result
+    LOCAL index := ::FTable:Index
 
+    ::FTable:Index := Self
     result := ::FTable:GetCurrentRecord( ::GetIdxAlias() )
+    ::FTable:Index := index
 
     IF ::associatedTable != NIL
         ::associatedTable:ExternalIndexList[ ::ObjectH ] := NIL
