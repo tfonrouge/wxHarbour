@@ -2,6 +2,28 @@
  * $Id$
  */
 
+2011-03-16 11:32 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/GNUmakefile
+  *  demos/dbExplorer/makefile.gcc
+  *  demos/dbExplorer/makefile.vc
+     * updated
+
+  *  include/wxHarbour/raddox.ch
+     * added sub-clause LABEL to VALIDVALUES clause to TField command
+     * added ENABLED clause to TField command
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed always evaluating block to get the current TField
+     ! Fixed ::GetKeyValue to return TField:EmptyValue on defaut
+
+  *  src/raddox/TField.prg
+     % changed FActive to FEnabled, and using it to validate on TField operations
+     % ::GetValidValues can accept an TObjectField to return list of valid values
+     ! Fixed ::Reset to use Table:MasterSource if available and valid
+
+  *  src/raddox/TTable.prg
+     % using TField:Enabled to validate execution of TField operations
+
 2011-03-11 12:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TIndex.prg
      ! Fixed using current index to sync record data in table
