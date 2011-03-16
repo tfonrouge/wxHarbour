@@ -217,7 +217,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
         IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch != NIL
             control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
         ENDIF
-        IF ::Field != NIL .AND. !::Field:PickList == NIL
+        IF ::FField != NIL .AND. !::FFieldBlock:Eval():PickList == NIL
             control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event ) } )
             IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch = NIL
                 control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event ) } )
@@ -252,7 +252,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
     
     /* TField attributes */
     IF ::FField != NIL
-        IF control:IsEnabled() .AND. ::FField:IsReadOnly()
+        IF control:IsEnabled() .AND. ::FFieldBlock:Eval():IsReadOnly()
             control:Disable()
         ENDIF
     ENDIF
@@ -322,9 +322,9 @@ METHOD FUNCTION GetChoices( xList ) CLASS wxhHBValidator
     LOCAL Result
     LOCAL itm
     
-    IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
 
-        ::FValidValues := ::FField:GetValidValues()
+        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
         
     ELSEIF xList != NIL
     
@@ -364,9 +364,9 @@ RETURN Result
 METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
     LOCAL itm
     
-    IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
 
-        ::FValidValues := ::FField:GetValidValues()
+        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
         
     ENDIF
     
@@ -393,7 +393,11 @@ METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
                 RETURN itm[ n ]
             ENDIF
             EXIT
-        END
+        ENDSWITCH
+        
+        IF ::FField != NIL
+            RETURN ::FFieldBlock:Eval():EmptyValue()
+        ENDIF
 
     ENDIF
 
@@ -406,8 +410,8 @@ RETURN n
 METHOD FUNCTION GetMaxLength() CLASS wxhHBValidator
     LOCAL maxLength
 
-    IF ::FField != NIL .AND. ::FField:IsDerivedFrom("TStringField")
-        maxLength := ::FField:Size
+    IF ::FField != NIL .AND. ::FFieldBlock:Eval():IsDerivedFrom("TStringField")
+        maxLength := ::FFieldBlock:Eval():Size
     ENDIF
 
 RETURN maxLength
@@ -423,9 +427,9 @@ METHOD GetSelection CLASS wxhHBValidator
     
     key := ::FBlock:Eval()
 
-    IF ::FField != NIL .AND. ::FField:ValidValues != NIL
+    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
 
-        ::FValidValues := ::FField:GetValidValues()
+        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
         
     ENDIF
     
@@ -503,11 +507,11 @@ METHOD PROCEDURE PickList( event ) CLASS wxhHBValidator
         parentWnd := control:GetParent()
 
         ::dontUpdateVar := .T.
-        selectionMade := ::Field:OnPickList( parentWnd )
+        selectionMade := ::FFieldBlock:Eval():OnPickList( parentWnd )
         ::dontUpdateVar := .F.
 
         IF selectionMade
-            s := RTrim( ::Field:Value )
+            s := RTrim( ::FFieldBlock:Eval():Value )
             rawValue := control:GetValue()
             IF ::dataIsOEM
                 value := RTrim( wxh_wxStringToOEM( rawValue ) )
@@ -536,7 +540,7 @@ METHOD FUNCTION TextValue( pictured ) CLASS wxhHBValidator
 
     value := ::Block:Eval()
 
-    IF ValType( value ) = "C" .AND. ::Field != NIL .AND. ::Field:Table:dataIsOEM
+    IF ValType( value ) = "C" .AND. ::FField != NIL .AND. ::FFieldBlock:Eval():Table:dataIsOEM
         value := wxh_OEMTowxString( value )
     ENDIF
 
@@ -571,7 +575,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
         SWITCH ValType( oldValue )
         CASE 'C'
-            IF ::FField != NIL .AND. ::FField:IsDerivedFrom("TMemoField")
+            IF ::FField != NIL .AND. ::FFieldBlock:Eval():IsDerivedFrom("TMemoField")
                 changed := !value == oldValue
             ELSE
                 IF Len( value ) < Len( oldValue )

@@ -108,9 +108,10 @@
                         [ ON SEARCH <bOnSearch> ] ;
                         [ ON AFTER CHANGE <bOnAfterChange> ] ;
                         [ ON AFTER POST CHANGE <bOnAfterPostChange> ] ;
-                        [ VALIDVALUES <validValues> ] ;
+                        [ VALIDVALUES [<vvl: LABEL>] <validValues> ] ;
                         [ USING <usingField> ] ;
                         [ <ruf: REUSEFIELD> ] ;
+                        [ ENABLED <enabled> ] ;
                      => ;
                         WITH OBJECT T<type>Field():New( Self, ::curClassField ) ;;
                             [ :Name := <cName> ] ;;
@@ -140,8 +141,9 @@
                             [ :OnSearch := <bOnSearch> ] ;;
                             [ :OnAfterChange := <bOnAfterChange> ] ;;
                             [ :OnAfterPostChange := <bOnAfterPostChange> ] ;;
-                            [ :ValidValues := <validValues> ] ;;
+                            [ :SetValidValues( <validValues>, <.vvl.> ) ] ;;
                             [ :UsingField := <usingField> ] ;;
+                            [ :Enabled := <enabled> ] ;;
                             :AddFieldMessage() ;;
                             :ValidateFieldInfo() ;;
                         ENDWITH

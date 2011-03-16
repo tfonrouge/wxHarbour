@@ -27,7 +27,7 @@
 CLASS TField FROM WXHBaseClass
 PRIVATE:
 
-    DATA FActive	INIT .F.
+    DATA FEnabled	INIT .F.
     DATA FAutoIncrementKeyIndex
     DATA FDataOfValidValues
     DATA FDescription INIT ""
@@ -96,6 +96,7 @@ PROTECTED:
     METHOD GetDefaultValue( defaultValue )
     METHOD GetDBS_LEN INLINE ::FDBS_LEN
     METHOD GetDBS_TYPE INLINE ::FDBS_TYPE
+    METHOD GetEnabled()
     METHOD GetEmptyValue BLOCK {|| NIL }
     METHOD GetFieldArray()
     METHOD GetFieldReadBlock()
@@ -109,6 +110,7 @@ PROTECTED:
     METHOD SetDBS_LEN( dbs_Len ) INLINE ::FDBS_LEN := dbs_Len
     METHOD SetCloneData( cloneData )
     METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
+    METHOD SetEnabled( enabled )
     METHOD SetLabel( label ) INLINE ::FLabel := label
     METHOD SetRequired( Required ) INLINE ::FRequired := Required
     METHOD SetReUseField( reUseField ) INLINE ::FReUseField := reUseField
@@ -143,6 +145,7 @@ PUBLIC:
     METHOD SetEditText( Text )
     METHOD SetFieldMethod( FieldMethod, calculated )
     METHOD SetKeyVal( keyVal )
+    METHOD SetValidValues( validValues )
     METHOD ValidateFieldInfo VIRTUAL
 
     PROPERTY AsExpression READ GetAsExpression
@@ -190,6 +193,7 @@ PUBLISHED:
     PROPERTY DBS_TYPE READ GetDBS_TYPE
     PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
     PROPERTY Description READ FDescription WRITE SetDescription
+    PROPERTY Enabled READ GetEnabled WRITE SetEnabled
     PROPERTY FieldArray READ GetFieldArray WRITE SetFieldMethod
     PROPERTY FieldCodeBlock READ FFieldCodeBlock WRITE SetFieldMethod
     PROPERTY FieldExpression READ FFieldExpression WRITE SetFieldMethod
@@ -225,7 +229,7 @@ METHOD New( Table, curBaseClass ) CLASS TField
     ::FTable := Table
     ::FTableBaseClass := curBaseClass
 
-    ::FActive := .T.
+    ::FEnabled := .T.
 
 RETURN Self
 
@@ -485,6 +489,19 @@ METHOD FUNCTION GetEditText CLASS TField
 RETURN Result
 
 /*
+    GetEnabled
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetEnabled() CLASS TField
+    IF HB_IsLogical( ::FEnabled )
+        RETURN ::FEnabled
+    ENDIF
+    IF HB_IsBlock( ::FEnabled )
+        RETURN ::FEnabled:Eval( ::FTable )
+    ENDIF
+RETURN .F.
+
+/*
     GetFieldArray
     Teo. Mexico 2010
 */
@@ -591,14 +608,23 @@ RETURN NIL
 */
 METHOD FUNCTION GetValidValues() CLASS TField
 
-    IF ValType( ::ValidValues ) = "B"
+    SWITCH ValType( ::ValidValues )
+    CASE "A"
+    CASE "H"
+        RETURN ::ValidValues
+    CASE "B"
         IF ::FDataOfValidValues == NIL
-            ::FDataOfValidValues := ::ValidValues:Eval( Self )
+            ::FDataOfValidValues := ::ValidValues:Eval( Self:FTable )
         ENDIF
         RETURN ::FDataOfValidValues
-    ENDIF
+    CASE "O"
+        IF ::ValidValues:IsDerivedFrom( "TObjectField" )
+            RETURN ::ValidValues:GetValidValues()
+        ENDIF
+        EXIT
+    ENDSWITCH
 
-RETURN ::ValidValues
+RETURN NIL
 
 /*
     IsTableField
@@ -709,6 +735,10 @@ METHOD FUNCTION Reset() CLASS TField
 
                 result := ( AField := ::FTable:FindMasterSourceField( ::Name ) ) != NIL
 
+                IF !result .AND. ::FFieldType == ftObject .AND. ::FTable:MasterSource:ClassName == Upper( ::ObjClass )
+                    result := ( AField := ::FTable:MasterSource:KeyField ) != NIL
+                ENDIF
+
                 IF result
 
                     value := AField:GetBuffer()
@@ -795,7 +825,7 @@ RETURN
 METHOD PROCEDURE SetAsVariant( value ) CLASS TField
     LOCAL oldState
 
-    IF ::IsReadOnly .OR. ::FTable:State = dsInactive
+    IF ::IsReadOnly .OR. ::FTable:State = dsInactive .OR. !::Enabled
         RETURN
     ENDIF
 
@@ -1062,6 +1092,14 @@ METHOD PROCEDURE SetEditText( Text ) CLASS TField
 RETURN
 
 /*
+    SetEnabled
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetEnabled( enabled ) CLASS TField
+    ::FEnabled := enabled
+RETURN
+
+/*
     SetFieldMethod
     Teo. Mexico 2006
 */
@@ -1284,6 +1322,14 @@ METHOD PROCEDURE SetUsingField( usingField ) CLASS TField
     IF AField != NIL
         ::FUsingField := AField
     ENDIF
+RETURN
+
+/*
+    SetValidValues
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetValidValues( validValues ) CLASS TField
+    ::ValidValues := validValues
 RETURN
 
 /*
@@ -1945,11 +1991,12 @@ PROTECTED:
     DATA FCalcMethod
     DATA FFieldType INIT ftObject
     DATA FType INIT "ObjectField"
+    DATA FValidValuesLabelField
     DATA FValType INIT "O"
     METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
     METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
     METHOD GetLinkedTable
-    METHOD GetEmptyValue() INLINE ::LinkedTable:KeyField:EmptyValue
+    METHOD GetEmptyValue() INLINE ::GetReferenceField():EmptyValue
     METHOD GetFieldReadBlock()
 PUBLIC:
     METHOD DataObj
@@ -1957,12 +2004,15 @@ PUBLIC:
     METHOD GetAsString							//INLINE ::LinkedTable:KeyField:AsString()
     METHOD GetAsVariant( ... )
     METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
+    METHOD GetValidValues()
     METHOD IndexExpression()
+    METHOD SetValidValues( validValues, labelField )
     PROPERTY LinkedTable READ GetLinkedTable
     PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
     PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
     PROPERTY ObjClass READ FObjClass WRITE SetObjClass
     PROPERTY Size READ GetReferenceField():Size
+    PROPERTY ValidValuesLabelField READ FValidValuesLabelField
 PUBLISHED:
 ENDCLASS
 
@@ -2166,6 +2216,29 @@ METHOD FUNCTION GetReferenceField() CLASS TObjectField
 RETURN NIL
 
 /*
+    GetValidValues
+    Teo. Mexico 2009
+*/
+METHOD FUNCTION GetValidValues() CLASS TObjectField
+    LOCAL hValues
+    LOCAL fld
+
+    IF ::FValidValuesLabelField == .T.
+        hValues := {=>}
+        fld := ::LinkedTable:FieldByName( ::ValidValues )
+        ::LinkedTable:StatePush()
+        ::LinkedTable:DbGoTop()
+        WHILE !::LinkedTable:Eof()
+            hValues[ ::LinkedTable:KeyVal ] := fld:Value
+            ::LinkedTable:DbSkip()
+        ENDDO
+        ::LinkedTable:StatePop()
+        RETURN hValues
+    ENDIF
+    
+RETURN Super:GetValidValues()
+
+/*
     IndexExpression
     Teo. Mexico 2010
 */
@@ -2191,6 +2264,15 @@ METHOD PROCEDURE SetLinkedTableMasterSource( linkedTableMasterSource ) CLASS TOb
 
     ::FLinkedTableMasterSource := linkedTableMasterSource
 
+RETURN
+
+/*
+    SetValidValues
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetValidValues( validValues, labelField ) CLASS TObjectField
+    ::ValidValues := validValues
+    ::FValidValuesLabelField := labelField
 RETURN
 
 /*

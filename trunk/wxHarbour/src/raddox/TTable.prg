@@ -487,7 +487,7 @@ METHOD FUNCTION AddRec() CLASS TTable
         ::FillPrimaryIndexes( Self )
 
         FOR EACH AField IN ::FFieldList
-            IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent .AND. AField:WrittenValue == NIL
+            IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent .AND. AField:WrittenValue == NIL .AND. AField:Enabled
                 IF !AField:Calculated .AND. ( AField:DefaultValue != NIL .OR. AField:AutoIncrement )
                     AField:SetData()
                 ENDIF
@@ -562,7 +562,7 @@ METHOD PROCEDURE Cancel CLASS TTable
     SWITCH ::State
     CASE dsInsert
         FOR EACH AField IN ::FFieldList
-            IF AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. !AField:IsValid()
+            IF AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. AField:Enabled .AND. !AField:IsValid()
                 AField:Reset()
             ENDIF
         NEXT
@@ -1489,15 +1489,17 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
 
                 FOR EACH AField IN ::FFieldList
 
-                    IF AField:FieldMethodType = "C" .AND. !AField:Calculated //.AND. !AField:IsMasterFieldComponent
-                        AField:GetData()
-                    ENDIF
+                    IF AField:Enabled
+                        IF AField:FieldMethodType = "C" .AND. !AField:Calculated //.AND. !AField:IsMasterFieldComponent
+                            AField:GetData()
+                        ENDIF
 
-                    IF AField:FieldType = ftObject .AND. AField:Calculated .AND. AField:LinkedTableAssigned
-                        table := AField:LinkedTable
-                        IF table:LinkedObjField != NIL .AND. table:LinkedObjField:Calculated .AND. !table:MasterSource == Self .AND. table:MasterSource == table:LinkedObjField:Table:KeyField:LinkedTable
-                            table:LinkedObjField:Table:KeyField:DataObj()
-                        ENDIF    
+                        IF AField:FieldType = ftObject .AND. AField:Calculated .AND. AField:LinkedTableAssigned
+                            table := AField:LinkedTable
+                            IF table:LinkedObjField != NIL .AND. table:LinkedObjField:Calculated .AND. !table:MasterSource == Self .AND. table:MasterSource == table:LinkedObjField:Table:KeyField:LinkedTable
+                                table:LinkedObjField:Table:KeyField:DataObj()
+                            ENDIF    
+                        ENDIF
                     ENDIF
 
                 NEXT
@@ -2201,15 +2203,17 @@ METHOD FUNCTION Post() CLASS TTable
 
             FOR EACH AField IN ::FieldList
 
-                IF !changed .AND. AField:Changed
-                    IF AField:OnAfterPostChange != NIL
-                        AAdd( aChangedFields, AField )
+                IF AField:Enabled
+                    IF !changed .AND. AField:Changed
+                        IF AField:OnAfterPostChange != NIL
+                            AAdd( aChangedFields, AField )
+                        ENDIF
+                        changed := .T.
                     ENDIF
-                    changed := .T.
-                ENDIF
 
-                IF !AField:IsValid()
-                    RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
+                    IF AField:Enabled .AND. !AField:IsValid()
+                        RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
+                    ENDIF
                 ENDIF
 
             NEXT
@@ -2375,7 +2379,7 @@ METHOD PROCEDURE Reset() CLASS TTable
 
     FOR EACH AField IN ::FFieldList
 
-        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent
+        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent .AND. AField:Enabled
             AField:Reset()
         ENDIF
 
@@ -2793,7 +2797,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TTable
     LOCAL AField
 
     FOR EACH AField IN ::FFieldList
-        IF !AField:IsValid( showAlert )
+        IF AField:Enabled .AND. !AField:IsValid( showAlert )
             RETURN .F.
         ENDIF
     NEXT
