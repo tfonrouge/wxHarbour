@@ -5,7 +5,7 @@
 
 aMainDirs="demos samples tests"
 
-formats='gnu msvc mingw borland watcom'
+formats='gnu msvc mingw borland'
 
 empty_str=""
 

@@ -85,6 +85,7 @@ PROTECTED:
     DATA FLabel
     DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
     DATA FName INIT ""
+    DATA FOnReset INIT .F.
     DATA FTable
     DATA FTableBaseClass
     DATA FType INIT "TField"
@@ -615,6 +616,9 @@ METHOD FUNCTION GetValidValues() CLASS TField
     CASE "B"
         IF ::FDataOfValidValues == NIL
             ::FDataOfValidValues := ::ValidValues:Eval( Self:FTable )
+            IF HB_IsObject( ::FDataOfValidValues )
+                ::FDataOfValidValues := ::FDataOfValidValues:GetValidValues()
+            ENDIF
         ENDIF
         RETURN ::FDataOfValidValues
     CASE "O"
@@ -726,6 +730,12 @@ METHOD FUNCTION Reset() CLASS TField
     LOCAL value
     LOCAL result := .F.
     
+    IF ::FOnReset
+        RETURN .F. /* ::Value of field can be NIL */
+    ENDIF
+
+    ::FOnReset := .T.
+    
     IF !::FCalculated
 
         IF ::FDefaultValue = NIL
@@ -807,6 +817,8 @@ METHOD FUNCTION Reset() CLASS TField
         ::FWrittenValue := NIL
 
     ENDIF
+    
+    ::FOnReset := .F.
 
 RETURN result
 
