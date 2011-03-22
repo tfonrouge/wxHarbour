@@ -671,26 +671,28 @@ METHOD FUNCTION IsValid( showAlert ) CLASS TField
     ENDIF
 
     IF ::ValidValues != NIL
-    
+
         validValues := ::GetValidValues()
-            
-        SWITCH ValType( validValues )
-        CASE 'A'
-            result := AScan( validValues, {|e| e == value } ) > 0
-            EXIT
-        CASE 'H'
-            result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
-            EXIT
-        OTHERWISE
-            wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
-            RETURN .F.
-        ENDSWITCH
-        
-        IF !result
-            IF showAlert == .T.
-                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+
+        IF !Empty( validValues )
+            SWITCH ValType( validValues )
+            CASE 'A'
+                result := AScan( validValues, {|e| e == value } ) > 0
+                EXIT
+            CASE 'H'
+                result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
+                EXIT
+            OTHERWISE
+                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
+                RETURN .F.
+            ENDSWITCH
+
+            IF !result
+                IF showAlert == .T.
+                    wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+                ENDIF
+                RETURN .F.
             ENDIF
-            RETURN .F.
         ENDIF
 
     ENDIF

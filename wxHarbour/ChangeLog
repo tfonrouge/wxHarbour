@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-03-22 14:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * ignore ::ValidValues if it's empty
+
 2011-03-22 13:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * Changed parameter send to ::OnAfterChange from TField to TTable
