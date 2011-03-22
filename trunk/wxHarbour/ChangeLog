@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-03-22 13:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * Changed parameter send to ::OnAfterChange from TField to TTable
+     ! Fixed stupid typo on ::Reset()
+
 2011-03-17 21:31 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  build_bkls.sh
   -  makefile.wat

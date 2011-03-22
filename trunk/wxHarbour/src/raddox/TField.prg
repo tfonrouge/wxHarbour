@@ -179,7 +179,7 @@ PUBLISHED:
     DATA OnSearch			// Search in indexed field
     DATA OnSetText			// Params: Sender: TField, Text: String
     DATA OnSetValue			// Parama:
-    DATA OnAfterChange		// Params: Sender: TField
+    DATA OnAfterChange		// Params: Sender: Table
     DATA OnAfterPostChange  // executes after Table post and only if field has been changed
     DATA OnValidate			// Params: Sender: TField
     
@@ -771,6 +771,8 @@ METHOD FUNCTION Reset() CLASS TField
                             result := ::FTable:FieldList[ i ]:Reset()
                         ENDIF
                     NEXT
+                    
+                    ::FOnReset := .F.
 
                     RETURN result
 
@@ -1063,7 +1065,7 @@ METHOD PROCEDURE SetData( value ) CLASS TField
         ::WriteToTable( value, buffer )
 
         IF ::OnAfterChange != NIL
-            ::OnAfterChange:Eval( Self, buffer )
+            ::OnAfterChange:Eval( ::FTable, buffer )
         ENDIF
 
     RECOVER USING errObj
@@ -1260,7 +1262,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
                 IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:KeyField:GetKeyVal()
                     ::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
                 ENDIF
-                
+
             ENDIF
 
         ELSE
