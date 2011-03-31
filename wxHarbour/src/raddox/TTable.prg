@@ -90,6 +90,7 @@ PROTECTED:
     CLASSDATA hDataBase INIT HB_HSetCaseMatch( {=>}, .F. )
 
     DATA FAutoCreate         INIT .F.
+    DATA FBaseKeyField
     DATA FBof				INIT .T.
     DATA FDataBaseClass
     DATA FEof				INIT .T.
@@ -187,7 +188,7 @@ PUBLIC:
     METHOD GetDisplayFieldBlock( xField )
     METHOD GetDisplayFields( syncFromAlias )
     METHOD GetField( fld )
-    METHOD GetKeyVal()
+    METHOD GetKeyVal( value )
     METHOD GetMasterSourceClassName()
     METHOD GetTableFileName()
     METHOD HasChilds
@@ -210,6 +211,7 @@ PUBLIC:
     METHOD SetAlias( alias ) INLINE ::FAlias := alias
     METHOD SetAsString( Value ) INLINE ::GetKeyField():AsString := Value
     METHOD SetAsVariant( Value ) INLINE ::GetKeyField():Value := Value
+    METHOD SetBaseKeyField( baseKeyField )
     METHOD SetKeyVal( keyVal )
     /*
      * TODO: Enhance this to:
@@ -218,6 +220,7 @@ PUBLIC:
      */
     METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
     METHOD SetPrimaryIndex( primaryIndex )
+    METHOD SetPrimaryIndexList( clsName, name )
     METHOD SkipBrowse( n )
     METHOD SkipFilter( n, index )
     METHOD StatePop()
@@ -249,6 +252,7 @@ PUBLIC:
     PROPERTY Alias READ GetAlias WRITE SetAlias
     PROPERTY AsString READ GetAsString WRITE SetAsString
     PROPERTY AutoCreate READ FAutoCreate
+    PROPERTY BaseKeyField READ FBaseKeyField
     PROPERTY Bof READ FBof
     PROPERTY DataBase READ GetDataBase WRITE SetDataBase
     PROPERTY DbStruct READ GetDbStruct
@@ -562,7 +566,7 @@ METHOD PROCEDURE Cancel CLASS TTable
     SWITCH ::State
     CASE dsInsert
         FOR EACH AField IN ::FFieldList
-            IF AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. AField:Enabled .AND. !AField:IsValid()
+            IF !AField:Calculated .AND. AField:FieldMethodType = "C" .AND. !Empty( AField:Value ) .AND. AField:Enabled .AND. !AField:Validate( .F. )
                 AField:Reset()
             ENDIF
         NEXT
@@ -570,7 +574,7 @@ METHOD PROCEDURE Cancel CLASS TTable
         EXIT
     CASE dsEdit
         FOR EACH AField IN ::FieldList
-            IF AField:FieldMethodType = "C" .AND. HB_HHasKey( ::FUndoList, AField:Name ) .AND. !AField:Value == ::FUndoList[ AField:Name ]
+            IF !AField:Calculated .AND. AField:FieldMethodType = "C" .AND. HB_HHasKey( ::FUndoList, AField:Name ) .AND. !AField:Value == ::FUndoList[ AField:Name ]
                 AField:RevertValue()
             ENDIF
         NEXT
@@ -616,7 +620,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                 ENDIF
 
                 IF AField:IsDerivedFrom("TObjectField")
-                    pkField := AField:GetReferenceField()
+                    pkField := AField:BaseKeyField
                     IF pkField = NIL
                         RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Table '" + ::ClassName + "'"
                     ENDIF
@@ -1789,13 +1793,13 @@ RETURN NIL
     GetKeyVal
     Teo. Mexico 2010
 */
-METHOD FUNCTION GetKeyVal() CLASS TTable
+METHOD FUNCTION GetKeyVal( value ) CLASS TTable
     LOCAL fld
     fld := ::GetKeyField()
     IF fld = NIL
         RETURN NIL
     ENDIF
-RETURN fld:GetKeyVal()
+RETURN fld:GetKeyVal( value )
 
 /*
     GetMasterKeyExpression
@@ -2211,7 +2215,7 @@ METHOD FUNCTION Post() CLASS TTable
                         changed := .T.
                     ENDIF
 
-                    IF AField:Enabled .AND. !AField:IsValid()
+                    IF AField:Enabled .AND. !AField:Validate()
                         RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
                     ENDIF
                 ENDIF
@@ -2390,6 +2394,16 @@ METHOD PROCEDURE Reset() CLASS TTable
 RETURN
 
 /*
+    SetBaseKeyField
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetBaseKeyField( baseKeyField ) CLASS TTable
+    IF ::FBaseKeyField = NIL
+        ::FBaseKeyField := baseKeyField
+    ENDIF
+RETURN
+
+/*
     SetDataBase
     Teo. Mexico 2010
 */
@@ -2511,6 +2525,14 @@ RETURN
 */
 METHOD PROCEDURE SetPrimaryIndex( primaryIndex ) CLASS TTable
     ::FPrimaryIndex := primaryIndex
+RETURN
+
+/*
+    SetPrimaryIndexList
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetPrimaryIndexList( clsName, name ) CLASS TTable
+    ::FPrimaryIndexList[ clsName ] := name
 RETURN
 
 /*
@@ -2797,7 +2819,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TTable
     LOCAL AField
 
     FOR EACH AField IN ::FFieldList
-        IF AField:Enabled .AND. !AField:IsValid( showAlert )
+        IF AField:Enabled .AND. !AField:Validate( showAlert )
             RETURN .F.
         ENDIF
     NEXT

@@ -35,6 +35,23 @@ wx_Dialog::wx_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, co
     Create( parent, id, title, pos, size, style, name );
 }
 
+
+/*
+ Validate
+ Teo. Mexico 2011
+ */
+bool wx_Dialog::Validate()
+{
+    PHB_ITEM pSelf = xho_itemListGet_HB( this );
+    
+    if( pSelf )
+    {
+        hb_objSendMsg( pSelf, "Validate", 0 );
+        return hb_itemGetL( hb_stackReturnItem() );
+    }
+    return wxDialog::Validate();
+}
+
 /*
     Constructor: Object
     Teo. Mexico 2006

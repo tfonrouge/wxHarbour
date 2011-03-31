@@ -53,9 +53,9 @@
     Validator macro
     Teo. Mexico 2009
 */
-#xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING [<warnMsg>] WHEN <warnBlk> ][ ACTION <bAction> ] ;
+#xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <bAction> ] ;
             => ;
-            containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<warnBlk>], [<{warnBlk}>], [<warnMsg>], [<{bAction}>] )
+            containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<bValidate>], [<{bValidate}>], [<warnMsg>], [<{bAction}>] )
 
 /*
     Calls ::__Destroy() to remove xho_Item associated to objects
@@ -534,11 +534,11 @@
                         [ STYLE <style> ] ;
                         [ NAME <name> ] ;
                         [ PICTURE <picture> ] ;
-                        [ WARNING [<warnMsg>] WHEN <warnBlk> ] ;
+                        [ WARN <warnMsg> ] [ VALIDATE <bValidate> ] ;
                         [ TOOLTIP <toolTip> ] ;
                         [ ACTION <bAction> ] ;
                     => ;
-                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING <warnMsg> WHEN <warnBlk> ] [ ACTION <{bAction}> ] ;;
+                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
                     [<var> :=] __wxh_DatePickerCtrl(;
                         [<parent>],;
                         [<id>],;
@@ -738,10 +738,10 @@
                         [ TOOLTIP <toolTip> ] ;
                         [ ENABLED <enabled> ] ;
                         [ PICTURE <picture> ] ;
-                        [ WARNING [<warnMsg>] WHEN <warnBlk> ] ;
+                        [ VALIDATE <bValidate> ] [ WARN <warnMsg> ]  ;
                         [ ACTION <bAction> ] ;
                     => ;
-                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING <warnMsg> WHEN <warnBlk> ] [ ACTION <{bAction}> ] ;;
+                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
                         [<var> :=] __wxh_TextCtrl(;
                         [<parent>],;
                         [<id>],;
@@ -829,10 +829,10 @@
                         [ MIN <min> ] ;
                         [ MAX <max> ] ;
                         [ NAME <name> ] ;
-                        [ WARNING [<warnMsg>] WHEN <warnBlk> ] ;
+                        [ VALIDATE <bValidate> ] [ WARN <warnMsg> ]  ;
                         [ ACTION <bAction> ] ;
                     => ;
-                    @ PUSHVALIDATOR [<dataVar>] [ WARNING <warnMsg> WHEN <warnBlk> ] [ ACTION <{bAction}>] ;;
+                    @ PUSHVALIDATOR [<dataVar>] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}>] ;;
                         [ <spinCtrl> := ]__wxh_SpinCtrl( ;
                         [<parent>],;
                         [<id>],;
@@ -955,10 +955,10 @@
                         [ ON SEARCH <onSearch> ] ;
                         [ ON CANCEL <onCancel> ] ;
                         [ PICTURE <picture> ] ;
-                        [ WARNING [<warnMsg>] WHEN <warnBlk> ] ;
+                        [ VALIDATE <bValidate> ] [ WARN <warnMsg> ]  ;
                         [ ACTION <bAction> ] ;
                     => ;
-                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ WARNING <warnMsg> WHEN <warnBlk> ] [ ACTION <{bAction}> ] ;;
+                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
                         [ <searchCtrl> := ]__wxh_SearchCtrl( ;
                         [<parent>],;
                         [<id>],;

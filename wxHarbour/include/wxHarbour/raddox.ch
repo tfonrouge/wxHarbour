@@ -104,7 +104,7 @@
                         [ ON GETTEXT <bOnGetText> ] ;
                         [ ON SETTEXT <bOnSetText> ] ;
                         [ ON SETVALUE <bOnSetValue> ] ;
-                        [ ON VALIDATE <bOnValidate> ] ;
+                        [ ON VALIDATE <bOnValidate> [ WARN <warnMsg> ] ] ;
                         [ ON SEARCH <bOnSearch> ] ;
                         [ ON AFTER CHANGE <bOnAfterChange> ] ;
                         [ ON AFTER POST CHANGE <bOnAfterPostChange> ] ;
@@ -138,6 +138,7 @@
                             [ :OnSetText := {|field,Text| <bOnSetText> } ] ;;
                             [ :OnSetValue := {|field,Value| <bOnSetValue> } ] ;;
                             [ :OnValidate := <bOnValidate> ] ;;
+                            [ :OnValidateWarn := <warnMsg> ] ;;
                             [ :OnSearch := <bOnSearch> ] ;;
                             [ :OnAfterChange := <bOnAfterChange> ] ;;
                             [ :OnAfterPostChange := <bOnAfterPostChange> ] ;;

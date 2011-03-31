@@ -80,6 +80,7 @@ PROTECTED:
     DATA FFieldBlock
     DATA FName
     DATA FValidValues
+    DATA FUsingFieldValidation INIT .F.
     DATA dontUpdateVar INIT .F.
     DATA updatedByTab INIT .F.
     METHOD GetMaxLength()
@@ -91,7 +92,7 @@ PUBLIC:
     DATA lastKey
     DATA onSearch
     DATA Picture
-    DATA warningBlock
+    DATA validateMethod
     DATA warningMessage
 
     CONSTRUCTOR New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock )
@@ -132,6 +133,9 @@ METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) 
         ::FField := var
         ::FFieldBlock := block
         block := {|__localVal| iif( PCount() > 0, ::FFieldBlock:Eval():Value := __localVal, ::FFieldBlock:Eval():Value ) }
+        IF Empty( warning )
+            warning := var
+        ENDIF
     ELSEIF HB_IsBlock( var )
         block := var
     ELSEIF Empty( name )
@@ -145,11 +149,15 @@ METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) 
     ENDIF
 
     IF warning != NIL
-        IF HB_IsBlock( warning )
-            ::warningBlock := warning
-        ELSE
-            ::warningBlock := warnBlk
-        ENDIF
+        SWITCH ValType( warning )
+        CASE "O"
+            ::FUsingFieldValidation := .T.
+        CASE "B"
+            ::validateMethod := warning
+            EXIT
+        OTHERWISE
+            ::validateMethod := warnBlk
+        ENDSWITCH
         ::warningMessage := warnMsg
     ENDIF
 
@@ -298,12 +306,19 @@ RETURN value
 METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     LOCAL msg
     LOCAL warn := .F.
+    LOCAL label
 
-    IF ::warningBlock != NIL
-        warn := ::warningBlock:Eval( ::FBlock:Eval() )
+    IF ::validateMethod != NIL
+        IF ::FUsingFieldValidation
+            warn := .NOT. ::validateMethod:Validate( .F. )
+            label := " '" + ::FFieldBlock:Eval():Label + "' "
+        ELSE
+            warn := ::validateMethod:Eval( ::FBlock:Eval() )
+            label := " "
+        ENDIF
         IF warn
             IF showWarning == NIL .OR. showWarning
-                msg := iif( Empty( ::warningMessage ), "Field has invalid data...", ::warningMessage )
+                msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
                 IF parent = NIL
                     parent := ::GetWindow():GetParent()
                 ENDIF
