@@ -136,7 +136,6 @@ PUBLIC:
     METHOD IndexExpression VIRTUAL
     METHOD IsReadOnly() INLINE ::FTable:ReadOnly .OR. ::FReadOnly .OR. ( ::FTable:State != dsBrowse .AND. ::AutoIncrement )
     METHOD IsTableField()
-    METHOD IsValid( showAlert )
     METHOD OnPickList( param )
     METHOD Reset()
     METHOD RevertValue()
@@ -147,6 +146,7 @@ PUBLIC:
     METHOD SetFieldMethod( FieldMethod, calculated )
     METHOD SetKeyVal( keyVal )
     METHOD SetValidValues( validValues )
+    METHOD Validate( showAlert )
     METHOD ValidateFieldInfo VIRTUAL
 
     PROPERTY AsExpression READ GetAsExpression
@@ -182,6 +182,7 @@ PUBLISHED:
     DATA OnAfterChange		// Params: Sender: Table
     DATA OnAfterPostChange  // executes after Table post and only if field has been changed
     DATA OnValidate			// Params: Sender: TField
+    DATA OnValidateWarn     // message if OnValidate == FALSE
     
     DATA ValidValues
 
@@ -638,72 +639,6 @@ METHOD FUNCTION IsTableField() CLASS TField
 RETURN ::FFieldMethodType = "C" .AND. !::FCalculated .AND. ::FUsingField = NIL
 
 /*
-    IsValid
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION IsValid( showAlert ) CLASS TField
-    LOCAL validValues
-    LOCAL value
-    LOCAL result
-
-    value := ::GetAsVariant()
-    
-    IF ::FRequired .AND. Empty( value )
-        IF showAlert == .T.
-            wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty field required value>" )
-        ENDIF
-        RETURN .F.
-    ENDIF
-
-    IF ::Unique
-        IF Empty( value )
-            IF showAlert == .T.
-                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty UNIQUE INDEX key value>" )
-            ENDIF
-            RETURN .F.
-        ENDIF
-        IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
-            IF showAlert == .T.
-                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <key value already exists> '" + AsString( value ) + "'")
-            ENDIF
-            RETURN .F.
-        ENDIF
-    ENDIF
-
-    IF ::ValidValues != NIL
-
-        validValues := ::GetValidValues()
-
-        IF !Empty( validValues )
-            SWITCH ValType( validValues )
-            CASE 'A'
-                result := AScan( validValues, {|e| e == value } ) > 0
-                EXIT
-            CASE 'H'
-                result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
-                EXIT
-            OTHERWISE
-                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
-                RETURN .F.
-            ENDSWITCH
-
-            IF !result
-                IF showAlert == .T.
-                    wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
-                ENDIF
-                RETURN .F.
-            ENDIF
-        ENDIF
-
-    ENDIF
-
-    IF ::OnValidate == NIL
-        RETURN .T.
-    ENDIF
-
-RETURN ::OnValidate:Eval( Self )
-
-/*
     OnPickList
     Teo. Mexico 2009
 */
@@ -1050,7 +985,7 @@ METHOD PROCEDURE SetData( value ) CLASS TField
     ::SetBuffer( value )
 
     /* Validate before the physical writting */
-    IF !::IsValid( .T. )
+    IF !::Validate( .T. )
         ::SetBuffer( buffer )  // revert the change
         RETURN
     ENDIF
@@ -1112,6 +1047,9 @@ RETURN
     Teo. Mexico 2011
 */
 METHOD PROCEDURE SetEnabled( enabled ) CLASS TField
+    IF ::FIsMasterFieldComponent .OR. ::FPrimaryKeyComponent
+        RAISE TFIELD ::FName ERROR "Cannot disable a Master/Primary key component..."
+    ENDIF
     ::FEnabled := enabled
 RETURN
 
@@ -1224,6 +1162,7 @@ METHOD PROCEDURE SetIsMasterFieldComponent( IsMasterFieldComponent ) CLASS TFiel
         NEXT
     CASE 'C'
         ::FIsMasterFieldComponent := IsMasterFieldComponent
+        ::FEnabled := .T.
     ENDSWITCH
     
     IF ::IsDerivedFrom("TObjectField") .AND. Empty( ::FTable:GetMasterSourceClassName() )
@@ -1259,11 +1198,7 @@ METHOD FUNCTION SetKeyVal( keyVal ) CLASS TField
 
             IF ::FTable:LinkedObjField != NIL
 
-                ::FTable:LinkedObjField:SetAsVariant( ::FTable:KeyField:GetAsVariant() )
-
-                IF ! ::FTable:LinkedObjField:GetKeyVal() == ::FTable:KeyField:GetKeyVal()
-                    ::FTable:Seek( ::FTable:LinkedObjField:GetAsVariant, "" )
-                ENDIF
+                ::FTable:LinkedObjField:SetAsVariant( ::FTable:BaseKeyField:GetAsVariant() )
 
             ENDIF
 
@@ -1325,6 +1260,7 @@ METHOD PROCEDURE SetPrimaryKeyComponent( PrimaryKeyComponent ) CLASS TField
         EXIT
     CASE 'C'
         ::FPrimaryKeyComponent := PrimaryKeyComponent
+        ::FEnabled := .T.
     ENDSWITCH
 
 RETURN
@@ -1379,6 +1315,79 @@ METHOD PROCEDURE WriteToTable( value, buffer ) CLASS TField
     //ENDIF
 
 RETURN
+
+/*
+    Validate
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION Validate( showAlert ) CLASS TField
+    LOCAL validValues
+    LOCAL value
+    LOCAL result := .T.
+
+    IF ::Enabled
+
+        value := ::GetAsVariant()
+        
+        IF ::FRequired .AND. Empty( value )
+            IF showAlert == .T.
+                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty field required value>" )
+            ENDIF
+            RETURN .F.
+        ENDIF
+
+        IF ::Unique
+            IF Empty( value )
+                IF showAlert == .T.
+                    wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty UNIQUE INDEX key value>" )
+                ENDIF
+                RETURN .F.
+            ENDIF
+            IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
+                IF showAlert == .T.
+                    wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <key value already exists> '" + AsString( value ) + "'")
+                ENDIF
+                RETURN .F.
+            ENDIF
+        ENDIF
+
+        IF ::ValidValues != NIL
+
+            validValues := ::GetValidValues()
+
+            IF !Empty( validValues )
+                SWITCH ValType( validValues )
+                CASE 'A'
+                    result := AScan( validValues, {|e| e == value } ) > 0
+                    EXIT
+                CASE 'H'
+                    result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
+                    EXIT
+                OTHERWISE
+                    wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
+                    RETURN .F.
+                ENDSWITCH
+
+                IF !result
+                    IF showAlert == .T.
+                        wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <value given not in 'ValidValues'> : '" + AsString( value ) + "'" )
+                    ENDIF
+                    RETURN .F.
+                ENDIF
+            ENDIF
+
+        ENDIF
+
+        IF ::OnValidate != NIL
+            result := ::OnValidate:Eval( Self )
+            IF !result .AND. ::OnValidateWarn != NIL
+                wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + E"' OnValidate:\n<" + ::OnValidateWarn + "> " )
+            ENDIF
+        ENDIF
+
+    ENDIF
+
+RETURN result
 
 /*
     ENDCLASS TField
@@ -1870,6 +1879,7 @@ PROTECTED:
     DATA FDefaultValue INIT {|| HB_DateTime() }
     DATA FType INIT "DateTime"
     DATA FValType INIT "C"
+    METHOD GetAsString() INLINE HB_TSToStr( ::Value )
     METHOD GetEmptyValue BLOCK {|| HB_CToT("") }
     METHOD GetTime
     METHOD SetTime( cTime )
@@ -1936,6 +1946,7 @@ RETURN "HB_TToS(" + ::FFieldExpression + ")"
     Teo. Mexico 2009
 */
 METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateTimeField
+    LOCAL cTime
 
     SWITCH ValType( variant )
     CASE 'T'
@@ -1951,7 +1962,8 @@ METHOD PROCEDURE SetAsVariant( variant ) CLASS TDateTimeField
         Super:SetAsVariant( variant )
         EXIT
     CASE 'D'
-        Super:SetAsVariant( HB_DToT( variant ) )
+        cTime := ::GetTime()
+        Super:SetAsVariant( HB_DToT( variant, cTime ) )
         EXIT
     CASE 'N'
         Super:SetAsVariant( HB_NToT( variant ) )
@@ -1965,7 +1977,7 @@ RETURN
     Teo. Mexico 2011
 */
 METHOD PROCEDURE SetTime( cTime ) CLASS TDateTimeField
-    HB_SYMBOL_UNUSED( cTime )
+    ::SetAsVariant( HB_DToT( ::Value, cTime ) )
 RETURN
 
 /*
@@ -2009,17 +2021,17 @@ PROTECTED:
     DATA FType INIT "ObjectField"
     DATA FValidValuesLabelField
     DATA FValType INIT "O"
-    METHOD GetDBS_LEN INLINE ::GetReferenceField():DBS_LEN
-    METHOD GetDBS_TYPE INLINE ::GetReferenceField():DBS_TYPE
+    METHOD GetDBS_LEN INLINE ::BaseKeyField():DBS_LEN
+    METHOD GetDBS_TYPE INLINE ::BaseKeyField():DBS_TYPE
     METHOD GetLinkedTable
-    METHOD GetEmptyValue() INLINE ::GetReferenceField():EmptyValue
+    METHOD GetEmptyValue() INLINE ::BaseKeyField():EmptyValue
     METHOD GetFieldReadBlock()
 PUBLIC:
+    METHOD BaseKeyField()	// Returns the non-TObjectField associated to this obj
     METHOD DataObj
     METHOD GetKeyVal( keyVal )
     METHOD GetAsString							//INLINE ::LinkedTable:KeyField:AsString()
     METHOD GetAsVariant( ... )
-    METHOD GetReferenceField()	// Returns the non-TObjectField associated to this obj
     METHOD GetValidValues()
     METHOD IndexExpression()
     METHOD SetValidValues( validValues, labelField )
@@ -2027,10 +2039,27 @@ PUBLIC:
     PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
     PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
     PROPERTY ObjClass READ FObjClass WRITE SetObjClass
-    PROPERTY Size READ GetReferenceField():Size
+    PROPERTY Size READ BaseKeyField():Size
     PROPERTY ValidValuesLabelField READ FValidValuesLabelField
 PUBLISHED:
 ENDCLASS
+
+/*
+    BaseKeyField
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION BaseKeyField() CLASS TObjectField
+
+    SWITCH ValType( ::ObjClass )
+    CASE "B"
+        RETURN ::ObjClass:Eval( ::FTable ):KeyField
+    CASE "O"
+        RETURN ::ObjClass:KeyField
+    CASE "C"
+        RETURN ::GetLinkedTable:BaseKeyField
+    ENDSWITCH
+
+RETURN NIL
 
 /*
     DataObj
@@ -2057,13 +2086,12 @@ METHOD FUNCTION DataObj CLASS TObjectField
             in the same table
         */
         //linkedTable:MasterSource() 
-
         keyVal := ::GetKeyVal()
         /* Syncs with the current value */
-        IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:KeyField:KeyVal == keyVal
+        IF !::FTable:MasterSource == linkedTable .AND. !linkedTable:BaseKeyField:KeyVal == keyVal
             linkedObjField := linkedTable:LinkedObjField
             linkedTable:LinkedObjField := NIL
-            linkedTable:KeyField:SetKeyVal( keyVal )
+            linkedTable:BaseKeyField:SetKeyVal( keyVal )
             linkedTable:LinkedObjField := linkedObjField
         ENDIF
     ENDIF
@@ -2100,7 +2128,7 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
         keyVal := ::GetAsVariant()
     ENDIF
 
-RETURN ::GetReferenceField:GetKeyVal( keyVal )
+RETURN ::BaseKeyField:GetKeyVal( keyVal )
 
 /*
     GetAsString
@@ -2114,7 +2142,7 @@ RETURN ::DataObj:GetAsString()
     Teo. Mexico 2010
 */
 METHOD FUNCTION GetFieldReadBlock() CLASS TObjectField
-
+    
     IF ::FFieldReadBlock = NIL .AND. Super:GetFieldReadBlock() = NIL
         ::FFieldReadBlock := {|| ::LinkedTable }
     ENDIF
@@ -2203,33 +2231,6 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
     ENDIF
 
 RETURN ::FLinkedTable
-
-/*
-    GetReferenceField
-    Teo. Mexico 2010
-*/
-METHOD FUNCTION GetReferenceField() CLASS TObjectField
-    LOCAL itm
-
-    SWITCH ValType( ::ObjClass )
-    CASE "B"
-        RETURN ::ObjClass:Eval( ::FTable ):KeyField
-    CASE "O"
-        RETURN ::ObjClass:KeyField
-    CASE "C"
-        IF HB_HHasKey( ::GetLinkedTable():PrimaryIndexList, ::ObjClass )
-            RETURN ::GetLinkedTable():IndexList[ ::ObjClass, ::GetLinkedTable():PrimaryIndexList[ ::ObjClass ] ]:KeyField
-        ELSE
-            FOR EACH itm IN ::GetLinkedTable():IndexList DESCEND
-                IF ::GetLinkedTable():IsDerivedFrom( itm:__enumKey() )
-                    RETURN ::GetLinkedTable():KeyField
-                ENDIF
-            NEXT
-        ENDIF
-        EXIT
-    ENDSWITCH
-
-RETURN NIL
 
 /*
     GetValidValues

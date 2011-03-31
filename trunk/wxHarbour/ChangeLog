@@ -2,6 +2,47 @@
  * $Id$
  */
 
+2011-03-31 00:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added WARN clause to ON VALIDATE clause, contains warning message if validation fails
+
+  *  include/wxHarbour/wxbase/wx_Dialog.h
+  *  src/wxbase/manwindows/wx_Dialog.cpp
+     * added (virtual) validate() member that calls HB Validate function (if any) and drops to
+       wxWindow:Validate (that calls wxWindow:::Validate)
+
+  *  include/wxHarbour/wxharbour.ch
+     * changed clause name from WARNING to WARN, changed WHEN to VALIDATE
+
+  *  src/common/wxhfuncs.prg
+     % using TField's 'ON VALIDATE' 'WARN' clauses to control validator
+
+  *  src/raddox/TField.prg
+     * renamed method 'IsValid' to 'Validate'
+     * added data 'OnValidateWarn', holds message if validation fails
+     * added protection agains disabling a MasterKey or PrimaryKey component
+     ! Fixed using value of BaseKeyField to assign linked table on ::SetKeyVal
+     * removed (unneeded) code on ::SetKeyVal
+     * added ::GetAsString on TDateTimeField class
+     ! Fixed not drop time component on TDateTimeField:SetAsVariant
+     ! Fixed TDateTimeField:SetTime
+     * renamed method 'GetReferenceField' to 'BaseKeyField' and made it protected
+     * TObjectField:BaseKeyField gets the field from linked table
+     ! Fixed using BaseKeyField instead of KeyField on TObjectField:DataObj
+
+  *  src/raddox/TIndex.prg
+     * protect setting Table:PrimaryIndexList
+     * assign Table:BaseKeyField on setting master key field (SetField)
+
+  *  src/raddox/TTable.prg
+     * added data 'FBaseKeyField' and assign method 'SetBaseKeyField', property BaseKeyField
+     * added parameter to GetKeyVal
+     * added assign method 'SetPrimaryIndexList'
+     ! Fixed not checking for calculated field's on ::Cancel procedure
+
+  *  src/wxbase/baseclasses/wx_Window.cpp
+     * harbour method Validate calls for base 'Validate'
+
 2011-03-22 14:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * ignore ::ValidValues if it's empty

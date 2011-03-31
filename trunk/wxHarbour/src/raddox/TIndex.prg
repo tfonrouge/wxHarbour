@@ -150,7 +150,7 @@ METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
     ::FTable:IndexList[ curClass, name ] := Self
 
     IF "PRIMARY" = indexType
-        ::FTable:PrimaryIndexList[ curClass ] := name
+        ::FTable:SetPrimaryIndexList( curClass, name )
         ::FTable:SetPrimaryIndex( Self )
     ENDIF
 
@@ -647,6 +647,9 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
         ENDIF
         AField:KeyIndex := Self
         ::FKeyField := AField
+        IF ::FTable:BaseKeyField = NIL
+            ::FTable:SetBaseKeyField( AField )
+        ENDIF
         EXIT
     ENDSWITCH
 

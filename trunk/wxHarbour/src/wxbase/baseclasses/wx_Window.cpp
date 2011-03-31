@@ -759,7 +759,7 @@ HB_FUNC( WXWINDOW_VALIDATE )
     
     if( wnd )
     {
-        hb_retl( wnd->Validate() );
+        hb_retl( wnd->wxWindow::Validate() );
         
     }
 }

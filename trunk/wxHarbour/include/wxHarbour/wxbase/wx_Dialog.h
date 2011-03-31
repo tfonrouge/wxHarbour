@@ -27,4 +27,5 @@ public:
 
     wx_Dialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxPoint(-1,-1), const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_DIALOG_STYLE, const wxString& name = wxT("") );
 
+    virtual bool Validate();
 };
