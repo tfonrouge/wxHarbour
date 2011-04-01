@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2011-03-31 18:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed constructor of wxhHBValidator class to correctly change the validation
+       method when changing the TField on the control
+     * added 'Field' property to wxhHBValidator
+
+  *  src/raddox/TField.prg
+     ! Commented out section of code that process changes to a KeyField when writting
+       value to physical table on ::SetData
+     ! Fixed TObjectField:GetAsVariant to return the BaseKeyField
+
+  *  src/raddox/TTable.prg
+     * changed name of index used to 'recycle' records from 'Deleted' to '__AVAIL'
+     % enhanced method 'DeleteChilds' and 'HasChilds'
+
 2011-03-31 00:06 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
      * added WARN clause to ON VALIDATE clause, contains warning message if validation fails
