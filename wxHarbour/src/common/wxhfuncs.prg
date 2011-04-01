@@ -83,6 +83,7 @@ PROTECTED:
     DATA FUsingFieldValidation INIT .F.
     DATA dontUpdateVar INIT .F.
     DATA updatedByTab INIT .F.
+    METHOD GetField()
     METHOD GetMaxLength()
 PUBLIC:
 
@@ -92,10 +93,10 @@ PUBLIC:
     DATA lastKey
     DATA onSearch
     DATA Picture
-    DATA validateMethod
+    DATA warnBlock
     DATA warningMessage
 
-    CONSTRUCTOR New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock )
+    CONSTRUCTOR New( name, var, block, picture, warning, warnBlock, warnMsg, actionBlock )
 
     METHOD AddPostInfo()
     METHOD AsString()
@@ -114,7 +115,7 @@ PUBLIC:
     METHOD Validate( parent )
 
     PROPERTY Block READ FBlock
-    PROPERTY Field READ FField
+    PROPERTY Field READ GetField
     PROPERTY maxLength READ GetMaxLength
     PROPERTY Name READ FName
 
@@ -125,16 +126,16 @@ ENDCLASS
     New
     Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) CLASS wxhHBValidator
+METHOD New( name, var, block, picture, warning, warnBlock, warnMsg, actionBlock ) CLASS wxhHBValidator
 
     ::FName	 := name
 
     IF HB_IsObject( var ) .AND. var:IsDerivedFrom("TField")
         ::FField := var
         ::FFieldBlock := block
-        block := {|__localVal| iif( PCount() > 0, ::FFieldBlock:Eval():Value := __localVal, ::FFieldBlock:Eval():Value ) }
+        block := {|__localVal| iif( PCount() > 0, ::Field:Value := __localVal, ::Field:Value ) }
         IF Empty( warning )
-            warning := var
+            ::FUsingFieldValidation := .T.
         ENDIF
     ELSEIF HB_IsBlock( var )
         block := var
@@ -148,18 +149,20 @@ METHOD New( name, var, block, picture, warning, warnBlk, warnMsg, actionBlock ) 
         ::Picture := picture
     ENDIF
 
-    IF warning != NIL
+    IF ! Empty( warning )
         SWITCH ValType( warning )
         CASE "O"
-            ::FUsingFieldValidation := .T.
+            ::warnBlock := warning
+            EXIT
         CASE "B"
-            ::validateMethod := warning
+            ::warnBlock := warning
             EXIT
         OTHERWISE
-            ::validateMethod := warnBlk
+            ::warnBlock := warnBlock
         ENDSWITCH
-        ::warningMessage := warnMsg
     ENDIF
+
+    ::warningMessage := warnMsg
 
     IF actionBlock != NIL
         ::actionBlock := actionBlock
@@ -225,7 +228,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
         IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch != NIL
             control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, ::onSearch )
         ENDIF
-        IF ::FField != NIL .AND. !::FFieldBlock:Eval():PickList == NIL
+        IF ::FField != NIL .AND. !::Field:PickList == NIL
             control:ConnectMouseEvt( control:GetId(), wxEVT_LEFT_DCLICK, {|event| ::PickList( event ) } )
             IF control:IsDerivedFrom( "wxSearchCtrl" ) .AND. ::onSearch = NIL
                 control:ConnectCommandEvt( control:GetId(), wxEVT_COMMAND_SEARCHCTRL_SEARCH_BTN, {|event| ::PickList( event ) } )
@@ -260,7 +263,7 @@ METHOD PROCEDURE AddPostInfo() CLASS wxhHBValidator
     
     /* TField attributes */
     IF ::FField != NIL
-        IF control:IsEnabled() .AND. ::FFieldBlock:Eval():IsReadOnly()
+        IF control:IsEnabled() .AND. ::Field:IsReadOnly()
             control:Disable()
         ENDIF
     ENDIF
@@ -293,7 +296,7 @@ RETURN
 METHOD FUNCTION AsString() CLASS wxhHBValidator
     LOCAL value
     IF ::FFieldBlock != NIL
-        value := ::FFieldBlock:Eval():AsString()
+        value := ::Field:AsString()
     ELSE
         value := AsString( ::FBlock:Eval() )
     ENDIF
@@ -305,25 +308,35 @@ RETURN value
 */
 METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     LOCAL msg
-    LOCAL warn := .F.
+    LOCAL warn
     LOCAL label
+    LOCAL tblName := ""
 
-    IF ::validateMethod != NIL
-        IF ::FUsingFieldValidation
-            warn := .NOT. ::validateMethod:Validate( .F. )
-            label := " '" + ::FFieldBlock:Eval():Label + "' "
-        ELSE
-            warn := ::validateMethod:Eval( ::FBlock:Eval() )
-            label := " "
-        ENDIF
-        IF warn
-            IF showWarning == NIL .OR. showWarning
-                msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
-                IF parent = NIL
-                    parent := ::GetWindow():GetParent()
-                ENDIF
-                wxMessageBox( msg, "Warning", HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
+    IF ::FUsingFieldValidation
+        warn := .NOT. ::Field:Validate( .F. )
+        tblName := ", at Table (" + ::Field:Table:ClassName() + ")"
+        label := " '" + ::Field:Label + "' "
+    ELSE
+        SWITCH ValType( ::warnBlock )
+        CASE "O"
+            warn := .NOT. ::warnBlock:Validate( .F. )
+            EXIT
+        CASE "B"
+            warn := ::warnBlock:Eval( ::FBlock:Eval() )
+            EXIT
+        OTHERWISE
+            warn := .F.
+        ENDSWITCH
+        label := " "
+    ENDIF
+
+    IF warn
+        IF showWarning == NIL .OR. showWarning
+            msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
+            IF parent = NIL
+                parent := ::GetWindow():GetParent()
             ENDIF
+            wxMessageBox( msg, "Warning" + tblName, HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
         ENDIF
     ENDIF
 
@@ -337,9 +350,9 @@ METHOD FUNCTION GetChoices( xList ) CLASS wxhHBValidator
     LOCAL Result
     LOCAL itm
     
-    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
+    IF ::FField != NIL .AND. ::Field:ValidValues != NIL
 
-        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
+        ::FValidValues := ::Field:GetValidValues()
         
     ELSEIF xList != NIL
     
@@ -373,15 +386,25 @@ METHOD FUNCTION GetChoices( xList ) CLASS wxhHBValidator
 RETURN Result
 
 /*
+    GetField
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetField() CLASS wxhHBValidator
+    IF ::FFieldBlock != NIL
+        RETURN ::FFieldBlock:Eval()
+    ENDIF
+RETURN ::FField
+
+/*
     GetKeyValue
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
     LOCAL itm
     
-    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
+    IF ::FField != NIL .AND. ::Field:ValidValues != NIL
 
-        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
+        ::FValidValues := ::Field:GetValidValues()
         
     ENDIF
     
@@ -411,7 +434,7 @@ METHOD FUNCTION GetKeyValue( n ) CLASS wxhHBValidator
         ENDSWITCH
         
         IF ::FField != NIL
-            RETURN ::FFieldBlock:Eval():EmptyValue()
+            RETURN ::Field:EmptyValue()
         ENDIF
 
     ENDIF
@@ -425,8 +448,8 @@ RETURN n
 METHOD FUNCTION GetMaxLength() CLASS wxhHBValidator
     LOCAL maxLength
 
-    IF ::FField != NIL .AND. ::FFieldBlock:Eval():IsDerivedFrom("TStringField")
-        maxLength := ::FFieldBlock:Eval():Size
+    IF ::FField != NIL .AND. ::Field:IsDerivedFrom("TStringField")
+        maxLength := ::Field:Size
     ENDIF
 
 RETURN maxLength
@@ -442,9 +465,9 @@ METHOD GetSelection CLASS wxhHBValidator
     
     key := ::FBlock:Eval()
 
-    IF ::FField != NIL .AND. ::FFieldBlock:Eval():ValidValues != NIL
+    IF ::FField != NIL .AND. ::Field:ValidValues != NIL
 
-        ::FValidValues := ::FFieldBlock:Eval():GetValidValues()
+        ::FValidValues := ::Field:GetValidValues()
         
     ENDIF
     
@@ -522,11 +545,11 @@ METHOD PROCEDURE PickList( event ) CLASS wxhHBValidator
         parentWnd := control:GetParent()
 
         ::dontUpdateVar := .T.
-        selectionMade := ::FFieldBlock:Eval():OnPickList( parentWnd )
+        selectionMade := ::Field:OnPickList( parentWnd )
         ::dontUpdateVar := .F.
 
         IF selectionMade
-            s := RTrim( ::FFieldBlock:Eval():Value )
+            s := RTrim( ::Field:Value )
             rawValue := control:GetValue()
             IF ::dataIsOEM
                 value := RTrim( wxh_wxStringToOEM( rawValue ) )
@@ -555,7 +578,7 @@ METHOD FUNCTION TextValue( pictured ) CLASS wxhHBValidator
 
     value := ::Block:Eval()
 
-    IF ValType( value ) = "C" .AND. ::FField != NIL .AND. ::FFieldBlock:Eval():Table:dataIsOEM
+    IF ValType( value ) = "C" .AND. ::FField != NIL .AND. ::Field:Table:dataIsOEM
         value := wxh_OEMTowxString( value )
     ENDIF
 
@@ -590,7 +613,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
         SWITCH ValType( oldValue )
         CASE 'C'
-            IF ::FField != NIL .AND. ::FFieldBlock:Eval():IsDerivedFrom("TMemoField")
+            IF ::FField != NIL .AND. ::Field:IsDerivedFrom("TMemoField")
                 changed := !value == oldValue
             ELSE
                 IF Len( value ) < Len( oldValue )

@@ -965,12 +965,14 @@ METHOD PROCEDURE SetData( value ) CLASS TField
     ENDIF
 
     /* Check if field is a masterkey in child tables */
+    /* TODO: Check childs for KeyField
     IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
         IF ::FTable:HasChilds()
-            wxhAlert( "Can't modify key <'"+::GetLabel()+"'> with "+Value+";Has dependant child tables.")
+            wxhAlert( "Can't modify key <'"+::GetLabel()+"'> with " + AsString( Value ) + ";Has dependant child tables.")
             RETURN
         ENDIF
     ENDIF
+    */
 
     IF ::FEvtOnBeforeChange = NIL
         ::FEvtOnBeforeChange := __ObjHasMsgAssigned( ::FTable, "OnBeforeChange_Field_" + ::Name )
@@ -2104,16 +2106,17 @@ RETURN linkedTable
 */
 METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
     LOCAL variant
-    
+
     variant := Super:GetAsVariant( ... )
-    
+
     IF HB_IsObject( variant )
 
         IF variant:IsDerivedFrom("TObjectField")
             RETURN variant:DataObj:GetAsVariant()
         ELSEIF variant:IsDerivedFrom("TTable")
-            RETURN variant:GetAsVariant()
+            RETURN variant:BaseKeyField:GetAsVariant()
         ENDIF
+
     ENDIF
 
 RETURN variant

@@ -157,7 +157,7 @@ PUBLIC:
     METHOD AddFieldMessage( messageName, AField )
     METHOD AssociateTableIndex( table, name, getRecNo, setRecNo )
     METHOD Cancel
-    METHOD ChildSource( tableName )
+    METHOD ChildSource( tableName, destroyChild )
     METHOD CopyRecord( origin )
     METHOD Count( bForCondition, bWhileCondition, index, scope )
     METHOD CreateIndex( index )
@@ -173,7 +173,7 @@ PUBLIC:
     METHOD DbSetFilter( filter ) INLINE ::FFilter := filter
     METHOD DbSkip( numRecs )
     METHOD Delete( lDeleteChilds )
-    METHOD DeleteChilds
+    METHOD DeleteChilds( curClass )
     METHOD Edit()
     METHOD FieldByName( name, index )
     METHOD FieldByObjClass( objClass, derived )
@@ -191,7 +191,7 @@ PUBLIC:
     METHOD GetKeyVal( value )
     METHOD GetMasterSourceClassName()
     METHOD GetTableFileName()
-    METHOD HasChilds
+    METHOD HasChilds( curClass )
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -460,7 +460,7 @@ METHOD FUNCTION AddRec() CLASS TTable
     ENDIF
 
     IF ::FHasDeletedOrder
-        index := "Deleted"
+        index := "__AVAIL"
     ELSEIF ::FPrimaryIndex != NIL
         index := ::FPrimaryIndex:Name
     ENDIF
@@ -570,7 +570,7 @@ METHOD PROCEDURE Cancel CLASS TTable
                 AField:Reset()
             ENDIF
         NEXT
-        ::TTable:Delete()
+        ::TTable:Delete( .T. )
         EXIT
     CASE dsEdit
         FOR EACH AField IN ::FieldList
@@ -672,7 +672,7 @@ RETURN .T.
     ChildSource
     Teo. Mexico 2008
 */
-METHOD FUNCTION ChildSource( tableName ) CLASS TTable
+METHOD FUNCTION ChildSource( tableName, destroyChild ) CLASS TTable
     LOCAL itm
 
     tableName := Upper( tableName )
@@ -681,10 +681,13 @@ METHOD FUNCTION ChildSource( tableName ) CLASS TTable
     FOR EACH itm IN ::DetailSourceList
         IF itm:ClassName() == tableName
             itm:Reset()
+            destroyChild := .F.
             RETURN itm
         ENDIF
     NEXT
-    
+
+    destroyChild := .T.
+
 RETURN __ClsInstFromName( tableName ):New( Self )
 
 /*
@@ -1033,6 +1036,7 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
             RETURN .F.
         ENDIF
         IF !::DeleteChilds()
+            wxhAlert("Error_Deleting_Childs")
             RETURN .F.
         ENDIF
     ENDIF
@@ -1055,40 +1059,62 @@ RETURN .T.
     DeleteChilds
     Teo. Mexico 2006
 */
-METHOD FUNCTION DeleteChilds CLASS TTable
+METHOD FUNCTION DeleteChilds( curClass ) CLASS TTable
     LOCAL childTableName
     LOCAL ChildDB
+    LOCAL clsName
+    LOCAL destroyChild
     LOCAL nrec
 
-    IF ! HB_HHasKey( ::DataBase:ParentChildList, ::ClassName )
-        RETURN .F.
+    IF curClass = NIL
+        curClass := Self
     ENDIF
 
-    nrec := ::Alias:RecNo()
+    clsName := curClass:ClassName
+    
+    IF clsName == "TTABLE"
+        RETURN .T.
+    ENDIF
 
-    FOR EACH childTableName IN ::DataBase:GetParentChildList( ::ClassName )
+    IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
 
-        ChildDB := ::ChildSource( childTableName )
+        nrec := ::Alias:RecNo()
 
-        IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
-            ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
-        ENDIF
+        FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
 
-        WHILE ChildDB:DbGoTop()
-            ChildDB:TTable:Delete( .T. )
-        ENDDO
+            ChildDB := ::ChildSource( childTableName, @destroyChild )
 
-    NEXT
+            IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
+                ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
+            ENDIF
 
-    ::Alias:DbGoTo(nrec)
+            WHILE ChildDB:DbGoTop()
+                IF !ChildDB:TTable:Delete( .T. )
+                    IF destroyChild
+                        ChildDB:Destroy()
+                    ENDIF
+                    RETURN .F.
+                ENDIF
+            ENDDO
 
-RETURN .T.
+            IF destroyChild
+                ChildDB:Destroy()
+            ENDIF
+
+        NEXT
+
+        ::Alias:DbGoTo(nrec)
+
+    ENDIF
+
+RETURN ::DeleteChilds( curClass:__Super )
 
 /*
     Destroy
     Teo. Mexico 2008
 */
 METHOD PROCEDURE Destroy() CLASS TTable
+    LOCAL table
 
     IF HB_IsObject( ::MasterSource )
         IF HB_HHasKey( ::MasterSource:DetailSourceList, ::ObjectH )
@@ -1100,13 +1126,17 @@ METHOD PROCEDURE Destroy() CLASS TTable
         //WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
         RETURN
     ENDIF
+    
+    FOR EACH table IN ::DetailSourceList
+        table:Destroy()
+    NEXT
 
     ::FFieldList := NIL
     ::FDisplayFields := NIL
     ::tableState := NIL
 
     ::FActive := .F.
-    
+
     IF ::IsTempTable
         ::Alias:DbCloseArea()
         HB_DbDrop( ::TableFileName )
@@ -1902,29 +1932,48 @@ RETURN ::FTableFileName
     HasChilds
     Teo. Mexico
 */
-METHOD FUNCTION HasChilds CLASS TTable
+METHOD FUNCTION HasChilds( curClass ) CLASS TTable
     LOCAL childTableName
     LOCAL ChildDB
+    LOCAL clsName
+    LOCAL destroyChild
+    
+    IF curClass = NIL
+        curClass := Self
+    ENDIF
 
-    IF ! HB_HHasKey( ::DataBase:ParentChildList, ::ClassName )
+    clsName := curClass:ClassName
+    
+    IF clsName == "TTABLE"
         RETURN .F.
     ENDIF
 
-    FOR EACH childTableName IN ::DataBase:GetParentChildList( ::ClassName )
+    IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
 
-        ChildDB := ::ChildSource( childTableName )
+        FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
 
-        IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
-            ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
-        ENDIF
+            ChildDB := ::ChildSource( childTableName, @destroyChild )
 
-        IF ChildDB:DbGoTop()
-            RETURN .T.
-        ENDIF
+            IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
+                ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
+            ENDIF
 
-    NEXT
+            IF ChildDB:DbGoTop()
+                IF destroyChild
+                    ChildDB:Destroy()
+                ENDIF
+                RETURN .T.
+            ENDIF
 
-RETURN .F.
+            IF destroyChild
+                ChildDB:Destroy()
+            ENDIF
+
+        NEXT
+
+    ENDIF
+
+RETURN ::HasChilds( curClass:__Super )
 
 /*
     IndexByName
@@ -2116,7 +2165,7 @@ METHOD FUNCTION Open() CLASS TTable
     ::SyncFromMasterSourceFields()
 
     IF ::Alias != NIL
-        ::FHasDeletedOrder := ::Alias:OrdNumber( "Deleted" ) > 0
+        ::FHasDeletedOrder := ::Alias:OrdNumber( "__AVAIL" ) > 0
     ENDIF
 
     ::OnAfterOpen()
