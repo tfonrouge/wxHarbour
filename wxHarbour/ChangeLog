@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2011-04-14 14:30 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  *  src/raddox/TField.prg
+  *  src/raddox/TTable.prg
+     * updates
+
 2011-03-31 18:43 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed constructor of wxhHBValidator class to correctly change the validation

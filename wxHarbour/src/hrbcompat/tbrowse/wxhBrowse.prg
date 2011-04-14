@@ -99,6 +99,7 @@ PUBLIC:
     METHOD OnSelectCell( gridEvent )
     METHOD OnSetDataSource() VIRTUAL
     METHOD OnSize( size )
+    METHOD SetColCellChoiceEditor( col )
     METHOD SetColumnAlignment( nCol, align )
     METHOD ShowRow()
 
@@ -708,6 +709,10 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         EXIT
 
     CASE 'O'
+
+        IF dataSource:IsDerivedFrom("TObjectField")
+            dataSource := dataSource:DataObj
+        ENDIF
     
         IF dataSource:IsDerivedFrom("TTable")
             ::FDataSource := dataSource

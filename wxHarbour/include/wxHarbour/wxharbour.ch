@@ -327,9 +327,9 @@
                     => ;
                     __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>], [<onSetValue>] )
 
-#xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<editable: EDITABLE>] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
+#xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<noEditable: NOEDITABLE>] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
                     => ;
-            __wxh_BrowseAddColumnFromField( <wxBrw>, <field>, <.editable.>, [<colour>], [<onSetValue>] )
+            __wxh_BrowseAddColumnFromField( <wxBrw>, <field>, !<.noEditable.>, [<colour>], [<onSetValue>] )
             
 /*
  * Button

@@ -1065,6 +1065,7 @@ RETURN
 */
 PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
     LOCAL column
+    LOCAL a,itm
 
     SWITCH ValType( xField )
     CASE 'B'
@@ -1083,6 +1084,14 @@ PROCEDURE __wxh_BrowseAddColumnFromField( wxhBrw, xField, editable, colour )
     column:Field := xField
     column:IsEditable := editable
     wxhBrw:AddColumn( column )
+
+    IF ValType( column:Field:ValidValues ) = "H"
+        a := {}
+        FOR EACH itm IN column:Field:ValidValues
+            AAdd( a, itm:__enumValue )
+        NEXT
+        wxhBrw:SetColCellChoiceEditor( wxhBrw:ColCount, a )
+    ENDIF
 
     IF colour != NIL
         wxhBrw:SetColAttr( wxhBrw:ColCount(), colour )
