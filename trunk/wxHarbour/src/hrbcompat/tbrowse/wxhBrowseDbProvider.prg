@@ -461,7 +461,8 @@ METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
 
     ELSE
 
-        ? "Changing:","Row:", row, "Col:", col, "Value:",value
+        HB_SYMBOL_UNUSED( row )
+        //? "Changing:","Row:", row, "Col:", col, "Value:",value
 
     ENDIF
 

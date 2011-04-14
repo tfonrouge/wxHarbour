@@ -785,11 +785,12 @@ METHOD PROCEDURE SetAsVariant( value ) CLASS TField
         RETURN
     ENDIF
 
-    IF (::FTable:LinkedObjField = NIL .OR. ::FTable:LinkedObjField:Table:State = dsBrowse) .AND. ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
+    //IF (::FTable:LinkedObjField = NIL .OR. ::FTable:LinkedObjField:Table:State = dsBrowse) .AND. ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
+    IF ::FTable:State = dsBrowse .AND. ::FTable:autoEdit
         oldState := ::FTable:State
         ::FTable:Edit()
     ENDIF
-    
+
     SWITCH ::FTable:State
     CASE dsBrowse
 

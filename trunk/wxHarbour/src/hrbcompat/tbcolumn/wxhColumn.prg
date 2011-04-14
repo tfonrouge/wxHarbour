@@ -49,6 +49,7 @@ PRIVATE:
     METHOD SetWidth( width ) INLINE ::FWidth := width
 
 PROTECTED:
+    DATA hashValue INIT .F.
 PUBLIC:
 
     CONSTRUCTOR New( browse, heading, block )
@@ -116,7 +117,10 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
     IF ::FField != NIL
         IF !rowParam:__FObj:Eof()
             result := ::FBlock:Eval( rowParam:__FObj ):GetAsVariant()
-        ELSE			
+            IF ::hashValue
+                result := ::FField:ValidValues[ result ]
+            ENDIF
+        ELSE
             result := ::FBlock:Eval( rowParam:__FObj ):EmptyValue()
         ENDIF
     ELSE
@@ -180,7 +184,8 @@ RETURN
 */
 METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
     LOCAL block := ::FBlock
-    LOCAL index
+    LOCAL itm
+    LOCAL s
 
     SWITCH ValType( xfield )
     CASE 'B'
@@ -192,8 +197,16 @@ METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
         ::FBlock := {|| xfield }
         EXIT
     CASE 'C'
-        ::FField := ::browse:DataSource:FieldByName( xfield, @index )
-        ::FBlock := {|Self| ::FieldList[ index ]  }
+        s := "::Field_"
+        FOR EACH itm IN xfield
+            s += itm
+            IF itm == ":"
+                s += "DataObj:Field_"
+            END
+        NEXT
+        ::FBlock := &("{|Self| " + s + " }")
+        ::FField := ::FBlock:Eval( ::browse:DataSource )
+        ::hashValue := HB_IsHash( ::FField:ValidValues )
         EXIT
     ENDSWITCH
 
@@ -213,8 +226,9 @@ RETURN
     Teo. Mexico 2009
 */
 METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
+    LOCAL itm
 
-    IF !::FOnSetValue
+    IF ::IsEditable .AND. !::FOnSetValue
 
         ::FOnSetValue := .T.
 
@@ -227,7 +241,16 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
                     wxhAlert( "Can't edit field '" + ::Field:Label + "' on table '" + ::browse:DataSource:ClassName() + "'" )
                     RETURN .F.
                 ENDIF
+                IF  ::hashValue
+                    FOR EACH itm IN ::Field:ValidValues
+                        IF value == itm:__enumValue
+                            value := itm:__enumKey
+                            EXIT
+                        ENDIF
+                    NEXT
+                ENDIF
                 ::Field:AsString := value
+                ::browse:RefreshCurrent()
             ELSE
                 ::FBlock:Eval( rowParam, value )
             ENDIF

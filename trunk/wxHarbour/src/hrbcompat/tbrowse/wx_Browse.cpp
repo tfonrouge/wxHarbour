@@ -195,6 +195,35 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 }
 
 /*
+    SetColCellChoiceEditor
+    Teo. Mexico 2011
+ */
+HB_FUNC( WXHBROWSE_SETCOLCELLCHOICEEDITOR )
+{
+    wxhBrowse* gridBrowse = (wxhBrowse *) xho_itemListGet_XHO( hb_stackSelfItem() );
+    
+    if( gridBrowse )
+    {
+        int col;
+        
+        if( hb_param( 1, HB_IT_NUMERIC ) )
+        {
+            col = hb_parni( 1 );
+        }
+        else
+        {
+            col = gridBrowse->GetNumberCols();
+        }
+
+        const wxArrayString& choices = wxh_par_wxArrayString( 2 );
+        wxGridCellChoiceEditor* choiceEditor = new wxGridCellChoiceEditor( choices );
+        wxGridCellAttr* gridCellAttr = new wxGridCellAttr;
+        gridCellAttr->SetEditor( choiceEditor );
+        gridBrowse->SetColAttr( col - 1, gridCellAttr );
+    }
+}
+
+/*
     wxhBrowse:MaxRows
     Teo. Mexico 2009
 */

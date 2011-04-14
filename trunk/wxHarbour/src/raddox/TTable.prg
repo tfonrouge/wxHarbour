@@ -1051,6 +1051,8 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
 
     ::RecUnLock()
     
+    ::GetCurrentRecord()
+    
     ::OnAfterDelete()
 
 RETURN .T.
@@ -2065,11 +2067,13 @@ METHOD FUNCTION Insert() CLASS TTable
     
     IF ::OnBeforeInsert() .AND. ::AddRec()
 
-        ::OnAfterInsert()
-    
         /* To Flush !!! */
         ::Alias:DbSkip( 0 )
-        
+
+        ::SyncDetailSources()
+
+        ::OnAfterInsert()
+    
         RETURN .T.
 
     ENDIF
@@ -2432,8 +2436,10 @@ METHOD PROCEDURE Reset() CLASS TTable
 
     FOR EACH AField IN ::FFieldList
 
-        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. !AField:IsMasterFieldComponent .AND. AField:Enabled
-            AField:Reset()
+        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. AField:Enabled
+            IF AField:RawDefaultValue != NIL .OR. !AField:IsMasterFieldComponent 
+                AField:Reset()
+            ENDIF
         ENDIF
 
     NEXT
@@ -2835,13 +2841,13 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
             ENDIF
 
         ELSE
-        
+
             ::GetCurrentRecord()
 
         ENDIF
 
     ENDIF
-    
+
 RETURN
 
 /*
