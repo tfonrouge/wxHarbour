@@ -191,7 +191,7 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
             wxString wxStr;
             ULONG ulUTF8Len = hb_cdpUTF8StringLength( szStr, ulStrLen );
             char *strUTF8 = (char *) hb_xgrab( ulUTF8Len + 1 );
-            hb_cdpStrToUTF8( pcp, false, szStr, ulStrLen, (char *) strUTF8, ulUTF8Len + 1 );
+            hb_cdpStrToUTF8( pcp, szStr, ulStrLen, (char *) strUTF8, ulUTF8Len + 1 );
             wxStr = wxString( strUTF8, mbConv );
             hb_xfree( strUTF8 );
             return wxStr;
