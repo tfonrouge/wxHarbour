@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-04-26 15:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * restored default for validateDbStruct to true
+
 2011-04-26 10:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * default to FALSE for TTable:validateDbStruct
