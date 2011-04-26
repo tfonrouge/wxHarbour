@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-04-26 10:25 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * default to FALSE for TTable:validateDbStruct
+
 2011-04-14 15:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wx_harbour.cpp
      ! Fixed compilation by Harbour's change in hb_cdpStrToUTF8 function
