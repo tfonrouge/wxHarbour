@@ -144,7 +144,7 @@ PUBLIC:
 
     DATA OnDataChangeBlock
 
-    DATA validateDbStruct INIT .F.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
+    DATA validateDbStruct INIT .T.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
     CONSTRUCTOR New( MasterSource, tableName )
     DESTRUCTOR OnDestruct()
