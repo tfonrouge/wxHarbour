@@ -141,10 +141,10 @@ PUBLIC:
     DATA FUnderReset INIT .F.
     DATA fullFileName
     DATA LinkedObjField
-    
+
     DATA OnDataChangeBlock
-    
-    DATA validateDbStruct INIT .T.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
+
+    DATA validateDbStruct INIT .F.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
     CONSTRUCTOR New( MasterSource, tableName )
     DESTRUCTOR OnDestruct()
