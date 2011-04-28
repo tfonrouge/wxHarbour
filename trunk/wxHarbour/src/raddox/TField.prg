@@ -306,7 +306,7 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
         NEXT
         EXIT
     CASE "B"
-        Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, ::FTable )
+        Result := ::FTable:Alias:Eval( ::FFieldCodeBlock, Self )
         IF HB_IsObject( Result )
             Result := Result:Value
         ENDIF
@@ -907,6 +907,12 @@ METHOD PROCEDURE SetData( value ) CLASS TField
         
         RETURN
 
+    CASE 'B'
+
+        ::FTable:Alias:Eval( ::FFieldCodeBlock, Self, value )
+
+        RETURN
+
     CASE 'C'
 
         EXIT
@@ -1090,12 +1096,14 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
         EXIT
 
     CASE "B"
-        ::FReadOnly := .T.
+        //::FReadOnly := .T.
         ::FFieldArrayIndex := NIL
         ::FFieldCodeBlock	 := FieldMethod
         ::FFieldReadBlock	 := NIL
         ::FFieldWriteBlock := NIL
         ::FFieldExpression := NIL
+
+        ::FCalculated := .T.
 
         EXIT
 

@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-04-27 19:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * in ::GetAsVariant sending the TField object on the codeblock evaluation
+     * added processing of "B" field method type on SetData
+     * removed ::ReadOnly := .T. on SetFieldMethod for codeblock ("B" type)
+     * set ::Calculated := .T. for field method type "B"
+
 2011-04-26 15:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * restored default for validateDbStruct to true
