@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2011-04-29 16:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed using picture property on Field given
+     * Using TField:AsString in ::TextValue
+
+  *  src/raddox/TField.prg
+     ! Fixed correct display number on edition for TNumeric fields on Float fields
+       the DBS_DEC is used to set the decimals showed
+
 2011-04-27 19:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * in ::GetAsVariant sending the TField object on the codeblock evaluation
