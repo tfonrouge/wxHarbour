@@ -1579,6 +1579,7 @@ PROTECTED:
     DATA FType INIT "Numeric"
     DATA FValType INIT "N"
     METHOD GetEmptyValue BLOCK {|| 0 }
+    METHOD StrFormat( value ) INLINE Str( value )
 PUBLIC:
 
     METHOD GetAsString
@@ -1606,7 +1607,7 @@ METHOD FUNCTION GetAsString( Value ) CLASS TNumericField
         Result := Value
         ::OnGetText:Eval( Self, @Result )
     ELSE
-        Result := Str( Value )
+        Result := ::StrFormat( Value )
     ENDIF
 
 RETURN Result
@@ -1669,6 +1670,7 @@ PROTECTED:
     DATA FDBS_TYPE INIT "I"
     DATA FSize INIT 4
     DATA FType INIT "Integer"
+    METHOD StrFormat( value ) INLINE HB_StrFormat( "%d", value )
 PUBLIC:
 
     METHOD GetKeyVal( keyVal )
@@ -1739,6 +1741,7 @@ PROTECTED:
     DATA FDBS_DEC INIT 2
     DATA FDBS_TYPE INIT "B"
     DATA FType INIT "Float"
+    METHOD StrFormat( value ) INLINE HB_StrFormat( "%10."+Chr( 48 + ::FDBS_DEC )+"f", value )
 PUBLIC:
 PUBLISHED:
 ENDCLASS

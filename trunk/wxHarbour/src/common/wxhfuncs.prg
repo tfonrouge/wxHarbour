@@ -137,6 +137,9 @@ METHOD New( name, var, block, picture, warning, warnBlock, warnMsg, actionBlock 
         IF Empty( warning )
             ::FUsingFieldValidation := .T.
         ENDIF
+        IF ::FField:picture != NIL
+            ::Picture := ::FField:picture
+        ENDIF
     ELSEIF HB_IsBlock( var )
         block := var
     ELSEIF Empty( name )
@@ -584,6 +587,10 @@ METHOD FUNCTION TextValue( pictured ) CLASS wxhHBValidator
 
     IF pictured == .T. .AND. ::Picture != NIL
         RETURN Transform( value, ::Picture )
+    ENDIF
+    
+    IF ::FField != NIL
+        RETURN ::Field:AsString
     ENDIF
 
 RETURN AsString( value )
