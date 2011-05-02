@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-05-02 12:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed stupid bug for not using the baseKeyField on getting key for TObjectField's
+
 2011-04-29 16:14 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed using picture property on Field given
