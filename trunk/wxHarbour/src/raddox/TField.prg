@@ -725,9 +725,9 @@ METHOD FUNCTION Reset() CLASS TField
 
                     IF ::IsDerivedFrom( "TObjectField" )
                         IF ::LinkedTable:KeyField != NIL
-                            value := ::LinkedTable:KeyField:GetDefaultValue()
+                            value := ::LinkedTable:BaseKeyField:GetDefaultValue()
                             IF value == NIL
-                                value := ::LinkedTable:KeyField:GetEmptyValue()
+                                value := ::LinkedTable:BaseKeyField:GetEmptyValue()
                             ENDIF
                         ENDIF
                     ELSE
