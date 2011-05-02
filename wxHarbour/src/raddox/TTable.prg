@@ -157,6 +157,7 @@ PUBLIC:
     METHOD AddFieldMessage( messageName, AField )
     METHOD AssociateTableIndex( table, name, getRecNo, setRecNo )
     METHOD Cancel
+    METHOD Childs( curClass, childs )
     METHOD ChildSource( tableName, destroyChild )
     METHOD CopyRecord( origin )
     METHOD Count( bForCondition, bWhileCondition, index, scope )
@@ -191,7 +192,6 @@ PUBLIC:
     METHOD GetKeyVal( value )
     METHOD GetMasterSourceClassName()
     METHOD GetTableFileName()
-    METHOD HasChilds( curClass )
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -669,6 +669,60 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
 RETURN .T.
 
 /*
+    Childs
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION Childs( curClass, childs ) CLASS TTable
+    LOCAL childTableName
+    LOCAL ChildDB
+    LOCAL clsName
+    LOCAL destroyChild
+    
+    IF curClass = NIL
+        curClass := Self
+    ENDIF
+    
+    IF childs = NIL
+        childs := {}
+    ENDIF
+
+    clsName := curClass:ClassName
+    
+    IF clsName == "TTABLE"
+        RETURN childs
+    ENDIF
+
+    IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
+
+        FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
+
+            ChildDB := ::ChildSource( childTableName, @destroyChild )
+
+            IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
+                ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
+            ENDIF
+
+            IF ChildDB:DbGoTop()
+                AAdd( childs, ChildDB:ClassName )
+                IF destroyChild
+                    ChildDB:Destroy()
+                ENDIF
+                RETURN childs
+            ENDIF
+
+            IF destroyChild
+                ChildDB:Destroy()
+            ENDIF
+
+        NEXT
+
+    ENDIF
+    
+    ::Childs( curClass:__Super, childs )
+
+RETURN childs
+
+/*
     ChildSource
     Teo. Mexico 2008
 */
@@ -1030,7 +1084,7 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
         RETURN .F.
     ENDIF
 
-    IF ::HasChilds()
+    IF !Empty( ::Childs() )
         IF !lDeleteChilds == .T.
             wxhAlert("Error_Table_Has_Childs")
             RETURN .F.
@@ -1929,53 +1983,6 @@ METHOD FUNCTION GetTableFileName() CLASS TTable
         ENDIF
     ENDIF
 RETURN ::FTableFileName
-
-/*
-    HasChilds
-    Teo. Mexico
-*/
-METHOD FUNCTION HasChilds( curClass ) CLASS TTable
-    LOCAL childTableName
-    LOCAL ChildDB
-    LOCAL clsName
-    LOCAL destroyChild
-    
-    IF curClass = NIL
-        curClass := Self
-    ENDIF
-
-    clsName := curClass:ClassName
-    
-    IF clsName == "TTABLE"
-        RETURN .F.
-    ENDIF
-
-    IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
-
-        FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
-
-            ChildDB := ::ChildSource( childTableName, @destroyChild )
-
-            IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
-                ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
-            ENDIF
-
-            IF ChildDB:DbGoTop()
-                IF destroyChild
-                    ChildDB:Destroy()
-                ENDIF
-                RETURN .T.
-            ENDIF
-
-            IF destroyChild
-                ChildDB:Destroy()
-            ENDIF
-
-        NEXT
-
-    ENDIF
-
-RETURN ::HasChilds( curClass:__Super )
 
 /*
     IndexByName

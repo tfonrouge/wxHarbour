@@ -974,7 +974,7 @@ METHOD PROCEDURE SetData( value ) CLASS TField
     /* Check if field is a masterkey in child tables */
     /* TODO: Check childs for KeyField
     IF ::FTable:PrimaryIndex != NIL .AND. ::FTable:PrimaryIndex:UniqueKeyField == Self .AND. ::FWrittenValue != NIL
-        IF ::FTable:HasChilds()
+        IF !Empty( ::FTable:Childs() )
             wxhAlert( "Can't modify key <'"+::GetLabel()+"'> with " + AsString( Value ) + ";Has dependant child tables.")
             RETURN
         ENDIF
