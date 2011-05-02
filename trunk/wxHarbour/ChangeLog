@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-05-02 13:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * changed syntax (in commented out section) on validating for table childs on ::SetData
+
+  *  src/raddox/TTable.prg
+     * renaming 'HasChilds' to 'Childs', function now returns classnames of childs
+
 2011-05-02 12:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed stupid bug for not using the baseKeyField on getting key for TObjectField's
