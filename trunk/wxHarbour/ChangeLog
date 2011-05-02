@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-05-02 17:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % added 3rd parameter to ::Child to accept a custom block to evaluate on description
+       for dependant child tables
+
 2011-05-02 13:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * changed syntax (in commented out section) on validating for table childs on ::SetData

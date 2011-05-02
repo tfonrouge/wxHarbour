@@ -157,7 +157,7 @@ PUBLIC:
     METHOD AddFieldMessage( messageName, AField )
     METHOD AssociateTableIndex( table, name, getRecNo, setRecNo )
     METHOD Cancel
-    METHOD Childs( curClass, childs )
+    METHOD Childs( curClass, childs, block )
     METHOD ChildSource( tableName, destroyChild )
     METHOD CopyRecord( origin )
     METHOD Count( bForCondition, bWhileCondition, index, scope )
@@ -672,7 +672,7 @@ RETURN .T.
     Childs
     Teo. Mexico 2011
 */
-METHOD FUNCTION Childs( curClass, childs ) CLASS TTable
+METHOD FUNCTION Childs( curClass, childs, block ) CLASS TTable
     LOCAL childTableName
     LOCAL ChildDB
     LOCAL clsName
@@ -703,11 +703,11 @@ METHOD FUNCTION Childs( curClass, childs ) CLASS TTable
             ENDIF
 
             IF ChildDB:DbGoTop()
-                AAdd( childs, ChildDB:ClassName )
+                AAdd( childs, iif( block == NIL, ChildDB:ClassName, block:Eval( ChildDB ) ) )
                 IF destroyChild
                     ChildDB:Destroy()
                 ENDIF
-                RETURN childs
+                //RETURN childs
             ENDIF
 
             IF destroyChild
@@ -718,7 +718,7 @@ METHOD FUNCTION Childs( curClass, childs ) CLASS TTable
 
     ENDIF
     
-    ::Childs( curClass:__Super, childs )
+    ::Childs( curClass:__Super, childs, block )
 
 RETURN childs
 
