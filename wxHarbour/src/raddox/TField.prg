@@ -2099,7 +2099,7 @@ METHOD FUNCTION DataObj CLASS TObjectField
             on TObjectField's that have a mastersource field (another TObjectField)
             in the same table
         */
-        IF !Empty( linkedTable:MasterSource ) .AND. linkedTable:MasterSource:LinkedObjField:Table == ::FTable
+        IF !Empty( linkedTable:MasterSource ) .AND. !Empty( linkedTable:MasterSource:LinkedObjField ) .AND. linkedTable:MasterSource:LinkedObjField:Table == ::FTable
             linkedTable:MasterSource:LinkedObjField:DataObj()
         ENDIF
         keyVal := ::GetKeyVal()
