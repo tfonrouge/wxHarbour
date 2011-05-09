@@ -615,11 +615,9 @@ METHOD FUNCTION GetValidValues() CLASS TField
     CASE "H"
         RETURN ::ValidValues
     CASE "B"
-        IF ::FDataOfValidValues == NIL
-            ::FDataOfValidValues := ::ValidValues:Eval( Self:FTable )
-            IF HB_IsObject( ::FDataOfValidValues )
-                ::FDataOfValidValues := ::FDataOfValidValues:GetValidValues()
-            ENDIF
+        ::FDataOfValidValues := ::ValidValues:Eval( Self:FTable )
+        IF HB_IsObject( ::FDataOfValidValues )
+            ::FDataOfValidValues := ::FDataOfValidValues:GetValidValues()
         ENDIF
         RETURN ::FDataOfValidValues
     CASE "O"
