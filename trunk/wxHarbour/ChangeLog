@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-05-09 13:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed to re-calculate list of validators when using codeblock
+
 2011-05-03 13:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! checking for a valid LinkedObjField in the linkedTable:MasterSource
