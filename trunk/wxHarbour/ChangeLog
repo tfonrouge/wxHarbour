@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-05-09 15:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  makefile.gcc
+     * updated to work with MinGW
+
 2011-05-09 13:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed to re-calculate list of validators when using codeblock
