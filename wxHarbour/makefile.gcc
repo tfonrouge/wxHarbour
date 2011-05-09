@@ -88,7 +88,8 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Where to search for Harbour includes 
-HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
+//HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
+HB_INC_INSTALL ?= $(shell hbmk2 --hbdirinc)
 
 # Where the object and lib files are built 
 __BUILDDIR__ ?= obj\gcc_win32
@@ -98,7 +99,7 @@ __BUILDDIR__ ?= obj\gcc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-HB_WITH_WX ?= C:\wxWidgets-2.8.11
+HB_WITH_WX ?= C:\wxWidgets-2.8.12
 
 # Encoding [ansi,unicode]
 WX_ENCODING ?= unicode
@@ -408,8 +409,8 @@ uninstall_wxHarbour:
 
 install_wxHarbour_headers: 
 	if not exist $(shell hbmk2 --hbdirinc)\.. mkdir $(shell hbmk2 --hbdirinc)\..
-	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh
-	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour
+	if not exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh
+	if not exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour mkdir $(shell hbmk2 --hbdirinc)\..\include\wxHarbour
 	copy include\wxHarbour\defs.ch include\wxHarbour
 	copy include\wxHarbour\dialog.ch include\wxHarbour
 	copy include\wxHarbour\event.ch include\wxHarbour
