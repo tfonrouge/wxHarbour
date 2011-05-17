@@ -90,7 +90,7 @@ HBWARNL = 3
 HBEXITSL = 2
 
 # Where to search for Harbour includes 
-HB_INC_INSTALL = $(HB_INSTALL_PREFIX)\include
+HB_INC_INSTALL = $(shell hbmk2 --hbdirinc)
 
 # Where the object and lib files are built 
 __BUILDDIR__ = obj\vc_win32
@@ -100,7 +100,7 @@ __BUILDDIR__ = obj\vc_win32
 # ---------------------------------------------------------------
 # 
 # Where is wxWidgets installed 
-HB_WITH_WX = C:\wxWidgets-2.8.11
+HB_WITH_WX = C:\wxWidgets-2.8.12
 
 # Encoding [ansi,unicode]
 WX_ENCODING = unicode
@@ -397,11 +397,11 @@ $(__BUILDDIR__)\$(WXHLIBNAME).lib: $(WXHARBOUR_OBJECTS)
 <<
 
 install_wxHarbour: $(__BUILDDIR__)\$(WXHLIBNAME).lib
-	-mkdir $(shell hbmk2 --hbdirlib)\
-	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(shell hbmk2 --hbdirlib)\
+	-mkdir $(shell hbmk2 --hbdirlib)
+	copy /Y $(__BUILDDIR__)\$(WXHLIBNAME).lib $(shell hbmk2 --hbdirlib)
 
 uninstall_wxHarbour: 
-	-del $(shell hbmk2 --hbdirlib)\\$(WXHLIBNAME).lib
+	-del $(shell hbmk2 --hbdirlib)\$(WXHLIBNAME).lib
 
 install_wxHarbour_headers: 
 	if not exist $(shell hbmk2 --hbdirinc)\.. mkdir $(shell hbmk2 --hbdirinc)\..

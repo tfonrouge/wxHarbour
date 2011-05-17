@@ -88,7 +88,6 @@ HBWARNL ?= 3
 HBEXITSL ?= 2
 
 # Where to search for Harbour includes 
-//HB_INC_INSTALL ?= $(HB_INSTALL_PREFIX)\include
 HB_INC_INSTALL ?= $(shell hbmk2 --hbdirinc)
 
 # Where the object and lib files are built 
@@ -401,16 +400,16 @@ $(__BUILDDIR__)\lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	ranlib $@
 
 install_wxHarbour: $(__BUILDDIR__)\lib$(WXHLIBNAME).a
-	-mkdir $(shell hbmk2 --hbdirlib)\
-	copy /Y $(__BUILDDIR__)\lib$(WXHLIBNAME).a $(shell hbmk2 --hbdirlib)\
+	-mkdir $(shell hbmk2 --hbdirlib)
+	copy /Y $(__BUILDDIR__)\lib$(WXHLIBNAME).a $(shell hbmk2 --hbdirlib)
 
 uninstall_wxHarbour: 
-	-del $(shell hbmk2 --hbdirlib)\\lib$(WXHLIBNAME).a
+	-del $(shell hbmk2 --hbdirlib)\lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
 	if not exist $(shell hbmk2 --hbdirinc)\.. mkdir $(shell hbmk2 --hbdirinc)\..
-	if not exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh
-	if not exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour mkdir $(shell hbmk2 --hbdirinc)\..\include\wxHarbour
+	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh
+	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour
 	copy include\wxHarbour\defs.ch include\wxHarbour
 	copy include\wxHarbour\dialog.ch include\wxHarbour
 	copy include\wxHarbour\event.ch include\wxHarbour
