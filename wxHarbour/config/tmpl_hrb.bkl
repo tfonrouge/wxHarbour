@@ -526,7 +526,7 @@ Where to search for the Harbour compiler
 	<if cond="TOOLSET=='win32'">
 		<option name="HB_INC_INSTALL" category="path">
 			<default-value>
-				$(__HB_INSTALL_PREFIX)\include
+				$(DOLLAR)(shell hbmk2 --hbdirinc)
 			</default-value>
 			<description>
 				Where to search for Harbour includes
@@ -548,7 +548,7 @@ Where to search for the Harbour compiler
 	<if cond="TOOLSET=='win32'">
 		<option name="HB_LIB_INSTALL" category="path">
 			<default-value>
-				$(__HB_INSTALL_PREFIX)\lib\win\$(FORMAT)
+				$(DOLLAR)(shell hbmk2 --hbdirlib )
 			</default-value>
 			<description>
 				Where to search for Harbour libs
@@ -595,7 +595,7 @@ Where to search for the Harbour compiler
 	<if cond="TOOLSET=='win32'">
 	<option name="HB_WITH_WX" category="path">
 		<default-value>
-			C:\wxWidgets-2.8.11
+			C:\wxWidgets-2.8.12
 		</default-value>
 		<description>
 ---------------------------------------------------------------

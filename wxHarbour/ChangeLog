@@ -2,6 +2,20 @@
  * $Id$
  */
 
+2011-05-17 18:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+     * updated per changes in bakefile's
+
+  *  config/tmpl_hrb.bkl
+     * using hbmk2 --hbdir* tool to set inc/lib dirs on win platforms
+     * updated default wx base dir to 2.8.12
+
+  *  wxharbour.bkl
+     ! error on win install by remove "/" end separator
+
 2011-05-09 15:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  makefile.gcc
      * updated to work with MinGW

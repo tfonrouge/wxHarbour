@@ -425,11 +425,11 @@ $(__BUILDDIR__)/lib$(WXHLIBNAME).a: $(WXHARBOUR_OBJECTS)
 	$(RANLIB) $@
 
 install_wxHarbour: $(__BUILDDIR__)/lib$(WXHLIBNAME).a
-	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirlib)/
-	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(shell hbmk2 --hbdirlib)/
+	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirlib)
+	$(INSTALL) -m 644 $(__BUILDDIR__)/lib$(WXHLIBNAME).a $(DESTDIR)$(shell hbmk2 --hbdirlib)
 
 uninstall_wxHarbour: 
-	rm -f $(DESTDIR)$(shell hbmk2 --hbdirlib)//lib$(WXHLIBNAME).a
+	rm -f $(DESTDIR)$(shell hbmk2 --hbdirlib)/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
 	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/..
