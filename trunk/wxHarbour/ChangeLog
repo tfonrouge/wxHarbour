@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2011-05-18 12:07 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  GNUmakefile
+  *  makefile.bcc
+  *  makefile.gcc
+  *  makefile.vc
+     * updated per changes in harbour template bakefile
+
+  *  config/tmpl_hrb.bkl
+     * using HBDIR var to contain base dir for harbour install
+
+  *  wxharbour.bkl
+     * updated svn id
+
 2011-05-17 18:11 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  GNUmakefile
   *  makefile.bcc

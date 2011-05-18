@@ -42,6 +42,14 @@
 	<set var="__HBDIRLIB__">
 	    $(DOLLAR)(shell hbmk2 --hbdirlib)
 	</set>
+
+    <set var="__HBDIRINC__">
+        $(DOLLAR)(shell hbmk2 --hbdirinc)
+    </set>
+
+    <option name="HBDIR" category="path">
+        <default-value>$(DOLLAR)(subst $(DIRSEP)include,,$(__HBDIRINC__))</default-value>
+    </option>
 	
 	<option name="HBDIRLIB" category="path">
 	    <default-value>$(__HBDIRLIB__)</default-value>

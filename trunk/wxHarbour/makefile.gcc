@@ -22,6 +22,9 @@ CXX = g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 
 
+#  
+HBDIR ?= $(subst \include,,$(shell hbmk2 --hbdirinc))
+
 # Sets which type of Harbour Libraries will be used at link stage: shared or static
 # If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
 # valid values are [static,shared]
@@ -407,71 +410,71 @@ uninstall_wxHarbour:
 	-del $(shell hbmk2 --hbdirlib)\lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	if not exist $(shell hbmk2 --hbdirinc)\.. mkdir $(shell hbmk2 --hbdirinc)\..
-	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour/wxh
-	if not exist $(shell hbmk2 --hbdirinc)\..\include/wxHarbour mkdir $(shell hbmk2 --hbdirinc)\..\include/wxHarbour
-	copy include\wxHarbour\defs.ch include\wxHarbour
-	copy include\wxHarbour\dialog.ch include\wxHarbour
-	copy include\wxHarbour\event.ch include\wxHarbour
-	copy include\wxHarbour\property.ch include\wxHarbour
-	copy include\wxHarbour\raddox.ch include\wxHarbour
-	copy include\wxHarbour\toplevel.ch include\wxHarbour
-	copy include\wxHarbour\wx.ch include\wxHarbour
-	copy include\wxHarbour\wxharbour.ch include\wxHarbour
-	copy include\wxHarbour\xerror.ch include\wxHarbour
-	copy include\wxHarbour\defs.h include\wxHarbour
-	copy include\wxHarbour\rdodefs.h include\wxHarbour
-	copy include\wxHarbour\wxh.h include\wxHarbour
-	copy include\wxHarbour\wxhevtdefs.h include\wxHarbour
-	copy include\wxHarbour\xho_classes.h include\wxHarbour
-	copy include\wxHarbour\wxh\auibook.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\bitmap.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\bookctrl.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\button.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\dateevt.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\filedlg.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gauge.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gdicmn.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\grid.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\gsocket.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\notebook.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\platinfo.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\socket.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\taskbar.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\textctrl.ch include\wxHarbour\wxh
-	copy include\wxHarbour\wxh\toolbar.ch include\wxHarbour\wxh
+	if not exist $(HBDIR) mkdir $(HBDIR)
+	if not exist $(HBDIR)\include\wxHarbour\wxh mkdir $(HBDIR)\include\wxHarbour\wxh
+	if not exist $(HBDIR)\include\wxHarbour mkdir $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\defs.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\dialog.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\event.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\property.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\raddox.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\toplevel.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\wx.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\wxharbour.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\xerror.ch $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\defs.h $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\rdodefs.h $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\wxh.h $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\wxhevtdefs.h $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\xho_classes.h $(HBDIR)\include\wxHarbour
+	copy include\wxHarbour\wxh\auibook.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\bitmap.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\bookctrl.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\button.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\dateevt.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\filedlg.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gauge.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gdicmn.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\grid.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\gsocket.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\notebook.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\platinfo.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\socket.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\taskbar.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\textctrl.ch $(HBDIR)\include\wxHarbour\wxh
+	copy include\wxHarbour\wxh\toolbar.ch $(HBDIR)\include\wxHarbour\wxh
 
 uninstall_wxHarbour_headers: 
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\defs.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\defs.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\dialog.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\dialog.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\event.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\event.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\property.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\property.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\raddox.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\raddox.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\toplevel.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\toplevel.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wx.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wx.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxharbour.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxharbour.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\xerror.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\xerror.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\defs.h -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\defs.h
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\rdodefs.h -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\rdodefs.h
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh.h -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh.h
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxhevtdefs.h -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxhevtdefs.h
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\xho_classes.h -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\xho_classes.h
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\auibook.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\auibook.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\bitmap.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\bitmap.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\bookctrl.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\bookctrl.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\button.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\button.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\dateevt.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\dateevt.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\filedlg.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\filedlg.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gauge.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gauge.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gdicmn.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gdicmn.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\grid.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\grid.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gsocket.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\gsocket.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\notebook.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\notebook.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\platinfo.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\platinfo.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\socket.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\socket.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\taskbar.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\taskbar.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\textctrl.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\textctrl.ch
-	-if exist $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\toolbar.ch -del $(shell hbmk2 --hbdirinc)\..\include\wxHarbour\wxh\toolbar.ch
+	-if exist $(HBDIR)\include\wxHarbour\defs.ch -del $(HBDIR)\include\wxHarbour\defs.ch
+	-if exist $(HBDIR)\include\wxHarbour\dialog.ch -del $(HBDIR)\include\wxHarbour\dialog.ch
+	-if exist $(HBDIR)\include\wxHarbour\event.ch -del $(HBDIR)\include\wxHarbour\event.ch
+	-if exist $(HBDIR)\include\wxHarbour\property.ch -del $(HBDIR)\include\wxHarbour\property.ch
+	-if exist $(HBDIR)\include\wxHarbour\raddox.ch -del $(HBDIR)\include\wxHarbour\raddox.ch
+	-if exist $(HBDIR)\include\wxHarbour\toplevel.ch -del $(HBDIR)\include\wxHarbour\toplevel.ch
+	-if exist $(HBDIR)\include\wxHarbour\wx.ch -del $(HBDIR)\include\wxHarbour\wx.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxharbour.ch -del $(HBDIR)\include\wxHarbour\wxharbour.ch
+	-if exist $(HBDIR)\include\wxHarbour\xerror.ch -del $(HBDIR)\include\wxHarbour\xerror.ch
+	-if exist $(HBDIR)\include\wxHarbour\defs.h -del $(HBDIR)\include\wxHarbour\defs.h
+	-if exist $(HBDIR)\include\wxHarbour\rdodefs.h -del $(HBDIR)\include\wxHarbour\rdodefs.h
+	-if exist $(HBDIR)\include\wxHarbour\wxh.h -del $(HBDIR)\include\wxHarbour\wxh.h
+	-if exist $(HBDIR)\include\wxHarbour\wxhevtdefs.h -del $(HBDIR)\include\wxHarbour\wxhevtdefs.h
+	-if exist $(HBDIR)\include\wxHarbour\xho_classes.h -del $(HBDIR)\include\wxHarbour\xho_classes.h
+	-if exist $(HBDIR)\include\wxHarbour\wxh\auibook.ch -del $(HBDIR)\include\wxHarbour\wxh\auibook.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\bitmap.ch -del $(HBDIR)\include\wxHarbour\wxh\bitmap.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\bookctrl.ch -del $(HBDIR)\include\wxHarbour\wxh\bookctrl.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\button.ch -del $(HBDIR)\include\wxHarbour\wxh\button.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\dateevt.ch -del $(HBDIR)\include\wxHarbour\wxh\dateevt.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\filedlg.ch -del $(HBDIR)\include\wxHarbour\wxh\filedlg.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\gauge.ch -del $(HBDIR)\include\wxHarbour\wxh\gauge.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\gdicmn.ch -del $(HBDIR)\include\wxHarbour\wxh\gdicmn.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\grid.ch -del $(HBDIR)\include\wxHarbour\wxh\grid.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\gsocket.ch -del $(HBDIR)\include\wxHarbour\wxh\gsocket.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\notebook.ch -del $(HBDIR)\include\wxHarbour\wxh\notebook.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\platinfo.ch -del $(HBDIR)\include\wxHarbour\wxh\platinfo.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\socket.ch -del $(HBDIR)\include\wxHarbour\wxh\socket.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\taskbar.ch -del $(HBDIR)\include\wxHarbour\wxh\taskbar.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\textctrl.ch -del $(HBDIR)\include\wxHarbour\wxh\textctrl.ch
+	-if exist $(HBDIR)\include\wxHarbour\wxh\toolbar.ch -del $(HBDIR)\include\wxHarbour\wxh\toolbar.ch
 
 $(__BUILDDIR__)\wxHarbour_wxhfuncs.o: ./src/common/wxhfuncs.prg
 	$(HBCC) $(WXHARBOUR_HBFLAGS) -o$@_.c $<
