@@ -31,6 +31,9 @@ CXX = g++
 # Standard preprocessor flags (common for CC and CXX) 
 CPPFLAGS ?= 
 
+#  
+HBDIR ?= $(subst /include,,$(shell hbmk2 --hbdirinc))
+
 # Sets which type of Harbour Libraries will be used at link stage: shared or static
 # If you are creating a dynamic library (dll) then you must set HBLIBSTYPE=static
 # valid values are [static,shared]
@@ -432,17 +435,17 @@ uninstall_wxHarbour:
 	rm -f $(DESTDIR)$(shell hbmk2 --hbdirlib)/lib$(WXHLIBNAME).a
 
 install_wxHarbour_headers: 
-	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/..
+	$(INSTALL) -d $(DESTDIR)$(HBDIR)
 	for f in $(WXHARBOUR_HEADERS); do \
-	if test ! -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/../`dirname $$f` ; then \
-	$(INSTALL) -d $(DESTDIR)$(shell hbmk2 --hbdirinc)/../`dirname $$f`; \
+	if test ! -d $(DESTDIR)$(HBDIR)/`dirname $$f` ; then \
+	$(INSTALL) -d $(DESTDIR)$(HBDIR)/`dirname $$f`; \
 	fi; \
-	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(shell hbmk2 --hbdirinc)/../$$f; \
+	$(INSTALL) -m 644 ./$$f $(DESTDIR)$(HBDIR)/$$f; \
 	done
 
 uninstall_wxHarbour_headers: 
 	for f in $(WXHARBOUR_HEADERS); do \
-	rm -f $(DESTDIR)$(shell hbmk2 --hbdirinc)/../$$f; \
+	rm -f $(DESTDIR)$(HBDIR)/$$f; \
 	done
 
 sudoinstall: all
