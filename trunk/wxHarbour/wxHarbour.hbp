@@ -20,7 +20,7 @@
 -n1 -es2 -w3
 -hblib
 -inc
--olib/${hb_arch}/${hb_comp}/wxharbour
+-olib/${hb_arch}/${hb_comp}/wxHarbour_unicode
 -nohbc
 
 -i{mingw}${HB_WITH_WX}\lib\gcc_lib\msw
@@ -38,6 +38,9 @@
 -cflag={win&allmsvc}/EHsc
 -cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
+
+-instpath=${hb_lib}/
+-instforce
 
 src/common/*.cpp
 src/common/*.prg
