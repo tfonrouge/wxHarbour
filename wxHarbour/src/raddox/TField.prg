@@ -1619,9 +1619,9 @@ METHOD FUNCTION GetKeyVal( keyVal ) CLASS TNumericField
     CASE 'C'
         RETURN keyVal
     CASE 'N'
-        RETURN Str( keyVal )
+        RETURN Str( keyVal, ::FDBS_LEN )
     CASE 'U'
-        RETURN Str( ::GetAsVariant() )
+        RETURN Str( ::GetAsVariant(), ::FDBS_LEN )
     ENDSWITCH
 
     RAISE TFIELD ::GetLabel() ERROR "Don't know how to convert to key value..."
