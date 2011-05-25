@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-05-25 07:47 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbp
+     ! Fixed using unicode version of libs on win platforms
+     * added some flags to msvc compiler
+
 2011-05-24 15:29 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +  wxHarbour.hbp
   -  wxharbour.hbp

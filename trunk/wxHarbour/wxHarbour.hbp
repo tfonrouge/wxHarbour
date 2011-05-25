@@ -23,18 +23,22 @@
 -olib/${hb_arch}/${hb_comp}/wxHarbour_unicode
 -nohbc
 
--i{mingw}${HB_WITH_WX}\lib\gcc_lib\msw
--i{msvc}${HB_WITH_WX}\lib\vc_lib\msw
--i{msvc64}${HB_WITH_WX}\lib\vc_amd64_lib\msw
--i{msvcia64}${HB_WITH_WX}\lib\vc_ia64_lib\msw
+-i{mingw}${HB_WITH_WX}\lib\gcc_lib\mswu
+-i{msvc}${HB_WITH_WX}\lib\vc_lib\mswu
+-i{msvc64}${HB_WITH_WX}\lib\vc_amd64_lib\mswu
+-i{msvcia64}${HB_WITH_WX}\lib\vc_ia64_lib\mswu
 -i{win&watcom}${HB_WITH_WX}\include
--i{win&watcom}${HB_WITH_WX}\lib\wat_lib\msw
--i{bcc}${HB_WITH_WX}\lib\bcc_lib\msw
--i${HB_WITH_WX}/include
+-i{win&watcom}${HB_WITH_WX}\lib\wat_lib\mswu
+-i{bcc}${HB_WITH_WX}\lib\bcc_lib\mswu
+-i${HB_WITH_WX}\include
 -iinclude/wxHarbour
 
 -cflag={win}-DWIN32
 -cflag={win}-D__WXMSW__
+-cflag={win}-D_WINDOWS
+-cflag={win}-D_UNICODE
+-cflag={win&allmsvc}/MD
+-cflag={win&allmsvc}/GR
 -cflag={win&allmsvc}/EHsc
 -cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
