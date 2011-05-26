@@ -1,0 +1,30 @@
+#
+# $Id$
+#
+
+incpaths=include/wxHarbour
+libpaths=lib/${hb_arch}/${hb_comp}
+libs=wxHarbour hbct hbtip
+
+ldflags={unix&gcc}"`wx-config --libs`"
+
+{allgcc}cpp=yes
+
+{mingw}libpaths=${HB_WITH_WX}\lib\gcc_lib
+{msvc}libpaths=${HB_WITH_WX}\lib\vc_lib
+{msvc64}libpaths=${HB_WITH_WX}\lib\vc_amd64_lib
+{msvcia64}libpaths=${HB_WITH_WX}\lib\vc_ia64_lib
+{win&watcom}libpaths=${HB_WITH_WX}\lib\wat_lib
+{bcc}libpaths=${HB_WITH_WX}\lib\bcc_lib
+
+{win&(allmsvc|mingw|bcc)}libs=wxbase28u wxbase28u_net wxbase28u_xml
+{win&(allmsvc|mingw|bcc)}libs=wxmsw28u_adv wxmsw28u_aui wxmsw28u_core wxmsw28u_html wxmsw28u_richtext wxmsw28u_xrc
+{win&allmsvc}libs=wxmsw28u_qa
+{win&watcom}libs=wxmsw28u
+{win}libs=wxjpeg wxpng wxtiff wxexpat wxregexu wxzlib
+
+{win}libs=rpcrt4
+
+{win&allmsvc}ldflags="/NODEFAULTLIB:LIBCMT /FORCE:UNRESOLVED"
+
+gui=yes
