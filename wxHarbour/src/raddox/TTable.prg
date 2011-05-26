@@ -627,7 +627,7 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                 ELSE
                     pkField := AField
                 ENDIF
-                
+
                 IF n = 0
                     AAdd( aDb, { AField:DBS_NAME, pkField:DBS_TYPE, pkField:DBS_LEN, pkField:DBS_DEC } )
                     sResult += "Field not found '" + AField:DBS_NAME + E"'\n"
@@ -1060,6 +1060,9 @@ METHOD PROCEDURE DefineFieldsFromDb() CLASS TTable
             AField := __ClsInstFromName( ::FieldTypes[ fld[ 2 ] ] ):New( Self )
 
             AField:FieldMethod := fld[ 1 ]
+            IF AField:IsDerivedFrom( "TStringField" )
+                AField:Size := fld[ 3 ]
+            ENDIF
             AField:AddFieldMessage()
 
         NEXT

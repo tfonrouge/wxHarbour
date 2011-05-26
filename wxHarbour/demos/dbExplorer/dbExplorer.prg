@@ -18,13 +18,14 @@
 
 #include "dbinfo.ch"
 
-#ifdef _DEBUG_
-#ifdef HB_OS_UNIX
-    REQUEST HB_GT_XWC_DEFAULT
-#endif
-#ifdef HB_OS_WINDOWS
-    REQUEST HB_GT_WVT_DEFAULT
-#endif
+#ifdef __HBDEBUG
+    #pragma debuginfo=on
+    #ifdef HB_OS_UNIX
+        REQUEST HB_GT_XWC_DEFAULT
+    #endif
+    #ifdef HB_OS_WINDOWS
+        REQUEST HB_GT_WVT_DEFAULT
+    #endif
 #else
     REQUEST HB_GT_NUL_DEFAULT
 #endif
@@ -244,7 +245,7 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 
     ::curDirectory := fileDlg:GetDirectory()
 
-    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+//    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
         table := TTable():New( NIL, fileDlg:GetPath() )
         table:autoEdit := .T.
@@ -279,14 +280,14 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
 
         ENDIF
 
-    RECOVER USING oErr
-
-        wxMessageBox( oErr:description + " : " + oErr:Operation, "Error", HB_BitOr( wxOK, wxICON_ERROR ), ::oWnd )
-
-//	 DESTROY fileDlg
-        RETURN
-
-    END SEQUENCE
+//    RECOVER USING oErr
+//
+//        wxMessageBox( oErr:description + " : " + oErr:Operation, "Error", HB_BitOr( wxOK, wxICON_ERROR ), ::oWnd )
+//
+////	 DESTROY fileDlg
+//        RETURN
+//
+//    END SEQUENCE
     
     BEGIN AUINOTEBOOK VAR noteBook PARENT ::auiNotebook STYLE wxAUI_NB_BOTTOM
         ADD BOOKPAGE "Data Grid" FROM
