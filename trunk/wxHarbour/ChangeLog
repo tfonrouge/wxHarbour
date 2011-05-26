@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-05-26 13:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +  wxHarbour.hbc
+  -  wxharbour.hbc
+     * renamed hbmk2 configuration file
+
 2011-05-25 18:42 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   -  GNUmakefile
   -  build_bkls.sh
