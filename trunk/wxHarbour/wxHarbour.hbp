@@ -20,7 +20,7 @@
 -n1 -es2 -w3
 -hblib
 -inc
--olib/${hb_arch}/${hb_comp}/wxHarbour_unicode
+-olib/${hb_arch}/${hb_comp}/wxHarbour
 -nohbc
 
 -i{mingw}${HB_WITH_WX}\lib\gcc_lib\mswu
