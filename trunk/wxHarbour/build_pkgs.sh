@@ -8,7 +8,7 @@
 #
 
 rootdir="./"
-specfile="wxharbour.spec"
+specfile="wxHarbour.spec"
 fname=`sed -n -e 's/\(%define \+name \+\)\(.*\)/\2/p' ${rootdir}${specfile}`
 fversion=`sed -n -e 's/\(%define \+version \+\)\(.*\)/\2/p' ${rootdir}${specfile}`
 frelease=`sed -n -e 's/\(%define \+release \+\)\(.*\)/\2/p' ${rootdir}${specfile}`
