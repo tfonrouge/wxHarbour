@@ -52,4 +52,4 @@ make DESTDIR=$RPM_BUILD_ROOT prefix=/usr  install
 /usr/include/wxHarbour/*.h
 /usr/include/wxHarbour/*.ch
 /usr/include/wxHarbour/wxh/*.ch
-/usr/lib/libwxHarbour_unicode.a
+/usr/lib/libwxHarbour.a
