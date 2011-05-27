@@ -44,6 +44,12 @@
 "-cflag={unix&gcc}`wx-config --cflags`"
 
 -instpath=${hb_lib}/
+
+-instfile=inc:include/wxHarbour/*
+-instfile=inc_wxh:include/wxHarbour/wxh/*
+-instpath=inc:${hb_inc}/wxHarbour/
+-instpath=inc_wxh:${hb_inc}/wxHarbour/wxh/
+
 -instforce
 
 src/common/*.cpp
