@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-05-30 12:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbc
+     * updated defines:
+       {unix}  - HB_OS_UNIX
+       {linux} - HB_OS_LINUX
+       {win}   - HB_OS_WINDOWS
+
 2011-05-27 14:01 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbp
      ! Fixed to install headers
