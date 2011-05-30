@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-05-30 15:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbc
+  *  wxHarbour.hbp
+     ! Fixed platform defines
+
 2011-05-30 12:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbc
      * updated defines:
