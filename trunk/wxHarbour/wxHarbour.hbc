@@ -27,8 +27,9 @@ ldflags={unix&gcc}"`wx-config --libs`"
 
 {win&allmsvc}ldflags="/NODEFAULTLIB:LIBCMT /FORCE:UNRESOLVED"
 
-{unix}prgflags="-D HB_OS_UNIX"
-{linux}prgflags="-D HB_OS_LINUX"
-{win}prgflags="-D HB_OS_WINDOWS"
+{darwin}prgflags="-DHB_OS_MAC"
+{unix}prgflags="-DHB_OS_UNIX"
+{linux}prgflags="-DHB_OS_LINUX"
+{win}prgflags="-DHB_OS_WINDOWS -DHB_OS_WIN_32"
 
 gui=yes

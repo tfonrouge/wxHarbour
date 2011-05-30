@@ -43,6 +43,12 @@
 -cflag={watcom}-xs
 "-cflag={unix&gcc}`wx-config --cflags`"
 
+{darwin}-DHB_OS_MAC
+{unix}-DHB_OS_UNIX
+{linux}-DHB_OS_LINUX
+{win}-DHB_OS_WINDOWS
+{win}-DHB_OS_WIN_32
+
 -instpath=${hb_lib}/
 
 -instfile=inc:include/wxHarbour/*
