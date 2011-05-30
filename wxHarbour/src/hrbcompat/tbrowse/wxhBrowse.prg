@@ -373,7 +373,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
             ENDIF
             RETURN
         ENDIF
-    END
+    ENDSWITCH
 
     SWITCH nKey
     CASE WXK_UP
@@ -422,7 +422,7 @@ METHOD PROCEDURE OnKeyDown( keyEvent ) CLASS wxhBrowse
         EXIT
     OTHERWISE
         keyEvent:Skip()
-    END
+    ENDSWITCH
 
 RETURN
 
@@ -731,7 +731,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
 
         EXIT
 
-    END
+    ENDSWITCH
     
     ::OnSetDataSource()
 

@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-05-30 18:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * renamed 'END' to 'ENDSWITCH'
+
 2011-05-30 15:56 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbc
   *  wxHarbour.hbp
