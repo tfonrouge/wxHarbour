@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-05-31 17:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed incompatibility on wxSearchCtrl, only MAC send kill focus event
+
 2011-05-30 18:22 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
      * renamed 'END' to 'ENDSWITCH'
