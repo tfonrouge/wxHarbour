@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-06-01 13:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Reverted change to not autoedit if field has a linkedobjfield
+       ; This functionality (autoEdit) has to be moved to the controls
+
 2011-05-31 17:08 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed incompatibility on wxSearchCtrl, only MAC send kill focus event
