@@ -2084,10 +2084,10 @@ METHOD FUNCTION DataObj CLASS TObjectField
     LOCAL keyVal
 
     IF ::FCalculated
-        RETURN ::FieldReadBlock:Eval( ::FTable )
+        linkedTable := ::FieldReadBlock:Eval( ::FTable )
+    ELSE
+        linkedTable := ::GetLinkedTable()
     ENDIF
-
-    linkedTable := ::GetLinkedTable()
 
     IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 
