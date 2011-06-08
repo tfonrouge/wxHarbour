@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-06-08 14:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * added property: 'AsDate' , returns date portion on datetime value
+
 2011-06-01 19:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed syncing TObject calculated field's with his data value

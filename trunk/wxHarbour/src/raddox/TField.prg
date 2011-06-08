@@ -1891,6 +1891,7 @@ PROTECTED:
     DATA FDefaultValue INIT {|| HB_DateTime() }
     DATA FType INIT "DateTime"
     DATA FValType INIT "C"
+    METHOD GetAsDate() INLINE HB_TToD( ::Value )
     METHOD GetAsString() INLINE HB_TSToStr( ::Value )
     METHOD GetEmptyValue BLOCK {|| HB_CToT("") }
     METHOD GetTime
@@ -1904,6 +1905,7 @@ PUBLIC:
     METHOD IndexExpression()
     METHOD SetAsVariant( variant )
 
+    PROPERTY AsDate READ GetAsDate
     PROPERTY Size READ FSize
     PROPERTY Time READ GetTime WRITE SetTime
 
