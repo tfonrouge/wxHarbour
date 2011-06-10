@@ -1063,6 +1063,10 @@ METHOD PROCEDURE DefineFieldsFromDb() CLASS TTable
             IF AField:IsDerivedFrom( "TStringField" )
                 AField:Size := fld[ 3 ]
             ENDIF
+            IF AField:IsDerivedFrom( "TNumericField" )
+                AField:DBS_LEN := fld[ 3 ]
+                AField:DBS_DEC := fld[ 4 ]
+            ENDIF
             AField:AddFieldMessage()
 
         NEXT
