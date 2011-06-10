@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-06-10 09:01 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     ! commented out unused var
+
+  *  src/raddox/TTable.prg
+     ! Fixed assign of LEN/DEC values on TNumericField's
+
 2011-06-08 14:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * added property: 'AsDate' , returns date portion on datetime value

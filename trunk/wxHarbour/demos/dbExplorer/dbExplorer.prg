@@ -223,7 +223,7 @@ METHOD PROCEDURE OpenDB() CLASS MyApp
     LOCAL noteBook
     LOCAL oBrw
     LOCAL table
-    LOCAL oErr
+//    LOCAL oErr
     LOCAL hIndex,aStruDbf
     LOCAL oBrwStruct,oBrwIndexList
     LOCAL n,l
