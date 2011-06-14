@@ -2,6 +2,8 @@
 # $Id$
 #
 
+prgflags=-w3 -es2
+
 incpaths=include/wxHarbour
 libpaths=lib/${hb_arch}/${hb_comp}
 libs=wxHarbour hbct hbtip
