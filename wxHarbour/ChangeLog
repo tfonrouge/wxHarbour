@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2011-06-22 15:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     ! Fixed stupid bug that was not reseting a conditional on ::SetValue()
+     * added checking for ::OnBeforeLock() to prevent error on edition
+     
+  *  src/raddox/TTable.prg
+     % added ::OnBeforeLock() to check if record locking can be done
+
 2011-06-14 13:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbc
      ! added warning level & exit severity level
