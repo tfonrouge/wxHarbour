@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-06-22 17:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed validation of clause ACCEPT_EMPTY_UNIQUE
+
 2011-06-22 16:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TIndex.prg

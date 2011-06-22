@@ -1346,14 +1346,14 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
             RETURN .F.
         ENDIF
 
-        IF ::Unique .AND. !::AcceptEmptyUnique
-            IF Empty( value )
+        IF ::Unique
+            IF Empty( value ) .AND. !::AcceptEmptyUnique
                 IF showAlert == .T.
                     wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty UNIQUE INDEX key value>" )
                 ENDIF
                 RETURN .F.
             ENDIF
-            IF ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
+            IF !Empty( value ) .AND. ::FUniqueKeyIndex:ExistKey( ::GetKeyVal( value ) )
                 IF showAlert == .T.
                     wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <key value already exists> '" + AsString( value ) + "'")
                 ENDIF
