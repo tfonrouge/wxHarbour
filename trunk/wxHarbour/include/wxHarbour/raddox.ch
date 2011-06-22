@@ -217,9 +217,10 @@
                         [ <ai: AUTOINCREMENT> ] ;
                         [ <tm: TEMPORARY> ] ;
                         [ USEINDEX <useIndex> ] ;
+                        [ <acceptEmptyUnique: ACCEPT_EMPTY_UNIQUE> ] ;
                         => ;
                         WITH OBJECT TIndex():New( Self , <tagName>, [<name>], <"type">, ::curClassIndex ) ;;
-                                :AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], !<.ncs.>, [<.de.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
+                                :AddIndex( [<cMasterKeyField>], [<.ai.>], [<.un.>], [<cKeyField>], [<ForKey>], !<.ncs.>, [<.de.>], [<.acceptEmptyUnique.>], [<useIndex>], [<.tm.>], [<.cu.>] ) ;;
                         ENDWITH
                         
 #xtranslate DEFINE EXTERNAL INDEX <name> WITH <table> GET_RECNO <getRecNo> SET_RECNO <setRecNo> ;

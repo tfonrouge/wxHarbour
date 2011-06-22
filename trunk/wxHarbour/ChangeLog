@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2011-06-22 16:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TIndex.prg
+     * added clause ACCEPT_EMPTY_UNIQUE to index command
+
+  *  src/raddox/TField.prg
+     * using ::AcceptEmptyUnique on validating UNIQUE index key field's
+
 2011-06-22 15:12 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      ! Fixed stupid bug that was not reseting a conditional on ::SetValue()
