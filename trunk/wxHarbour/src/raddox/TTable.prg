@@ -242,6 +242,7 @@ PUBLIC:
     METHOD OnAfterOpen() VIRTUAL
     METHOD OnAfterPost() VIRTUAL
     METHOD OnBeforeInsert() INLINE .T.
+    METHOD OnBeforeLock INLINE .T.
     METHOD OnBeforePost() INLINE .T.
     METHOD OnDataChange()
     METHOD OnPickList( param ) VIRTUAL
@@ -2385,6 +2386,10 @@ METHOD FUNCTION RecLock() CLASS TTable
 
     IF ::FState != dsBrowse
         ::Error_Table_Not_In_Browse_Mode()
+        RETURN .F.
+    ENDIF
+    
+    IF !::OnBeforeLock()
         RETURN .F.
     ENDIF
     

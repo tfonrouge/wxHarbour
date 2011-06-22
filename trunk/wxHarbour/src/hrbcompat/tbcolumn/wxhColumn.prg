@@ -235,10 +235,16 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
         IF !::ReadOnly
             IF ::Field != NIL
                 IF ::browse:DataSource:Eof()
+                    ::FOnSetValue := .F.
                     RETURN .F.
                 ENDIF
                 IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
                     wxhAlert( "Can't edit field '" + ::Field:Label + "' on table '" + ::browse:DataSource:ClassName() + "'" )
+                    ::FOnSetValue := .F.
+                    RETURN .F.
+                ENDIF
+                IF !::browse:DataSource:OnBeforeLock()
+                    ::FOnSetValue := .F.
                     RETURN .F.
                 ENDIF
                 IF  ::hashValue
