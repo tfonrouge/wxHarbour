@@ -119,6 +119,7 @@ PROTECTED:
 
 PUBLIC:
 
+    DATA AcceptEmptyUnique INIT .F.
     DATA nameAlias
     DATA Picture
 
@@ -1337,7 +1338,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
     IF ::Enabled
 
         value := ::GetAsVariant()
-        
+
         IF ::FRequired .AND. Empty( value )
             IF showAlert == .T.
                 wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty field required value>" )
@@ -1345,7 +1346,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
             RETURN .F.
         ENDIF
 
-        IF ::Unique
+        IF ::Unique .AND. !::AcceptEmptyUnique
             IF Empty( value )
                 IF showAlert == .T.
                     wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <empty UNIQUE INDEX key value>" )

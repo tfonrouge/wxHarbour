@@ -160,7 +160,7 @@ RETURN Self
     AddIndex
     Teo. Mexico 2008
 */
-METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, temporary /*, cu*/ )
+METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, acceptEmptyUnique, useIndex, temporary /*, cu*/ )
 
     ::MasterKeyField := cMasterKeyField
 
@@ -183,6 +183,10 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, useIndex, t
         OTHERWISE
             ::KeyField := cKeyField
         ENDCASE
+    ENDIF
+    
+    IF acceptEmptyUnique != NIL
+        ::UniqueKeyField:AcceptEmptyUnique := acceptEmptyUnique
     ENDIF
 
     ::ForKey := ForKey
