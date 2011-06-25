@@ -180,7 +180,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
         ::RowPos += 1
     ELSE
         IF ::SkipBlock:Eval( 1 ) = 1
-            ADel( ::GetTable():GridBuffer, 1 )
+            ::GetTable():GridBuffer_Delete( 1 )
             ::GetTable():GetGridRowData( ::RowCount )
             ::ForceRefresh()
             ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
@@ -768,7 +768,7 @@ METHOD FUNCTION Up CLASS wxhBrowse
         ::RowPos -= 1
     ELSE
         IF ::SkipBlock:Eval( -1 ) = -1
-            AIns( ::GetTable():GridBuffer, 1 )
+            ::GetTable():GridBuffer_Insert( 1 )
             ::GetTable():GetGridRowData( 1 )
             ::ForceRefresh()
             ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
