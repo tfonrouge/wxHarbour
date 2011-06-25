@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-06-25 16:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * using formal method's to add/delete rows in the grid buffer struct
+
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     % general optimizations on speed
+
 2011-06-22 17:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed validation of clause ACCEPT_EMPTY_UNIQUE
