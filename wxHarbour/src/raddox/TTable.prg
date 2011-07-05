@@ -2283,7 +2283,7 @@ METHOD FUNCTION Post() CLASS TTable
                         changed := .T.
                     ENDIF
 
-                    IF AField:Enabled .AND. !AField:Validate()
+                    IF !AField:Validate()
                         RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
                     ENDIF
                 ENDIF

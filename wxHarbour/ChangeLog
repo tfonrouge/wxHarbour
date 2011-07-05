@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-07-04 21:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * small optimization
+
 2011-06-25 16:23 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
      * using formal method's to add/delete rows in the grid buffer struct
