@@ -75,6 +75,7 @@ ENDCLASS
 CLASS wxhHBValidator FROM wxValidator
 PRIVATE:
 PROTECTED:
+    DATA FBaseField EXPORTED
     DATA FBlock
     DATA FField
     DATA FFieldBlock
@@ -83,6 +84,7 @@ PROTECTED:
     DATA FUsingFieldValidation INIT .F.
     DATA dontUpdateVar INIT .F.
     DATA updatedByTab INIT .F.
+    METHOD GetBaseField
     METHOD GetField()
     METHOD GetMaxLength()
 PUBLIC:
@@ -96,7 +98,7 @@ PUBLIC:
     DATA warnBlock
     DATA warningMessage
 
-    CONSTRUCTOR New( name, var, block, picture, warning, warnBlock, warnMsg, actionBlock )
+    CONSTRUCTOR New( name, var, baseField, block, picture, warning, warnBlock, warnMsg, actionBlock )
 
     METHOD AddPostInfo()
     METHOD AsString()
@@ -114,6 +116,7 @@ PUBLIC:
     METHOD TransferToWindow()
     METHOD Validate( parent )
 
+    PROPERTY BaseField READ GetBaseField
     PROPERTY Block READ FBlock
     PROPERTY Field READ GetField
     PROPERTY maxLength READ GetMaxLength
@@ -126,12 +129,13 @@ ENDCLASS
     New
     Teo. Mexico 2009
 */
-METHOD New( name, var, block, picture, warning, warnBlock, warnMsg, actionBlock ) CLASS wxhHBValidator
+METHOD New( name, var, baseField, block, picture, warning, warnBlock, warnMsg, actionBlock ) CLASS wxhHBValidator
 
     ::FName	 := name
 
     IF HB_IsObject( var ) .AND. var:IsDerivedFrom("TField")
         ::FField := var
+        ::FBaseField := baseField
         ::FFieldBlock := block
         block := {|__localVal| iif( PCount() > 0, ::Field:Value := __localVal, ::Field:Value ) }
         IF Empty( warning )
@@ -316,9 +320,11 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     LOCAL tblName := ""
 
     IF ::FUsingFieldValidation
-        warn := .NOT. ::Field:Validate( .F. )
-        tblName := ", at Table (" + ::Field:Table:ClassName() + ")"
-        label := " '" + ::Field:Label + "' "
+        warn := .NOT. ::BaseField:Validate( .F. )
+        IF warn
+            tblName := ", at Table (" + ::BaseField:Table:ClassName() + ")"
+            label := " '" + ::BaseField:Label + "' "
+        ENDIF
     ELSE
         SWITCH ValType( ::warnBlock )
         CASE "O"
@@ -344,6 +350,16 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     ENDIF
 
 RETURN warn
+
+/*
+    GetBaseField
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetBaseField CLASS wxhHBValidator
+    IF ::FBaseField = NIL
+        RETURN ::Field
+    ENDIF
+RETURN ::FBaseField
 
 /*
     GetChoices

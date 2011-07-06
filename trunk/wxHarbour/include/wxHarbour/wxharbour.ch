@@ -55,7 +55,11 @@
 */
 #xcommand @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <bAction> ] ;
             => ;
-            containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], [{|__localVal| iif( PCount()>0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<bValidate>], [<{bValidate}>], [<warnMsg>], [<{bAction}>] )
+            containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar">], [<dataVar>], NIL, [{|__localVal| iif( PCount() > 0, <dataVar> := __localVal, <dataVar> ) }], [<picture>], [<bValidate>], [<{bValidate}>], [<warnMsg>], [<{bAction}>] )
+
+#xcommand @ PUSHVALIDATOR [<dataVar>] FIELD <fld> [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <bAction> ] ;
+            => ;
+            containerObj():LastItem()\[ "wxhHBValidator" \] := wxhHBValidator():New( [<"dataVar"> + ":DataObj:" + <"fld">], [<dataVar>]:DataObj:<fld>, <dataVar>, [{|__localVal| iif( PCount() > 0, <dataVar>:DataObj:<fld> := __localVal, <dataVar>:DataObj:<fld> ) }], [<picture>], [<bValidate>], [<{bValidate}>], [<warnMsg>], [<{bAction}>] )
 
 /*
     Calls ::__Destroy() to remove xho_Item associated to objects
@@ -728,6 +732,7 @@
  */
 #xcommand @ GET [<dataVar>] ;
                         [ VAR <var> ] ;
+                        [ FIELD <fld> ] ;
                         [ PARENT <parent> ] ;
                         [ ID <id> ] ;
                         [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
@@ -741,7 +746,7 @@
                         [ VALIDATE <bValidate> ] [ WARN <warnMsg> ]  ;
                         [ ACTION <bAction> ] ;
                     => ;
-                    @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
+                    @ PUSHVALIDATOR [<dataVar>] [ FIELD <fld> ] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
                         [<var> :=] __wxh_TextCtrl(;
                         [<parent>],;
                         [<id>],;
