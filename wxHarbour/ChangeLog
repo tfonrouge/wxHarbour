@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2011-07-06 03:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * added FIELD clause to @ PUSHVALIDATOR to set the field message to use in
+       validation and set/get when editing TField's
+
+  *  src/common/wxhfuncs.prg
+     * added 'BaseField' property, it holds the target TField edited and which is
+       used to validate the control
+
 2011-07-04 21:03 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * small optimization
