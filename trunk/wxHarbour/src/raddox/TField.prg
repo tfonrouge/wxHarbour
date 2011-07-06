@@ -182,7 +182,7 @@ PUBLISHED:
     DATA OnSetValue			// Parama:
     DATA OnAfterChange		// Params: Sender: Table
     DATA OnAfterPostChange  // executes after Table post and only if field has been changed
-    DATA OnValidate			// Params: Sender: TField
+    DATA OnValidate			// Params: Sender: Table
     DATA OnValidateWarn     // message if OnValidate == FALSE
     
     DATA ValidValues
@@ -1389,7 +1389,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
         ENDIF
 
         IF ::OnValidate != NIL
-            result := ::OnValidate:Eval( Self )
+            result := ::OnValidate:Eval( ::FTable )
             IF !result .AND. ::OnValidateWarn != NIL
                 wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + E"' OnValidate:\n<" + ::OnValidateWarn + "> " )
             ENDIF

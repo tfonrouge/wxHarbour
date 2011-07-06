@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-07-06 03:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * on clause 'ON VALIDATE' sending a TTable parameter instead of a TField
+
 2011-07-06 03:27 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * added FIELD clause to @ PUSHVALIDATOR to set the field message to use in
