@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-07-08 17:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * added clause ENABLED to @ DATEPICKCTRL
+
+  *  src/common/wxhfuncs.prg
+     ! Fixed stupid typo on validating code block's
+
 2011-07-06 03:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * on clause 'ON VALIDATE' sending a TTable parameter instead of a TField

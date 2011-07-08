@@ -541,6 +541,7 @@
                         [ WARN <warnMsg> ] [ VALIDATE <bValidate> ] ;
                         [ TOOLTIP <toolTip> ] ;
                         [ ACTION <bAction> ] ;
+                        [ ENABLED <enabled> ] ;
                     => ;
                     @ PUSHVALIDATOR [<dataVar>] [ PICTURE <picture> ] [ VALIDATE <bValidate> ] [ WARN <warnMsg> ] [ ACTION <{bAction}> ] ;;
                     [<var> :=] __wxh_DatePickerCtrl(;
@@ -550,6 +551,7 @@
                         [{<nWidth>,<nHeight>}],;
                         [<style>],;
                         [<name>],;
+                        [<enabled>],;
                         [<{toolTip}>] )
                         
 #xcommand @ DATEPICKERCTRL [<clauses,...>] SIZERINFO [<sizerClauses,...>] ;
