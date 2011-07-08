@@ -331,7 +331,7 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
             warn := .NOT. ::warnBlock:Validate( .F. )
             EXIT
         CASE "B"
-            warn := ::warnBlock:Eval( ::FBlock:Eval() )
+            warn := .NOT. ::warnBlock:Eval( ::FBlock:Eval() )
             EXIT
         OTHERWISE
             warn := .F.
@@ -1290,7 +1290,7 @@ RETURN
  * __wxh_DatePickerCtrl
  * Teo. Mexico 2009
  */
-FUNCTION __wxh_DatePickerCtrl( parent, id, pos, size, style, name, toolTip )
+FUNCTION __wxh_DatePickerCtrl( parent, id, pos, size, style, name, enabled, toolTip )
     LOCAL dateCtrl
     LOCAL validator
 
@@ -1307,6 +1307,8 @@ FUNCTION __wxh_DatePickerCtrl( parent, id, pos, size, style, name, toolTip )
     ENDIF
 
     validator:AddPostInfo()
+
+    __wxh_EnableControl( containerObj():LastParent(), dateCtrl, dateCtrl:GetId(), enabled )
 
     containerObj():SetLastChild( dateCtrl )
 
