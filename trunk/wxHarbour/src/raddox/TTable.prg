@@ -184,7 +184,6 @@ PUBLIC:
     METHOD Get4Seek( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 1, xField, keyVal, index, softSeek )
     METHOD Get4SeekLast( xField, keyVal, index, softSeek ) INLINE ::RawGet4Seek( 0, xField, keyVal, index, softSeek )
     METHOD GetAsString
-    METHOD GetAsVariant
     METHOD GetCurrentRecord( idxAlias )
     METHOD GetDisplayFieldBlock( xField )
     METHOD GetDisplayFields( syncFromAlias )
@@ -192,6 +191,7 @@ PUBLIC:
     METHOD GetKeyVal( value )
     METHOD GetMasterSourceClassName()
     METHOD GetTableFileName()
+    METHOD GetValue
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -210,7 +210,6 @@ PUBLIC:
     METHOD SeekLast( Value, AIndex, SoftSeek ) INLINE ::BaseSeek( 1, Value, AIndex, SoftSeek )
     METHOD SetAlias( alias ) INLINE ::FAlias := alias
     METHOD SetAsString( Value ) INLINE ::GetKeyField():AsString := Value
-    METHOD SetAsVariant( Value ) INLINE ::GetKeyField():Value := Value
     METHOD SetBaseKeyField( baseKeyField )
     METHOD SetKeyVal( keyVal )
     /*
@@ -221,6 +220,7 @@ PUBLIC:
     METHOD SetOrderBy( order ) INLINE ::FIndex := ::FieldByName( order ):KeyIndex
     METHOD SetPrimaryIndex( primaryIndex )
     METHOD SetPrimaryIndexList( clsName, name )
+    METHOD SetValue( value )
     METHOD SkipBrowse( n )
     METHOD SkipFilter( n, index )
     METHOD StatePop()
@@ -299,7 +299,7 @@ PUBLISHED:
     PROPERTY PrimaryIndex READ FPrimaryIndex
     PROPERTY PublishedFieldList READ GetPublishedFieldList
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
-    PROPERTY Value READ GetAsVariant WRITE SetAsVariant
+    PROPERTY Value READ GetValue WRITE SetValue
 
 ENDCLASS
 
@@ -1522,19 +1522,6 @@ METHOD FUNCTION GetAsString() CLASS TTable
 RETURN pkField:AsString
 
 /*
-    GetAsVariant
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION GetAsVariant() CLASS TTable
-    LOCAL pkField := ::GetKeyField()
-
-    IF pkField == NIL
-        RETURN NIL
-    ENDIF
-
-RETURN pkField:Value
-
-/*
     GetCurrentRecord
     Teo. Mexico 2010
 */
@@ -1991,6 +1978,13 @@ METHOD FUNCTION GetTableFileName() CLASS TTable
         ENDIF
     ENDIF
 RETURN ::FTableFileName
+
+/*
+    GetValue
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetValue CLASS TTable
+RETURN ::FBaseKeyField:Value
 
 /*
     IndexByName
@@ -2638,6 +2632,14 @@ METHOD PROCEDURE SetState( state ) CLASS TTable
 
     ::OnStateChange( oldState )
 
+RETURN
+
+/*
+    SetValue
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetValue( value ) CLASS TTable
+    ::FBaseKeyField:Value := value
 RETURN
 
 /*
