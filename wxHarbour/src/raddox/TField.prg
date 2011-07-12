@@ -70,11 +70,13 @@ PROTECTED:
     DATA FBuffer
     DATA FCalculated INIT .F.
     DATA FChanged INIT .F.
+    DATA FCheckEditable INIT .F.  // intended to be used by TUI/GUI
     DATA FDefaultValue
     DATA FDBS_DEC INIT 0
     DATA FDBS_LEN
     DATA FDBS_NAME
     DATA FDBS_TYPE
+    DATA FEditable
     DATA FEvtOnBeforeChange
     DATA FFieldArrayIndex								// Array of TField's indexes in FieldList
     DATA FFieldExpression									// Literal Field expression on the Database
@@ -97,6 +99,7 @@ PROTECTED:
     METHOD GetDefaultValue( defaultValue )
     METHOD GetDBS_LEN INLINE ::FDBS_LEN
     METHOD GetDBS_TYPE INLINE ::FDBS_TYPE
+    METHOD GetEditable
     METHOD GetEnabled()
     METHOD GetEmptyValue BLOCK {|| NIL }
     METHOD GetFieldArray()
@@ -111,6 +114,7 @@ PROTECTED:
     METHOD SetDBS_LEN( dbs_Len ) INLINE ::FDBS_LEN := dbs_Len
     METHOD SetCloneData( cloneData )
     METHOD SetDefaultValue( DefaultValue ) INLINE ::FDefaultValue := DefaultValue
+    METHOD SetEditable( editable ) INLINE ::FEditable := editable
     METHOD SetEnabled( enabled )
     METHOD SetLabel( label ) INLINE ::FLabel := label
     METHOD SetRequired( Required ) INLINE ::FRequired := Required
@@ -126,6 +130,7 @@ PUBLIC:
     CONSTRUCTOR New( Table, curBaseClass )
 
     METHOD AddFieldMessage()
+    METHOD CheckEditable( flag )
     METHOD Delete()
     METHOD GetAsString INLINE "<" + ::ClassName + ">"
     METHOD GetAsVariant( ... )
@@ -196,6 +201,7 @@ PUBLISHED:
     PROPERTY DBS_TYPE READ GetDBS_TYPE
     PROPERTY DefaultValue READ GetDefaultValue WRITE SetDefaultValue
     PROPERTY Description READ FDescription WRITE SetDescription
+    PROPERTY Editable READ GetEditable WRITE SetEditable
     PROPERTY Enabled READ GetEnabled WRITE SetEnabled
     PROPERTY FieldArray READ GetFieldArray WRITE SetFieldMethod
     PROPERTY FieldCodeBlock READ FFieldCodeBlock WRITE SetFieldMethod
@@ -243,6 +249,15 @@ RETURN Self
 METHOD PROCEDURE AddFieldMessage() CLASS TField
     ::FTable:AddFieldMessage( ::Name, Self )
 RETURN
+
+/*
+    CheckEditable
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION CheckEditable( flag ) CLASS TField
+    LOCAL oldFlag := ::FCheckEditable
+    ::FCheckEditable := flag
+RETURN oldFlag
 
 /*
     Delete
@@ -474,6 +489,16 @@ METHOD FUNCTION GetDefaultValue( defaultValue ) CLASS TField
     ENDIF
 
 RETURN defaultValue
+
+/*
+    GetEditable
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetEditable CLASS TField
+    IF ::FEditable != NIL
+        RETURN ::FEditable:Eval( ::FTable )
+    ENDIF
+RETURN .T.
 
 /*
     GetEditText
@@ -722,12 +747,10 @@ METHOD FUNCTION Reset() CLASS TField
                         ENDIF
                     ENDIF
 
-                    IF ::IsDerivedFrom( "TObjectField" )
-                        IF ::LinkedTable:KeyField != NIL
-                            value := ::LinkedTable:BaseKeyField:GetDefaultValue()
-                            IF value == NIL
-                                value := ::LinkedTable:BaseKeyField:GetEmptyValue()
-                            ENDIF
+                    IF ::IsDerivedFrom( "TObjectField" ) .AND. ::LinkedTable:KeyField != NIL
+                        value := ::LinkedTable:BaseKeyField:GetDefaultValue()
+                        IF value == NIL
+                            value := ::LinkedTable:BaseKeyField:GetEmptyValue()
                         ENDIF
                     ELSE
                         value := ::GetDefaultValue()
@@ -967,6 +990,11 @@ METHOD PROCEDURE SetData( value ) CLASS TField
 
     /* Don't bother... */
     IF !::FCalculated .AND. ( value == ::FWrittenValue )
+        RETURN
+    ENDIF
+    
+    IF ::FCheckEditable .AND. !::Editable()
+        wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <field is not editable>" )
         RETURN
     ENDIF
 

@@ -621,8 +621,13 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
     LOCAL value
     LOCAL Result := .T.
     LOCAL changed
+    LOCAL checkEditable
 
     control := ::GetWindow()
+    
+    IF ::FField != NIL
+        checkEditable := ::Field:CheckEditable( .T. )
+    ENDIF
 
     IF control:IsDerivedFrom( "wxTextCtrl" )
 
@@ -719,6 +724,10 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
 
         Result := .F.
 
+    ENDIF
+    
+    IF ::FField != NIL
+        ::Field:CheckEditable( checkEditable )
     ENDIF
 
 RETURN Result

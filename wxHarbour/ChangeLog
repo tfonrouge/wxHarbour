@@ -2,6 +2,22 @@
  * $Id$
  */
 
+2011-07-12 15:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     % added clause EDITABLE to allow TUI/GUI level control to edition on some fields
+
+  *  src/common/wxhfuncs.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     % using checkEditable if available on TField's edited
+
+  *  src/raddox/TField.prg
+     % added FCheckEditable (protected) value to allow/deny check for Editable property
+     % added Editable function to perform checking for allowing edit on field
+     ! Fixed bug on setting default value on Reset() for TObjectField's
+
+  *  src/raddox/TTable.prg
+     ! Value property, uses BaseKeyField to set/get value
+
 2011-07-08 17:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * added clause ENABLED to @ DATEPICKCTRL

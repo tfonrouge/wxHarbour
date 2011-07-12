@@ -112,6 +112,7 @@
                         [ USING <usingField> ] ;
                         [ <ruf: REUSEFIELD> ] ;
                         [ ENABLED <enabled> ] ;
+                        [ EDITABLE <editable> ] ;
                      => ;
                         WITH OBJECT T<type>Field():New( Self, ::curClassField ) ;;
                             [ :Name := <cName> ] ;;
@@ -145,6 +146,7 @@
                             [ :SetValidValues( <validValues>, <.vvl.> ) ] ;;
                             [ :UsingField := <usingField> ] ;;
                             [ :Enabled := <enabled> ] ;;
+                            [ :Editable := <editable> ] ;;
                             :AddFieldMessage() ;;
                             :ValidateFieldInfo() ;;
                         ENDWITH

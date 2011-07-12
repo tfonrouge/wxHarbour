@@ -227,6 +227,7 @@ RETURN
 */
 METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
     LOCAL itm
+    LOCAL checkEditable
 
     IF ::IsEditable .AND. !::FOnSetValue
 
@@ -238,12 +239,15 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
                     ::FOnSetValue := .F.
                     RETURN .F.
                 ENDIF
+                checkEditable := ::Field:CheckEditable( .T. )
                 IF ::browse:DataSource:State = dsBrowse .AND. !::browse:DataSource:autoEdit
+                    ::Field:CheckEditable( checkEditable )
                     wxhAlert( "Can't edit field '" + ::Field:Label + "' on table '" + ::browse:DataSource:ClassName() + "'" )
                     ::FOnSetValue := .F.
                     RETURN .F.
                 ENDIF
                 IF !::browse:DataSource:OnBeforeLock()
+                    ::Field:CheckEditable( checkEditable )
                     ::FOnSetValue := .F.
                     RETURN .F.
                 ENDIF
@@ -257,6 +261,7 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
                 ENDIF
                 ::Field:AsString := value
                 ::browse:RefreshCurrent()
+                ::Field:CheckEditable( checkEditable )
             ELSE
                 ::FBlock:Eval( rowParam, value )
             ENDIF
@@ -265,7 +270,7 @@ METHOD FUNCTION SetValue( rowParam, value ) CLASS wxhBrowseColumn
         IF ::OnSetValue != NIL
             ::OnSetValue:Eval()
         ENDIF
-        
+
         ::FOnSetValue := .F.
 
     ENDIF
