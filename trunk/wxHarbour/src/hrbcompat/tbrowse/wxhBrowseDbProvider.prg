@@ -127,7 +127,9 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
     IF !Empty( ::FGridBuffer )
 
         FOR EACH i IN ::FGridBuffer
-            IF i != NIL
+            IF i = NIL
+                i := {}
+            ELSE
                 AFill( i, NIL )
             ENDIF
         NEXT
