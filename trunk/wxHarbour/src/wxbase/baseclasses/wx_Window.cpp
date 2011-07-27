@@ -52,10 +52,10 @@ HB_FUNC( WXWINDOW_NEW )
     if( hb_pcount() > 0 )
     {
         wxWindow* parent = (wxFrame *) objParams.paramParent( 1 );
-        wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+        wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
         wxPoint point = wxh_par_wxPoint( 3 );
         wxSize size = wxh_par_wxSize( 4 );
-        long style = ISNIL( 5 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 5 );
+        long style = HB_ISNIL( 5 ) ? wxDEFAULT_FRAME_STYLE : hb_parnl( 5 );
         wxString name = wxh_parc( 6 );
         window = new wx_Window( parent, id, point, size, style, name );
     }
@@ -76,7 +76,7 @@ HB_FUNC( WXWINDOW_CENTRE )
 
     if( wnd )
     {
-        int direction = ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
+        int direction = HB_ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );
         wnd->Centre( hb_parni( direction ) );
     }
 }
@@ -153,7 +153,7 @@ HB_FUNC( WXWINDOW_ENABLE )
 
     if( wnd )
     {
-        bool enable = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool enable = HB_ISNIL( 1 ) ? true : hb_parl( 1 );
         hb_retl( wnd->Enable( enable ) );
     }
 }
@@ -278,7 +278,7 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
         wxWindow* window;
         PHB_ITEM pList = hb_itemArrayNew( windowList.GetCount() );
         PHB_ITEM pItm;
-        UINT index = 0;
+        HB_UINT index = 0;
         for( iter = windowList.begin(); iter != windowList.end(); ++iter )
         {
             window = *iter;

@@ -43,12 +43,12 @@ HB_FUNC( WXTEXTCTRL_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL(2) ? wxID_ANY : hb_parni( 2 );
     const wxString& value = wxh_parc( 3 );
     const wxPoint& pos = wxh_par_wxPoint( 4 );
     const wxSize& size = wxh_par_wxSize( 5 );
     long style = hb_parnl( 6 );
-    const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : *( (wxValidator *) objParams.paramChild( 7 ) ) ;
+    const wxValidator& validator = HB_ISNIL( 7 ) ? wxDefaultValidator : *( (wxValidator *) objParams.paramChild( 7 ) ) ;
     const wxString& name = wxh_parc( 8 );
     wx_TextCtrl* textCtrl = new wx_TextCtrl( parent, id, value, pos, size, style, validator, name );
 
@@ -348,7 +348,7 @@ HB_FUNC( WXTEXTCTRL_SETMAXLENGTH )
     wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
-        textCtrl->SetMaxLength( ( ULONG ) hb_parnl( 1 ) );
+        textCtrl->SetMaxLength( ( HB_ULONG ) hb_parnl( 1 ) );
 }
 
 /*
@@ -375,7 +375,7 @@ HB_FUNC( WXTEXTCTRL_SETSELECTION )
     wxTextCtrl* textCtrl = (wxTextCtrl *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
     if( textCtrl )
-    textCtrl->SetSelection( ISNIL( 1 ) ? -1 : hb_parnl( 1 ), ISNIL( 2 ) ? -1 : hb_parnl( 2 ) );
+    textCtrl->SetSelection( HB_ISNIL( 1 ) ? -1 : hb_parnl( 1 ), HB_ISNIL( 2 ) ? -1 : hb_parnl( 2 ) );
 }
 
 /*
@@ -439,7 +439,7 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
             color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
             textCtrl->SetBackgroundColour( *color );
         }
-        else if (hb_pcount() == 1 && ISARRAY(1) )
+        else if (hb_pcount() == 1 && HB_ISARRAY(1) )
         {
             PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
             if (hb_arrayLen( pArray ) == 3)
@@ -464,7 +464,7 @@ HB_FUNC( WXTEXTCTRL_SETBACKGROUNDCOLOUR )
                 textCtrl->SetBackgroundColour( *color );
             }
         }
-        else if (hb_pcount() == 1 && ISOBJECT(1) )			
+        else if (hb_pcount() == 1 && HB_ISOBJECT(1) )			
         {
             const wxColour& color = * (wxColour *) xho_par_XhoObject( 1 );
             textCtrl->SetBackgroundColour( color );
@@ -495,7 +495,7 @@ HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
             color = new wxColour((unsigned char)hb_parni( 1 ),(unsigned char)hb_parni( 2 ),(unsigned char)hb_parni( 3 ), (unsigned char)hb_parni( 4 ) );
             textCtrl->SetForegroundColour( *color );
         }
-        else if (hb_pcount() == 1 && ISARRAY(1) )
+        else if (hb_pcount() == 1 && HB_ISARRAY(1) )
         {
             PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
             if (hb_arrayLen( pArray ) == 3)
@@ -520,7 +520,7 @@ HB_FUNC( WXTEXTCTRL_SETFOREGROUNDCOLOUR )
                 textCtrl->SetForegroundColour( *color );
             }
         }
-        else if (hb_pcount() == 1 && ISOBJECT(1) )			
+        else if (hb_pcount() == 1 && HB_ISOBJECT(1) )			
         {
             const wxColour& color = * (wxColour *) xho_par_XhoObject( 1 );
             textCtrl->SetForegroundColour( color );

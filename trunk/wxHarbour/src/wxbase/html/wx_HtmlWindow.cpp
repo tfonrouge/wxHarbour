@@ -82,11 +82,11 @@ HB_FUNC( WXHTMLWINDOW_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxPoint pos = wxh_par_wxPoint( 3 );
     wxSize size = wxh_par_wxSize( 4 );
-    long style = ISNIL( 5 ) ? wxHW_DEFAULT_STYLE : hb_parnl( 5 );
-    wxString name = ISNIL( 6 ) ? _T("htmlWindow") : wxh_parc( 6 );
+    long style = HB_ISNIL( 5 ) ? wxHW_DEFAULT_STYLE : hb_parnl( 5 );
+    wxString name = HB_ISNIL( 6 ) ? _T("htmlWindow") : wxh_parc( 6 );
 
     objParams.Return( new wx_HtmlWindow( parent, id, pos, size, style, name ) );
 

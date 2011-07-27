@@ -31,10 +31,10 @@ HB_FUNC( WXMESSAGEBOX )
 
     const wxString& message = wxh_parc( 1 );
     const wxString& caption = wxh_parc( 2 );
-    int style = ISNIL(3) ? wxOK : hb_parni(3);
+    int style = HB_ISNIL(3) ? wxOK : hb_parni(3);
     wxWindow* window = (wxWindow *) xho_par_XhoObject( 4 );
-    int x = ISNIL(5) ? -1 : hb_parni(5);
-    int y = ISNIL(6) ? -1 : hb_parni(6);
+    int x = HB_ISNIL(5) ? -1 : hb_parni(5);
+    int y = HB_ISNIL(6) ? -1 : hb_parni(6);
 
     hb_retni( wxMessageBox( message, caption, style, window, x, y ) );
 

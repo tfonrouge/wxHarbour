@@ -45,7 +45,7 @@ HB_FUNC( WXSTATICBITMAP_NEW )
     wx_StaticBitmap* staticBitmap;
     
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxBitmap& label = * (wxBitmap *) xho_par_XhoObject( 3 );
     wxPoint pos = wxh_par_wxPoint( 4 );
     wxSize size = wxh_par_wxSize( 5 );

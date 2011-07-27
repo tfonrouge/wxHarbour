@@ -76,12 +76,12 @@ wxArrayString wxh_par_wxArrayString( int param )
 {
     wxArrayString arrayString;
     
-    if( ISARRAY( param ) )
+    if( HB_ISARRAY( param ) )
     {
         PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
         PHB_ITEM pItm;
-        ULONG ulLen = hb_arrayLen( pArray );
-        for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
+        HB_ULONG ulLen = hb_arrayLen( pArray );
+        for( HB_ULONG ulI = 1; ulI <= ulLen; ulI++ )
         {
             pItm = hb_arrayGetItemPtr( pArray, ulI );
             if( hb_itemType( pItm ) && ( HB_IT_STRING || HB_IT_MEMO ) )
@@ -183,13 +183,13 @@ wxString wxh_CTowxString( const char * szStr, bool convOEM )
 
     if( convOEM && szStr )
     {
-        ULONG ulStrLen = strlen( szStr );
+        HB_ULONG ulStrLen = strlen( szStr );
         PHB_CODEPAGE pcp = hb_vmCDP();
 
         if( ulStrLen > 0 && pcp )
         {
             wxString wxStr;
-            ULONG ulUTF8Len = hb_cdpUTF8StringLength( szStr, ulStrLen );
+            HB_ULONG ulUTF8Len = hb_cdpUTF8StringLength( szStr, ulStrLen );
             char *strUTF8 = (char *) hb_xgrab( ulUTF8Len + 1 );
             hb_cdpStrToUTF8( pcp, szStr, ulStrLen, (char *) strUTF8, ulUTF8Len + 1 );
             wxStr = wxString( strUTF8, mbConv );
@@ -276,7 +276,7 @@ HB_FUNC( WXMUTEXGUILEAVE )
 HB_FUNC( WXH_ADDNAVIGATIONKEYEVENT )
 {
     wxEvtHandler* evtHandler = (wxEvtHandler *) xho_par_XhoObject( 1 );
-    bool bDirection = ISNIL( 2 ) ? true : hb_parl( 2 );
+    bool bDirection = HB_ISNIL( 2 ) ? true : hb_parl( 2 );
 
     wxNavigationKeyEvent navEvent;
     navEvent.SetEventObject( evtHandler );

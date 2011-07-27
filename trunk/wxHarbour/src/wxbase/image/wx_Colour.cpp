@@ -50,13 +50,13 @@ HB_FUNC( WXCOLOUR_NEW )
         break;
     case 1 :
         {
-            if( ISCHAR( 1 ) )
+            if( HB_ISCHAR( 1 ) )
             {
                 const wxString& name = wxh_parc( 1 );
                 colour = new wx_Colour( name );
                 printf("char");
             }
-            else if( ISARRAY(1) )
+            else if( HB_ISARRAY(1) )
             {
                 PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
                 if (hb_arrayLen( pArray ) == 3)
@@ -85,7 +85,7 @@ HB_FUNC( WXCOLOUR_NEW )
         break;
     case 3:
         {
-            if( ISNUM(1) && ISNUM(2) && ISNUM(3) )	
+            if( HB_ISNUM(1) && HB_ISNUM(2) && HB_ISNUM(3) )	
             {
                 colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)255 );
             }
@@ -97,7 +97,7 @@ HB_FUNC( WXCOLOUR_NEW )
         break;
     case 4:
         {
-            if( ISNUM(1) && ISNUM(2) && ISNUM(3) && ISNUM(4))	
+            if( HB_ISNUM(1) && HB_ISNUM(2) && HB_ISNUM(3) && HB_ISNUM(4))	
             {
                 colour = new wx_Colour( (unsigned char)hb_parni(1), (unsigned char)hb_parni(2), (unsigned char)hb_parni(3), (unsigned char)hb_parni(4) );
             }

@@ -124,7 +124,7 @@ HB_FUNC( WXTASKBARICON_SETICON )
 
     if( taskBarIcon )
     {
-        if( ISNIL( 1 ) )
+        if( HB_ISNIL( 1 ) )
         {
             hb_retl( taskBarIcon->SetIcon( wxIcon( wxwin32x32_xpm ), wxh_parc( 2 ) ) );
         }

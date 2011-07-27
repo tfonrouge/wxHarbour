@@ -42,11 +42,11 @@ HB_FUNC( WXSTATICBOX_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxString& label = wxh_parc( 3 );
-    const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
-    const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
-    long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
+    const wxPoint& pos = HB_ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
+    const wxSize& size = HB_ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
+    long style = HB_ISNIL( 6 ) ? 0 : hb_parnl( 6 );
     const wxString& name = wxh_parc( 7 );
     wx_StaticBox* staticBox = new wx_StaticBox( parent, id, label, pos, size, style, name );
 

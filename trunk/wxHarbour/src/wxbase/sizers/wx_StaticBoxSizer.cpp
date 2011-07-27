@@ -39,7 +39,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 
     wx_StaticBoxSizer* boxSizer;
 
-    if( ISOBJECT( 1 ) )
+    if( HB_ISOBJECT( 1 ) )
     {
         wxStaticBox* staticBox = (wxStaticBox *) objParams.paramParent( 1 );
         boxSizer = new wx_StaticBoxSizer( staticBox, hb_parni( 2 ) );

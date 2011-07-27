@@ -214,8 +214,8 @@ void xho_ObjParams::Return( xhoObject* xhoObj, bool bItemRelease )
         {
             /* calculate the crc32 for the procname/procline/uiClass that created this obj */
             char szName[ HB_SYMBOL_NAME_LEN + HB_SYMBOL_NAME_LEN + 5 ];
-            UINT uiProcOffset = 1;
-            USHORT usProcLine = 0;
+            HB_UINT uiProcOffset = 1;
+            HB_USHORT usProcLine = 0;
             
             hb_procname( uiProcOffset, szName, TRUE );
             if( strncmp( "__WXH_", szName, 6 ) == 0 )
@@ -225,7 +225,7 @@ void xho_ObjParams::Return( xhoObject* xhoObj, bool bItemRelease )
             if( lOffset > 0 )
                 usProcLine = hb_stackItem( lOffset )->item.asSymbol.stackstate->uiLineNo;
             
-            UINT uiCrc32 = hb_crc32( (long) hb_objGetClass( pSelf ) + usProcLine, (const char *) szName, strlen( szName ) );
+            HB_UINT uiCrc32 = hb_crc32( (long) hb_objGetClass( pSelf ) + usProcLine, (const char *) szName, strlen( szName ) );
             
             //			 qoutf("METHODNAME: %s:%d, crc32: %u", szName, usProcLine, uiCrc32 );
             
@@ -486,12 +486,12 @@ void xho_itemReturn( xhoObject *xhoObj )
 void xho_par_arrayInt( int param, int* arrayInt, const size_t len )
 {
     
-    if( ISARRAY( param ) )
+    if( HB_ISARRAY( param ) )
     {
         PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
         PHB_ITEM pItm;
-        ULONG ulLen = min( (size_t) hb_arrayLen( pArray ), len );
-        for( ULONG ulI = 1; ulI <= ulLen; ulI++ )
+        HB_ULONG ulLen = min( (size_t) hb_arrayLen( pArray ), len );
+        for( HB_ULONG ulI = 1; ulI <= ulLen; ulI++ )
         {
             pItm = hb_arrayGetItemPtr( pArray, ulI );
             if( hb_itemType( pItm ) && HB_IT_NUMERIC )

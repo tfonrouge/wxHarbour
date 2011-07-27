@@ -46,10 +46,10 @@ HB_FUNC( WXAUINOTEBOOK_NEW )
     if( hb_pcount() )
     {
         wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-        wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-        const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
-        const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
-        long style = ISNIL( 5 ) ? wxAUI_NB_DEFAULT_STYLE : hb_parni( 5 );
+        wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+        const wxPoint& pos = HB_ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
+        const wxSize& size = HB_ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
+        long style = HB_ISNIL( 5 ) ? wxAUI_NB_DEFAULT_STYLE : hb_parni( 5 );
         auiNotebook = new wx_AuiNotebook( parent, id, pos, size, style );
     }
     else
@@ -73,7 +73,7 @@ HB_FUNC( WXAUINOTEBOOK_ADDPAGE )
         wxWindow* page = (wxWindow *) objParams.paramParent( 1 );
         if( page )
         {
-            bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
+            bool select = HB_ISNIL( 3 ) ? false : hb_parl( 3 );
             auiNotebook->AddPage( page, wxh_parc( 2 ), select/*, bitmap*/ );
         }
     }
