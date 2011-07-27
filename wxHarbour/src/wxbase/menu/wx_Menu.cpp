@@ -108,7 +108,7 @@ HB_FUNC( WXMENU_GETMENUITEMS )
         wxMenuItemList::iterator it;
 
         PHB_ITEM pArray = hb_itemArrayNew( menuItemList.GetCount() );
-        UINT index = 0;
+        HB_UINT index = 0;
 
         for( it = menuItemList.begin(); it != menuItemList.end(); it++ )
         {

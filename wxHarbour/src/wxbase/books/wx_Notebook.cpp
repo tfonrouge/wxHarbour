@@ -50,11 +50,11 @@ HB_FUNC( WXNOTEBOOK_NEW )
     if( hb_pcount() )
     {
         wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-        wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
-        const wxPoint& pos = ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
-        const wxSize& size = ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
-        long style = ISNIL( 5 ) ? 0 : hb_parnl( 5 );
-        const wxString& name = ISNIL( 6 ) ? wxString( _T("noteBook") ) : wxh_parc( 6 );
+        wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+        const wxPoint& pos = HB_ISNIL( 3 ) ? wxDefaultPosition : wxh_par_wxPoint( 3 );
+        const wxSize& size = HB_ISNIL( 4 ) ? wxDefaultSize : wxh_par_wxSize( 4 );
+        long style = HB_ISNIL( 5 ) ? 0 : hb_parnl( 5 );
+        const wxString& name = HB_ISNIL( 6 ) ? wxString( _T("noteBook") ) : wxh_parc( 6 );
         noteBook = new wx_Notebook( parent, id, pos, size, style, name );
     }
     else
@@ -78,8 +78,8 @@ HB_FUNC( WXNOTEBOOK_ADDPAGE )
         wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 1 );
         if( page )
         {
-            bool select = ISNIL( 3 ) ? false : hb_parl( 3 );
-            int imageld = ISNIL( 4 ) ? -1 : hb_parni( 4 );
+            bool select = HB_ISNIL( 3 ) ? false : hb_parl( 3 );
+            int imageld = HB_ISNIL( 4 ) ? -1 : hb_parni( 4 );
             hb_retl( noteBook->AddPage( page, wxh_parc( 2 ), select, imageld ) );
         }
     }
@@ -97,7 +97,7 @@ HB_FUNC( WXNOTEBOOK_ADVANCESELECTION )
 
     if( noteBook )
     {
-        bool forward = ISNIL( 1 ) ? true : hb_parl( 1 );
+        bool forward = HB_ISNIL( 1 ) ? true : hb_parl( 1 );
         noteBook->AdvanceSelection( forward );
     }
 }
@@ -339,7 +339,7 @@ HB_FUNC( WXNOTEBOOK_HITTEST )
     {
         long flags;
         hb_retni( noteBook->HitTest( wxh_par_wxPoint( 1 ), &flags ) );
-        if( ( hb_pcount() == 2 ) && ISBYREF( 2 ) )
+        if( ( hb_pcount() == 2 ) && HB_ISBYREF( 2 ) )
             hb_stornl( flags, 2 );
     }
 }
@@ -361,8 +361,8 @@ HB_FUNC( WXNOTEBOOK_INSERTPAGE )
         wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 2 );
         if( page )
         {
-            bool select = ISNIL( 4 ) ? false : hb_parl( 4 );
-            int imageld = ISNIL( 5 ) ? -1 : hb_parni( 5 );
+            bool select = HB_ISNIL( 4 ) ? false : hb_parl( 4 );
+            int imageld = HB_ISNIL( 5 ) ? -1 : hb_parni( 5 );
             hb_retl( noteBook->InsertPage( page_i, page, wxh_parc( 3 ), select, imageld ) );
         }
     }

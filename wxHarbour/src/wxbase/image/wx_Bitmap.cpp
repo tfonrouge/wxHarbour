@@ -181,7 +181,7 @@ HB_FUNC( WXBITMAP_NEW )
         break;
     case 1 :
         {
-        if( ISNUM( 1 ) )
+        if( HB_ISNUM( 1 ) )
         {
         bitmap = getDefaultBitmap( hb_parni( 1 ) );
         }
@@ -418,7 +418,7 @@ HB_FUNC( WXBITMAP_SAVEFILE )
     
     if( bitmap )
     {
-    wxPalette *palette = ISNIL( 3 ) ? NULL : (wxPalette *) xho_par_XhoObject( 3 );
+    wxPalette *palette = HB_ISNIL( 3 ) ? NULL : (wxPalette *) xho_par_XhoObject( 3 );
         hb_retl( bitmap->SaveFile( wxh_parc( 1 ), (wxBitmapType) hb_parni( 2 ), palette ) );
     }
 }

@@ -44,10 +44,10 @@ HB_FUNC( WXGRID_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL(2) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL(2) ? wxID_ANY : hb_parni( 2 );
     wxPoint pos = wxh_par_wxPoint( 3 );
     wxSize size = wxh_par_wxSize( 4 );
-    long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
+    long style = HB_ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
     wxString name = wxh_parc( 6 );
 
     wx_Grid* grid = new wx_Grid( parent, id, pos, size, style, name );

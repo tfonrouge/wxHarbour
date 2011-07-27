@@ -80,7 +80,7 @@ STATIC FUNCTION wxhDefError( oError )
         AAdd( aOptions, wxhLABEL_DEFAULT )
     ENDIF
 
-    IF ! ISNIL( cDOSError )
+    IF ! HB_ISNIL( cDOSError )
         cMessage += E"\n" + cDOSError
     ENDIF
 

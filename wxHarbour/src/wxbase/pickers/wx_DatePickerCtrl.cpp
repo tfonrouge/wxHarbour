@@ -44,13 +44,13 @@ HB_FUNC( WXDATEPICKERCTRL_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
     
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxDateTime dt = wxh_par_wxDateTime( 3 );
-    const wxPoint& pos = ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
-    const wxSize& size = ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
-    long style = ISNIL( 6 ) ? 0 : hb_parnl( 6 );
-    const wxValidator& validator = ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.param( 7 ))) ;
-    const wxString& name = ISNIL( 8 ) ? wxString( _T("dateCtrl") ) : wxh_parc( 8 );
+    const wxPoint& pos = HB_ISNIL( 4 ) ? wxDefaultPosition : wxh_par_wxPoint( 4 );
+    const wxSize& size = HB_ISNIL( 5 ) ? wxDefaultSize : wxh_par_wxSize( 5 );
+    long style = HB_ISNIL( 6 ) ? 0 : hb_parnl( 6 );
+    const wxValidator& validator = HB_ISNIL( 7 ) ? wxDefaultValidator : (*((wxValidator *) objParams.param( 7 ))) ;
+    const wxString& name = HB_ISNIL( 8 ) ? wxString( _T("dateCtrl") ) : wxh_parc( 8 );
     
     objParams.Return( new wx_DatePickerCtrl( parent, id, dt, pos, size, style, validator, name ) );
 }

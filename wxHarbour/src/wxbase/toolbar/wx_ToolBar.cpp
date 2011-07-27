@@ -38,10 +38,10 @@ HB_FUNC( WXTOOLBAR_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxWindow* parent = (wxWindow *) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     const wxPoint& pos = wxh_par_wxPoint( 3 );
     const wxSize& size = wxh_par_wxSize( 4 );
-    long style = ISNIL( 5 ) ? wxTB_HORIZONTAL | wxNO_BORDER : hb_parnl( 5 );
+    long style = HB_ISNIL( 5 ) ? wxTB_HORIZONTAL | wxNO_BORDER : hb_parnl( 5 );
     const wxString& name = wxh_parc( 6 );
 
     wx_ToolBar* toolBar = new wx_ToolBar( parent, id, pos, size, style, name );
@@ -91,17 +91,17 @@ HB_FUNC( WXTOOLBAR_ADDTOOL )
     {
         tbtb = toolBar->AddTool( (wxToolBarToolBase *) xho_par_XhoObject( 1 ) );
     }
-    else if( hb_pcount() > 5 || ISOBJECT( 4 ) )
+    else if( hb_pcount() > 5 || HB_ISOBJECT( 4 ) )
     {
         const wxBitmap& bitmap1 = * (wxBitmap *) xho_par_XhoObject( 3 );
-        const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
-        wxItemKind kind = ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
+        const wxBitmap& bitmap2 = HB_ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
+        wxItemKind kind = HB_ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
         tbtb = toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, bitmap2, kind, wxh_parc( 6 ), wxh_parc( 7 ), xho_par_XhoObject( 8 ) );
     }
     else
     {
         const wxBitmap& bitmap1 = * (wxBitmap *) xho_par_XhoObject( 3 );
-        wxItemKind kind = ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
+        wxItemKind kind = HB_ISNIL( 5 ) ? wxITEM_NORMAL : (wxItemKind) hb_parni( 5 );
         tbtb = toolBar->AddTool( hb_parni( 1 ), wxh_parc( 2 ), bitmap1, wxh_parc( 4 ), kind );
     }
         xho_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
@@ -118,7 +118,7 @@ HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
     
     if( toolBar )
     {
-    const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
+    const wxBitmap& bitmap2 = HB_ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
     wxToolBarToolBase* tbtb = toolBar->AddCheckTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) xho_par_XhoObject( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), xho_par_XhoObject( 7 ) );
         xho_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
     }
@@ -134,7 +134,7 @@ HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
     
     if( toolBar )
     {
-    const wxBitmap& bitmap2 = ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
+    const wxBitmap& bitmap2 = HB_ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
     wxToolBarToolBase* tbtb = toolBar->AddRadioTool( hb_parni( 1 ), wxh_parc( 2 ), * (wxBitmap *) xho_par_XhoObject( 3 ), bitmap2, wxh_parc( 5 ), wxh_parc( 6 ), xho_par_XhoObject( 7 ) );
         xho_itemNewReturn( "wxToolBarToolBase", tbtb, toolBar );
     }

@@ -145,9 +145,9 @@ HB_FUNC( WXIPV4ADDRESS_SERVICE )
 
     if( ipv4Address )
     {
-        if( ISCHAR( 1 ) )
+        if( HB_ISCHAR( 1 ) )
             hb_retl( ipv4Address->Service( wxh_parc( 1 ) ) );
-        if( ISNUM( 1 ) )
+        if( HB_ISNUM( 1 ) )
             hb_retl( ipv4Address->Service( hb_parnl( 1 ) ) );
         if( hb_pcount() == 0 )
             hb_retnl( ipv4Address->Service() );

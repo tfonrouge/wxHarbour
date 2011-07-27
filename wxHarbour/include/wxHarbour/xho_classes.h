@@ -36,12 +36,12 @@ public:
     bool delete_Xho;
     bool nullObj;
     xhoObject* m_xhoObject;
-    USHORT uiClass;
+    HB_USHORT uiClass;
     PHB_BASEARRAY m_pBaseArray;
     vector<PCONN_PARAMS> evtList;
     PHB_ITEM pSelf;
-    USHORT uiRefCount;
-    UINT uiProcNameLine;
+    HB_USHORT uiRefCount;
+    HB_UINT uiProcNameLine;
     
     xho_Item() { delete_Xho = true; uiClass = 0; pSelf = NULL ; uiRefCount = 0; uiProcNameLine = 0; }
     ~xho_Item();

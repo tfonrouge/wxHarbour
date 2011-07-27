@@ -165,7 +165,7 @@ HB_FUNC( WXEVENT_SKIP )
 {
     wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
     
-    bool skip = ISNIL( 1 ) ? true : hb_parl( 1 );
+    bool skip = HB_ISNIL( 1 ) ? true : hb_parl( 1 );
     
     if( event )
         event->Skip( skip );

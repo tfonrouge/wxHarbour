@@ -140,11 +140,11 @@ HB_FUNC( WXHBROWSE_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxhBrowse* browse = ( wxhBrowse* ) objParams.paramParent( 1 );
-    wxWindowID id = ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
+    wxWindowID id = HB_ISNIL( 2 ) ? wxID_ANY : hb_parni( 2 );
     wxPoint pos = wxh_par_wxPoint( 3 );
     wxSize size = wxh_par_wxSize( 4 );
-    long style = ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
-    const wxString& name = ISNIL( 6 ) ? wxString( _T("wxhBrowse") ) : wxh_parc( 6 );
+    long style = HB_ISNIL( 5 ) ? wxWANTS_CHARS : hb_parnl( 5 );
+    const wxString& name = HB_ISNIL( 6 ) ? wxString( _T("wxhBrowse") ) : wxh_parc( 6 );
 
     wxhBrowse* gridBrowse = new wxhBrowse( browse, id, pos, size, style, name );
     
@@ -297,8 +297,8 @@ HB_FUNC( WXHBROWSE_SHOWROW )
 
     if( gridBrowse )
     {
-        int row = ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
-        bool select = ISNIL( 2 ) ? true : hb_parl( 2 );
+        int row = HB_ISNIL( 1 ) ? gridBrowse->GetGridCursorRow() : hb_parni( 1 );
+        bool select = HB_ISNIL( 2 ) ? true : hb_parl( 2 );
 
         if( gridBrowse->m_selectedRow >= 0 && gridBrowse->m_selectedRow < gridBrowse->GetNumberRows() )
         {
