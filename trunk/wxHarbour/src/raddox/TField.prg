@@ -2230,6 +2230,10 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
                 IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
                     RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
                 ENDIF
+                
+                IF !::FLinkedTable:IsDerivedFrom( "TTable" )
+                    RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table NOT derived from a TTable class."
+                ENDIF
 
                 /* check if we still need a mastersource and it exists in TObjectField's Table */
                 IF Empty( linkedTableMasterSource )

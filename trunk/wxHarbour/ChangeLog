@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-08-01 17:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Added protection against creating TObjectField's from an not TTable derived class
+
 2011-07-27 13:24 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/xho_classes.h
   *  src/common/wx_harbour.cpp
