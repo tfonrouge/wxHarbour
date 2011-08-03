@@ -197,7 +197,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
 
     aErrLst := __objGetValueList( oErr, .T., 0 )
 
-    IF .F.
+    IF .T.
         s := cMessage + E":\n\n" + oErr:Description + ": " + oErr:Operation + E"\n\n"
         i := 3
         WHILE !Empty( ProcName( i ) )
@@ -208,7 +208,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         ?
         //? HB_ValToExp( oErr )
         wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ) )
-        BREAK( 0 )
+        RETURN 1
     ENDIF
 
     IF Empty( cMessage )
@@ -243,7 +243,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
                 CASE itm == wxhLABEL_DEFAULT
                     id := wxID_DEFAULT
                     itm := NIL
-        CASE itm == wxhLABEL_ACCEPT
+                CASE itm == wxhLABEL_ACCEPT
                     id := wxID_OK
                     itm := NIL
                 OTHERWISE
