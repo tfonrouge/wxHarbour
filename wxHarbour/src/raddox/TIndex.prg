@@ -84,14 +84,14 @@ PUBLIC:
     METHOD InsideScope()
     METHOD KeyExpression()
     METHOD MasterKeyExpression()
-    
+
     METHOD OrdCondSet( ... ) INLINE ::FTable:OrdCondSet( ... )
     METHOD OrdCreate( ... ) INLINE ::FTable:OrdCreate( ... )
     METHOD OrdKeyNo() INLINE ::GetAlias():OrdKeyNo()
-    
+
     METHOD RawGet4Seek( direction, blk, keyVal, softSeek )
     METHOD RawSeek( Value )
-    
+
     METHOD SetKeyVal( keyVal )
 
     PROPERTY Filter READ FFilter
@@ -100,7 +100,7 @@ PUBLIC:
     PROPERTY Scope READ GetScope WRITE SetScope
     PROPERTY ScopeBottom READ GetScopeBottom WRITE SetScopeBottom
     PROPERTY ScopeTop READ GetScopeTop WRITE SetScopeTop
-    
+
     METHOD Seek( keyValue, lSoftSeek ) INLINE ::BaseSeek( 0, keyValue, lSoftSeek )
     METHOD SeekLast( keyValue, lSoftSeek ) INLINE ::BaseSeek( 1, keyValue, lSoftSeek )
 
@@ -184,7 +184,7 @@ METHOD AddIndex( cMasterKeyField, ai, un, cKeyField, ForKey, cs, de, acceptEmpty
             ::KeyField := cKeyField
         ENDCASE
     ENDIF
-    
+
     IF acceptEmptyUnique != NIL
         ::UniqueKeyField:AcceptEmptyUnique := acceptEmptyUnique
     ENDIF
@@ -233,7 +233,7 @@ METHOD FUNCTION BaseSeek( direction, keyValue, lSoftSeek ) CLASS TIndex
     ENDIF
 
     ::GetCurrentRecord()
-    
+
 RETURN ::FTable:Found()
 
 /*
@@ -327,7 +327,7 @@ RETURN ::FTable:Found()
 */
 METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
     LOCAL table
-    
+
     IF ::associatedTable = NIL
         table := ::FTable
     ELSE
@@ -340,7 +340,7 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
     ELSE
         ::FTable:SkipFilter( numRecs, Self )
     ENDIF
-    
+
 RETURN
 
 /*
@@ -351,11 +351,11 @@ METHOD FUNCTION ExistKey( keyValue ) CLASS TIndex
 RETURN ::GetAlias():ExistKey( ::MasterKeyVal + keyValue, ::FTagName, ;
         {||
             IF ::IdxAlias = NIL
-                RETURN ::FTable:RecNo 
+                RETURN ::FTable:RecNo
             ENDIF
             RETURN ( ::IdxAlias:workArea )->RecNo
         } )
-        
+
 /*
     Get4Seek
     Teo. Mexico 2009
@@ -479,25 +479,25 @@ METHOD FUNCTION InsideScope() CLASS TIndex
     LOCAL masterKeyVal
     LOCAL scopeVal
     LOCAL keyValue
-    
+
     IF ::FTable:Alias:Eof() .OR. ::FTable:Alias:Bof()
         RETURN .F.
     ENDIF
-    
+
     keyValue := ::GetAlias():KeyVal( ::FTagName )
-    
+
     IF keyValue == NIL
         RETURN .F.
     ENDIF
 
     masterKeyVal := ::MasterKeyVal
-    
+
     scopeVal := ::GetScope()
-    
+
     IF scopeVal == NIL
         RETURN masterKeyVal == "" .OR. keyValue = masterKeyVal
     ENDIF
-    
+
 RETURN keyValue >= ( masterKeyVal + ::GetScopeTop() ) .AND. ;
              keyValue <= ( masterKeyVal + ::GetScopeBottom() )
 
@@ -647,7 +647,7 @@ METHOD PROCEDURE SetField( nIndex, XField ) CLASS TIndex
             RAISE ERROR ::FTable:ClassName + ": Master key field <" + AField:Name + ">	needs a size > zero..."
         ENDIF
         IF AField:KeyIndex != NIL
-            RAISE ERROR ::FTable:ClassName + ": Field <" + AField:Name + ">	already defined as Key Field..." 
+            RAISE ERROR ::FTable:ClassName + ": Field <" + AField:Name + ">	already defined as Key Field..."
         ENDIF
         AField:KeyIndex := Self
         ::FKeyField := AField
@@ -687,7 +687,7 @@ RETURN Self
 */
 METHOD FUNCTION SetScope( value ) CLASS TIndex
     LOCAL oldValue := { ::FScopeTop, ::FScopeBottom }
-    
+
     IF ValType( value ) = "A" // scope by field
         ::FScopeTop := value[ 1 ]
         ::FScopeBottom := value[ 2 ]
@@ -704,7 +704,7 @@ RETURN oldValue
 */
 METHOD FUNCTION SetScopeBottom( value ) CLASS TIndex
     LOCAL oldValue := ::FScopeBottom
-    
+
     ::FScopeBottom := value
 
 RETURN oldValue
@@ -715,7 +715,7 @@ RETURN oldValue
 */
 METHOD FUNCTION SetScopeTop( value ) CLASS TIndex
     LOCAL oldValue := ::FScopeTop
-    
+
     ::FScopeTop := value
 
 RETURN oldValue

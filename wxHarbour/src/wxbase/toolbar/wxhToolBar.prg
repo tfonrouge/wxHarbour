@@ -37,12 +37,12 @@ PUBLIC:
     METHOD AddCheckTool( toolId, label, bitmap1, bitmap2, shortHelpString, longHelpString, clientData )
     METHOD AddControl( control )
     METHOD AddSeparator()
-    
+
     /*
     wxToolBarToolBase* AddTool(int toolId, const wxString& label, const wxBitmap& bitmap1, const wxString& shortHelpString = "", wxItemKind kind = wxITEM_NORMAL)
-    
+
     wxToolBarToolBase* AddTool(int toolId, const wxString& label, const wxBitmap& bitmap1, const wxBitmap& bitmap2 = wxNullBitmap, wxItemKind kind = wxITEM_NORMAL, const wxString& shortHelpString = "", const wxString& longHelpString = "", wxObject* clientData = NULL)
-    
+
     wxToolBarToolBase* AddTool(wxToolBarToolBase* tool)
     */
     METHOD AddTool()
@@ -68,7 +68,7 @@ PUBLIC:
     METHOD GetToolState( toolId )
     METHOD InsertControl( pos, control )
     METHOD InsertSeparator( pos )
-    
+
     //METHOD OnLeftClick( toolId, toggleDown )
     //METHOD OnMouseEnter( toolId )
     //METHOD OnRightClick( toolId, x, y )

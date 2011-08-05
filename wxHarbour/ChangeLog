@@ -2,6 +2,58 @@
  * $Id$
  */
 
+2011-08-05 13:40 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/sysdefs.cpp
+  *  src/common/wx_err.cpp
+  *  src/common/wx_harbour.cpp
+  *  src/common/wxhfuncs.prg
+  *  src/common/xho_classes.cpp
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+  *  src/hrbcompat/tbrowse/wx_Browse.cpp
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/raddox/Dba.prg
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TField.prg
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+  *  src/wxbase/advctrls/wx_Grid.cpp
+  *  src/wxbase/advctrls/wx_GridTableBase.cpp
+  *  src/wxbase/app/wxhApp.prg
+  *  src/wxbase/baseclasses/wx_ScrolledWindow.cpp
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/books/wx_AuiNotebook.cpp
+  *  src/wxbase/books/wx_Notebook.cpp
+  *  src/wxbase/controls/wx_BitmapButton.cpp
+  *  src/wxbase/controls/wx_TextCtrl.cpp
+  *  src/wxbase/events/wx_Event.cpp
+  *  src/wxbase/events/wx_FocusEvent.cpp
+  *  src/wxbase/events/wx_KeyEvent.cpp
+  *  src/wxbase/html/wx_HtmlEasyPrinting.cpp
+  *  src/wxbase/html/wx_HtmlWindow.cpp
+  *  src/wxbase/image/wx_Bitmap.cpp
+  *  src/wxbase/image/wx_Colour.cpp
+  *  src/wxbase/image/wxhBitmap.prg
+  *  src/wxbase/image/wxhColour.prg
+  *  src/wxbase/image/wx_Icon.cpp
+  *  src/wxbase/image/wx_StaticBitmap.cpp
+  *  src/wxbase/manwindows/wx_Dialog.cpp
+  *  src/wxbase/manwindows/wx_Frame.cpp
+  *  src/wxbase/menu/wx_MenuItem.cpp
+  *  src/wxbase/pickers/wx_DatePickerCtrl.cpp
+  *  src/wxbase/range/wx_ScrollBar.cpp
+  *  src/wxbase/sizers/wx_FlexGridSizer.cpp
+  *  src/wxbase/sizers/wx_GridSizer.cpp
+  *  src/wxbase/sizers/wx_Sizer.cpp
+  *  src/wxbase/sizers/wx_StaticBoxSizer.cpp
+  *  src/wxbase/system/wx_Env.cpp
+  *  src/wxbase/system/wx_PlatformInfo.cpp
+  *  src/wxbase/toolbar/wxhToolBar.prg
+  *  src/wxbase/toolbar/wx_ToolBar.cpp
+  *  src/wxbase/validators/wx_Validator.cpp
+     * minor code cleanup
+
 2011-08-03 14:33 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      % simplified error message

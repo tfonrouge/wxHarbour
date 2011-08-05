@@ -44,15 +44,15 @@ wx_ToolBar* wx_Frame::OnCreateToolBar( long style, wxWindowID id, const wxString
     PHB_ITEM pStyle = hb_itemPutNL( NULL, style );
     PHB_ITEM pId = hb_itemPutNI( NULL, id );
     PHB_ITEM pName = hb_itemPutC( NULL, wxh_wxStringToC( name ) );
-        
+
     hb_objSendMsg( xho_itemListGet_HB( this ), "OnCreateToolBar", 3, pStyle, pId, pName );
 
     wx_ToolBar* toolBar = (wx_ToolBar *) xho_itemListGet_XHO( hb_stackReturnItem() );
-    
+
     hb_itemRelease( pStyle );
     hb_itemRelease( pId );
     hb_itemRelease( pName );
-    
+
     return toolBar;
 }
 
@@ -91,7 +91,7 @@ HB_FUNC( WXFRAME_NEW )
 HB_FUNC( WXFRAME_CENTRE )
 {
     wx_Frame* frame = (wx_Frame*) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( frame )
     {
         int direction = HB_ISNIL( 1 ) ? wxBOTH : hb_parni( 1 );

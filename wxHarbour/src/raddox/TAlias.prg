@@ -234,7 +234,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
             ::FTableName := table:TableFileName
             RETURN .T.
         ENDIF
-        
+
         IF table:IsTempTable
             IF !table:CreateTable()
                 RETURN .F.
@@ -262,17 +262,17 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
         ENDIF
 
         table:fullFileName := path + table:TableFileName
-        
+
         tableFullFileName := table:fullFileName
         tableName := table:TableFileName
-        
+
     ELSE
-    
+
         tableFullFileName := table
         tableName := table
 
     ENDIF
-    
+
     IF ! HB_DbExists( tableFullFileName ) .AND. table:AutoCreate
         IF !table:CreateTable( tableFullFileName )
             BREAK( "TAlias: Cannot Create Table '" + tableFullFileName + "'" )
@@ -489,7 +489,7 @@ METHOD FUNCTION RawGet4Seek( direction, xVal, keyVal, indexName, softSeek ) CLAS
 
     IF ValType( xVal ) = "O"
         xVal := xVal:FieldReadBlock
-    END	
+    END
 
     IF keyVal = NIL
         keyVal := ""
@@ -498,7 +498,7 @@ METHOD FUNCTION RawGet4Seek( direction, xVal, keyVal, indexName, softSeek ) CLAS
     IF direction = 1
         RETURN (::workArea)->( Get4Seek( xVal, keyVal, indexName, softSeek ) )
     ENDIF
-    
+
 RETURN (::workArea)->( Get4SeekLast( xVal, keyVal, indexName, softSeek ) )
 
 /*

@@ -61,8 +61,8 @@ HB_FUNC( WXH_NULLOBJECT )
 HB_FUNC( WXH_DESTROYNULLOBJECT )
 {
     PHB_ITEM pSelf = hb_param( 1, HB_IT_OBJECT );
-    
-    if ( pSelf ) 
+
+    if ( pSelf )
     {
         pSelf->type = HB_IT_NIL;
     }
@@ -75,7 +75,7 @@ HB_FUNC( WXH_DESTROYNULLOBJECT )
 wxArrayString wxh_par_wxArrayString( int param )
 {
     wxArrayString arrayString;
-    
+
     if( HB_ISARRAY( param ) )
     {
         PHB_ITEM pArray = hb_param( param, HB_IT_ARRAY );
@@ -90,7 +90,7 @@ wxArrayString wxh_par_wxArrayString( int param )
             }
         }
     }
-    
+
     return arrayString;
 }
 
@@ -101,7 +101,7 @@ wxArrayString wxh_par_wxArrayString( int param )
 wxColour wxh_par_wxColour( int param )
 {
     PHB_ITEM pItem = hb_param( param, HB_IT_ANY );
-    
+
     switch ( hb_itemType( pItem ) )
     {
         case HB_IT_STRING:

@@ -61,7 +61,7 @@ HB_FUNC( WXSTATICBOXSIZER_NEW )
 HB_FUNC( WXSTATICBOXSIZER_GETSTATICBOX )
 {
     wxStaticBoxSizer* sbSizer = (wxStaticBoxSizer *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( sbSizer )
     {
         xho_itemNewReturn( "wxStaticBox", sbSizer->GetStaticBox(), sbSizer );

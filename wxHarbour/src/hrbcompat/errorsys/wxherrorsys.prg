@@ -214,7 +214,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
     IF Empty( cMessage )
         cMessage := oErr:Description + ": " + oErr:Operation
     ENDIF
-    
+
     CREATE DIALOG dlg ;
         WIDTH 640 HEIGHT 400 ;
         TITLE "Error System" ;
@@ -263,11 +263,11 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
     brwErrObj:DeleteAllColumns()
     ADD BCOLUMN TO brwErrObj "MsgName" BLOCK {|n| brwErrObj:DataSource[ n, 1 ] }
     ADD BCOLUMN TO brwErrObj "Value" BLOCK {|n| brwErrObj:DataSource[ n, 2 ] }
-    
+
     brwCallStack:AutoSizeColumns( .F. )
 
     SHOW WINDOW dlg MODAL CENTRE
-    
+
     DESTROY dlg
 
 RETURN retVal

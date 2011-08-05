@@ -35,7 +35,7 @@ PRIVATE:
     DATA FReadOnly INIT .F.
     DATA FValType
     DATA FWidth
-    
+
     METHOD GetCanSetValue()
     METHOD SetAlign( align ) INLINE ::FAlign := align
     METHOD SetAligned( aligned ) INLINE ::FAligned := aligned
@@ -53,16 +53,16 @@ PROTECTED:
 PUBLIC:
 
     CONSTRUCTOR New( browse, heading, block )
-    
+
     DATA colPos INIT 0
 
     DATA IsEditable INIT .F.
-    
+
     DATA OnSetValue
-    
+
     METHOD GetValue( rowParam, nCol )
     METHOD SetValue( rowParam, value )
-    
+
     PROPERTY Browse READ FBrowse
     PROPERTY CanSetValue READ GetCanSetValue
     PROPERTY Field READ FField WRITE SetField
@@ -126,7 +126,7 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
     ELSE
         result := ::FBlock:Eval( rowParam )
     ENDIF
-    
+
     IF HB_IsObject( rowParam )
         IF ::FHeading = NIL
             IF rowParam:__FLastLabel = NIL

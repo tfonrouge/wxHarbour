@@ -353,7 +353,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
      * Sets the MasterSource (maybe will be needed in the fields definitions ahead )
      */
     IF masterSource != NIL
-    
+
         /*
          * As we have not fields defined yet, this will not execute SyncFromMasterSourceFields()
          */
@@ -382,7 +382,7 @@ METHOD New( masterSource, tableName ) CLASS TTable
     IF ::autoOpen
         ::Open()
     ENDIF
-    
+
 RETURN Self
 
 /*
@@ -422,9 +422,9 @@ RETURN
 METHOD PROCEDURE AddFieldMessage( messageName, AField ) CLASS TTable
     LOCAL index
     LOCAL fld
-    
+
     fld := ::FieldByName( messageName, @index )
-    
+
     IF index = 0
         AAdd( ::FFieldList, AField )
         index := Len( ::FFieldList )
@@ -471,7 +471,7 @@ METHOD FUNCTION AddRec() CLASS TTable
     IF !( Result := ::Alias:AddRec(index) )
         RETURN Result
     ENDIF
-    
+
     ::FEof := .F.
     ::FBof := .F.
 
@@ -488,7 +488,7 @@ METHOD FUNCTION AddRec() CLASS TTable
      * Write the Fields that have a DefaultValue
      */
     BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
-    
+
         ::FillPrimaryIndexes( Self )
 
         FOR EACH AField IN ::FFieldList
@@ -524,15 +524,15 @@ METHOD PROCEDURE AssociateTableIndex( table, name, getRecNo, setRecNo ) CLASS TT
     IF !HB_HHasKey( ::IndexList, ::ClassName() )
         ::IndexList[ ::ClassName() ] := HB_HSetCaseMatch( {=>}, .F. )
     ENDIF
-    
+
     index := table:IndexByName( name )
     index:associatedTable := Self
-    
+
     index:getRecNo := getRecNo
     index:setRecNo := setRecNo
 
     ::IndexList[ ::ClassName(), name ] := index
-    
+
     ::ExternalIndexList[ index:ObjectH ] := index
 
 RETURN
@@ -543,7 +543,7 @@ RETURN
 */
 METHOD FUNCTION BaseSeek( direction, Value, index, lSoftSeek ) CLASS TTable
     LOCAL AIndex
-    
+
     AIndex := ::FindIndex( index )
 
     IF direction = 0
@@ -585,7 +585,7 @@ METHOD PROCEDURE Cancel CLASS TTable
     ENDSWITCH
 
     ::RecUnLock()
-    
+
     ::OnAfterCancel()
 
     IF ::FRecNoBeforeInsert != NIL
@@ -662,11 +662,11 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
             ::FInstances[ ::TableClass, "DbStructValidated" ] := ::FixDbStruct( aDb, sResult )
 
         ENDIF
-        
+
         HB_HDel( ::FInstances[ ::TableClass ], "DbStructValidating" )
 
     ENDIF
-    
+
 RETURN .T.
 
 /*
@@ -678,17 +678,17 @@ METHOD FUNCTION Childs( curClass, childs, block ) CLASS TTable
     LOCAL ChildDB
     LOCAL clsName
     LOCAL destroyChild
-    
+
     IF curClass = NIL
         curClass := Self
     ENDIF
-    
+
     IF childs = NIL
         childs := {}
     ENDIF
 
     clsName := curClass:ClassName
-    
+
     IF clsName == "TTABLE"
         RETURN childs
     ENDIF
@@ -718,7 +718,7 @@ METHOD FUNCTION Childs( curClass, childs, block ) CLASS TTable
         NEXT
 
     ENDIF
-    
+
     ::Childs( curClass:__Super, childs, block )
 
 RETURN childs
@@ -794,7 +794,7 @@ RETURN .T.
 */
 METHOD FUNCTION Count( bForCondition, bWhileCondition, index, scope ) CLASS TTable
     LOCAL nCount := 0
-    
+
     ::DbEval( {|| ++nCount }, bForCondition, bWhileCondition, index, scope )
 
 RETURN nCount
@@ -850,7 +850,7 @@ METHOD FUNCTION CreateTempIndex( index ) CLASS TTable
     LOCAL size
     LOCAL fldName
     LOCAL lNew := .F.
-    
+
     fldName := index:Name
 
     IF !index:temporary
@@ -864,11 +864,11 @@ METHOD FUNCTION CreateTempIndex( index ) CLASS TTable
         aliasName := "IDX_" + ::ClassName()
 
         IF File( fileName ) .AND. index:IdxAlias = NIL
-    
+
             index:IdxAlias := TAlias()
             index:IdxAlias:lShared := .F.
             index:IdxAlias:New( fileName, aliasName )
-            
+
         ENDIF
 
     ENDIF
@@ -908,7 +908,7 @@ METHOD FUNCTION CreateTempIndex( index ) CLASS TTable
         CREATE INDEX ON "RecNo" TAG "IDX_RECNO" BAG pathName ADDITIVE
 
         CREATE INDEX ON fldName TAG index:Name BAG pathName ADDITIVE
-        
+
         lNew := .T.
 
     ENDIF
@@ -916,7 +916,7 @@ METHOD FUNCTION CreateTempIndex( index ) CLASS TTable
     IF index:temporary
 
         index:IdxAlias:__DbZap()
-        
+
     ENDIF
 
     IF index:temporary .OR. lNew
@@ -950,7 +950,7 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index, scope ) 
             ::IndexName := index:Name
         ENDIF
     ENDIF
-    
+
     IF scope != NIL
         oldScope := ::Index:Scope
         ::Index:Scope := scope
@@ -967,17 +967,17 @@ METHOD PROCEDURE DbEval( bBlock, bForCondition, bWhileCondition, index, scope ) 
         ::DbSkip()
 
     ENDDO
-    
+
     IF oldScope != NIL
         ::Index:Scope := oldScope
     ENDIF
-    
+
     IF oldIndex != NIL
         ::IndexName := oldIndex
     ENDIF
-    
+
     ::StatePop()
-    
+
 RETURN
 
 /*
@@ -989,7 +989,7 @@ METHOD FUNCTION DbGoBottomTop( n ) CLASS TTable
     IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
         ::Post()
     ENDIF
-    
+
     IF ::FIndex != NIL
         IF n = 1
             RETURN ::FIndex:DbGoTop()
@@ -1112,9 +1112,9 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
     ENDIF
 
     ::RecUnLock()
-    
+
     ::GetCurrentRecord()
-    
+
     ::OnAfterDelete()
 
 RETURN .T.
@@ -1135,7 +1135,7 @@ METHOD FUNCTION DeleteChilds( curClass ) CLASS TTable
     ENDIF
 
     clsName := curClass:ClassName
-    
+
     IF clsName == "TTABLE"
         RETURN .T.
     ENDIF
@@ -1190,7 +1190,7 @@ METHOD PROCEDURE Destroy() CLASS TTable
         //WLOG("ERROR!: " + ::ClassName + ":Destroy - :FieldList is not a array...")
         RETURN
     ENDIF
-    
+
     FOR EACH table IN ::DetailSourceList
         table:Destroy()
     NEXT
@@ -1255,9 +1255,9 @@ RETURN NIL
 */
 METHOD FUNCTION FieldByObjClass( objClass, derived ) CLASS TTable
     LOCAL fld
-    
+
     objClass := Upper( objClass )
-    
+
     FOR EACH fld IN ::FFieldList
         IF fld:IsDerivedFrom( "TObjectField" )
             IF derived == .T.
@@ -1271,7 +1271,7 @@ METHOD FUNCTION FieldByObjClass( objClass, derived ) CLASS TTable
             ENDIF
         ENDIF
     NEXT
-    
+
 RETURN NIL
 
 /*
@@ -1300,9 +1300,9 @@ METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
     className := curClass:ClassName()
 
     IF !className == "TTABLE"
-    
+
         ::FillPrimaryIndexes( curClass:Super )
-        
+
         IF HB_HHasKey( ::FPrimaryIndexList, className )
             AIndex := ::FIndexList[ className, ::FPrimaryIndexList[ className ] ]
         ELSE
@@ -1322,7 +1322,7 @@ METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
                 AField:SetData()
             ENDIF
         ENDIF
-    
+
     ENDIF
 
 RETURN
@@ -1339,7 +1339,7 @@ METHOD FUNCTION FilterEval( index ) CLASS TTable
     ELSE
         table := Self
     ENDIF
-    
+
     IF index != NIL .AND. index:Filter != NIL .AND. !index:Filter:Eval( table )
         RETURN .F.
     ENDIF
@@ -1456,7 +1456,7 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
         USE ( tempName ) NEW
 
         BEGIN SEQUENCE WITH ;
-            {|oErr| 
+            {|oErr|
 
                 IF oErr:GenCode = EG_DATATYPE
                     RETURN .F.
@@ -1583,7 +1583,7 @@ METHOD FUNCTION GetCurrentRecord( idxAlias ) CLASS TTable
                             table := AField:LinkedTable
                             IF table:LinkedObjField != NIL .AND. table:LinkedObjField:Calculated .AND. !table:MasterSource == Self .AND. table:MasterSource == table:LinkedObjField:Table:KeyField:LinkedTable
                                 table:LinkedObjField:Table:KeyField:DataObj()
-                            ENDIF    
+                            ENDIF
                         ENDIF
                     ENDIF
 
@@ -1638,7 +1638,7 @@ RETURN ::FInstances[ ::TableClass, "DbStruct" ]
 METHOD FUNCTION GetDisplayFieldBlock( xField ) CLASS TTable
     LOCAL AField
     LOCAL msgName
-    
+
     SWITCH ValType( xField )
     CASE 'C'
         AField := ::FieldByName( xField )
@@ -1808,7 +1808,7 @@ RETURN ::FFieldTypes
 */
 METHOD FUNCTION GetField( fld ) CLASS TTable
     LOCAL AField
-    
+
     SWITCH ValType( fld )
     CASE 'C'
         AField := ::FieldByName( fld )
@@ -1992,10 +1992,10 @@ RETURN ::FBaseKeyField:Value
 */
 METHOD FUNCTION IndexByName( indexName, curClass ) CLASS TTable
     LOCAL className
-    
+
     curClass := iif( curClass = NIL, Self, curClass )
     className := curClass:ClassName()
-    
+
     IF ! className == "TTABLE"
         IF HB_HHasKey( ::FIndexList, className )
             IF HB_HHasKey( ::FIndexList[ className ], indexName )
@@ -2027,7 +2027,7 @@ METHOD PROCEDURE InitTable() CLASS TTable
     ENDIF
 
     IF ::FInstances[ ::TableClass, "Initializing" ]
-    
+
         ::OnClassInitializing()
 
         ::FInstances[ ::TableClass, "ChildReferenceList" ] := {}
@@ -2073,7 +2073,7 @@ METHOD FUNCTION Insert() CLASS TTable
         ::Error_TableNotInBrowseState()
         RETURN .F.
     ENDIF
-    
+
     IF ::OnBeforeInsert() .AND. ::AddRec()
 
         /* To Flush !!! */
@@ -2082,7 +2082,7 @@ METHOD FUNCTION Insert() CLASS TTable
         ::SyncDetailSources()
 
         ::OnAfterInsert()
-    
+
         RETURN .T.
 
     ENDIF
@@ -2150,7 +2150,7 @@ METHOD PROCEDURE OnDestruct() CLASS TTable
         FErase( dbfName )
         FErase( indexName )
     ENDIF
-    
+
     //::Destroy()
 
 RETURN
@@ -2203,7 +2203,7 @@ METHOD PROCEDURE OrdCreate( ... ) CLASS TTable
     LOCAL oDlg
 
     DbSelectArea( ::Alias:Name )
-    
+
     IF !Empty( ::IndexName )
         masterKeyVal := ::Index:MasterKeyVal
         OrdSetFocus( ::IndexName )
@@ -2212,13 +2212,13 @@ METHOD PROCEDURE OrdCreate( ... ) CLASS TTable
     ENDIF
 
     //DbGoTop()
-    
+
     ::DisplayFields:__FSyncFromAlias := .T.
-    
+
     CREATE DIALOG oDlg ;
         TITLE "Un momento..." ;
         PARENT ::Frame
-        
+
     SHOW WINDOW oDlg CENTRE
 
     ::Alias:OrdCreate( ... )
@@ -2230,9 +2230,9 @@ METHOD PROCEDURE OrdCreate( ... ) CLASS TTable
     ENDIF
 
     DESTROY oDlg
-    
+
     ::DisplayFields:__FSyncFromAlias := syncFromAlias
-    
+
     ordCustom( NIL, NIL, .T. )
 
 RETURN
@@ -2291,7 +2291,7 @@ METHOD FUNCTION Post() CLASS TTable
         ENDIF
 
     RECOVER USING errObj
-    
+
         ::Cancel()
 
         SHOW ERROR errObj
@@ -2382,11 +2382,11 @@ METHOD FUNCTION RecLock() CLASS TTable
         ::Error_Table_Not_In_Browse_Mode()
         RETURN .F.
     ENDIF
-    
+
     IF !::OnBeforeLock()
         RETURN .F.
     ENDIF
-    
+
     IF ::FReadOnly
         wxhAlert( "Table '" + ::ClassName() + "' is marked as READONLY...")
         RETURN .F.
@@ -2399,10 +2399,10 @@ METHOD FUNCTION RecLock() CLASS TTable
     IF !::InsideScope .OR. !::Alias:RecLock()
         RETURN .F.
     ENDIF
-    
+
     allowOnDataChange := ::allowOnDataChange
     ::allowOnDataChange := .F.
-    
+
     result := ::GetCurrentRecord()
 
     IF result
@@ -2410,7 +2410,7 @@ METHOD FUNCTION RecLock() CLASS TTable
     ELSE
         ::Alias:RecUnLock()
     ENDIF
-    
+
     ::allowOnDataChange := allowOnDataChange
 
 RETURN result
@@ -2450,13 +2450,13 @@ METHOD PROCEDURE Reset() CLASS TTable
     FOR EACH AField IN ::FFieldList
 
         IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. AField:Enabled
-            IF AField:RawDefaultValue != NIL .OR. !AField:IsMasterFieldComponent 
+            IF AField:RawDefaultValue != NIL .OR. !AField:IsMasterFieldComponent
                 AField:Reset()
             ENDIF
         ENDIF
 
     NEXT
-    
+
     ::FUnderReset := .F.
 
 RETURN
@@ -2504,9 +2504,9 @@ METHOD PROCEDURE SetIndexName( indexName ) CLASS TTable
     LOCAL index
 
     IF !Empty( indexName )
-    
+
         index := ::IndexByName( indexName )
-    
+
         IF index != NIL
             ::Index := index
             RETURN
@@ -2537,7 +2537,7 @@ METHOD PROCEDURE SetMasterSource( masterSource ) CLASS TTable
     ENDIF
 
     ::FMasterSource := masterSource
-    
+
     SWITCH ValType( masterSource )
     CASE 'O'
         IF masterSource:IsDerivedFrom( "TTable" )
@@ -2625,7 +2625,7 @@ METHOD PROCEDURE SetState( state ) CLASS TTable
 
     oldState := ::FState
     ::FState := state
-    
+
     IF state = dsEdit
         ::FUndoList := HB_HSetCaseMatch( {=>}, .F. )
     ENDIF
@@ -2688,7 +2688,7 @@ METHOD FUNCTION SkipFilter( n, index ) CLASS TTable
     LOCAL tagName
     LOCAL o
     LOCAL alias
-    
+
     IF n = NIL
         n := 1
     ENDIF
@@ -2702,7 +2702,7 @@ METHOD FUNCTION SkipFilter( n, index ) CLASS TTable
     ENDIF
 
     n := Abs( n )
-    
+
     IF index = NIL
         tagName := NIL
         o := Self
@@ -2739,14 +2739,14 @@ METHOD PROCEDURE StatePop() CLASS TTable
     FOR EACH cloneData IN ::tableState[ ::tableStateLen ]["CloneData"]
         ::FFieldList[ cloneData:__enumIndex ]:CloneData := cloneData
     NEXT
-    
+
     ::FRecNo           := ::tableState[ ::tableStateLen ]["RecNo"]
     ::FBof             := ::tableState[ ::tableStateLen ]["Bof"]
     ::FEof             := ::tableState[ ::tableStateLen ]["Eof"]
     ::FFound           := ::tableState[ ::tableStateLen ]["Found"]
     ::FState           := ::tableState[ ::tableStateLen ]["State"]
     ::IndexName        := ::tableState[ ::tableStateLen ]["IndexName"]
-    
+
     FOR EACH tbl IN ::DetailSourceList
         IF HB_HHasKey( ::tableState[ ::tableStateLen ]["DetailSourceList"], tbl:ObjectH )
             tbl:StatePop()
@@ -2754,7 +2754,7 @@ METHOD PROCEDURE StatePop() CLASS TTable
     NEXT
 
     --::tableStateLen
-    
+
     ::Alias:Pop()
 
 RETURN
@@ -2827,7 +2827,7 @@ METHOD PROCEDURE SyncFromMasterSourceFields() CLASS TTable
             IF ::MasterSource:Active
 
                 ::OnSyncFromMasterSource()
-                
+
                 IF !::MasterSource:Eof() .AND. ::Alias != NIL
 
                     /* TField:Reset does the job */
