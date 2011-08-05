@@ -59,7 +59,7 @@ bool wx_Validator::TransferToWindow()
 {
     PHB_ITEM pSelf = xho_itemListGet_HB( this );
     bool result = false;
-    
+
     if( pSelf )
     {
         hb_objSendMsg( pSelf, "TransferToWindow", 0 );
@@ -106,7 +106,7 @@ HB_FUNC( WXVALIDATOR_NEW )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wx_Validator* validator = new wx_Validator;
-    
+
     objParams.Return( validator );
 }
 

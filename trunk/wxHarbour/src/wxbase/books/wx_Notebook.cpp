@@ -133,7 +133,7 @@ HB_FUNC( WXNOTEBOOK_CHANGESELECTION )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retni( noteBook->ChangeSelection( page_i ) + 1 );
@@ -167,7 +167,7 @@ HB_FUNC( WXNOTEBOOK_DELETEPAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retl( noteBook->DeletePage( page_i ) );
@@ -218,7 +218,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         xho_itemReturn( noteBook->GetPage( page_i ) );
@@ -252,7 +252,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGEIMAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retni( noteBook->GetPageImage( page_i ) );
@@ -270,7 +270,7 @@ HB_FUNC( WXNOTEBOOK_GETPAGETEXT )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         wxh_retc( noteBook->GetPageText( page_i ) );
@@ -355,7 +355,7 @@ HB_FUNC( WXNOTEBOOK_INSERTPAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         wxNotebookPage* page = (wxNotebookPage *) objParams.paramParent( 2 );
@@ -379,7 +379,7 @@ HB_FUNC( WXNOTEBOOK_REMOVEPAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retl( noteBook->RemovePage( page_i ) );
@@ -449,7 +449,7 @@ HB_FUNC( WXNOTEBOOK_SETPAGEIMAGE )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retl( noteBook->SetPageImage( page_i, hb_parni( 2 ) ) );
@@ -467,7 +467,7 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retl( noteBook->SetPageText( page_i, wxh_parc( 2 ) ) );
@@ -481,11 +481,11 @@ HB_FUNC( WXNOTEBOOK_SETPAGETEXT )
 HB_FUNC( WXNOTEBOOK_SETSELECTION )
 {
     xho_ObjParams objParams = xho_ObjParams( NULL );
-    
+
     wxNotebook* noteBook = (wxNotebook *) objParams.Get_xhoObject();
-    
+
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( noteBook && noteBook->GetPageCount() > page_i )
     {
         hb_retni( noteBook->SetSelection( page_i ) + 1 );

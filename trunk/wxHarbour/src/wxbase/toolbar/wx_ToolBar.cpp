@@ -71,7 +71,7 @@ HB_FUNC( WXTOOLBAR_ADDCONTROL )
 HB_FUNC( WXTOOLBAR_ADDSEPARATOR )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     toolBar->AddSeparator();
 }
@@ -83,7 +83,7 @@ HB_FUNC( WXTOOLBAR_ADDSEPARATOR )
 HB_FUNC( WXTOOLBAR_ADDTOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
         wxToolBarToolBase* tbtb;
@@ -115,7 +115,7 @@ HB_FUNC( WXTOOLBAR_ADDTOOL )
 HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     const wxBitmap& bitmap2 = HB_ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
@@ -131,7 +131,7 @@ HB_FUNC( WXTOOLBAR_ADDCHECKTOOL )
 HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     const wxBitmap& bitmap2 = HB_ISNIL( 4 ) ? wxNullBitmap : * (wxBitmap *) xho_par_XhoObject( 4 );
@@ -147,7 +147,7 @@ HB_FUNC( WXTOOLBAR_ADDRADIOTOOL )
 HB_FUNC( WXTOOLBAR_CLEARTOOLS )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     toolBar->ClearTools();
 }
@@ -159,7 +159,7 @@ HB_FUNC( WXTOOLBAR_CLEARTOOLS )
 HB_FUNC( WXTOOLBAR_DELETETOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     hb_retl( toolBar->DeleteTool( hb_parni( 1 ) ) );
 }
@@ -171,7 +171,7 @@ HB_FUNC( WXTOOLBAR_DELETETOOL )
 HB_FUNC( WXTOOLBAR_DELETETOOLBYPOS )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     hb_retl( toolBar->DeleteToolByPos( hb_parnl( 1 ) ) );
 }
@@ -183,7 +183,7 @@ HB_FUNC( WXTOOLBAR_DELETETOOLBYPOS )
 HB_FUNC( WXTOOLBAR_ENABLETOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     toolBar->EnableTool( hb_parni( 1 ), hb_parl( 2 ) );
 }
@@ -195,7 +195,7 @@ HB_FUNC( WXTOOLBAR_ENABLETOOL )
 HB_FUNC( WXTOOLBAR_FINDBYID )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     xho_itemReturn( toolBar->FindById( hb_parni( 1 ) ) );
@@ -209,7 +209,7 @@ HB_FUNC( WXTOOLBAR_FINDBYID )
 HB_FUNC( WXTOOLBAR_FINDCONTROL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     xho_itemReturn( toolBar->FindControl( hb_parni( 1 ) ) );
@@ -223,7 +223,7 @@ HB_FUNC( WXTOOLBAR_FINDCONTROL )
 HB_FUNC( WXTOOLBAR_FINDTOOLFORPOSITION )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     xho_itemReturn( toolBar->FindToolForPosition( hb_parni( 1 ), hb_parni( 2 ) ) );
@@ -237,7 +237,7 @@ HB_FUNC( WXTOOLBAR_FINDTOOLFORPOSITION )
 HB_FUNC( WXTOOLBAR_GETTOOLSCOUNT )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     hb_parni( toolBar->GetToolsCount() );
 }
@@ -249,7 +249,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSCOUNT )
 HB_FUNC( WXTOOLBAR_GETTOOLSIZE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxSize size = toolBar->GetToolSize();
@@ -264,7 +264,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSIZE )
 HB_FUNC( WXTOOLBAR_GETTOOLBITMAPSIZE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxSize size = toolBar->GetToolBitmapSize();
@@ -279,7 +279,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLBITMAPSIZE )
 HB_FUNC( WXTOOLBAR_GETMARGINS )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxSize size = toolBar->GetMargins();
@@ -294,7 +294,7 @@ HB_FUNC( WXTOOLBAR_GETMARGINS )
 HB_FUNC( WXTOOLBAR_GETTOOLCLIENTDATA )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     xho_itemReturn( toolBar->GetToolClientData( hb_parni( 1 ) ) );
@@ -308,7 +308,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLCLIENTDATA )
 HB_FUNC( WXTOOLBAR_GETTOOLENABLED )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retl( toolBar->GetToolEnabled( hb_parni( 1 ) ) );
@@ -322,7 +322,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLENABLED )
 HB_FUNC( WXTOOLBAR_GETTOOLLONGHELP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxh_retc( toolBar->GetToolLongHelp( hb_parni( 1 ) ) );
@@ -336,7 +336,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLLONGHELP )
 HB_FUNC( WXTOOLBAR_GETTOOLPACKING )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retni( toolBar->GetToolPacking() );
@@ -350,7 +350,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLPACKING )
 HB_FUNC( WXTOOLBAR_GETTOOLPOS )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retni( toolBar->GetToolPos( hb_parni( 1 ) ) );
@@ -364,7 +364,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLPOS )
 HB_FUNC( WXTOOLBAR_GETTOOLSEPARATION )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retni( toolBar->GetToolSeparation() );
@@ -378,7 +378,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSEPARATION )
 HB_FUNC( WXTOOLBAR_GETTOOLSHORTHELP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxh_retc( toolBar->GetToolShortHelp( hb_parni( 1 ) ) );
@@ -392,7 +392,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSHORTHELP )
 HB_FUNC( WXTOOLBAR_GETTOOLSTATE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retl( toolBar->GetToolState( hb_parni( 1 ) ) );
@@ -406,7 +406,7 @@ HB_FUNC( WXTOOLBAR_GETTOOLSTATE )
 HB_FUNC( WXTOOLBAR_INSERTCONTROL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxToolBarToolBase* tbtb = toolBar->InsertControl( hb_parnl( 1 ), (wxControl *) xho_par_XhoObject( 2 ) );
@@ -421,7 +421,7 @@ HB_FUNC( WXTOOLBAR_INSERTCONTROL )
 HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     wxToolBarToolBase* tbtb = toolBar->InsertSeparator( hb_parnl( 1 ) );
@@ -436,7 +436,7 @@ HB_FUNC( WXTOOLBAR_INSERTSEPARATOR )
 HB_FUNC( WXTOOLBAR_REALIZE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     hb_retl( toolBar->Realize() );
@@ -450,7 +450,7 @@ HB_FUNC( WXTOOLBAR_REALIZE )
 HB_FUNC( WXTOOLBAR_REMOVETOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     xho_itemReturn( toolBar->RemoveTool( hb_parni( 1 ) ) );
@@ -465,7 +465,7 @@ HB_FUNC( WXTOOLBAR_REMOVETOOL )
 HB_FUNC( WXTOOLBAR_SETBITMAPRESOURCE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetBitmapResource( hb_parni( 1 ) );
@@ -480,7 +480,7 @@ HB_FUNC( WXTOOLBAR_SETBITMAPRESOURCE )
 HB_FUNC( WXTOOLBAR_SETMARGINS )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     if( hb_pcount() == 2 )
@@ -503,7 +503,7 @@ HB_FUNC( WXTOOLBAR_SETMARGINS )
 HB_FUNC( WXTOOLBAR_SETTOOLBITMAPSIZE )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolBitmapSize( wxh_par_wxSize( 1 ) );
@@ -517,7 +517,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLBITMAPSIZE )
 HB_FUNC( WXTOOLBAR_SETTOOLCLIENTDATA )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolClientData( hb_parni( 1 ), xho_par_XhoObject( 1 ) );
@@ -531,7 +531,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLCLIENTDATA )
 HB_FUNC( WXTOOLBAR_SETTOOLDISABLEDBITMAP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolDisabledBitmap( hb_parni( 1 ), * (wxBitmap *) xho_par_XhoObject( 1 ) );
@@ -545,7 +545,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLDISABLEDBITMAP )
 HB_FUNC( WXTOOLBAR_SETTOOLLONGHELP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolLongHelp( hb_parni( 1 ), wxh_parc( 2 ) );
@@ -559,7 +559,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLLONGHELP )
 HB_FUNC( WXTOOLBAR_SETTOOLPACKING )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolPacking( hb_parni( 1 ) );
@@ -573,7 +573,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLPACKING )
 HB_FUNC( WXTOOLBAR_SETTOOLSHORTHELP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolShortHelp( hb_parni( 1 ), wxh_parc( 2 ) );
@@ -587,7 +587,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLSHORTHELP )
 HB_FUNC( WXTOOLBAR_SETTOOLNORMALBITMAP )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolNormalBitmap( hb_parni( 1 ), * (wxBitmap *) xho_par_XhoObject( 1 ) );
@@ -601,7 +601,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLNORMALBITMAP )
 HB_FUNC( WXTOOLBAR_SETTOOLSEPARATION )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->SetToolSeparation( hb_parni( 1 ) );
@@ -615,7 +615,7 @@ HB_FUNC( WXTOOLBAR_SETTOOLSEPARATION )
 HB_FUNC( WXTOOLBAR_TOGGLETOOL )
 {
     wxToolBar* toolBar = (wxToolBar *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( toolBar )
     {
     toolBar->ToggleTool( hb_parni( 1 ), hb_parl( 2 ) );

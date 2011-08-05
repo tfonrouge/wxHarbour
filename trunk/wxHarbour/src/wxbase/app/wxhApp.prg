@@ -28,7 +28,7 @@ PUBLIC:
 
     /* wxh specific */
     DATA wxh_ContextListKey
-    /* wxh specific */  
+    /* wxh specific */
 
     CONSTRUCTOR New
 

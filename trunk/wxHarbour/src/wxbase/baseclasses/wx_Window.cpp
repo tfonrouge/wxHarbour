@@ -100,7 +100,7 @@ HB_FUNC( WXWINDOW_CLOSE )
 HB_FUNC( WXWINDOW_DESTROYCHILDREN )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         wnd->DestroyChildren();
 }
@@ -112,7 +112,7 @@ HB_FUNC( WXWINDOW_DESTROYCHILDREN )
 HB_FUNC( WXWINDOW_DISABLE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retl( wnd->Disable() );
 }
@@ -124,7 +124,7 @@ HB_FUNC( WXWINDOW_DISABLE )
 HB_FUNC( WXWINDOW_DESTROY )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retl( wnd->Destroy() );
 }
@@ -137,7 +137,7 @@ HB_FUNC( WXWINDOW_DRAGACCEPTFILES )
 {
 /*
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         wnd->DragAcceptFiles( hb_parl( 1 ) );
 */
@@ -231,7 +231,7 @@ HB_FUNC( WXWINDOW_FINDWINDOWBYNAME )
 HB_FUNC( WXWINDOW_FITINSIDE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         wnd->FitInside();
 }
@@ -255,7 +255,7 @@ HB_FUNC( WXWINDOW_FREEZE )
 HB_FUNC( WXWINDOW_GETCLIENTSIZE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
     {
         wxSize size = wnd->GetClientSize();
@@ -297,7 +297,7 @@ HB_FUNC( WXWINDOW_GETCHILDREN )
 HB_FUNC( WXWINDOW_GETEXTRASTYLE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retnl( wnd->GetExtraStyle() );
 }
@@ -327,7 +327,7 @@ HB_FUNC( WXWINDOW_GETFONT )
 HB_FUNC( WXWINDOW_GETGRANDPARENT )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         xho_itemReturn( wnd->GetGrandParent() );
 }
@@ -339,7 +339,7 @@ HB_FUNC( WXWINDOW_GETGRANDPARENT )
 HB_FUNC( WXWINDOW_GETID )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retnl( wnd->GetId() );
 }
@@ -393,7 +393,7 @@ HB_FUNC( WXWINDOW_GETPARENT )
 HB_FUNC( WXWINDOW_GETPOINTSIZE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retni( wnd->GetFont().GetPointSize() );
 }
@@ -405,7 +405,7 @@ HB_FUNC( WXWINDOW_GETPOINTSIZE )
 HB_FUNC( WXWINDOW_GETSIZE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
     {
         wxSize size = wnd->GetSize();
@@ -420,7 +420,7 @@ HB_FUNC( WXWINDOW_GETSIZE )
 HB_FUNC( WXWINDOW_GETSIZER )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
     {
         wxSizer* sizer =	wnd->GetSizer();
@@ -476,7 +476,7 @@ HB_FUNC( WXWINDOW_ISENABLED )
 HB_FUNC( WXWINDOW_ISSHOWN )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         hb_retl( wnd->IsShown() );
 }
@@ -488,7 +488,7 @@ HB_FUNC( WXWINDOW_ISSHOWN )
 HB_FUNC( WXWINDOW_LAYOUT )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
         wnd->Layout();
 }
@@ -742,7 +742,7 @@ HB_FUNC( WXWINDOW_THAW )
 HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
     {
         hb_retl( wnd->TransferDataToWindow() );
@@ -756,10 +756,10 @@ HB_FUNC( WXWINDOW_TRANSFERDATATOWINDOW )
 HB_FUNC( WXWINDOW_VALIDATE )
 {
     wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( wnd )
     {
         hb_retl( wnd->wxWindow::Validate() );
-        
+
     }
 }

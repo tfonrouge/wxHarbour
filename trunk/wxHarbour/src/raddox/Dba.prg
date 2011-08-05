@@ -17,7 +17,7 @@ STATIC aws:={}                  // stack de PushWS/PopWS
 */
 FUNCTION AddRec(nrec,index)
     LOCAL rn:=RecNo()
-    
+
     IF GetNextEmpty(index)
         nrec := RecNo()
         RETURN .T.

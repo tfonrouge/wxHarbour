@@ -32,13 +32,13 @@
 HB_FUNC( WXFOCUSEVENT_GETEVENTOBJECT )
 {
     wxEvent *event = (wxEvent *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( event )
     {
         wxObject* wxObj = event->GetEventObject();
         wxWindow* wxWin = ( (wxWindow *) wxObj )->GetParent();
 
-        if( wxWin && wxWin->IsKindOf( CLASSINFO( wxGrid ) ) ) 
+        if( wxWin && wxWin->IsKindOf( CLASSINFO( wxGrid ) ) )
         {
             xho_itemReturn( wxWin );
         }

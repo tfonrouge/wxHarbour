@@ -43,7 +43,7 @@ wx_Dialog::wx_Dialog( wxWindow* parent, wxWindowID id, const wxString& title, co
 bool wx_Dialog::Validate()
 {
     PHB_ITEM pSelf = xho_itemListGet_HB( this );
-    
+
     if( pSelf )
     {
         hb_objSendMsg( pSelf, "Validate", 0 );
@@ -157,7 +157,7 @@ HB_FUNC( WXDIALOG_ENDMODAL )
 HB_FUNC( WXDIALOG_GETAFFIRMATIVEID )
 {
     wx_Dialog* dialog = (wx_Dialog *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( dialog )
         hb_retni( dialog->GetAffirmativeId() );
 }
@@ -169,7 +169,7 @@ HB_FUNC( WXDIALOG_GETAFFIRMATIVEID )
 HB_FUNC( WXDIALOG_GETESCAPEID )
 {
     wx_Dialog* dialog = (wx_Dialog *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( dialog )
         hb_retni( dialog->GetEscapeId() );
 }
@@ -193,7 +193,7 @@ HB_FUNC( WXDIALOG_GETRETURNCODE )
 HB_FUNC( WXDIALOG_SETAFFIRMATIVEID )
 {
     wx_Dialog* dialog = (wx_Dialog *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( dialog )
         dialog->SetAffirmativeId( hb_parni( 1 ) );
 }
@@ -205,7 +205,7 @@ HB_FUNC( WXDIALOG_SETAFFIRMATIVEID )
 HB_FUNC( WXDIALOG_SETESCAPEID )
 {
     wx_Dialog* dialog = (wx_Dialog *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( dialog )
         dialog->SetEscapeId( hb_parni( 1 ) );
 }

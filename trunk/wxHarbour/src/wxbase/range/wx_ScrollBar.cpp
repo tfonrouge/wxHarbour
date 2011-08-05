@@ -95,7 +95,7 @@ HB_FUNC( WXSCROLLBAR_GETTHUMBPOSITION )
     PHB_ITEM pSelf = hb_stackSelfItem();
 
     wx_ScrollBar* sb = (wx_ScrollBar *) xho_itemListGet_XHO( pSelf );
-    
+
     if( sb )
     {
         hb_retni( sb->GetThumbPosition() );

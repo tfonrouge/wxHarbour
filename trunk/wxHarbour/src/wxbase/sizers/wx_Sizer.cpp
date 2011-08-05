@@ -65,7 +65,7 @@ HB_FUNC( WXSIZER_ADD )
 {
     xho_ObjParams objParams = xho_ObjParams( NULL );
     wxSizer* sizer = (wxSizer *) objParams.Get_xhoObject();
-    
+
     if(sizer)
     {
         if( HB_ISOBJECT( 1 ) )

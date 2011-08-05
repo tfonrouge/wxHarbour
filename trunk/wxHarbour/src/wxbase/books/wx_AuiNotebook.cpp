@@ -90,7 +90,7 @@ HB_FUNC( WXAUINOTEBOOK_DELETEPAGE )
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
         hb_retl( auiNotebook->DeletePage( page_i ) );
@@ -106,7 +106,7 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGE )
     xho_ObjParams objParams = xho_ObjParams( NULL );
 
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
-    
+
     size_t page_i = hb_parnl( 1 ) - 1;
 
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
@@ -134,11 +134,11 @@ HB_FUNC( WXAUINOTEBOOK_GETPAGECOUNT )
 HB_FUNC( WXAUINOTEBOOK_GETPAGETEXT )
 {
     xho_ObjParams objParams = xho_ObjParams( NULL );
-    
+
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
-    
+
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
         wxh_retc( auiNotebook->GetPageText( page_i ) );
@@ -172,7 +172,7 @@ HB_FUNC( WXAUINOTEBOOK_REMOVEPAGE )
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
         hb_retl( auiNotebook->RemovePage( page_i ) );
@@ -190,7 +190,7 @@ HB_FUNC( WXAUINOTEBOOK_SETPAGETEXT )
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
         hb_retl( auiNotebook->SetPageText( page_i, wxh_parc( 2 ) ) );
@@ -208,7 +208,7 @@ HB_FUNC( WXAUINOTEBOOK_SETSELECTION )
     wxAuiNotebook* auiNotebook = (wxAuiNotebook *) objParams.Get_xhoObject();
 
     size_t page_i = hb_parnl( 1 ) - 1;
-    
+
     if( auiNotebook && auiNotebook->GetPageCount() > page_i )
     {
         hb_retni( auiNotebook->SetSelection( page_i ) + 1 );

@@ -147,14 +147,14 @@ HB_FUNC( WXHBROWSE_NEW )
     const wxString& name = HB_ISNIL( 6 ) ? wxString( _T("wxhBrowse") ) : wxh_parc( 6 );
 
     wxhBrowse* gridBrowse = new wxhBrowse( browse, id, pos, size, style, name );
-    
+
     gridBrowse->m_maxRows = 0;
     gridBrowse->m_gridWindowHeight = 0;
     gridBrowse->m_rowCount = 0;
     gridBrowse->m_selectedRow = 0;
 
     objParams.Return( gridBrowse );
-    
+
 }
 
 /*
@@ -201,11 +201,11 @@ HB_FUNC( WXHBROWSE_CALCMAXROWS )
 HB_FUNC( WXHBROWSE_SETCOLCELLCHOICEEDITOR )
 {
     wxhBrowse* gridBrowse = (wxhBrowse *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( gridBrowse )
     {
         int col;
-        
+
         if( hb_param( 1, HB_IT_NUMERIC ) )
         {
             col = hb_parni( 1 );

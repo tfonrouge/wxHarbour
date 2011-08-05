@@ -90,13 +90,13 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
     IF browse:SkipBlock == NIL
         RETURN
     ENDIF
-    
+
     curRowPos := browse:RowPos
-    
+
     /* TODO: ask Harbour team if it's possible to have ++start -= curRowPos */
     ++start
     start -= curRowPos
-    
+
     IF browse:DataSourceType = "O"
         allowOnDataChange := browse:DataSource:allowOnDataChange
         browse:DataSource:allowOnDataChange := .F.
@@ -183,20 +183,20 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
             i++
 
         ENDDO
-        
+
         /* normal fill (top-down) require repos at rowIndex 1 */
         IF direction = 1 .AND. totalSkipped != 0
             browse:SkipBlock:Eval( - totalSkipped )
         ENDIF
-        
+
         IF curRowPos > browse:RowCount
             browse:RowPos := browse:RowCount
         ELSE
             browse:RowPos := curRowPos
         ENDIF
-        
+
     ENDIF
-    
+
     IF allowOnDataChange != NIL
         browse:DataSource:allowOnDataChange := allowOnDataChange
     ENDIF
@@ -221,7 +221,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
 
     picture := column:Picture
     width := column:Width
-    
+
     IF ::FIgnoreCellEvalError
         BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
             Result := column:GetValue( ::GetRowParam(), nCol )
@@ -231,7 +231,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
     ELSE
         Result := column:GetValue( ::GetRowParam(), nCol )
     ENDIF
-    
+
     IF picture != NIL
         Result := Transform( Result, picture )
     ENDIF
@@ -281,7 +281,7 @@ METHOD FUNCTION GetColLabelValue( col ) CLASS wxhBrowseTableBase
     IF ++col < 1
         RETURN value
     ENDIF
-    
+
     value := ::FColumnList[ col ]:Heading
 
 RETURN iif( value = NIL, "", value )
@@ -299,7 +299,7 @@ METHOD PROCEDURE GetGridRowData( row ) CLASS wxhBrowseTableBase
         IF Len( ::FGridBuffer[ row ] ) < cols
             ASize( ::FGridBuffer[ row ], cols )
         ENDIF
-        
+
         /* Column Zero */
         IF ::FColumnZero == NIL
             ::FRowLabel[ row ] := LTrim( Str( ::GetView():RecNo ) )
@@ -349,7 +349,7 @@ METHOD GetValue( row, col ) CLASS wxhBrowseTableBase
 
     ++row
     ++col
-    
+
     IF ::FGridBuffer == NIL .OR. row > ::FGridBufferRows .OR. Empty( ::FGridBuffer[ row ] ) .OR. col > Len( ::FGridBuffer[ row ] )
         RETURN ""
     ENDIF
@@ -472,7 +472,7 @@ RETURN
 METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
     LOCAL oCol
     oCol := ::GetView():GetColumn( col + 1 )
-    
+
     IF oCol:CanSetValue
 
         oCol:SetValue( ::GetRowParam(), value )
@@ -482,7 +482,7 @@ METHOD PROCEDURE SetValue( row, col, value ) CLASS wxhBrowseTableBase
                the loop trigger seems to be ::AutoSizeColumns inside ::RefreshCurrent
          However this is not needed here because an ::RefreshAll is done after
          ::HideCellEditControl()
-         
+
             Seems that ENTER key triggers twice the SetValue call here...
             anyway, this was solved by not allowing calling twice SetValue here
             an flag in oCol is setted when calling oCol:SetValue to avoid re-enter here

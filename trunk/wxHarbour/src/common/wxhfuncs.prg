@@ -624,7 +624,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
     LOCAL checkEditable
 
     control := ::GetWindow()
-    
+
     IF ::FField != NIL
         checkEditable := ::Field:CheckEditable( .T. )
     ENDIF
@@ -725,7 +725,7 @@ METHOD TransferFromWindow() CLASS wxhHBValidator
         Result := .F.
 
     ENDIF
-    
+
     IF ::FField != NIL
         ::Field:CheckEditable( checkEditable )
     ENDIF

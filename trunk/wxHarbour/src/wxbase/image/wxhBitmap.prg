@@ -34,7 +34,7 @@ PUBLIC:
     wxBitmap( const wxString& name, long type )	  -> New( file/resourceName, type )
     */
     CONSTRUCTOR New()
-    
+
     METHOD AddHandler( handler )
     METHOD CleanUpHandlers()
     METHOD ConvertToImage()

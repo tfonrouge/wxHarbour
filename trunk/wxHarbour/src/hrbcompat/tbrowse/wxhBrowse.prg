@@ -175,7 +175,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
     LOCAL allowOnDataChange
 
     allowOnDataChange := ::SetAllowOnDataChange( .F. )
-    
+
     IF ::RowPos < ::RowCount
         ::RowPos += 1
     ELSE
@@ -186,7 +186,7 @@ METHOD FUNCTION Down CLASS wxhBrowse
             ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
         ENDIF
     ENDIF
-    
+
     ::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self
@@ -266,7 +266,7 @@ RETURN ::FRecNo
 */
 METHOD FUNCTION GoBottom CLASS wxhBrowse
     LOCAL allowOnDataChange
-    
+
     allowOnDataChange := ::SetAllowOnDataChange( .F. )
 
     ::GoBottomBlock:Eval()
@@ -276,7 +276,7 @@ METHOD FUNCTION GoBottom CLASS wxhBrowse
     ::ForceRefresh()
 
     ::SetAllowOnDataChange( allowOnDataChange )
-    
+
 RETURN Self
 
 /*
@@ -439,11 +439,11 @@ METHOD PROCEDURE OnSelectCell( gridEvent ) CLASS wxhBrowse
     ENDIF
 
     row := gridEvent:GetRow()
-    
+
     IF ::FAlwaysShowSelectedRow
         ::ShowRow( row )
     ENDIF
-    
+
     ::GetTable():CurRowIndex := row
 
     ::FColPos := gridEvent:GetCol() + 1
@@ -467,7 +467,7 @@ METHOD FUNCTION OnSize( size ) CLASS wxhBrowse
     LOCAL height
     LOCAL n
     LOCAL column
-    
+
     IF ::FCreated
         IF !::FillColumnsChecked .AND. ::AutoFill .AND. ::DataSource != NIL
             IF ::ColCount = 0
@@ -515,7 +515,7 @@ METHOD FUNCTION PageDown CLASS wxhBrowse
     LOCAL allowOnDataChange
 
     allowOnDataChange := ::SetAllowOnDataChange( .F. )
-    
+
     IF ::RowPos = ::RowCount
         ::GetTable():FillGridBuffer( ::RowCount )
         ::ForceRefresh()
@@ -535,7 +535,7 @@ METHOD FUNCTION PageUp CLASS wxhBrowse
     LOCAL allowOnDataChange
 
     allowOnDataChange := ::SetAllowOnDataChange( .F. )
-    
+
     IF ::RowPos = 1
         ::GetTable():FillGridBuffer( - ::RowCount )
         ::ForceRefresh()
@@ -563,7 +563,7 @@ METHOD FUNCTION RefreshAll() CLASS wxhBrowse
     ENDIF
 
     ::SetAllowOnDataChange( allowOnDataChange )
-    
+
     IF ::autoSizeColumnsOnRefresh
         ::AutoSizeColumns( .F. )
     ENDIF
@@ -613,7 +613,7 @@ RETURN
 */
 METHOD FUNCTION SetAllowOnDataChange( allowOnDataChange ) CLASS wxhBrowse
     LOCAL oldValue
-    
+
     IF ::DataSourceType = "O"
         oldValue := ::DataSource:allowOnDataChange
         ::DataSource:allowOnDataChange := allowOnDataChange
@@ -621,7 +621,7 @@ METHOD FUNCTION SetAllowOnDataChange( allowOnDataChange ) CLASS wxhBrowse
             ::DataSource:OnDataChange()
         ENDIF
     ENDIF
-    
+
 RETURN oldValue
 
 /*
@@ -682,7 +682,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         ELSE
             workArea := Select( dataSource )
         ENDIF
-        
+
         IF !Empty( workArea )
             ::FDataSource := workArea
             ::FDataSourceType := "D"
@@ -693,7 +693,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         ELSE
             wxhAlert( "Empty workarea on wxhBrowse" )
         ENDIF
-        
+
         EXIT
 
     CASE 'H'				/* Hash browse */
@@ -713,7 +713,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         IF dataSource:IsDerivedFrom("TObjectField")
             dataSource := dataSource:DataObj
         ENDIF
-    
+
         IF dataSource:IsDerivedFrom("TTable")
             ::FDataSource := dataSource
             ::FDataSourceType := "O"
@@ -722,7 +722,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
             ::GoTopBlock		:= {|| dataSource:DbGoTop() }
             ::GoBottomBlock := {|| dataSource:DbGoBottom() }
             ::SkipBlock			:= {|n| dataSource:SkipBrowse( n ) }
-            
+
             ::GetTable():gridDataIsOEM := dataSource:dataIsOEM
 
         ELSE
@@ -732,7 +732,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         EXIT
 
     ENDSWITCH
-    
+
     ::OnSetDataSource()
 
 RETURN
@@ -750,7 +750,7 @@ METHOD PROCEDURE SetRowPos( rowPos ) CLASS wxhBrowse
         rowPos := ::RowCount
     ENDIF
     ::SetGridCursor( rowPos, ::GetGridCursorCol() )
-    
+
     ::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN
@@ -774,7 +774,7 @@ METHOD FUNCTION Up CLASS wxhBrowse
             ::SetGridCursor( ::GetGridCursorRow(), ::GetGridCursorCol() )
         ENDIF
     ENDIF
-    
+
     ::SetAllowOnDataChange( allowOnDataChange )
 
 RETURN Self

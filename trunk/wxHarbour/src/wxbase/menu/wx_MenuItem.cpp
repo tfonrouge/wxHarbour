@@ -100,7 +100,7 @@ HB_FUNC( WXMENUITEM_GETITEMLABELTEXT )
 HB_FUNC( WXMENUITEM_SETBITMAP )
 {
     wx_MenuItem* menuItem = (wx_MenuItem *) xho_itemListGet_XHO( hb_stackSelfItem() );
-    
+
     if( menuItem )
     {
         const wxBitmap& bitmap = * (wxBitmap *) xho_par_XhoObject( 1 );
