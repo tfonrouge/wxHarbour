@@ -1219,7 +1219,7 @@ METHOD FUNCTION Edit() CLASS TTable
         RETURN .F.
     ENDIF
 
-    IF !::RecLock()
+    IF ::Eof() .OR. !::RecLock()
         RETURN .F.
     ENDIF
 
