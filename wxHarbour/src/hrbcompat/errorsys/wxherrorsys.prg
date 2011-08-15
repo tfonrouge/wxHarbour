@@ -209,7 +209,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         ? s
         ?
         //? HB_ValToExp( oErr )
-         //wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ), 0 )
+        wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ), 0 )
         RETURN 1
     ENDIF
 
