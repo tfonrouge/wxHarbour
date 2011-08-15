@@ -102,6 +102,8 @@ STATIC FUNCTION wxhDefError( oError )
         ENDCASE
     ENDIF
 
+    OutErr( cMessage )
+
     n := 1
     DO WHILE ! Empty( ProcName( ++n ) )
 
@@ -207,7 +209,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         ? s
         ?
         //? HB_ValToExp( oErr )
-        wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ) )
+         //wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ), 0 )
         RETURN 1
     ENDIF
 

@@ -118,7 +118,11 @@ METHOD FUNCTION GetValue( rowParam, nCol ) CLASS wxhBrowseColumn
         IF !rowParam:__FObj:Eof()
             result := ::FBlock:Eval( rowParam:__FObj ):GetAsVariant()
             IF ::hashValue
-                result := ::FField:ValidValues[ result ]
+                IF HB_HHasKey( ::FField:ValidValues, result )
+                    result := ::FField:ValidValues[ result ]
+                ELSE
+                    result := "<Invalid Hash Key>"
+                ENDIF
             ENDIF
         ELSE
             result := ::FBlock:Eval( rowParam:__FObj ):EmptyValue()
