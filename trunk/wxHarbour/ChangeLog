@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-08-15 14:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     ! restored show error message with wxMessageBox... still todo: checking failure on Linux,
+       Windows & Mac works fine
+
 2011-08-15 13:20 UTC-0500 Oscar Vega (...)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      * se agrega descripcion de error en errout
