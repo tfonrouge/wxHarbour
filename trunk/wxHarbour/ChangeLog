@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2011-08-15 13:20 UTC-0500 Oscar Vega (...)
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     * se agrega descripcion de error en errout
+     * se comenta wxMessageBox porque causa GPF en linux
+       TODO: checar porque
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     ! se corrige error cuando no existe key valida para ValidValues en un TField
+       ahora regresa mensaje "<Invalid Hash Key>"
+
 2011-08-12 12:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % force fail for Edit() if table is at EOF
