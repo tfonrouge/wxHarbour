@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-08-17 14:06 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % added 'OnBeforeCancel' (defaults to .T.)
+
 2011-08-15 14:13 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      ! restored show error message with wxMessageBox... still todo: checking failure on Linux,

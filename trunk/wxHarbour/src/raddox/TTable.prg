@@ -241,6 +241,7 @@ PUBLIC:
     METHOD OnAfterInsert() VIRTUAL
     METHOD OnAfterOpen() VIRTUAL
     METHOD OnAfterPost() VIRTUAL
+    METHOD OnBeforeCancel() INLINE .T.
     METHOD OnBeforeInsert() INLINE .T.
     METHOD OnBeforeLock INLINE .T.
     METHOD OnBeforePost() INLINE .T.
@@ -558,6 +559,10 @@ RETURN AIndex:BaseSeek( 1, Value, lSoftSeek )
 */
 METHOD PROCEDURE Cancel CLASS TTable
     LOCAL AField
+    
+    IF !::OnBeforeCancel()
+        RETURN        
+    ENDIF
 
     IF AScan( { dsInsert, dsEdit }, ::State ) = 0
         //::Error_Table_Not_In_Edit_or_Insert_mode()
