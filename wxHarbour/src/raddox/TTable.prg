@@ -254,6 +254,7 @@ PUBLIC:
     PROPERTY Alias READ GetAlias WRITE SetAlias
     PROPERTY AsString READ GetAsString WRITE SetAsString
     PROPERTY AutoCreate READ FAutoCreate
+    PROPERTY BasePrimaryKey READ BaseKeyField:GetKeyVal WRITE BaseKeyField:SetKeyVal
     PROPERTY BaseKeyField READ FBaseKeyField
     PROPERTY Bof READ FBof
     PROPERTY DataBase READ GetDataBase WRITE SetDataBase
