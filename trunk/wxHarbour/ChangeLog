@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-02 11:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     ! Fixed picklist process on non string field's
+
 2011-09-02 10:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  samples/dbbrowser/dbbrowser.prg
      * updated

@@ -568,7 +568,7 @@ METHOD PROCEDURE PickList( event ) CLASS wxhHBValidator
         ::dontUpdateVar := .F.
 
         IF selectionMade
-            s := RTrim( ::Field:Value )
+            s := RTrim( ::Field:AsString )
             rawValue := control:GetValue()
             IF ::dataIsOEM
                 value := RTrim( wxh_wxStringToOEM( rawValue ) )
