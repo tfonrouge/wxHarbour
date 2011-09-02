@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-09-02 10:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  samples/dbbrowser/dbbrowser.prg
+     * updated
+
+  *  src/raddox/TTable.prg
+     ! Fixed allowing table in dsEdit mode on :Delete
+
 2011-08-31 16:17 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % added R/W property 'BasePrimaryKey' to locate base primary key index
