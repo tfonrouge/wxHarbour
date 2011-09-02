@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-02 14:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed message error on invalid checking of valid values
+
 2011-09-02 11:28 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! Fixed picklist process on non string field's

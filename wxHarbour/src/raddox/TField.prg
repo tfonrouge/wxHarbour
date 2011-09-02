@@ -1394,17 +1394,30 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
             validValues := ::GetValidValues()
 
             IF !Empty( validValues )
-                SWITCH ValType( validValues )
-                CASE 'A'
-                    result := AScan( validValues, {|e| e == value } ) > 0
-                    EXIT
-                CASE 'H'
-                    result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
-                    EXIT
-                OTHERWISE
+
+                BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+
+                    SWITCH ValType( validValues )
+                    CASE 'A'
+                        result := AScan( validValues, {|e| e == value } ) > 0
+                        EXIT
+                    CASE 'H'
+                        result := AScan( HB_HKeys( validValues ), {|e| e == value } ) > 0
+                        EXIT
+                    OTHERWISE
+                        result := NIL
+                    ENDSWITCH
+                
+                RECOVER
+                
+                    result := NIL
+                
+                END SEQUENCE
+
+                IF result = NIL
                     wxhAlert( ::FTable:ClassName + ": '" + ::GetLabel() + "' <Illegal value in 'ValidValues'> " )
                     RETURN .F.
-                ENDSWITCH
+                ENDIF
 
                 IF !result
                     IF showAlert == .T.
