@@ -1089,7 +1089,7 @@ RETURN
 METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
     LOCAL AField
 
-    IF AScan( { dsBrowse, dsInsert }, ::State ) = 0
+    IF AScan( { dsBrowse, dsEdit, dsInsert }, ::State ) = 0
         ::Error_Table_Not_In_Browse_or_Insert_State()
         RETURN .F.
     ENDIF

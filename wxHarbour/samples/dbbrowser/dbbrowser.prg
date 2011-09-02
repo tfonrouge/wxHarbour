@@ -183,6 +183,11 @@ METHOD FUNCTION OnInit() CLASS MyApp
         END SIZER
     END SIZER
 
+    DEFINE POPUPMENU PARENT oWnd FIRST_ID 900
+        ADD MENUITEM "Uno"
+        ADD MENUITEM "Dos"
+    ENDMENU
+
     b:OnSelectCellBlock := ;
         {|gridEvent| 
             LOCAL oBrw
