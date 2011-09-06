@@ -491,6 +491,7 @@ METHOD FUNCTION AddRec() CLASS TTable
      */
     BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
+        wxhAltD()
         ::FillPrimaryIndexes( Self )
 
         FOR EACH AField IN ::FFieldList
@@ -2633,7 +2634,7 @@ METHOD PROCEDURE SetState( state ) CLASS TTable
     oldState := ::FState
     ::FState := state
 
-    IF state = dsEdit
+    IF state = dsEdit .OR. state = dsInsert
         ::FUndoList := HB_HSetCaseMatch( {=>}, .F. )
     ENDIF
 
