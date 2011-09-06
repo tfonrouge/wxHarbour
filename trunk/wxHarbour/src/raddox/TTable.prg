@@ -491,7 +491,6 @@ METHOD FUNCTION AddRec() CLASS TTable
      */
     BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
 
-        wxhAltD()
         ::FillPrimaryIndexes( Self )
 
         FOR EACH AField IN ::FFieldList

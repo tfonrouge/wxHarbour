@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-06 14:48 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * removed debug calling
+
 2011-09-06 14:44 UTC-0500 Oscar Vega (...)
   *  src/raddox/TTable.prg
      ! Fixed to set 'UndoList' on dsInsert
