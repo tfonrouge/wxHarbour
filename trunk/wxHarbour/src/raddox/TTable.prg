@@ -560,9 +560,9 @@ RETURN AIndex:BaseSeek( 1, Value, lSoftSeek )
 */
 METHOD PROCEDURE Cancel CLASS TTable
     LOCAL AField
-    
+
     IF !::OnBeforeCancel()
-        RETURN        
+        RETURN
     ENDIF
 
     IF AScan( { dsInsert, dsEdit }, ::State ) = 0
@@ -2252,8 +2252,8 @@ METHOD FUNCTION Post() CLASS TTable
     LOCAL errObj
     LOCAL itm
     LOCAL postOk := .F.
-    LOCAL changed := .F.
     LOCAL aChangedFields := {}
+    LOCAL changed := .F.
 
     IF AScan( { dsEdit, dsInsert }, ::State ) = 0
         ::Error_Table_Not_In_Edit_or_Insert_mode()
@@ -2276,13 +2276,12 @@ METHOD FUNCTION Post() CLASS TTable
             FOR EACH AField IN ::FieldList
 
                 IF AField:Enabled
-                    IF !changed .AND. AField:Changed
+                    IF AField:Changed
                         IF AField:OnAfterPostChange != NIL
                             AAdd( aChangedFields, AField )
                         ENDIF
                         changed := .T.
                     ENDIF
-
                     IF !AField:Validate()
                         RAISE ERROR "Post: Invalid data on Field: <" + ::ClassName + ":" + AField:Name + ">: '" + AField:AsString + "'"
                     ENDIF
@@ -2310,10 +2309,12 @@ METHOD FUNCTION Post() CLASS TTable
 
     IF postOk
         ::OnAfterPost()
-        IF changed
+        IF Len( aChangedFields ) > 0
             FOR EACH AField IN aChangedFields
                 AField:OnAfterPostChange:Eval( Self )
             NEXT
+        ENDIF
+        IF changed
             IF __ObjHasMsgAssigned( Self, "OnAfterChange" )
                 __ObjSendMsg( Self, "OnAfterChange" )
             ENDIF
