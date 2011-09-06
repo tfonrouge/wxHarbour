@@ -1336,7 +1336,7 @@ METHOD PROCEDURE WriteToTable( value, buffer ) CLASS TField
         ::FWrittenValue := ::GetBuffer() // If TFieldString then we make sure that size values are equal
 
         /* fill undolist */
-        IF ::FTable:State = dsEdit
+        IF ::FTable:State = dsEdit .OR. ::FTable:State = dsInsert
             IF !HB_HHasKey( ::FTable:UndoList, ::FName ) .AND. PCount() > 1
                 ::FTable:UndoList[ ::FName ] := buffer
                 ::FChanged := ! value == ::FTable:UndoList[ ::FName ]
@@ -1407,11 +1407,11 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
                     OTHERWISE
                         result := NIL
                     ENDSWITCH
-                
+
                 RECOVER
-                
+
                     result := NIL
-                
+
                 END SEQUENCE
 
                 IF result = NIL

@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2011-09-06 14:26 UTC-0500 Oscar Vega (...)
+  *  src/raddox/TField.prg
+     *	Se valida modo de Insercion para agregar campos que han cambiado.
+  *  src/raddox/TTable.prg
+     *	Se Insercion para campos.
+
 2011-09-02 14:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Fixed message error on invalid checking of valid values
