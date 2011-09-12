@@ -325,7 +325,7 @@ RETURN ::FTable:Found()
     DbSkip
     Teo. Mexico 2007
 */
-METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
+METHOD FUNCTION DbSkip( numRecs ) CLASS TIndex
     LOCAL table
 
     IF ::associatedTable = NIL
@@ -336,12 +336,10 @@ METHOD PROCEDURE DbSkip( numRecs ) CLASS TIndex
 
     IF ::FFilter = NIL .AND. !table:HasFilter
         ::GetAlias():DbSkip( numRecs, ::FTagName )
-        ::GetCurrentRecord()
-    ELSE
-        ::FTable:SkipFilter( numRecs, Self )
+        RETURN ::GetCurrentRecord()
     ENDIF
 
-RETURN
+RETURN ::FTable:SkipFilter( numRecs, Self )
 
 /*
     ExistKey

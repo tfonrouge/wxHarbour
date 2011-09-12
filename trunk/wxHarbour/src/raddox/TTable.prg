@@ -1031,26 +1031,24 @@ RETURN Result
 
 /*
     DbSkip
-    Teo. Mexico 2007
+    Teo. Mexico 2011
 */
-METHOD PROCEDURE DbSkip( numRecs ) CLASS TTable
+METHOD FUNCTION DbSkip( numRecs ) CLASS TTable
 
     IF AScan( {dsEdit,dsInsert}, ::FState ) > 0
         ::Post()
     ENDIF
 
     IF ::FIndex != NIL
-        ::FIndex:DbSkip( numRecs )
+        RETURN ::FIndex:DbSkip( numRecs )
     ELSE
         IF !::HasFilter
             ::Alias:DbSkip( numRecs )
-            ::GetCurrentRecord()
-        ELSE
-            ::SkipFilter( numRecs )
+            RETURN ::GetCurrentRecord()
         ENDIF
     ENDIF
 
-RETURN
+RETURN ::SkipFilter( numRecs )
 
 /*
     FIELDS END
