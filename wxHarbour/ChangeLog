@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-09-12 17:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+  *  src/raddox/TTable.prg
+     * DbSkip now returns successfull value
+
 2011-09-08 22:19 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TIndex.prg
      % removed limitation on using a field on more that one master keyfield definition
