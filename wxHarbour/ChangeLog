@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-17 17:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/Dba.prg
+     % checking for an indexname "Primary" to re-cycle records
+
 2011-09-12 17:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TIndex.prg
   *  src/raddox/TTable.prg
