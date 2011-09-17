@@ -210,7 +210,9 @@ STATIC FUNCTION GetNextEmpty( index )
     LOCAL rec:=RecNo(),key
 
     IF index == NIL
-        IF OrdNumber( "X01" ) > 0
+        IF OrdNumber( "Primary" ) > 0
+            index := "Primary"
+        ELSEIF OrdNumber( "X01" ) > 0
             index := "X01"
         ELSE
             index := OrdName()
