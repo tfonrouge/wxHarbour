@@ -1048,7 +1048,7 @@ METHOD PROCEDURE SetData( value ) CLASS TField
     END SEQUENCE
 
     /* masterkey field's aren't changed here */
-    IF ::IsMasterFieldComponent
+    IF !::AutoIncrement .AND. ::IsMasterFieldComponent
         ::Reset()  /* retrieve the masterfield value */
     ENDIF
 

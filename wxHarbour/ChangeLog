@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-21 11:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Fixed not 'Reset' field on 'SetData' for 'AutoIncrement' field's
+
 2011-09-17 17:54 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/Dba.prg
      % checking for an indexname "Primary" to re-cycle records
