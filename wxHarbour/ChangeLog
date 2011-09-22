@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-09-22 13:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Fixed 'CreateTable' on netIO tables
+     * added warning when trying to use 'FixDbStruct' on netIO tables
+       ; TODO: Fix this
+
+
 2011-09-22 08:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
      % DbOpen now checks for netIO property for table database and adds "net:" prefix

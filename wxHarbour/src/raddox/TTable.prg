@@ -812,6 +812,7 @@ RETURN nCount
 METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
     LOCAL aDbs := {}
     LOCAL fld
+    LOCAL cNet
 
     ::FillFieldList()
 
@@ -820,12 +821,18 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
             AAdd( aDbs, { fld:DBS_NAME, fld:DBS_TYPE, fld:DBS_LEN, fld:DBS_DEC } )
         ENDIF
     NEXT
-
+    
     IF fullFileName = NIL
-        DbCreate( ::TableFileName, aDbs )
-    ELSE
-        DbCreate( fullFileName, aDbs )
+        fullFileName := ::TableFileName
     ENDIF
+    
+    IF ::dataBase != NIL .AND. ::dataBase:netIO == .T.
+        cNet := iif( Upper( fullFileName ) = "NET:", "", "net:" )
+    ELSE
+        cNet := ""
+    ENDIF
+
+    DbCreate( cNet + fullFileName, aDbs )
 
 RETURN .T.
 
@@ -1441,6 +1448,11 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 
     IF message = NIL
         message := ""
+    ENDIF
+    
+    IF ::dataBase != NIL .AND. ::dataBase:netIO
+        wxhAlert( "Cannot run FixDbStruct on netIO tables..." )
+        RETURN .F.
     ENDIF
 
     IF wxhAlertYesNo( message + "Proceed to update Db Structure ?" ) = 1
