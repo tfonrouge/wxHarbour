@@ -365,7 +365,10 @@ METHOD New( masterSource, tableName ) CLASS TTable
 
     ::InitTable()
 
-    ::OnCreate()
+    /*!
+     * Load definitions for Fields
+     */
+    ::FillFieldList()
 
     /* Check for a valid db structure (based on definitions on DEFINE FIELDS) */
     IF !Empty( ::TableFileName ) .AND. ::validateDbStruct .AND. !HB_HHasKey( ::FInstances[ ::TableClass ], "DbStructValidated" )
@@ -380,6 +383,23 @@ METHOD New( masterSource, tableName ) CLASS TTable
             itm:SetDbStruct( ::DbStruct[ n ] )
         ENDIF
     NEXT
+
+    /*!
+     * Load definitions for Indexes
+     */
+    IF Empty( ::FIndexList )
+        ::__DefineIndexes()
+    ENDIF
+
+    IF ::FIndex = NIL
+        IF ::FPrimaryIndex != NIL
+            ::FIndex := ::FPrimaryIndex
+        ELSEIF !Empty( ::FIndexList )
+            ::FIndex := HB_HValueAt( HB_HValueAt( ::FIndexList, 1 ), 1 )
+        ENDIF
+    ENDIF
+
+    ::OnCreate()
 
     IF ::autoOpen
         ::Open()
@@ -1501,6 +1521,8 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
 
             result := ::Alias:DbOpen( Self )
 
+            HB_HDel( ::FInstances[ ::TableClass ], "DbStruct" )
+
         RECOVER
 
             result := .F.
@@ -2058,23 +2080,6 @@ METHOD PROCEDURE InitTable() CLASS TTable
 
         ::FInstances[ ::TableClass, "Initializing" ] := .F.
 
-    ENDIF
-
-    /*!
-     * Load definitions for Fields and Indexes
-     */
-    ::FillFieldList()
-
-    IF Empty( ::FIndexList )
-        ::__DefineIndexes()
-    ENDIF
-
-    IF ::FIndex = NIL
-        IF ::FPrimaryIndex != NIL
-            ::FIndex := ::FPrimaryIndex
-        ELSEIF !Empty( ::FIndexList )
-            ::FIndex := HB_HValueAt( HB_HValueAt( ::FIndexList, 1 ), 1 )
-        ENDIF
     ENDIF
 
 RETURN

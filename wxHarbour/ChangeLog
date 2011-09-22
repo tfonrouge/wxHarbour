@@ -2,6 +2,19 @@
  * $Id$
  */
 
+2011-09-22 16:09 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * moved out from method 'InitTable':
+       - FillFieldList()
+       - __DefineIndexes()
+
+     * method CheckDbStruct() is executed after FieldFieldList() and before
+       __DefineIndexes(), so the index definition takes place just when the
+       table structure is validated (all fields are valid and existe in db)
+
+     ! Fixed reset the 'DbStruct' value on hash to force an new read of structure
+       from the table, right after FixDbStruct() is executed.
+
 2011-09-22 13:59 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Fixed 'CreateTable' on netIO tables
