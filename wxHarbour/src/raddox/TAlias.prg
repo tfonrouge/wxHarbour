@@ -226,6 +226,8 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
     LOCAL path
     LOCAL tableName
     LOCAL tableFullFileName
+    LOCAL netIO
+    LOCAL cPrefix
 
     IF HB_IsObject( table )
 
@@ -265,6 +267,8 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 
         tableFullFileName := table:fullFileName
         tableName := table:TableFileName
+        
+        netIO := table:DataBase:netIO
 
     ELSE
 
@@ -272,14 +276,20 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
         tableName := table
 
     ENDIF
+    
+    cPrefix := iif( netIO == .T., "net:", "" )
 
-    IF ! HB_DbExists( tableFullFileName ) .AND. table:AutoCreate
+    IF ! HB_DbExists( cPrefix + tableFullFileName ) .AND. table:AutoCreate
         IF !table:CreateTable( tableFullFileName )
             BREAK( "TAlias: Cannot Create Table '" + tableFullFileName + "'" )
         ENDIF
     ENDIF
 
-    DbUseArea( .T., ::driver, tableFullFileName, aliasName, ::lShared, ::lReadOnly )
+    IF Select( tableName ) = 0
+        DbUseArea( .T., ::driver, cPrefix + tableFullFileName, aliasName, ::lShared, ::lReadOnly )
+    ELSE
+        DbSelectArea( tableName )
+    ENDIF
 
     ::FTableName := tableName
     ::workArea := Select()
