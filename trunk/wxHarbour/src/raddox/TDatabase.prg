@@ -27,9 +27,13 @@ PROTECTED:
     METHOD DefineRelations VIRTUAL
     METHOD SetDirectory( directory ) INLINE ::FDirectory := directory
 PUBLIC:
-    DATA Driver    INIT "DBFCDX"
+
+    DATA Driver INIT "DBFCDX"
+    DATA netIO  INIT .F.
     DATA OpenBlock
+
     CONSTRUCTOR New( databaseName )
+
     METHOD AddParentChild( parentTableName, childTableName, indexName, virtual )
 
     METHOD cmdAddTable( tableName, indexName, virtual )
