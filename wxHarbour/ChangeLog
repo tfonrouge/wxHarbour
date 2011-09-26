@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-26 08:45 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/xerror.ch
+     * updated missing header
+
 2011-09-26 08:00 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      * removed loop for show error window (!)
