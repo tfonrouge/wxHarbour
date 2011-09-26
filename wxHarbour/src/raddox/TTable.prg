@@ -28,6 +28,130 @@ FUNCTION __ClsInstFromName( ClassName )
 RETURN __ClsInstName( Upper( ClassName ) )
 
 /*
+    ErrorBlockOODB
+    Teo. Mexico 2011
+*/
+FUNCTION ErrorBlockOODB( oErr )
+
+    // By default, division by zero results in zero
+    IF oErr:genCode == EG_ZERODIV .AND. oErr:canSubstitute
+        RETURN 0
+    ENDIF
+
+    // By default, retry on RDD lock error failure */
+    IF oErr:genCode == EG_LOCK .AND. oErr:canRetry
+        // oErr:tries++
+        RETURN .T.
+    ENDIF
+
+    // Set NetErr() of there was a database open error
+    IF oErr:genCode == EG_OPEN .AND. ;
+        oErr:osCode == 32 .AND. ;
+        oErr:canDefault
+        NetErr( .T. )
+        RETURN .F.
+    ENDIF
+
+    // Set NetErr() if there was a lock error on dbAppend()
+    IF oErr:genCode == EG_APPENDLOCK .AND. oErr:canDefault
+        NetErr( .T. )
+        RETURN .F.
+    ENDIF
+    
+    wxhAlert( oErr:description )
+    
+    IF .T.
+        //Break( oErr )
+        RETURN NIL
+    ENDIF
+
+RETURN NIL
+
+/*
+    OODB_ErrorHandler
+    Teo. Mexico 2011
+*/
+FUNCTION OODB_ErrorHandler( ... )
+    LOCAL Self := QSelf()
+    LOCAL sErr
+    LOCAL oErr
+    LOCAL nErr
+    LOCAL description
+    LOCAL errorBlock
+    
+    errorBlock := ErrorBlock()
+
+    sErr := __GetMessage()
+
+    //oErr := ErrorNew()
+    oErr := ErrorNew()
+    
+    oErr:cargo := {"ProcLine"=>2}
+    
+    oErr:severity := ES_ERROR
+    oErr:genCode := EG_ARG
+    oErr:subSystem := "OODB:" + ::ClassName()
+    oErr:canRetry := .F.
+    oErr:canDefault := .F.
+    oErr:args := HB_AParams()
+    oErr:operation := ProcName( 2 )
+
+    IF ::IsDerivedFrom( "TTable" ) .OR. ::IsDerivedFrom( "TField" )
+    
+        nErr := Val( SubStr( sErr, 7 ) )
+
+        oErr:subCode := nErr
+        
+        description := ""
+    
+        IF ::IsDerivedFrom( "TField" )
+
+            description += ;
+                E"\n" + ;
+                E"\n" + ;
+                E"Table : " + ::Table:ClassName() + E"\n" + ;
+                E"FieldName : '" + ::Name + E"', Label: '" + ::Label + E"'\n" + ;
+                E"\n"
+
+            SWITCH nErr
+            CASE OODB_ERR__FIELD_METHOD_TYPE_NOT_SUPPORTED
+                description += "Field method type not supported: '" + HB_AParams()[ 1 ] + "'"
+                EXIT
+            CASE OODB_ERR__CALCULATED_FIELD_CANNOT_BE_SOLVED
+                description += "Calculated Field cannot be solved."
+                EXIT
+            OTHERWISE
+                description := NIL
+            ENDSWITCH
+
+        ELSE // TTable
+
+            SWITCH nErr
+            CASE OODB_ERR__NO_BASEKEYFIELD
+                description += "No Primary Base Key Field in Table."
+                EXIT
+            OTHERWISE
+                description := NIL
+            ENDSWITCH
+
+        ENDIF
+
+    ENDIF
+
+    IF description = NIL
+        oErr:description := "Message does not exist: '" + sErr + "'"
+        oErr:operation := ProcName( 1 )
+        oErr:cargo[ "ProcLine" ] := 1
+        errorBlock := {|oErr| ErrorBlockOODB( oErr ) }
+    ELSE
+        oErr:description := description
+    ENDIF
+
+    errorBlock:Eval( oErr )
+
+RETURN NIL
+
+/*
     TTable
     Teo. Mexico 2007
 */
@@ -148,6 +272,7 @@ PUBLIC:
 
     CONSTRUCTOR New( MasterSource, tableName )
     DESTRUCTOR OnDestruct()
+    ON ERROR FUNCTION OODB_ErrorHandler( ... )
 
     METHOD __DefineFields() VIRTUAL // DEFINE FIELDS
     METHOD __DefineIndexes() VIRTUAL // DEFINE INDEXES
@@ -406,6 +531,25 @@ METHOD New( masterSource, tableName ) CLASS TTable
     ENDIF
 
 RETURN Self
+
+/*
+    OnDestruct
+    Teo. Mexico 2010
+*/
+METHOD PROCEDURE OnDestruct() CLASS TTable
+    LOCAL dbfName, indexName
+
+    IF ::aliasTmp != NIL
+        dbfName := ::aliasTmp:DbInfo( DBI_FULLPATH )
+        indexName := ::aliasTmp:DbOrderInfo( DBOI_FULLPATH )
+        ::aliasTmp:DbCloseArea()
+        FErase( dbfName )
+        FErase( indexName )
+    ENDIF
+
+    //::Destroy()
+
+RETURN
 
 /*
     AddFieldAlias
@@ -2155,25 +2299,6 @@ METHOD PROCEDURE OnDataChange() CLASS TTable
     IF ::OnDataChangeBlock != NIL
         ::OnDataChangeBlock:Eval( Self )
     ENDIF
-RETURN
-
-/*
-    OnDestruct
-    Teo. Mexico 2010
-*/
-METHOD PROCEDURE OnDestruct() CLASS TTable
-    LOCAL dbfName, indexName
-
-    IF ::aliasTmp != NIL
-        dbfName := ::aliasTmp:DbInfo( DBI_FULLPATH )
-        indexName := ::aliasTmp:DbOrderInfo( DBOI_FULLPATH )
-        ::aliasTmp:DbCloseArea()
-        FErase( dbfName )
-        FErase( indexName )
-    ENDIF
-
-    //::Destroy()
-
 RETURN
 
 /*

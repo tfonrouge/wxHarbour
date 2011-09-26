@@ -128,6 +128,8 @@ PUBLIC:
     DATA Picture
 
     CONSTRUCTOR New( Table, curBaseClass )
+    
+    ON ERROR FUNCTION OODB_ErrorHandler( ... )
 
     METHOD AddFieldMessage()
     METHOD CheckEditable( flag )
@@ -335,7 +337,7 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
         ENDIF
         EXIT
     OTHERWISE
-        RAISE TFIELD ::Name ERROR "GetAsVariant(): Field Method Type not supported: " + ::FFieldMethodType
+        THROW ERROR OODB_ERR__FIELD_METHOD_TYPE_NOT_SUPPORTED ARGS ::FFieldMethodType
     ENDSWITCH
 
 RETURN Result
@@ -571,7 +573,7 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TField
                 ::FFieldReadBlock := &("{|o,...|" + "o:MasterSource:CalcField_" + ::FName + "( ... ) }")
             ELSE
                 IF !::IsDerivedFrom("TObjectField")
-                    RAISE TFIELD ::Name ERROR "Unable to Solve Undefined Calculated Field: "
+                    THROW ERROR OODB_ERR__CALCULATED_FIELD_CANNOT_BE_SOLVED
                 ENDIF
             ENDIF
         ENDIF
@@ -2170,6 +2172,11 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
         IF variant:IsDerivedFrom("TObjectField")
             RETURN variant:DataObj:GetAsVariant()
         ELSEIF variant:IsDerivedFrom("TTable")
+            IF variant:BaseKeyField = NIL
+
+                THROW ERROR OODB_ERR__NO_BASEKEYFIELD ON variant
+
+            ENDIF
             RETURN variant:BaseKeyField:GetAsVariant()
         ENDIF
 
