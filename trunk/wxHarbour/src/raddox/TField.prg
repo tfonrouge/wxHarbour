@@ -1469,7 +1469,7 @@ PROTECTED:
     METHOD SetSize( size )
 PUBLIC:
     METHOD GetAsString
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     PROPERTY AsNumeric READ GetAsNumeric WRITE SetAsNumeric
 PUBLISHED:
     PROPERTY Size READ GetSize WRITE SetSize
@@ -1517,9 +1517,13 @@ RETURN ::FSize
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TStringField
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TStringField
     LOCAL exp
     LOCAL i
+
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
 
     IF ::FFieldMethodType = "A"
         exp := ""
@@ -1528,12 +1532,12 @@ METHOD FUNCTION IndexExpression() CLASS TStringField
         NEXT
     ELSE
         IF ::IsMasterFieldComponent .OR. ( ::IsKeyIndex .AND. ::FKeyIndex:CaseSensitive )
-            exp := ::FFieldExpression
+            exp := fieldName
         ELSE
             IF ::FFieldExpression = NIL
                 exp := "<error: IndexExpression on '" + ::Name + "'>"
             ELSE
-                exp := "Upper(" + ::FFieldExpression + ")"
+                exp := "Upper(" + fieldName + ")"
             ENDIF
         ENDIF
     ENDIF
@@ -1626,7 +1630,7 @@ PUBLIC:
 
     METHOD GetAsString
     METHOD GetKeyVal( keyVal )
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     METHOD SetAsVariant( variant )
 
     PROPERTY AsNumeric READ GetAsVariant WRITE SetAsVariant
@@ -1676,8 +1680,11 @@ RETURN NIL
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TNumericField
-RETURN "Str(" + ::FieldExpression + ")"
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TNumericField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN "Str(" + fieldName + ")"
 
 /*
     SetAsVariant
@@ -1716,7 +1723,7 @@ PROTECTED:
 PUBLIC:
 
     METHOD GetKeyVal( keyVal )
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     METHOD SetAsVariant( variant )
 
     PROPERTY AsInteger READ GetAsVariant WRITE SetAsVariant
@@ -1748,8 +1755,11 @@ RETURN NIL
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TIntegerField
-RETURN "HB_NumToHex(" + ::FFieldExpression + ",8)"
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TIntegerField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN "HB_NumToHex(" + fieldName + ",8)"
 
 /*
     SetAsVariant
@@ -1809,7 +1819,7 @@ PROTECTED:
 PUBLIC:
 
     METHOD GetKeyVal( keyVal )
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
 
     PROPERTY AsBoolean READ GetAsVariant WRITE SetAsVariant
     PROPERTY Size READ FSize
@@ -1840,8 +1850,11 @@ RETURN NIL
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TLogicalField
-RETURN "iif(" + ::FFieldExpression + ",'T','F')"
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TLogicalField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN "iif(" + fieldName + ",'T','F')"
 
 /*
     ENDCLASS TLogicalField
@@ -1866,7 +1879,7 @@ PUBLIC:
 
     METHOD GetAsString INLINE FDateS( ::GetAsVariant() )
     METHOD GetKeyVal( keyVal )
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     METHOD SetAsVariant( variant )
 
     PROPERTY Size READ FSize
@@ -1897,8 +1910,11 @@ RETURN NIL
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TDateField
-RETURN "DToS(" + ::FFieldExpression + ")"
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TDateField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN "DToS(" + fieldName + ")"
 
 /*
     SetAsVariant
@@ -1946,7 +1962,7 @@ PUBLIC:
     CLASSDATA fmtTime
 
     METHOD GetKeyVal( keyVal )
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     METHOD SetAsVariant( variant )
 
     PROPERTY AsDate READ GetAsDate
@@ -1996,8 +2012,11 @@ RETURN cTime
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TDateTimeField
-RETURN "HB_TToS(" + ::FFieldExpression + ")"
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TDateTimeField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN "HB_TToS(" + fieldName + ")"
 
 /*
     SetAsVariant
@@ -2091,7 +2110,7 @@ PUBLIC:
     METHOD GetAsString							//INLINE ::LinkedTable:KeyField:AsString()
     METHOD GetAsVariant( ... )
     METHOD GetValidValues()
-    METHOD IndexExpression()
+    METHOD IndexExpression( fieldName )
     METHOD SetValidValues( validValues, labelField )
     PROPERTY LinkedTable READ GetLinkedTable
     PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
@@ -2329,8 +2348,11 @@ RETURN Super:GetValidValues()
     IndexExpression
     Teo. Mexico 2010
 */
-METHOD FUNCTION IndexExpression() CLASS TObjectField
-RETURN ::FFieldExpression
+METHOD FUNCTION IndexExpression( fieldName ) CLASS TObjectField
+    IF fieldName = NIL
+        fieldName := ::FFieldExpression
+    ENDIF
+RETURN ::BaseKeyField:IndexExpression( fieldName )
 
 /*
     SetLinkedTableMasterSource
