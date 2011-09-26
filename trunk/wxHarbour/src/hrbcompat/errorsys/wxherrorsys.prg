@@ -84,12 +84,7 @@ STATIC FUNCTION wxhDefError( oError )
         cMessage += E"\n" + cDOSError
     ENDIF
 
-    nChoice := 0
-    DO WHILE nChoice == 0
-
-        nChoice := wxhShowError( cMessage, aOptions, oError )
-
-    ENDDO
+    nChoice := wxhShowError( cMessage, aOptions, oError )
 
     IF ! Empty( nChoice )
         DO CASE
@@ -104,7 +99,12 @@ STATIC FUNCTION wxhDefError( oError )
 
     OutErr( cMessage )
 
-    n := 1
+    IF ValType( oError:cargo ) = "H" .AND. HB_HHasKey( oError:cargo, "ProcLine" )
+        n := oError:cargo[ "ProcLine" ]
+    ELSE
+        n := 1
+    ENDIF
+
     DO WHILE ! Empty( ProcName( ++n ) )
 
         OutErr( hb_OSNewLine() )
