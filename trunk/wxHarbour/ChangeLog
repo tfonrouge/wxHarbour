@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-09-27 10:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     * added DATA to store picture used for type "T" values
+
 2011-09-26 13:44 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % added parameter to IndexExpression() to give fieldName to build expression
