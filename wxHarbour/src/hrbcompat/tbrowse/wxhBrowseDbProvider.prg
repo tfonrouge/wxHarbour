@@ -46,6 +46,8 @@ PRIVATE:
 PROTECTED:
 PUBLIC:
 
+    DATA dtPicture INIT "9999-99-99 99:99"
+
     METHOD ClearObjData INLINE ::FColumnList := NIL
 
     METHOD FillGridBuffer( start )
@@ -251,7 +253,7 @@ METHOD FUNCTION GetCellValueAtCol( nCol ) CLASS wxhBrowseTableBase
         Result := RTrim( Result )
         EXIT
     CASE 'T'
-        Result := HB_TSToStr( Result )
+        Result := Trans( ::dtPicture, HB_TSToStr( Result ) )
         EXIT
     CASE 'O'
         IF Result:IsDerivedFrom( "TField" )
