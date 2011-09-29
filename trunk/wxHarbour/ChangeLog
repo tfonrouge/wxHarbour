@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2011-09-29 11:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % added to TDateTime class the function 'DiffSeconds' which returns a float
+       with the difference on seconds for the given datetime parameter
+
 2011-09-27 10:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
      * added DATA to store picture used for type "T" values
