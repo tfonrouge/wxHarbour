@@ -1961,6 +1961,7 @@ PUBLIC:
     CLASSDATA fmtDate INIT "YYYY-MM-DD"
     CLASSDATA fmtTime
 
+    METHOD DiffSeconds( dateTimePrev )
     METHOD GetKeyVal( keyVal )
     METHOD IndexExpression( fieldName )
     METHOD SetAsVariant( variant )
@@ -1971,6 +1972,30 @@ PUBLIC:
 
 PUBLISHED:
 ENDCLASS
+
+/*
+    DiffSeconds
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION DiffSeconds( dateTimePrev ) CLASS TDateTimeField
+    LOCAL t1,t2
+    LOCAL t,n
+
+    IF dateTimePrev = ::Value
+        RETURN 0.0
+    ENDIF
+
+    IF dateTimePrev < ::Value
+        t1 := ::Value
+        t2 := dateTimePrev
+        n := 1
+    ELSE
+        t2 := ::Value
+        t1 := dateTimePrev
+        n := -1
+    ENDIF
+
+RETURN n * ( ( HB_TToD( HB_NToT( t1 - t2 ), @t ) - CToD("") ) * 86400 + t )
 
 /*
     GetKeyVal
