@@ -128,6 +128,10 @@ ENDCLASS
 METHOD New( Table, tagName, name, indexType, curClass ) CLASS TIndex
 
     ::FTable := Table
+    
+    IF Len( tagName ) > 10
+        RAISE ERROR "TagName '" + tagName + "' exceeds lenght of 10..."
+    ENDIF
 
     ::FTagName := tagName
 

@@ -1011,7 +1011,7 @@ METHOD FUNCTION CreateIndex( index ) CLASS TTable
 
     DbSelectArea( ::Alias:Name )
 
-    CREATE INDEX ON indexExp TAG index:Name ADDITIVE
+    CREATE INDEX ON indexExp TAG index:TagName ADDITIVE
 
 RETURN .T.
 

@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2011-09-30 15:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TIndex.prg
+     * show error on tagname len > 10
+
+  *  src/raddox/TTable.prg
+     ! Fixed creating index tag with tagname property value
+
 2011-09-29 11:58 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % added to TDateTime class the function 'DiffSeconds' which returns a float
