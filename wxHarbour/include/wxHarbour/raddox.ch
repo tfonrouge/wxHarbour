@@ -113,6 +113,7 @@
                         [ <ruf: REUSEFIELD> ] ;
                         [ ENABLED <enabled> ] ;
                         [ EDITABLE <editable> ] ;
+                        [ INDEXEXPRESSION <indexExp> ] ;
                      => ;
                         WITH OBJECT T<type>Field():New( Self, ::curClassField ) ;;
                             [ :Name := <cName> ] ;;
@@ -147,6 +148,7 @@
                             [ :UsingField := <usingField> ] ;;
                             [ :Enabled := <enabled> ] ;;
                             [ :Editable := <editable> ] ;;
+                            [ :SetIndexExpression( <indexExp> ) ] ;;
                             :AddFieldMessage() ;;
                             :ValidateFieldInfo() ;;
                         ENDWITH
