@@ -83,6 +83,7 @@ PROTECTED:
     DATA FFieldMethodType
     DATA FFieldReadBlock								// Code Block to do READ
     DATA FFieldType     INIT ftBase
+    DATA FIndexExpression
     DATA FKeyIndex
     DATA FLabel
     DATA FModStamp	INIT .F.							// Field is automatically mantained (dbf layer)
@@ -152,6 +153,7 @@ PUBLIC:
     METHOD SetDbStruct( aStruct )
     METHOD SetEditText( Text )
     METHOD SetFieldMethod( FieldMethod, calculated )
+    METHOD SetIndexExpression( indexExpression ) INLINE ::FIndexExpression := indexExpression
     METHOD SetKeyVal( keyVal )
     METHOD SetValidValues( validValues )
     METHOD Validate( showAlert )
@@ -1520,6 +1522,10 @@ RETURN ::FSize
 METHOD FUNCTION IndexExpression( fieldName ) CLASS TStringField
     LOCAL exp
     LOCAL i
+    
+    IF ::FIndexExpression != NIL
+        RETURN ::FIndexExpression
+    ENDIF
 
     IF fieldName = NIL
         fieldName := ::FFieldExpression
