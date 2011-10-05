@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-10-05 13:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     * set error state if division by zero
+
 2011-10-03 11:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/raddox.ch
   *  src/raddox/TField.prg
