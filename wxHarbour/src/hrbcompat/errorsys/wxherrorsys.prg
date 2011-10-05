@@ -34,10 +34,10 @@ STATIC FUNCTION wxhDefError( oError )
     LOCAL n
 
     // By default, division by zero results in zero
-    IF oError:genCode == EG_ZERODIV .AND. ;
-        oError:canSubstitute
-        RETURN 0
-    ENDIF
+//    IF oError:genCode == EG_ZERODIV .AND. ;
+//        oError:canSubstitute
+//        RETURN 0
+//    ENDIF
 
     // By default, retry on RDD lock error failure */
     IF oError:genCode == EG_LOCK .AND. ;
