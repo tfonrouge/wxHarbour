@@ -35,7 +35,7 @@ static void ParseConnectParams( PCONN_PARAMS pConnParams );
 template <class T>
 void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 {
-    PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
+    PHB_ITEM pEvent = hb_stackReturnItem();
     xho_ObjParams objParams = xho_ObjParams( pEvent );
 
     objParams.Return( &event );
@@ -61,8 +61,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
         }
     }
 
-    //wxh_itemListDel_HB( pEvent );
-    hb_itemRelease( pEvent ); //this has to be done on above line
+    xho_itemListDel_XHO( &event );
 }
 
 /*
@@ -303,7 +302,7 @@ static void Connect( int evtClass )
     PHB_ITEM pSelf = hb_stackSelfItem();
     PCONN_PARAMS pConnParams = new CONN_PARAMS;
     pConnParams->force = false;
-
+    
     ParseConnectParams( pConnParams );
 
     hbEvtHandler<wxEvtHandler>* evtHandler = (hbEvtHandler<wxEvtHandler> *) xho_itemListGet_XHO( pSelf );
