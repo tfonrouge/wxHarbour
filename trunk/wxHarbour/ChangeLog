@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2011-10-08 10:53 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/events/wx_EvtHandler.cpp
+     ! Fixed memory leak on processing event
+
+  +  tests/memchk1
+  +  tests/memchk1/memchk1.prg
+     * added memory usage test
+
 2011-10-05 13:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      * set error state if division by zero
