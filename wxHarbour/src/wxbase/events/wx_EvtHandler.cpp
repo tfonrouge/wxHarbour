@@ -35,7 +35,7 @@ static void ParseConnectParams( PCONN_PARAMS pConnParams );
 template <class T>
 void hbEvtHandler<T>::__OnEvent( wxEvent &event )
 {
-    PHB_ITEM pEvent = hb_stackReturnItem();
+    PHB_ITEM pEvent = hb_itemNew( hb_stackReturnItem() );
     xho_ObjParams objParams = xho_ObjParams( pEvent );
 
     objParams.Return( &event );
@@ -62,6 +62,7 @@ void hbEvtHandler<T>::__OnEvent( wxEvent &event )
     }
 
     xho_itemListDel_XHO( &event );
+    hb_itemRelease( pEvent );
 }
 
 /*
