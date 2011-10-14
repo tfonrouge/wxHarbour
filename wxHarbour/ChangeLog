@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-10-14 08:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbc
+     ! Temporary fix on new ubuntu link tools (11.10)
+
 2011-10-12 16:04 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/wxbase/events/wx_EvtHandler.cpp
      ! Fixed creating hb object passed to event handler at prg level
