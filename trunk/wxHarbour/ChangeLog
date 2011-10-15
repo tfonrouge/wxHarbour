@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-10-15 12:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbc
+     ! Fixed typo
+
 2011-10-14 08:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbc
      ! Temporary fix on new ubuntu link tools (11.10)
