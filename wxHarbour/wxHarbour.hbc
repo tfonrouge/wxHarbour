@@ -6,9 +6,9 @@ prgflags=-w3 -es2
 
 incpaths=include/wxHarbour
 libpaths=lib/${hb_arch}/${hb_comp}
-libs=wxHarbour hbct hbtip wx_gtk2u_richtext-2.8 wx_gtk2u_aui-2.8 wx_gtk2u_xrc-2.8 wx_gtk2u_qa-2.8 wx_gtk2u_html-2.8 wx_gtk2u_adv-2.8 wx_gtk2u_core-2.8 wx_baseu_xml-2.8 wx_baseu_net-2.8 wx_baseu-2.8
+libs=hbct hbtip wxHarbour
 
-ldflags={unix&gcc}"`wx-config --libs`"
+ldflags={unix&gcc}"-lwxHarbour `wx-config --libs`"
 
 {allgcc}cpp=yes
 

@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-10-15 12:36 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbc
+     ! Fixed linking on ubuntu 11.10 by declaring wxHarbour lib before wx libs
+
 2011-10-15 12:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbc
      ! Fixed typo
