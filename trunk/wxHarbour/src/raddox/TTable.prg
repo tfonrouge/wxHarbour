@@ -367,6 +367,7 @@ PUBLIC:
     METHOD OnAfterOpen() VIRTUAL
     METHOD OnAfterPost() VIRTUAL
     METHOD OnBeforeCancel() INLINE .T.
+    METHOD OnBeforeDelete() INLINE .T.
     METHOD OnBeforeInsert() INLINE .T.
     METHOD OnBeforeLock INLINE .T.
     METHOD OnBeforePost() INLINE .T.
@@ -1277,20 +1278,24 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
             RETURN .F.
         ENDIF
     ENDIF
+    
+    IF ::OnBeforeDelete()
 
-    FOR EACH AField IN ::FieldList
-        AField:Delete()
-    NEXT
+        FOR EACH AField IN ::FieldList
+            AField:Delete()
+        NEXT
 
-    IF ::FHasDeletedOrder()
-        ::Alias:DbDelete()
+        IF ::FHasDeletedOrder()
+            ::Alias:DbDelete()
+        ENDIF
+
+        ::RecUnLock()
+
+        ::GetCurrentRecord()
+
+        ::OnAfterDelete()
+
     ENDIF
-
-    ::RecUnLock()
-
-    ::GetCurrentRecord()
-
-    ::OnAfterDelete()
 
 RETURN .T.
 
