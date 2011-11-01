@@ -48,9 +48,9 @@
     => ;
     RETURN
 
-#xtranslate ADD TABLE <tableName> [ <vt: VIRTUAL> ] [ INDEX <indexName> ] ;
+#xtranslate ADD TABLE <tableName> [ <vt: VIRTUAL> ] [ INDEX <indexName> ] [ <auto: AUTODELETE> ] ;
             => ;
-            ::cmdAddTable( <tableName>, [ <indexName> ], <.vt.> )
+            ::cmdAddTable( <tableName>, [ <indexName> ], <.vt.>, <.auto.> )
 
 #xtranslate DEFINE CHILD ;
             => ;
