@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2011-11-01 13:07 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+  *  src/raddox/TDatabase.prg
+     * added clause AUTODELETE to database dependency structure to allow auto deletion
+       on child tables
+
+  *  src/raddox/TTable.prg
+     * Changed parameter syntax for Childs() method to accept boolean 'ignoreAutoDelete'
+       parameter, which will ignore child tables with AUTODELETE flag on
+
+
 2011-11-01 12:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % added event 'OnBeforeDelete', must return logical to grant|deny delete operation

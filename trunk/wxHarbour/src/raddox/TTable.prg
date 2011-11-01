@@ -282,7 +282,7 @@ PUBLIC:
     METHOD AddFieldMessage( messageName, AField )
     METHOD AssociateTableIndex( table, name, getRecNo, setRecNo )
     METHOD Cancel
-    METHOD Childs( curClass, childs, block )
+    METHOD Childs( ignoreAutoDelete, block, curClass, childs )
     METHOD ChildSource( tableName, destroyChild )
     METHOD CopyRecord( origin )
     METHOD Count( bForCondition, bWhileCondition, index, scope )
@@ -844,7 +844,7 @@ RETURN .T.
     Childs
     Teo. Mexico 2011
 */
-METHOD FUNCTION Childs( curClass, childs, block ) CLASS TTable
+METHOD FUNCTION Childs( ignoreAutoDelete, block, curClass, childs ) CLASS TTable
     LOCAL childTableName
     LOCAL ChildDB
     LOCAL clsName
@@ -867,30 +867,34 @@ METHOD FUNCTION Childs( curClass, childs, block ) CLASS TTable
     IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
 
         FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
+        
+            IF !ignoreAutoDelete == .T. .OR. !::DataBase:TableList[ childTableName, "AutoDelete" ]
 
-            ChildDB := ::ChildSource( childTableName, @destroyChild )
+                ChildDB := ::ChildSource( childTableName, @destroyChild )
 
-            IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
-                ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
-            ENDIF
+                IF ::DataBase:TableList[ childTableName, "IndexName" ] != NIL
+                    ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
+                ENDIF
 
-            IF ChildDB:DbGoTop()
-                AAdd( childs, iif( block == NIL, ChildDB:ClassName, block:Eval( ChildDB ) ) )
+                IF ChildDB:DbGoTop()
+                    AAdd( childs, iif( block == NIL, ChildDB:ClassName, block:Eval( ChildDB ) ) )
+                    IF destroyChild
+                        ChildDB:Destroy()
+                    ENDIF
+                    //RETURN childs
+                ENDIF
+
                 IF destroyChild
                     ChildDB:Destroy()
                 ENDIF
-                //RETURN childs
-            ENDIF
 
-            IF destroyChild
-                ChildDB:Destroy()
             ENDIF
 
         NEXT
 
     ENDIF
 
-    ::Childs( curClass:__Super, childs, block )
+    ::Childs( ignoreAutoDelete, block, curClass:__Super, childs )
 
 RETURN childs
 
@@ -1258,6 +1262,9 @@ RETURN
 */
 METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
     LOCAL AField
+    LOCAL aChilds
+    LOCAL child
+    LOCAL lDel
 
     IF AScan( { dsBrowse, dsEdit, dsInsert }, ::State ) = 0
         ::Error_Table_Not_In_Browse_or_Insert_State()
@@ -1267,15 +1274,26 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
     IF ::State = dsBrowse .AND. !::RecLock()
         RETURN .F.
     ENDIF
+    
+    aChilds := ::Childs()
+    
+    lDel := .T.
 
-    IF !Empty( ::Childs() )
-        IF !lDeleteChilds == .T.
-            wxhAlert("Error_Table_Has_Childs")
-            RETURN .F.
-        ENDIF
-        IF !::DeleteChilds()
-            wxhAlert("Error_Deleting_Childs")
-            RETURN .F.
+    IF !Empty( aChilds )
+        FOR EACH child IN aChilds
+            IF ! ::DataBase:TableList[ child, "AutoDelete" ] 
+                lDel := .F.
+            ENDIF
+        NEXT
+        IF lDel
+            IF !lDel .AND. !lDeleteChilds == .T.
+                wxhAlert("Error_Table_Has_Childs")
+                RETURN .F.
+            ENDIF
+            IF !::DeleteChilds()
+                wxhAlert("Error_Deleting_Childs")
+                RETURN .F.
+            ENDIF
         ENDIF
     ENDIF
     
