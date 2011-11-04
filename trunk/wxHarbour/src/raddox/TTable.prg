@@ -57,9 +57,9 @@ FUNCTION ErrorBlockOODB( oErr )
         NetErr( .T. )
         RETURN .F.
     ENDIF
-    
+
     wxhAlert( oErr:description )
-    
+
     IF .T.
         //Break( oErr )
         RETURN NIL
@@ -78,16 +78,16 @@ FUNCTION OODB_ErrorHandler( ... )
     LOCAL nErr
     LOCAL description
     LOCAL errorBlock
-    
+
     errorBlock := ErrorBlock()
 
     sErr := __GetMessage()
 
     //oErr := ErrorNew()
     oErr := ErrorNew()
-    
+
     oErr:cargo := {"ProcLine"=>2}
-    
+
     oErr:severity := ES_ERROR
     oErr:genCode := EG_ARG
     oErr:subSystem := "OODB:" + ::ClassName()
@@ -97,13 +97,13 @@ FUNCTION OODB_ErrorHandler( ... )
     oErr:operation := ProcName( 2 )
 
     IF ::IsDerivedFrom( "TTable" ) .OR. ::IsDerivedFrom( "TField" )
-    
+
         nErr := Val( SubStr( sErr, 7 ) )
 
         oErr:subCode := nErr
-        
+
         description := ""
-    
+
         IF ::IsDerivedFrom( "TField" )
 
             description += ;
@@ -867,7 +867,7 @@ METHOD FUNCTION Childs( ignoreAutoDelete, block, curClass, childs ) CLASS TTable
     IF HB_HHasKey( ::DataBase:ParentChildList, clsName )
 
         FOR EACH childTableName IN ::DataBase:GetParentChildList( clsName )
-        
+
             IF !ignoreAutoDelete == .T. .OR. !::DataBase:TableList[ childTableName, "AutoDelete" ]
 
                 ChildDB := ::ChildSource( childTableName, @destroyChild )
@@ -990,11 +990,11 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
             AAdd( aDbs, { fld:DBS_NAME, fld:DBS_TYPE, fld:DBS_LEN, fld:DBS_DEC } )
         ENDIF
     NEXT
-    
+
     IF fullFileName = NIL
         fullFileName := ::TableFileName
     ENDIF
-    
+
     IF ::dataBase != NIL .AND. ::dataBase:netIO == .T.
         cNet := iif( Upper( fullFileName ) = "NET:", "", "net:" )
     ELSE
@@ -1274,14 +1274,14 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
     IF ::State = dsBrowse .AND. !::RecLock()
         RETURN .F.
     ENDIF
-    
+
     aChilds := ::Childs()
-    
+
     lDel := .T.
 
     IF !Empty( aChilds )
         FOR EACH child IN aChilds
-            IF ! ::DataBase:TableList[ child, "AutoDelete" ] 
+            IF ! ::DataBase:TableList[ child, "AutoDelete" ]
                 lDel := .F.
             ENDIF
         NEXT
@@ -1296,7 +1296,7 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
             ENDIF
         ENDIF
     ENDIF
-    
+
     IF ::OnBeforeDelete()
 
         FOR EACH AField IN ::FieldList
@@ -1636,7 +1636,7 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
     IF message = NIL
         message := ""
     ENDIF
-    
+
     IF ::dataBase != NIL .AND. ::dataBase:netIO
         wxhAlert( "Cannot run FixDbStruct on netIO tables..." )
         RETURN .F.
