@@ -380,8 +380,9 @@ PUBLIC:
     PROPERTY Alias READ GetAlias WRITE SetAlias
     PROPERTY AsString READ GetAsString WRITE SetAsString
     PROPERTY AutoCreate READ FAutoCreate
-    PROPERTY BasePrimaryKey READ BaseKeyField:GetKeyVal WRITE BaseKeyField:SetKeyVal
     PROPERTY BaseKeyField READ FBaseKeyField
+    PROPERTY BaseKeyIndex READ FBaseKeyField:KeyIndex
+    PROPERTY BaseKeyVal READ BaseKeyField:GetKeyVal WRITE BaseKeyField:SetKeyVal
     PROPERTY Bof READ FBof
     PROPERTY DataBase READ GetDataBase WRITE SetDataBase
     PROPERTY DbStruct READ GetDbStruct
@@ -876,14 +877,21 @@ METHOD FUNCTION Childs( ignoreAutoDelete, block, curClass, childs ) CLASS TTable
                     ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
                 ENDIF
 
-                IF ChildDB:DbGoTop()
+                ChildDB:StatePush()
+                
+                ChildDB:PrimaryIndex:Scope := NIL
+
+                IF ChildDB:PrimaryIndex:Seek( "" )
                     AAdd( childs, iif( block == NIL, ChildDB:ClassName, block:Eval( ChildDB ) ) )
+                    ChildDB:StatePop()
                     IF destroyChild
                         ChildDB:Destroy()
                     ENDIF
-                    //RETURN childs
+                    LOOP
                 ENDIF
 
+                ChildDB:StatePop()
+                
                 IF destroyChild
                     ChildDB:Destroy()
                 ENDIF
@@ -1350,14 +1358,21 @@ METHOD FUNCTION DeleteChilds( curClass ) CLASS TTable
                 ChildDB:IndexName := ::DataBase:TableList[ childTableName, "IndexName" ]
             ENDIF
 
-            WHILE ChildDB:DbGoTop()
+            ChildDB:StatePush()
+            
+            ChildDB:PrimaryIndex:Scope := NIL
+
+            WHILE ChildDB:PrimaryIndex:Seek( "" )
                 IF !ChildDB:TTable:Delete( .T. )
+                    ChildDB:StatePop()
                     IF destroyChild
                         ChildDB:Destroy()
                     ENDIF
                     RETURN .F.
                 ENDIF
             ENDDO
+            
+            ChildDB:StatePop()
 
             IF destroyChild
                 ChildDB:Destroy()
