@@ -507,7 +507,9 @@ METHOD New( masterSource, tableName ) CLASS TTable
         IF itm:IsTableField()
             n := Upper( itm:DBS_NAME )
             n := AScan( ::DbStruct, {|e| e[ 1 ] == n } )
-            itm:SetDbStruct( ::DbStruct[ n ] )
+            IF n > 0
+                itm:SetDbStruct( ::DbStruct[ n ] )
+            ENDIF
         ENDIF
     NEXT
 
