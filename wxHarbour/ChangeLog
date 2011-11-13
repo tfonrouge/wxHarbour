@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-11-13 17:46 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! Added protection against array index out of bounds
+
 2011-11-07 13:00 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * renamed property 'BasePrimaryKey' to 'BaseKeyVal'
