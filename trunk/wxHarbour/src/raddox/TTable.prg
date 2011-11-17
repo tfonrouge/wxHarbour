@@ -250,7 +250,7 @@ PUBLIC:
 
     DATA aliasIdx
     DATA aliasTmp
-    DATA allowOnDataChange  INIT .T.
+    DATA allowOnDataChange  INIT .F.
     DATA autoEdit           INIT .F.
     DATA autoMasterSource   INIT .F.
     DATA autoOpen           INIT .T.
@@ -2362,10 +2362,14 @@ METHOD FUNCTION Open() CLASS TTable
      * Try to sync with MasterSource (if any)
      */
     ::SyncFromMasterSourceFields()
+    
+    ::allowOnDataChange := .T.
 
     IF ::Alias != NIL
         ::FHasDeletedOrder := ::Alias:OrdNumber( "__AVAIL" ) > 0
     ENDIF
+    
+    ::OnDataChange()
 
     ::OnAfterOpen()
 

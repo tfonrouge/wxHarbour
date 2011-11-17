@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-11-16 18:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * disabled call to OnDataChange before Open() has ending
+
 2011-11-13 17:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Added protection against array index out of bounds
