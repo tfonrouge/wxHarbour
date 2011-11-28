@@ -108,6 +108,7 @@
                         [ ON SEARCH <bOnSearch> ] ;
                         [ ON AFTER CHANGE <bOnAfterChange> ] ;
                         [ ON AFTER POST CHANGE <bOnAfterPostChange> ] ;
+                        [ ON DATA CHANGE <bOnDataChange> ] ;
                         [ VALIDVALUES [<vvl: LABEL>] <validValues> ] ;
                         [ USING <usingField> ] ;
                         [ <ruf: REUSEFIELD> ] ;
@@ -144,6 +145,7 @@
                             [ :OnSearch := <bOnSearch> ] ;;
                             [ :OnAfterChange := <bOnAfterChange> ] ;;
                             [ :OnAfterPostChange := <bOnAfterPostChange> ] ;;
+                            [ :OnDataChange := <bOnDataChange> ] ;;
                             [ :SetValidValues( <validValues>, <.vvl.> ) ] ;;
                             [ :UsingField := <usingField> ] ;;
                             [ :Enabled := <enabled> ] ;;

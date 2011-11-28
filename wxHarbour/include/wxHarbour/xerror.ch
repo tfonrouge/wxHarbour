@@ -29,16 +29,24 @@
 
 #xcommand SHOW ERROR <errObj> ;
                     => ;
-            wxhShowError( "", { wxhLABEL_ACCEPT }, <errObj> )
+            wxhShowError( NIL, { wxhLABEL_ACCEPT }, <errObj> )
 
 /* TField errors */
-#define OODB_ERR__FIELD_METHOD_TYPE_NOT_SUPPORTED       1000
-#define OODB_ERR__CALCULATED_FIELD_CANNOT_BE_SOLVED     1001
+//#define OODB_ERR__FIELD_METHOD_TYPE_NOT_SUPPORTED       1000
+//#define OODB_ERR__CALCULATED_FIELD_CANNOT_BE_SOLVED     1001
 
 /* TTable errors */
-#define OODB_ERR__NO_BASEKEYFIELD                       2000
+//#define OODB_ERR__NO_BASEKEYFIELD                       2000
 
 #xcommand THROW ERROR <errId> [ ON <obj> ] [ ARGS <args,...> ] ;
           => ;
-          __objSendMsg( iif( <.obj.>, <obj>, Self ), "__Err_"[ , <args> ], <errId> )
+          Break( RadoxErrorNew( iif( <.obj.>, <obj>, Self ), <"errId">, <args> ) )
+//          IF ::IsDerivedFrom("TField") ;;
+//            __objSendMsg( iif( <.obj.>, <obj>, Self ), "<" + ::Table:ClassName() + ":" + ::Name + ">_" + <"errId">, 0 ) ;;
+//          ELSE ;;
+//            ::<errId>( <args> ) ;;
+//          ENDIF
+
+          //::<errId>( <args> )
+          //__objSendMsg( iif( <.obj.>, <obj>, Self ), "__Err_"[ , <args> ], <errId> )
 #endif

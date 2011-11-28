@@ -20,6 +20,19 @@
 
 REQUEST TField
 
+FUNCTION RadoxErrorNew( Self, description, args )
+    LOCAL oErr := ErrorNew()
+
+    oErr:cargo := Self
+    oErr:description := description
+    oErr:args := args
+    
+    IF ::IsDerivedFrom("TField")
+        oErr:operation := "Table: " + ::Table:ClassName() + E"\nField: " + ::Name
+    ENDIF
+
+RETURN oErr
+
 /*
     __ClsInstFromName (Just UpperCase in __ClsInstName)
     Teo. Mexico 2007
@@ -71,6 +84,7 @@ RETURN NIL
     OODB_ErrorHandler
     Teo. Mexico 2011
 */
+/*
 FUNCTION OODB_ErrorHandler( ... )
     LOCAL Self := QSelf()
     LOCAL sErr
@@ -150,6 +164,7 @@ FUNCTION OODB_ErrorHandler( ... )
     errorBlock:Eval( oErr )
 
 RETURN NIL
+*/
 
 /*
     TTable
@@ -267,12 +282,13 @@ PUBLIC:
     DATA LinkedObjField
 
     DATA OnDataChangeBlock
+    DATA OnDataChangeBlock_Param
 
     DATA validateDbStruct INIT .T.      // On Open, Check for a valid struct dbf (against DEFINE FIELDS )
 
     CONSTRUCTOR New( MasterSource, tableName )
     DESTRUCTOR OnDestruct()
-    ON ERROR FUNCTION OODB_ErrorHandler( ... )
+    //ON ERROR FUNCTION OODB_ErrorHandler( ... )
 
     METHOD __DefineFields() VIRTUAL // DEFINE FIELDS
     METHOD __DefineIndexes() VIRTUAL // DEFINE INDEXES
@@ -2337,7 +2353,7 @@ RETURN value
 */
 METHOD PROCEDURE OnDataChange() CLASS TTable
     IF ::OnDataChangeBlock != NIL
-        ::OnDataChangeBlock:Eval( Self )
+        ::OnDataChangeBlock:Eval( iif( ::OnDataChangeBlock_Param = NIL, Self, ::OnDataChangeBlock_Param ) )
     ENDIF
 RETURN
 
