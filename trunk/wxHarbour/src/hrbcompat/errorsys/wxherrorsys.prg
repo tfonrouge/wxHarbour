@@ -171,7 +171,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
     LOCAL dlg
     LOCAL itm
     LOCAL i,id
-    LOCAL aErrLst
+    LOCAL aErrLst := {}
     LOCAL brwErrObj,brwCallStack
     LOCAL aStack := {}
     LOCAL s
@@ -197,10 +197,17 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         AAdd( aStack, { s, ProcLine( i ), ProcFile( i ) } )
     ENDDO
 
-    aErrLst := __objGetValueList( oErr, .T., 0 )
+    //aErrLst := __objGetValueList( oErr, .T., 0 )
 
     IF .T.
-        s := cMessage + E":\n\n" + oErr:Description + ": " + oErr:Operation + E"\n\n"
+        IF cMessage = NIL
+            s := oErr:Description + E"\n\n" + oErr:Operation
+        ELSE
+            s := cMessage + E":\n\n" + oErr:Description + ": " + oErr:Operation
+        ENDIF
+        
+        s += E"\n\n"
+        
         i := 3
         WHILE !Empty( ProcName( i ) )
             s += "Called from " + ProcName( i )	 + "(" + NTrim( ProcLine( i ) ) + E")\n"
@@ -210,7 +217,10 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         ?
         //? HB_ValToExp( oErr )
         wxMessageBox( s, "Error", HB_BitOr( wxOK, wxICON_ERROR ), 0 )
-        RETURN 1
+
+        RETURN NIL
+        //BREAK oErr
+
     ENDIF
 
     IF Empty( cMessage )

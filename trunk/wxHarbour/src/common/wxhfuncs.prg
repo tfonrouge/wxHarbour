@@ -2835,3 +2835,65 @@ RETURN Self
 /*
     End Class TGlobal
 */
+
+/*
+    wxhDebug
+    Teo. Mexico 2011
+*/
+PROCEDURE wxhDebug( ... )
+    STATIC wnd
+    STATIC editCtrl
+    LOCAL i,value
+    
+    IF wnd = NIL
+
+        CREATE FRAME wnd ;
+            TITLE "Debug Output" ;
+            PARENT wxApp():GetTopWindow()
+        
+        BEGIN BOXSIZER VERTICAL STRETCH
+
+            @ GET VAR editCtrl MULTILINE NOEDITABLE ;
+                SIZERINFO ALIGN EXPAND STRETCH
+
+        END SIZER
+        
+        SHOW WINDOW wnd CENTRE
+
+    ENDIF
+
+    IF PCount() > 0
+
+        FOR i:=1 TO PCount()
+        
+            value := HB_PValue( i )
+        
+            SWITCH ValType( value )
+            CASE "M"
+            CASE "C"
+                EXIT
+            CASE "N"
+                value := NTrim( value )
+                EXIT
+            CASE "D"
+                value := DToC( value )
+                EXIT
+            CASE "T"
+                value := HB_TSToStr( value )
+                EXIT
+            CASE "L"
+                value := iif( value, ".T.", ".F." )
+                EXIT
+            OTHERWISE
+                value := "Unkown: <" + ValType( value ) + ">"
+            ENDSWITCH
+
+            editCtrl:AppendText( value + E"\t" )
+            
+        NEXT
+        
+        editCtrl:AppendText( E"\n" )
+    
+    ENDIF
+    
+RETURN

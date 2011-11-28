@@ -130,7 +130,7 @@ PUBLIC:
 
     CONSTRUCTOR New( Table, curBaseClass )
     
-    ON ERROR FUNCTION OODB_ErrorHandler( ... )
+    //ON ERROR FUNCTION OODB_ErrorHandler( ... )
 
     METHOD AddFieldMessage()
     METHOD CheckEditable( flag )
@@ -2134,6 +2134,8 @@ PROTECTED:
     METHOD GetLinkedTable
     METHOD GetEmptyValue() INLINE ::BaseKeyField():EmptyValue
     METHOD GetFieldReadBlock()
+    METHOD GetOnDataChange()
+    METHOD SetOnDataChange( onDataChangeBlock )
 PUBLIC:
     METHOD BaseKeyField()	// Returns the non-TObjectField associated to this obj
     METHOD DataObj
@@ -2147,6 +2149,7 @@ PUBLIC:
     PROPERTY LinkedTableAssigned READ FLinkedTableMasterSource != NIL
     PROPERTY LinkedTableMasterSource READ FLinkedTableMasterSource WRITE SetLinkedTableMasterSource
     PROPERTY ObjClass READ FObjClass WRITE SetObjClass
+    PROPERTY OnDataChange READ GetOnDataChange WRITE SetOnDataChange
     PROPERTY Size READ BaseKeyField():Size
     PROPERTY ValidValuesLabelField READ FValidValuesLabelField
 PUBLISHED:
@@ -2353,6 +2356,13 @@ METHOD FUNCTION GetLinkedTable CLASS TObjectField
 RETURN ::FLinkedTable
 
 /*
+    GetOnDataChange
+    Teo. Mexico 2011
+*/
+METHOD FUNCTION GetOnDataChange() CLASS TObjectField
+RETURN ::GetLinkedTable:OnDataChangeBlock
+
+/*
     GetValidValues
     Teo. Mexico 2009
 */
@@ -2405,6 +2415,15 @@ METHOD PROCEDURE SetLinkedTableMasterSource( linkedTableMasterSource ) CLASS TOb
     ::FLinkedTableMasterSource := linkedTableMasterSource
 
 RETURN
+
+/*
+    SetOnDataChange
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE SetOnDataChange( onDataChangeBlock ) CLASS TObjectField
+    ::GetLinkedTable:OnDataChangeBlock := onDataChangeBlock
+    ::GetLinkedTable:OnDataChangeBlock_Param := ::Table
+RETURN 
 
 /*
     SetValidValues

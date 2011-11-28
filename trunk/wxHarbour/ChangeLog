@@ -2,6 +2,30 @@
  * $Id$
  */
 
+2011-11-28 10:46 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/raddox.ch
+     * added clause 'ON DATA CHANGE' that triggers when table linked to object
+       field changes state (OnDataChange) takes as parameter the *current* table
+
+  *  include/wxHarbour/xerror.ch
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     * improved error handling
+
+  *  src/common/wxhfuncs.prg
+     * added function 'wxhDebug' that opens a frame and accepts any number of parameters
+       as values to display on one line
+
+  *  src/raddox/TField.prg
+     * comented out OODB_ERRORHandled method
+     + added property 'OnDataChange' to accept code block to evaluate on tables linked
+       to TObjectField's
+
+  *  src/raddox/TTable.prg
+     * added function 'RadoxErrorNew' to build error object to send to error handler
+     * added data 'OnDataChangeBlock_Param' to hold parameter value to send to
+       'OnDataChangeBlock' evaluation time
+
+
 2011-11-16 18:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * disabled call to OnDataChange before Open() has ending
