@@ -565,6 +565,7 @@
 #xcommand @ GRID [ VAR <grid> ] ;
                         [ PARENT <parent> ] ;
                         [ ID <id> ] ;
+                        [ CLASS <fromClass> ] ;
                         [ WIDTH <nWidth> ] [ HEIGHT <nHeight> ] ;
                         [ STYLE <style> ] ;
                         [ NAME <name> ] ;
@@ -573,6 +574,7 @@
                         [ <readOnly: READONLY> ] ;
                     => ;
                         [<grid>:=]__wxh_Grid( ;
+                            [<fromClass>], ;
                             [<parent>],;
                             [<id>],;
                             ,;

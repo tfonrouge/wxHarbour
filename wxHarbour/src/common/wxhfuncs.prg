@@ -1531,14 +1531,20 @@ RETURN bitmap
     __wxh_Grid
     Teo. Mexico 2009
  */
-FUNCTION __wxh_Grid( window, id, pos, size, style, name, rows, cols, readOnly )
+FUNCTION __wxh_Grid( fromClass, window, id, pos, size, style, name, rows, cols, readOnly )
     LOCAL grid
 
     IF window == NIL
         window := containerObj():LastParent()
     ENDIF
 
-    grid := wxGrid():New( window, id, pos, size, style, name )
+    IF fromClass = NIL
+        grid := wxGrid()
+    ELSE
+        grid := __ClsInstFromName( fromClass )
+    ENDIF
+    
+    grid:New( window, id, pos, size, style, name )
 
     grid:EnableEditing( ! readOnly )
 
