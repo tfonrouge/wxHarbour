@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-12-01 17:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * reset applies to calculated fields
+
 2011-11-28 18:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
   *  src/common/wxhfuncs.prg
