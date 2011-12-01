@@ -2656,7 +2656,7 @@ METHOD PROCEDURE Reset() CLASS TTable
 
     FOR EACH AField IN ::FFieldList
 
-        IF AField:FieldMethodType = "C" .AND. !AField:Calculated .AND. AField:Enabled
+        IF AField:FieldMethodType = "C" .AND. AField:Enabled
             IF AField:RawDefaultValue != NIL .OR. !AField:IsMasterFieldComponent
                 AField:Reset()
             ENDIF
