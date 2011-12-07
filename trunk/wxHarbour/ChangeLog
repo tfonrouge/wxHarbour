@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2011-12-07 13:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     + added method:
+       + BuildLinkedTable() : creates an new instance of table referenced in the
+         object field. (separated from GetLinkedTable() )
+     * moved logic to check for an calculated TObjectField from DataObj() to
+       GetLinkedTable()
+     ! Fixed returned value on TObjectField:GetAsVariant()
+     ! Fixed GetFieldReadBlock() to use a new instance of table ( BuildLinkedTable() )
+     % simplified GetLinkedTable()
+
 2011-12-01 17:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * reset applies to calculated fields

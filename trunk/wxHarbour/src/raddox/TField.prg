@@ -2121,7 +2121,8 @@ PRIVATE:
     DATA FObjClass
     DATA FLinkedTable									 /* holds the Table object */
     DATA FLinkedTableMasterSource
-    METHOD SetLinkedTableMasterSource( linkedTableMasterSource )
+    METHOD BuildLinkedTable()
+    METHOD SetLinkedTableMasterSource( linkedTable )
     METHOD SetObjClass( objValue ) INLINE ::FObjClass := objValue
 PROTECTED:
     DATA FCalcMethod
@@ -2173,6 +2174,88 @@ METHOD FUNCTION BaseKeyField() CLASS TObjectField
 RETURN NIL
 
 /*
+    BuildLinkedTable
+    Teo. Mexico 2011
+*/
+METHOD PROCEDURE BuildLinkedTable() CLASS TObjectField
+    LOCAL linkedTable
+    LOCAL className
+    LOCAL fld
+
+    IF Empty( ::FObjClass )
+        RAISE TFIELD ::Name ERROR "TObjectField has not a ObjClass value."
+    ENDIF
+
+    /*
+     * Solve using the default ObjClass
+     */
+    SWITCH ValType( ::FObjClass )
+    CASE 'C'
+        IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjClass ) .AND. ::IsMasterFieldComponent
+            ::FLinkedTable := ::FTable:MasterSource
+        ELSE
+            IF ::FLinkedTableMasterSource != NIL
+                linkedTable := ::FLinkedTableMasterSource
+            ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjClass ) )
+                linkedTable := ::FTable
+            ENDIF
+
+            ::FLinkedTable := __ClsInstFromName( ::FObjClass )
+
+            IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
+                RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
+            ENDIF
+
+            IF !::FLinkedTable:IsDerivedFrom( "TTable" )
+                RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table NOT derived from a TTable class."
+            ENDIF
+
+            /* check if we still need a mastersource and it exists in TObjectField's Table */
+            IF Empty( linkedTable )
+                className := ::FLinkedTable:GetMasterSourceClassName()
+                IF ::FTable:IsDerivedFrom( className )
+                    linkedTable := ::FTable
+                ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjClass( className, .T. ) )
+                    linkedTable := fld
+                ENDIF
+            ENDIF
+            ::FLinkedTable:New( linkedTable )
+        ENDIF
+        EXIT
+    CASE 'B'
+        ::FLinkedTable := ::FObjClass:Eval( ::FTable )
+        EXIT
+    CASE 'O'
+        ::FLinkedTable := ::FObjClass
+        EXIT
+    ENDSWITCH
+
+    IF !HB_IsObject( ::FLinkedTable ) .OR. ! ::FLinkedTable:IsDerivedFrom( "TTable" )
+        RAISE TFIELD ::Name ERROR "Default value is not a TTable object."
+    ENDIF
+
+    /*
+     * Attach the current DataObj to the one in table to sync when table changes
+     * MasterFieldComponents are ignored, a child cannot change his parent :)
+     */
+    IF !::IsMasterFieldComponent .AND. ::FLinkedTable:LinkedObjField == NIL
+        /*
+         * LinkedObjField is linked to the FIRST TObjectField were it is referenced
+         * this has to be the most top level MasterSource table
+         */
+        ::FLinkedTable:LinkedObjField := Self
+    ELSE
+        /*
+         * We need to set this field as READONLY, because their LinkedTable
+         * belongs to a some TObjectField in some MasterSource table
+         * so this TObjectField cannot modify the physical database here
+         */
+        //::ReadOnly := .T.
+    ENDIF
+
+RETURN
+
+/*
     DataObj
     Syncs the Table with the key in buffer
     Teo. Mexico 2009
@@ -2182,12 +2265,8 @@ METHOD FUNCTION DataObj CLASS TObjectField
     LOCAL linkedObjField
     LOCAL keyVal
 
-    IF ::FCalculated
-        linkedTable := ::FieldReadBlock:Eval( ::FTable )
-    ELSE
-        linkedTable := ::GetLinkedTable()
-    ENDIF
-
+    linkedTable := ::GetLinkedTable()
+    
     IF ::IsMasterFieldComponent .AND. ::FTable:FUnderReset
 
     ELSE
@@ -2223,7 +2302,8 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
     IF HB_IsObject( variant )
 
         IF variant:IsDerivedFrom("TObjectField")
-            RETURN variant:DataObj:GetAsVariant()
+            //RETURN variant:DataObj:GetAsVariant()
+            RETURN variant:GetAsVariant()
         ELSEIF variant:IsDerivedFrom("TTable")
             IF variant:BaseKeyField = NIL
 
@@ -2263,7 +2343,10 @@ RETURN ::DataObj:GetAsString()
 METHOD FUNCTION GetFieldReadBlock() CLASS TObjectField
 
     IF ::FFieldReadBlock = NIL .AND. Super:GetFieldReadBlock() = NIL
-        ::FFieldReadBlock := {|| ::LinkedTable }
+        IF ::FLinkedTable = NIL
+            ::BuildLinkedTable()
+        ENDIF
+        ::FFieldReadBlock := {|| ::FLinkedTable }
     ENDIF
 
 RETURN ::FFieldReadBlock
@@ -2273,82 +2356,22 @@ RETURN ::FFieldReadBlock
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetLinkedTable CLASS TObjectField
-    LOCAL linkedTableMasterSource
-    LOCAL className
-    LOCAL fld
+    LOCAL linkedTable
 
-    IF ::FLinkedTable == NIL
+    IF ::FCalculated
 
-        IF Empty( ::FObjClass )
-            RAISE TFIELD ::Name ERROR "TObjectField has not a ObjClass value."
+        linkedTable := ::FieldReadBlock:Eval( ::FTable )
+
+        IF linkedTable:IsDerivedFrom( "TObjectField" )
+            linkedTable := linkedTable:DataObj()
         ENDIF
+        
+        RETURN linkedTable
 
-        /*
-         * Solve using the default ObjClass
-         */
-        SWITCH ValType( ::FObjClass )
-        CASE 'C'
+    ELSE
 
-            IF ::FTable:MasterSource != NIL .AND. ::FTable:MasterSource:IsDerivedFrom( ::FObjClass ) .AND. ::IsMasterFieldComponent
-                ::FLinkedTable := ::FTable:MasterSource
-            ELSE
-                IF ::FLinkedTableMasterSource != NIL
-                    linkedTableMasterSource := ::FLinkedTableMasterSource
-                ELSEIF ::FTable:IsDerivedFrom( ::Table:GetMasterSourceClassName() ) //( ::FObjClass ) )
-                    linkedTableMasterSource := ::FTable
-                ENDIF
-
-                ::FLinkedTable := __ClsInstFromName( ::FObjClass )
-
-                IF ::FLinkedTable:IsDerivedFrom( ::FTable:ClassName() )
-                    RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table derived from the same field's table class."
-                ENDIF
-
-                IF !::FLinkedTable:IsDerivedFrom( "TTable" )
-                    RAISE TFIELD ::Name ERROR "Denied: To create TObjectField's linked table NOT derived from a TTable class."
-                ENDIF
-
-                /* check if we still need a mastersource and it exists in TObjectField's Table */
-                IF Empty( linkedTableMasterSource )
-                    className := ::FLinkedTable:GetMasterSourceClassName()
-                    IF ::FTable:IsDerivedFrom( className )
-                        linkedTableMasterSource := ::FTable
-                    ELSEIF !Empty( className ) .AND. ! Empty( fld := ::FTable:FieldByObjClass( className, .T. ) )
-                        linkedTableMasterSource := fld
-                    ENDIF
-                ENDIF
-                ::FLinkedTable:New( linkedTableMasterSource )
-            ENDIF
-            EXIT
-        CASE 'B'
-            ::FLinkedTable := ::FObjClass:Eval( ::FTable )
-            EXIT
-        CASE 'O'
-            ::FLinkedTable := ::FObjClass
-            EXIT
-        ENDSWITCH
-
-        IF !HB_IsObject( ::FLinkedTable ) .OR. ! ::FLinkedTable:IsDerivedFrom( "TTable" )
-            RAISE TFIELD ::Name ERROR "Default value is not a TTable object."
-        ENDIF
-
-        /*
-         * Attach the current DataObj to the one in table to sync when table changes
-         * MasterFieldComponents are ignored, a child cannot change his parent :)
-         */
-        IF !::IsMasterFieldComponent .AND. ::FLinkedTable:LinkedObjField == NIL
-            /*
-             * LinkedObjField is linked to the FIRST TObjectField were it is referenced
-             * this has to be the most top level MasterSource table
-             */
-            ::FLinkedTable:LinkedObjField := Self
-        ELSE
-            /*
-             * We need to set this field as READONLY, because their LinkedTable
-             * belongs to a some TObjectField in some MasterSource table
-             * so this TObjectField cannot modify the physical database here
-             */
-            //::ReadOnly := .T.
+        IF ::FLinkedTable == NIL
+            ::BuildLinkedTable()
         ENDIF
 
     ENDIF
@@ -2399,20 +2422,20 @@ RETURN ::BaseKeyField:IndexExpression( fieldName )
     SetLinkedTableMasterSource
     Teo. Mexico 2011
 */
-METHOD PROCEDURE SetLinkedTableMasterSource( linkedTableMasterSource ) CLASS TObjectField
+METHOD PROCEDURE SetLinkedTableMasterSource( linkedTable ) CLASS TObjectField
 
-    SWITCH ValType( linkedTableMasterSource )
+    SWITCH ValType( linkedTable )
     CASE "C"
-        linkedTableMasterSource := ::Table:FieldByName( linkedTableMasterSource )
+        linkedTable := ::Table:FieldByName( linkedTable )
     CASE "O"
-        IF linkedTableMasterSource:IsDerivedFrom( "TObjectField" ) .OR. linkedTableMasterSource:IsDerivedFrom( "TTable" )
+        IF linkedTable:IsDerivedFrom( "TObjectField" ) .OR. linkedTable:IsDerivedFrom( "TTable" )
             EXIT
         ENDIF
     OTHERWISE
         RAISE ERROR "Invalid master source value..."
     ENDSWITCH
 
-    ::FLinkedTableMasterSource := linkedTableMasterSource
+    ::FLinkedTableMasterSource := linkedTable
 
 RETURN
 
