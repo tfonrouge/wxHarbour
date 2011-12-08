@@ -2431,6 +2431,8 @@ METHOD PROCEDURE SetLinkedTableMasterSource( linkedTable ) CLASS TObjectField
         IF linkedTable:IsDerivedFrom( "TObjectField" ) .OR. linkedTable:IsDerivedFrom( "TTable" )
             EXIT
         ENDIF
+    CASE "B"
+        EXIT
     OTHERWISE
         RAISE ERROR "Invalid master source value..."
     ENDSWITCH
