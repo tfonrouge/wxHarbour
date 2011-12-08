@@ -2152,9 +2152,6 @@ METHOD FUNCTION GetMasterSource() CLASS TTable
     CASE rxMasterSourceTypeTTable
         RETURN ::FMasterSource
     CASE rxMasterSourceTypeTField
-        IF ::Active .AND. ::FMasterSource:Table:Active
-            RETURN ::FMasterSource:LinkedTable
-        ENDIF
         RETURN ::FMasterSource:LinkedTable
     CASE rxMasterSourceTypeBlock
         RETURN ::FMasterSource:Eval()
