@@ -333,7 +333,9 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TField
         EXIT
     CASE "C"
         IF ::FCalculated
-            Result := ::FTable:Alias:Eval( ::FieldReadBlock, ::FTable, ... )
+            IF ::FTable:Alias != NIL
+                Result := ::FTable:Alias:Eval( ::FieldReadBlock, ::FTable, ... )
+            ENDIF
         ELSE
             Result := ::GetBuffer()
         ENDIF
