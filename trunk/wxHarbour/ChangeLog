@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2011-12-13 16:49 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! added protection against evaluating calculated field on table creation
+
 2011-12-07 20:15 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % accept an codeblock as value to solve an MasterSource in an TObjectField
