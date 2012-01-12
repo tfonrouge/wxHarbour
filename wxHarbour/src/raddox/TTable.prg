@@ -811,10 +811,13 @@ METHOD FUNCTION CheckDbStruct() CLASS TTable
                 ENDIF
 
                 IF AField:IsDerivedFrom("TObjectField")
+                    LOOP
+                    /*
                     pkField := AField:BaseKeyField
                     IF pkField = NIL
                         RAISE ERROR "Cannot find data field for TObjectField '" + AField:Name + "'" + " in Table '" + ::ClassName + "'"
                     ENDIF
+                    */
                 ELSE
                     pkField := AField
                 ENDIF
