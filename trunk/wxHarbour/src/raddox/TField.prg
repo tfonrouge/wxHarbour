@@ -136,6 +136,7 @@ PUBLIC:
     METHOD CheckEditable( flag )
     METHOD Delete()
     METHOD GetAsString INLINE "<" + ::ClassName + ">"
+    METHOD GetAsUTF8 INLINE HB_StrToUTF8( ::GetAsString() )
     METHOD GetAsVariant( ... )
     METHOD GetBuffer()
     METHOD GetEditText
@@ -161,6 +162,7 @@ PUBLIC:
 
     PROPERTY AsExpression READ GetAsExpression
     PROPERTY AsString READ GetAsString WRITE SetAsString
+    PROPERTY AsUTF8 READ GetAsUTF8
     PROPERTY AsVariant READ GetAsVariant WRITE SetAsVariant
     PROPERTY Calculated READ FCalculated
     PROPERTY CloneData READ GetCloneData WRITE SetCloneData
