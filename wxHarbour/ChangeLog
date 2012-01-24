@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-01-23 18:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * added method 'AsUTF8' to convert str to utf8
+
 2012-01-12 11:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! Temporary hack to check database structures
