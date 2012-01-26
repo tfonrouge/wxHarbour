@@ -255,7 +255,7 @@ RETURN
     Teo. Mexico 2009
 */
 METHOD FUNCTION GetRecNo CLASS wxhBrowse
-    IF ::FDataSourceType = "O"
+    IF ::FDataSourceType $ "OX"
         RETURN ::FDataSource:RecNo
     ENDIF
 RETURN ::FRecNo
@@ -614,7 +614,7 @@ RETURN
 METHOD FUNCTION SetAllowOnDataChange( allowOnDataChange ) CLASS wxhBrowse
     LOCAL oldValue
 
-    IF ::DataSourceType = "O"
+    IF ::DataSourceType = "OX"
         oldValue := ::DataSource:allowOnDataChange
         ::DataSource:allowOnDataChange := allowOnDataChange
         IF allowOnDataChange
@@ -715,15 +715,27 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
         ENDIF
 
         IF dataSource:IsDerivedFrom("TTable")
-            ::FDataSource := dataSource
             ::FDataSourceType := "O"
             ::RowParam := dataSource:GetDisplayFields()
+            ::GetTable():gridDataIsOEM := dataSource:dataIsOEM
+        ELSEIF dataSource:IsDerivedFrom("TListContainer")
+            ::FDataSourceType := "X"
+            ::RowParam := ;
+                {|Self|
+                    wxhAltD()
+                    RETURN ::DataSource:List[ ::DataSource:RecNo ] 
+                }
+        ELSE
+            ::FDataSourceType := "?"
+        ENDIF
+
+        IF ::FDataSourceType $ "OX"
+
+            ::FDataSource := dataSource
 
             ::GoTopBlock		:= {|| dataSource:DbGoTop() }
             ::GoBottomBlock := {|| dataSource:DbGoBottom() }
             ::SkipBlock			:= {|n| dataSource:SkipBrowse( n ) }
-
-            ::GetTable():gridDataIsOEM := dataSource:dataIsOEM
 
         ELSE
             wxhAlert("Invalid object assigned to wxhBrowse...")
