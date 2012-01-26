@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2012-01-26 16:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+  *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
+     % added new DataSourceType "X": TlistContainer (array/hash)
+
+  +  src/hrbcompat/tbrowse/wxhListContainer.prg
+     + simple array/hash container
+
 2012-01-23 18:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * added method 'AsUTF8' to convert str to utf8

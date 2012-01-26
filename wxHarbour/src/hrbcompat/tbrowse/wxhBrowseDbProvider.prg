@@ -118,9 +118,19 @@ METHOD PROCEDURE FillGridBuffer( start ) CLASS wxhBrowseTableBase
 
     n := browse:MaxRows()
 
-    IF browse:DataSourceType $ "AH" .AND. Len( browse:DataSource ) = 0
-        n := 0
-    ENDIF
+    SWITCH browse:DataSourceType
+    CASE "A"
+    CASE "H"
+        IF Len( browse:DataSource ) = 0
+            n := 0
+        ENDIF
+        EXIT
+    CASE "X"
+        IF Len( browse:DataSource:List ) = 0
+            n := 0
+        ENDIF
+        EXIT
+    ENDSWITCH
 
     IF ::FGridBufferRows != n
         ::SetGridBufferSize( n )
