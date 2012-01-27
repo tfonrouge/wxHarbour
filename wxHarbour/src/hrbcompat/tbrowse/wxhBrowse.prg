@@ -720,11 +720,7 @@ METHOD PROCEDURE SetDataSource( dataSource ) CLASS wxhBrowse
             ::GetTable():gridDataIsOEM := dataSource:dataIsOEM
         ELSEIF dataSource:IsDerivedFrom("TListContainer")
             ::FDataSourceType := "X"
-            ::RowParam := ;
-                {|Self|
-                    wxhAltD()
-                    RETURN ::DataSource:List[ ::DataSource:RecNo ] 
-                }
+            ::RowParam := {|Self| ::DataSource:List[ ::DataSource:RecNo ] }
         ELSE
             ::FDataSourceType := "?"
         ENDIF

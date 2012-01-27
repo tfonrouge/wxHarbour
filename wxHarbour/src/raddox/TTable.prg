@@ -215,6 +215,7 @@ PRIVATE:
     METHOD GetMasterKeyVal INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:GetKeyVal )
     METHOD GetMasterSource()
     METHOD GetPublishedFieldList
+    METHOD GetPublishedFieldNameList
     METHOD SetIndex( index )
     METHOD SetIndexName( IndexName )
     METHOD SetMasterSource( masterSource )
@@ -443,6 +444,7 @@ PUBLISHED:
     PROPERTY MasterSource READ GetMasterSource WRITE SetMasterSource
     PROPERTY PrimaryIndex READ FPrimaryIndex
     PROPERTY PublishedFieldList READ GetPublishedFieldList
+    PROPERTY PublishedFieldNameList READ GetPublishedFieldNameList
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
     PROPERTY Value READ GetValue WRITE SetValue
 
@@ -2203,6 +2205,24 @@ METHOD FUNCTION GetPublishedFieldList CLASS TTable
     ASort( Result,,, {|x,y| x:ValType < y:ValType .OR. ( x:ValType == y:ValType .AND. x:Name < y:Name ) } )
 
 RETURN Result
+
+/*
+    GetPublishedFieldNameList
+    Teo. Mexico 2012
+*/
+METHOD FUNCTION GetPublishedFieldNameList CLASS TTable
+    LOCAL result := {}
+    LOCAL AField
+
+    FOR EACH AField IN Self:FFieldList
+        IF !Empty( AField:Name ) .AND. AField:Published
+            AAdd( result, AField:Name )
+        ENDIF
+    NEXT
+
+    //ASort( result,,, {|x,y| x:ValType < y:ValType .OR. ( x:ValType == y:ValType .AND. x:Name < y:Name ) } )
+
+RETURN result
 
 /*
     GetTableFileName

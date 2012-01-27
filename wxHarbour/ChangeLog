@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2012-01-27 13:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * minor code cleanup
+
+  *  src/hrbcompat/tbrowse/wxhListContainer.prg
+     % improved to make the class more 'TTable' alike
+
+  *  src/raddox/TTable.prg
+     + added PROPERTY (ro) PublishedFieldNameList
+
+
 2012-01-26 16:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
   *  src/hrbcompat/tbrowse/wxhBrowseDbProvider.prg
