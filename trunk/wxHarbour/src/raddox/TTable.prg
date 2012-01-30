@@ -214,8 +214,6 @@ PRIVATE:
     METHOD GetMasterKeyString INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:AsString )
     METHOD GetMasterKeyVal INLINE iif( ::GetMasterKeyField == NIL, "", ::GetMasterKeyField:GetKeyVal )
     METHOD GetMasterSource()
-    METHOD GetPublishedFieldList
-    METHOD GetPublishedFieldNameList
     METHOD SetIndex( index )
     METHOD SetIndexName( IndexName )
     METHOD SetMasterSource( masterSource )
@@ -332,8 +330,11 @@ PUBLIC:
     METHOD GetField( fld )
     METHOD GetKeyVal( value )
     METHOD GetMasterSourceClassName()
+    METHOD GetPublishedFieldList( typeList )
+    METHOD GetPublishedFieldNameList( typeList )
     METHOD GetTableFileName()
     METHOD GetValue
+    METHOD ImportField( fld )
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -2192,13 +2193,22 @@ RETURN Result
     GetPublishedFieldList
     Teo. Mexico 2007
 */
-METHOD FUNCTION GetPublishedFieldList CLASS TTable
+METHOD FUNCTION GetPublishedFieldList( typeList ) CLASS TTable
     LOCAL Result := {}
     LOCAL AField
+    LOCAL itm
 
     FOR EACH AField IN Self:FFieldList
         IF !Empty( AField:Name ) .AND. AField:Published
-            AAdd( Result, AField )
+            IF Empty( typeList )
+                AAdd( Result, AField )
+            ELSE
+                FOR EACH itm IN typeList
+                    IF AField:IsDerivedFrom( itm )
+                        AAdd( Result, AField )
+                    ENDIF
+                NEXT
+            ENDIF
         ENDIF
     NEXT
 
@@ -2210,13 +2220,22 @@ RETURN Result
     GetPublishedFieldNameList
     Teo. Mexico 2012
 */
-METHOD FUNCTION GetPublishedFieldNameList CLASS TTable
+METHOD FUNCTION GetPublishedFieldNameList( typeList ) CLASS TTable
     LOCAL result := {}
     LOCAL AField
+    LOCAL itm
 
     FOR EACH AField IN Self:FFieldList
         IF !Empty( AField:Name ) .AND. AField:Published
-            AAdd( result, AField:Name )
+            IF Empty( typeList )
+                AAdd( result, AField:Name )
+            ELSE
+                FOR EACH itm IN typeList
+                    IF AField:IsDerivedFrom( itm )
+                        AAdd( Result, AField:Name )
+                    ENDIF
+                NEXT
+            ENDIF
         ENDIF
     NEXT
 
@@ -2243,6 +2262,17 @@ RETURN ::FTableFileName
 */
 METHOD FUNCTION GetValue CLASS TTable
 RETURN ::FBaseKeyField:Value
+
+/*
+    ImportField
+    Teo. Mexico 2012
+*/
+METHOD FUNCTION ImportField( pfld ) CLASS TTable
+    LOCAL fld
+
+    fld :=  pfld:Instance()
+
+RETURN .T.
 
 /*
     IndexByName

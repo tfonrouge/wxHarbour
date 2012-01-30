@@ -206,7 +206,7 @@ METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
             s += itm
             IF itm == ":"
                 s += "DataObj:Field_"
-            END
+            ENDIF
         NEXT
         ::FBlock := &("{|Self| " + s + " }")
         ::FField := ::FBlock:Eval( ::browse:DataSource )

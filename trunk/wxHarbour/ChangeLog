@@ -2,6 +2,21 @@
  * $Id$
  */
 
+2012-01-30 09:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     * minor code cleanup
+
+  *  src/hrbcompat/tbrowse/wxhListContainer.prg
+     ! added missing Edit() on Delete() method
+
+  *  src/raddox/TField.prg
+     % using basekeyfield label if current objectfield's is empty
+     * minor code cleanup
+
+  *  src/raddox/TTable.prg
+     * minor code cleanup
+
+
 2012-01-27 13:59 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbrowse/wxhBrowse.prg
      * minor code cleanup
