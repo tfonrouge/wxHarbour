@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2012-01-30 17:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TAlias.prg
+     ! Not to add DataBase:Directory on temp tables (temp tables are local)
+
+  *  src/raddox/TTable.prg
+     * initializig FFieldList to an empty array
+     ! Show warning when creating an table with empty dbstruct
+     + ImportField() : adds fields to a table
+
+
 2012-01-30 09:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      * minor code cleanup

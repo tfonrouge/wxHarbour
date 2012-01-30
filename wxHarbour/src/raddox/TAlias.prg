@@ -255,7 +255,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
             RETURN .T.
         ENDIF
 
-        IF !Empty( path := LTrim( RTrim( table:DataBase:Directory ) ) )
+        IF !table:IsTempTable .AND. !Empty( path := LTrim( RTrim( table:DataBase:Directory ) ) )
             IF !Right( path, 1 ) == HB_OSPathSeparator()
                 path += HB_OSPathSeparator()
             ENDIF
