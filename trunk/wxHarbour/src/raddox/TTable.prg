@@ -232,7 +232,7 @@ PROTECTED:
     DATA FBof				INIT .T.
     DATA FDataBaseClass
     DATA FEof				INIT .T.
-    DATA FFieldList
+    DATA FFieldList         INIT {}
     DATA FFilter
     DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
     DATA FIsTempTable        INIT .F.
@@ -334,7 +334,7 @@ PUBLIC:
     METHOD GetPublishedFieldNameList( typeList )
     METHOD GetTableFileName()
     METHOD GetValue
-    METHOD ImportField( fld )
+    METHOD ImportField( fromField )
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -1022,7 +1022,13 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
             AAdd( aDbs, { fld:DBS_NAME, fld:DBS_TYPE, fld:DBS_LEN, fld:DBS_DEC } )
         ENDIF
     NEXT
+    
+    IF Empty( aDbs )
+        wxhAlert( "CreateTable: Cannot create table with empty data..." )
+        RETURN .F.
+    ENDIF
 
+    wxhAltD()
     IF fullFileName = NIL
         fullFileName := ::TableFileName
     ENDIF
@@ -2198,7 +2204,7 @@ METHOD FUNCTION GetPublishedFieldList( typeList ) CLASS TTable
     LOCAL AField
     LOCAL itm
 
-    FOR EACH AField IN Self:FFieldList
+    FOR EACH AField IN ::FFieldList
         IF !Empty( AField:Name ) .AND. AField:Published
             IF Empty( typeList )
                 AAdd( Result, AField )
@@ -2225,7 +2231,7 @@ METHOD FUNCTION GetPublishedFieldNameList( typeList ) CLASS TTable
     LOCAL AField
     LOCAL itm
 
-    FOR EACH AField IN Self:FFieldList
+    FOR EACH AField IN ::FFieldList
         IF !Empty( AField:Name ) .AND. AField:Published
             IF Empty( typeList )
                 AAdd( result, AField:Name )
@@ -2267,12 +2273,23 @@ RETURN ::FBaseKeyField:Value
     ImportField
     Teo. Mexico 2012
 */
-METHOD FUNCTION ImportField( pfld ) CLASS TTable
+METHOD FUNCTION ImportField( fromField ) CLASS TTable
     LOCAL fld
 
-    fld :=  pfld:Instance()
+    fld :=  __clsInst( fromField:ClassH() )
+    
+    fld:New( Self )
 
-RETURN .T.
+    fld:Name := fromField:Name
+    fld:FieldMethod := fromField:FieldMethod
+    
+    IF fld:IsDerivedFrom( "TObjectField" )
+        fld:ObjClass := fromField:ObjClass
+    ENDIF
+    
+    AAdd( ::FFieldList, fld )
+
+RETURN fld
 
 /*
     IndexByName
