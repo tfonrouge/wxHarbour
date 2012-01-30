@@ -131,9 +131,11 @@ RETURN ::FRecNo := 1
 */
 METHOD FUNCTION Delete() CLASS TListContainer
     IF ::FState = dsBrowse
-        HB_ADel( ::FList, ::FRecNo, .T. )
-        ::FRecNo := Max( 1, Len( ::FList ) )
-        RETURN .T.
+        IF ::Edit()
+            HB_ADel( ::FList, ::FRecNo, .T. )
+            ::FRecNo := Max( 1, Len( ::FList ) )
+            RETURN ::Post()
+        ENDIF
     ENDIF
 RETURN .F.
 

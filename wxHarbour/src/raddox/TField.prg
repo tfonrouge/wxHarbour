@@ -2136,6 +2136,7 @@ PROTECTED:
     DATA FValType INIT "O"
     METHOD GetDBS_LEN INLINE ::BaseKeyField():DBS_LEN
     METHOD GetDBS_TYPE INLINE ::BaseKeyField():DBS_TYPE
+    METHOD GetLabel()
     METHOD GetLinkedTable
     METHOD GetEmptyValue() INLINE ::BaseKeyField():EmptyValue
     METHOD GetFieldReadBlock()
@@ -2295,6 +2296,13 @@ METHOD FUNCTION DataObj CLASS TObjectField
 RETURN linkedTable
 
 /*
+    GetAsString
+    Teo. Mexico 2009
+*/
+METHOD FUNCTION GetAsString CLASS TObjectField
+RETURN ::DataObj:GetAsString()
+
+/*
     GetAsVariant
     Teo. Mexico 2010
 */
@@ -2322,25 +2330,6 @@ METHOD FUNCTION GetAsVariant( ... ) CLASS TObjectField
 RETURN variant
 
 /*
-    GetKeyVal
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
-
-    IF keyVal = NIL
-        keyVal := ::GetAsVariant()
-    ENDIF
-
-RETURN ::BaseKeyField:GetKeyVal( keyVal )
-
-/*
-    GetAsString
-    Teo. Mexico 2009
-*/
-METHOD FUNCTION GetAsString CLASS TObjectField
-RETURN ::DataObj:GetAsString()
-
-/*
     GetFieldReadBlock
     Teo. Mexico 2010
 */
@@ -2354,6 +2343,28 @@ METHOD FUNCTION GetFieldReadBlock() CLASS TObjectField
     ENDIF
 
 RETURN ::FFieldReadBlock
+
+/*
+    GetKeyVal
+    Teo. Mexico 2009
+*/
+METHOD FUNCTION GetKeyVal( keyVal ) CLASS TObjectField
+
+    IF keyVal = NIL
+        keyVal := ::GetAsVariant()
+    ENDIF
+
+RETURN ::BaseKeyField:GetKeyVal( keyVal )
+
+/*
+    GetLabel
+    Teo. Mexico 2012
+*/
+METHOD FUNCTION GetLabel() CLASS TObjectField
+    IF Empty( ::FLabel )
+        RETURN ::BaseKeyField:Label
+    ENDIF
+RETURN ::FLabel
 
 /*
     GetLinkedTable
