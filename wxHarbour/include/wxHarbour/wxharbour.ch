@@ -329,7 +329,7 @@
 */
 #xcommand ADD BCOLUMN [<zero: ZERO>] TO <wxBrw> [ [TITLE] <title>] BLOCK <block> [PICTURE <picture>] [WIDTH <width>] [AS <asBool: BOOL,NUMBER,FLOAT> [<width>,<precision>] ] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
                     => ;
-                    __wxh_BrowseAddColumn( <.zero.>, <wxBrw>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>], [<onSetValue>] )
+                    __wxh_BrowseAddColumn( <wxBrw>, <.zero.>, <title>, <block>, [<picture>], [<width>], [<"asBool">], [{<width>,<precision>}], [<colour>], [<onSetValue>] )
 
 #xcommand ADD BCOLUMN TO <wxBrw> FIELD <field> [<noEditable: NOEDITABLE>] [ COLOUR <colour> ] [ ONSETVALUE <onSetValue> ] ;
                     => ;
