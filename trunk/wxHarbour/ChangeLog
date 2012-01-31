@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-01-30 18:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     * removed wxhAltD()
+
 2012-01-30 17:25 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
      ! Not to add DataBase:Directory on temp tables (temp tables are local)
