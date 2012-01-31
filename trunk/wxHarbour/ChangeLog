@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2012-01-31 10:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+  *  include/wxHarbour/wxharbour.ch
+     * changed order of function parameters
+
 2012-01-30 18:03 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      * removed wxhAltD()

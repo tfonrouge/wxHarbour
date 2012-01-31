@@ -1058,11 +1058,11 @@ RETURN browse
     __wxh_BrowseAddColumn
     Teo. Mexico 2009
 */
-PROCEDURE __wxh_BrowseAddColumn( zero, wxhBrw, title, block, picture, width, type, wp, colour, onSetValue )
+PROCEDURE __wxh_BrowseAddColumn( wxhBrw, zero, title, block, picture, width, type, wp, colour, onSetValue )
     LOCAL column := wxhBrowseColumn():New( wxhBrw, title, block )
 
     column:Picture := picture
-    column:Width	 := width
+    column:Width   := width
 
     IF zero
         wxhBrw:ColumnZero := column
