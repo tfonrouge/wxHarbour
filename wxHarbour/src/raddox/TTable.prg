@@ -1028,7 +1028,6 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
         RETURN .F.
     ENDIF
 
-    wxhAltD()
     IF fullFileName = NIL
         fullFileName := ::TableFileName
     ENDIF
