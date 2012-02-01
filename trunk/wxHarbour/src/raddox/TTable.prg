@@ -334,7 +334,7 @@ PUBLIC:
     METHOD GetPublishedFieldNameList( typeList )
     METHOD GetTableFileName()
     METHOD GetValue
-    METHOD ImportField( fromField )
+    METHOD ImportField( fromField, fieldDbName, fieldName )
     METHOD IndexByName( IndexName, curClass )
     METHOD Insert()
     METHOD InsertRecord( origin )
@@ -2272,15 +2272,25 @@ RETURN ::FBaseKeyField:Value
     ImportField
     Teo. Mexico 2012
 */
-METHOD FUNCTION ImportField( fromField ) CLASS TTable
+METHOD FUNCTION ImportField( fromField, fieldDbName, fieldName ) CLASS TTable
     LOCAL fld
+
+    IF Empty( fieldDbName )
+        fieldDbName := fromField:FieldMethod
+    ELSEIF Empty( fieldName )
+        fieldName := fieldDbName
+    ENDIF
+
+    IF Empty( fieldName )
+        fieldName := fromField:Name
+    ENDIF
 
     fld :=  __clsInst( fromField:ClassH() )
     
     fld:New( Self )
 
-    fld:Name := fromField:Name
-    fld:FieldMethod := fromField:FieldMethod
+    fld:Name := fieldName
+    fld:FieldMethod := fieldDbName
     
     IF fld:IsDerivedFrom( "TObjectField" )
         fld:ObjClass := fromField:ObjClass
