@@ -188,8 +188,13 @@ RETURN
 */
 METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
     LOCAL block := ::FBlock
-    LOCAL itm
     LOCAL s
+    LOCAL ds
+    LOCAL i
+    LOCAL fld
+    LOCAL fldName
+    LOCAL nTokens
+    LOCAL index
 
     SWITCH ValType( xfield )
     CASE 'B'
@@ -201,11 +206,18 @@ METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
         ::FBlock := {|| xfield }
         EXIT
     CASE 'C'
-        s := "::Field_"
-        FOR EACH itm IN xfield
-            s += itm
-            IF itm == ":"
-                s += "DataObj:Field_"
+        ds := ::browse:DataSource
+        nTokens := NumToken( xfield, ":" )
+        FOR i:=1 TO nTokens
+            fldName := Token( xfield, ":", i )
+            fld := ds:FieldByName( fldName, @index )
+            IF i = 1
+                s := "::FieldList[" + NTrim( index ) + "]"
+            ELSE
+                s += ":DataObj:FieldList[" + NTrim( index ) + "]"
+            ENDIF
+            IF fld:IsDerivedFrom( "TObjectField" )
+                ds := fld:DataObj
             ENDIF
         NEXT
         ::FBlock := &("{|Self| " + s + " }")

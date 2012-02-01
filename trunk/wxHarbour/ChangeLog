@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-01-31 18:09 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     % small optimization on displaying fields
+
 2012-01-31 10:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
   *  include/wxHarbour/wxharbour.ch
