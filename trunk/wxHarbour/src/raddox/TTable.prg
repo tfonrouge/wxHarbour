@@ -233,6 +233,7 @@ PROTECTED:
     DATA FDataBaseClass
     DATA FEof				INIT .T.
     DATA FFieldList         INIT {}
+    DATA FFilledFieldList   INIT .F.
     DATA FFilter
     DATA FIndexList			INIT HB_HSetCaseMatch( {=>}, .F. )  // <className> => <indexName> => <indexObject>
     DATA FIsTempTable        INIT .F.
@@ -1521,8 +1522,8 @@ RETURN NIL
     Teo. Mexico 2010
 */
 METHOD PROCEDURE FillFieldList() CLASS TTable
-    IF Empty( ::FFieldList )
-        ::FFieldList := {}
+    IF ::FFilledFieldList = .F.
+        ::FFilledFieldList := .T.
         ::__DefineFields()
         IF Empty( ::FFieldList )
             ::DefineFieldsFromDb()
