@@ -1033,7 +1033,7 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
         fullFileName := ::TableFileName
     ENDIF
 
-    IF ::dataBase != NIL .AND. ::dataBase:netIO == .T.
+    IF !::IsTempTable .AND. ::dataBase != NIL .AND. ::dataBase:netIO == .T.
         cNet := iif( Upper( fullFileName ) = "NET:", "", "net:" )
     ELSE
         cNet := ""
