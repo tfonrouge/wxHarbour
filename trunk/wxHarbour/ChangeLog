@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2012-02-08 11:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TAlias.prg
+  *  src/raddox/TTable.prg
+     ! Fixed not using "net:" prefix on temporal tables
+
+
 2012-02-01 13:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! added logic to execute FillFieldList just one time

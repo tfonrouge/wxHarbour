@@ -228,6 +228,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
     LOCAL tableFullFileName
     LOCAL netIO
     LOCAL cPrefix
+    LOCAL isTempTable := .F.
 
     IF HB_IsObject( table )
 
@@ -238,6 +239,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
         ENDIF
 
         IF table:IsTempTable
+            isTempTable := .T.
             IF !table:CreateTable()
                 RETURN .F.
             ENDIF
@@ -277,7 +279,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 
     ENDIF
     
-    cPrefix := iif( netIO == .T., "net:", "" )
+    cPrefix := iif( !isTempTable .AND. netIO == .T., "net:", "" )
 
     IF ! HB_DbExists( cPrefix + tableFullFileName ) .AND. table:AutoCreate
         IF !table:CreateTable( tableFullFileName )
