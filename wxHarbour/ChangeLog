@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2012-02-13 18:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * public property readonly 'FieldArrayIndex'
+
+  *  src/raddox/TTable.prg
+     ! Fixed checking for an empty value on unique key fields when field is an array of fields.
+
 2012-02-08 11:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TAlias.prg
   *  src/raddox/TTable.prg

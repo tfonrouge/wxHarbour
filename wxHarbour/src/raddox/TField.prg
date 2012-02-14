@@ -168,6 +168,7 @@ PUBLIC:
     PROPERTY CloneData READ GetCloneData WRITE SetCloneData
     PROPERTY DisplayText READ GetEditText
     PROPERTY EmptyValue READ GetEmptyValue
+    PROPERTY FieldArrayIndex READ FFieldArrayIndex
     PROPERTY KeyVal READ GetKeyVal WRITE SetKeyVal
     PROPERTY LinkedTable READ GetLinkedTable
     PROPERTY PickList READ FPickList WRITE SetPickList
