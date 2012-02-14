@@ -906,7 +906,7 @@ METHOD FUNCTION Childs( ignoreAutoDelete, block, curClass, childs ) CLASS TTable
                 
                 ChildDB:PrimaryIndex:Scope := NIL
 
-                IF ChildDB:PrimaryIndex:Seek( "" )
+                IF ChildDB:PrimaryIndex:DbGoTop()
                     AAdd( childs, iif( block == NIL, ChildDB:ClassName, block:Eval( ChildDB ) ) )
                     ChildDB:StatePop()
                     IF destroyChild
@@ -1323,15 +1323,13 @@ METHOD FUNCTION Delete( lDeleteChilds ) CLASS TTable
                 lDel := .F.
             ENDIF
         NEXT
-        IF lDel
-            IF !lDel .AND. !lDeleteChilds == .T.
-                wxhAlert("Error_Table_Has_Childs")
-                RETURN .F.
-            ENDIF
-            IF !::DeleteChilds()
-                wxhAlert("Error_Deleting_Childs")
-                RETURN .F.
-            ENDIF
+        IF !lDel .AND. !lDeleteChilds == .T.
+            wxhAlert("Error_Table_Has_Childs")
+            RETURN .F.
+        ENDIF
+        IF !::DeleteChilds()
+            wxhAlert("Error_Deleting_Childs")
+            RETURN .F.
         ENDIF
     ENDIF
 
@@ -1392,7 +1390,7 @@ METHOD FUNCTION DeleteChilds( curClass ) CLASS TTable
             
             ChildDB:PrimaryIndex:Scope := NIL
 
-            WHILE ChildDB:PrimaryIndex:Seek( "" )
+            WHILE ChildDB:PrimaryIndex:DbGoTop()
                 IF !ChildDB:TTable:Delete( .T. )
                     ChildDB:StatePop()
                     IF destroyChild

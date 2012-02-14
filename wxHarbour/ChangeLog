@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2012-02-14 15:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % small optimization on evaluating fieldreadblock from field
+
+  *  src/raddox/TTable.prg
+     ! Fixed using Seek( "" ) find if there are records, now using DbGoTop()
+     ! Fixed deleting of child tables when evaluating AutoDelete table's flags
+
 2012-02-13 18:22 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * public property readonly 'FieldArrayIndex'
