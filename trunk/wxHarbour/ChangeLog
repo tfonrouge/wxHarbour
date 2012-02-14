@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-14 16:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     * changed parameter sended to evaluation of FFieldCodeBlock to FTable instead of Self
+
 2012-02-14 15:40 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % small optimization on evaluating fieldreadblock from field
