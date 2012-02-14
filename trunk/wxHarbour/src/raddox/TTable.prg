@@ -1539,6 +1539,8 @@ METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
     LOCAL className
     LOCAL AIndex
     LOCAL AField
+    LOCAL isEmpty
+    LOCAL itm
 
     className := curClass:ClassName()
 
@@ -1561,7 +1563,18 @@ METHOD PROCEDURE FillPrimaryIndexes( curClass ) CLASS TTable
              * AutoIncrement fields always need to be written (to set a value)
              */
             AField := AIndex:UniqueKeyField
-            IF AField != NIL .AND. ( AIndex:AutoIncrement .OR. !Empty( AField:Value ) )
+            IF AField:FieldMethodType = "A"
+                isEmpty := .F.
+                FOR EACH itm IN AField:FieldArrayIndex
+                    IF Empty( ::FFieldList[ itm ]:Value )
+                        isEmpty := .T.
+                        EXIT
+                    ENDIF
+                NEXT
+            ELSE
+                isEmpty := Empty( AField:Value )
+            ENDIF
+            IF AField != NIL .AND. ( AIndex:AutoIncrement .OR. !isEmpty )
                 AField:SetData()
             ENDIF
         ENDIF
