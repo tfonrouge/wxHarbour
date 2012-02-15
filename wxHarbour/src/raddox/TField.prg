@@ -43,6 +43,7 @@ PRIVATE:
     DATA FRequired INIT .F.
     /* TODO: remove or fix validations, i.e. when reusing a primary index field */
     DATA FReUseField INIT .F.
+    DATA FReUseFieldIndex
     DATA FUniqueKeyIndex
     DATA FUsingField						// Field used on Calculated Field
 
@@ -173,6 +174,7 @@ PUBLIC:
     PROPERTY LinkedTable READ GetLinkedTable
     PROPERTY PickList READ FPickList WRITE SetPickList
     PROPERTY ReUseField READ FReUseField WRITE SetReUseField
+    PROPERTY ReUseFieldIndex READ FReUseFieldIndex
     PROPERTY IsKeyIndex READ GetIsKeyIndex
     PROPERTY IsMasterFieldComponent READ FIsMasterFieldComponent WRITE SetIsMasterFieldComponent
     PROPERTY IsPrimaryKeyField READ GetIsPrimaryKeyField
@@ -1045,6 +1047,11 @@ METHOD PROCEDURE SetData( value ) CLASS TField
         ENDIF
 
         ::WriteToTable( value, buffer )
+        
+        /* sync with re-used field in db */
+        IF ::FReUseFieldIndex != NIL
+            ::FTable:FieldList[ ::FReUseFieldIndex ]:GetData()
+        ENDIF
 
         IF ::OnAfterChange != NIL
             ::OnAfterChange:Eval( ::FTable, buffer )
@@ -1162,8 +1169,12 @@ METHOD PROCEDURE SetFieldMethod( FieldMethod, calculated ) CLASS TField
             FOR EACH AField IN ::FTable:FieldList
                 IF !Empty( AField:FieldExpression ) .AND. ;
                      Upper( AField:FieldExpression ) == Upper( FieldMethod ) .AND. ;
-                     AField:TableBaseClass == ::FTableBaseClass .AND. !::FReUseField
-                    RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
+                     AField:TableBaseClass == ::FTableBaseClass
+                    IF !::FReUseField
+                        RAISE TFIELD ::Name ERROR "Atempt to Re-Use FieldExpression (same field on db) <" + ::ClassName + ":" + FieldMethod + ">"
+                    ELSE
+                        ::FReUseFieldIndex := AField:__enumIndex()
+                    ENDIF
                 ENDIF
             NEXT
 

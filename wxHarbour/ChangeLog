@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2012-02-15 09:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     + added ro ppty 'ReUseFieldIndex' to contain index to reused db field
+     ! Fixed sync with reused db field on SetData()
+
+  *  src/raddox/TTable.prg
+     ! Fixed using value from 'DefaultValue' on AddRec() to SetData()
+
 2012-02-14 16:14 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      * changed parameter sended to evaluation of FFieldCodeBlock to FTable instead of Self
