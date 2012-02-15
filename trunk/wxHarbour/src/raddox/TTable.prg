@@ -644,6 +644,7 @@ METHOD FUNCTION AddRec() CLASS TTable
     LOCAL AField
     LOCAL errObj
     LOCAL index
+    LOCAL defaultValue
 
     IF ::FReadOnly
         wxhAlert( "Table '" + ::ClassName() + "' is marked as READONLY...")
@@ -683,8 +684,9 @@ METHOD FUNCTION AddRec() CLASS TTable
 
         FOR EACH AField IN ::FFieldList
             IF AField:FieldMethodType = 'C' .AND. !AField:PrimaryKeyComponent .AND. AField:WrittenValue == NIL .AND. AField:Enabled
-                IF !AField:Calculated .AND. ( AField:DefaultValue != NIL .OR. AField:AutoIncrement )
-                    AField:SetData()
+                defaultValue := AField:DefaultValue
+                IF !AField:Calculated .AND. ( defaultValue != NIL .OR. AField:AutoIncrement )
+                    AField:SetData( defaultValue )
                 ENDIF
             ENDIF
         NEXT
