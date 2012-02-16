@@ -284,7 +284,7 @@ METHOD PROCEDURE Delete() CLASS TField
         RETURN
     ENDIF
 
-    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+    BEGIN SEQUENCE WITH ::FTable:ErrorBlock
 
         ::WriteToTable( ::EmptyValue() )
 
@@ -1037,7 +1037,7 @@ METHOD PROCEDURE SetData( value ) CLASS TField
         RETURN
     ENDIF
 
-    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+    BEGIN SEQUENCE WITH ::FTable:ErrorBlock
 
         /*
          * Check for a key violation
@@ -1415,7 +1415,7 @@ METHOD FUNCTION Validate( showAlert ) CLASS TField
 
             IF !Empty( validValues )
 
-                BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+                BEGIN SEQUENCE WITH ::FTable:ErrorBlock
 
                     SWITCH ValType( validValues )
                     CASE 'A'

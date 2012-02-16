@@ -18,6 +18,8 @@
 #define rxMasterSourceTypeTField   2
 #define rxMasterSourceTypeBlock    3
 
+STATIC FErrorBlock := {|oErr| Break( oErr ) }
+
 REQUEST TField
 
 FUNCTION RadoxErrorNew( Self, description, args )
@@ -254,11 +256,13 @@ PROTECTED:
     METHOD FindDetailSourceField( masterField )
     METHOD FixDbStruct( aNewStruct, message )
     METHOD GetDataBase()
+    METHOD GetErrorBlock() INLINE FErrorBlock
     METHOD GetHasFilter()
     METHOD InitDataBase INLINE TDataBase():New()
     METHOD InitTable()
     METHOD RawGet4Seek( direction, xField, keyVal, index, softSeek )
     METHOD SetDataBase( dataBase )
+    METHOD SetErrorBlock( errorBlock ) INLINE FErrorBlock := errorBlock
     METHOD SetTableFileName( tableFileName ) INLINE ::FTableFileName := tableFileName
 
 PUBLIC:
@@ -407,6 +411,7 @@ PUBLIC:
     PROPERTY DbStruct READ GetDbStruct
     PROPERTY Deleted READ Alias:Deleted()
     PROPERTY DisplayFields READ GetDisplayFields
+    PROPERTY ErrorBlock READ GetErrorBlock WRITE SetErrorBlock
     PROPERTY Eof READ FEof
     PROPERTY FieldList READ FFieldList
     PROPERTY Found READ FFound
@@ -678,7 +683,7 @@ METHOD FUNCTION AddRec() CLASS TTable
      * Write the PrimaryKeyField
      * Write the Fields that have a DefaultValue
      */
-    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+    BEGIN SEQUENCE WITH ::ErrorBlock
 
         ::FillPrimaryIndexes( Self )
 
@@ -2549,7 +2554,7 @@ METHOD FUNCTION Post() CLASS TTable
         ::Error_Table_Not_In_Edit_or_Insert_mode()
     ENDIF
 
-    BEGIN SEQUENCE WITH {|oErr| Break( oErr ) }
+    BEGIN SEQUENCE WITH ::ErrorBlock
 
         ::FSubState := dssPosting
 

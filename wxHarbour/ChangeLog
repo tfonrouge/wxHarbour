@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2012-02-16 00:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     % using a parametrizable error block via the Table
+
+  *  src/raddox/TTable.prg
+     % added ppty ErrorBlock
+
 2012-02-15 09:18 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      + added ro ppty 'ReUseFieldIndex' to contain index to reused db field
