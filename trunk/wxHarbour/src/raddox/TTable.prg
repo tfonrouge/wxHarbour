@@ -1026,7 +1026,7 @@ METHOD FUNCTION CreateTable( fullFileName ) CLASS TTable
     ::FillFieldList()
 
     FOR EACH fld IN ::FieldList
-        IF fld:IsTableField
+        IF fld:IsTableField .AND. !fld:ReUseField
             AAdd( aDbs, { fld:DBS_NAME, fld:DBS_TYPE, fld:DBS_LEN, fld:DBS_DEC } )
         ENDIF
     NEXT
