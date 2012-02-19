@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-19 14:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     ! When creating a table not to add a TField marked as 'ReUseField'
+
 2012-02-16 00:39 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      % using a parametrizable error block via the Table
