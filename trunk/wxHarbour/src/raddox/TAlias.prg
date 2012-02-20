@@ -235,6 +235,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
         /* Check for a previously open workarea */
         IF HB_HHasKey( ::FInstances, table:TableFileName )
             ::FTableName := table:TableFileName
+            table:fullFileName := ::FInstances[ table:TableFileName, "fullFileName" ]
             RETURN .T.
         ENDIF
 
@@ -295,6 +296,7 @@ METHOD DbOpen( table, aliasName ) CLASS TAlias
 
     ::FTableName := tableName
     ::workArea := Select()
+    ::FInstances[ tableName, "fullFileName" ] := tableFullFileName 
 
 RETURN !NetErr()
 

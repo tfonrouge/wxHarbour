@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2012-02-20 14:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  TODO
+     * added detail
+
+  *  src/raddox/TAlias.prg
+     ! Fixed assign fullFileName to a previously opened table workarea
+
 2012-02-20 12:26 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   +  TODO
      * added TODO list file
