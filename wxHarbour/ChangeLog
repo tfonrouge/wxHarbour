@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-20 12:26 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  +  TODO
+     * added TODO list file
+
 2012-02-19 14:48 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      ! When creating a table not to add a TField marked as 'ReUseField'
