@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-23 21:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TTable.prg
+     % Keep record number on FixDbStruct and CreateIndex functions
+
 2012-02-23 20:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TField.prg
      ! Added protection agains wrong values on GetLabel on TObjectField's

@@ -1056,12 +1056,17 @@ RETURN .T.
 */
 METHOD FUNCTION CreateIndex( index ) CLASS TTable
     LOCAL indexExp
+    LOCAL recNo
 
     indexExp := index:IndexExpression()
 
     DbSelectArea( ::Alias:Name )
+    
+    recNo := ::Alias:RecNo
 
     CREATE INDEX ON indexExp TAG index:TagName ADDITIVE
+    
+    ::Alias:RecNo := recNo
 
 RETURN .T.
 
@@ -1695,6 +1700,7 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
     LOCAL sPath,sName,sExt,sDrv
     LOCAL sPath2,sName2,sExt2,sDrv2
     LOCAL result
+    LOCAL recNo
 
     IF message = NIL
         message := ""
@@ -1712,6 +1718,8 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
         sExt := DbInfo( DBI_TABLEEXT )
 
         HB_FNameSplit( fileName, @sPath, @sName, NIL, @sDrv )
+        
+        recNo := ::Alias:RecNo
 
         ::Alias:DbCloseArea()
 
@@ -1750,6 +1758,8 @@ METHOD FUNCTION FixDbStruct( aNewStruct, message ) CLASS TTable
             FRename( HB_FNameMerge( sPath2, sName2, ".fpt", sDrv2 ), HB_FNameMerge( sPath, sName, ".fpt", sDrv ) )
 
             result := ::Alias:DbOpen( Self )
+            
+            ::Alias:RecNo := recNo
 
             HB_HDel( ::FInstances[ ::TableClass ], "DbStruct" )
 
