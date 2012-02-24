@@ -453,7 +453,7 @@ PUBLISHED:
     PROPERTY PublishedFieldList READ GetPublishedFieldList
     PROPERTY PublishedFieldNameList READ GetPublishedFieldNameList
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
-    PROPERTY Value READ GetValue WRITE SetValue
+    PROPERTY Value READ GetValue( ... ) WRITE SetValue
 
 ENDCLASS
 

@@ -181,7 +181,7 @@ PUBLIC:
     PROPERTY RawDefaultValue READ FDefaultValue
     PROPERTY Text READ GetEditText WRITE SetEditText
     PROPERTY UndoValue READ GetUndoValue
-    PROPERTY Value READ GetAsVariant WRITE SetAsVariant
+    PROPERTY Value READ GetAsVariant( ... ) WRITE SetAsVariant
     PROPERTY WrittenValue READ FWrittenValue
 
 PUBLISHED:

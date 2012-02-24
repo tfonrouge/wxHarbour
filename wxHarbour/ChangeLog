@@ -2,6 +2,14 @@
  * $Id$
  */
 
+2012-02-23 18:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/property.ch
+     % allow to pass parameter to 'Value' property on READ
+
+  *  src/raddox/TField.prg
+  *  src/raddox/TTable.prg
+     % capability to send parameters to GetAsVariant via 'Value' property
+
 2012-02-20 14:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  TODO
      * added detail

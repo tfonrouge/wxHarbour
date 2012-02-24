@@ -43,7 +43,7 @@
 #xcommand PROPERTY <name> [AS <astype>] [READ <rm>] [WRITE <wm>] ;
                     [<scope: EXPORTED, EXPORT, VISIBLE, PUBLIC, PROTECTED, HIDDEN, PRIVATE, READONLY, RO, PUBLISHED >] ;
                     => ;
-                    METHOD <name> INLINE ::<rm> [<scope>] ;;
+                    METHOD <name> BLOCK {|Self,...| ::<rm> } [<scope>] ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( xNewVal ) [<scope>]
 
 // Without INDEX
@@ -51,7 +51,7 @@
 // Without WRITE
 #xcommand PROPERTY <name> [AS <astype>] [READ <rm>] ;
                     => ;
-                    METHOD <name> INLINE ::<rm>
+                    METHOD <name> BLOCK {|Self,...| ::<rm> }
 
 // Without INDEX
 // Without READ
