@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-23 20:23 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/raddox/TField.prg
+     ! Added protection agains wrong values on GetLabel on TObjectField's
+
 2012-02-23 18:45 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/property.ch
      % allow to pass parameter to 'Value' property on READ
