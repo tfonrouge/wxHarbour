@@ -2373,10 +2373,13 @@ RETURN ::BaseKeyField:GetKeyVal( keyVal )
     Teo. Mexico 2012
 */
 METHOD FUNCTION GetLabel() CLASS TObjectField
-    IF Empty( ::FLabel )
+    IF !Empty( ::FLabel )
+        RETURN ::FLabel
+    ENDIF
+    IF ::BaseKeyField != NIL
         RETURN ::BaseKeyField:Label
     ENDIF
-RETURN ::FLabel
+RETURN ""
 
 /*
     GetLinkedTable
