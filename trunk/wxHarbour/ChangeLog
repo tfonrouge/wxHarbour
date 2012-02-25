@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-25 17:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbp
+     % harbour compiler flag: -gc3
+
 2012-02-23 21:21 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/raddox/TTable.prg
      % Keep record number on FixDbStruct and CreateIndex functions
