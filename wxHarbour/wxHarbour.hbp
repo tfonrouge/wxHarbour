@@ -32,6 +32,7 @@
 -i{bcc}${HB_WITH_WX}\lib\bcc_lib\mswu
 -i${HB_WITH_WX}\include
 -iinclude/wxHarbour
+-i${hb_inc}/oordb
 
 -cflag={win}-DWIN32
 -cflag={win}-D__WXMSW__
@@ -66,8 +67,6 @@ src/hrbcompat/misc/*.cpp
 src/hrbcompat/tbcolumn/*.prg
 src/hrbcompat/tbrowse/*.prg
 src/hrbcompat/tbrowse/*.cpp
-src/raddox/*.prg
-src/raddox/*.cpp
 src/wxbase/advctrls/*.prg
 src/wxbase/advctrls/*.cpp
 src/wxbase/app/*.prg

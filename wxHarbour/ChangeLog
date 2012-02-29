@@ -2,6 +2,34 @@
  * $Id$
  */
 
+2012-02-28 20:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     * removed raddox.ch
+
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+  *  src/hrbcompat/tbrowse/wxhListContainer.prg
+     * removed "oordb.ch"
+
+  *  wxHarbour.hbp
+     * added include to oordb
+
+  -  include/wxHarbour/raddox.ch
+  -  include/wxHarbour/rdodefs.h
+  -  src/raddox
+  -  src/raddox/Dba.prg
+  -  src/raddox/TAlias.prg
+  -  src/raddox/TDatabase.prg
+  -  src/raddox/TField.prg
+  -  src/raddox/TIndex.prg
+     * moved to OORDB project
+
+  -  src/raddox/TRDOClient.prg
+  -  src/raddox/TRDOServer.prg
+  -  src/raddox/TRDOServer_c.cpp
+  -  src/raddox/TTable.prg
+  -  src/raddox/TTable_c.cpp
+     * not required here
+
 2012-02-25 17:19 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  wxHarbour.hbp
      % harbour compiler flag: -gc3
