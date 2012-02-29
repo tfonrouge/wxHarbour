@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-02-29 17:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/property.ch
+     * command PROPERTY ... DEFAULT changed to PROPERTY ... VALUE
+
 2012-02-29 17:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      ! added protection against re-define NTrim
