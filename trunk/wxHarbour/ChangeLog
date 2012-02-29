@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2012-02-29 17:35 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     ! added protection against re-define NTrim
+
+  *  src/common/wxhutils.prg
+     * functions moved to oordb
+
 2012-02-28 20:13 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      * removed raddox.ch

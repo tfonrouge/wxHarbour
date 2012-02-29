@@ -75,8 +75,10 @@
 /*
     NTrim
 */
+#ifndef NTrim
 #define NTrim( n ) ;
                 LTrim( Str( n ) )
+#endif
 
 /*!
  * Frame/Dialog
