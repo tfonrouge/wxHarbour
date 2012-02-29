@@ -26,7 +26,6 @@
 
 #include "hbclass.ch"
 #include "property.ch"
-#include "raddox.ch"
 #include "wx.ch"
 
 #include "wxh/auibook.ch"

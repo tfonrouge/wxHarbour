@@ -15,6 +15,7 @@
 */
 
 #include "wxharbour.ch"
+#include "oordb.ch"
 
 /*
     wxhBrowseColumn
