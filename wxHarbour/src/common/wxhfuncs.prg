@@ -1064,7 +1064,7 @@ PROCEDURE __wxh_BrowseAddColumn( wxhBrw, zero, title, block, picture, width, typ
     column:Picture := picture
     column:Width   := width
 
-    IF zero
+    IF zero == .T.
         wxhBrw:ColumnZero := column
     ELSE
         wxhBrw:AddColumn( column )
