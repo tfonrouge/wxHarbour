@@ -2,6 +2,16 @@
  * $Id$
  */
 
+2012-03-05 11:50 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/property.ch
+     * synched with oordb
+
+  *  src/common/wxhfuncs.prg
+     * added protection against null param value
+
+  *  src/hrbcompat/tbrowse/wxhBrowse.prg
+     * changed order of params for __wxh_BrowseAddColumn()
+
 2012-02-29 17:52 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/property.ch
      * command PROPERTY ... DEFAULT changed to PROPERTY ... VALUE

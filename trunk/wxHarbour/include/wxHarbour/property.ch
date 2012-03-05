@@ -69,10 +69,16 @@
                     METHOD <name> INLINE Super:<name> ;;
                     METHOD _<name> INLINE Super:_<name>
 
+/* PROPERTY with INIT value, READ is direct to F<name> DATA */
+#xcommand PROPERTY <name> [INDEX <i>] [WRITE <wm>] INIT <value> ;
+                    => ;
+                    DATA F<name> INIT <value> PROTECTED ;;
+                    PROPERTY <name> [INDEX <i>] READ F<name> [WRITE <wm>]
+
+/* PROPERTY with VALUE value */
 #xcommand PROPERTY <name> VALUE <value> ;
                     => ;
                     DATA F<name> INIT <value> PROTECTED
-
 
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
 

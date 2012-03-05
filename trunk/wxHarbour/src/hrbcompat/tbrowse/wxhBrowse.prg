@@ -215,7 +215,7 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
     DO CASE
     CASE vType = "O" .AND. ::FDataSource:IsDerivedFrom( "TTable" )
 
-        __wxh_BrowseAddColumn( .T., Self, "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
+        __wxh_BrowseAddColumn( Self, .T., "RecNo", {|| Transform( ::FDataSource:RecNo, "99999999" ) + iif( ::FDataSource:Deleted(), "*", " " ) } )
 
         FOR EACH fld IN ::FDataSource:FieldList
             IF fld:Published
@@ -226,9 +226,9 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
     CASE vType $ "AH" .AND. Len( ::FDataSource ) > 0
 
         IF vType = "A"
-            __wxh_BrowseAddColumn( .T., Self, "", {|recNo| recNo }, "9999" )
+            __wxh_BrowseAddColumn( Self, .T., "", {|recNo| recNo }, "9999" )
         ELSE
-            __wxh_BrowseAddColumn( .T., Self, "", {|key| key } )
+            __wxh_BrowseAddColumn( Self, .T., "", {|key| key } )
         ENDIF
 
         IF !Empty( ::FDataSource )
@@ -239,10 +239,10 @@ METHOD PROCEDURE FillColumns CLASS wxhBrowse
             ENDIF
             IF ValType( itm1 ) = "A"
                 FOR EACH fld IN ::FDataSource[ 1 ]
-                    __wxh_BrowseAddColumn( .F., Self, NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
+                    __wxh_BrowseAddColumn( Self, .F., NTrim( fld:__enumIndex() ), buildBlock( Self, fld:__enumIndex() ) )
                 NEXT
             ELSE
-                __wxh_BrowseAddColumn( .F., Self, "", {|key| ::FDataSource[ key ] } )
+                __wxh_BrowseAddColumn( Self, .F., "", {|key| ::FDataSource[ key ] } )
             ENDIF
         ENDIF
 
