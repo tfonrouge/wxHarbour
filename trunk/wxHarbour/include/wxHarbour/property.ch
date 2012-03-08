@@ -62,14 +62,6 @@
                     DATA F<name> PROTECTED ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( xNewVal )
 
-// Without INDEX
-// Without READ
-// Without WRITE
-//#xcommand PROPERTY <name> [AS <astype>] ;
-//                    => ;
-//                    METHOD <name> INLINE Super:<name> ;;
-//                    METHOD _<name> INLINE Super:_<name>
-
 /* PROPERTY with INIT value, READ is direct to F<name> DATA */
 #xcommand PROPERTY <name> [INDEX <i>] [WRITE <wm>] INIT <value> ;
                     => ;
@@ -82,7 +74,7 @@
                     DATA F<name> INIT <value> PROTECTED
 
 /* PROPERTY READONLY */
-#xcommand PROPERTY <name> READONLY ;
+#xcommand PROPERTY <name> [AS <asType>] [READONLY] ;
                     => ;
                     DATA F<name> PROTECTED ;;
                     PROPERTY <name> READ F<name>
