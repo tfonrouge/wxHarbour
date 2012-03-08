@@ -35,6 +35,7 @@
 // With WRITE
 #xcommand PROPERTY <name> [AS <astype>] INDEX <i> [WRITE <wm>] ;
                     => ;
+                    DATA F<name> PROTECTED ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( <i>, xNewVal )
 
 // Without INDEX
@@ -58,16 +59,16 @@
 // With WRITE
 #xcommand PROPERTY <name> [AS <astype>] [WRITE <wm>] ;
                     => ;
+                    DATA F<name> PROTECTED ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( xNewVal )
-                    //MESSAGE _<name>( xNewVal ) METHOD <wm>( xNewVal )
 
 // Without INDEX
 // Without READ
 // Without WRITE
-#xcommand PROPERTY <name> [AS <astype>] ;
-                    => ;
-                    METHOD <name> INLINE Super:<name> ;;
-                    METHOD _<name> INLINE Super:_<name>
+//#xcommand PROPERTY <name> [AS <astype>] ;
+//                    => ;
+//                    METHOD <name> INLINE Super:<name> ;;
+//                    METHOD _<name> INLINE Super:_<name>
 
 /* PROPERTY with INIT value, READ is direct to F<name> DATA */
 #xcommand PROPERTY <name> [INDEX <i>] [WRITE <wm>] INIT <value> ;
@@ -75,10 +76,16 @@
                     DATA F<name> INIT <value> PROTECTED ;;
                     PROPERTY <name> [INDEX <i>] READ F<name> [WRITE <wm>]
 
-/* PROPERTY with VALUE value */
+/* PROPERTY with VALUE value : REQUIERES a previous READ method */
 #xcommand PROPERTY <name> VALUE <value> ;
                     => ;
                     DATA F<name> INIT <value> PROTECTED
+
+/* PROPERTY READONLY */
+#xcommand PROPERTY <name> READONLY ;
+                    => ;
+                    DATA F<name> PROTECTED ;;
+                    PROPERTY <name> READ F<name>
 
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
 
