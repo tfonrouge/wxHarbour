@@ -74,10 +74,16 @@
                     DATA F<name> INIT <value> PROTECTED
 
 /* PROPERTY READONLY */
-#xcommand PROPERTY <name> [AS <asType>] [READONLY] ;
+#xcommand PROPERTY <name> [AS <asType>] [READONLY] [INIT <value>] ;
                     => ;
-                    DATA F<name> PROTECTED ;;
+                    DATA F<name> [INIT <value>] PROTECTED ;;
                     PROPERTY <name> READ F<name>
+
+/* PROPERTY READWRITE */
+#xcommand PROPERTY <name> [<clauses1,...>] READWRITE [<clauses2,...>] ;
+                    => ;
+                    METHOD Set<name>( value ) INLINE ::F<name> := value PROTECTED ;; 
+                    PROPERTY <name> [<clauses1>] WRITE Set<name> [<clauses2>]
 
 #xcommand PROCEDURE <ProcedureNameParams> CLASS <className> => ERROR
 
