@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-03-14 13:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/property.ch
+     ! Fixed PROPERTY command without explicit READ clause
+
 2012-03-08 11:02 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/property.ch
      * updated

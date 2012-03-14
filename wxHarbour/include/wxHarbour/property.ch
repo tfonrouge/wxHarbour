@@ -36,6 +36,7 @@
 #xcommand PROPERTY <name> [AS <astype>] INDEX <i> [WRITE <wm>] ;
                     => ;
                     DATA F<name> PROTECTED ;;
+                    METHOD <name> INLINE ::F<name> ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( <i>, xNewVal )
 
 // Without INDEX
@@ -60,6 +61,7 @@
 #xcommand PROPERTY <name> [AS <astype>] [WRITE <wm>] ;
                     => ;
                     DATA F<name> PROTECTED ;;
+                    METHOD <name> INLINE ::F<name> ;;
                     METHOD _<name>( xNewVal ) INLINE ::<wm>( xNewVal )
 
 /* PROPERTY with INIT value, READ is direct to F<name> DATA */
