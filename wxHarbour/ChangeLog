@@ -2,6 +2,17 @@
  * $Id$
  */
 
+2012-08-13 14:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/wxharbour.ch
+     % public function made static
+
+  *  src/common/wxhfuncs.prg
+     * some minor cleanup to make PP happy (bad things happened when -ks flag was enabled, seems that
+       expressions like funcx()["key"]["key"] := someValue , failed)
+
+  *  wxHarbour.hbp
+     - flag -ks enabled: now index on strings can be assigned also ( a[x] := someValue )
+
 2012-03-14 13:08 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/property.ch
      ! Fixed PROPERTY command without explicit READ clause
