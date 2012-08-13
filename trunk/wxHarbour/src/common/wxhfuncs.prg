@@ -130,6 +130,7 @@ ENDCLASS
     Teo. Mexico 2009
 */
 METHOD New( name, var, baseField, block, picture, warning, warnBlock, warnMsg, actionBlock ) CLASS wxhHBValidator
+    LOCAL lastItem
 
     ::FName	 := name
 
@@ -174,8 +175,13 @@ METHOD New( name, var, baseField, block, picture, warning, warnBlock, warnMsg, a
     IF actionBlock != NIL
         ::actionBlock := actionBlock
     ENDIF
+    
+    Super:New()
 
-RETURN Super:New()
+    lastItem := containerObj():LastItem()
+    lastItem[ "wxhHBValidator" ] := Self
+
+RETURN Self
 
 /*
     AddPostInfo
@@ -891,7 +897,7 @@ RETURN ! ::EvalWarnBlock( parent, .T. )
     ContainerObj
     Teo. Mexico 2009
 */
-FUNCTION ContainerObj
+STATIC FUNCTION ContainerObj
     IF containerObj == NIL
         containerObj := TContainerObj():New()
     ENDIF
@@ -1185,7 +1191,7 @@ FUNCTION __wxh_CheckBox( window, id, label, pos, size, style, name )
         window := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     checkBox := wxCheckBox():New( window, id, label, pos, size, style, validator, name )
 
@@ -1207,7 +1213,7 @@ FUNCTION __wxh_Choice( parent, id, point, size, choices, style, name, enabled )
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     choice := wxChoice():New( parent, id, point, size, validator:GetChoices( choices ), style, validator, name )
 
@@ -1231,7 +1237,7 @@ FUNCTION __wxh_ComboBox( parent, id, value, point, size, choices, style, name, e
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     IF value == NIL
         value := RTrim( validator:AsString() )
@@ -1307,7 +1313,7 @@ FUNCTION __wxh_DatePickerCtrl( parent, id, pos, size, style, name, enabled, tool
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     dateCtrl := wxDatePickerCtrl():New( parent, id, NIL, pos, size, style, validator, name )
 
@@ -1799,7 +1805,7 @@ FUNCTION __wxh_RadioBox( parent, id, label, point, size, choices, specRC, majorD
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     IF specRC != NIL
         IF style = NIL
@@ -1877,7 +1883,7 @@ FUNCTION __wxh_SearchCtrl( window, id, pos, size, style, name, onSearch, onCance
         window := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     /* nextCtrlOnEnter */
     /*
@@ -1987,6 +1993,8 @@ RETURN
  */
 PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, stretch, align, border, sideBorders, flag, useLast, addSizerInfoToLastItem )
     LOCAL sizerInfo
+    LOCAL lastParent
+    LOCAL lastChild
 
     IF Empty( containerObj():ParentList )
         RETURN
@@ -1997,37 +2005,40 @@ PROCEDURE __wxh_SizerInfoAdd( child, parentSizer, stretch, align, border, sideBo
         RETURN
     ENDIF
 
+    lastChild := containerObj():GetLastChild()
+
     IF child == NIL .AND. ! ( addSizerInfoToLastItem == .T. )
 
         /* Check if last child has been processed */
-        IF containerObj():GetLastChild()[ "processed" ]
+        IF lastChild[ "processed" ]
             RETURN
         ENDIF
 
-        child := containerObj():GetLastChild()[ "child" ]
-        sizerInfo := containerObj():GetLastChild()[ "sizerInfo" ]
+        child := lastChild[ "child" ]
+        sizerInfo := lastChild[ "sizerInfo" ]
 
         /* no sizerInfo available */
         IF sizerInfo == NIL
             RETURN
         ENDIF
 
-        containerObj():GetLastChild()[ "processed" ] := .T. /* mark processed */
+        lastChild[ "processed" ] := .T. /* mark processed */
 
-        stretch			:= sizerInfo[ "stretch" ]
-        align				:= sizerInfo[ "align" ]
-        border			:= sizerInfo[ "border" ]
+        stretch     := sizerInfo[ "stretch" ]
+        align		:= sizerInfo[ "align" ]
+        border		:= sizerInfo[ "border" ]
         sideBorders := sizerInfo[ "sideBorders" ]
-        flag				:= sizerInfo[ "flag" ]
+        flag		:= sizerInfo[ "flag" ]
 
     ENDIF
 
     /* collect default parentSizer */
     IF parentSizer == NIL
         /* check if we have a parent control */
-        IF containerObj():GetLastChild()[ "child" ] == NIL
-            IF containerObj():GetLastParent( -1 ) != NIL
-                parentSizer := ATail( containerObj():GetLastParent( -1 )[ "sizers" ] )
+        IF lastChild[ "child" ] == NIL
+            lastParent := containerObj():GetLastParent( -1 )
+            IF lastParent != NIL
+                parentSizer := ATail( lastParent[ "sizers" ] )
             ENDIF
         ELSE
             parentSizer := containerObj():LastSizer()
@@ -2153,7 +2164,7 @@ FUNCTION __wxh_SpinCtrl( parent, id, pos, size, style, min, max, name )
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     spinCtrl := wxSpinCtrl():New( parent, id, /* value */, pos, size, style, min, max, 0 /* initial */, name )
 
@@ -2257,7 +2268,7 @@ FUNCTION __wxh_TextCtrl( parent, id, pos, size, multiLine, style, name, noEditab
         parent := containerObj():LastParent()
     ENDIF
 
-    validator := containerObj():LastItem()[ "wxhHBValidator" ]
+    validator := containerObj():LastItem( "wxhHBValidator" )
 
     IF multiLine == .T.
         IF Empty( style )
@@ -2532,7 +2543,7 @@ PUBLIC:
     METHOD ClearData
     METHOD GetLastChild
     METHOD GetLastParent( index )
-    METHOD LastItem INLINE ATail( ATail( ::FMainContainerStack ) )
+    METHOD LastItem( cKey )
     METHOD LastParent
     METHOD LastSizer
     METHOD RemoveLastParent
@@ -2548,12 +2559,13 @@ ENDCLASS
     Teo. Mexico 2009
 */
 METHOD PROCEDURE AddSizerInfoToLastItem( sizerInfo ) CLASS TContainerObj
-
+    LOCAL lastParent
     /* if has not child yet defined then is a parent ctrl */
     IF ATail( ::ParentList )[ "lastChild" ][ "child" ] == NIL
         /* control is in lastChild in the previuos Parent list */
-        IF ::GetLastParent( -1 ) != NIL
-            ::GetLastParent( -1 )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
+        lastParent := ::GetLastParent( -1 )
+        IF lastParent != NIL
+            lastParent[ "lastChild" ][ "sizerInfo" ] := sizerInfo
         ENDIF
     ELSE
         ATail( ::ParentList )[ "lastChild" ][ "sizerInfo" ] := sizerInfo
@@ -2678,6 +2690,21 @@ METHOD FUNCTION GetLastParent( index ) CLASS TContainerObj
         RETURN NIL
     ENDIF
 RETURN ::ParentList[ index ]
+
+/*
+    LastItem
+    Teo. Mexico 2012
+*/
+METHOD FUNCTION LastItem( cKey ) CLASS TContainerObj
+    LOCAL lastItem
+    
+    lastItem := ATail( ATail( ::FMainContainerStack ) )
+    
+    IF !Empty( cKey )
+        RETURN lastItem[ cKey ]
+    ENDIF
+    
+RETURN lastItem
 
 /*
     LastParent
