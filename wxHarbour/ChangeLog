@@ -2,6 +2,13 @@
  * $Id$
  */
 
+2012-08-17 09:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/errorsys/wxherrorsys.prg
+     ! trapped div by zero error
+
+  *  wxHarbour.hbp
+     * removed compiler flag -ks
+
 2012-08-13 14:57 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/wxharbour.ch
      % public function made static
