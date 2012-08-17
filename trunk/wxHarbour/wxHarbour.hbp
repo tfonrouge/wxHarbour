@@ -17,7 +17,7 @@
 # On Linux/Ubuntu, install these packages first:
 #   sudo apt-get install libwxbase2.8-dev libwxgtk2.8-dev
 
--n1 -es2 -w3 -gc3 -ks
+-n1 -es2 -w3 -gc3
 -hblib
 -inc
 -olib/${hb_arch}/${hb_comp}/wxHarbour
