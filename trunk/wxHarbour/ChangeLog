@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-08-21 09:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  include/wxHarbour/xerror.ch
+     * minor code cleanup
+
 2012-08-17 09:51 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/errorsys/wxherrorsys.prg
      ! trapped div by zero error
