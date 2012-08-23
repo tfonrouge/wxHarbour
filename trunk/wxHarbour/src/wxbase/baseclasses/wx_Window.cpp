@@ -676,6 +676,20 @@ HB_FUNC( WXWINDOW_SETSIZER )
 }
 
 /*
+    SetSize
+    Teo. Mexico 2012
+*/
+HB_FUNC( WXWINDOW_SETSIZE )
+{
+    wxWindow* wnd = (wxWindow *) xho_itemListGet_XHO( hb_stackSelfItem() );
+
+    if( wnd )
+    {
+        wnd->SetSize( hb_parni( 1 ), hb_parni( 2 ) );
+    }
+}
+
+/*
  SetToolTip
  Teo. Mexico 2009
  */

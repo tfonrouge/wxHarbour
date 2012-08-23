@@ -2,6 +2,11 @@
  * $Id$
  */
 
+2012-08-23 13:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/wxbase/baseclasses/wx_Window.cpp
+  *  src/wxbase/baseclasses/wxhWindow.prg
+     % added SetSize( int, int )
+
 2012-08-21 09:55 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  include/wxHarbour/xerror.ch
      * minor code cleanup
