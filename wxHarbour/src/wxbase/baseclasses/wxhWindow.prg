@@ -73,6 +73,7 @@ PUBLIC:
     METHOD SetMaxSize( size )
     METHOD SetMinSize( size )
     METHOD SetName( name )
+    METHOD SetSize()
     METHOD SetSizer( sizer, deleteOld )
     METHOD SetToolTip
     METHOD SetValidator( validator )
