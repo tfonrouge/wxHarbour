@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-08-29 10:32 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  wxHarbour.hbp
+     * added compiler flag '-l'
+
 2012-08-23 13:41 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/wxbase/baseclasses/wx_Window.cpp
   *  src/wxbase/baseclasses/wxhWindow.prg
