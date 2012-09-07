@@ -326,11 +326,13 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     LOCAL warn := .F.
     LOCAL label
     LOCAL tblName := ""
+    LOCAL result
 
     IF ::FOnEvalWarnBlock == .F.
         ::FOnEvalWarnBlock := .T.
         IF ::FUsingFieldValidation
-            warn := .NOT. ::BaseField:Validate( .F. )
+            result := ::BaseField:Validate( .F. )
+            warn := result != NIL
             IF warn
                 tblName := ", at Table (" + ::BaseField:Table:ClassName() + ")"
                 label := " '" + ::BaseField:Label + "' "
@@ -351,7 +353,11 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
 
         IF warn
             IF showWarning == NIL .OR. showWarning
-                msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
+                IF result != NIL
+                    msg := result
+                ELSE
+                    msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
+                ENDIF
                 IF parent = NIL
                     parent := ::GetWindow():GetParent()
                 ENDIF
@@ -825,6 +831,8 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
     LOCAL oldValue
     LOCAL newValue
 
+    STATIC lastCtrl
+
     IF ::dontUpdateVar .OR. ::FBlock == NIL
         RETURN
     ENDIF
@@ -880,12 +888,16 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
 
     newValue := ::FBlock:Eval()
 
-    /* changed ? */
-    IF ::FFirstCheck == NIL .OR. force == .T.
-        IF (ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue) .AND. ::actionBlock != NIL
-            ::actionBlock:Eval( event )
+    IF !lastCtrl == control:ObjectH
+        lastCtrl := control:ObjectH
+        /* changed ? */
+        IF ::FFirstCheck == NIL .OR. force == .T.
+            IF (ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue) .AND. ::actionBlock != NIL
+                ::actionBlock:Eval( event )
+            ENDIF
+            ::EvalWarnBlock( control:GetParent() )
         ENDIF
-        ::EvalWarnBlock( control:GetParent() )
+
     ENDIF
 
 RETURN
