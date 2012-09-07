@@ -350,7 +350,6 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
         ENDIF
 
         IF warn
-            XAltD()
             IF showWarning == NIL .OR. showWarning
                 msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
                 IF parent = NIL
@@ -361,6 +360,7 @@ METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
         ELSE
             ::FFirstCheck := .T.
         ENDIF
+        ::FOnEvalWarnBlock := .F.
     ENDIF
 
 RETURN warn
