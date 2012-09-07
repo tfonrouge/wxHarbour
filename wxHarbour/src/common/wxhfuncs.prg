@@ -81,6 +81,7 @@ PROTECTED:
     DATA FFieldBlock
     DATA FFirstCheck
     DATA FName
+    DATA FOnEvalWarnBlock INIT .F.
     DATA FValidValues
     DATA FUsingFieldValidation INIT .F.
     DATA dontUpdateVar INIT .F.
@@ -322,37 +323,43 @@ RETURN value
 */
 METHOD FUNCTION EvalWarnBlock( parent, showWarning ) CLASS wxhHBValidator
     LOCAL msg
-    LOCAL warn
+    LOCAL warn := .F.
     LOCAL label
     LOCAL tblName := ""
 
-    IF ::FUsingFieldValidation
-        warn := .NOT. ::BaseField:Validate( .F. )
-        IF warn
-            tblName := ", at Table (" + ::BaseField:Table:ClassName() + ")"
-            label := " '" + ::BaseField:Label + "' "
-        ENDIF
-    ELSE
-        SWITCH ValType( ::warnBlock )
-        CASE "O"
-            warn := .NOT. ::warnBlock:Validate( .F. )
-            EXIT
-        CASE "B"
-            warn := .NOT. ::warnBlock:Eval( ::FBlock:Eval() )
-            EXIT
-        OTHERWISE
-            warn := .F.
-        ENDSWITCH
-        label := " "
-    ENDIF
-
-    IF warn
-        IF showWarning == NIL .OR. showWarning
-            msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
-            IF parent = NIL
-                parent := ::GetWindow():GetParent()
+    IF ::FOnEvalWarnBlock == .F.
+        ::FOnEvalWarnBlock := .T.
+        IF ::FUsingFieldValidation
+            warn := .NOT. ::BaseField:Validate( .F. )
+            IF warn
+                tblName := ", at Table (" + ::BaseField:Table:ClassName() + ")"
+                label := " '" + ::BaseField:Label + "' "
             ENDIF
-            wxMessageBox( msg, "Warning" + tblName, HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
+        ELSE
+            SWITCH ValType( ::warnBlock )
+            CASE "O"
+                warn := .NOT. ::warnBlock:Validate( .F. )
+                EXIT
+            CASE "B"
+                warn := .NOT. ::warnBlock:Eval( ::FBlock:Eval() )
+                EXIT
+            OTHERWISE
+                warn := .F.
+            ENDSWITCH
+            label := " "
+        ENDIF
+
+        IF warn
+            XAltD()
+            IF showWarning == NIL .OR. showWarning
+                msg := iif( Empty( ::warningMessage ), "Field" + label + "has invalid data...", ::warningMessage )
+                IF parent = NIL
+                    parent := ::GetWindow():GetParent()
+                ENDIF
+                wxMessageBox( msg, "Warning" + tblName, HB_BitOr( wxOK, wxICON_EXCLAMATION ), parent )
+            ENDIF
+        ELSE
+            ::FFirstCheck := .T.
         ENDIF
     ENDIF
 
@@ -879,9 +886,6 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
             ::actionBlock:Eval( event )
         ENDIF
         ::EvalWarnBlock( control:GetParent() )
-        IF ::FFirstCheck == NIL
-            ::FFirstCheck := .T.
-        ENDIF
     ENDIF
 
 RETURN
