@@ -2,6 +2,15 @@
  * $Id$
  */
 
+2012-09-07 17:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  ChangeLog
+  *  src/common/wxhfuncs.prg
+     * typo
+
+2012-09-07 17:37 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     * typo
+
 2012-09-07 17:35 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % added protection against double launch of warning message (focus lost/gain triggers this)
