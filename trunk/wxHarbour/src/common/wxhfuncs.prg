@@ -79,6 +79,7 @@ PROTECTED:
     DATA FBlock
     DATA FField
     DATA FFieldBlock
+    DATA FFirstCheck
     DATA FName
     DATA FValidValues
     DATA FUsingFieldValidation INIT .F.
@@ -873,11 +874,14 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
     newValue := ::FBlock:Eval()
 
     /* changed ? */
-    IF force == .T. .OR. ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue
-        IF ::actionBlock != NIL
+    IF ::FFirstCheck == NIL .OR. force == .T.
+        IF (ValType( oldValue ) != ValType( newValue ) .OR. !oldValue == newValue) .AND. ::actionBlock != NIL
             ::actionBlock:Eval( event )
         ENDIF
         ::EvalWarnBlock( control:GetParent() )
+        IF ::FFirstCheck == NIL
+            ::FFirstCheck := .T.
+        ENDIF
     ENDIF
 
 RETURN
