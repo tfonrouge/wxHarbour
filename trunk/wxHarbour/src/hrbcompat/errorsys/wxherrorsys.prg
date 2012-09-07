@@ -188,6 +188,10 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         RETURN Alert( cMessage, aOptions )
     ENDIF
 
+    IF aOptions = NIL
+        aOptions := { wxhLABEL_ACCEPT }
+    ENDIF
+
     /*
         TODO: Check if we have enough resources to do this
     */
