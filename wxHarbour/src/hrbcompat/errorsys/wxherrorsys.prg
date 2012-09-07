@@ -212,7 +212,7 @@ FUNCTION wxhShowError( cMessage, aOptions, oErr )
         
         s += E"\n\n"
         
-        i := 3
+        i := 2
         WHILE !Empty( ProcName( i ) )
             s += "Called from " + ProcName( i )	 + "(" + NTrim( ProcLine( i ) ) + E")\n"
             ++i
