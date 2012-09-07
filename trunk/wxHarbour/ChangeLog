@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-09-07 17:35 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % added protection against double launch of warning message (focus lost/gain triggers this)
+
 2012-09-07 17:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % Allow to check OnValid/Warn (from TField's) on fields even when not change has been made
