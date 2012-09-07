@@ -2,6 +2,12 @@
  * $Id$
  */
 
+2012-09-07 18:47 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % using string containing failure from TField:Validate() to show error message
+     ! added bad hack to avoid double evaluation of warning when two consecutive (TAB's) fields of the
+       same table are in the dialog
+
 2012-09-07 17:38 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  ChangeLog
   *  src/common/wxhfuncs.prg
