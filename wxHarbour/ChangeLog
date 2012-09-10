@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-09-10 11:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhfuncs.prg
+     % improved allow to pop warning again when action is executed
+
 2012-09-07 20:04 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      ! hack again to fix double pop of warning message on same control
