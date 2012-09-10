@@ -885,6 +885,7 @@ METHOD PROCEDURE UpdateVar( event, force ) CLASS wxhHBValidator
         IF ::actionBlock != NIL
             ::actionBlock:Eval( event )
         ENDIF
+        lastObjectH := NIL
     ENDIF
 
     // ! hack to now pop samw warning twice on same control
