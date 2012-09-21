@@ -212,18 +212,23 @@ METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
         FOR i:=1 TO nTokens
             fldName := Token( xfield, ":", i )
             fld := ds:FieldByName( fldName, @index )
-            IF i = 1
-                s := "::FieldList[" + NTrim( index ) + "]"
+            IF fld != NIL
+                IF i = 1
+                    s := "::FieldList[" + NTrim( index ) + "]"
+                ELSE
+                    s += ":DataObj:FieldList[" + NTrim( index ) + "]"
+                ENDIF
+                IF fld:IsDerivedFrom( "TObjectField" )
+                    ds := fld:DataObj
+                ENDIF
+                ::FBlock := &("{|Self| " + s + " }")
+                ::FField := ::FBlock:Eval( ::browse:DataSource )
+                ::hashValue := HB_IsHash( ::FField:ValidValues )
             ELSE
-                s += ":DataObj:FieldList[" + NTrim( index ) + "]"
-            ENDIF
-            IF fld:IsDerivedFrom( "TObjectField" )
-                ds := fld:DataObj
+                ::FBlock := &(E"{|| \042<" + "Error: '" + xfield + E"'>\042}")
+                ::FField := NIL
             ENDIF
         NEXT
-        ::FBlock := &("{|Self| " + s + " }")
-        ::FField := ::FBlock:Eval( ::browse:DataSource )
-        ::hashValue := HB_IsHash( ::FField:ValidValues )
         EXIT
     ENDSWITCH
 
@@ -233,7 +238,7 @@ METHOD PROCEDURE SetField( xfield ) CLASS wxhBrowseColumn
         ::FReadOnly := .F.
     ELSE
         ::FBlock := block
-        wxhAlert( "Invalid TField value given to column browse" )
+        wxhAlert( "Invalid TField value given to column " + iif( ValType(xfield)="C","'"+xfield+"'",NTrim(::browse:ColCount)) + " browse" )
     ENDIF
 
 RETURN

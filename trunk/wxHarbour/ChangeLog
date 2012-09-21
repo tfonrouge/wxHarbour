@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-09-21 11:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/hrbcompat/tbcolumn/wxhColumn.prg
+     % enhanced error message when providing not valid TField
+
 2012-09-10 11:05 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/common/wxhfuncs.prg
      % improved allow to pop warning again when action is executed
