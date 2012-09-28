@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-09-28 15:50 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  src/common/wxhutils.prg
+     ! Fixed segfault on Linux due to race condition on gtk get hints related code
+
 2012-09-21 11:43 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      % enhanced error message when providing not valid TField

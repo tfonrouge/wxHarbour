@@ -67,14 +67,11 @@ RETURN NIL
 FUNCTION wxhAlert( cMessage, aOptions )
     LOCAL result
 
-    IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
-        result := Alert( cMessage, aOptions )
-    ELSE
-        IF aOptions = NIL
-            aOptions := 0
-        ENDIF
-        result := wxMessageBox( cMessage, "Message", HB_BitOr( aOptions, wxICON_EXCLAMATION ) )
+    IF aOptions = NIL
+        aOptions := 0
     ENDIF
+
+    result := wxMessageBox( cMessage, "Message", HB_BitOr( aOptions, wxICON_EXCLAMATION ) )
 
 RETURN result
 
@@ -85,20 +82,16 @@ RETURN result
 FUNCTION wxhAlertYesNo( cMessage )
     LOCAL result
 
-    IF wxGetApp() == NIL .OR. wxGetApp():GetTopWindow() == NIL
-        result := Alert( cMessage, {"Yes","No"} )
-    ELSE
-        result := wxMessageBox( cMessage, "Message!", HB_BitOr( wxYES_NO, wxICON_QUESTION ) )
-        SWITCH result
-        CASE wxYES
-            result := 1
-            EXIT
-        CASE wxNO
-            result := 2
-            EXIT
-        OTHERWISE
-            result := 0
-        ENDSWITCH
-    ENDIF
+    result := wxMessageBox( cMessage, "Message!", HB_BitOr( wxYES_NO, wxICON_QUESTION ) )
+    SWITCH result
+    CASE wxYES
+        result := 1
+        EXIT
+    CASE wxNO
+        result := 2
+        EXIT
+    OTHERWISE
+        result := 0
+    ENDSWITCH
 
 RETURN result
