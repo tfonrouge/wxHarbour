@@ -51,6 +51,7 @@ PRIVATE:
 
 PROTECTED:
     DATA hashValue INIT .F.
+    METHOD GetHeading()
 PUBLIC:
 
     CONSTRUCTOR New( browse, heading, block )
@@ -74,7 +75,7 @@ PUBLISHED:
     PROPERTY Aligned READ FAligned WRITE SetAligned
     PROPERTY Block READ FBlock WRITE SetBlock
     PROPERTY Footing READ FFooting WRITE SetFooting
-    PROPERTY Heading READ FHeading WRITE SetHeading
+    PROPERTY Heading READ GetHeading WRITE SetHeading
     PROPERTY Picture READ FPicture WRITE SetPicture
     PROPERTY ReadOnly READ FReadOnly WRITE SetReadOnly
     PROPERTY ValType READ FValType WRITE SetValType
@@ -107,6 +108,18 @@ RETURN Self
 */
 METHOD FUNCTION GetCanSetValue() CLASS wxhBrowseColumn
 RETURN ! ::ReadOnly .AND. !::FOnSetValue
+
+/*
+    GetHeading
+    Teo. Mexico 2012
+*/
+METHOD FUNCTION GetHeading() CLASS wxhBrowseColumn
+    IF ::FField != NIL .AND. ::browse != NIL .AND. ::browse:DataSource != NIL
+        IF ::browse:DataSource:Index != NIL .AND. ::browse:DataSource:Index:KeyField == ::FField
+            RETURN "*" + ::FHeading
+        ENDIF
+    ENDIF
+RETURN ::FHeading
 
 /*
     GetValue
