@@ -2,6 +2,10 @@
  * $Id$
  */
 
+2012-10-30 17:42 UTC-0600 Teo Fonrouge (teo/at/windtelsoft/dot/com)
+  *  demos/dbExplorer/dbExplorer.prg
+     ! Removed references to AUINOTEBOOK, due to missing it on wxWidgets 2.9.4 on Mac OS X
+
 2012-10-01 19:26 UTC-0500 Teo Fonrouge (teo/at/windtelsoft/dot/com)
   *  src/hrbcompat/tbcolumn/wxhColumn.prg
      % changed READ ppty for Header to add a indication of using the field as index in the table
