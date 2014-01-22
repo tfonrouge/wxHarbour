@@ -1,3 +1,18 @@
+#updated: 2014-01-22
+
+DEPENDENCY
+==========
+
+Currently wxHarbour needs the OORDB library that can be downloaded from sourceforge.net git rep:
+
+git clone git://git.code.sf.net/p/oordb/code oordb
+
+To build this library just run:
+
+hbmk2 oordb.hbp
+
+This will install the resulting oordb.lib in your harbour lib directories.
+
 
 
 Building the wxWidgets library from sources.
@@ -6,7 +21,7 @@ Building the wxWidgets library from sources.
 The following section asumes that you have installed
 the wxWidgets sources in the following path: 
 
-C:\wxWidgets-2.8.10
+C:\wxWidgets-2.8.12
 
 So you may need to change this setting according to
 your own installation settings.
@@ -21,7 +36,7 @@ following for the MinGW, MSVC & BCC55 C/C++ compilers:
 
 	1. Change to the wxWidgets "build\msw" directory: 
 
-	cd C:\wxWidgets-2.8.10\build\msw
+	cd C:\wxWidgets-2.8.12\build\msw
 
 	2. Enter the following in the command line (is a single line):
 
@@ -34,7 +49,7 @@ following for the MinGW, MSVC & BCC55 C/C++ compilers:
 
 	1. Change to the wxWidgets "build\msw" directory: 
 
-	cd C:\wxWidgets-2.8.10\build\msw
+	cd C:\wxWidgets-2.8.12\build\msw
 
 	2. Enter the following in the command line (is a single line):
 
@@ -52,7 +67,7 @@ to your own MSVC installed version.
 
 	1. Change to the wxWidgets "build\msw" directory: 
 
-	cd C:\wxWidgets-2.8.10\build\msw
+	cd C:\wxWidgets-2.8.12\build\msw
 
 	2. Enter the following in the command line (is a single line):
 
@@ -64,35 +79,14 @@ to your own MSVC installed version.
 Building the wxHarbour library.
 ===============================
 
-	MinGW
-	-----
+	MinGW / MSVC / BCC55
+	--------------------
 
 	1. Change to the wxHarbour installed directory.
 
 	2. Enter the following in the command line (is a single line):
 
-	mingw32-make.exe -f makefile.gcc
-
-
-	MSVC
-	-----
-
-	1. Change to the wxHarbour installed directory.
-
-	2. Enter the following in the command line (is a single line):
-
-	nmake -f makefile.vc
-
-
-	BCC55
-	-----
-
-	1. Change to the wxHarbour installed directory.
-
-	2. Enter the following in the command line (is a single line):
-
-	make -f makefile.bcc
-
+	hbmk2 wxHarbour.hbp
 
 
 +++++++++++++++++++++++++++++++++++++++
@@ -109,27 +103,12 @@ cd samples\dbf_ctrls1
 To build the sample you need to:
 
 
-	MinGW
-	-----
+	MinGW / MSVC / BCC55
+	--------------------
 
 	1. Enter the following in the command line (is a single line):
 
-	mingw32-make.exe -f makefile.gcc
-
-
-	MSVC
-	-----
-
-	1. Enter the following in the command line (is a single line):
-
-	nmake -f makefile.vc
-
-
-	BCC55
-	-----
-	1. Enter the following in the command line (is a single line):
-
-	make -f makefile.bcc
+	hbmk2 ..\..\wxHarbour.hbc dbf_ctrls1
 
 
 Optionally you can add the "run" parameter to the

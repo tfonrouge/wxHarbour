@@ -21,7 +21,7 @@
 -hblib
 -inc
 -olib/${hb_arch}/${hb_comp}/wxHarbour
--nohbc
+#-nohbc
 
 -i{mingw}${HB_WITH_WX}\lib\gcc_lib\mswu
 -i{msvc}${HB_WITH_WX}\lib\vc_lib\mswu
