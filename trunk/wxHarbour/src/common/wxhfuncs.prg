@@ -176,7 +176,7 @@ METHOD New( name, var, baseField, block, picture, warning, warnBlock, warnMsg, a
         ::actionBlock := actionBlock
     ENDIF
     
-    Super:New()
+    ::Super:New()
 
     lastItem := containerObj():LastItem()
     lastItem[ "wxhHBValidator" ] := Self
@@ -911,7 +911,7 @@ RETURN ! ::EvalWarnBlock( parent, .T. )
     ContainerObj
     Teo. Mexico 2009
 */
-STATIC FUNCTION ContainerObj
+FUNCTION ContainerObj
     IF containerObj == NIL
         containerObj := TContainerObj():New()
     ENDIF
